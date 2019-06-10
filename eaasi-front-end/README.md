@@ -32,6 +32,3 @@ i_dev=> SELECT * FROM "displayDevice";
  -----------------+------------------+-------------------
  (0 rows)
 ```
-
-## UML Diagram
-<img src="./static/eaasi_dev_diagram.png" alt="EaaSI UML">
