@@ -5,7 +5,6 @@ services:
         image: eaasi_postgres
         build:
             context: ./docker-postgres
-        restart: always
         env_file:
             - ./docker-postgres/vars.env
         ports:
