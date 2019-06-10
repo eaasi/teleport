@@ -10,7 +10,8 @@ Currently, this repo also contains a PostgreSQL database with the current EaaSI 
   - Mac:
     - https://docs.docker.com/v17.12/docker-for-mac/install/
 
-- Install Postgres
+- Install Postgres (Optional)
+  The EaaSI database for development runs in a Docker container.  If you would like to use a PostgreSQL client like `psql`, you can install PostgreSQL, you can install PostgreSQL on your host machine.
   - Mac:
     - `> brew install postgres`
 
