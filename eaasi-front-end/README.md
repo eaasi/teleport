@@ -8,7 +8,7 @@ Currently, this repo also contains a PostgreSQL database with the current EaaSI 
 ## Requirements
 - Install Docker for Mac
   - Mac:
-    - > https://docs.docker.com/v17.12/docker-for-mac/install/
+    - https://docs.docker.com/v17.12/docker-for-mac/install/
 
 - Install Postgres
   - Mac:
@@ -26,9 +26,9 @@ The username, pass, and db name are all `eaasi_dev`.
 `> psql --host localhost --port 54320 -U eaasi_dev`
 
 ```sql
-i_dev=> SELECT * FROM "displayDevice";
+ eaasi_dev=> SELECT * FROM "displayDevice";
 
  displayDeviceID | displayDeviceQID | displayDeviceName
- -----------------+------------------+-------------------
+ ----------------+------------------+-------------------
  (0 rows)
 ```
