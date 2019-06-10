@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+    postgres:
+        image: eaasi_postgres
+        build:
+            context: ./docker-postgres
+        restart: always
+        env_file:
+            - ./docker-postgres/vars.env
+        ports:
+            - 54320:5432
+        volumes:
+            - eaasi_db:/var/lib/postgresql/data
+
+volumes:
+    eaasi_db:
