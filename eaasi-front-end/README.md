@@ -6,14 +6,24 @@ EaaSI front end project.
 Currently, this repo also contains a PostgreSQL database with the current EaaSI schema.
 
 ## Requirements
-- __Install Docker Desktop__
-  - Mac:
-    - https://docs.docker.com/v17.12/docker-for-mac/install/
 
-- __Install Postgres (Optional)__
-   - The EaaSI database for development runs in a Docker container.  If you would like to use a PostgreSQL client like `psql` you can install PostgreSQL on your host machine.
-   - Mac: 
-     - `> brew install postgres`
+### Install Docker Desktop
+
+__Mac installation__: https://docs.docker.com/v17.12/docker-for-mac/install/
+
+### Install a Postgres Client
+
+The EaaSI database for development runs in a Docker container. Data persists via a Docker volume. 
+If you would like to use a the command-line client `psql` to connect to the database running in a container from the host machine, 
+you can install PostgreSQL.
+
+__Mac installation__: 
+
+`> brew install postgres`
+
+You may also connect to the database container using a GUI.  Several recommended options include:
+ - [pgAdmin](https://www.pgadmin.org/) 
+ - [JetBrains DataGrip](https://www.jetbrains.com/datagrip/)
 
 ## Running the PostgreSQL Database
 
