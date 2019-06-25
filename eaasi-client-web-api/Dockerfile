@@ -1,6 +1,6 @@
 FROM node:10-alpine
 
-RUN mkdr /app
+RUN mkdir /app
 
 WORKDIR /app
 
