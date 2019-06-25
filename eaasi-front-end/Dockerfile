@@ -10,4 +10,4 @@ EXPOSE 8080
 
 CMD ["npm", "install"]
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "serve"]
