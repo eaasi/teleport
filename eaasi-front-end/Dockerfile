@@ -4,6 +4,8 @@ RUN mkdir /app
 
 WORKDIR /data/
 
+COPY . ./
+
 EXPOSE 8080
 
 CMD ["npm", "install"]
