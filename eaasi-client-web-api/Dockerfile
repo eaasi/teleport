@@ -1,6 +1,8 @@
 FROM node:10-alpine
 
-WORKDIR /data/
+RUN mkdr /app
+
+WORKDIR /app
 
 EXPOSE 8081
 
