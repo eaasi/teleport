@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "eaasi_dev",
+    "password": "eaasi_dev",
+    "database": "eaasi_dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "eaasi_dev",
+    "password": "eaasi_dev",
+    "database": "eaasi_dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "eaasi_dev",
+    "password": "eaasi_dev",
+    "database": "eaasi_dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}
