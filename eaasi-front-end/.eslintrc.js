@@ -1,3 +1,4 @@
+const INLINE_ELEMENTS = require('./src/utils/inline-non-void-elements.js');
 
 module.exports = {
 	root: true,
@@ -27,12 +28,12 @@ module.exports = {
 			'error', {
 				'order': [
 					'el',
-                    'name',
-                    'extends',
+					'name',
+					'extends',
 					'functional',
 					'mixins',
 					'inheritAttrs',
-                    'model',
+					'model',
 					'props',
 					['components', 'directives', 'filters'],
 					'computed',
@@ -56,6 +57,11 @@ module.exports = {
 			  'max': 1,
 			  'allowFirstLine': false
 			}
+		}],
+		'vue/singleline-html-element-content-newline': ['error', {
+			'ignoreWhenNoAttributes': true,
+			'ignoreWhenEmpty': true,
+			'ignores': ['router-link', 'pre', 'textarea', ...INLINE_ELEMENTS]
 		}],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
