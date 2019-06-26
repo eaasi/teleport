@@ -1,0 +1,557 @@
+{
+    "tables": {
+        "alternateName": {
+            "tableName": "alternateName",
+            "indexes": []
+        },
+        "audioDevice": {
+            "tableName": "audioDevice",
+            "indexes": []
+        },
+        "audioDevice_hasEquivalent": {
+            "tableName": "audioDevice_hasEquivalent",
+            "indexes": []
+        },
+        "audioDevice_has_driverSoftware": {
+            "tableName": "audioDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "audioDevice_has_machineInterface": {
+            "tableName": "audioDevice_has_machineInterface",
+            "indexes": []
+        },
+        "colorDepth": {
+            "tableName": "colorDepth",
+            "indexes": []
+        },
+        "computingEnvironment": {
+            "tableName": "computingEnvironment",
+            "indexes": []
+        },
+        "computingEnvironment_has_event": {
+            "tableName": "computingEnvironment_has_event",
+            "indexes": []
+        },
+        "configuredAudioDevice": {
+            "tableName": "configuredAudioDevice",
+            "indexes": []
+        },
+        "configuredGpuDevice": {
+            "tableName": "configuredGpuDevice",
+            "indexes": []
+        },
+        "configuredGpuDevice_has_displayDevice": {
+            "tableName": "configuredGpuDevice_has_displayDevice",
+            "indexes": []
+        },
+        "configuredKeyboardDevice": {
+            "tableName": "configuredKeyboardDevice",
+            "indexes": []
+        },
+        "configuredMachine": {
+            "tableName": "configuredMachine",
+            "indexes": []
+        },
+        "configuredMachine_has_event": {
+            "tableName": "configuredMachine_has_event",
+            "indexes": []
+        },
+        "configuredNetwork": {
+            "tableName": "configuredNetwork",
+            "indexes": []
+        },
+        "configuredNetworkDevice": {
+            "tableName": "configuredNetworkDevice",
+            "indexes": []
+        },
+        "configuredNetworkMachine_expectedNetworkService": {
+            "tableName": "configuredNetworkMachine_expectedNetworkService",
+            "indexes": []
+        },
+        "configuredNetworkMachine_providesNetworkService": {
+            "tableName": "configuredNetworkMachine_providesNetworkService",
+            "indexes": []
+        },
+        "configuredNetwork_emulatesNetworkService": {
+            "tableName": "configuredNetwork_emulatesNetworkService",
+            "indexes": []
+        },
+        "configuredNetwork_hasEvent": {
+            "tableName": "configuredNetwork_hasEvent",
+            "indexes": []
+        },
+        "configuredNetwork_has_configuredMachine": {
+            "tableName": "configuredNetwork_has_configuredMachine",
+            "indexes": []
+        },
+        "configuredOS": {
+            "tableName": "configuredOS",
+            "indexes": []
+        },
+        "configuredOS_has_event": {
+            "tableName": "configuredOS_has_event",
+            "indexes": []
+        },
+        "configuredOS_has_formatOperation": {
+            "tableName": "configuredOS_has_formatOperation",
+            "indexes": []
+        },
+        "configuredOS_has_userInformation": {
+            "tableName": "configuredOS_has_userInformation",
+            "indexes": []
+        },
+        "configuredOS_language": {
+            "tableName": "configuredOS_language",
+            "indexes": []
+        },
+        "configuredPointerDevice": {
+            "tableName": "configuredPointerDevice",
+            "indexes": []
+        },
+        "configuredSoftware": {
+            "tableName": "configuredSoftware",
+            "indexes": []
+        },
+        "configuredSoftware_has_event": {
+            "tableName": "configuredSoftware_has_event",
+            "indexes": []
+        },
+        "configuredSoftware_has_userInformation": {
+            "tableName": "configuredSoftware_has_userInformation",
+            "indexes": []
+        },
+        "configuredSoftware_uses_formatImplementation": {
+            "tableName": "configuredSoftware_uses_formatImplementation",
+            "indexes": []
+        },
+        "configuredStorageDevice": {
+            "tableName": "configuredStorageDevice",
+            "indexes": []
+        },
+        "cpuArchitecture": {
+            "tableName": "cpuArchitecture",
+            "indexes": []
+        },
+        "developer": {
+            "tableName": "developer",
+            "indexes": []
+        },
+        "digitalObject": {
+            "tableName": "digitalObject",
+            "indexes": []
+        },
+        "digitalObjectFile_has_objectFileOperation": {
+            "tableName": "digitalObjectFile_has_objectFileOperation",
+            "indexes": []
+        },
+        "digitalObject_has_alternativeID": {
+            "tableName": "digitalObject_has_alternativeID",
+            "indexes": []
+        },
+        "digitalObject_has_event": {
+            "tableName": "digitalObject_has_event",
+            "indexes": []
+        },
+        "digitalObject_has_objectFile": {
+            "tableName": "digitalObject_has_objectFile",
+            "indexes": []
+        },
+        "digitalObject_isCompatibleWith_computingEnvironment": {
+            "tableName": "digitalObject_isCompatibleWith_computingEnvironment",
+            "indexes": []
+        },
+        "displayDevice": {
+            "tableName": "displayDevice",
+            "indexes": []
+        },
+        "displayDevice_has_colorDepth": {
+            "tableName": "displayDevice_has_colorDepth",
+            "indexes": []
+        },
+        "displayDevice_has_displayInterface": {
+            "tableName": "displayDevice_has_displayInterface",
+            "indexes": []
+        },
+        "displayDevice_has_displayResolution": {
+            "tableName": "displayDevice_has_displayResolution",
+            "indexes": []
+        },
+        "displayDevice_has_driverSoftware": {
+            "tableName": "displayDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "displayResolution": {
+            "tableName": "displayResolution",
+            "indexes": []
+        },
+        "file": {
+            "tableName": "file",
+            "indexes": []
+        },
+        "fileExtension": {
+            "tableName": "fileExtension",
+            "indexes": []
+        },
+        "fileFormat": {
+            "tableName": "fileFormat",
+            "indexes": []
+        },
+        "fileFormat_has_fileExtension": {
+            "tableName": "fileFormat_has_fileExtension",
+            "indexes": []
+        },
+        "fileSystem": {
+            "tableName": "fileSystem",
+            "indexes": []
+        },
+        "formatImplementation": {
+            "tableName": "formatImplementation",
+            "indexes": []
+        },
+        "formatImplementation_includes_fileFormat": {
+            "tableName": "formatImplementation_includes_fileFormat",
+            "indexes": []
+        },
+        "formatOperation": {
+            "tableName": "formatOperation",
+            "indexes": []
+        },
+        "gpuDevice": {
+            "tableName": "gpuDevice",
+            "indexes": []
+        },
+        "gpuDevice_hasEquivalent": {
+            "tableName": "gpuDevice_hasEquivalent",
+            "indexes": []
+        },
+        "gpuDevice_has_displayInterface": {
+            "tableName": "gpuDevice_has_displayInterface",
+            "indexes": []
+        },
+        "gpuDevice_has_driverSoftware": {
+            "tableName": "gpuDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "gpuDevice_has_machineInterface": {
+            "tableName": "gpuDevice_has_machineInterface",
+            "indexes": []
+        },
+        "keyboardDevice": {
+            "tableName": "keyboardDevice",
+            "indexes": []
+        },
+        "keyboardDevice_has_driverSoftware": {
+            "tableName": "keyboardDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "keyboardDevice_has_language": {
+            "tableName": "keyboardDevice_has_language",
+            "indexes": []
+        },
+        "keyboardDevice_has_machineInterfaceID": {
+            "tableName": "keyboardDevice_has_machineInterfaceID",
+            "indexes": []
+        },
+        "keyboardLayout": {
+            "tableName": "keyboardLayout",
+            "indexes": []
+        },
+        "machineType": {
+            "tableName": "machineType",
+            "indexes": []
+        },
+        "mountFormat": {
+            "tableName": "mountFormat",
+            "indexes": []
+        },
+        "networkDevice": {
+            "tableName": "networkDevice",
+            "indexes": []
+        },
+        "networkDevice_has_driverSoftware": {
+            "tableName": "networkDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "networkDevice_has_machineInterface": {
+            "tableName": "networkDevice_has_machineInterface",
+            "indexes": []
+        },
+        "networkService": {
+            "tableName": "networkService",
+            "indexes": []
+        },
+        "objectEnvironment": {
+            "tableName": "objectEnvironment",
+            "indexes": []
+        },
+        "objectEnvironment_has_event": {
+            "tableName": "objectEnvironment_has_event",
+            "indexes": []
+        },
+        "objectFileOperation": {
+            "tableName": "objectFileOperation",
+            "indexes": []
+        },
+        "osVersion": {
+            "tableName": "osVersion",
+            "indexes": []
+        },
+        "osVersion_colorDepthSettings": {
+            "tableName": "osVersion_colorDepthSettings",
+            "indexes": []
+        },
+        "osVersion_displayResolutionSettings": {
+            "tableName": "osVersion_displayResolutionSettings",
+            "indexes": []
+        },
+        "osVersion_has_alternateID": {
+            "tableName": "osVersion_has_alternateID",
+            "indexes": []
+        },
+        "osVersion_has_developer": {
+            "tableName": "osVersion_has_developer",
+            "indexes": []
+        },
+        "osVersion_has_programmingLanguage": {
+            "tableName": "osVersion_has_programmingLanguage",
+            "indexes": []
+        },
+        "osVersion_has_softwareLicense": {
+            "tableName": "osVersion_has_softwareLicense",
+            "indexes": []
+        },
+        "osVersion_includes_softwareVersion": {
+            "tableName": "osVersion_includes_softwareVersion",
+            "indexes": []
+        },
+        "osVersion_isCompatibleWith_configuredMachine": {
+            "tableName": "osVersion_isCompatibleWith_configuredMachine",
+            "indexes": []
+        },
+        "osVersion_keyboardLanguageSettings": {
+            "tableName": "osVersion_keyboardLanguageSettings",
+            "indexes": []
+        },
+        "osVersion_keyboardLayoutSettings": {
+            "tableName": "osVersion_keyboardLayoutSettings",
+            "indexes": []
+        },
+        "osVersion_keyboardSetting": {
+            "tableName": "osVersion_keyboardSetting",
+            "indexes": []
+        },
+        "osVersion_languageSettings": {
+            "tableName": "osVersion_languageSettings",
+            "indexes": []
+        },
+        "osVersion_regionSettings": {
+            "tableName": "osVersion_regionSettings",
+            "indexes": []
+        },
+        "osVersion_timeZoneSettings": {
+            "tableName": "osVersion_timeZoneSettings",
+            "indexes": []
+        },
+        "pointerDevice": {
+            "tableName": "pointerDevice",
+            "indexes": []
+        },
+        "pointerDeviceType": {
+            "tableName": "pointerDeviceType",
+            "indexes": []
+        },
+        "pointerDevice_has_driverSoftware": {
+            "tableName": "pointerDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "pointerDevice_has_machineInterface": {
+            "tableName": "pointerDevice_has_machineInterface",
+            "indexes": []
+        },
+        "programmingLanguage": {
+            "tableName": "programmingLanguage",
+            "indexes": []
+        },
+        "readWriteStatus": {
+            "tableName": "readWriteStatus",
+            "indexes": []
+        },
+        "region": {
+            "tableName": "region",
+            "indexes": []
+        },
+        "softwareEnvironment": {
+            "tableName": "softwareEnvironment",
+            "indexes": []
+        },
+        "softwareEnvironment_hasPart_configuredSoftware": {
+            "tableName": "softwareEnvironment_hasPart_configuredSoftware",
+            "indexes": []
+        },
+        "softwareEnvironment_has_diskImage": {
+            "tableName": "softwareEnvironment_has_diskImage",
+            "indexes": []
+        },
+        "softwareEnvironment_has_event": {
+            "tableName": "softwareEnvironment_has_event",
+            "indexes": []
+        },
+        "softwareFamilyVersion_hasPart_softwareVersion": {
+            "tableName": "softwareFamilyVersion_hasPart_softwareVersion",
+            "indexes": []
+        },
+        "softwareFamily_hasPart_softwareProduct": {
+            "tableName": "softwareFamily_hasPart_softwareProduct",
+            "indexes": []
+        },
+        "softwareLicense": {
+            "tableName": "softwareLicense",
+            "indexes": []
+        },
+        "softwareObject": {
+            "tableName": "softwareObject",
+            "indexes": []
+        },
+        "softwareObjectFile_has_objectFileOperation": {
+            "tableName": "softwareObjectFile_has_objectFileOperation",
+            "indexes": []
+        },
+        "softwareObject_has_alternateID": {
+            "tableName": "softwareObject_has_alternateID",
+            "indexes": []
+        },
+        "softwareObject_has_event": {
+            "tableName": "softwareObject_has_event",
+            "indexes": []
+        },
+        "softwareObject_has_objectFile": {
+            "tableName": "softwareObject_has_objectFile",
+            "indexes": []
+        },
+        "softwareObject_isManifestationOf_osVersion": {
+            "tableName": "softwareObject_isManifestationOf_osVersion",
+            "indexes": []
+        },
+        "softwareObject_isManifestationOf_softwareVersion": {
+            "tableName": "softwareObject_isManifestationOf_softwareVersion",
+            "indexes": []
+        },
+        "softwareProduct": {
+            "tableName": "softwareProduct",
+            "indexes": []
+        },
+        "softwareProduct_has_alternateName": {
+            "tableName": "softwareProduct_has_alternateName",
+            "indexes": []
+        },
+        "softwareProduct_has_softwareType": {
+            "tableName": "softwareProduct_has_softwareType",
+            "indexes": []
+        },
+        "softwareType": {
+            "tableName": "softwareType",
+            "indexes": []
+        },
+        "softwareVersion": {
+            "tableName": "softwareVersion",
+            "indexes": []
+        },
+        "softwareVersion_has_alternateID": {
+            "tableName": "softwareVersion_has_alternateID",
+            "indexes": []
+        },
+        "softwareVersion_has_developer": {
+            "tableName": "softwareVersion_has_developer",
+            "indexes": []
+        },
+        "softwareVersion_has_formatImplementation": {
+            "tableName": "softwareVersion_has_formatImplementation",
+            "indexes": []
+        },
+        "softwareVersion_has_programmingLanguage": {
+            "tableName": "softwareVersion_has_programmingLanguage",
+            "indexes": []
+        },
+        "softwareVersion_has_softwareLicense": {
+            "tableName": "softwareVersion_has_softwareLicense",
+            "indexes": []
+        },
+        "softwareVersion_isCompatibleWith_computingEnvironment": {
+            "tableName": "softwareVersion_isCompatibleWith_computingEnvironment",
+            "indexes": []
+        },
+        "softwareVersion_languageSettings": {
+            "tableName": "softwareVersion_languageSettings",
+            "indexes": []
+        },
+        "storageDevice": {
+            "tableName": "storageDevice",
+            "indexes": []
+        },
+        "storageDeviceType": {
+            "tableName": "storageDeviceType",
+            "indexes": []
+        },
+        "storageDevice_has_driverSoftware": {
+            "tableName": "storageDevice_has_driverSoftware",
+            "indexes": []
+        },
+        "storageDevice_has_machineInterface": {
+            "tableName": "storageDevice_has_machineInterface",
+            "indexes": []
+        },
+        "systemRequirements": {
+            "tableName": "systemRequirements",
+            "indexes": []
+        },
+        "systemRequirements_includes_audioDevice": {
+            "tableName": "systemRequirements_includes_audioDevice",
+            "indexes": []
+        },
+        "systemRequirements_includes_cpuArchitecture": {
+            "tableName": "systemRequirements_includes_cpuArchitecture",
+            "indexes": []
+        },
+        "systemRequirements_includes_gpuDevice": {
+            "tableName": "systemRequirements_includes_gpuDevice",
+            "indexes": []
+        },
+        "systemRequirements_includes_machineType": {
+            "tableName": "systemRequirements_includes_machineType",
+            "indexes": []
+        },
+        "systemRequirements_includes_osVersion": {
+            "tableName": "systemRequirements_includes_osVersion",
+            "indexes": []
+        },
+        "systemRequirements_includes_pointerDeviceType": {
+            "tableName": "systemRequirements_includes_pointerDeviceType",
+            "indexes": []
+        },
+        "systemRequirements_includes_softwareVersion": {
+            "tableName": "systemRequirements_includes_softwareVersion",
+            "indexes": []
+        },
+        "systemRequirements_includes_storageDeviceType": {
+            "tableName": "systemRequirements_includes_storageDeviceType",
+            "indexes": []
+        },
+        "timezone": {
+            "tableName": "timezone",
+            "indexes": []
+        },
+        "timezoneName": {
+            "tableName": "timezoneName",
+            "indexes": []
+        },
+        "timezone_has_timezoneName": {
+            "tableName": "timezone_has_timezoneName",
+            "indexes": []
+        },
+        "userInformation": {
+            "tableName": "userInformation",
+            "indexes": []
+        }
+    },
+    "revision": 1
+}

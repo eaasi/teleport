@@ -11,7 +11,7 @@ module.exports = function(sequelize: sequelize.Sequelize, DataTypes: DataTypes) 
       allowNull: false,
       primaryKey: true
     },
-    softwaretypename: {
+    softwareTypeName: {
       type: DataTypes.STRING,
       allowNull: false
     }
