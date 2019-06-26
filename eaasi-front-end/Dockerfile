@@ -2,12 +2,13 @@ FROM node:10-alpine
 
 RUN mkdir /app
 
-WORKDIR /data/
+WORKDIR /app/
 
 COPY . ./
 
+CMD ["npm", "install"]
+
 EXPOSE 8080
 
-CMD ["npm", "install"]
 
 CMD ["npm", "run", "serve"]
