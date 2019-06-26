@@ -1,0 +1,274 @@
+@import '_mixins.scss';
+@import '_variables.scss';
+
+/*============================================================
+ == Global Elements
+/============================================================*/
+
+html {
+	font-size: 10px;
+}
+
+html, body {
+	height: 100%;
+	min-width: 320px;
+	overflow-x: hidden;
+}
+
+body {
+	background-color: #FFF;
+	font-family: $font-main;
+	font-weight: 400;
+	font-size: 1.6rem;
+	overflow: hidden;
+	-webkit-overflow-scrolling: touch;
+	&.modal-open {
+		overflow: hidden;
+	}
+}
+
+/*============================================================
+ == Text Ekements
+/============================================================*/
+
+h1,h2,h3,h4 {
+	margin-bottom: 1rem;
+	margin-top: 0;
+	font-family: $font-headlines;
+}
+
+h1 {
+	font-size: 2.4rem;
+	@include mobile() {
+		font-size: 2.2rem;
+	}
+}
+
+h2 {
+	font-size: 2rem;
+	@include mobile() {
+		font-size: 1.8rem;
+	}
+}
+
+h3 {
+	font-size: 1.8rem;
+	@include mobile() {
+		font-size: 1.6rem;
+	}
+}
+
+h4 {
+	font-size: 1.6rem;
+	@include mobile() {
+		font-size: 1.4rem;
+	}
+}
+
+p {
+	font-size: 1.6rem;
+	line-height: 1.5em;
+	margin-bottom: 1rem;
+	@include mobile() {
+		font-size: 1.4rem;
+	}
+}
+
+ul {
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-left: 2rem;
+}
+
+a {
+	color: $primary-link-color;
+	&:visited, &:active, &:focus, &:hover {
+		color: $primary-link-color;
+	}
+}
+
+/*============================================================
+ == Display and Positioning
+/============================================================*/
+
+.block {
+	display: block;
+}
+
+.inline {
+	display: inline;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.static {
+	position: static;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.fixed {
+	position: fixed;
+}
+
+/* Psuedo-tables
+============================================*/
+
+.display-table {
+	display: table;
+}
+
+.table-header {
+	display: table-header-group;
+	> div {
+		display: table-row;
+		> div {
+			display: table-cell;
+		}
+	}
+}
+
+.table-body {
+	display: table-row-group;
+	> div {
+		display: table-row;
+		> div {
+			display: table-cell;
+		}
+	}
+}
+
+.table-row {
+	display: table-row;
+	> div {
+		display: table-cell;
+	}
+}
+
+.table-cell {
+	display: table-cell;
+}
+
+/*============================================================
+ == Flex
+/============================================================*/
+
+.flex {
+	display: flex;
+}
+
+.flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-center {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+.align-start {
+	align-items: flex-start;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.align-end {
+	align-items: flex-end;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: flex-end;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-around {
+	justify-content: space-around;
+}
+
+.flex-adapt {
+	flex: 1 1 auto;
+}
+
+.flex-grow {
+	flex: 1 0 auto;
+}
+
+.flex-shrink {
+	flex: 0 1 auto;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.flex-auto {
+	flex: 0 0 auto;
+}
+
+/*============================================================
+ == Helper Classes
+/============================================================*/
+
+.appearance-none {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.aria-hidden {
+	height: 1px;
+	width: 1px;
+	pointer-events: none;
+	visibility: hidden;
+	position: fixed;
+	top: -1px;
+	left: 1px;
+}
+
+.clearfix {
+	&:after {
+		clear: both;
+		content: "";
+		display: table;
+	}
+}
+
+.full-fixed {
+	position: fixed;
+	top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.fill-parent {
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+}
+
+.invisible {
+	pointer-events: none;
+	visibility: hidden;
+}
