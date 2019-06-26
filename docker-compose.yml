@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    eaasi-database:
+        image: eaasi-database
+        build:
+            context: ./eaasi-database
+        env_file:
+            - ./eaasi-database/vars.env
+        ports:
+            - 5432:5432
+        volumes:
+            - eaasi_db:/var/lib/postgresql/data
+
+    eaasi-client:
+        image: eaasi-client
+        build:
+            context: ./eaasi-front-end
+        ports:
+            - 8080:80
+        environment:
+            - API_URL=http://localhost:8081
+
+    eaasi-api-server:
+        image: eaasi-api-server
+        build:
+            context: ./eaasi-api-server
+        depends_on:
+           - eaasi-database
+        environment:
+            - API_DATABASE_URL=eaasi-database:5432
+        command: >
+            bash -c "./wait-for-it.sh eaasi-database:5432 -- runmigration && npm start"
+
+volumes:
+    eaasi_db:
