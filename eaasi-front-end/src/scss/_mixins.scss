@@ -1,0 +1,44 @@
+/*============================================================
+ == Media Queries
+/============================================================*/
+
+@mixin desktop() {
+	@media only screen and (min-width: 1200px) {
+		@content;
+	}
+}
+
+@mixin tablet() {
+	@media only screen and (max-width: 1199px) {
+		@content;
+	}
+}
+
+@mixin mobile() {
+	@media only screen and (max-width: 767px) {
+		@content;
+	}
+}
+
+/*============================================================
+ == Display and Positioning
+/============================================================*/
+
+@mixin aspect-ratio($width, $height) {
+    position: relative;
+
+    &:before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: ($height / $width) * 100%;
+    }
+
+    > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
