@@ -8,4 +8,8 @@ EXPOSE 8081
 
 RUN npm install
 
+RUN sequelize init
+
+RUN sequelize db:migrate
+
 CMD ["npm", "start"]

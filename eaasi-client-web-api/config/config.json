@@ -3,7 +3,7 @@
     "username": "eaasi_dev",
     "password": "eaasi_dev",
     "database": "eaasi_dev",
-    "host": "127.0.0.1",
+    "host": "eaasi-database",
     "dialect": "postgres",
     "operatorsAliases": false
   },
@@ -11,7 +11,7 @@
     "username": "eaasi_dev",
     "password": "eaasi_dev",
     "database": "eaasi_dev",
-    "host": "127.0.0.1",
+    "host": "eaasi-database",
     "dialect": "postgres",
     "operatorsAliases": false
   },
@@ -19,7 +19,7 @@
     "username": "eaasi_dev",
     "password": "eaasi_dev",
     "database": "eaasi_dev",
-    "host": "127.0.0.1",
+    "host": "eaasi-database",
     "dialect": "postgres",
     "operatorsAliases": false
   }
