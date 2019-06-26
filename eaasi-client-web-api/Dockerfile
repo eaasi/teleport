@@ -1,13 +1,22 @@
 FROM node:10-alpine
 
-RUN mkdir /app
-
 WORKDIR /app
 
 COPY . ./
 
+RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations
+
+RUN apk update
+
+RUN apk upgrade
+
+RUN apk add bash
+
+RUN ["chmod", "+x", "./wait-for-it.sh"]
+
+RUN npm install
+
 EXPOSE 8081
 
-CMD ["npm", "install"]
-
-CMD ["npm", "start"]
+# RUN ["./wait-for-it.sh", "eaasi-database:5432", "--timeout=15", "--strict", "--", "runmigration"]
+# RUN ["npm", "start"]

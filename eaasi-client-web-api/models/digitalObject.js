@@ -1,38 +1,34 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('file', {
-    fileID: {
+  return sequelize.define('digitalObject', {
+    digitalObjectID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    fileLocation: {
+    digitalObjectName: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileName: {
+    digitalObjectDescription: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileChecksum: {
+    digitalObjectProductKey: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileFormat: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      references: {
-        model: 'fileFormat',
-        key: 'fileFormatQID'
-      }
+    digitalObjectHelpText: {
+      type: DataTypes.TEXT,
+      allowNull: true
     },
-    fileSize: {
-      type: DataTypes.STRING,
+    digitalObjectSystemRequirements: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
-    tableName: 'file'
+    tableName: 'digitalObject'
   });
 };

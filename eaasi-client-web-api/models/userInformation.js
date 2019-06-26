@@ -1,38 +1,30 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('file', {
-    fileID: {
+  return sequelize.define('userInformation', {
+    userInformationID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    fileLocation: {
+    username: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileName: {
+    password: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileChecksum: {
+    organization: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileFormat: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      references: {
-        model: 'fileFormat',
-        key: 'fileFormatQID'
-      }
-    },
-    fileSize: {
-      type: DataTypes.STRING,
+    admin: {
+      type: DataTypes.BOOLEAN,
       allowNull: true
     }
   }, {
-    tableName: 'file'
+    tableName: 'userInformation'
   });
 };

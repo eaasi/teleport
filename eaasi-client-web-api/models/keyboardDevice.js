@@ -1,38 +1,30 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('file', {
-    fileID: {
+  return sequelize.define('keyboardDevice', {
+    keyboardDeviceID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    fileLocation: {
+    keyboardDeviceQID: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    fileName: {
+    keyboardDeviceName: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
-    fileChecksum: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    fileFormat: {
+    keyboardDevice_keyboardLayout: {
       type: DataTypes.STRING,
       allowNull: true,
       references: {
-        model: 'fileFormat',
-        key: 'fileFormatQID'
+        model: 'keyboardLayout',
+        key: 'keyboardLayoutQID'
       }
-    },
-    fileSize: {
-      type: DataTypes.STRING,
-      allowNull: true
     }
   }, {
-    tableName: 'file'
+    tableName: 'keyboardDevice'
   });
 };
