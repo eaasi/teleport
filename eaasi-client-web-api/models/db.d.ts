@@ -2,14 +2,6 @@
 import * as Sequelize from 'sequelize';
 
 
-// table: computingEnvironment_has_event
-export interface computingEnvironment_has_eventAttribute {
-  computingEnvironment_computingEnvironmentID:number;
-  event_eventID:number;
-}
-export interface computingEnvironment_has_eventInstance extends Sequelize.Instance<computingEnvironment_has_eventAttribute>, computingEnvironment_has_eventAttribute { }
-export interface computingEnvironment_has_eventModel extends Sequelize.Model<computingEnvironment_has_eventInstance, computingEnvironment_has_eventAttribute> { }
-
 // table: audioDevice_has_driverSoftware
 export interface audioDevice_has_driverSoftwareAttribute {
   audioDevice_audioDeviceID:number;
@@ -36,6 +28,32 @@ export interface configuredAudioDeviceAttribute {
 export interface configuredAudioDeviceInstance extends Sequelize.Instance<configuredAudioDeviceAttribute>, configuredAudioDeviceAttribute { }
 export interface configuredAudioDeviceModel extends Sequelize.Model<configuredAudioDeviceInstance, configuredAudioDeviceAttribute> { }
 
+// table: configuredMachine
+export interface configuredMachineAttribute {
+  configuredMachineID:number;
+  configuredMachineName:string;
+  configuredMachineDescription:string;
+  configuredMachineDateTime:Date;
+  configuredMachineType?:number;
+  configuredMachineRamBytes:string;
+  configuredMachineArchitecture?:string;
+  configuredMachineCpuCores?:string;
+  configuredMachine_emulatorSoftwareID?:number;
+}
+export interface configuredMachineInstance extends Sequelize.Instance<configuredMachineAttribute>, configuredMachineAttribute { }
+export interface configuredMachineModel extends Sequelize.Model<configuredMachineInstance, configuredMachineAttribute> { }
+
+// table: configuredGpuDevice
+export interface configuredGpuDeviceAttribute {
+  configuredMachine_machineID?:number;
+  configuredGpuDevice_gpuDeviceID:number;
+  configuredGpuDevice_memoryBytes?:number;
+  configuredGpuDevice_irq?:string;
+  configuredGpuDevice_usesMachineInterface?:number;
+}
+export interface configuredGpuDeviceInstance extends Sequelize.Instance<configuredGpuDeviceAttribute>, configuredGpuDeviceAttribute { }
+export interface configuredGpuDeviceModel extends Sequelize.Model<configuredGpuDeviceInstance, configuredGpuDeviceAttribute> { }
+
 // table: colorDepth
 export interface colorDepthAttribute {
   colorDepthID:number;
@@ -44,6 +62,14 @@ export interface colorDepthAttribute {
 }
 export interface colorDepthInstance extends Sequelize.Instance<colorDepthAttribute>, colorDepthAttribute { }
 export interface colorDepthModel extends Sequelize.Model<colorDepthInstance, colorDepthAttribute> { }
+
+// table: computingEnvironment_has_event
+export interface computingEnvironment_has_eventAttribute {
+  computingEnvironment_computingEnvironmentID:number;
+  event_eventID:number;
+}
+export interface computingEnvironment_has_eventInstance extends Sequelize.Instance<computingEnvironment_has_eventAttribute>, computingEnvironment_has_eventAttribute { }
+export interface computingEnvironment_has_eventModel extends Sequelize.Model<computingEnvironment_has_eventInstance, computingEnvironment_has_eventAttribute> { }
 
 // table: configuredKeyboardDevice
 export interface configuredKeyboardDeviceAttribute {
@@ -64,32 +90,6 @@ export interface configuredGpuDevice_has_displayDeviceAttribute {
 export interface configuredGpuDevice_has_displayDeviceInstance extends Sequelize.Instance<configuredGpuDevice_has_displayDeviceAttribute>, configuredGpuDevice_has_displayDeviceAttribute { }
 export interface configuredGpuDevice_has_displayDeviceModel extends Sequelize.Model<configuredGpuDevice_has_displayDeviceInstance, configuredGpuDevice_has_displayDeviceAttribute> { }
 
-// table: configuredGpuDevice
-export interface configuredGpuDeviceAttribute {
-  configuredMachine_machineID?:number;
-  configuredGpuDevice_gpuDeviceID:number;
-  configuredGpuDevice_memoryBytes?:number;
-  configuredGpuDevice_irq?:string;
-  configuredGpuDevice_usesMachineInterface?:number;
-}
-export interface configuredGpuDeviceInstance extends Sequelize.Instance<configuredGpuDeviceAttribute>, configuredGpuDeviceAttribute { }
-export interface configuredGpuDeviceModel extends Sequelize.Model<configuredGpuDeviceInstance, configuredGpuDeviceAttribute> { }
-
-// table: configuredMachine
-export interface configuredMachineAttribute {
-  configuredMachineID:number;
-  configuredMachineName:string;
-  configuredMachineDescription:string;
-  configuredMachineDateTime:Date;
-  configuredMachineType?:number;
-  configuredMachineRamBytes:string;
-  configuredMachineArchitecture?:string;
-  configuredMachineCpuCores?:string;
-  configuredMachine_emulatorSoftwareID?:number;
-}
-export interface configuredMachineInstance extends Sequelize.Instance<configuredMachineAttribute>, configuredMachineAttribute { }
-export interface configuredMachineModel extends Sequelize.Model<configuredMachineInstance, configuredMachineAttribute> { }
-
 // table: configuredMachine_has_event
 export interface configuredMachine_has_eventAttribute {
   configuredMachine_machineID:number;
@@ -107,6 +107,14 @@ export interface configuredNetwork_has_configuredMachineAttribute {
 }
 export interface configuredNetwork_has_configuredMachineInstance extends Sequelize.Instance<configuredNetwork_has_configuredMachineAttribute>, configuredNetwork_has_configuredMachineAttribute { }
 export interface configuredNetwork_has_configuredMachineModel extends Sequelize.Model<configuredNetwork_has_configuredMachineInstance, configuredNetwork_has_configuredMachineAttribute> { }
+
+// table: configuredNetwork_hasEvent
+export interface configuredNetwork_hasEventAttribute {
+  configuredNetwork_configuredNetworkID:number;
+  event_eventID?:number;
+}
+export interface configuredNetwork_hasEventInstance extends Sequelize.Instance<configuredNetwork_hasEventAttribute>, configuredNetwork_hasEventAttribute { }
+export interface configuredNetwork_hasEventModel extends Sequelize.Model<configuredNetwork_hasEventInstance, configuredNetwork_hasEventAttribute> { }
 
 // table: configuredNetworkDevice
 export interface configuredNetworkDeviceAttribute {
@@ -128,13 +136,14 @@ export interface configuredNetworkMachine_expectedNetworkServiceAttribute {
 export interface configuredNetworkMachine_expectedNetworkServiceInstance extends Sequelize.Instance<configuredNetworkMachine_expectedNetworkServiceAttribute>, configuredNetworkMachine_expectedNetworkServiceAttribute { }
 export interface configuredNetworkMachine_expectedNetworkServiceModel extends Sequelize.Model<configuredNetworkMachine_expectedNetworkServiceInstance, configuredNetworkMachine_expectedNetworkServiceAttribute> { }
 
-// table: configuredNetwork_hasEvent
-export interface configuredNetwork_hasEventAttribute {
+// table: configuredNetwork_emulatesNetworkService
+export interface configuredNetwork_emulatesNetworkServiceAttribute {
   configuredNetwork_configuredNetworkID:number;
-  event_eventID?:number;
+  configuredNetwork_networkServiceID?:number;
+  servicePortExposed?:string;
 }
-export interface configuredNetwork_hasEventInstance extends Sequelize.Instance<configuredNetwork_hasEventAttribute>, configuredNetwork_hasEventAttribute { }
-export interface configuredNetwork_hasEventModel extends Sequelize.Model<configuredNetwork_hasEventInstance, configuredNetwork_hasEventAttribute> { }
+export interface configuredNetwork_emulatesNetworkServiceInstance extends Sequelize.Instance<configuredNetwork_emulatesNetworkServiceAttribute>, configuredNetwork_emulatesNetworkServiceAttribute { }
+export interface configuredNetwork_emulatesNetworkServiceModel extends Sequelize.Model<configuredNetwork_emulatesNetworkServiceInstance, configuredNetwork_emulatesNetworkServiceAttribute> { }
 
 // table: configuredNetwork
 export interface configuredNetworkAttribute {
@@ -145,15 +154,6 @@ export interface configuredNetworkAttribute {
 export interface configuredNetworkInstance extends Sequelize.Instance<configuredNetworkAttribute>, configuredNetworkAttribute { }
 export interface configuredNetworkModel extends Sequelize.Model<configuredNetworkInstance, configuredNetworkAttribute> { }
 
-// table: configuredNetwork_emulatesNetworkService
-export interface configuredNetwork_emulatesNetworkServiceAttribute {
-  configuredNetwork_configuredNetworkID:number;
-  configuredNetwork_networkServiceID?:number;
-  servicePortExposed?:string;
-}
-export interface configuredNetwork_emulatesNetworkServiceInstance extends Sequelize.Instance<configuredNetwork_emulatesNetworkServiceAttribute>, configuredNetwork_emulatesNetworkServiceAttribute { }
-export interface configuredNetwork_emulatesNetworkServiceModel extends Sequelize.Model<configuredNetwork_emulatesNetworkServiceInstance, configuredNetwork_emulatesNetworkServiceAttribute> { }
-
 // table: configuredOS_has_formatOperation
 export interface configuredOS_has_formatOperationAttribute {
   configuredOS_configuredOperatingSystemID?:number;
@@ -162,6 +162,14 @@ export interface configuredOS_has_formatOperationAttribute {
 }
 export interface configuredOS_has_formatOperationInstance extends Sequelize.Instance<configuredOS_has_formatOperationAttribute>, configuredOS_has_formatOperationAttribute { }
 export interface configuredOS_has_formatOperationModel extends Sequelize.Model<configuredOS_has_formatOperationInstance, configuredOS_has_formatOperationAttribute> { }
+
+// table: configuredOS_has_event
+export interface configuredOS_has_eventAttribute {
+  configuredOS_configuredOperatingSystemID?:number;
+  event_eventID?:number;
+}
+export interface configuredOS_has_eventInstance extends Sequelize.Instance<configuredOS_has_eventAttribute>, configuredOS_has_eventAttribute { }
+export interface configuredOS_has_eventModel extends Sequelize.Model<configuredOS_has_eventInstance, configuredOS_has_eventAttribute> { }
 
 // table: configuredOS
 export interface configuredOSAttribute {
@@ -177,13 +185,13 @@ export interface configuredOSAttribute {
 export interface configuredOSInstance extends Sequelize.Instance<configuredOSAttribute>, configuredOSAttribute { }
 export interface configuredOSModel extends Sequelize.Model<configuredOSInstance, configuredOSAttribute> { }
 
-// table: configuredOS_has_event
-export interface configuredOS_has_eventAttribute {
+// table: configuredOS_has_userInformation
+export interface configuredOS_has_userInformationAttribute {
   configuredOS_configuredOperatingSystemID?:number;
-  event_eventID?:number;
+  userInformation_userInformationID?:number;
 }
-export interface configuredOS_has_eventInstance extends Sequelize.Instance<configuredOS_has_eventAttribute>, configuredOS_has_eventAttribute { }
-export interface configuredOS_has_eventModel extends Sequelize.Model<configuredOS_has_eventInstance, configuredOS_has_eventAttribute> { }
+export interface configuredOS_has_userInformationInstance extends Sequelize.Instance<configuredOS_has_userInformationAttribute>, configuredOS_has_userInformationAttribute { }
+export interface configuredOS_has_userInformationModel extends Sequelize.Model<configuredOS_has_userInformationInstance, configuredOS_has_userInformationAttribute> { }
 
 // table: configuredNetworkMachine_providesNetworkService
 export interface configuredNetworkMachine_providesNetworkServiceAttribute {
@@ -204,13 +212,22 @@ export interface configuredPointerDeviceAttribute {
 export interface configuredPointerDeviceInstance extends Sequelize.Instance<configuredPointerDeviceAttribute>, configuredPointerDeviceAttribute { }
 export interface configuredPointerDeviceModel extends Sequelize.Model<configuredPointerDeviceInstance, configuredPointerDeviceAttribute> { }
 
-// table: configuredOS_has_userInformation
-export interface configuredOS_has_userInformationAttribute {
-  configuredOS_configuredOperatingSystemID?:number;
-  userInformation_userInformationID?:number;
+// table: alternateName
+export interface alternateNameAttribute {
+  alternateNameID:number;
+  alternateName:string;
 }
-export interface configuredOS_has_userInformationInstance extends Sequelize.Instance<configuredOS_has_userInformationAttribute>, configuredOS_has_userInformationAttribute { }
-export interface configuredOS_has_userInformationModel extends Sequelize.Model<configuredOS_has_userInformationInstance, configuredOS_has_userInformationAttribute> { }
+export interface alternateNameInstance extends Sequelize.Instance<alternateNameAttribute>, alternateNameAttribute { }
+export interface alternateNameModel extends Sequelize.Model<alternateNameInstance, alternateNameAttribute> { }
+
+// table: configuredOS_language
+export interface configuredOS_languageAttribute {
+  configuredOS_configuredOperatingSystemID?:number;
+  configuredOs_languageQID?:string;
+  configuredOS_primaryLanguage?:boolean;
+}
+export interface configuredOS_languageInstance extends Sequelize.Instance<configuredOS_languageAttribute>, configuredOS_languageAttribute { }
+export interface configuredOS_languageModel extends Sequelize.Model<configuredOS_languageInstance, configuredOS_languageAttribute> { }
 
 // table: configuredSoftware
 export interface configuredSoftwareAttribute {
@@ -225,23 +242,6 @@ export interface configuredSoftwareAttribute {
 }
 export interface configuredSoftwareInstance extends Sequelize.Instance<configuredSoftwareAttribute>, configuredSoftwareAttribute { }
 export interface configuredSoftwareModel extends Sequelize.Model<configuredSoftwareInstance, configuredSoftwareAttribute> { }
-
-// table: configuredOS_language
-export interface configuredOS_languageAttribute {
-  configuredOS_configuredOperatingSystemID?:number;
-  configuredOs_languageQID?:string;
-  configuredOS_primaryLanguage?:boolean;
-}
-export interface configuredOS_languageInstance extends Sequelize.Instance<configuredOS_languageAttribute>, configuredOS_languageAttribute { }
-export interface configuredOS_languageModel extends Sequelize.Model<configuredOS_languageInstance, configuredOS_languageAttribute> { }
-
-// table: alternateName
-export interface alternateNameAttribute {
-  alternateNameID:number;
-  alternateName:string;
-}
-export interface alternateNameInstance extends Sequelize.Instance<alternateNameAttribute>, alternateNameAttribute { }
-export interface alternateNameModel extends Sequelize.Model<alternateNameInstance, alternateNameAttribute> { }
 
 // table: computingEnvironment
 export interface computingEnvironmentAttribute {
@@ -271,6 +271,14 @@ export interface audioDevice_hasEquivalentAttribute {
 export interface audioDevice_hasEquivalentInstance extends Sequelize.Instance<audioDevice_hasEquivalentAttribute>, audioDevice_hasEquivalentAttribute { }
 export interface audioDevice_hasEquivalentModel extends Sequelize.Model<audioDevice_hasEquivalentInstance, audioDevice_hasEquivalentAttribute> { }
 
+// table: cpuArchitecture
+export interface cpuArchitectureAttribute {
+  cpuArchitectureQID:string;
+  cpuArchitectureName:string;
+}
+export interface cpuArchitectureInstance extends Sequelize.Instance<cpuArchitectureAttribute>, cpuArchitectureAttribute { }
+export interface cpuArchitectureModel extends Sequelize.Model<cpuArchitectureInstance, cpuArchitectureAttribute> { }
+
 // table: configuredStorageDevice
 export interface configuredStorageDeviceAttribute {
   configuredMachine_machineID:number;
@@ -280,14 +288,6 @@ export interface configuredStorageDeviceAttribute {
 }
 export interface configuredStorageDeviceInstance extends Sequelize.Instance<configuredStorageDeviceAttribute>, configuredStorageDeviceAttribute { }
 export interface configuredStorageDeviceModel extends Sequelize.Model<configuredStorageDeviceInstance, configuredStorageDeviceAttribute> { }
-
-// table: cpuArchitecture
-export interface cpuArchitectureAttribute {
-  cpuArchitectureQID:string;
-  cpuArchitectureName:string;
-}
-export interface cpuArchitectureInstance extends Sequelize.Instance<cpuArchitectureAttribute>, cpuArchitectureAttribute { }
-export interface cpuArchitectureModel extends Sequelize.Model<cpuArchitectureInstance, cpuArchitectureAttribute> { }
 
 // table: configuredSoftware_uses_formatImplementation
 export interface configuredSoftware_uses_formatImplementationAttribute {
@@ -314,6 +314,14 @@ export interface configuredSoftware_has_userInformationAttribute {
 export interface configuredSoftware_has_userInformationInstance extends Sequelize.Instance<configuredSoftware_has_userInformationAttribute>, configuredSoftware_has_userInformationAttribute { }
 export interface configuredSoftware_has_userInformationModel extends Sequelize.Model<configuredSoftware_has_userInformationInstance, configuredSoftware_has_userInformationAttribute> { }
 
+// table: digitalObject_has_event
+export interface digitalObject_has_eventAttribute {
+  digitalObject_digialObjectID?:number;
+  event_eventID?:number;
+}
+export interface digitalObject_has_eventInstance extends Sequelize.Instance<digitalObject_has_eventAttribute>, digitalObject_has_eventAttribute { }
+export interface digitalObject_has_eventModel extends Sequelize.Model<digitalObject_has_eventInstance, digitalObject_has_eventAttribute> { }
+
 // table: digitalObject_has_objectFile
 export interface digitalObject_has_objectFileAttribute {
   digitalObject_digitalObjectID:number;
@@ -323,14 +331,6 @@ export interface digitalObject_has_objectFileAttribute {
 }
 export interface digitalObject_has_objectFileInstance extends Sequelize.Instance<digitalObject_has_objectFileAttribute>, digitalObject_has_objectFileAttribute { }
 export interface digitalObject_has_objectFileModel extends Sequelize.Model<digitalObject_has_objectFileInstance, digitalObject_has_objectFileAttribute> { }
-
-// table: digitalObject_has_event
-export interface digitalObject_has_eventAttribute {
-  digitalObject_digialObjectID?:number;
-  event_eventID?:number;
-}
-export interface digitalObject_has_eventInstance extends Sequelize.Instance<digitalObject_has_eventAttribute>, digitalObject_has_eventAttribute { }
-export interface digitalObject_has_eventModel extends Sequelize.Model<digitalObject_has_eventInstance, digitalObject_has_eventAttribute> { }
 
 // table: digitalObject_isCompatibleWith_computingEnvironment
 export interface digitalObject_isCompatibleWith_computingEnvironmentAttribute {
@@ -379,14 +379,6 @@ export interface digitalObjectAttribute {
 export interface digitalObjectInstance extends Sequelize.Instance<digitalObjectAttribute>, digitalObjectAttribute { }
 export interface digitalObjectModel extends Sequelize.Model<digitalObjectInstance, digitalObjectAttribute> { }
 
-// table: displayDevice_has_displayInterface
-export interface displayDevice_has_displayInterfaceAttribute {
-  displayDevice_displayDeviceID:number;
-  displayInterface_displayInterfaceID?:number;
-}
-export interface displayDevice_has_displayInterfaceInstance extends Sequelize.Instance<displayDevice_has_displayInterfaceAttribute>, displayDevice_has_displayInterfaceAttribute { }
-export interface displayDevice_has_displayInterfaceModel extends Sequelize.Model<displayDevice_has_displayInterfaceInstance, displayDevice_has_displayInterfaceAttribute> { }
-
 // table: digitalObject_has_alternativeID
 export interface digitalObject_has_alternativeIDAttribute {
   digitalObject_digitalObjectID:number;
@@ -394,6 +386,14 @@ export interface digitalObject_has_alternativeIDAttribute {
 }
 export interface digitalObject_has_alternativeIDInstance extends Sequelize.Instance<digitalObject_has_alternativeIDAttribute>, digitalObject_has_alternativeIDAttribute { }
 export interface digitalObject_has_alternativeIDModel extends Sequelize.Model<digitalObject_has_alternativeIDInstance, digitalObject_has_alternativeIDAttribute> { }
+
+// table: displayDevice_has_displayInterface
+export interface displayDevice_has_displayInterfaceAttribute {
+  displayDevice_displayDeviceID:number;
+  displayInterface_displayInterfaceID?:number;
+}
+export interface displayDevice_has_displayInterfaceInstance extends Sequelize.Instance<displayDevice_has_displayInterfaceAttribute>, displayDevice_has_displayInterfaceAttribute { }
+export interface displayDevice_has_displayInterfaceModel extends Sequelize.Model<displayDevice_has_displayInterfaceInstance, displayDevice_has_displayInterfaceAttribute> { }
 
 // table: displayDevice_has_displayResolution
 export interface displayDevice_has_displayResolutionAttribute {
@@ -411,6 +411,14 @@ export interface displayResolutionAttribute {
 export interface displayResolutionInstance extends Sequelize.Instance<displayResolutionAttribute>, displayResolutionAttribute { }
 export interface displayResolutionModel extends Sequelize.Model<displayResolutionInstance, displayResolutionAttribute> { }
 
+// table: displayDevice_has_driverSoftware
+export interface displayDevice_has_driverSoftwareAttribute {
+  displayDevice_displayDeviceID:number;
+  displayDevice_driverSoftwareID:number;
+}
+export interface displayDevice_has_driverSoftwareInstance extends Sequelize.Instance<displayDevice_has_driverSoftwareAttribute>, displayDevice_has_driverSoftwareAttribute { }
+export interface displayDevice_has_driverSoftwareModel extends Sequelize.Model<displayDevice_has_driverSoftwareInstance, displayDevice_has_driverSoftwareAttribute> { }
+
 // table: fileFormat
 export interface fileFormatAttribute {
   fileFormatQID:string;
@@ -419,14 +427,6 @@ export interface fileFormatAttribute {
 }
 export interface fileFormatInstance extends Sequelize.Instance<fileFormatAttribute>, fileFormatAttribute { }
 export interface fileFormatModel extends Sequelize.Model<fileFormatInstance, fileFormatAttribute> { }
-
-// table: displayDevice_has_driverSoftware
-export interface displayDevice_has_driverSoftwareAttribute {
-  displayDevice_displayDeviceID:number;
-  displayDevice_driverSoftwareID:number;
-}
-export interface displayDevice_has_driverSoftwareInstance extends Sequelize.Instance<displayDevice_has_driverSoftwareAttribute>, displayDevice_has_driverSoftwareAttribute { }
-export interface displayDevice_has_driverSoftwareModel extends Sequelize.Model<displayDevice_has_driverSoftwareInstance, displayDevice_has_driverSoftwareAttribute> { }
 
 // table: fileExtension
 export interface fileExtensionAttribute {
@@ -444,15 +444,6 @@ export interface fileSystemAttribute {
 export interface fileSystemInstance extends Sequelize.Instance<fileSystemAttribute>, fileSystemAttribute { }
 export interface fileSystemModel extends Sequelize.Model<fileSystemInstance, fileSystemAttribute> { }
 
-// table: formatImplementation
-export interface formatImplementationAttribute {
-  formatImplementationID:number;
-  formatImplementationName:string;
-  implementationExtension?:number;
-}
-export interface formatImplementationInstance extends Sequelize.Instance<formatImplementationAttribute>, formatImplementationAttribute { }
-export interface formatImplementationModel extends Sequelize.Model<formatImplementationInstance, formatImplementationAttribute> { }
-
 // table: gpuDevice_hasEquivalent
 export interface gpuDevice_hasEquivalentAttribute {
   gpuDevice_gpuDeviceID:number;
@@ -469,6 +460,15 @@ export interface gpuDevice_has_displayInterfaceAttribute {
 export interface gpuDevice_has_displayInterfaceInstance extends Sequelize.Instance<gpuDevice_has_displayInterfaceAttribute>, gpuDevice_has_displayInterfaceAttribute { }
 export interface gpuDevice_has_displayInterfaceModel extends Sequelize.Model<gpuDevice_has_displayInterfaceInstance, gpuDevice_has_displayInterfaceAttribute> { }
 
+// table: formatImplementation
+export interface formatImplementationAttribute {
+  formatImplementationID:number;
+  formatImplementationName:string;
+  implementationExtension?:number;
+}
+export interface formatImplementationInstance extends Sequelize.Instance<formatImplementationAttribute>, formatImplementationAttribute { }
+export interface formatImplementationModel extends Sequelize.Model<formatImplementationInstance, formatImplementationAttribute> { }
+
 // table: file
 export interface fileAttribute {
   fileID:number;
@@ -481,14 +481,6 @@ export interface fileAttribute {
 export interface fileInstance extends Sequelize.Instance<fileAttribute>, fileAttribute { }
 export interface fileModel extends Sequelize.Model<fileInstance, fileAttribute> { }
 
-// table: displayDevice_has_colorDepth
-export interface displayDevice_has_colorDepthAttribute {
-  displayDevice_displayDeviceID:number;
-  colorDepth_colorDepthID?:number;
-}
-export interface displayDevice_has_colorDepthInstance extends Sequelize.Instance<displayDevice_has_colorDepthAttribute>, displayDevice_has_colorDepthAttribute { }
-export interface displayDevice_has_colorDepthModel extends Sequelize.Model<displayDevice_has_colorDepthInstance, displayDevice_has_colorDepthAttribute> { }
-
 // table: gpuDevice_has_driverSoftware
 export interface gpuDevice_has_driverSoftwareAttribute {
   gpuDevice_gpuDeviceID:number;
@@ -497,13 +489,13 @@ export interface gpuDevice_has_driverSoftwareAttribute {
 export interface gpuDevice_has_driverSoftwareInstance extends Sequelize.Instance<gpuDevice_has_driverSoftwareAttribute>, gpuDevice_has_driverSoftwareAttribute { }
 export interface gpuDevice_has_driverSoftwareModel extends Sequelize.Model<gpuDevice_has_driverSoftwareInstance, gpuDevice_has_driverSoftwareAttribute> { }
 
-// table: gpuDevice_has_machineInterface
-export interface gpuDevice_has_machineInterfaceAttribute {
-  gpuDevice_gpuDeviceID:number;
-  gpuDevice_machineInterfaceID:number;
+// table: displayDevice_has_colorDepth
+export interface displayDevice_has_colorDepthAttribute {
+  displayDevice_displayDeviceID:number;
+  colorDepth_colorDepthID?:number;
 }
-export interface gpuDevice_has_machineInterfaceInstance extends Sequelize.Instance<gpuDevice_has_machineInterfaceAttribute>, gpuDevice_has_machineInterfaceAttribute { }
-export interface gpuDevice_has_machineInterfaceModel extends Sequelize.Model<gpuDevice_has_machineInterfaceInstance, gpuDevice_has_machineInterfaceAttribute> { }
+export interface displayDevice_has_colorDepthInstance extends Sequelize.Instance<displayDevice_has_colorDepthAttribute>, displayDevice_has_colorDepthAttribute { }
+export interface displayDevice_has_colorDepthModel extends Sequelize.Model<displayDevice_has_colorDepthInstance, displayDevice_has_colorDepthAttribute> { }
 
 // table: formatOperation
 export interface formatOperationAttribute {
@@ -513,6 +505,14 @@ export interface formatOperationAttribute {
 export interface formatOperationInstance extends Sequelize.Instance<formatOperationAttribute>, formatOperationAttribute { }
 export interface formatOperationModel extends Sequelize.Model<formatOperationInstance, formatOperationAttribute> { }
 
+// table: gpuDevice_has_machineInterface
+export interface gpuDevice_has_machineInterfaceAttribute {
+  gpuDevice_gpuDeviceID:number;
+  gpuDevice_machineInterfaceID:number;
+}
+export interface gpuDevice_has_machineInterfaceInstance extends Sequelize.Instance<gpuDevice_has_machineInterfaceAttribute>, gpuDevice_has_machineInterfaceAttribute { }
+export interface gpuDevice_has_machineInterfaceModel extends Sequelize.Model<gpuDevice_has_machineInterfaceInstance, gpuDevice_has_machineInterfaceAttribute> { }
+
 // table: fileFormat_has_fileExtension
 export interface fileFormat_has_fileExtensionAttribute {
   fileFormat_fileFormatQID:string;
@@ -520,6 +520,14 @@ export interface fileFormat_has_fileExtensionAttribute {
 }
 export interface fileFormat_has_fileExtensionInstance extends Sequelize.Instance<fileFormat_has_fileExtensionAttribute>, fileFormat_has_fileExtensionAttribute { }
 export interface fileFormat_has_fileExtensionModel extends Sequelize.Model<fileFormat_has_fileExtensionInstance, fileFormat_has_fileExtensionAttribute> { }
+
+// table: keyboardDevice_has_driverSoftware
+export interface keyboardDevice_has_driverSoftwareAttribute {
+  keyboardDevice_keyboardDeviceID?:number;
+  keyboardDevice_driverSoftware:number;
+}
+export interface keyboardDevice_has_driverSoftwareInstance extends Sequelize.Instance<keyboardDevice_has_driverSoftwareAttribute>, keyboardDevice_has_driverSoftwareAttribute { }
+export interface keyboardDevice_has_driverSoftwareModel extends Sequelize.Model<keyboardDevice_has_driverSoftwareInstance, keyboardDevice_has_driverSoftwareAttribute> { }
 
 // table: gpuDevice
 export interface gpuDeviceAttribute {
@@ -537,14 +545,6 @@ export interface keyboardDevice_has_languageAttribute {
 }
 export interface keyboardDevice_has_languageInstance extends Sequelize.Instance<keyboardDevice_has_languageAttribute>, keyboardDevice_has_languageAttribute { }
 export interface keyboardDevice_has_languageModel extends Sequelize.Model<keyboardDevice_has_languageInstance, keyboardDevice_has_languageAttribute> { }
-
-// table: keyboardDevice_has_driverSoftware
-export interface keyboardDevice_has_driverSoftwareAttribute {
-  keyboardDevice_keyboardDeviceID?:number;
-  keyboardDevice_driverSoftware:number;
-}
-export interface keyboardDevice_has_driverSoftwareInstance extends Sequelize.Instance<keyboardDevice_has_driverSoftwareAttribute>, keyboardDevice_has_driverSoftwareAttribute { }
-export interface keyboardDevice_has_driverSoftwareModel extends Sequelize.Model<keyboardDevice_has_driverSoftwareInstance, keyboardDevice_has_driverSoftwareAttribute> { }
 
 // table: keyboardDevice_has_machineInterfaceID
 export interface keyboardDevice_has_machineInterfaceIDAttribute {
@@ -572,6 +572,14 @@ export interface machineTypeAttribute {
 export interface machineTypeInstance extends Sequelize.Instance<machineTypeAttribute>, machineTypeAttribute { }
 export interface machineTypeModel extends Sequelize.Model<machineTypeInstance, machineTypeAttribute> { }
 
+// table: networkDevice_has_driverSoftware
+export interface networkDevice_has_driverSoftwareAttribute {
+  networkDevice_networkDeviceID?:number;
+  driverSoftware_driverSoftware?:number;
+}
+export interface networkDevice_has_driverSoftwareInstance extends Sequelize.Instance<networkDevice_has_driverSoftwareAttribute>, networkDevice_has_driverSoftwareAttribute { }
+export interface networkDevice_has_driverSoftwareModel extends Sequelize.Model<networkDevice_has_driverSoftwareInstance, networkDevice_has_driverSoftwareAttribute> { }
+
 // table: mountFormat
 export interface mountFormatAttribute {
   mountFormatQID:string;
@@ -591,13 +599,13 @@ export interface networkServiceAttribute {
 export interface networkServiceInstance extends Sequelize.Instance<networkServiceAttribute>, networkServiceAttribute { }
 export interface networkServiceModel extends Sequelize.Model<networkServiceInstance, networkServiceAttribute> { }
 
-// table: networkDevice_has_driverSoftware
-export interface networkDevice_has_driverSoftwareAttribute {
-  networkDevice_networkDeviceID?:number;
-  driverSoftware_driverSoftware?:number;
+// table: networkDevice_has_machineInterface
+export interface networkDevice_has_machineInterfaceAttribute {
+  networkDevice_networkDeviceID:number;
+  networkDevice_machineInterfaceID?:number;
 }
-export interface networkDevice_has_driverSoftwareInstance extends Sequelize.Instance<networkDevice_has_driverSoftwareAttribute>, networkDevice_has_driverSoftwareAttribute { }
-export interface networkDevice_has_driverSoftwareModel extends Sequelize.Model<networkDevice_has_driverSoftwareInstance, networkDevice_has_driverSoftwareAttribute> { }
+export interface networkDevice_has_machineInterfaceInstance extends Sequelize.Instance<networkDevice_has_machineInterfaceAttribute>, networkDevice_has_machineInterfaceAttribute { }
+export interface networkDevice_has_machineInterfaceModel extends Sequelize.Model<networkDevice_has_machineInterfaceInstance, networkDevice_has_machineInterfaceAttribute> { }
 
 // table: objectEnvironment
 export interface objectEnvironmentAttribute {
@@ -619,14 +627,6 @@ export interface keyboardLayoutAttribute {
 export interface keyboardLayoutInstance extends Sequelize.Instance<keyboardLayoutAttribute>, keyboardLayoutAttribute { }
 export interface keyboardLayoutModel extends Sequelize.Model<keyboardLayoutInstance, keyboardLayoutAttribute> { }
 
-// table: networkDevice_has_machineInterface
-export interface networkDevice_has_machineInterfaceAttribute {
-  networkDevice_networkDeviceID:number;
-  networkDevice_machineInterfaceID?:number;
-}
-export interface networkDevice_has_machineInterfaceInstance extends Sequelize.Instance<networkDevice_has_machineInterfaceAttribute>, networkDevice_has_machineInterfaceAttribute { }
-export interface networkDevice_has_machineInterfaceModel extends Sequelize.Model<networkDevice_has_machineInterfaceInstance, networkDevice_has_machineInterfaceAttribute> { }
-
 // table: networkDevice
 export interface networkDeviceAttribute {
   networkDeviceID:number;
@@ -645,14 +645,6 @@ export interface osVersion_languageSettingsAttribute {
 export interface osVersion_languageSettingsInstance extends Sequelize.Instance<osVersion_languageSettingsAttribute>, osVersion_languageSettingsAttribute { }
 export interface osVersion_languageSettingsModel extends Sequelize.Model<osVersion_languageSettingsInstance, osVersion_languageSettingsAttribute> { }
 
-// table: osVersion_displayResolutionSettings
-export interface osVersion_displayResolutionSettingsAttribute {
-  osVersion_osVersionID:number;
-  osVersion_displayResolutionID:number;
-}
-export interface osVersion_displayResolutionSettingsInstance extends Sequelize.Instance<osVersion_displayResolutionSettingsAttribute>, osVersion_displayResolutionSettingsAttribute { }
-export interface osVersion_displayResolutionSettingsModel extends Sequelize.Model<osVersion_displayResolutionSettingsInstance, osVersion_displayResolutionSettingsAttribute> { }
-
 // table: objectEnvironment_has_event
 export interface objectEnvironment_has_eventAttribute {
   objectEnvironment_objectEnvironment_computingEnvironmentID?:number;
@@ -661,6 +653,22 @@ export interface objectEnvironment_has_eventAttribute {
 }
 export interface objectEnvironment_has_eventInstance extends Sequelize.Instance<objectEnvironment_has_eventAttribute>, objectEnvironment_has_eventAttribute { }
 export interface objectEnvironment_has_eventModel extends Sequelize.Model<objectEnvironment_has_eventInstance, objectEnvironment_has_eventAttribute> { }
+
+// table: osVersion_displayResolutionSettings
+export interface osVersion_displayResolutionSettingsAttribute {
+  osVersion_osVersionID:number;
+  osVersion_displayResolutionID:number;
+}
+export interface osVersion_displayResolutionSettingsInstance extends Sequelize.Instance<osVersion_displayResolutionSettingsAttribute>, osVersion_displayResolutionSettingsAttribute { }
+export interface osVersion_displayResolutionSettingsModel extends Sequelize.Model<osVersion_displayResolutionSettingsInstance, osVersion_displayResolutionSettingsAttribute> { }
+
+// table: osVersion_has_developer
+export interface osVersion_has_developerAttribute {
+  osVersion_osVersionID:number;
+  osVersion_developerQID:string;
+}
+export interface osVersion_has_developerInstance extends Sequelize.Instance<osVersion_has_developerAttribute>, osVersion_has_developerAttribute { }
+export interface osVersion_has_developerModel extends Sequelize.Model<osVersion_has_developerInstance, osVersion_has_developerAttribute> { }
 
 // table: osVersion
 export interface osVersionAttribute {
@@ -676,14 +684,6 @@ export interface osVersionAttribute {
 export interface osVersionInstance extends Sequelize.Instance<osVersionAttribute>, osVersionAttribute { }
 export interface osVersionModel extends Sequelize.Model<osVersionInstance, osVersionAttribute> { }
 
-// table: osVersion_has_developer
-export interface osVersion_has_developerAttribute {
-  osVersion_osVersionID:number;
-  osVersion_developerQID:string;
-}
-export interface osVersion_has_developerInstance extends Sequelize.Instance<osVersion_has_developerAttribute>, osVersion_has_developerAttribute { }
-export interface osVersion_has_developerModel extends Sequelize.Model<osVersion_has_developerInstance, osVersion_has_developerAttribute> { }
-
 // table: osVersion_includes_softwareVersion
 export interface osVersion_includes_softwareVersionAttribute {
   osVersion_osVersionID:number;
@@ -692,14 +692,6 @@ export interface osVersion_includes_softwareVersionAttribute {
 export interface osVersion_includes_softwareVersionInstance extends Sequelize.Instance<osVersion_includes_softwareVersionAttribute>, osVersion_includes_softwareVersionAttribute { }
 export interface osVersion_includes_softwareVersionModel extends Sequelize.Model<osVersion_includes_softwareVersionInstance, osVersion_includes_softwareVersionAttribute> { }
 
-// table: osVersion_has_programmingLanguage
-export interface osVersion_has_programmingLanguageAttribute {
-  osVersion_osVersionID:number;
-  osVersion_programmingLanguageQID:string;
-}
-export interface osVersion_has_programmingLanguageInstance extends Sequelize.Instance<osVersion_has_programmingLanguageAttribute>, osVersion_has_programmingLanguageAttribute { }
-export interface osVersion_has_programmingLanguageModel extends Sequelize.Model<osVersion_has_programmingLanguageInstance, osVersion_has_programmingLanguageAttribute> { }
-
 // table: programmingLanguage
 export interface programmingLanguageAttribute {
   programmingLanguageQID:string;
@@ -707,6 +699,14 @@ export interface programmingLanguageAttribute {
 }
 export interface programmingLanguageInstance extends Sequelize.Instance<programmingLanguageAttribute>, programmingLanguageAttribute { }
 export interface programmingLanguageModel extends Sequelize.Model<programmingLanguageInstance, programmingLanguageAttribute> { }
+
+// table: osVersion_has_programmingLanguage
+export interface osVersion_has_programmingLanguageAttribute {
+  osVersion_osVersionID:number;
+  osVersion_programmingLanguageQID:string;
+}
+export interface osVersion_has_programmingLanguageInstance extends Sequelize.Instance<osVersion_has_programmingLanguageAttribute>, osVersion_has_programmingLanguageAttribute { }
+export interface osVersion_has_programmingLanguageModel extends Sequelize.Model<osVersion_has_programmingLanguageInstance, osVersion_has_programmingLanguageAttribute> { }
 
 // table: osVersion_keyboardLayoutSettings
 export interface osVersion_keyboardLayoutSettingsAttribute {
@@ -733,6 +733,14 @@ export interface osVersion_keyboardLanguageSettingsAttribute {
 export interface osVersion_keyboardLanguageSettingsInstance extends Sequelize.Instance<osVersion_keyboardLanguageSettingsAttribute>, osVersion_keyboardLanguageSettingsAttribute { }
 export interface osVersion_keyboardLanguageSettingsModel extends Sequelize.Model<osVersion_keyboardLanguageSettingsInstance, osVersion_keyboardLanguageSettingsAttribute> { }
 
+// table: readWriteStatus
+export interface readWriteStatusAttribute {
+  readWriteStatusID:number;
+  readWriteStatusName:string;
+}
+export interface readWriteStatusInstance extends Sequelize.Instance<readWriteStatusAttribute>, readWriteStatusAttribute { }
+export interface readWriteStatusModel extends Sequelize.Model<readWriteStatusInstance, readWriteStatusAttribute> { }
+
 // table: osVersion_regionSettings
 export interface osVersion_regionSettingsAttribute {
   osVersion_osVersionID?:number;
@@ -751,14 +759,6 @@ export interface osVersion_keyboardSettingAttribute {
 }
 export interface osVersion_keyboardSettingInstance extends Sequelize.Instance<osVersion_keyboardSettingAttribute>, osVersion_keyboardSettingAttribute { }
 export interface osVersion_keyboardSettingModel extends Sequelize.Model<osVersion_keyboardSettingInstance, osVersion_keyboardSettingAttribute> { }
-
-// table: readWriteStatus
-export interface readWriteStatusAttribute {
-  readWriteStatusID:number;
-  readWriteStatusName:string;
-}
-export interface readWriteStatusInstance extends Sequelize.Instance<readWriteStatusAttribute>, readWriteStatusAttribute { }
-export interface readWriteStatusModel extends Sequelize.Model<readWriteStatusInstance, readWriteStatusAttribute> { }
 
 // table: osVersion_has_alternateID
 export interface osVersion_has_alternateIDAttribute {
@@ -862,14 +862,6 @@ export interface softwareObject_isManifestationOf_osVersionAttribute {
 export interface softwareObject_isManifestationOf_osVersionInstance extends Sequelize.Instance<softwareObject_isManifestationOf_osVersionAttribute>, softwareObject_isManifestationOf_osVersionAttribute { }
 export interface softwareObject_isManifestationOf_osVersionModel extends Sequelize.Model<softwareObject_isManifestationOf_osVersionInstance, softwareObject_isManifestationOf_osVersionAttribute> { }
 
-// table: softwareFamily_hasPart_softwareProduct
-export interface softwareFamily_hasPart_softwareProductAttribute {
-  softwarefamilyid:number;
-  haspart_softwareproduct:number;
-}
-export interface softwareFamily_hasPart_softwareProductInstance extends Sequelize.Instance<softwareFamily_hasPart_softwareProductAttribute>, softwareFamily_hasPart_softwareProductAttribute { }
-export interface softwareFamily_hasPart_softwareProductModel extends Sequelize.Model<softwareFamily_hasPart_softwareProductInstance, softwareFamily_hasPart_softwareProductAttribute> { }
-
 // table: softwareObject_has_event
 export interface softwareObject_has_eventAttribute {
   softwareObject_softwareObjectID?:number;
@@ -877,6 +869,14 @@ export interface softwareObject_has_eventAttribute {
 }
 export interface softwareObject_has_eventInstance extends Sequelize.Instance<softwareObject_has_eventAttribute>, softwareObject_has_eventAttribute { }
 export interface softwareObject_has_eventModel extends Sequelize.Model<softwareObject_has_eventInstance, softwareObject_has_eventAttribute> { }
+
+// table: softwareFamily_hasPart_softwareProduct
+export interface softwareFamily_hasPart_softwareProductAttribute {
+  softwarefamilyid:number;
+  haspart_softwareproduct:number;
+}
+export interface softwareFamily_hasPart_softwareProductInstance extends Sequelize.Instance<softwareFamily_hasPart_softwareProductAttribute>, softwareFamily_hasPart_softwareProductAttribute { }
+export interface softwareFamily_hasPart_softwareProductModel extends Sequelize.Model<softwareFamily_hasPart_softwareProductInstance, softwareFamily_hasPart_softwareProductAttribute> { }
 
 // table: softwareObject_has_alternateID
 export interface softwareObject_has_alternateIDAttribute {
@@ -906,14 +906,6 @@ export interface regionAttribute {
 export interface regionInstance extends Sequelize.Instance<regionAttribute>, regionAttribute { }
 export interface regionModel extends Sequelize.Model<regionInstance, regionAttribute> { }
 
-// table: softwareVersion_has_alternateID
-export interface softwareVersion_has_alternateIDAttribute {
-  softwareVersion_softwareVersionID:number;
-  softwareVersion_alternateID:string;
-}
-export interface softwareVersion_has_alternateIDInstance extends Sequelize.Instance<softwareVersion_has_alternateIDAttribute>, softwareVersion_has_alternateIDAttribute { }
-export interface softwareVersion_has_alternateIDModel extends Sequelize.Model<softwareVersion_has_alternateIDInstance, softwareVersion_has_alternateIDAttribute> { }
-
 // table: softwareObject_has_objectFile
 export interface softwareObject_has_objectFileAttribute {
   softwareObject_softwareObjectID:number;
@@ -924,6 +916,14 @@ export interface softwareObject_has_objectFileAttribute {
 export interface softwareObject_has_objectFileInstance extends Sequelize.Instance<softwareObject_has_objectFileAttribute>, softwareObject_has_objectFileAttribute { }
 export interface softwareObject_has_objectFileModel extends Sequelize.Model<softwareObject_has_objectFileInstance, softwareObject_has_objectFileAttribute> { }
 
+// table: softwareVersion_has_alternateID
+export interface softwareVersion_has_alternateIDAttribute {
+  softwareVersion_softwareVersionID:number;
+  softwareVersion_alternateID:string;
+}
+export interface softwareVersion_has_alternateIDInstance extends Sequelize.Instance<softwareVersion_has_alternateIDAttribute>, softwareVersion_has_alternateIDAttribute { }
+export interface softwareVersion_has_alternateIDModel extends Sequelize.Model<softwareVersion_has_alternateIDInstance, softwareVersion_has_alternateIDAttribute> { }
+
 // table: softwareProduct_has_softwareType
 export interface softwareProduct_has_softwareTypeAttribute {
   softwareProduct_softwareProductID:number;
@@ -931,6 +931,14 @@ export interface softwareProduct_has_softwareTypeAttribute {
 }
 export interface softwareProduct_has_softwareTypeInstance extends Sequelize.Instance<softwareProduct_has_softwareTypeAttribute>, softwareProduct_has_softwareTypeAttribute { }
 export interface softwareProduct_has_softwareTypeModel extends Sequelize.Model<softwareProduct_has_softwareTypeInstance, softwareProduct_has_softwareTypeAttribute> { }
+
+// table: softwareObject_isManifestationOf_softwareVersion
+export interface softwareObject_isManifestationOf_softwareVersionAttribute {
+  softwareObject_softwareObjectID:number;
+  softwareObject_softwareVersionID:number;
+}
+export interface softwareObject_isManifestationOf_softwareVersionInstance extends Sequelize.Instance<softwareObject_isManifestationOf_softwareVersionAttribute>, softwareObject_isManifestationOf_softwareVersionAttribute { }
+export interface softwareObject_isManifestationOf_softwareVersionModel extends Sequelize.Model<softwareObject_isManifestationOf_softwareVersionInstance, softwareObject_isManifestationOf_softwareVersionAttribute> { }
 
 // table: softwareEnvironment_has_diskImage
 export interface softwareEnvironment_has_diskImageAttribute {
@@ -945,14 +953,6 @@ export interface softwareEnvironment_has_diskImageAttribute {
 export interface softwareEnvironment_has_diskImageInstance extends Sequelize.Instance<softwareEnvironment_has_diskImageAttribute>, softwareEnvironment_has_diskImageAttribute { }
 export interface softwareEnvironment_has_diskImageModel extends Sequelize.Model<softwareEnvironment_has_diskImageInstance, softwareEnvironment_has_diskImageAttribute> { }
 
-// table: softwareObject_isManifestationOf_softwareVersion
-export interface softwareObject_isManifestationOf_softwareVersionAttribute {
-  softwareObject_softwareObjectID:number;
-  softwareObject_softwareVersionID:number;
-}
-export interface softwareObject_isManifestationOf_softwareVersionInstance extends Sequelize.Instance<softwareObject_isManifestationOf_softwareVersionAttribute>, softwareObject_isManifestationOf_softwareVersionAttribute { }
-export interface softwareObject_isManifestationOf_softwareVersionModel extends Sequelize.Model<softwareObject_isManifestationOf_softwareVersionInstance, softwareObject_isManifestationOf_softwareVersionAttribute> { }
-
 // table: softwareVersion_has_developer
 export interface softwareVersion_has_developerAttribute {
   softwareVersion_softwareVersionID?:number;
@@ -960,6 +960,14 @@ export interface softwareVersion_has_developerAttribute {
 }
 export interface softwareVersion_has_developerInstance extends Sequelize.Instance<softwareVersion_has_developerAttribute>, softwareVersion_has_developerAttribute { }
 export interface softwareVersion_has_developerModel extends Sequelize.Model<softwareVersion_has_developerInstance, softwareVersion_has_developerAttribute> { }
+
+// table: softwareType
+export interface softwareTypeAttribute {
+  softwareTypeQID:string;
+  softwaretypename:string;
+}
+export interface softwareTypeInstance extends Sequelize.Instance<softwareTypeAttribute>, softwareTypeAttribute { }
+export interface softwareTypeModel extends Sequelize.Model<softwareTypeInstance, softwareTypeAttribute> { }
 
 // table: softwareObjectFile_has_objectFileOperation
 export interface softwareObjectFile_has_objectFileOperationAttribute {
@@ -970,14 +978,6 @@ export interface softwareObjectFile_has_objectFileOperationAttribute {
 }
 export interface softwareObjectFile_has_objectFileOperationInstance extends Sequelize.Instance<softwareObjectFile_has_objectFileOperationAttribute>, softwareObjectFile_has_objectFileOperationAttribute { }
 export interface softwareObjectFile_has_objectFileOperationModel extends Sequelize.Model<softwareObjectFile_has_objectFileOperationInstance, softwareObjectFile_has_objectFileOperationAttribute> { }
-
-// table: softwareType
-export interface softwareTypeAttribute {
-  softwareTypeQID:string;
-  softwaretypename:string;
-}
-export interface softwareTypeInstance extends Sequelize.Instance<softwareTypeAttribute>, softwareTypeAttribute { }
-export interface softwareTypeModel extends Sequelize.Model<softwareTypeInstance, softwareTypeAttribute> { }
 
 // table: softwareFamilyVersion_hasPart_softwareVersion
 export interface softwareFamilyVersion_hasPart_softwareVersionAttribute {
@@ -1041,15 +1041,6 @@ export interface softwareProduct_has_alternateNameAttribute {
 export interface softwareProduct_has_alternateNameInstance extends Sequelize.Instance<softwareProduct_has_alternateNameAttribute>, softwareProduct_has_alternateNameAttribute { }
 export interface softwareProduct_has_alternateNameModel extends Sequelize.Model<softwareProduct_has_alternateNameInstance, softwareProduct_has_alternateNameAttribute> { }
 
-// table: softwareVersion_languageSettings
-export interface softwareVersion_languageSettingsAttribute {
-  softwareVersion_softwareVersionID?:number;
-  softwareVersion_languageQID?:string;
-  softwareVersion_defaultLanguage:boolean;
-}
-export interface softwareVersion_languageSettingsInstance extends Sequelize.Instance<softwareVersion_languageSettingsAttribute>, softwareVersion_languageSettingsAttribute { }
-export interface softwareVersion_languageSettingsModel extends Sequelize.Model<softwareVersion_languageSettingsInstance, softwareVersion_languageSettingsAttribute> { }
-
 // table: softwareVersion
 export interface softwareVersionAttribute {
   softwareVersionID:number;
@@ -1063,6 +1054,15 @@ export interface softwareVersionAttribute {
 }
 export interface softwareVersionInstance extends Sequelize.Instance<softwareVersionAttribute>, softwareVersionAttribute { }
 export interface softwareVersionModel extends Sequelize.Model<softwareVersionInstance, softwareVersionAttribute> { }
+
+// table: softwareVersion_languageSettings
+export interface softwareVersion_languageSettingsAttribute {
+  softwareVersion_softwareVersionID?:number;
+  softwareVersion_languageQID?:string;
+  softwareVersion_defaultLanguage:boolean;
+}
+export interface softwareVersion_languageSettingsInstance extends Sequelize.Instance<softwareVersion_languageSettingsAttribute>, softwareVersion_languageSettingsAttribute { }
+export interface softwareVersion_languageSettingsModel extends Sequelize.Model<softwareVersion_languageSettingsInstance, softwareVersion_languageSettingsAttribute> { }
 
 // table: storageDevice_has_driverSoftware
 export interface storageDevice_has_driverSoftwareAttribute {
@@ -1128,6 +1128,14 @@ export interface systemRequirements_includes_cpuArchitectureAttribute {
 export interface systemRequirements_includes_cpuArchitectureInstance extends Sequelize.Instance<systemRequirements_includes_cpuArchitectureAttribute>, systemRequirements_includes_cpuArchitectureAttribute { }
 export interface systemRequirements_includes_cpuArchitectureModel extends Sequelize.Model<systemRequirements_includes_cpuArchitectureInstance, systemRequirements_includes_cpuArchitectureAttribute> { }
 
+// table: systemRequirements_includes_machineType
+export interface systemRequirements_includes_machineTypeAttribute {
+  systemRequirements_systemRequirementsID:number;
+  systemRequirements_machineTypeID?:number;
+}
+export interface systemRequirements_includes_machineTypeInstance extends Sequelize.Instance<systemRequirements_includes_machineTypeAttribute>, systemRequirements_includes_machineTypeAttribute { }
+export interface systemRequirements_includes_machineTypeModel extends Sequelize.Model<systemRequirements_includes_machineTypeInstance, systemRequirements_includes_machineTypeAttribute> { }
+
 // table: systemRequirements_includes_gpuDevice
 export interface systemRequirements_includes_gpuDeviceAttribute {
   systemRequirements_systemRequirementsID:number;
@@ -1136,14 +1144,6 @@ export interface systemRequirements_includes_gpuDeviceAttribute {
 }
 export interface systemRequirements_includes_gpuDeviceInstance extends Sequelize.Instance<systemRequirements_includes_gpuDeviceAttribute>, systemRequirements_includes_gpuDeviceAttribute { }
 export interface systemRequirements_includes_gpuDeviceModel extends Sequelize.Model<systemRequirements_includes_gpuDeviceInstance, systemRequirements_includes_gpuDeviceAttribute> { }
-
-// table: systemRequirements_includes_machineType
-export interface systemRequirements_includes_machineTypeAttribute {
-  systemRequirements_systemRequirementsID:number;
-  systemRequirements_machineTypeID?:number;
-}
-export interface systemRequirements_includes_machineTypeInstance extends Sequelize.Instance<systemRequirements_includes_machineTypeAttribute>, systemRequirements_includes_machineTypeAttribute { }
-export interface systemRequirements_includes_machineTypeModel extends Sequelize.Model<systemRequirements_includes_machineTypeInstance, systemRequirements_includes_machineTypeAttribute> { }
 
 // table: userInformation
 export interface userInformationAttribute {
@@ -1211,14 +1211,6 @@ export interface storageDeviceTypeAttribute {
 export interface storageDeviceTypeInstance extends Sequelize.Instance<storageDeviceTypeAttribute>, storageDeviceTypeAttribute { }
 export interface storageDeviceTypeModel extends Sequelize.Model<storageDeviceTypeInstance, storageDeviceTypeAttribute> { }
 
-// table: formatImplementation_includes_fileFormat
-export interface formatImplementation_includes_fileFormatAttribute {
-  formatImplementation_formatImplementationID:number;
-  fileFormat_fileFormatQID:string;
-}
-export interface formatImplementation_includes_fileFormatInstance extends Sequelize.Instance<formatImplementation_includes_fileFormatAttribute>, formatImplementation_includes_fileFormatAttribute { }
-export interface formatImplementation_includes_fileFormatModel extends Sequelize.Model<formatImplementation_includes_fileFormatInstance, formatImplementation_includes_fileFormatAttribute> { }
-
 // table: storageDevice
 export interface storageDeviceAttribute {
   storageDeviceID:number;
@@ -1238,3 +1230,11 @@ export interface softwareEnvironment_hasPart_configuredSoftwareAttribute {
 }
 export interface softwareEnvironment_hasPart_configuredSoftwareInstance extends Sequelize.Instance<softwareEnvironment_hasPart_configuredSoftwareAttribute>, softwareEnvironment_hasPart_configuredSoftwareAttribute { }
 export interface softwareEnvironment_hasPart_configuredSoftwareModel extends Sequelize.Model<softwareEnvironment_hasPart_configuredSoftwareInstance, softwareEnvironment_hasPart_configuredSoftwareAttribute> { }
+
+// table: formatImplementation_includes_fileFormat
+export interface formatImplementation_includes_fileFormatAttribute {
+  formatImplementation_formatImplementationID:number;
+  fileFormat_fileFormatQID:string;
+}
+export interface formatImplementation_includes_fileFormatInstance extends Sequelize.Instance<formatImplementation_includes_fileFormatAttribute>, formatImplementation_includes_fileFormatAttribute { }
+export interface formatImplementation_includes_fileFormatModel extends Sequelize.Model<formatImplementation_includes_fileFormatInstance, formatImplementation_includes_fileFormatAttribute> { }
