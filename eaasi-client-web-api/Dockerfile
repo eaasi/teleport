@@ -4,15 +4,13 @@ WORKDIR /app
 
 COPY . ./
 
-RUN npm install -g sequelize-cli
+RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations
 
 RUN npm install
 
 CMD ["chmod", "x", "./wait-for-it.sh"]
 
-CMD ["./wait-for-it.sh", "eaasi-database:5432", "--", "sequelize", "db:migrate"]
-
-RUN sequelize db:migrate
+CMD ["./wait-for-it.sh", "eaasi-database:5432", "--", "runmigration"]
 
 EXPOSE 8081
 
