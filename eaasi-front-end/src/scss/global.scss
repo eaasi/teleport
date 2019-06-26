@@ -240,16 +240,6 @@ a {
 	appearance: none;
 }
 
-.aria-hidden {
-	height: 1px;
-	width: 1px;
-	pointer-events: none;
-	visibility: hidden;
-	position: fixed;
-	top: -1px;
-	left: 1px;
-}
-
 .clearfix {
 	&:after {
 		clear: both;
@@ -269,6 +259,11 @@ a {
 }
 
 .invisible {
+	height: 1px;
+	width: 1px;
 	pointer-events: none;
 	visibility: hidden;
+	position: fixed;
+	top: -1px;
+	left: 1px;
 }
