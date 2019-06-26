@@ -4,6 +4,7 @@
     "password": "eaasi_dev",
     "database": "eaasi_dev",
     "host": "eaasi-database",
+    "port": "54320",
     "dialect": "postgres",
     "operatorsAliases": false
   },
@@ -12,6 +13,7 @@
     "password": "eaasi_dev",
     "database": "eaasi_dev",
     "host": "eaasi-database",
+    "port": "54320",
     "dialect": "postgres",
     "operatorsAliases": false
   },
@@ -20,6 +22,16 @@
     "password": "eaasi_dev",
     "database": "eaasi_dev",
     "host": "eaasi-database",
+    "port": "5432",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "local": {
+    "username": "eaasi_dev",
+    "password": "eaasi_dev",
+    "database": "eaasi_dev",
+    "host": "localhost",
+    "port": "5432",
     "dialect": "postgres",
     "operatorsAliases": false
   }
