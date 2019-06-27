@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('configuredOS_has_event', {
         configuredOS_configuredOperatingSystemID: {

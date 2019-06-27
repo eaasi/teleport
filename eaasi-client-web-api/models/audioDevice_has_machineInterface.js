@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('audioDevice_has_machineInterface', {
         audioDevice_audioDeviceID: {

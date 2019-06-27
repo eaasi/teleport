@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('softwareObjectFile_has_objectFileOperation', {
         softwareObjectFile_softwareObjectID: {

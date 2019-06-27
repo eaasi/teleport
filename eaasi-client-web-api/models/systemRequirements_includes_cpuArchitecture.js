@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('systemRequirements_includes_cpuArchitecture', {
         systemRequirements_systemRequirementsID: {

@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('configuredNetwork_has_configuredMachine', {
         configuredNetwork_configuredNetworkID: {

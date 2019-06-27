@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('networkDevice_has_machineInterface', {
         networkDevice_networkDeviceID: {

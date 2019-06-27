@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('configuredGpuDevice', {
         configuredMachine_machineID: {

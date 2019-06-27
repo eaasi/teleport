@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('displayDevice_has_displayInterface', {
         displayDevice_displayDeviceID: {

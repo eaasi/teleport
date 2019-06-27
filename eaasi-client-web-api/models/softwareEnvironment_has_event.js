@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('softwareEnvironment_has_event', {
         softwareEnvironment_softwareEnvironmentID: {

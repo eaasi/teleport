@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('timezone_has_timezoneName', {
         timezone_timezoneQID: {

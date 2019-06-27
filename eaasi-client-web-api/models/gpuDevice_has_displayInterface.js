@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('gpuDevice_has_displayInterface', {
         gpuDevice_gpuDeviceID: {

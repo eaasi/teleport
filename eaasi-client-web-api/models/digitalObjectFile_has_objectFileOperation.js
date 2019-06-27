@@ -1,5 +1,3 @@
-/* jshint indent: 2 */
-
 export default (sequelize, DataTypes) => {
     return sequelize.define('digitalObjectFile_has_objectFileOperation', {
         digitalObjectFile_digitalObjectID: {
