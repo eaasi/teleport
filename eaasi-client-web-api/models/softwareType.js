@@ -5,7 +5,7 @@ export default (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true
         },
-        softwaretypename: {
+        softwareTypeName: {
             type: DataTypes.STRING,
             allowNull: false
         }

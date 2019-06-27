@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
     return sequelize.define('softwareFamily_hasPart_softwareProduct', {
-        softwarefamilyid: {
+        softwareFamilyId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -8,7 +8,7 @@ export default (sequelize, DataTypes) => {
                 key: 'softwareProductID'
             }
         },
-        haspart_softwareproduct: {
+        hasPart_softwareProduct: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
