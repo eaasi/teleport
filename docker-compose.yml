@@ -4,9 +4,9 @@ services:
     eaasi-database:
         image: eaasi-database
         build:
-            context: ./eaasi-database
+            context: ./eaasi-client-database
         env_file:
-            - ./eaasi-database/vars.env
+            - ./eaasi-client-database/vars.env
         ports:
             - 5432:5432
         volumes:
@@ -22,9 +22,9 @@ services:
             - API_URL=http://localhost:8081
 
     eaasi-api-server:
-        image: eaasi-api-server
+        image: eaasi-web-api
         build:
-            context: ./eaasi-api-server
+            context: ./eaasi-client-web-api
         depends_on:
            - eaasi-database
         environment:
