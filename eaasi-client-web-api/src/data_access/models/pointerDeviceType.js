@@ -1,20 +1,28 @@
-export default (sequelize, DataTypes) => {
-    return sequelize.define('pointerDeviceType', {
-        pointerDeviceTypeID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        pointerDeviceTypeName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        pointerDeviceTypeQID: {
-            type: DataTypes.STRING,
-            allowNull: true
-        }
-    }, {
-        tableName: 'pointerDeviceType'
-    });
-}
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('pointerDeviceType', {
+    pointerDeviceTypeID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    pointerDeviceTypeName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    pointerDeviceTypeQID: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
+  }, {
+    tableName: 'pointerDeviceType'
+  });
+};

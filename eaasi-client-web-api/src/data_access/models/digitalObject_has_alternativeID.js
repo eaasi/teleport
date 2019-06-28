@@ -1,18 +1,26 @@
-export default (sequelize, DataTypes) => {
-    return sequelize.define('digitalObject_has_alternativeID', {
-        digitalObject_digitalObjectID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'digitalObject',
-                key: 'digitalObjectID'
-            }
-        },
-        alternativeID_alternativeID: {
-            type: DataTypes.STRING,
-            allowNull: true
-        }
-    }, {
-        tableName: 'digitalObject_has_alternativeID'
-    });
-}
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('digitalObject_has_alternativeID', {
+    digitalObject_digitalObjectID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'digitalObject',
+        key: 'digitalObjectID'
+      }
+    },
+    alternativeID_alternativeID: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
+  }, {
+    tableName: 'digitalObject_has_alternativeID'
+  });
+};

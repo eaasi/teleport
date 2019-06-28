@@ -1,18 +1,26 @@
-export default (sequelize, DataTypes) => {
-    return sequelize.define('audioDevice_hasEquivalent', {
-        audioDevice_audioDeviceID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'audioDevice',
-                key: 'audioDeviceID'
-            }
-        },
-        audioDevice_equivalentAudioDevice: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
-    }, {
-        tableName: 'audioDevice_hasEquivalent'
-    });
-}
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('audioDevice_hasEquivalent', {
+    audioDevice_audioDeviceID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'audioDevice',
+        key: 'audioDeviceID'
+      }
+    },
+    audioDevice_equivalentAudioDevice: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
+  }, {
+    tableName: 'audioDevice_hasEquivalent'
+  });
+};
