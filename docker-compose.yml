@@ -21,7 +21,7 @@ services:
         environment:
             - API_URL=http://localhost:8081
 
-    eaasi-api-server:
+    eaasi-web-api:
         image: eaasi-web-api
         build:
             context: ./eaasi-client-web-api
@@ -30,7 +30,7 @@ services:
         environment:
             - API_DATABASE_URL=eaasi-database:5432
         command: >
-            bash -c "./wait-for-it.sh eaasi-database:5432 -- runmigration && npm start"
+            bash -c "./wait-for-it.sh eaasi-database:5432 -- runmigration && npm run dev"
 
 volumes:
     eaasi_db:
