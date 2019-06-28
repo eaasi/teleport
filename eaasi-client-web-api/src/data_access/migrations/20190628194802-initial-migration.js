@@ -436,44 +436,548 @@ module.exports = {
                 }),
 
                 queryInterface.createTable('configuredMachine_has_event', {
-
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredMachine_has_event'
                 }),
 
                 queryInterface.createTable('configuredNetwork', {
+					configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					configuredNetworkName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					configuredNetworkDescription: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetwork'
                 }),
-                queryInterface.createTable('configuredNetwork_emulatedNetworkService', {
+
+                queryInterface.createTable('configuredNetwork_emulatesNetworkService', {
+					configuredNetwork_configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredNetwork',
+							key: 'configuredNetworkID'
+						}
+					},
+					configuredNetwork_networkServiceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'networkService',
+							key: 'networkServiceID'
+						}
+					},
+					servicePortExposed: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetwork_emulatesNetworkService'
                 }),
+
                 queryInterface.createTable('configuredNetwork_has_configuredMachine', {
+					configuredNetwork_configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredNetwork',
+							key: 'configuredNetworkID'
+						}
+					},
+					configuredNetwork_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					bootOrder: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					staticIpAddress: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetwork_has_configuredMachine'
                 }),
+
                 queryInterface.createTable('configuredNetwork_has_event', {
+					configuredNetwork_configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredNetwork',
+							key: 'configuredNetworkID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetwork_has_event'
                 }),
+
                 queryInterface.createTable('configuredNetworkDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					configuredNetworkDevice_networkDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'networkDevice',
+							key: 'networkDeviceID'
+						}
+					},
+					configuredNetworkDevice_macAddress: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					configuredNetworkDevice_usesMachineInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetworkDevice'
                 }),
+
                 queryInterface.createTable('configuredNetworkMachine_expectedNetworkService', {
+					configuredNetworkMachine_configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					configuredNetworkMachine_configuredMachineID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredNetwork_has_configuredMachine',
+							key: 'configuredNetwork_machineID'
+						}
+					},
+					configuredNetworkMachine_expectedNetworkServiceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'networkService',
+							key: 'networkServiceID'
+						}
+					},
+					servicePortExpected: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetworkMachine_expectedNetworkService'
                 }),
+
                 queryInterface.createTable('configuredNetworkMachine_providesNetworkService', {
+					configuredNetworkMachine_configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredNetwork_has_configuredMachine',
+							key: 'configuredNetwork_configuredNetworkID'
+						}
+					},
+					configuredNetworkMachine_configuredMachineID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					configuredNetworkMachine_providesNetworkServiceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'networkService',
+							key: 'networkServiceID'
+						}
+					},
+					servicePortExposed: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredNetworkMachine_providesNetworkService'
                 }),
 
                 queryInterface.createTable('configuredOS', {
+					configuredOperatingSystemID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					configuredDisplayResolution: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'displayResolution',
+							key: 'displayResolutionID'
+						}
+					},
+					configuredColorDepth: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'colorDepth',
+							key: 'colorDepthID'
+						}
+					},
+					configuredRegion: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'region',
+							key: 'regionQID'
+						}
+					},
+					configuredTimezone: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'timezone',
+							key: 'timezoneQID'
+						}
+					},
+					configuredDateTime: {
+						type: DataTypes.DATE,
+						allowNull: true
+					},
+					hasSource_softwareObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'softwareObject',
+							key: 'softwareObjectID'
+						}
+					},
+					manifestationOf_osVersion: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredOS'
                 }),
+
                 queryInterface.createTable('configuredOS_has_event', {
+					configuredOS_configuredOperatingSystemID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredOS',
+							key: 'configuredOperatingSystemID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredOS_has_event'
                 }),
+
                 queryInterface.createTable('configuredOS_has_formatOperation', {
+					configuredOS_configuredOperatingSystemID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredOS',
+							key: 'configuredOperatingSystemID'
+						}
+					},
+					formatOperation_opensFileFormat: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'fileFormat',
+							key: 'fileFormatQID'
+						}
+					},
+					formatOperation_usesConfiguredSoftware: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredSoftware',
+							key: 'configuredSoftwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredOS_has_formatOperation'
                 }),
+
                 queryInterface.createTable('configuredOS_has_userInformation', {
+					configuredOS_configuredOperatingSystemID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredOS',
+							key: 'configuredOperatingSystemID'
+						}
+					},
+					userInformation_userInformationID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'userInformation',
+							key: 'userInformationID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredOS_has_userInformation'
                 }),
+
                 queryInterface.createTable('configuredOS_language', {
+					configuredOS_configuredOperatingSystemID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredOS',
+							key: 'configuredOperatingSystemID'
+						}
+					},
+					configuredOs_languageQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					configuredOS_primaryLanguage: {
+						type: DataTypes.BOOLEAN,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredOS_language'
                 }),
 
                 queryInterface.createTable('configuredPointerDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					configuredPointerDevice_pointerDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'pointerDevice',
+							key: 'pointerDeviceID'
+						}
+					},
+					configuredPointerDevice_usesMachineInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredPointerDevice'
                 }),
 
                 queryInterface.createTable('configuredSoftware', {
+					configuredSoftwareVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						defaultValue: 'nextval(configured_software_id_seq::regclass)',
+						primaryKey: true,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					executableLocation: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					executableSyntax: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					saveLocation: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					configuredLanguage: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					hasSource_softwareObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareObject',
+							key: 'softwareObjectID'
+						}
+					},
+					hasSource_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'digitalObject',
+							key: 'digitalObjectID'
+						}
+					},
+					manifestationOf_softwareVersion: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredSoftware'
                 }),
+
                 queryInterface.createTable('configuredSoftware_has_event', {
                 }),
+
                 queryInterface.createTable('configuredSoftware_has_userInformation', {
                 }),
+
                 queryInterface.createTable('configuredSoftware_uses_formatImplementation', {
                 }),
 
@@ -491,23 +995,31 @@ module.exports = {
 
                 queryInterface.createTable('digitalObject_has_alternativeID', {
                 }),
+
                 queryInterface.createTable('digitalObject_has_event', {
                 }),
+
                 queryInterface.createTable('digitalObject_has_objectFile', {
                 }),
+
                 queryInterface.createTable('digitalObject_isCompatibleWith_computingEnvironment', {
                 }),
+
                 queryInterface.createTable('digitalObjectFile_has_objectFileOperation', {
                 }),
 
                 queryInterface.createTable('displayDevice', {
                 }),
+
 				queryInterface.createTable('displayDevice_has_colorDepth', {
 				}),
+
 				queryInterface.createTable('displayDevice_has_displayInterface', {
 				}),
+
 				queryInterface.createTable('displayDevice_has_displayResolution', {
 				}),
+
 				queryInterface.createTable('displayDevice_has_driverSoftware', {
 				}),
 
@@ -519,197 +1031,271 @@ module.exports = {
 
 				queryInterface.createTable('fileExtension', {
 				}),
+
 				queryInterface.createTable('fileFormat', {
 				}),
+
 				queryInterface.createTable('fileFormat_has_fileExtension', {
 				}),
+
 				queryInterface.createTable('fileSystem', {
 				}),
+
 				queryInterface.createTable('formatImplementation', {
 				}),
+
 				queryInterface.createTable('formatImplementation_includes_fileFormat', {
 				}),
+
 				queryInterface.createTable('formatOperation', {
 				}),
 
 				queryInterface.createTable('gpuDevice', {
 				}),
+
 				queryInterface.createTable('gpuDevice_has_displayInterface', {
 				}),
+
 				queryInterface.createTable('gpuDevice_has_driverSoftware', {
 				}),
+
 				queryInterface.createTable('gpuDevice_has_machineInterface', {
 				}),
 
 				queryInterface.createTable('keyboardDevice', {
 				}),
+
 				queryInterface.createTable('keyboardDevice_has_driverSoftware', {
 				}),
+
 				queryInterface.createTable('keyboardDevice_has_language', {
 				}),
+
 				queryInterface.createTable('keyboardDevice_has_machineInterfaceID', {
 				}),
+
 				queryInterface.createTable('keyboardLayout', {
 				}),
+
 				queryInterface.createTable('machineType', {
 				}),
+
 				queryInterface.createTable('mountFormat', {
 				}),
+
 				queryInterface.createTable('networkDevice', {
 				}),
+
 				queryInterface.createTable('networkDevice_has_driverSoftware', {
 				}),
+
 				queryInterface.createTable('networkDevice_has_machineInterface', {
 				}),
+
 				queryInterface.createTable('networkService', {
 				}),
 
 				queryInterface.createTable('objectEnvironment', {
 				}),
+
 				queryInterface.createTable('objectEnvironment_has_event', {
 				}),
+
 				queryInterface.createTable('objectFileOperation', {
 				}),
 
 				queryInterface.createTable('osVersion', {
 				}),
+
 				queryInterface.createTable('osVersion_colorDepthSettings', {
 				}),
+
 				queryInterface.createTable('osVersion_displayResolutionSettings', {
 				}),
+
 				queryInterface.createTable('osVersion_has_alternateID', {
 				}),
+
 				queryInterface.createTable('osVersion_has_developer', {
 				}),
+
 				queryInterface.createTable('osVersion_has_programmingLanguage', {
 				}),
+
 				queryInterface.createTable('osVersion_has_softwareLicense', {
 				}),
+
 				queryInterface.createTable('osVersion_includes_softwareVersion', {
 				}),
+
 				queryInterface.createTable('osVersion_isCompatibleWith_configuredMachine', {
 				}),
 
 				queryInterface.createTable('osVersion_keyboardLanguageSettings', {
 				}),
+
 				queryInterface.createTable('osVersion_keyboardLayoutSettings', {
 				}),
+
 				queryInterface.createTable('osVersion_keyboardSettings', {
 				}),
 
 				queryInterface.createTable('osVersion_languageSettings', {
 				}),
+
 				queryInterface.createTable('osVersion_regionSettings', {
 				}),
+
 				queryInterface.createTable('osVersion_timezoneSettings', {
 				}),
 
 				queryInterface.createTable('pointerDevice', {
 				}),
+
 				queryInterface.createTable('pointerDevice_has_driverSoftware', {
 				}),
+
 				queryInterface.createTable('pointerDevice_has_machineInterface', {
 				}),
+
 				queryInterface.createTable('pointerDeviceType', {
 				}),
 
 				queryInterface.createTable('programmingLanguage', {
 				}),
+
 				queryInterface.createTable('readWriteStatus', {
 				}),
+
 				queryInterface.createTable('region', {
 				}),
+
 				queryInterface.createTable('softwareEnvironment', {
 				}),
+
 				queryInterface.createTable('softwareEnvironment_has_diskImage', {
 				}),
+
 				queryInterface.createTable('softwareEnvironment_hasPart_configuredSoftware', {
 				}),
+
 				queryInterface.createTable('softwareFamily_hasPart_softwareProduct', {
 				}),
+
 				queryInterface.createTable('softwareFamilyVersion_hasPart_softwareVersion', {
 				}),
+
 				queryInterface.createTable('softwareLicense', {
 				}),
+
 				queryInterface.createTable('softwareObject', {
 				}),
+
 				queryInterface.createTable('softwareObject_has_alternateID', {
 				}),
+
 				queryInterface.createTable('softwareObject_has_event', {
 				}),
+
 				queryInterface.createTable('softwareObject_has_objectFile', {
 				}),
+
 				queryInterface.createTable('softwareObject_isManifestationOf_osVersion', {
 				}),
+
 				queryInterface.createTable('softwareObject_isManifestationOf_softwareVersion', {
 				}),
+
 				queryInterface.createTable('softwareObjectFile_has_objectFileOperation', {
 				}),
-
 
 				queryInterface.createTable('softwareProduct', {
 				}),
 
 				queryInterface.createTable('softwareProduct_has_alternateName', {
 				}),
+
 				queryInterface.createTable('softwareProduct_has_softwareType', {
 				}),
+
 				queryInterface.createTable('softwareType', {
 				}),
+
 				queryInterface.createTable('softwareVersion', {
 				}),
+
 				queryInterface.createTable('softwareVersion_has_alternateID', {
 				}),
+
 				queryInterface.createTable('softwareVersion_has_developer', {
 				}),
+
 				queryInterface.createTable('softwareVersion_has_formatImplementation', {
 				}),
+
 				queryInterface.createTable('softwareVersion_has_programmingLanguage', {
 				}),
+
 				queryInterface.createTable('softwareVersion_has_softwareLicense', {
 				}),
+
 				queryInterface.createTable('softwareVersion_isCompatibleWith_computingEnvironment', {
 				}),
+
 				queryInterface.createTable('softwareVersion_languageSettings', {
 				}),
 
-
 				queryInterface.createTable('storageDevice', {
 				}),
+
 				queryInterface.createTable('storageDevice_has_driverSoftware', {
 				}),
+
 				queryInterface.createTable('storageDevice_has_machineInterface', {
 				}),
+
 				queryInterface.createTable('storageDeviceType', {
 				}),
 
-
 				queryInterface.createTable('systemRequirements', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_audioDevice', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_cpuArchitecture', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_gpuDevice', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_machineType', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_osVersion', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_pointerDeviceType', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_softwareVersion', {
 				}),
+
 				queryInterface.createTable('systemRequirements_includes_storageDeviceType', {
 				}),
+
 				queryInterface.createTable('timezone', {
 				}),
+
 				queryInterface.createTable('timezone_has_timezoneName', {
 				}),
+
 				queryInterface.createTable('timezoneName', {
 				}),
+
 				queryInterface.createTable('userInformation', {
 				}),
+
 				queryInterface.createTable('user', {
 				}),
             ]

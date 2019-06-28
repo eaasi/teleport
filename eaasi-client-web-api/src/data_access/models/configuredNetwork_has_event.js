@@ -21,6 +21,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
-    tableName: 'configuredNetwork_hasEvent'
+    tableName: 'configuredNetwork_has_event'
   });
 };

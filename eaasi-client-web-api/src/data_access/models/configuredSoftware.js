@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'digitalObjectID'
       }
     },
-    manifestaionOf_softwareVersion: {
+    manifestationOf_softwareVersion: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
