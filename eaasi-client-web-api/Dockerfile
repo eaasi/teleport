@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . ./
 
-RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations
+RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations pg
 
 RUN apk update
 
