@@ -1319,36 +1319,290 @@ module.exports = {
 				}),
 
 				queryInterface.createTable('displayDevice_has_displayInterface', {
+					displayDevice_displayDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayDevice',
+							key: 'displayDeviceID'
+						}
+					},
+					displayInterface_displayInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('displayDevice_has_displayResolution', {
+					displayDevice_displayDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayDevice',
+							key: 'displayDeviceID'
+						}
+					},
+					availableDisplayResolution: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayResolution',
+							key: 'displayResolutionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('displayDevice_has_driverSoftware', {
+					displayDevice_displayDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayDevice',
+							key: 'displayDeviceID'
+						}
+					},
+					displayDevice_driverSoftwareID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('displayResolution', {
+					displayResolutionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					displayResolutionName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('file', {
+					fileID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					fileLocation: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					fileName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					fileChecksum: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					fileFormat: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'fileFormat',
+							key: 'fileFormatQID'
+						}
+					},
+					fileSize: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('fileExtension', {
+					fileExtensionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					extension: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('fileFormat', {
+					fileFormatQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					fileFormatName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					pronomID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('fileFormat_has_fileExtension', {
+					fileFormat_fileFormatQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						references: {
+							model: 'fileFormat',
+							key: 'fileFormatQID'
+						}
+					},
+					fileExtension_fileExtensionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'fileExtension',
+							key: 'fileExtensionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('fileSystem', {
+					fileSystemQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					fileSystemName: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('formatImplementation', {
+					formatImplementationID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					formatImplementationName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					implementationExtension: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'fileExtension',
+							key: 'fileExtensionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('formatImplementation_includes_fileFormat', {
+					formatImplementation_formatImplementationID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'formatImplementation',
+							key: 'formatImplementationID'
+						}
+					},
+					fileFormat_fileFormatQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						references: {
+							model: 'fileFormat',
+							key: 'fileFormatQID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('formatOperation', {
