@@ -1,35 +1,442 @@
 'use strict';
+import * as DataTypes from "sequelize";
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return Promise.all(
             [
+
                 queryInterface.createTable('alternateName', {
+					alternateNameID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					alternateName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
+
                 queryInterface.createTable('audioDevice', {
+					audioDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					audioDeviceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					audioDeviceName: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
+
                 queryInterface.createTable('audioDevice_has_driverSoftware', {
+					storageDevice_storageDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'storageDevice',
+							key: 'storageDeviceID'
+						}
+					},
+					storageDevice_driverSoftwareID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
+
                 queryInterface.createTable('audioDevice_has_machineInterface', {
+					audioDevice_audioDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'audioDevice',
+							key: 'audioDeviceID'
+						}
+					},
+					audioDevice_machineInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
+
                 queryInterface.createTable('audioDevice_has_equivalent', {
+					return sequelize.define('audioDevice_has_equivalent', {
+						audioDevice_audioDeviceID: {
+							type: DataTypes.INTEGER,
+							allowNull: false,
+							references: {
+								model: 'audioDevice',
+								key: 'audioDeviceID'
+							}
+						},
+						audioDevice_equivalentAudioDevice: {
+							type: DataTypes.INTEGER,
+							allowNull: false
+						},
+						createdAt: {
+							type: DataTypes.DATE,
+							allowNull: false
+						},
+						updatedAt: {
+							type: DataTypes.DATE,
+							allowNull: false
+						}
+					}, {
+						tableName: 'audioDevice_hasEquivalent'
+					})
                 }),
+
                 queryInterface.createTable('colorDepth', {
+					colorDepthID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					colorDepthName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					bitDepth: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'colorDepth'
                 }),
+
                 queryInterface.createTable('computingEnvironment', {
+					computingEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					computingEnvironment_hasSourceOrg: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					computingEnvironment_inNetwork: {
+						type: DataTypes.BOOLEAN,
+						allowNull: true
+					},
+					computingEnvironment_configuredNetworkID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredNetwork',
+							key: 'configuredNetworkID'
+						}
+					},
+					computingEnvironment_softwareEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'softwareEnvironment',
+							key: 'softwareEnvironmentID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'computingEnvironment'
                 }),
+
                 queryInterface.createTable('computingEnvironment_has_event', {
+					computingEnvironment_computingEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'computingEnvironment',
+							key: 'computingEnvironmentID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'computingEnvironment_has_event'
                 }),
+
                 queryInterface.createTable('configuredAudioDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					configuredAudioDevice_audioDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'audioDevice',
+							key: 'audioDeviceID'
+						}
+					},
+					configuredAudioDevice_irq: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					configuredAudioDevice_usesMachineInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredAudioDevice'
                 }),
+
                 queryInterface.createTable('configuredGpuDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					configuredGpuDevice_gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'gpuDevice',
+							key: 'gpuDeviceID'
+						}
+					},
+					configuredGpuDevice_memoryBytes: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					configuredGpuDevice_irq: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					configuredGpuDevice_usesMachineInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredGpuDevice'
                 }),
+
                 queryInterface.createTable('configuredGpuDevice_has_displayDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					configuredGpuDevice_gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredGpuDevice',
+							key: 'configuredGpuDevice_gpuDeviceID'
+						}
+					},
+					configuredGpuDevice_displayDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayDevice',
+							key: 'displayDeviceID'
+						}
+					},
+					displayDevice_usesDisplayInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredGpuDevice_has_displayDevice'
                 }),
+
                 queryInterface.createTable('configuredKeyboardDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					configuredKeyboardDevice_keyboardDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'keyboardDevice',
+							key: 'keyboardDeviceID'
+						}
+					},
+					configuredKeyboardDevice_usesMachineInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredKeyboardDevice'
                 }),
+
                 queryInterface.createTable('configuredMachine', {
+					configuredMachineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					configuredMachineName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					configuredMachineDescription: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					configuredMachineDateTime: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					configuredMachineType: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'machineType',
+							key: 'machineTypeID'
+						}
+					},
+					configuredMachineRamBytes: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					configuredMachineArchitecture: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'cpuArchitecture',
+							key: 'cpuArchitectureQID'
+						}
+					},
+					configuredMachineCpuCores: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					configuredMachine_emulatorSoftwareID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}, {
+					tableName: 'configuredMachine'
                 }),
+
                 queryInterface.createTable('configuredMachine_has_event', {
+
                 }),
 
                 queryInterface.createTable('configuredNetwork', {

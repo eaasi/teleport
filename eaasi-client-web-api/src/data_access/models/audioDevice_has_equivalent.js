@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('audioDevice_hasEquivalent', {
+  return sequelize.define('audioDevice_has_equivalent', {
     audioDevice_audioDeviceID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -21,6 +21,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
-    tableName: 'audioDevice_hasEquivalent'
+    tableName: 'audioDevice_has_equivalent'
   });
 };
