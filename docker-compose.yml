@@ -30,7 +30,7 @@ services:
         environment:
             - API_DATABASE_URL=eaasi-database:5432
         command: >
-            bash -c "./wait-for-it.sh eaasi-database:5432 -- runmigration && npm run dev"
+            bash -c "./wait-for-it.sh eaasi-database:5432 -- runmigration && npm run prod"
 
 volumes:
     eaasi_db:
