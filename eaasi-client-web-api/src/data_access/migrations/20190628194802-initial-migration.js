@@ -102,32 +102,28 @@ module.exports = {
 					}
                 }),
 
-                queryInterface.createTable('audioDevice_has_equivalent', {
-					return sequelize.define('audioDevice_has_equivalent', {
-						audioDevice_audioDeviceID: {
-							type: DataTypes.INTEGER,
-							allowNull: false,
-							references: {
-								model: 'audioDevice',
-								key: 'audioDeviceID'
-							}
-						},
-						audioDevice_equivalentAudioDevice: {
-							type: DataTypes.INTEGER,
-							allowNull: false
-						},
-						createdAt: {
-							type: DataTypes.DATE,
-							allowNull: false
-						},
-						updatedAt: {
-							type: DataTypes.DATE,
-							allowNull: false
+				queryInterface.createTable('audioDevice_has_equivalent', {
+					audioDevice_audioDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'audioDevice',
+							key: 'audioDeviceID'
 						}
-					}, {
-						tableName: 'audioDevice_hasEquivalent'
-					})
-                }),
+					},
+					audioDevice_equivalentAudioDevice: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}),
 
                 queryInterface.createTable('colorDepth', {
 					colorDepthID: {
@@ -152,8 +148,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'colorDepth'
                 }),
 
                 queryInterface.createTable('computingEnvironment', {
@@ -195,8 +189,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'computingEnvironment'
                 }),
 
                 queryInterface.createTable('computingEnvironment_has_event', {
@@ -220,8 +212,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'computingEnvironment_has_event'
                 }),
 
                 queryInterface.createTable('configuredAudioDevice', {
@@ -257,8 +247,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredAudioDevice'
                 }),
 
                 queryInterface.createTable('configuredGpuDevice', {
@@ -298,8 +286,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredGpuDevice'
                 }),
 
                 queryInterface.createTable('configuredGpuDevice_has_displayDevice', {
@@ -335,8 +321,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredGpuDevice_has_displayDevice'
                 }),
 
                 queryInterface.createTable('configuredKeyboardDevice', {
@@ -368,8 +352,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredKeyboardDevice'
                 }),
 
                 queryInterface.createTable('configuredMachine', {
@@ -431,8 +413,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredMachine'
                 }),
 
                 queryInterface.createTable('configuredMachine_has_event', {
@@ -456,8 +436,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredMachine_has_event'
                 }),
 
                 queryInterface.createTable('configuredNetwork', {
@@ -483,8 +461,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetwork'
                 }),
 
                 queryInterface.createTable('configuredNetwork_emulatesNetworkService', {
@@ -516,8 +492,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetwork_emulatesNetworkService'
                 }),
 
                 queryInterface.createTable('configuredNetwork_has_configuredMachine', {
@@ -553,8 +527,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetwork_has_configuredMachine'
                 }),
 
                 queryInterface.createTable('configuredNetwork_has_event', {
@@ -578,8 +550,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetwork_has_event'
                 }),
 
                 queryInterface.createTable('configuredNetworkDevice', {
@@ -615,8 +585,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetworkDevice'
                 }),
 
                 queryInterface.createTable('configuredNetworkMachine_expectedNetworkService', {
@@ -652,8 +620,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetworkMachine_expectedNetworkService'
                 }),
 
                 queryInterface.createTable('configuredNetworkMachine_providesNetworkService', {
@@ -689,8 +655,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredNetworkMachine_providesNetworkService'
                 }),
 
                 queryInterface.createTable('configuredOS', {
@@ -756,8 +720,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredOS'
                 }),
 
                 queryInterface.createTable('configuredOS_has_event', {
@@ -781,8 +743,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredOS_has_event'
                 }),
 
                 queryInterface.createTable('configuredOS_has_formatOperation', {
@@ -818,8 +778,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredOS_has_formatOperation'
                 }),
 
                 queryInterface.createTable('configuredOS_has_userInformation', {
@@ -847,8 +805,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredOS_has_userInformation'
                 }),
 
                 queryInterface.createTable('configuredOS_language', {
@@ -876,8 +832,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredOS_language'
                 }),
 
                 queryInterface.createTable('configuredPointerDevice', {
@@ -909,8 +863,6 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredPointerDevice'
                 }),
 
                 queryInterface.createTable('configuredSoftware', {
@@ -968,50 +920,402 @@ module.exports = {
 						type: DataTypes.DATE,
 						allowNull: false
 					}
-				}, {
-					tableName: 'configuredSoftware'
                 }),
 
                 queryInterface.createTable('configuredSoftware_has_event', {
+					configuredSoftware_configuredSoftwareManifestationID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredSoftware',
+							key: 'configuredSoftwareVersionID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('configuredSoftware_has_userInformation', {
+					configuredSoftware_configuredSoftwareManifestationID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredSoftware',
+							key: 'configuredSoftwareVersionID'
+						}
+					},
+					userInformation_userInformationID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'userInformation',
+							key: 'userInformationID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('configuredSoftware_uses_formatImplementation', {
+					configuredSoftware_configuredSoftwareManifestationID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredSoftware',
+							key: 'configuredSoftwareVersionID'
+						}
+					},
+					configuredSoftware_formatImplementation: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'formatImplementation',
+							key: 'formatImplementationID'
+						}
+					},
+					configuredFormatOperation: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'formatOperation',
+							key: 'operationID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('configuredStorageDevice', {
+					configuredMachine_machineID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					configureStorageDevice_storageDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'storageDevice',
+							key: 'storageDeviceID'
+						}
+					},
+					configuredStorageDevice_usesMachineInterface: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					configuredStorageDevice_idBootOrder: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('cpuArchitecture', {
+					cpuArchitectureQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					cpuArchitectureName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('developer', {
+					developerQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					developerName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('digitalObject', {
+					digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					digitalObjectName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					digitalObjectDescription: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					digitalObjectProductKey: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					digitalObjectHelpText: {
+						type: DataTypes.TEXT,
+						allowNull: true
+					},
+					digitalObjectSystemRequirements: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('digitalObject_has_alternativeID', {
+					digitalObject_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'digitalObject',
+							key: 'digitalObjectID'
+						}
+					},
+					alternativeID_alternativeID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('digitalObject_has_event', {
+					digitalObject_digialObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'digitalObject',
+							key: 'digitalObjectID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('digitalObject_has_objectFile', {
+					digitalObject_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'digitalObject',
+							key: 'digitalObjectID'
+						}
+					},
+					digitalObjectFileID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'file',
+							key: 'fileID'
+						}
+					},
+					digitalObjectFileLabel: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					digitalObjectFile_usesMountFormat: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'mountFormat',
+							key: 'mountFormatQID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('digitalObject_isCompatibleWith_computingEnvironment', {
+					digitalObject_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'digitalObject',
+							key: 'digitalObjectID'
+						}
+					},
+					compatibleComputingEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'computingEnvironment',
+							key: 'computingEnvironmentID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('digitalObjectFile_has_objectFileOperation', {
+					digitalObjectFile_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					digitalObjectFile_fileID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'digitalObject_has_objectFile',
+							key: 'digitalObjectFileID'
+						}
+					},
+					digitalObjectFile_operationID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'objectFileOperation',
+							key: 'operationID'
+						}
+					},
+					digitalObjectFile_operationOrder: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
                 queryInterface.createTable('displayDevice', {
+					displayDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					displayDeviceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					displayDeviceName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
                 }),
 
 				queryInterface.createTable('displayDevice_has_colorDepth', {
+					displayDevice_displayDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayDevice',
+							key: 'displayDeviceID'
+						}
+					},
+					colorDepth_colorDepthID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'colorDepth',
+							key: 'colorDepthID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('displayDevice_has_displayInterface', {
