@@ -17,6 +17,3 @@ RUN ["chmod", "+x", "./wait-for-it.sh"]
 RUN npm install
 
 EXPOSE 8081
-
-# RUN ["./wait-for-it.sh", "eaasi-database:5432", "--timeout=15", "--strict", "--", "runmigration"]
-# RUN ["npm", "start"]

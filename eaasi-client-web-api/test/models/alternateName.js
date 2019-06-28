@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import alternateName from '../../models/alternateName';
+import alternateName from '../../src/data_access/models/alternateName';
 
 import factories from '../factories';
 import truncate from '../truncate';

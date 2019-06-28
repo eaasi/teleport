@@ -1,6 +1,6 @@
 'use strict';
 
-var Sequelize = require('sequelize');
+var Sequelize = require('sequelize/types');
 
 /**
  * Actions summary:

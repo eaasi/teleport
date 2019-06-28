@@ -1,5 +1,5 @@
 import faker from 'faker';
-import models from '../../models';
+import models from '../../src/data_access/models';
 
 /**
  * Generate an object which contains attributes needed
