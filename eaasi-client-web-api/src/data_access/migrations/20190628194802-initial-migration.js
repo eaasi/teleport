@@ -2656,33 +2656,319 @@ module.exports = {
 				}),
 
 				queryInterface.createTable('programmingLanguage', {
+					programmingLanguageQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					programmingLanguageName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('readWriteStatus', {
+					readWriteStatusID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					readWriteStatusName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('region', {
+					regionQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					regionName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					iso31661_numericCode: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareEnvironment', {
+					softwareEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					softwareEnvironmentName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					softwareEnvironmentDescription: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					softwareEnvironmentHelpText: {
+						type: DataTypes.TEXT,
+						allowNull: true
+					},
+					derivedFrom_softwareEnvironment: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'softwareEnvironment',
+							key: 'softwareEnvironmentID'
+						}
+					},
+					softwareEnvironment_hasPart_configuredOS: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredOS',
+							key: 'configuredOperatingSystemID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareEnvironment_has_diskImage', {
+					softwareEnvironment_softwareEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareEnvironment',
+							key: 'softwareEnvironmentID'
+						}
+					},
+					diskImageID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					mountPoint: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					fileSystem: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'fileSystem',
+							key: 'fileSystemQID'
+						}
+					},
+					storageCapacityBytes: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					storageUsedBytes: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					storageRemainingBytes: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
+
+				queryInterface.createTable('softwareEnvironment_has_event', {
+					softwareEnvironment_softwareEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareEnvironment',
+							key: 'softwareEnvironmentID'
+						}
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}),
+
+
 				queryInterface.createTable('softwareEnvironment_hasPart_configuredSoftware', {
+					softwareEnvironment_softwareEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareEnvironment',
+							key: 'softwareEnvironmentID'
+						}
+					},
+					hasConfiguredSoftware: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'configuredSoftware',
+							key: 'configuredSoftwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareFamily_hasPart_softwareProduct', {
+					softwareFamilyId: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareProduct',
+							key: 'softwareProductID'
+						}
+					},
+					hasPart_softwareProduct: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareProduct',
+							key: 'softwareProductID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareFamilyVersion_hasPart_softwareVersion', {
+					softwareFamilyVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					hasPart_softwareVersion: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareLicense', {
+					softwareLicenseQID: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					softwareLicenseName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareObject', {
+					softwareObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					softwareObject_inNetwork: {
+						type: DataTypes.BOOLEAN,
+						allowNull: false,
+						defaultValue: false
+					},
+					softwareObject_hasSourceOrg: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					softwareObjectProductKey: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					softwareObjectHelpText: {
+						type: DataTypes.TEXT,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('softwareObject_has_alternateID', {
