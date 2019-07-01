@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('softwareVersion_isCompatibleWith_computingEnvironment', {
-    sofwareVersion_softwareVersionID: {
+    softwareVersion_softwareVersionID: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
