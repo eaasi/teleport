@@ -1940,78 +1940,719 @@ module.exports = {
 				}),
 
 				queryInterface.createTable('networkDevice_has_driverSoftware', {
+					networkDevice_networkDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'networkDevice',
+							key: 'networkDeviceID'
+						}
+					},
+					driverSoftware_driverSoftware: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('networkDevice_has_machineInterface', {
+					networkDevice_networkDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'networkDevice',
+							key: 'networkDeviceID'
+						}
+					},
+					networkDevice_machineInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('networkService', {
+					networkServiceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					networkServiceName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					networkServiceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					defaultPort: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					defaultPortRange: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('objectEnvironment', {
+					objectEnvironment_objectEnvironment_computingEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'computingEnvironment',
+							key: 'computingEnvironmentID'
+						}
+					},
+					objectEnvironment_objectEnvironment_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'digitalObject',
+							key: 'digitalObjectID'
+						}
+					},
+					objectEnvironment_concurrentInstances: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					objectEnvironmentName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					objectEnvironmentDescription: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					objectEnvironmentHelpText: {
+						type: DataTypes.TEXT,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('objectEnvironment_has_event', {
+					objectEnvironment_objectEnvironment_computingEnvironmentID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'objectEnvironment',
+							key: 'objectEnvironment_objectEnvironment_computingEnvironmentID'
+						}
+					},
+					objectEnvironment_objectEnvironment_digitalObjectID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					event_eventID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('objectFileOperation', {
+					operationID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true
+					},
+					operationName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion', {
+					osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					osVersionQID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					osVersionName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					osVersionDescription: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					osVersionNumber: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					osVersionPublicationDate: {
+						type: DataTypes.DATE,
+						allowNull: true
+					},
+					osVersionSystemRequirements: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					isVersionOf_osProduct: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_colorDepthSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_colorDepthID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'colorDepth',
+							key: 'colorDepthID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_displayResolutionSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_displayResolutionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'displayResolution',
+							key: 'displayResolutionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_has_alternateID', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_alternativeID: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_has_developer', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_developerQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						references: {
+							model: 'developer',
+							key: 'developerQID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_has_programmingLanguage', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_programmingLanguageQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						references: {
+							model: 'programmingLanguage',
+							key: 'programmingLanguageQID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_has_softwareLicense', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_softwareLicenseQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						references: {
+							model: 'softwareLicense',
+							key: 'softwareLicenseQID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_includes_softwareVersion', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_softwareVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_isCompatibleWith_configuredMachine', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					compatibleMachineID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'configuredMachine',
+							key: 'configuredMachineID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_keyboardLanguageSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_keyboardLanguageQID: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_keyboardLayoutSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_keyboardLayoutQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						references: {
+							model: 'keyboardLayout',
+							key: 'keyboardLayoutQID'
+						}
+					},
+					osVersion_keyboardLayoutName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
-				queryInterface.createTable('osVersion_keyboardSettings', {
+				queryInterface.createTable('osVersion_keyboardSetting', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_keyboardSettingLanguage: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					osVersion_keyboardSettingLayout: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'keyboardLayout',
+							key: 'keyboardLayoutQID'
+						}
+					},
+					osVersion_keyboardSettingName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_languageSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						defaultValue: 'nextval(os_version_language_settings_id_seq::regclass)',
+						primaryKey: true,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_languageQID: {
+						type: DataTypes.INTEGER,
+						allowNull: true
+					},
+					osVersion_DefaultLanguage: {
+						type: DataTypes.BOOLEAN,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_regionSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_regionQID: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'region',
+							key: 'regionQID'
+						}
+					},
+					osVersion_defaultRegion: {
+						type: DataTypes.BOOLEAN,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('osVersion_timezoneSettings', {
+					osVersion_osVersionID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'osVersion',
+							key: 'osVersionID'
+						}
+					},
+					osVersion_timezoneQID: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'timezone',
+							key: 'timezoneQID'
+						}
+					},
+					osVersion_timezoneName: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('pointerDevice', {
+					pointerDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					pointerDeviceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					pointerDeviceName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					pointerDeviceType: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'pointerDeviceType',
+							key: 'pointerDeviceTypeID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('pointerDevice_has_driverSoftware', {
+					pointerDevice_pointerDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'pointerDevice',
+							key: 'pointerDeviceID'
+						}
+					},
+					pointerDevice_driverSoftwareID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('pointerDevice_has_machineInterface', {
+					pointerDevice_pointerDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'pointerDevice',
+							key: 'pointerDeviceID'
+						}
+					},
+					pointerDevice_machineInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('pointerDeviceType', {
+					pointerDeviceTypeID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					pointerDeviceTypeName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					pointerDeviceTypeQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('programmingLanguage', {
