@@ -1606,42 +1606,337 @@ module.exports = {
 				}),
 
 				queryInterface.createTable('formatOperation', {
+					operationID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					operationName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('gpuDevice', {
+					gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					gpuDeviceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					gpuDeviceName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('gpuDevice_has_displayInterface', {
+					gpuDevice_gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'gpuDevice',
+							key: 'gpuDeviceID'
+						}
+					},
+					displayInterface_displayInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('gpuDevice_has_driverSoftware', {
+					gpuDevice_gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'gpuDevice',
+							key: 'gpuDeviceID'
+						}
+					},
+					gpuDevice_driverSoftwareID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('gpuDevice_has_machineInterface', {
+					gpuDevice_gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'gpuDevice',
+							key: 'gpuDeviceID'
+						}
+					},
+					gpuDevice_machineInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
+				}),
+
+				queryInterface.createTable('gpuDevice_has_Equivalent', {
+					gpuDevice_gpuDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'gpuDevice',
+							key: 'gpuDeviceID'
+						}
+					},
+					gpuDevice_equivalentGpuDevice: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('keyboardDevice', {
+					keyboardDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					keyboardDeviceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					keyboardDeviceName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					keyboardDevice_keyboardLayout: {
+						type: DataTypes.STRING,
+						allowNull: true,
+						references: {
+							model: 'keyboardLayout',
+							key: 'keyboardLayoutQID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('keyboardDevice_has_driverSoftware', {
+					keyboardDevice_keyboardDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: true,
+						references: {
+							model: 'keyboardDevice',
+							key: 'keyboardDeviceID'
+						}
+					},
+					keyboardDevice_driverSoftware: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'softwareVersion',
+							key: 'softwareVersionID'
+						}
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('keyboardDevice_has_language', {
+					keyboardDevice_keyboardDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'keyboardDevice',
+							key: 'keyboardDeviceID'
+						}
+					},
+					keyboardDevice_languageQID: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('keyboardDevice_has_machineInterfaceID', {
+					keyboardDevice_keyboardDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						references: {
+							model: 'keyboardDevice',
+							key: 'keyboardDeviceID'
+						}
+					},
+					keyboardDevice_machineInterfaceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('keyboardLayout', {
+					keyboardLayoutQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					keyboardLayoutName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('machineType', {
+					machineTypeID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					machineTypeName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('mountFormat', {
+					mountFormatQID: {
+						type: DataTypes.STRING,
+						allowNull: false,
+						primaryKey: true
+					},
+					mountFormatName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('networkDevice', {
+					networkDeviceID: {
+						type: DataTypes.INTEGER,
+						allowNull: false,
+						primaryKey: true,
+						autoIncrement: true
+					},
+					networkDeviceQID: {
+						type: DataTypes.STRING,
+						allowNull: true
+					},
+					networkDeviceName: {
+						type: DataTypes.STRING,
+						allowNull: false
+					},
+					createdAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					},
+					updatedAt: {
+						type: DataTypes.DATE,
+						allowNull: false
+					}
 				}),
 
 				queryInterface.createTable('networkDevice_has_driverSoftware', {
