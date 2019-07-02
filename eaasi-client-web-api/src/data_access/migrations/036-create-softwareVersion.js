@@ -3,7 +3,7 @@ const Sq = require('sequelize');
 'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements', {
+		return queryInterface.createTable('softwareVersion', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersionID: {
