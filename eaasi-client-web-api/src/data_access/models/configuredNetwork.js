@@ -1,28 +1,27 @@
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('configuredNetwork', {
-    configuredNetworkID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    configuredNetworkName: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    configuredNetworkDescription: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  }, {
-    tableName: 'configuredNetwork'
-  });
+'use strict';
+
+const Sequelize = require('sequelize');
+
+export default class ConfiguredNetwork extends Sequelize.Model {
+	static init(sequelize) {
+		return super.init({
+			configuredNetworkID: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			configuredNetworkName: {
+				type: Sequelize.STRING,
+				allowNull: true
+			},
+			configuredNetworkDescription: {
+				type: Sequelize.STRING,
+				allowNull: true
+			}
+		}, { sequelize, tableName: 'configuredNetwork' });
+	};
+
+	static associate(models) {
+	}
 };

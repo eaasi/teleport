@@ -1,7 +1,7 @@
 
-const sequelize = require('../models/index')
+const sequelize = require('../original_models/index')
 
-const AltName = require('../models/alternateName')(sequelize, Sequelize)
+const AltName = require('../original_models/alternateName')(sequelize, Sequelize)
 
 module.exports = {
     getAlternateName: function() {

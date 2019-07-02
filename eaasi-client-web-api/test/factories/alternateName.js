@@ -6,13 +6,13 @@ import models from '../../src/data_access/models';
  * to successfully create an alternateName instance.
  */
 const data = async (props = {}) => {
-    const defaultProps = {
-        email: faker.internet.email(),
-        first_name: faker.name.firstName(),
-        last_name: faker.name.lastName(),
-    };
+	const defaultProps = {
+		email: faker.internet.email(),
+		first_name: faker.name.firstName(),
+		last_name: faker.name.lastName(),
+	};
 
-    return Object.assign({}, defaultProps, props);
+	return Object.assign({}, defaultProps, props);
 };
 
 /**
@@ -23,4 +23,4 @@ const data = async (props = {}) => {
  * @return {Object}       A user instance
  */
 export default async (props = {}) =>
-    models.User.create(await data(props));
+	models.User.create(await data(props));

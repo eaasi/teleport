@@ -1,23 +1,22 @@
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('cpuArchitecture', {
-    cpuArchitectureQID: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true
-    },
-    cpuArchitectureName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  }, {
-    tableName: 'cpuArchitecture'
-  });
-};
+'use strict';
+
+const Sequelize = require('sequelize');
+
+export default class CPUArchitecture extends Sequelize.Model {
+	static init(sequelize) {
+		return super.init({
+			cpuArchitectureQID: {
+				type: Sequelize.STRING,
+				allowNull: false,
+				primaryKey: true
+			},
+			cpuArchitectureName: {
+				type: Sequelize.STRING,
+				allowNull: false
+			}
+		}, { sequelize, tableName: 'configuredNetwork' });
+	};
+
+	static associate(models) {
+	}
+}

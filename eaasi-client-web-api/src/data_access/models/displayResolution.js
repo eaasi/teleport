@@ -1,24 +1,23 @@
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('displayResolution', {
-    displayResolutionID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    displayResolutionName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  }, {
-    tableName: 'displayResolution'
-  });
-};
+'use strict';
+
+const Sequelize = require('sequelize');
+
+export default class DisplayDevice extends Sequelize.Model {
+	static init(sequelize) {
+		return super.init({
+			displayResolutionID: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			displayResolutionName: {
+				type: Sequelize.STRING,
+				allowNull: false
+			}
+		}, { sequelize, tableName: 'displayResolution' });
+	};
+
+	static associate(models) {
+	}
+}

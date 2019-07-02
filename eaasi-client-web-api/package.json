@@ -21,13 +21,21 @@
     "morgan": "~1.9.1",
     "pg": "^7.11.0",
     "rimraf": "^2.6.3",
-    "sequelize": "^5.9.0"
+    "sequelize": "^5.9.0",
+    "sequelize-models": "^1.4.0",
+    "typescript": "^3.4.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.1"
   }
