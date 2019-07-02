@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class Developer extends Sequelize.Model {
+class Developer extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			developerQID: {
@@ -20,3 +20,7 @@ export default class Developer extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	ColorDepth: ColorDepth
+};

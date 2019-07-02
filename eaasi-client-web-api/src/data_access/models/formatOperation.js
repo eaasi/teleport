@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class FormatOperation extends Sequelize.Model {
+class FormatOperation extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			operationID: {
@@ -21,3 +21,7 @@ export default class FormatOperation extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	FormatOperation: FormatOperation
+};

@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class AudioDevice extends Sequelize.Model {
+class AudioDevice extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			audioDeviceID: {
@@ -25,3 +25,7 @@ export default class AudioDevice extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	AudioDevice: AudioDevice
+};

@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class ConfiguredNetwork extends Sequelize.Model {
+class ConfiguredNetwork extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			configuredNetworkID: {
@@ -24,4 +24,8 @@ export default class ConfiguredNetwork extends Sequelize.Model {
 
 	static associate(models) {
 	}
+};
+
+module.exports = {
+	ConfiguredNetwork: ConfiguredNetwork
 };

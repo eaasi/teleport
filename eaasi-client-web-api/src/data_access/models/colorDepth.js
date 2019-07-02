@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class ColorDepth extends Sequelize.Model {
+class ColorDepth extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			colorDepthID: {
@@ -25,3 +25,7 @@ export default class ColorDepth extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	ColorDepth: ColorDepth
+};

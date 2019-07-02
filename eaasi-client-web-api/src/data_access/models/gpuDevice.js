@@ -2,26 +2,30 @@
 
 const Sequelize = require('sequelize');
 
-class AlternateName extends Sequelize.Model {
+class GpuDevice extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
-			alternateNameID: {
+			gpuDeviceID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			alternateName: {
+			gpuDeviceQID: {
 				type: Sequelize.STRING,
-				allowNull: false,
+				allowNull: true
 			},
-		}, { sequelize, tableName: 'alternateName' });
+			gpuDeviceName: {
+				type: Sequelize.STRING,
+				allowNull: false
+			}
+		}, { sequelize, tableName: 'gpuDevice' });
 	};
 
 	static associate(models) {
 	}
-}
+};
 
 module.exports = {
-	AlternateName: AlternateName
+	GpuDevice: GpuDevice
 };

@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class FileSystem extends Sequelize.Model {
+class FileSystem extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			fileSystemQID: {
@@ -20,3 +20,7 @@ export default class FileSystem extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	FileSystem: FileSystem
+};

@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class DisplayDevice extends Sequelize.Model {
+class DisplayDevice extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			displayResolutionID: {
@@ -21,3 +21,7 @@ export default class DisplayDevice extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	ColorDepth: ColorDepth
+};

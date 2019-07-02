@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class FileFormat extends Sequelize.Model {
+class FileFormat extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			fileFormatQID: {
@@ -24,3 +24,7 @@ export default class FileFormat extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	FileFormat: FileFormat
+};

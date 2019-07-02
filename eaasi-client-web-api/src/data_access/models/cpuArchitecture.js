@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class CPUArchitecture extends Sequelize.Model {
+class CpuArchitecture extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			cpuArchitectureQID: {
@@ -20,3 +20,7 @@ export default class CPUArchitecture extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	CpuArchitecture: CpuArchitecture
+};

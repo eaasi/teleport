@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class FileExtension extends Sequelize.Model {
+class FileExtension extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			fileExtensionID: {
@@ -21,3 +21,7 @@ export default class FileExtension extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	FileExtension: FileExtension
+};

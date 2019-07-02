@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-export default class DigitalObject extends Sequelize.Model {
+class DigitalObject extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			digitalObjectID: {
@@ -37,3 +37,7 @@ export default class DigitalObject extends Sequelize.Model {
 	static associate(models) {
 	}
 }
+
+module.exports = {
+	DigitalObject: DigitalObject
+};
