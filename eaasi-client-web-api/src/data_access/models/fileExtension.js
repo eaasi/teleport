@@ -1,18 +1,23 @@
-/* jshint indent: 2 */
+'use strict';
 
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('fileExtension', {
-		fileExtensionID: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		extension: {
-			type: DataTypes.STRING,
-			allowNull: false
-		}
-	}, {
-		tableName: 'fileExtension'
-	});
-};
+const Sequelize = require('sequelize');
+
+export default class FileExtension extends Sequelize.Model {
+	static init(sequelize) {
+		return super.init({
+			fileExtensionID: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			extension: {
+				type: Sequelize.STRING,
+				allowNull: false
+			}
+		}, { sequelize, tableName: 'fileExtension' });
+	};
+
+	static associate(models) {
+	}
+}

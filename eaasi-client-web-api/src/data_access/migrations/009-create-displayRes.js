@@ -2,7 +2,7 @@ const Sq = require('sequelize');
 
 'use strict';
 module.exports = {
-	up: (queryInterface, Sequlize) => {
+	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('displayDevice', {
 			displayResolutionID: {
 				type: Sq.INTEGER,
@@ -16,7 +16,7 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sq) => {
+	down: (queryInterface, Sequelize) => {
 		return queryInterface.dropTable('displayDevice');
 	}
 };

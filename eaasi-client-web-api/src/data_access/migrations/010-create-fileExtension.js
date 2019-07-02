@@ -4,19 +4,15 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('displayDevice', {
-			displayDeviceID: {
+			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			displayDeviceQID: {
+			extension: {
 				type: Sq.STRING,
-				allowNull: true
-			},
-			displayDeviceName: {
-				type: Sq.STRING,
-				allowNull: true
+				allowNull: false
 			}
 		});
 	},
