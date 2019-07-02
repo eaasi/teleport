@@ -3,7 +3,7 @@ const Sq = require('sequelize');
 'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('displayDevice', {
+		return queryInterface.createTable('fileExtension', {
 			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
@@ -17,6 +17,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('displayDevice');
+		return queryInterface.dropTable('fileExtension');
 	}
 };
