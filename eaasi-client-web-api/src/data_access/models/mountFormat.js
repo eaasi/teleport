@@ -14,7 +14,7 @@ class MountFormat extends Sequelize.Model {
 				type: Sequelize.STRING,
 				allowNull: false
 			}
-		}, { sequelize, tableName: 'machineType' });
+		}, { sequelize, tableName: 'mountFormat' });
 	};
 
 	static associate(models) {
@@ -22,5 +22,5 @@ class MountFormat extends Sequelize.Model {
 };
 
 module.exports = {
-	MachineType: MountFormat
+	MountFormat: MountFormat
 };
