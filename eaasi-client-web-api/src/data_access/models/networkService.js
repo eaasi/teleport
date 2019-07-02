@@ -1,54 +1,33 @@
-module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('networkService', {
-		networkServiceID: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		networkServiceName: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
-		networkServiceQID: {
-			type: DataTypes.STRING,
-			allowNull: true
-		},
-		defaultPort: {
-			type: DataTypes.STRING,
-			allowNull: true
-		},
-		defaultPortRange: {
-			type: DataTypes.STRING,
-			allowNull: true
-		}
-	}, {
-		tableName: 'networkService'
-	});
-};
-
 'use strict';
 
 const Sequelize = require('sequelize');
 
-class NetworkDevice extends Sequelize.Model {
+class NetworkService extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
-			networkDeviceID: {
+			networkServiceID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			networkDeviceQID: {
+			networkServiceName: {
+				type: Sequelize.STRING,
+				allowNull: false
+			},
+			networkServiceQID: {
 				type: Sequelize.STRING,
 				allowNull: true
 			},
-			networkDeviceName: {
+			defaultPort: {
 				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: true
+			},
+			defaultPortRange: {
+				type: Sequelize.STRING,
+				allowNull: true
 			}
-		}, { sequelize, tableName: 'networkDevice' });
+		}, { sequelize, tableName: 'networkService' });
 	};
 
 	static associate(models) {
@@ -56,5 +35,5 @@ class NetworkDevice extends Sequelize.Model {
 };
 
 module.exports = {
-	NetworkDevice: NetworkDevice
+	NetworkService: NetworkService
 };
