@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class FileFormat extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			fileFormatQID: {
 				type: Sequelize.STRING,
 				allowNull: false,

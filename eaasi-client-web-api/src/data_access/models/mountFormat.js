@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class MountFormat extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			mountFormatQID: {
 				type: Sequelize.STRING,
 				allowNull: false,

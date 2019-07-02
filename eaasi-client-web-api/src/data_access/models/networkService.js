@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class NetworkService extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			networkServiceID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class SoftwareType extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			softwareTypeQID: {
 				type: Sequelize.STRING,
 				allowNull: false,

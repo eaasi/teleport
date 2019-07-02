@@ -4,6 +4,8 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('fileExtension', {
+			createdAt: Sq.DATE,
+			updatedAt: Sq.DATE,
 			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: false,

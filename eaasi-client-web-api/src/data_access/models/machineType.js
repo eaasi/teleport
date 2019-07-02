@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class MachineType extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			machineTypeID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class ObjectFileOperation extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			operationID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

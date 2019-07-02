@@ -4,6 +4,8 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('developer', {
+			createdAt: Sq.DATE,
+			updatedAt: Sq.DATE,
 			developerQID: {
 				type: Sq.STRING,
 				allowNull: false,

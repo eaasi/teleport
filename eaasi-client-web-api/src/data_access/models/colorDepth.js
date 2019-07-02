@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class ColorDepth extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			colorDepthID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

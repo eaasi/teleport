@@ -4,6 +4,8 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('configuredNetwork', {
+			createdAt: Sq.DATE,
+			updatedAt: Sq.DATE,
 			configuredNetworkID: {
 				type: Sq.INTEGER,
 				allowNull: false,

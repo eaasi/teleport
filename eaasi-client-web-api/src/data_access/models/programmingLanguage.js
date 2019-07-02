@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class ProgrammingLanguage extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			programmingLanguageQID: {
 				type: Sequelize.STRING,
 				allowNull: false,

@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class NetworkDevice extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			networkDeviceID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

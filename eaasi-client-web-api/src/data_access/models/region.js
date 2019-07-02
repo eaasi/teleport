@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class Region extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			regionQID: {
 				type: Sequelize.STRING,
 				allowNull: false,

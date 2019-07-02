@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class AudioDevice extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			audioDeviceID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
@@ -18,7 +20,7 @@ class AudioDevice extends Sequelize.Model {
 			audioDeviceName: {
 				type: Sequelize.INTEGER,
 				allowNull: false
-			}
+			},
 		}, { sequelize, tableName: 'audioDevice' });
 	};
 

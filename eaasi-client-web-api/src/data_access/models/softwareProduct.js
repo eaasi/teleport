@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class SoftwareProduct extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			softwareProductID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,

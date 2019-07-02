@@ -4,6 +4,8 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('pointerDeviceType', {
+			createdAt: Sq.DATE,
+			updatedAt: Sq.DATE,
 			pointerDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: false,

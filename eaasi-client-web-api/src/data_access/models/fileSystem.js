@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 class FileSystem extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
 			fileSystemQID: {
 				type: Sequelize.STRING,
 				allowNull: false,
