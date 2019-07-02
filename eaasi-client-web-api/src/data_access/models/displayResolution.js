@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 
-class DisplayDevice extends Sequelize.Model {
+class DisplayResolution extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			createdAt: Sequelize.DATE,
@@ -25,5 +25,5 @@ class DisplayDevice extends Sequelize.Model {
 }
 
 module.exports = {
-	ColorDepth: ColorDepth
+	DisplayResolution: DisplayResolution
 };
