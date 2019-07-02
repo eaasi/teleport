@@ -6,7 +6,8 @@ module.exports = {
 		return queryInterface.createTable('audioDevice', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			audioDevice_audioDeviceID: {
+			audioDeviceID: {
+				primaryKey: true,
 				type: Sq.INTEGER,
 				allowNull: false,
 			},
