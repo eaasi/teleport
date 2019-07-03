@@ -51,6 +51,12 @@ module.exports = {
 			'alignAttributesVertically': true,
 			'ignores': []
 		}],
+		'vue/html-self-closing': ['warn', {
+			'html': {
+				'normal': 'never',
+				'void': 'always'
+			}
+		}],
 		'vue/max-attributes-per-line': ['error', {
 			'singleline': 4,
 			'multiline': {
