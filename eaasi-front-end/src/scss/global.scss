@@ -10,14 +10,16 @@ html {
 }
 
 html, body {
-	height: 100%;
+	margin: 0;
 	min-width: $minAppWidth;
+	padding: 0;
 	overflow-x: hidden;
 }
 
 body {
-	background-color: #FFF;
-	font-family: $font-main;
+	background-color: #F6F6F6;
+	color: #555;
+	font-family: $font-primary;
 	font-weight: 400;
 	font-size: 1.6rem;
 	overflow: hidden;
@@ -31,10 +33,11 @@ body {
  == Text Ekements
 /============================================================*/
 
-h1,h2,h3,h4 {
+h1, h2, h3, h4 {
 	margin-bottom: 1rem;
 	margin-top: 0;
-	font-family: $font-headlines;
+	font-family: $font-secondary;
+	font-weight: bold;
 }
 
 h1 {
@@ -68,6 +71,7 @@ h4 {
 p {
 	font-size: 1.6rem;
 	line-height: 1.5em;
+	margin: 0;
 	margin-bottom: 1rem;
 	@include mobile() {
 		font-size: 1.4rem;
@@ -83,7 +87,7 @@ ul {
 a {
 	color: $primary-link-color;
 	&:visited, &:active, &:focus, &:hover {
-		color: $primary-link-color;
+		color: inherit;
 	}
 }
 
