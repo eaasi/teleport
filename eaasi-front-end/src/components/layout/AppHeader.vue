@@ -32,15 +32,19 @@ export default Vue.extend({
 
 <style lang="scss">
 #header {
-	background-color: #FBF8F6;
+	background-color: #fbf8f6;
 	height: $headerHeight;
-	outline: solid 1px #D5D5D5;
+	left: 0;
+	outline: solid 1px #d5d5d5;
 	position: fixed;
-	top: 0; right: 0; left: 0;
+	right: 0;
+	top: 0;
 }
+
 #headerLogo {
 	height: $headerHeight;
 	width: $leftSidebarWidth;
+
 	img {
 		width: 6rem;
 	}

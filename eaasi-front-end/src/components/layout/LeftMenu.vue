@@ -4,7 +4,6 @@
 			v-for="item in menuItems"
 			:item="item"
 			:key="item.label"
-			@click="setActiveItem(item)"
 		/>
 	</nav>
 </template>
@@ -14,7 +13,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 import LeftMenuItem from './LeftMenuItem.vue';
-import MenuItem from '../../Navigation';
+import { IMenuItem } from '@/types/Navigation';
 
 @Component({
 	components: {
@@ -23,31 +22,23 @@ import MenuItem from '../../Navigation';
 })
 export default class LeftMenu extends Vue {
 
-	menuItems: Array<MenuItem> = [
+	menuItems: Array<IMenuItem> = [
 		{
 			icon: 'home',
 			label: 'My Dashboard',
-			isActive: true,
-			link: '/dashboard'
+			route: '/dashboard'
 		},
 		{
 			icon: 'clipboard',
 			label: 'Explore Resources',
-			isActive: false,
-			link: '/explore'
+			route: '/explore'
 		},
 		{
 			icon: 'clipboard',
 			label: 'My Resources',
-			isActive: false,
-			link: '/my-resources'
-		},
+			route: '/my-resources'
+		}
 	]
-
-	setActiveItem(item: MenuItem) {
-		this.menuItems.forEach(x => x.isActive = false);
-		item.isActive = true;
-	}
 
 }
 
@@ -58,9 +49,11 @@ export default class LeftMenu extends Vue {
 	background-color: #F6FAFD;
 	border-bottom: solid 1px #D5D5D5;
 	border-right: solid 2px #E3DEDA;
-	position: fixed;
+	bottom: 0;
+	left: 0;
 	margin-top: $headerHeight;
-	top: 0; bottom: 0; left: 0;
+	position: fixed;
+	top: 0;
 	width: $leftSidebarWidth;
 }
 </style>

@@ -13,8 +13,8 @@ export default Vue.extend({
 
 <style lang="scss">
 	#appContent {
-		padding-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
 		min-height: 1200px;
+		padding-left: $leftSidebarWidth;
 	}
 </style>

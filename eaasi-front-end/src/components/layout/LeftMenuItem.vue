@@ -1,36 +1,24 @@
-/* eslint-disable vue/require-default-prop */
-<template>
-	<router-link :to="item.link" class="left-menu-item" active-class="active">
+<template functional>
+	<router-link :to="props.item.route" class="left-menu-item" active-class="active">
 		<div class="left-menu-icon">
-			<i :class="`fa fa-${item.icon}`" />
+			<i :class="`fa fa-${props.item.icon}`"></i>
 		</div>
-		<p class="left-menu-label">
-			{{ item.label }}
+		<p class="small no-mb">
+			{{ props.item.label }}
 		</p>
 	</router-link>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';;
-import MenuItem from '../../Navigation';
+import { IMenuItem } from '@/types/Navigation';
 export default Vue.extend({
 	name: 'LeftMenuItem',
 	props: {
 		item: {
-			type: Object as () => MenuItem,
+			type: Object as () => IMenuItem,
 			required: true
 		}
-	},
-	computed: {
-
-	},
-	data() {
-		return {
-
-		};
-	},
-	methods: {
-
 	}
 });
 </script>
@@ -40,34 +28,36 @@ export default Vue.extend({
 	color: #106393 !important;
 	cursor: pointer;
 	display: block;
-	text-align: center;
 	padding: 1.5rem 1rem;
 	position: relative;
+	text-align: center;
 	text-decoration: none;
 	user-select: none;
+
 	i.fa {
 		font-size: 4rem;
 	}
-	p {
-		font-size: 1.2rem;
-		line-height: 1.5rem;
-		margin-bottom: 0;
-	}
-	&:before {
+
+	&::before {
+		border-left: none;
+		bottom: 0;
 		content: '';
 		display: block;
+		left: 0;
 		position: absolute;
-		top: 0; right: 0; bottom: 0; left: 0;
-		border-left: 0px solid #FFF;
+		right: 0;
+		top: 0;
 		transition: background-color 0.3s, border-left 0.3s;
 	}
+
 	&.active {
-		background-color: #FFF;
-		&:before {
+		background-color: #fff;
+		&::before {
 			border-left: 4px solid #106393;
 		}
 	}
 }
+
 .left-menu-icon {
 	height: 4.5rem;
 }
