@@ -11,7 +11,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
 import LeftMenuItem from './LeftMenuItem.vue';
 import { IMenuItem } from '@/types/Navigation';
 
@@ -47,6 +46,7 @@ export default class LeftMenu extends Vue {
 <style lang="scss">
 .left-menu {
 	background-color: #F6FAFD;
+	border-top: solid 1px #D5D5D5;
 	border-bottom: solid 1px #D5D5D5;
 	border-right: solid 2px #E3DEDA;
 	bottom: 0;

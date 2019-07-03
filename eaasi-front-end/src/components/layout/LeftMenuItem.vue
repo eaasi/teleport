@@ -3,7 +3,7 @@
 		<div class="left-menu-icon">
 			<i :class="`fa fa-${props.item.icon}`"></i>
 		</div>
-		<p class="small no-mb">
+		<p class="txt-sm no-mb">
 			{{ props.item.label }}
 		</p>
 	</router-link>
@@ -33,6 +33,10 @@ export default Vue.extend({
 	text-align: center;
 	text-decoration: none;
 	user-select: none;
+
+	p {
+		text-transform: uppercase;
+	}
 
 	i.fa {
 		font-size: 4rem;
