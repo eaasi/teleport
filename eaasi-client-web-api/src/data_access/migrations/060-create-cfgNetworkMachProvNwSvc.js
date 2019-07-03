@@ -22,14 +22,14 @@ module.exports = {
 					key: 'networkServiceID'
 				}
 			},
-			// configuredNetworkMachine_configuredNetworkID: {
-			// 	type: Sq.INTEGER,
-			// 	allowNull: false,
+			 configuredNetworkMachine_configuredNetworkID: {
+			 	type: Sq.INTEGER,
+			 	allowNull: false,
 			// 	references: {
 			// 		model: 'configuredNetwork_has_configuredMachine',
 			// 		key: 'configuredNetwork_configuredNetworkID'
 			// 	}
-			// },
+			 },
 		});
 	},
 	down: (queryInterface, Sequelize) => {
