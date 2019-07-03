@@ -10,6 +10,12 @@ class ConfiguredGpuDevice extends Sequelize.Model {
 		return super.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
+			configuredGpuDeviceID: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
 			configuredMachine_machineID: {
 				type: Sequelize.INTEGER,
 				allowNull: true,

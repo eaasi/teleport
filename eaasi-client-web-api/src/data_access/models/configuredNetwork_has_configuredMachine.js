@@ -1,5 +1,8 @@
 'use strict';
 
+import {ConfiguredMachine} from './configuredMachine';
+import {ConfiguredNetwork} from './configuredNetwork';
+
 const Sequelize = require('sequelize');
 
 class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {
@@ -9,6 +12,7 @@ class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {
 			updatedAt: Sequelize.DATE,
 			configuredNetwork_configuredNetworkID: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				references: {
 					model: 'configuredNetwork',
@@ -17,6 +21,7 @@ class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {
 			},
 			configuredNetwork_machineID: {
 				type: Sequelize.INTEGER,
+				primaryKey: true,
 				allowNull: false,
 				references: {
 					model: 'configuredMachine',
@@ -35,7 +40,8 @@ class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {
 	};
 
 	static associate(models) {
-		ConfiguredNetworkHasConfiguredMachine.hasOne(ConfiguredNetworkHasConfiguredMachine, {foreignKey: 'configuredNetworkID'});
+		ConfiguredNetworkHasConfiguredMachine.hasOne(ConfiguredMachine, {foreignKey: 'configuredMachineID'});
+		ConfiguredNetworkHasConfiguredMachine.hasOne(ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
 	}
 };
 

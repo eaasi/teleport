@@ -15,7 +15,7 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'configuredGpuDevice',
-					key: 'configuredGpuDevice_gpuDeviceID'
+					key: 'configuredGpuDeviceID'
 				}
 			},
 			configuredGpuDevice_displayDeviceID: {

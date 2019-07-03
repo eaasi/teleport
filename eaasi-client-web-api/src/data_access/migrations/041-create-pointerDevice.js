@@ -8,7 +8,9 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			pointerDeviceID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
 			},
 			pointerDeviceQID: {
 				type: Sq.STRING,

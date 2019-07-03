@@ -10,13 +10,9 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredNetworkMachine_configuredMachineID: {
-				type: Sq.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'configuredNetwork_has_configuredMachine',
-					key: 'configuredNetwork_machineID'
-				}
+			servicePortExpected: {
+				type: Sq.STRING,
+				allowNull: true
 			},
 			configuredNetworkMachine_expectedNetworkServiceID: {
 				type: Sq.INTEGER,
@@ -26,9 +22,13 @@ module.exports = {
 					key: 'networkServiceID'
 				}
 			},
-			servicePortExpected: {
-				type: Sq.STRING,
-				allowNull: true
+			configuredNetworkMachine_configuredMachineID: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				// references: {
+				// 	model: 'configuredNetwork_has_configuredMachine',
+				// 	key: 'configuredNetwork_machineID'
+				// }
 			}
 		});
 	},
@@ -36,3 +36,5 @@ module.exports = {
 		return queryInterface.dropTable('configuredNetworkMachine_expectedNetworkService');
 	}
 };
+
+

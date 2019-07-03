@@ -19,8 +19,8 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'configuredMachine',
-					key: 'configuredMachineID'
-				}
+					key: 'configuredMachineID',
+				},
 			},
 			bootOrder: {
 				type: Sq.INTEGER,

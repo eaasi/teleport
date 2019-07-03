@@ -6,9 +6,15 @@ module.exports = {
 		return queryInterface.createTable('configuredGpuDevice', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
+			configuredGpuDeviceID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
 			configuredMachine_machineID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'configuredMachine',
 					key: 'configuredMachineID'
