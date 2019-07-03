@@ -29,5 +29,5 @@ class DisplayDevice extends Sequelize.Model {
 }
 
 module.exports = {
-	ColorDepth: ColorDepth
+	DisplayDevice: DisplayDevice
 };

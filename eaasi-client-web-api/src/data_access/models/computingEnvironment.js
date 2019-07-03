@@ -44,7 +44,7 @@ class ComputingEnvironment extends Sequelize.Model {
 	};
 
 	static associate(models) {
-		ComputingEnvironment.hasOne(SoftwareEnvironment, {foreignKey: 'softwareEnvironment'});
+		ComputingEnvironment.hasOne(SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
 		ComputingEnvironment.hasOne(ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
 	}
 }
