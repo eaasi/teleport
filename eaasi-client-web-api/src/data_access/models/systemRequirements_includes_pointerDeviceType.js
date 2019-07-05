@@ -1,6 +1,7 @@
 'use strict';
 
 import {PointerDeviceType} from './pointerDeviceType';
+import {SystemRequirements} from './systemRequirements';
 
 const Sequelize = require('sequelize');
 

@@ -36,5 +36,5 @@ class OsVersionRegionSettings extends Sequelize.Model {
 };
 
 module.exports = {
-	OsVersionLanguageSettings:OsVersionRegionSettings
+	OsVersionRegionSettings: OsVersionRegionSettings
 };

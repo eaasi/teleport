@@ -26,7 +26,7 @@ class SystemRequirementsIncludesCpuArchitecture extends Sequelize.Model {
 					key: 'cpuArchitectureQID'
 				}
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		}, { sequelize, tableName: 'systemRequirements_includes_cpuArchitecture' });
 	};
 
 	static associate(models) {

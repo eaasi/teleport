@@ -31,8 +31,8 @@ class SoftwareProductHasAlternateName extends Sequelize.Model {
 	};
 
 	static associate(models) {
-		PointerDevice.hasOne(SoftwareProduct, {foreignKey: 'softwareProductID'});
-		PointerDevice.hasOne(AlternateName, {foreignKey: 'alternateNameID'});
+		SoftwareProductHasAlternateName.hasOne(SoftwareProduct, {foreignKey: 'softwareProductID'});
+		SoftwareProductHasAlternateName.hasOne(AlternateName, {foreignKey: 'alternateNameID'});
 	}
 }
 

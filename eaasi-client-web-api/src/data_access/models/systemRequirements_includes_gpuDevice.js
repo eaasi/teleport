@@ -25,7 +25,7 @@ class SystemRequirementsIncludesGpuDevice extends Sequelize.Model {
 				type: Sequelize.STRING,
 				allowNull: true
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		}, { sequelize, tableName: 'systemRequirements_includes_gpuDevice' });
 	};
 
 	static associate(models) {

@@ -26,7 +26,7 @@ class SystemRequirementsIncludesSoftwareVersion extends Sequelize.Model {
 					key: 'softwareVersionID'
 				}
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		}, { sequelize, tableName: 'systemRequirements_includes_softwareVersion' });
 	};
 
 	static associate(models) {

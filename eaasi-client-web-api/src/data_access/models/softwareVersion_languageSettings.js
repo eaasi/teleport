@@ -1,40 +1,33 @@
-import {OsVersion} from './osVersion';
+import {SoftwareVersion} from './softwareVersion';
 
 const Sequelize = require('sequelize');
 
-class OsVersionRegionSettings extends Sequelize.Model {
+class SoftwareVersionLanguageSettings extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
-			osVersion_osVersionID: {
+			softwareVersion_softwareVersionID: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
+					model: 'softwareVersion',
+					key: 'softwareVersionID'
 				}
 			},
-			osVersion_regionQID: {
+			softwareVersion_languageQID: {
 				type: Sequelize.STRING,
 				allowNull: true,
-				references: {
-					model: 'region',
-					key: 'regionQID'
-				}
 			},
-			osVersion_defaultRegion: {
-				type: Sequelize.BOOLEAN,
-				allowNull: true
-			}
-		}, { sequelize, tableName: 'osVersion_regionSettings' });
+		}, { sequelize, tableName: 'softwareVersion_languageSettings' });
 	};
 
 	static associate(models) {
-		OsVersionRegionSettings.hasOne(OsVersion, {foreignKey: 'osVersionID'});
+		SoftwareVersionLanguageSettings.hasOne(
+			SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	}
 };
 
 module.exports = {
-	OsVersionLanguageSettings:OsVersionRegionSettings
+	SoftwareVersionLanguageSettings: SoftwareVersionLanguageSettings
 };

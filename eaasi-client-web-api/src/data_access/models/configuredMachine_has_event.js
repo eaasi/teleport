@@ -30,5 +30,5 @@ class ConfiguredMachineHasEvent extends Sequelize.Model {
 }
 
 module.exports = {
-	ConfiguredMachine: ConfiguredMachine
+	ConfiguredMachineHasEvent: ConfiguredMachineHasEvent
 };

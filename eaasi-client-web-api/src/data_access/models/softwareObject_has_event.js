@@ -30,5 +30,5 @@ class SoftwareObjectHasEvent extends Sequelize.Model {
 }
 
 module.exports = {
-	SoftwareObject: SoftwareObjectHasEvent
+	SoftwareObjectHasEvent: SoftwareObjectHasEvent
 };

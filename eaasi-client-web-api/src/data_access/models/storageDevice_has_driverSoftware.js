@@ -26,7 +26,7 @@ class StorageDeviceHasDriverSoftware extends Sequelize.Model {
 					key: 'softwareVersionID'
 				}
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		}, { sequelize, tableName: 'storageDevice_has_driverSoftware' });
 	};
 
 	static associate(models) {

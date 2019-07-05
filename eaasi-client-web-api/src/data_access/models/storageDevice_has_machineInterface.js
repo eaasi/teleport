@@ -21,7 +21,7 @@ class StorageDeviceHasMachineInterface extends Sequelize.Model {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		}, { sequelize, tableName: 'storageDevice_has_machineInterface' });
 	};
 
 	static associate(models) {
