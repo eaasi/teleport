@@ -1,5 +1,8 @@
 'use strict';
 
+import {ColorDepth} from './colorDepth';
+import {OsVersion} from './osVersion';
+
 const Sequelize = require('sequelize');
 
 class OsVersionColorDepthSettings extends Sequelize.Model {
@@ -27,6 +30,8 @@ class OsVersionColorDepthSettings extends Sequelize.Model {
 	};
 
 	static associate(models) {
+		OsVersionColorDepthSettings.hasOne(ColorDepth, {foreignKey: 'colorDepthID'});
+		OsVersionColorDepthSettings.hasOne(OsVersion, {foreignKey: 'osVersionID'});
 	}
 };
 
