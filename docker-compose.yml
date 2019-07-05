@@ -32,7 +32,7 @@ services:
         ports:
             - 8081:3000
         command: >
-            bash -c "./wait-for-it.sh eaasi-database:5432 -- runmigration && npm run prod"
+            bash -c "./wait-for-it.sh eaasi-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
 
 volumes:
     eaasi_db:
