@@ -5,8 +5,8 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('keyboardLayout', {
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
+			createdAt: Sq.DATE,
+			updatedAt: Sq.DATE,
 			keyboardLayoutQID: {
 				type: Sq.STRING,
 				allowNull: false,

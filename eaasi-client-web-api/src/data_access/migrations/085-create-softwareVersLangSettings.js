@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersionLanguageSettings', {
+		return queryInterface.createTable('softwareVersion_languageSettings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			osVersion_osVersionID: {
@@ -30,6 +30,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareVersionLanguageSettings');
+		return queryInterface.dropTable('softwareVersion_languageSettings');
 	}
 };

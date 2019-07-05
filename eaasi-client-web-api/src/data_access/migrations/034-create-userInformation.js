@@ -22,7 +22,7 @@ module.exports = {
 				allowNull: true
 			},
 			organization: {
-				type: Sequelize.STRING,
+				type: Sq.STRING,
 				allowNull: true
 			},
 			admin: {

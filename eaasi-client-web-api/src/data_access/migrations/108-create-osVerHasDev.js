@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			osVersion_osVersionID: {
-				type: Sequelize.INTEGER,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'osVersion',
@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			osVersion_developerQID: {
-				type: Sequelize.STRING,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'developer',
