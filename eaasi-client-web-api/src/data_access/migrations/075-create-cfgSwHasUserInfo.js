@@ -1,9 +1,10 @@
+'use strict';
+
 const Sq = require('sequelize');
 
-'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredSoftware_has_userInfo', {
+		return queryInterface.createTable('configuredSoftware_has_userInformation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredSoftware_configuredSoftwareManifestationID: {
@@ -25,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredSoftware_has_userInfo');
+		return queryInterface.dropTable('configuredSoftware_has_userInformation');
 	}
 };

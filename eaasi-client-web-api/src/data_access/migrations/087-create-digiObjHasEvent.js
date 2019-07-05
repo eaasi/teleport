@@ -1,9 +1,10 @@
+'use strict';
+
 const Sq = require('sequelize');
 
-'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('digitalObject_has_Event', {
+		return queryInterface.createTable('digitalObject_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			digitalObject_digitalObjectID: {
@@ -21,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sq) => {
-		return queryInterface.dropTable('digitalObject_has_Event');
+		return queryInterface.dropTable('digitalObject_has_event');
 	}
 };

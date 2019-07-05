@@ -28,7 +28,7 @@ class OsVersionKeyboardLayoutSettings extends Sequelize.Model {
 				type: Sequelize.STRING,
 				allowNull: true
 			}
-		}, { sequelize, tableName: 'osVersion_displayResolutionSettings' });
+		}, { sequelize, tableName: 'osVersion_keyboardLayoutSettings' });
 	};
 
 	static associate(models) {

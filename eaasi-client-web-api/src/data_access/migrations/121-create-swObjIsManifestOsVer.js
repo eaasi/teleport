@@ -1,9 +1,10 @@
+'use strict';
+
 const Sq = require('sequelize');
 
-'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareObject_isManifestationOf_OsVersion', {
+		return queryInterface.createTable('softwareObject_isManifestationOf_osVersion', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareObject_softwareObjectID: {
@@ -25,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareObject_isManifestationOf_OsVersion');
+		return queryInterface.dropTable('softwareObject_isManifestationOf_osVersion');
 	}
 };

@@ -26,7 +26,7 @@ class SoftwareObjectIsManifestationOfOsVersion extends Sequelize.Model {
 					key: 'osVersionID'
 				}
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		}, { sequelize, tableName: 'softwareObject_isManifestationOf_osVersion' });
 	};
 
 	static associate(models) {

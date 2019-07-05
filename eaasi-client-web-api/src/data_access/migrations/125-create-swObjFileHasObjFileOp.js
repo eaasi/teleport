@@ -1,6 +1,7 @@
+'use strict';
+
 const Sq = require('sequelize');
 
-'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('softwareObjectFile_has_objectFileOperation', {
