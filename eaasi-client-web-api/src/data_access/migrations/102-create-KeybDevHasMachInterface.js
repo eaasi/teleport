@@ -24,11 +24,3 @@ module.exports = {
 		return queryInterface.dropTable('keyboardDevice_has_machineInterface');
 	}
 };
-
-
-
-
-
-
-
-

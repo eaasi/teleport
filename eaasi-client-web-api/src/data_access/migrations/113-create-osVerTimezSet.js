@@ -3,7 +3,7 @@ const Sq = require('sequelize');
 'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('osVersion_has_alternateID', {
+		return queryInterface.createTable('osVersion_has_timezoneSettings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			osVersion_osVersionID: {
@@ -14,13 +14,21 @@ module.exports = {
 					key: 'osVersionID'
 				}
 			},
-			osVersion_alternativeID: {
+			osVersion_timezoneQID: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: true,
+				references: {
+					model: 'timezone',
+					key: 'timezoneQID'
+				}
+			},
+			osVersion_timezoneName: {
+				type: Sq.STRING,
+				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('osVersion_has_alternateID');
+		return queryInterface.dropTable('osVersion_has_timezoneSettings');
 	}
 };

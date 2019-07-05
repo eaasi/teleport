@@ -24,5 +24,5 @@ class Developer extends Sequelize.Model {
 }
 
 module.exports = {
-	ColorDepth: ColorDepth
+	Developer: Developer
 };

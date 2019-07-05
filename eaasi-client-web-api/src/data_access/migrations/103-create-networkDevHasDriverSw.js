@@ -28,12 +28,3 @@ module.exports = {
 		return queryInterface.dropTable('networkDevice_has_driverSoftware');
 	}
 };
-
-
-
-
-
-
-
-
-

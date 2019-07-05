@@ -44,14 +44,3 @@ module.exports = {
 		return queryInterface.dropTable('objectEnvironment');
 	}
 };
-
-
-
-
-
-
-
-
-
-
-

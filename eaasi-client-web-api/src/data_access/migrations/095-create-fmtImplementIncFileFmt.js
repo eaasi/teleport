@@ -28,5 +28,3 @@ module.exports = {
 		return queryInterface.dropTable('formatImplementation_includes_fileFormat');
 	}
 };
-
-

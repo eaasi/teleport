@@ -28,7 +28,3 @@ module.exports = {
 		return queryInterface.dropTable('gpuDevice_has_driverSoftware');
 	}
 };
-
-
-
-

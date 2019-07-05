@@ -28,15 +28,3 @@ module.exports = {
 		return queryInterface.dropTable('objectEnvironment_has_event');
 	}
 };
-
-
-
-
-
-
-
-
-
-
-
-

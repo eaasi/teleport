@@ -28,4 +28,3 @@ module.exports = {
 		return queryInterface.dropTable('fileFormat_has_fileExtension');
 	}
 };
-
