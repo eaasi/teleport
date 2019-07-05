@@ -3,7 +3,7 @@ import {KeyboardLayout} from './keyboardLayout';
 
 const Sequelize = require('sequelize');
 
-class OsVersionKeyboardSettings extends Sequelize.Model {
+class OsVersionKeyboardSetting extends Sequelize.Model {
 	static init(sequelize) {
 		return super.init({
 			createdAt: Sequelize.DATE,
@@ -32,15 +32,15 @@ class OsVersionKeyboardSettings extends Sequelize.Model {
 					key: 'keyboardLayoutQID'
 				}
 			}
-		}, { sequelize, tableName: 'osVersion_keyboardSettings' });
+		}, { sequelize, tableName: 'osVersion_keyboardSetting' });
 	};
 
 	static associate(models) {
-		OsVersionKeyboardSettings.hasOne(OsVersion, {foreignKey: 'osVersionID'});
-		OsVersionKeyboardSettings.hasOne(KeyboardLayout, {foreignKey: 'keyboardLayoutQID'});
+		OsVersionKeyboardSetting.hasOne(OsVersion, {foreignKey: 'osVersionID'});
+		OsVersionKeyboardSetting.hasOne(KeyboardLayout, {foreignKey: 'keyboardLayoutQID'});
 	}
 };
 
 module.exports = {
-	OsVersionKeyboardSettings: OsVersionKeyboardSettings
+	OsVersionKeyboardSetting: OsVersionKeyboardSetting
 };
