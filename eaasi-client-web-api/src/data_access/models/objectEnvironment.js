@@ -1,5 +1,8 @@
 'use strict';
 
+import {DigitalObject} from './digitalObject';
+import {ComputingEnvironment} from './computingEnvironment';
+
 const Sequelize = require('sequelize');
 
 class ObjectEnvironment extends Sequelize.Model {
@@ -43,6 +46,8 @@ class ObjectEnvironment extends Sequelize.Model {
 	};
 
 	static associate(models) {
+		ObjectEnvironment.hasOne(DigitalObject, {foreignKey: 'digitalObjectID'});
+		ObjectEnvironment.hasOne(ComputingEnvironment, {foreignKey: 'computingEnvironmentID'});
 	}
 };
 
