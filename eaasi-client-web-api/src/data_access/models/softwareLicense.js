@@ -9,7 +9,8 @@ class SoftwareLicense extends Sequelize.Model {
 			updatedAt: Sequelize.DATE,
 			softwareLicenseQID: {
 				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: false,
+				primaryKey: true,
 			},
 			softwareLicenseName: {
 				type: Sequelize.STRING,

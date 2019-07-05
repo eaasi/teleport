@@ -3,7 +3,7 @@
     "username": "eaasi_dev",
     "password": "eaasi_dev",
     "database": "eaasi_dev",
-    "host": "localhost",
+    "host": "eaasi-database",
     "port": 5432,
     "dialect": "postgres",
     "operatorsAliases": false

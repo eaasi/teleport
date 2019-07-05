@@ -11,7 +11,7 @@ class SoftwareObjectFileHasObjectFileOperation extends Sequelize.Model {
 			updatedAt: Sequelize.DATE,
 			softwareObjectFile_softwareObjectID: {
 				type: Sequelize.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'softwareObject_has_objectFile',
 					key: 'softwareObjectFileID'

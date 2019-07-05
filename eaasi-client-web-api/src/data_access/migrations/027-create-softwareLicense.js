@@ -8,7 +8,8 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			softwareLicenseQID: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: false,
+				primaryKey: true,
 			},
 			softwareLicenseName: {
 				type: Sq.STRING,

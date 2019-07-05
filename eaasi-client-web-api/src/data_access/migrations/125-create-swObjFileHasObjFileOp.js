@@ -8,11 +8,11 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			softwareObjectFile_softwareObjectID: {
 				type: Sq.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'softwareObject_has_objectFile',
-					key: 'softwareObjectFileID'
-				}
+				allowNull: false,
+				// references: {
+				// 	model: 'softwareObject_has_objectFile',
+				// 	key: 'softwareObjectFileID'
+				// }
 			},
 			softwareObjectFile_fileID: {
 				type: Sq.INTEGER,

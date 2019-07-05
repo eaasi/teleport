@@ -1,13 +1,12 @@
 'use strict';
 
 import {ConfiguredMachine} from './configuredMachine';
-import {ConfiguredNetwork} from "./configuredNetwork";
-import {StorageDevice} from "./storageDevice";
+import {ConfiguredNetwork} from './configuredNetwork';
+import {StorageDevice} from './storageDevice';
 
 const Sequelize = require('sequelize');
 
 class ConfiguredStorageDevice extends Sequelize.Model {
-	static StorageDevice;
 	static init(sequelize) {
 		return super.init({
 			createdAt: Sequelize.DATE,

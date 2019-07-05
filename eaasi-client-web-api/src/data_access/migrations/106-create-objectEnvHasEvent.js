@@ -8,11 +8,11 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			objectEnvironment_objectEnvironment_computingEnvironmentID: {
 				type: Sq.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'objectEnvironment',
-					key: 'objectEnvironment_objectEnvironment_computingEnvironmentID'
-				}
+				allowNull: false,
+				// references: {
+				// 	model: 'objectEnvironment',
+				// 	key: 'objectEnvironment_objectEnvironment_computingEnvironmentID'
+				// }
 			},
 			objectEnvironment_objectEnvironment_digitalObjectID: {
 				type: Sq.INTEGER,

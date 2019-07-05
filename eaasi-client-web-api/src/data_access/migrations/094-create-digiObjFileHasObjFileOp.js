@@ -13,10 +13,10 @@ module.exports = {
 			digitalObjectFile_fileID: {
 				type: Sq.INTEGER,
 				allowNull: true,
-				references: {
-					model: 'digitalObject_has_objectFile',
-					key: 'digitalObjectFileID'
-				}
+				// references: {
+				// 	model: 'digitalObject_has_objectFile',
+				// 	key: 'digitalObjectFileID'
+				// }
 			},
 			digitalObjectFile_operationID: {
 				type: Sq.INTEGER,

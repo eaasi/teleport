@@ -16,7 +16,7 @@ module.exports = {
 			},
 			objectEnvironment_objectEnvironment_digitalObjectID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'digitalObject',
 					key: 'digitalObjectID'
@@ -24,15 +24,15 @@ module.exports = {
 			},
 			objectEnvironment_concurrentInstances: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: false
 			},
 			objectEnvironmentName: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: false
 			},
 			objectEnvironmentDescription: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: false
 			},
 			objectEnvironmentHelpText: {
 				type: Sq.TEXT,
