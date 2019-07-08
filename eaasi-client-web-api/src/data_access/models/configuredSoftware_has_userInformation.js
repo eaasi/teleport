@@ -1,40 +1,31 @@
 'use strict';
 
-import {UserInformation} from './userInformation';
-import {ConfiguredSoftware} from './configuredSoftware';
-
 const Sequelize = require('sequelize');
 
-class ConfiguredSoftwareHasUserInformation extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			configuredSoftware_configuredSoftwareManifestationID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'configuredSoftware',
-					key: 'configuredSoftwareVersionID'
-				}
-			},
-			userInformation_userInformationID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'userInformation',
-					key: 'userInformationID'
-				}
+class ConfiguredSoftwareHasUserInformation extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	ConfiguredSoftwareHasUserInformation.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		configuredSoftware_configuredSoftwareManifestationID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'configuredSoftware',
+				key: 'configuredSoftwareVersionID'
 			}
-		}, { sequelize, tableName: 'configuredSoftware_has_userInformation' });
+		},
+		userInformation_userInformationID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'userInformation',
+				key: 'userInformationID'
+			}
+		}
+	}, { sequelize, tableName: 'configuredSoftware_has_userInformation' });
+	ConfiguredSoftwareHasUserInformation.associate = models => {
+		models.ConfiguredSoftwareHasUserInformation.hasOne(models.UserInformation, {foreignKey: 'configuredSoftwareVersionID'});
+		models.ConfiguredSoftwareHasUserInformation.hasOne(models.ConfiguredSoftware, {foreignKey: 'userInformationID'});
 	};
-
-	static associate(models) {
-		ConfiguredSoftwareHasUserInformation.hasOne(UserInformation, {foreignKey: 'configuredSoftwareVersionID'});
-		ConfiguredSoftwareHasUserInformation.hasOne(ConfiguredSoftware, {foreignKey: 'userInformationID'});
-	}
-};
-
-module.exports = {
-	ConfiguredSoftwareHasUserInformation: ConfiguredSoftwareHasUserInformation
 };

@@ -1,12 +1,10 @@
 'use strict';
 
-import {ConfiguredMachine} from './configuredMachine';
-
 const Sequelize = require('sequelize');
 
 class ConfiguredPointerDevice extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+	module.exports = (sequelize) => {
+		ConfiguredPointerDevice.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			configuredMachine_machineID: {
@@ -29,14 +27,11 @@ class ConfiguredPointerDevice extends Sequelize.Model {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			}
-		}, { sequelize, tableName: 'configuredNetwork' });
-	};
+		}, {sequelize, tableName: 'configuredNetwork'});
+		ConfiguredPointerDevice.associate = models => {
 
-	static associate(models) {
-		ConfiguredPointerDevice.hasOne(ConfiguredMachine);
+			models.ConfiguredPointerDevice.hasOne(models.ConfiguredMachine);
+		}
+		return ConfiguredPointerDevice;
 	}
-};
-
-module.exports = {
-	ConfiguredPointerDevice:ConfiguredPointerDevice
 };
