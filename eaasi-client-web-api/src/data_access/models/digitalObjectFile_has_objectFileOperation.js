@@ -1,8 +1,5 @@
 'use strict';
 
-import {DigitalObjectHasObjectFile} from './digitalObject_has_objectFile';
-import {ObjectFileOperation} from './objectFileOperation';
-
 const Sequelize = require('sequelize');
 
 class DigitalObjectFileHasObjectFileOperation extends Sequelize.Model {}
@@ -36,8 +33,8 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'digitalObjectFile_has_objectFileOperation' });
 	DigitalObjectFileHasObjectFileOperation.associate = models => {
-		DigitalObjectFileHasObjectFileOperation.hasOne(DigitalObjectHasObjectFile, {foreignKey: 'digitalObjectFileID'});
-		DigitalObjectFileHasObjectFileOperation.hasOne(ObjectFileOperation, {foreignKey: 'operationID'});
+		models.DigitalObjectFileHasObjectFileOperation.hasOne(models.DigitalObjectHasObjectFile, {foreignKey: 'digitalObjectFileID'});
+		models.DigitalObjectFileHasObjectFileOperation.hasOne(models.ObjectFileOperation, {foreignKey: 'operationID'});
 	}
 	return DigitalObjectFileHasObjectFileOperation;
 };

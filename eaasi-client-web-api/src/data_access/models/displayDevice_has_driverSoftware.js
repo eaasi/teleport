@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class DisplayDeviceHasDriDverSoftware extends Sequelize.Model {}
+class DisplayDeviceHasDriverSoftware extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	DisplayDeviceHasDriDverSoftware.init({
+	DisplayDeviceHasDriverSoftware.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		displayDevice_displayDeviceID: {
@@ -24,9 +24,9 @@ module.exports = (sequelize) => {
 			}
 		}
 	}, { sequelize, tableName: 'displayDevice_has_driverSoftware' });
-	DisplayDeviceHasDriDverSoftware.associate = models => {
+	DisplayDeviceHasDriverSoftware.associate = models => {
 		models.DisplayDeviceHasDriverSoftware.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
 		models.DisplayDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	}
-	return DisplayDeviceHasDriDverSoftware;
+	return DisplayDeviceHasDriverSoftware;
 };

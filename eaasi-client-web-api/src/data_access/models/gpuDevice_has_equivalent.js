@@ -21,7 +21,7 @@ class GpuDeviceHasEquivalent extends Sequelize.Model {}
 		}
 	}, { sequelize, tableName: 'gpuDevice_has_equivalent' });
 	GpuDeviceHasEquivalent.associate = models => {
-		GpuDeviceHasEquivalent.hasOne(GpuDevice, {foreignKey: 'gpuDeviceID'});
+		models.GpuDeviceHasEquivalent.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
 	};
 	return GpuDeviceHasEquivalent;
 };

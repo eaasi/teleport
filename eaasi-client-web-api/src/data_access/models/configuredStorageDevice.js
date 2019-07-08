@@ -3,8 +3,9 @@
 const Sequelize = require('sequelize');
 
 class ConfiguredStorageDevice extends Sequelize.Model {}
+
 module.exports = (sequelize) => {
-	ConfiguredStorageDevice({
+	ConfiguredStorageDevice.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		configuredMachine_machineID: {

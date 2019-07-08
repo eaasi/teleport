@@ -34,8 +34,8 @@ class ConfiguredOsHasFormatOperation extends Sequelize.Model {}
 	}, { sequelize, tableName: 'configuredOs_has_formatOperation' });
 	ConfiguredOsHasFormatOperation.associate = models => {
 		models.ConfiguredOsHasFormatOperation.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'})
-		models.ConfiguredOsHasFormatOperation.hasOne(models.fileFormat, {foreignKey: 'fileFormatQID'})
-		models.ConfiguredOsHasFormatOperation.hasOne(models.configuredSoftware, {foreignKey: 'configuredSoftwareVersionID'})
+		models.ConfiguredOsHasFormatOperation.hasOne(models.FileFormat, {foreignKey: 'fileFormatQID'})
+		models.ConfiguredOsHasFormatOperation.hasOne(models.ConfiguredSoftware, {foreignKey: 'configuredSoftwareVersionID'})
 	};
 	return ConfiguredOsHasFormatOperation;
 };

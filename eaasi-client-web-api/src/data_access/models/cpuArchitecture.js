@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 
 class CpuArchitecture extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	CpuArchitecture({
+	CpuArchitecture.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		cpuArchitectureQID: {
