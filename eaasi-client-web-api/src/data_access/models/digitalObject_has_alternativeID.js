@@ -23,4 +23,5 @@ class DigitalObjectHasAlternativeID extends Sequelize.Model {}
 	DigitalObjectHasAlternativeID.associate = models => {
 		models.DigitalObjectHasAlternativeID.hasOne(models.DigitalObject, {foreignKey: 'digitalObjectID'});
 	};
+	return DigitalObjectHasAlternativeID;
 }

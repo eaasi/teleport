@@ -28,5 +28,6 @@ module.exports = (sequelize) => {
 		models.OsVersionHasDeveloper.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
 		models.OsVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerQID'});
 	}
+
 	return OsVersionHasDeveloper;
 };

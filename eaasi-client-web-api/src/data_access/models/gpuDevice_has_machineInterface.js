@@ -23,4 +23,6 @@ class GpuDeviceHasMachineInterface extends Sequelize.Model {}
 	GpuDeviceHasMachineInterface.associate = models => {
 		models.GpuDeviceHasMachineInterface.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
 	};
+
+	return GpuDeviceHasMachineInterface;
 };

@@ -22,4 +22,6 @@ class NetworkDevice extends Sequelize.Model {}
 			allowNull: false
 		}
 	}, { sequelize, tableName: 'networkDevice' });
+
+	return NetworkDevice;
 };

@@ -23,9 +23,6 @@ class OsVersionHasAlternateID extends Sequelize.Model {}
 	OsVersionHasAlternateID.associate = models => {
 		models.OsVersionHasAlternateID.hasOne(models.OsVersion, {foreignKey: 'osVersionID'})
 	}
-	return OsVersionHasAlternateID;
-};
 
-module.exports = {
-	OsVersionHasAlternateID: OsVersionHasAlternateID
+	return OsVersionHasAlternateID;
 };

@@ -34,4 +34,6 @@ class KeyboardDevice extends Sequelize.Model {}
 	KeyboardDevice.associate = models => {
 		models.KeyboardDevice.hasOne(models.KeyboardLayout, {foreignKey: 'keyboardLayoutID'});
 	};
+
+	return KeyboardDevice;
 }

@@ -28,4 +28,6 @@ module.exports = (sequelize) => {
 	ConfiguredOsLanguage.associate = models => {
 		models.ConfiguredOsLanguage.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'});
 	};
+
+	return ConfiguredOsLanguage;
 };

@@ -24,4 +24,6 @@ class KeyboardDeviceHasLanguage extends Sequelize.Model {}
 	KeyboardDeviceHasLanguage.associate = models => {
 		models.KeyboardDeviceHasLanguage.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
 	};
+
+	return KeyboardDeviceHasLanguage;
 };

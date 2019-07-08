@@ -28,4 +28,6 @@ class ConfiguredSoftwareHasUserInformation extends Sequelize.Model {}
 		models.ConfiguredSoftwareHasUserInformation.hasOne(models.UserInformation, {foreignKey: 'configuredSoftwareVersionID'});
 		models.ConfiguredSoftwareHasUserInformation.hasOne(models.ConfiguredSoftware, {foreignKey: 'userInformationID'});
 	};
+
+	return ConfiguredSoftwareHasUserInformation;
 };
