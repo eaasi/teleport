@@ -1,21 +1,16 @@
 const Users = require('../data_access/models/index').UserInformation;
 
-export default class UserController {
+class UserController {
 	/**
 	 * Get All UserInformation data
 	 * @param req request
 	 * @param res response
 	 */
 	getAll(req, res) {
-		Users.findAll().then(users =>
-			res.json({
-				is_error: false,
-				data: users
-			})).catch(error => res.json({
-			is_error: true,
-			data: [],
-			error: error
-		}))
+		return Users
+			.all()
+			.then(users => res.status(200).send(users))
+			.catch(error => res.status(400).send(error))
 	}
 
 	/**
@@ -26,7 +21,7 @@ export default class UserController {
 	get(req, res) {
 		const id = req.params.id
 		Users.findByPk(id).then(user => {
-			if (!user){
+			if (!user) {
 				return res.status(404).send({
 					message: 'UserInformation not found.'
 				});
@@ -54,7 +49,7 @@ export default class UserController {
 	update(req, res) {
 		const id = req.params.id;
 		return Users.findByPk(id).then(user => {
-			if (!user){
+			if (!user) {
 				return res.status(404).send({
 					message: 'UserInformation not found.'
 				});
@@ -86,3 +81,5 @@ export default class UserController {
 		}).catch(error => res.status(400).send(error))
 	}
 }
+
+module.exports = UserController;

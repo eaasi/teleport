@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ObjectFileOperation extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ObjectFileOperation.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

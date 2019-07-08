@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class KeyboardLayout extends Sequelize.Model { }
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	KeyboardLayout.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

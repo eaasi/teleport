@@ -22,6 +22,6 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'digitalObject_has_event' });
 	DigitalObjectHasEvent.associate = models => {
 		models.DigitalObjectHasEvent.hasOne(models.DigitalObject, {foreignKey: 'digitalObjectID'});
-	}
+	};
 	return DigitalObjectHasEvent;
 };

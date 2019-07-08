@@ -40,6 +40,6 @@ module.exports = (sequelize) => {
 		models.DigitalObjectHasObjectFile.hasOne(models.DigitalObject, {foreignKey: 'digitalObjectID'});
 		models.DigitalObjectHasObjectFile.hasOne(models.File, {foreignKey: 'fileID'});
 		models.DigitalObjectHasObjectFile.hasOne(models.MountFormat, {foreignKey: 'mountFormatQID'});
-	}
+	};
 	return DigitalObjectHasObjectFile;
 };

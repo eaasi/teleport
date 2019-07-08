@@ -25,8 +25,8 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'osVersion_has_softwareLicense' });
 	OsVersionHasSoftwareLicense.associate = models => {
-		models.OsVersionHasSoftwareLicense.hasOne(models.OsVersion, {foreignKey: 'osVersionID'})
-		models.OsVersionHasSoftwareLicense.hasOne(models.SoftwareLicense, {foreignKey: 'softwareLicenseID'})
-	}
+		models.OsVersionHasSoftwareLicense.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
+		models.OsVersionHasSoftwareLicense.hasOne(models.SoftwareLicense, {foreignKey: 'softwareLicenseID'});
+	};
 	return OsVersionHasSoftwareLicense;
 };

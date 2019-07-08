@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class OsVersionHasAlternateID extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersionHasAlternateID.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -21,8 +21,8 @@ class OsVersionHasAlternateID extends Sequelize.Model {}
 		}
 	}, { sequelize, tableName: 'osVersion_has_alternateID' });
 	OsVersionHasAlternateID.associate = models => {
-		models.OsVersionHasAlternateID.hasOne(models.OsVersion, {foreignKey: 'osVersionID'})
-	}
+		models.OsVersionHasAlternateID.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
+	};
 
 	return OsVersionHasAlternateID;
 };

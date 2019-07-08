@@ -22,6 +22,6 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'computingEnvironment' });
 	ConfiguredMachineHasEvent.associate = models => {
 		models.ConfiguredMachineHasEvent.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-	}
+	};
 	return ConfiguredMachineHasEvent;
 };

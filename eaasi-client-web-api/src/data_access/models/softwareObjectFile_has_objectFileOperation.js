@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareObjectFileHasObjectFileOperation extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareObjectFileHasObjectFileOperation.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -32,6 +32,6 @@ class SoftwareObjectFileHasObjectFileOperation extends Sequelize.Model {}
 	SoftwareObjectFileHasObjectFileOperation.associate = models => {
 		models.SoftwareObjectFileHasObjectFileOperation.hasOne(
 			models.SoftwareObjectHasObjectFile, {foreignKey: 'softwareObjectFileID'});
-	}
+	};
 	return SoftwareObjectFileHasObjectFileOperation;
 };

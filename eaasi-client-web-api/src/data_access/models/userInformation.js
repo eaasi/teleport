@@ -33,8 +33,8 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'userInformation' });
 
 	UserInformation.associate = models => {
-		models.UserInformation.hasMany(models.ConfiguredSoftwareHasUserInformation)
-	}
+		models.UserInformation.hasMany(models.ConfiguredSoftwareHasUserInformation);
+	};
 
 	return UserInformation;
 };

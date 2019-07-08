@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ProgrammingLanguage extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ProgrammingLanguage.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

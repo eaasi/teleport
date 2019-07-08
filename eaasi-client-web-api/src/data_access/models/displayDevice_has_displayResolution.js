@@ -29,4 +29,4 @@ module.exports = (sequelize) => {
 		models.DisplayDeviceHasDisplayResolution.hasOne(models.DisplayResolution, {foreignKey: 'displayResolutionID'});
 	};
 	return DisplayDeviceHasDisplayResolution;
-}
+};

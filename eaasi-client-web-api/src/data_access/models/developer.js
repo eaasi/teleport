@@ -18,4 +18,4 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'developer' });
 	return Developer;
-}
+};

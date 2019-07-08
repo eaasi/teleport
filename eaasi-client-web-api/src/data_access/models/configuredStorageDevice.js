@@ -36,6 +36,6 @@ module.exports = (sequelize) => {
 	ConfiguredStorageDevice.associate = models => {
 		models.ConfiguredStorageDevice.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
 		models.ConfiguredStorageDevice.hasOne(models.StorageDevice, {foreignKey: 'storageDeviceID'});
-	}
+	};
 	return ConfiguredStorageDevice;
 };

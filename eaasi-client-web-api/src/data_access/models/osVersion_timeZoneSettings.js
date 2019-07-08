@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class OsVersionTimezoneSettings extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersionTimezoneSettings.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -29,8 +29,8 @@ class OsVersionTimezoneSettings extends Sequelize.Model {}
 		}
 	}, { sequelize, tableName: 'osVersion_timezoneSettings' });
 	OsVersionTimezoneSettings.associate = models => {
-		models.OsVersionTimezoneSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'})
-		models.OsVersionTimezoneSettings.hasOne(models.Timezone, {foreignKey: 'timezoneQID'})
-	}
+		models.OsVersionTimezoneSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
+		models.OsVersionTimezoneSettings.hasOne(models.Timezone, {foreignKey: 'timezoneQID'});
+	};
 	return OsVersionTimezoneSettings;
 };

@@ -29,6 +29,6 @@ module.exports = (sequelize) => {
 
 		models.DisplayDeviceHasColorDepth.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
 		models.DisplayDeviceHasColorDepth.hasOne(models.ColorDepth, {foreignKey: 'colorDepthID'});
-	}
+	};
 	return DisplayDeviceHasColorDepth;
 };

@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareProductHasAlternateName extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareProductHasAlternateName.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -31,5 +31,5 @@ class SoftwareProductHasAlternateName extends Sequelize.Model {}
 	};
 
 	return SoftwareProductHasAlternateName;
-}
+};
 

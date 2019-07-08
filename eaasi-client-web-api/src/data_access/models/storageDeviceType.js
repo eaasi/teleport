@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class StorageDeviceType extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	StorageDeviceType.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

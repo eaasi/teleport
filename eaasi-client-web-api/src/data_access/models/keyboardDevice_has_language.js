@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 
 class KeyboardDeviceHasLanguage extends Sequelize.Model {}
 
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	KeyboardDeviceHasLanguage.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

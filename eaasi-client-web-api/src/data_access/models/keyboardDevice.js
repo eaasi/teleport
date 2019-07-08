@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class KeyboardDevice extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	KeyboardDevice.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -36,4 +36,4 @@ class KeyboardDevice extends Sequelize.Model {}
 	};
 
 	return KeyboardDevice;
-}
+};

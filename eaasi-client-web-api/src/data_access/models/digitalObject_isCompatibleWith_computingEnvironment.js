@@ -29,4 +29,4 @@ module.exports = (sequelize) => {
 		models.DigitalObjectIsCompatibleWithComputingEnvironment.hasOne(models.ComputingEnvironment, {foreignKey: 'computingEnvironmentID'});
 	};
 	return DigitalObjectIsCompatibleWithComputingEnvironment;
-}
+};

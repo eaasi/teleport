@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ReadWriteStatus extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ReadWriteStatus.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

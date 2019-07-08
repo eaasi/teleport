@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 		models.SystemRequirementsIncludesOsVersion.hasOne(
 			models.OsVersion, {foreignKey: 'osVersionID'});
-	}
+	};
 
 	return SystemRequirementsIncludesOsVersion;
 };

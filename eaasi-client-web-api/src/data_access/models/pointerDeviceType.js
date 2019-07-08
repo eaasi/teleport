@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class PointerDeviceType extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	PointerDeviceType.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

@@ -31,4 +31,4 @@ module.exports = (sequelize) => {
 			models.SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'hasPartSoftwareVersion'});
 	};
 	return SoftwareFamilyVersionHasPartSoftwareVersion;
-}
+};

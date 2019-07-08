@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class DisplayDevice extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	DisplayDevice.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -23,4 +23,4 @@ class DisplayDevice extends Sequelize.Model {}
 		}
 	}, { sequelize, tableName: 'displayDevice' });
 	return DisplayDevice;
-}
+};

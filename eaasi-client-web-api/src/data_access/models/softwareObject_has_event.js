@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareObjectHasEvent extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareObjectHasEvent.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -24,4 +24,4 @@ class SoftwareObjectHasEvent extends Sequelize.Model {}
 		models.SoftwareObjectHasEvent.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 	};
 	return SoftwareObjectHasEvent;
-}
+};

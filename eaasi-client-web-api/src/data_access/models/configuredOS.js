@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ConfiguredOS extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ConfiguredOS.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -69,4 +69,4 @@ class ConfiguredOS extends Sequelize.Model {}
 		models.ConfiguredOS.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 	};
 	return ConfiguredOS;
-}
+};

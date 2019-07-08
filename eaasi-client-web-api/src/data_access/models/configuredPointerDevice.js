@@ -31,6 +31,6 @@ module.exports = (sequelize) => {
 	ConfiguredPointerDevice.associate = models => {
 
 		models.ConfiguredPointerDevice.hasOne(models.ConfiguredMachine);
-	}
+	};
 	return ConfiguredPointerDevice;
 };

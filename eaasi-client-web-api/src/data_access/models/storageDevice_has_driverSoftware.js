@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class StorageDeviceHasDriverSoftware extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	StorageDeviceHasDriverSoftware.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -28,7 +28,7 @@ class StorageDeviceHasDriverSoftware extends Sequelize.Model {}
 	StorageDeviceHasDriverSoftware.associate = models => {
 		models.StorageDeviceHasDriverSoftware.hasOne(models.StorageDevice, {foreignKey: 'storageDeviceID'});
 		models.StorageDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
+	};
 
 	return StorageDeviceHasDriverSoftware;
-}
+};

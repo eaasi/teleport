@@ -39,6 +39,6 @@ module.exports = (sequelize) => {
 		models.ConfiguredSoftwareUsesFormatImplementation.hasOne(
 			models.FormatImplementation, { foreignKey: 'formatImplementationID' }
 		);
-	}
+	};
 	return ConfiguredSoftwareUsesFormatImplementation;
 };

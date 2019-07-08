@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareVersionIsCompatibleWithComputingEnvironment extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareVersionIsCompatibleWithComputingEnvironment.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -32,4 +32,4 @@ class SoftwareVersionIsCompatibleWithComputingEnvironment extends Sequelize.Mode
 	};
 
 	return SoftwareVersionIsCompatibleWithComputingEnvironment;
-}
+};

@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const Sequelize = require('sequelize');
 
 class OsVersionIncludesSoftwareVersion extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersionIncludesSoftwareVersion.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

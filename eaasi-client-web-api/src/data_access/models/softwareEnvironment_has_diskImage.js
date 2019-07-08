@@ -49,4 +49,4 @@ module.exports = (sequelize) => {
 		models.SoftwareEnvironmentHasDiskImage.hasOne(models.FileSystem, {foreignKey: 'fileSystemQID'});
 	};
 	return SoftwareEnvironmentHasDiskImage;
-}
+};

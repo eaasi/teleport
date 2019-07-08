@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class NetworkDevice extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	NetworkDevice.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

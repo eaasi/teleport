@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class OsVersion extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersion.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

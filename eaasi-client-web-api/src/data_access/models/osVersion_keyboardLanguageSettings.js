@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
 	}, {sequelize, tableName: 'osVersion_displayResolutionSettings'});
 	OsVersionKeyboardLanguageSettings.associate = models => {
 		models.OsVersionKeyboardLanguageSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-	}
+	};
 	return OsVersionKeyboardLanguageSettings;
 };
 

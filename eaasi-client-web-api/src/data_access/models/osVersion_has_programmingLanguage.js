@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
 			{foreignKey: 'osVersionID'});
 		models.OsVersionHasProgrammingLanguage.hasOne(models.ProgrammingLanguage,
 			{foreignKey: 'programmingLanguageQID'});
-	}
+	};
 
 	return OsVersionHasProgrammingLanguage;
 };

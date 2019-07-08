@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'systemRequirements_includes_gpuDevice' });
 	SystemRequirementsIncludesGpuDevice.associate = models => {
 		models.SystemRequirementsIncludesGpuDevice.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
-	}
+	};
 
 	return SystemRequirementsIncludesGpuDevice;
 };

@@ -23,6 +23,6 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'gpuDevice_has_displayInterface' });
 	GpuDeviceHasDisplayInterface.associate = models => {
 		models.GpuDeviceHasDisplayInterface.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
-	}
+	};
 	return GpuDeviceHasDisplayInterface;
 };

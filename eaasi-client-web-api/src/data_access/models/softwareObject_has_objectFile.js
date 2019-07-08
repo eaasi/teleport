@@ -41,6 +41,6 @@ module.exports = (sequelize) => {
 		models.SoftwareObjectHasObjectFile.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 		models.SoftwareObjectHasObjectFile.hasOne(models.File, {foreignKey: 'fileID'});
 		models.SoftwareObjectHasObjectFile.hasOne(models.MountFormat, {foreignKey: 'mountFormatQID'});
-	}
+	};
 	return SoftwareObjectHasObjectFile;
 };

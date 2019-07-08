@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareFamilyHasPartSoftwareProduct extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareFamilyHasPartSoftwareProduct.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -31,4 +31,4 @@ class SoftwareFamilyHasPartSoftwareProduct extends Sequelize.Model {}
 			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'hasPartSoftwareProduct'});
 	};
 	return SoftwareFamilyHasPartSoftwareProduct;
-}
+};

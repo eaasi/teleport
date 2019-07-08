@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ConfiguredSoftwareHasUserInformation extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ConfiguredSoftwareHasUserInformation.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class DigitalObjectHasAlternativeID extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	DigitalObjectHasAlternativeID.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -24,4 +24,4 @@ class DigitalObjectHasAlternativeID extends Sequelize.Model {}
 		models.DigitalObjectHasAlternativeID.hasOne(models.DigitalObject, {foreignKey: 'digitalObjectID'});
 	};
 	return DigitalObjectHasAlternativeID;
-}
+};

@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const Sequelize = require('sequelize');
 
 class OsVersionLanguageSettings extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersionLanguageSettings.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

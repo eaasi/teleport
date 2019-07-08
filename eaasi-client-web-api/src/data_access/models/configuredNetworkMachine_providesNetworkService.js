@@ -40,6 +40,6 @@ module.exports = (sequelize) => {
 			{ foreignKey: 'configuredNetwork_configuredNetworkID' });
 		models.ConfiguredNetworkMachineProvidesNetworkService.hasOne(
 			models.NetworkService, { foreignKey: 'networkServiceID'});
-	}
+	};
 	return ConfiguredNetworkMachineProvidesNetworkService;
 };

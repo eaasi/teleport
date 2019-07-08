@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ConfiguredOsHasEvent extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ConfiguredOsHasEvent.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

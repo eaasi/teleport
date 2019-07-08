@@ -41,6 +41,6 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'file' });
 	File.associate = models => {
 		models.File.hasOne(models.FileFormat, {foreignKey: 'fileFormatQID'});
-	}
+	};
 	return File;
 };

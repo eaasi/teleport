@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Sequelize = require('sequelize');
 
@@ -35,6 +35,6 @@ module.exports = (sequelize) => {
 	OsVersionKeyboardSetting.associate = models => {
 		models.OsVersionKeyboardSetting.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
 		models.OsVersionKeyboardSetting.hasOne(models.KeyboardLayout, {foreignKey: 'keyboardLayoutQID'});
-	}
+	};
 	return OsVersionKeyboardSetting;
 };

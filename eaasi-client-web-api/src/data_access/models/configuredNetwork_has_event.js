@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'configuredNetwork' });
 	ConfiguredNetworkHasEvent.associate = models => {
-		models.ConfiguredNetworkHasEvent.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'})
+		models.ConfiguredNetworkHasEvent.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
 	};
 	return ConfiguredNetworkHasEvent;
 };

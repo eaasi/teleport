@@ -17,6 +17,6 @@ module.exports = (sequelize) => {
 			allowNull: false
 		}
 	}, { sequelize, tableName: 'configuredNetwork' });
-	return CpuArchitecture
-}
+	return CpuArchitecture;
+};
 

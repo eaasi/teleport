@@ -31,4 +31,4 @@ module.exports = (sequelize) => {
 		models.ConfiguredOsHasUserInformation.hasOne(models.UserInformation, {foreignKey: 'userInformationID'});
 	};
 	return ConfiguredOsHasUserInformation;
-}
+};

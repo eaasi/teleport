@@ -22,6 +22,6 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'networkDevice_has_machineInterface' });
 	NetworkDeviceHasMachineInterface.associate = models => {
 		models.NetworkDeviceHasMachineInterface.hasOne(models.NetworkDevice, {foreignKey: 'networkDeviceID'});
-	}
+	};
 	return NetworkDeviceHasMachineInterface;
 };

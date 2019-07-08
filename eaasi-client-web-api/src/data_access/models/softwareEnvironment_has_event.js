@@ -24,4 +24,4 @@ module.exports = (sequelize) => {
 		models.SoftwareEnvironmentHasEvent.hasOne(models.SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
 	};
 	return SoftwareEnvironmentHasEvent;
-}
+};

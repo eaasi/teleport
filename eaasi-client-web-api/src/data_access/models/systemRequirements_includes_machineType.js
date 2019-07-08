@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
 	SystemRequirementsIncludesMachineType.associate = models => {
 		models.SystemRequirementsIncludesMachineType.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 		models.SystemRequirementsIncludesMachineType.hasOne(models.MachineType, {foreignKey: 'machineTypeID'});
-	}
+	};
 
 	return SystemRequirementsIncludesMachineType;
-}
+};

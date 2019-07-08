@@ -24,4 +24,4 @@ module.exports = (sequelize) => {
 		models.StorageDeviceHasMachineInterface.hasOne(models.StorageDevice, {foreignKey: 'storageDeviceID'});
 	};
 	return StorageDeviceHasMachineInterface;
-}
+};

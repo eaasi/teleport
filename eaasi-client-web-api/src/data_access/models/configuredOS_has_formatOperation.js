@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class ConfiguredOsHasFormatOperation extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	ConfiguredOsHasFormatOperation.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -33,9 +33,9 @@ class ConfiguredOsHasFormatOperation extends Sequelize.Model {}
 		}
 	}, { sequelize, tableName: 'configuredOs_has_formatOperation' });
 	ConfiguredOsHasFormatOperation.associate = models => {
-		models.ConfiguredOsHasFormatOperation.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'})
-		models.ConfiguredOsHasFormatOperation.hasOne(models.FileFormat, {foreignKey: 'fileFormatQID'})
-		models.ConfiguredOsHasFormatOperation.hasOne(models.ConfiguredSoftware, {foreignKey: 'configuredSoftwareVersionID'})
+		models.ConfiguredOsHasFormatOperation.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'});
+		models.ConfiguredOsHasFormatOperation.hasOne(models.FileFormat, {foreignKey: 'fileFormatQID'});
+		models.ConfiguredOsHasFormatOperation.hasOne(models.ConfiguredSoftware, {foreignKey: 'configuredSoftwareVersionID'});
 	};
 	return ConfiguredOsHasFormatOperation;
 };

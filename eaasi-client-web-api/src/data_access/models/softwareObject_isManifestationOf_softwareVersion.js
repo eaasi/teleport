@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareObjectIsManifestationOfSoftwareVersion extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareObjectIsManifestationOfSoftwareVersion.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -29,4 +29,4 @@ class SoftwareObjectIsManifestationOfSoftwareVersion extends Sequelize.Model {}
 		models.SoftwareObjectIsManifestationOfSoftwareVersion.hasOne( models.SoftwareVersion, {foreignKey: 'softwareVersion'});
 	};
 	return SoftwareObjectIsManifestationOfSoftwareVersion;
-}
+};

@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
 
 		models.SystemRequirementsIncludesSoftwareVersion.hasOne(
 			models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
+	};
 
 	return SystemRequirementsIncludesSoftwareVersion;
 };

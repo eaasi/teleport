@@ -35,6 +35,6 @@ module.exports = (sequelize) => {
 	DigitalObjectFileHasObjectFileOperation.associate = models => {
 		models.DigitalObjectFileHasObjectFileOperation.hasOne(models.DigitalObjectHasObjectFile, {foreignKey: 'digitalObjectFileID'});
 		models.DigitalObjectFileHasObjectFileOperation.hasOne(models.ObjectFileOperation, {foreignKey: 'operationID'});
-	}
+	};
 	return DigitalObjectFileHasObjectFileOperation;
 };

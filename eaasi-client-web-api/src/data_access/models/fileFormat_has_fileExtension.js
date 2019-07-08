@@ -29,6 +29,6 @@ module.exports = (sequelize) => {
 
 		models.FileFormatHasFileExtension.hasOne(models.FileFormat, {foreignKey: 'fileFormatQID'});
 		models.FileFormatHasFileExtension.hasOne(models.FileExtension, {foreignKey: 'fileExtensionID'});
-	}
+	};
 	return FileFormatHasFileExtension;
 };

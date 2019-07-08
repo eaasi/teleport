@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 
 class GpuDeviceHasDriverSoftware extends Sequelize.Model {}
 
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	GpuDeviceHasDriverSoftware.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

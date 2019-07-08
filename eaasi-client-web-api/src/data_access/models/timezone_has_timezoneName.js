@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const Sequelize = require('sequelize');
 
 class TimezoneHasTimezoneName extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	TimezoneHasTimezoneName.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -32,4 +32,4 @@ class TimezoneHasTimezoneName extends Sequelize.Model {}
 	};
 
 	return TimezoneHasTimezoneName;
-}
+};

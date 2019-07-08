@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class TimezoneName extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	TimezoneName.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

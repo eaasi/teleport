@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
 	OsVersionDisplayResolutionSettings.associate = models => {
 		models.OsVersionDisplayResolutionSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
 		models.OsVersionDisplayResolutionSettings.hasOne(models.DisplayResolution, {foreignKey: 'displayResolutionID'});
-	}
+	};
 
 	return OsVersionDisplayResolutionSettings;
 };

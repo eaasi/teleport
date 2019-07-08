@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
 	OsVersionHasDeveloper.associate = models => {
 		models.OsVersionHasDeveloper.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
 		models.OsVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerQID'});
-	}
+	};
 
 	return OsVersionHasDeveloper;
 };

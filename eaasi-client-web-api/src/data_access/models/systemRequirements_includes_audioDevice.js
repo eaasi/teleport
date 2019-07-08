@@ -29,4 +29,4 @@ module.exports = (sequelize) => {
 		models.SystemRequirementsIncludesAudioDevice.hasOne(models.AudioDevice, {foreignKey: 'audioDeviceID'});
 	};
 	return SystemRequirementsIncludesAudioDevice;
-}
+};

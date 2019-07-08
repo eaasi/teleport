@@ -27,6 +27,6 @@ module.exports = (sequelize) => {
 	DisplayDeviceHasDriverSoftware.associate = models => {
 		models.DisplayDeviceHasDriverSoftware.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
 		models.DisplayDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
+	};
 	return DisplayDeviceHasDriverSoftware;
 };

@@ -29,6 +29,6 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'formatImplementation' });
 	FormatImplementation.associate = models => {
 		models.FormatImplementation.hasOne(models.FileExtension, {foreignKey: 'fileExtensionID'});
-	}
+	};
 	return FormatImplementation;
 };

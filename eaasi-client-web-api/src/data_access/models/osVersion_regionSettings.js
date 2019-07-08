@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const Sequelize = require('sequelize');
 
 class OsVersionRegionSettings extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersionRegionSettings.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -31,6 +31,6 @@ class OsVersionRegionSettings extends Sequelize.Model {}
 	OsVersionRegionSettings.associate = models => {
 		models.OsVersionRegionSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
 	};
-	return OsVersionRegionSettings
+	return OsVersionRegionSettings;
 };
 

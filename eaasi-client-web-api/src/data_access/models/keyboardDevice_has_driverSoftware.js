@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 	KeyboardDeviceHasDriverSoftware.associate = models => {
 		models.KeyboardDeviceHasDriverSoftware.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
 		models.KeyboardDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
+	};
 
 	return KeyboardDeviceHasDriverSoftware;
 };

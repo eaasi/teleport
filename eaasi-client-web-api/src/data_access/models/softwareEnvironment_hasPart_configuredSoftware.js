@@ -31,4 +31,4 @@ module.exports = (sequelize) => {
 			models.ConfiguredSoftware, {foreignKey: 'configuredSoftwareID'});
 	};
 	return SoftwareEnvironmentHasPartConfiguredSoftware;
-}
+};

@@ -56,6 +56,6 @@ module.exports = (sequelize) => {
 	SoftwareVersion.associate = models => {
 		models.SoftwareVersion.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 		models.SoftwareVersion.belongsTo(models.SoftwareProduct, {foreignKey: 'softwareProductID'});
-	}
+	};
 	return SoftwareVersion;
 };

@@ -19,4 +19,4 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'formatOperation' });
 	return FormatOperation;
-}
+};

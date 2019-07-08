@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareType extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareType.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

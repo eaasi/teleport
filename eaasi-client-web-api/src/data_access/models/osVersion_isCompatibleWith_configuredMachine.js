@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class OsVersionIsCompatibleWithConfiguredMachine extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	OsVersionIsCompatibleWithConfiguredMachine.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

@@ -19,4 +19,4 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'displayResolution' });
 	return DisplayResolution;
-}
+};

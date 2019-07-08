@@ -24,5 +24,5 @@ module.exports = (sequelize) => {
 		models.DisplayDeviceHasDisplayInterface.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
 	};
 	return DisplayDeviceHasDisplayInterface;
-}
+};
 

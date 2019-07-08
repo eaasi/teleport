@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 
 class SoftwareEnvironment extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+module.exports = (sequelize) => {
 	SoftwareEnvironment.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,

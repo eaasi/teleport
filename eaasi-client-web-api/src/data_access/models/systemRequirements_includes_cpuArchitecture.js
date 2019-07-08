@@ -29,6 +29,6 @@ module.exports = (sequelize) => {
 			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 		models.SystemRequirementsIncludesCpuArchitecture.hasOne(
 			models.CpuArchitecture, {foreignKey: 'cpuArchitectureQID'});
-	}
+	};
 	return SystemRequirementsIncludesCpuArchitecture;
 };
