@@ -1,40 +1,32 @@
 'use strict';
 
-import {NetworkDevice} from './networkDevice';
-import {SoftwareVersion} from './softwareVersion';
-
 const Sequelize = require('sequelize');
 
-class NetworkDeviceHasDriverSoftware extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			networkDevice_networkDeviceID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'networkDevice',
-					key: 'networkDeviceID'
-				}
-			},
-			driverSoftware_driverSoftware: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
+class NetworkDeviceHasDriverSoftware extends Sequelize.Model {}
+module.exports = (sequelize) => {
+	NetworkDeviceHasDriverSoftware.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		networkDevice_networkDeviceID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'networkDevice',
+				key: 'networkDeviceID'
 			}
-		}, { sequelize, tableName: 'networkDevice_has_driverSoftware' });
+		},
+		driverSoftware_driverSoftware: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'softwareVersion',
+				key: 'softwareVersionID'
+			}
+		}
+	}, { sequelize, tableName: 'networkDevice_has_driverSoftware' });
+	NetworkDeviceHasDriverSoftware.associate = models => {
+		models.NetworkDeviceHasDriverSoftware.hasOne(models.NetworkDevice, {foreignKey: 'networkDeviceID'});
+		models.NetworkDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	};
-
-	static associate(models) {
-		NetworkDeviceHasDriverSoftware.hasOne(NetworkDevice, {foreignKey: 'networkDeviceID'});
-		NetworkDeviceHasDriverSoftware.hasOne(SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
-};
-
-module.exports = {
-	NetworkDeviceHasDriverSoftware: NetworkDeviceHasDriverSoftware
+	return NetworkDeviceHasDriverSoftware;
 };

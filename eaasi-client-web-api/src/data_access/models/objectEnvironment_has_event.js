@@ -1,38 +1,31 @@
 'use strict';
 
-import {ObjectEnvironment} from './objectEnvironment';
-
 const Sequelize = require('sequelize');
 
-class ObjectEnvironmentHasEvent extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			objectEnvironment_objectEnvironment_computingEnvironmentID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'objectEnvironment',
-					key: 'objectEnvironment_objectEnvironment_computingEnvironmentID'
-				}
-			},
-			objectEnvironment_objectEnvironment_digitalObjectID: {
-				type: Sequelize.INTEGER,
-				allowNull: true
-			},
-			event_eventID: {
-				type: Sequelize.INTEGER,
-				allowNull: true
+class ObjectEnvironmentHasEvent extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	ObjectEnvironmentHasEvent.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		objectEnvironment_objectEnvironment_computingEnvironmentID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'objectEnvironment',
+				key: 'objectEnvironment_objectEnvironment_computingEnvironmentID'
 			}
-		}, { sequelize, tableName: 'objectEnvironment_has_event' });
+		},
+		objectEnvironment_objectEnvironment_digitalObjectID: {
+			type: Sequelize.INTEGER,
+			allowNull: true
+		},
+		event_eventID: {
+			type: Sequelize.INTEGER,
+			allowNull: true
+		}
+	}, { sequelize, tableName: 'objectEnvironment_has_event' });
+	ObjectEnvironmentHasEvent.associate = models => {
+		models.ObjectEnvironmentHasEvent.hasOne(models.ObjectEnvironment, {foreignKey: 'objectEnvironment_objectEnvironment_computingEnvironmentID'});
 	};
-
-	static associate(models) {
-		ObjectEnvironmentHasEvent.hasOne(ObjectEnvironment, {foreignKey: 'objectEnvironment_objectEnvironment_computingEnvironmentID'});
-	}
-};
-
-module.exports = {
-	ObjectEnvironmentHasEvent: ObjectEnvironmentHasEvent
+	return ObjectEnvironmentHasEvent;
 };

@@ -1,40 +1,32 @@
 'use strict';
 
-import {OsVersion} from './osVersion';
-import {Developer} from './developer';
-
 const Sequelize = require('sequelize');
 
-class OsVersionHasDeveloper extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			osVersion_osVersionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
-				}
-			},
-			osVersion_developerQID: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				references: {
-					model: 'developer',
-					key: 'developerQID'
-				}
+class OsVersionHasDeveloper extends Sequelize.Model {}
+module.exports = (sequelize) => {
+	OsVersionHasDeveloper.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		osVersion_osVersionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'osVersion',
+				key: 'osVersionID'
 			}
-		}, { sequelize, tableName: 'osVersion_has_developer' });
-	};
-
-	static associate(models) {
-		OsVersionHasDeveloper.hasOne(OsVersion, {foreignKey: 'osVersionID'});
-		OsVersionHasDeveloper.hasOne(Developer, {foreignKey: 'developerQID'});
+		},
+		osVersion_developerQID: {
+			type: Sequelize.STRING,
+			allowNull: false,
+			references: {
+				model: 'developer',
+				key: 'developerQID'
+			}
+		}
+	}, { sequelize, tableName: 'osVersion_has_developer' });
+	OsVersionHasDeveloper.associate = models => {
+		models.OsVersionHasDeveloper.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
+		models.OsVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerQID'});
 	}
-};
-
-module.exports = {
-	OsVersionHasDeveloper: OsVersionHasDeveloper
+	return OsVersionHasDeveloper;
 };

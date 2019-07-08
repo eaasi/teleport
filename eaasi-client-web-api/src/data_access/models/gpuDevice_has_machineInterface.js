@@ -1,12 +1,10 @@
 'use strict';
 
-import {GpuDevice} from './gpuDevice';
-
 const Sequelize = require('sequelize');
 
-class GpuDeviceHasMachineInterface extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class GpuDeviceHasMachineInterface extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	GpuDeviceHasMachineInterface.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			gpuDevice_gpuDeviceID: {
@@ -22,13 +20,7 @@ class GpuDeviceHasMachineInterface extends Sequelize.Model {
 				allowNull: false
 			}
 		}, { sequelize, tableName: 'gpuDevice_has_machineInterface' });
+	GpuDeviceHasMachineInterface.associate = models => {
+		models.GpuDeviceHasMachineInterface.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
 	};
-
-	static associate(models) {
-		GpuDeviceHasMachineInterface.hasOne(GpuDevice, {foreignKey: 'gpuDeviceID'});
-	}
-};
-
-module.exports = {
-	GpuDeviceHasMachineInterface: GpuDeviceHasMachineInterface
 };

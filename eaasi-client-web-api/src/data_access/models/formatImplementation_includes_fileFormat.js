@@ -1,13 +1,10 @@
 'use strict';
 
-import {FileFormat} from './fileFormat';
-import {FormatImplementation} from './formatImplementation';
-
 const Sequelize = require('sequelize');
 
-class FormatImplementationIncludesFileFormat extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class FormatImplementationIncludesFileFormat extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	FormatImplementationIncludesFileFormat.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			formatImplementation_formatImplementationID: {
@@ -27,14 +24,9 @@ class FormatImplementationIncludesFileFormat extends Sequelize.Model {
 				}
 			}
 		}, { sequelize, tableName: 'formatImplementation_includes_fileFormat' });
+	FormatImplementationIncludesFileFormat.associate = models => {
+		models.FormatImplementationIncludesFileFormat.hasOne(models.FileFormat, {foreignKey: 'fileFormatQID'});
+		models.FormatImplementationIncludesFileFormat.hasOne(models.FormatImplementation, {foreignKey: 'formatImplementationID'});
 	};
-
-	static associate(models) {
-		FormatImplementationIncludesFileFormat.hasOne(FileFormat, {foreignKey: 'fileFormatQID'});
-		FormatImplementationIncludesFileFormat.hasOne(FormatImplementation, {foreignKey: 'formatImplementationID'});
-	}
+	return FormatImplementationIncludesFileFormat;
 }
-
-module.exports = {
-	FormatImplementationIncludesFileFormat: FormatImplementationIncludesFileFormat
-};

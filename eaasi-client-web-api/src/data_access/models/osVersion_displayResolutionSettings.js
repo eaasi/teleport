@@ -1,40 +1,32 @@
 'use strict';
 
-import {DisplayResolution} from './displayResolution';
-import {OsVersion} from './osVersion';
-
 const Sequelize = require('sequelize');
 
-class OsVersionDisplayResolutionSettings extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			osVersion_osVersionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
-				}
-			},
-			osVersion_displayResolutionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'displayResolution',
-					key: 'displayResolutionID'
-				}
+class OsVersionDisplayResolutionSettings extends Sequelize.Model {}
+
+module.exports = (sequelize) => {
+	OsVersionDisplayResolutionSettings.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		osVersion_osVersionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'osVersion',
+				key: 'osVersionID'
 			}
-		}, { sequelize, tableName: 'osVersion_displayResolutionSettings' });
-	};
-
-	static associate(models) {
-		OsVersionDisplayResolutionSettings.hasOne(OsVersion, {foreignKey: 'osVersionID'});
-		OsVersionDisplayResolutionSettings.hasOne(DisplayResolution, {foreignKey: 'displayResolutionID'});
+		},
+		osVersion_displayResolutionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'displayResolution',
+				key: 'displayResolutionID'
+			}
+		}
+	}, { sequelize, tableName: 'osVersion_displayResolutionSettings' });
+	OsVersionDisplayResolutionSettings.associate = models => {
+		models.OsVersionDisplayResolutionSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
+		models.OsVersionDisplayResolutionSettings.hasOne(models.DisplayResolution, {foreignKey: 'displayResolutionID'});
 	}
-};
-
-module.exports = {
-	OsVersionDisplayResolutionSettings: OsVersionDisplayResolutionSettings
 };

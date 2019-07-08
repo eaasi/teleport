@@ -1,12 +1,11 @@
 'use strict';
 
-import {KeyboardDevice} from './keyboardDevice';
-
 const Sequelize = require('sequelize');
 
-class KeyboardDeviceHasMachineInterface extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class KeyboardDeviceHasMachineInterface extends Sequelize.Model {}
+
+	module.exports = (sequelize) => {
+	KeyboardDeviceHasMachineInterface.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			keyboardDevice_keyboardDeviceID: {
@@ -22,13 +21,8 @@ class KeyboardDeviceHasMachineInterface extends Sequelize.Model {
 				allowNull: false
 			}
 		}, { sequelize, tableName: 'keyboardDevice_has_machineInterface' });
+	KeyboardDeviceHasMachineInterface.associate = models => {
+		models.KeyboardDeviceHasMachineInterface.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'})
 	};
-
-	static associate(models) {
-		KeyboardDeviceHasMachineInterface.hasOne(KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-	}
-};
-
-module.exports = {
-	KeyboardDeviceHasMachineInterface: KeyboardDeviceHasMachineInterface
+	return KeyboardDeviceHasMachineInterface;
 };

@@ -2,28 +2,23 @@
 
 const Sequelize = require('sequelize');
 
-class ReadWriteStatus extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			readWriteStatusID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
-			},
-			readWriteStatusName: {
-				type: Sequelize.STRING,
-				allowNull: false
-			}
-		}, { sequelize, tableName: 'readWriteStatus' });
-	};
+class ReadWriteStatus extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	ReadWriteStatus.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		readWriteStatusID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true
+		},
+		readWriteStatusName: {
+			type: Sequelize.STRING,
+			allowNull: false
+		}
+	}, { sequelize, tableName: 'readWriteStatus' });
 
-	static associate(models) {
-	}
+	return ReadWriteStatus;
 };
 
-module.exports = {
-	ReadWriteStatus: ReadWriteStatus
-};
