@@ -1,11 +1,9 @@
 const createError = require('http-errors');
 const express = require('express');
+const helmet = require('helmet');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
-const index = require('./routes/index');
-const user = require('./routes/user');
 
 const app = express();
 
@@ -13,14 +11,14 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use('/', index);
-app.use('/user', user);
+app.use('/api', require('./routes'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
