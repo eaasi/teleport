@@ -23,8 +23,7 @@
     "morgan": "~1.9.1",
     "pg-hstore": "^2.3.2",
     "rimraf": "^2.6.3",
-    "sequelize": "^5.9.3",
-    "sequelize-models": "^1.4.0",
+    "sequelize": "^5.8.11",
     "typescript": "^3.4.3"
   },
   "devDependencies": {
@@ -32,6 +31,9 @@
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "@types/bluebird": "^3.5.27",
+    "@types/node": "^12.6.0",
+    "@types/validator": "^10.11.1",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",

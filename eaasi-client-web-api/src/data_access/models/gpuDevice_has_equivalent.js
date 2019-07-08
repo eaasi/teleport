@@ -3,7 +3,8 @@
 const Sequelize = require('sequelize');
 
 class GpuDeviceHasEquivalent extends Sequelize.Model {}
-	module.exports = (sequelize) => {
+
+module.exports = (sequelize) => {
 	GpuDeviceHasEquivalent.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
