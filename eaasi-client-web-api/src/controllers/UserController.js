@@ -10,7 +10,7 @@ class UserController {
 		return Users
 			.all()
 			.then(users => res.status(200).send(users))
-			.catch(error => res.status(400).send(error))
+			.catch(error => res.status(400).send(error));
 	}
 
 	/**
@@ -19,7 +19,7 @@ class UserController {
 	 * @param res response
 	 */
 	get(req, res) {
-		const id = req.params.id
+		const id = req.params.id;
 		Users.findByPk(id).then(user => {
 			if (!user) {
 				return res.status(404).send({
@@ -27,7 +27,7 @@ class UserController {
 				});
 			}
 			return res.json(user);
-		})
+		});
 	}
 
 	/**
@@ -38,7 +38,7 @@ class UserController {
 	create(req, res) {
 		Users.create(req.body).then(user =>
 			res.status(201).send(user)
-		)
+		);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class UserController {
 				where: { id }
 			}).then(() => res.status(204).send())
 				.catch(error => res.status(400).send(error));
-		}).catch(error => res.status(400).send(error))
+		}).catch(error => res.status(400).send(error));
 	}
 }
 
