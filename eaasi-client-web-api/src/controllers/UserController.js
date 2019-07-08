@@ -1,14 +1,13 @@
-const user = require('../data_access/models/index').UserInformation;
+const Users = require('../data_access/models/index').UserInformation;
 
-class UserController {
+export default class UserController {
 	/**
 	 * Get All UserInformation data
 	 * @param req request
 	 * @param res response
 	 */
-
 	getAll(req, res) {
-		user.findAll().then(users =>
+		Users.findAll().then(users =>
 			res.json({
 				is_error: false,
 				data: users
@@ -26,7 +25,14 @@ class UserController {
 	 */
 	get(req, res) {
 		const id = req.params.id
-		user.findByPk(id).then(user => res.json(user))
+		Users.findByPk(id).then(user => {
+			if (!user){
+				return res.status(404).send({
+					message: 'UserInformation not found.'
+				});
+			}
+			return res.json(user);
+		})
 	}
 
 	/**
@@ -35,7 +41,9 @@ class UserController {
 	 * @param res response
 	 */
 	create(req, res) {
-		user.create(req.body).then(user => res.status(201).send(user))
+		Users.create(req.body).then(user =>
+			res.status(201).send(user)
+		)
 	}
 
 	/**
@@ -43,9 +51,9 @@ class UserController {
 	 * @param req request
 	 * @param res response
 	 */
-	update(req, res){
+	update(req, res) {
 		const id = req.params.id;
-		return user.findByPk(id).then(user => {
+		return Users.findByPk(id).then(user => {
 			if (!user){
 				return res.status(404).send({
 					message: 'UserInformation not found.'
@@ -53,7 +61,8 @@ class UserController {
 			}
 			return user.update({
 				user: req.body
-			}).then(() => res.status(200).send(user)).catch((error) => res.status(400).send(error));
+			}).then(() => res.status(200).send(user))
+				.catch((error) => res.status(400).send(error));
 		}).catch((error) => res.status(400).send(error));
 	}
 
@@ -62,10 +71,18 @@ class UserController {
 	 * @param req request
 	 * @param res response
 	 */
-	delete(req, res){
+	delete(req, res) {
 		const id = req.params.id;
-		user.destroy({
-			where: { id }
-		}).then(() => res.redirect("/user/list"))
+		return Users.findByPk(id).then(user => {
+			if (!user) {
+				return res.status(404).send({
+					message: 'UserInformation not found.'
+				});
+			}
+			return user.destroy({
+				where: { id }
+			}).then(() => res.status(204).send())
+				.catch(error => res.status(400).send(error));
+		}).catch(error => res.status(400).send(error))
 	}
 }
