@@ -1,13 +1,11 @@
 'use strict';
 
-import {ConfiguredMachine} from './configuredMachine';
-import {ConfiguredNetwork} from './configuredNetwork';
-
 const Sequelize = require('sequelize');
 
-class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {}
+
+module.exports = (sequelize) => {
+	ConfiguredNetworkHasConfiguredMachine.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			configuredNetwork_configuredNetworkID: {
@@ -37,14 +35,11 @@ class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {
 				allowNull: true
 			}
 		}, { sequelize, tableName: 'configuredNetwork_has_configuredMachine' });
+	ConfiguredNetworkHasConfiguredMachine.associate = models => {
+
+		models.ConfiguredNetworkHasConfiguredMachine.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
+		models.ConfiguredNetworkHasConfiguredMachine.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
 	};
 
-	static associate(models) {
-		ConfiguredNetworkHasConfiguredMachine.hasOne(ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-		ConfiguredNetworkHasConfiguredMachine.hasOne(ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
-	}
-};
-
-module.exports = {
-	ConfiguredNetworkHasConfiguredMachine: ConfiguredNetworkHasConfiguredMachine
+	return ConfiguredNetworkHasConfiguredMachine;
 };

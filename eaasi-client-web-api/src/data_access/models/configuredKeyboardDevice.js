@@ -1,13 +1,12 @@
 'use strict';
 
-import {KeyboardDevice} from './keyboardDevice';
-import {ConfiguredMachine} from './configuredMachine';
-
 const Sequelize = require('sequelize');
 
-class ConfiguredKeyboardDevice extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class ConfiguredKeyboardDevice extends Sequelize.Model {}
+
+module.exports = (sequelize) => {
+
+	ConfiguredKeyboardDevice.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			configuredMachine_machineID: {
@@ -31,14 +30,11 @@ class ConfiguredKeyboardDevice extends Sequelize.Model {
 				allowNull: true
 			}
 		}, { sequelize, tableName: 'configuredGpuDeviceHasDisplayDevice' });
-	};
 
-	static associate(models) {
-		ConfiguredKeyboardDevice.hasOne(ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-		ConfiguredKeyboardDevice.hasOne(KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-	}
+	ConfiguredKeyboardDevice.associate = models => {
+		models.ConfiguredKeyboardDevice.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
+		models.ConfiguredKeyboardDevice.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
+	};
+	return ConfiguredKeyboardDevice;
 }
 
-module.exports = {
-	ConfiguredKeyboardDevice: ConfiguredKeyboardDevice
-};

@@ -21,8 +21,8 @@ module.exports = (sequelize) => {
 			allowNull: false
 		}
 	},
-
-	{ sequelize,
+	{
+		sequelize,
 		tableName: 'audioDevice_has_machineInterface'
 	});
 

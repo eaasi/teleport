@@ -25,5 +25,6 @@ module.exports = (sequelize) => {
 	ComputingEnvironmentHasEvent.associate = models =>{
 		models.ComputingEnvironmentHasEvent.hasOne(models.ComputingEnvironment, {foreignKey: 'computingEnvironmentID'});
 	};
+	return ComputingEnvironmentHasEvent;
 };
 

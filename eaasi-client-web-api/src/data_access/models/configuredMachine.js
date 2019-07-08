@@ -1,14 +1,11 @@
 'use strict';
 
-import {SoftwareVersion} from './softwareVersion';
-import {CpuArchitecture} from './cpuArchitecture';
-import {MachineType} from './machineType';
-
 const Sequelize = require('sequelize');
 
-class ConfiguredMachine extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class ConfiguredMachine extends Sequelize.Model {}
+
+module.exports = (sequelize) => {
+	ConfiguredMachine.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			configuredMachineID: {
@@ -62,15 +59,11 @@ class ConfiguredMachine extends Sequelize.Model {
 				}
 			}
 		}, { sequelize, tableName: 'configuredMachine' });
+	ConfiguredMachine.associate = models  => {
+		models.ConfiguredMachine.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
+		models.ConfiguredMachine.hasOne(models.CpuArchitecture, {foreignKey: 'cpuArchitectureQID'});
+		models.ConfiguredMachine.hasOne(models.MachineType, {foreignKey: 'machineTypeID'});
 	};
 
-	static associate(models) {
-		ConfiguredMachine.hasOne(SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		ConfiguredMachine.hasOne(CpuArchitecture, {foreignKey: 'cpuArchitectureQID'});
-		ConfiguredMachine.hasOne(MachineType, {foreignKey: 'machineTypeID'});
-	}
+	return ConfiguredMachine;
 }
-
-module.exports = {
-	ConfiguredMachine: ConfiguredMachine
-};

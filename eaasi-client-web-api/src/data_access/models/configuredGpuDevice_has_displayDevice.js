@@ -1,8 +1,5 @@
 'use strict';
 
-import {DisplayDevice} from './displayDevice';
-import {ConfiguredGpuDevice} from './configuredGpuDevice';
-
 const Sequelize = require('sequelize');
 
 class ConfiguredGpuDeviceHasDisplayDevice extends Sequelize.Model {}
@@ -36,10 +33,12 @@ module.exports = (sequelize) => {
 			allowNull: false
 		}
 	}, { sequelize, tableName: 'configuredGpuDeviceHasDisplayDevice' });
+
 	ConfiguredGpuDeviceHasDisplayDevice.associate = models => {
 		models.ConfiguredGpuDeviceHasDisplayDevice.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
 		models.ConfiguredGpuDeviceHasDisplayDevice.hasOne(models.ConfiguredGpuDevice, {foreignKey: 'configuredGpuDeviceID'});
 	};
+
 	return ConfiguredGpuDeviceHasDisplayDevice;
 };
 

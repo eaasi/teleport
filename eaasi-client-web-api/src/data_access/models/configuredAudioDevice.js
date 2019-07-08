@@ -38,4 +38,5 @@ module.exports = sequelize => {
 		models.ConfiguredAudioDevice.hasOne(models.AudioDevice, {foreignKey: 'audioDeviceID'});
 		models.ConfiguredAudioDevice.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachine'});
 	};
+	return ConfiguredAudioDevice;
 };
