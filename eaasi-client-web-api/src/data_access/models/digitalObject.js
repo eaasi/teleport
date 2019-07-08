@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class DigitalObject extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class DigitalObject extends Sequelize.Model {}
+module.exports = (sequelize) => {
+	DigitalObject.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			digitalObjectID: {
@@ -33,13 +33,7 @@ class DigitalObject extends Sequelize.Model {
 				type: Sequelize.INTEGER,
 				allowNull: true
 			}
-		}, { sequelize, tableName: 'digitalObject' });
-	};
-
-	static associate(models) {
-	}
-}
-
-module.exports = {
-	DigitalObject: DigitalObject
+		},
+		{ sequelize, tableName: 'digitalObject' });
+	return DigitalObject;
 };

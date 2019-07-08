@@ -1,34 +1,28 @@
 'use strict';
 
-import {DisplayDevice} from './displayDevice';
-
 const Sequelize = require('sequelize');
 
-class DisplayDeviceHasDisplayInterface extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			displayDevice_displayDeviceID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'displayDevice',
-					key: 'displayDeviceID'
-				}
-			},
-			displayInterface_displayInterfaceID: {
-				type: Sequelize.INTEGER,
-				allowNull: true
+class DisplayDeviceHasDisplayInterface extends Sequelize.Model {}
+module.exports = (sequelize) => {
+	DisplayDeviceHasDisplayInterface.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		displayDevice_displayDeviceID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'displayDevice',
+				key: 'displayDeviceID'
 			}
-		}, { sequelize, tableName: 'displayDevice_has_displayInterface' });
+		},
+		displayInterface_displayInterfaceID: {
+			type: Sequelize.INTEGER,
+			allowNull: true
+		}
+	}, { sequelize, tableName: 'displayDevice_has_displayInterface' });
+	DisplayDeviceHasDisplayInterface.associate = models => {
+		models.DisplayDeviceHasDisplayInterface.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
 	};
-
-	static associate(models) {
-		DisplayDeviceHasDisplayInterface.hasOne(DisplayDevice, {foreignKey: 'displayDeviceID'});
-	}
+	return DisplayDeviceHasDisplayInterface;
 }
 
-module.exports = {
-	DisplayDeviceHasDisplayInterface: DisplayDeviceHasDisplayInterface
-};
