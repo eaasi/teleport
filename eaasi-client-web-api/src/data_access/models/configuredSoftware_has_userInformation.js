@@ -25,8 +25,8 @@ class ConfiguredSoftwareHasUserInformation extends Sequelize.Model {}
 		}
 	}, { sequelize, tableName: 'configuredSoftware_has_userInformation' });
 	ConfiguredSoftwareHasUserInformation.associate = models => {
-		models.ConfiguredSoftwareHasUserInformation.hasOne(models.UserInformation, {foreignKey: 'configuredSoftwareVersionID'});
-		models.ConfiguredSoftwareHasUserInformation.hasOne(models.ConfiguredSoftware, {foreignKey: 'userInformationID'});
+		models.ConfiguredSoftwareHasUserInformation.belongsTo(models.UserInformation, {foreignKey: 'configuredSoftwareVersionID'});
+		models.ConfiguredSoftwareHasUserInformation.belongsTo(models.ConfiguredSoftware, {foreignKey: 'userInformationID'});
 	};
 
 	return ConfiguredSoftwareHasUserInformation;
