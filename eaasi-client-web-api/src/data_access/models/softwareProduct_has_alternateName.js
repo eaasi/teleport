@@ -1,41 +1,35 @@
 'use strict';
 
-import {AlternateName} from './alternateName';
-import {SoftwareProduct} from './softwareProduct';
-
 const Sequelize = require('sequelize');
 
-class SoftwareProductHasAlternateName extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareProduct_softwareProductID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				primaryKey: true,
-				references: {
-					model: 'softwareProduct',
-					key: 'softwareProductID'
-				}
-			},
-			softwareProduct_alternateNameID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'alternateName',
-					key: 'alternateNameID'
-				}
+class SoftwareProductHasAlternateName extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareProductHasAlternateName.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareProduct_softwareProductID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			primaryKey: true,
+			references: {
+				model: 'softwareProduct',
+				key: 'softwareProductID'
 			}
-		}, { sequelize, tableName: 'softwareProduct_has_alternateName' });
+		},
+		softwareProduct_alternateNameID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'alternateName',
+				key: 'alternateNameID'
+			}
+		}
+	}, { sequelize, tableName: 'softwareProduct_has_alternateName' });
+	SoftwareProductHasAlternateName.associate = models => {
+		models.SoftwareProductHasAlternateName.hasOne(models.SoftwareProduct, {foreignKey: 'softwareProductID'});
+		models.SoftwareProductHasAlternateName.hasOne(models.AlternateName, {foreignKey: 'alternateNameID'});
 	};
 
-	static associate(models) {
-		SoftwareProductHasAlternateName.hasOne(SoftwareProduct, {foreignKey: 'softwareProductID'});
-		SoftwareProductHasAlternateName.hasOne(AlternateName, {foreignKey: 'alternateNameID'});
-	}
+	return SoftwareProductHasAlternateName;
 }
 
-module.exports = {
-	SoftwareProductHasAlternateName: SoftwareProductHasAlternateName
-};

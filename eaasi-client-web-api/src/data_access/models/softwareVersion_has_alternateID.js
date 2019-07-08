@@ -1,34 +1,27 @@
 'use strict';
 
-import {SoftwareVersion} from './softwareVersion';
-
 const Sequelize = require('sequelize');
 
-class SoftwareVersionHasAlternateID extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareVersion_softwareVersionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
-			},
-			softwareVersion_alternateID: {
-				type: Sequelize.STRING,
-				allowNull: false
+class SoftwareVersionHasAlternateID extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareVersionHasAlternateID.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareVersion_softwareVersionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareVersion',
+				key: 'softwareVersionID'
 			}
-		}, { sequelize, tableName: 'softwareVersion_has_alternateID' });
+		},
+		softwareVersion_alternateID: {
+			type: Sequelize.STRING,
+			allowNull: false
+		}
+	}, { sequelize, tableName: 'softwareVersion_has_alternateID' });
+	SoftwareVersionHasAlternateID.associate = models => {
+		models.SoftwareVersionHasAlternateID.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	};
-
-	static associate(models) {
-		SoftwareVersionHasAlternateID.hasOne(SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
+	return SoftwareVersionHasAlternateID;
 }
-
-module.exports = {
-	SoftwareVersionHasAlternateID: SoftwareVersionHasAlternateID
-};

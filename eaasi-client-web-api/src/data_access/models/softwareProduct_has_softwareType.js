@@ -1,11 +1,10 @@
-import {SoftwareType} from './softwareType';
-import {SoftwareProduct} from './softwareProduct';
+'use strict'
 
 const Sequelize = require('sequelize');
 
-class SoftwareProductHasSoftwareType extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class SoftwareProductHasSoftwareType extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareProductHasSoftwareType.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			softwareProduct_softwareProductID: {
@@ -25,14 +24,9 @@ class SoftwareProductHasSoftwareType extends Sequelize.Model {
 				}
 			}
 		}, { sequelize, tableName: 'softwareProduct_has_softwareType' });
+	SoftwareProductHasSoftwareType.associate = models => {
+		models.SoftwareProductHasSoftwareType.hasOne(models.SoftwareProduct, {foreignKey: 'softwareProductID'});
+		models.SoftwareProductHasSoftwareType.hasOne(models.SoftwareType, {foreignKey: 'softwareTypeID'});
 	};
-
-	static associate(models) {
-		SoftwareProductHasSoftwareType.hasOne(SoftwareProduct, {foreignKey: 'softwareProductID'});
-		SoftwareProductHasSoftwareType.hasOne(SoftwareType, {foreignKey: 'softwareTypeID'});
-	}
+	return SoftwareProductHasSoftwareType;
 }
-
-module.exports = {
-	SoftwareProductHasSoftwareType: SoftwareProductHasSoftwareType
-};

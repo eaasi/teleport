@@ -1,42 +1,35 @@
 'use strict';
 
-import {StorageDeviceType} from './storageDeviceType';
-import {SystemRequirements} from './systemRequirements';
-
 const Sequelize = require('sequelize');
 
-class SystemRequirementsIncludesStorageDeviceType extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'systemRequirements',
-					key: 'systemRequirementsID'
-				}
-			},
-			systemRequirements_storageDeviceTypeID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'storageDeviceType',
-					key: 'storageDeviceTypeID'
-				}
+class SystemRequirementsIncludesStorageDeviceType extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SystemRequirementsIncludesStorageDeviceType.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		systemRequirements_systemRequirementsID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'systemRequirements',
+				key: 'systemRequirementsID'
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		},
+		systemRequirements_storageDeviceTypeID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'storageDeviceType',
+				key: 'storageDeviceTypeID'
+			}
+		}
+	}, { sequelize, tableName: 'pointerDevice' });
+	SystemRequirementsIncludesStorageDeviceType.associate = models => {
+		models.SystemRequirementsIncludesStorageDeviceType.hasOne(
+			models.StorageDeviceType, {foreignKey: 'storageDeviceTypeID'});
+		models.SystemRequirementsIncludesStorageDeviceType.hasOne(
+			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 	};
 
-	static associate(models) {
-		SystemRequirementsIncludesStorageDeviceType.hasOne(
-			StorageDeviceType, {foreignKey: 'storageDeviceTypeID'});
-		SystemRequirementsIncludesStorageDeviceType.hasOne(
-			SystemRequirements, {foreignKey: 'systemRequirementsID'});
-	}
+	return SystemRequirementsIncludesStorageDeviceType;
 }
-
-module.exports = {
-	SystemRequirementsIncludesStorageDeviceType : SystemRequirementsIncludesStorageDeviceType
-};

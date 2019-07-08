@@ -1,33 +1,28 @@
-import {SoftwareVersion} from './softwareVersion';
+'use strict'
 
 const Sequelize = require('sequelize');
 
-class SoftwareVersionLanguageSettings extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareVersion_softwareVersionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
-			},
-			softwareVersion_languageQID: {
-				type: Sequelize.STRING,
-				allowNull: true,
-			},
-		}, { sequelize, tableName: 'softwareVersion_languageSettings' });
+class SoftwareVersionLanguageSettings extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareVersionLanguageSettings.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareVersion_softwareVersionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareVersion',
+				key: 'softwareVersionID'
+			}
+		},
+		softwareVersion_languageQID: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
+	}, { sequelize, tableName: 'softwareVersion_languageSettings' });
+	SoftwareVersionLanguageSettings.associate = models => {
+		models.SoftwareVersionLanguageSettings.hasOne(
+			models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	};
-
-	static associate(models) {
-		SoftwareVersionLanguageSettings.hasOne(
-			SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	}
-};
-
-module.exports = {
-	SoftwareVersionLanguageSettings: SoftwareVersionLanguageSettings
+	return SoftwareVersionLanguageSettings;
 };

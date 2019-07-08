@@ -1,42 +1,32 @@
 'use strict';
 
-import {SoftwareVersion} from './softwareVersion';
-import {SoftwareObject} from './softwareObject';
-
 const Sequelize = require('sequelize');
 
-class SoftwareObjectIsManifestationOfSoftwareVersion extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareObject_softwareObjectID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
-				}
-			},
-			softwareObject_softwareVersionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
+class SoftwareObjectIsManifestationOfSoftwareVersion extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareObjectIsManifestationOfSoftwareVersion.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareObject_softwareObjectID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareObject',
+				key: 'softwareObjectID'
 			}
-		}, { sequelize, tableName: 'softwareObject_isManifestationOf_softwareVersion' });
+		},
+		softwareObject_softwareVersionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareVersion',
+				key: 'softwareVersionID'
+			}
+		}
+	}, { sequelize, tableName: 'softwareObject_isManifestationOf_softwareVersion' });
+	SoftwareObjectIsManifestationOfSoftwareVersion.associate = models => {
+		models.SoftwareObjectIsManifestationOfSoftwareVersion.hasOne( models.SoftwareObject, {foreignKey: 'softwareObjectID'});
+		models.SoftwareObjectIsManifestationOfSoftwareVersion.hasOne( models.SoftwareVersion, {foreignKey: 'softwareVersion'});
 	};
-
-	static associate(models) {
-		SoftwareObjectIsManifestationOfSoftwareVersion.hasOne(
-			SoftwareObject, {foreignKey: 'softwareObjectID'});
-		SoftwareObjectIsManifestationOfSoftwareVersion.hasOne(
-			SoftwareVersion, {foreignKey: 'softwareVersion'});
-	}
+	return SoftwareObjectIsManifestationOfSoftwareVersion;
 }
-
-module.exports = {
-	SoftwareObjectIsManifestationOfSoftwareVersion: SoftwareObjectIsManifestationOfSoftwareVersion
-};

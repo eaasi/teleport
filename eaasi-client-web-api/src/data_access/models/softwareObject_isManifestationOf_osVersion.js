@@ -1,13 +1,10 @@
 'use strict';
 
-import {SoftwareObject} from './softwareObject';
-import {OsVersion} from './osVersion';
-
 const Sequelize = require('sequelize');
 
-class SoftwareObjectIsManifestationOfOsVersion extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class SoftwareObjectIsManifestationOfOsVersion extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareObjectIsManifestationOfOsVersion.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			softwareObject_softwareObjectID: {
@@ -27,16 +24,9 @@ class SoftwareObjectIsManifestationOfOsVersion extends Sequelize.Model {
 				}
 			}
 		}, { sequelize, tableName: 'softwareObject_isManifestationOf_osVersion' });
+	SoftwareObjectIsManifestationOfOsVersion.associate = models => {
+		models.SoftwareObjectIsManifestationOfOsVersion.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
+		models.SoftwareObjectIsManifestationOfOsVersion.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
 	};
-
-	static associate(models) {
-		SoftwareObjectIsManifestationOfOsVersion.hasOne(
-			 SoftwareObject, {foreignKey: 'softwareObjectID'});
-		SoftwareObjectIsManifestationOfOsVersion.hasOne(
-			OsVersion, {foreignKey: 'osVersionID'});
-	}
+	return SoftwareObjectIsManifestationOfOsVersion;
 }
-
-module.exports = {
-	SoftwareObjectIsManifestationOfOsVersion: SoftwareObjectIsManifestationOfOsVersion
-};

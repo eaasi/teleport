@@ -23,5 +23,6 @@ module.exports = (sequelize) => {
 			allowNull: false
 		},
 	}, {sequelize, tableName:'audioDevice'});
+	AudioDevice.associate = models => {}
 	return AudioDevice;
 };

@@ -1,41 +1,34 @@
 'use strict';
 
-import {SoftwareProduct} from './softwareProduct';
-
 const Sequelize = require('sequelize');
 
-class SoftwareFamilyHasPartSoftwareProduct extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareFamilyID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareProduct',
-					key: 'softwareProductID'
-				}
-			},
-			hasPart_softwareProduct: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareProduct',
-					key: 'softwareProductID'
-				}
+class SoftwareFamilyHasPartSoftwareProduct extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareFamilyHasPartSoftwareProduct.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareFamilyID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareProduct',
+				key: 'softwareProductID'
 			}
-		}, { sequelize, tableName: 'softwareFamily_hasPart_softwareProduct' });
+		},
+		hasPart_softwareProduct: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareProduct',
+				key: 'softwareProductID'
+			}
+		}
+	}, { sequelize, tableName: 'softwareFamily_hasPart_softwareProduct' });
+	SoftwareFamilyHasPartSoftwareProduct.associate = models => {
+		models.SoftwareFamilyHasPartSoftwareProduct.hasOne(
+			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'softwareFamilyProduct'});
+		models.SoftwareFamilyHasPartSoftwareProduct.hasOne(
+			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'hasPartSoftwareProduct'});
 	};
-
-	static associate(models) {
-		SoftwareFamilyHasPartSoftwareProduct.hasOne(
-			SoftwareProduct, {foreignKey: 'softwareProductID', as: 'softwareFamilyProduct'});
-		SoftwareFamilyHasPartSoftwareProduct.hasOne(
-			SoftwareProduct, {foreignKey: 'softwareProductID', as: 'hasPartSoftwareProduct'});
-	}
+	return SoftwareFamilyHasPartSoftwareProduct;
 }
-
-module.exports = {
-	SoftwareFamilyHasPartSoftwareProduct: SoftwareFamilyHasPartSoftwareProduct
-};

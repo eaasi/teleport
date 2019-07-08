@@ -1,14 +1,10 @@
 'use strict';
 
-import {SoftwareVersion} from './softwareVersion';
-import {FormatImplementation} from './formatImplementation';
-import {FormatOperation} from './formatOperation';
-
 const Sequelize = require('sequelize');
 
-class SoftwareVersionHasFormatImplementation extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class SoftwareVersionHasFormatImplementation extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareVersionHasFormatImplementation.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			softwareVersion_softwareVersionID: {
@@ -40,15 +36,10 @@ class SoftwareVersionHasFormatImplementation extends Sequelize.Model {
 				allowNull: true
 			}
 		}, { sequelize, tableName: 'pointerDevice' });
+	SoftwareVersionHasFormatImplementation.associate = models => {
+		models.SoftwareVersionHasFormatImplementation.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
+		models.SoftwareVersionHasFormatImplementation.hasOne(models.FormatImplementation, {foreignKey: 'formatImplementationID'});
+		models.SoftwareVersionHasFormatImplementation.hasOne(models.FormatOperation, {foreignKey: 'formatOperationID'});
 	};
-
-	static associate(models) {
-		SoftwareVersionHasFormatImplementation.hasOne(SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		SoftwareVersionHasFormatImplementation.hasOne(FormatImplementation, {foreignKey: 'formatImplementationID'});
-		SoftwareVersionHasFormatImplementation.hasOne(FormatOperation, {foreignKey: 'formatOperationID'});
-	}
+	return SoftwareVersionHasFormatImplementation;
 }
-
-module.exports = {
-	SoftwareVersionHasFormatImplementation : SoftwareVersionHasFormatImplementation
-};

@@ -1,41 +1,34 @@
 'use strict';
 
-import {SoftwareVersion} from './softwareVersion';
-
 const Sequelize = require('sequelize');
 
-class SoftwareVFamilyVersionHasPartSoftwareVersion extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareFamilyVersionID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
-			},
-			hasPart_softwareVersion: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
+class SoftwareFamilyVersionHasPartSoftwareVersion extends Sequelize.Model {}
+module.exports = (sequelize) => {
+	SoftwareFamilyVersionHasPartSoftwareVersion.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareFamilyVersionID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareVersion',
+				key: 'softwareVersionID'
 			}
-		}, { sequelize, tableName: 'softwareFamilyVersion_hasPart_softwareVersion' });
+		},
+		hasPart_softwareVersion: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'softwareVersion',
+				key: 'softwareVersionID'
+			}
+		}
+	}, { sequelize, tableName: 'softwareFamilyVersion_hasPart_softwareVersion' });
+	SoftwareFamilyVersionHasPartSoftwareVersion.associate = models => {
+		models.SoftwareFamilyVersionHasPartSoftwareVersion.hasOne(
+			models.SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'familyVersionID'});
+		models.SoftwareFamilyVersionHasPartSoftwareVersion.hasOne(
+			models.SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'hasPartSoftwareVersion'});
 	};
-
-	static associate(models) {
-		SoftwareVFamilyVersionHasPartSoftwareVersion.hasOne(
-			SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'familyVersionID'});
-		SoftwareVFamilyVersionHasPartSoftwareVersion.hasOne(
-			SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'hasPartSoftwareVersion'});
-	}
+	return SoftwareFamilyVersionHasPartSoftwareVersion;
 }
-
-module.exports = {
-	SoftwareFamilyVersionHasPartSoftwareVersion: SoftwareVFamilyVersionHasPartSoftwareVersion
-};

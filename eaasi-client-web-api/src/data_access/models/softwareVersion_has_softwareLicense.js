@@ -1,13 +1,10 @@
 'use strict';
 
-import {SoftwareVersion} from './softwareVersion';
-import {SoftwareLicense} from './softwareLicense';
-
 const Sequelize = require('sequelize');
 
-class SoftwareVersionHasSoftwareLicense extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
+class SoftwareVersionHasSoftwareLicense extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareVersionHasSoftwareLicense.init({
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
 			softwareVersion_softwareVersionID: {
@@ -27,14 +24,11 @@ class SoftwareVersionHasSoftwareLicense extends Sequelize.Model {
 				}
 			}
 		}, { sequelize, tableName: 'softwareVersion_has_softwareLicense' });
+	SoftwareVersionHasSoftwareLicense.associate = models => {
+		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
+		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareLicense, {foreignKey: 'softwareLicenseQID'});
 	};
 
-	static associate(models) {
-		SoftwareVersionHasSoftwareLicense.hasOne(SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		SoftwareVersionHasSoftwareLicense.hasOne(SoftwareLicense, {foreignKey: 'softwareLicenseQID'});
-	}
+	return SoftwareVersionHasSoftwareLicense;
 }
 
-module.exports = {
-	SoftwareVersionHasSoftwareLicense: SoftwareVersionHasSoftwareLicense
-};

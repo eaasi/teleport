@@ -1,34 +1,27 @@
 'use strict';
 
-import {SoftwareObject} from './softwareObject';
-
 const Sequelize = require('sequelize');
 
-class SoftwareObjectHasEvent extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			softwareObject_softwareObjectID: {
-				type: Sequelize.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
-				}
-			},
-			event_eventID: {
-				type: Sequelize.INTEGER,
-				allowNull: true
+class SoftwareObjectHasEvent extends Sequelize.Model {}
+	module.exports = (sequelize) => {
+	SoftwareObjectHasEvent.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		softwareObject_softwareObjectID: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'softwareObject',
+				key: 'softwareObjectID'
 			}
-		}, { sequelize, tableName: 'pointerDevice' });
+		},
+		event_eventID: {
+			type: Sequelize.INTEGER,
+			allowNull: true
+		}
+	}, { sequelize, tableName: 'pointerDevice' });
+	SoftwareObjectHasEvent.associate = models => {
+		models.SoftwareObjectHasEvent.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 	};
-
-	static associate(models) {
-		SoftwareObjectHasEvent.hasOne(SoftwareObject, {foreignKey: 'softwareObjectID'});
-	}
+	return SoftwareObjectHasEvent;
 }
-
-module.exports = {
-	SoftwareObjectHasEvent: SoftwareObjectHasEvent
-};
