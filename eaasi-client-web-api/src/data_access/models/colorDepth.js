@@ -2,32 +2,32 @@
 
 const Sequelize = require('sequelize');
 
-class ColorDepth extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			colorDepthID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
-			},
-			colorDepthName: {
-				type: Sequelize.STRING,
-				allowNull: false
-			},
-			bitDepth: {
-				type: Sequelize.INTEGER,
-				allowNull: true
-			}
-		}, { sequelize, tableName: 'colorDepth' });
-	};
+class ColorDepth extends Sequelize.Model {}
 
-	static associate(models) {
-	}
-}
+module.exports = (sequelize) => {
+	ColorDepth.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		colorDepthID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true
+		},
+		colorDepthName: {
+			type: Sequelize.STRING,
+			allowNull: false
+		},
+		bitDepth: {
+			type: Sequelize.INTEGER,
+			allowNull: true
+		}
+	},
 
-module.exports = {
-	ColorDepth: ColorDepth
+	{
+		sequelize,
+		tableName: 'colorDepth'
+	});
+
+	return ColorDepth;
 };

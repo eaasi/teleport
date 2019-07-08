@@ -2,28 +2,27 @@
 
 const Sequelize = require('sequelize');
 
-class AlternateName extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			alternateNameID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
-			},
-			alternateName: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-		}, { sequelize, tableName: 'alternateName' });
-	};
+class AlternateName extends Sequelize.Model {}
 
-	static associate(models) {
-	}
-}
+module.exports = (sequelize) => {
+	AlternateName.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		alternateNameID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true
+		},
+		alternateName: {
+			type: Sequelize.STRING,
+			allowNull: false,
+		},
+	},
+	{
+		sequelize,
+		tableName: 'alternateName'
+	});
 
-module.exports = {
-	AlternateName: AlternateName
+	return AlternateName;
 };

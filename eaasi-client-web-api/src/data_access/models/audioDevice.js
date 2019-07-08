@@ -2,32 +2,26 @@
 
 const Sequelize = require('sequelize');
 
-class AudioDevice extends Sequelize.Model {
-	static init(sequelize) {
-		return super.init({
-			createdAt: Sequelize.DATE,
-			updatedAt: Sequelize.DATE,
-			audioDeviceID: {
-				type: Sequelize.INTEGER,
-				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
-			},
-			audioDeviceQID: {
-				type: Sequelize.STRING,
-				allowNull: true
-			},
-			audioDeviceName: {
-				type: Sequelize.INTEGER,
-				allowNull: false
-			},
-		}, { sequelize, tableName: 'audioDevice' });
-	};
+class AudioDevice extends Sequelize.Model {}
 
-	static associate(models) {
-	}
-}
-
-module.exports = {
-	AudioDevice: AudioDevice
+module.exports = (sequelize) => {
+	AudioDevice.init({
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
+		audioDeviceID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true
+		},
+		audioDeviceQID: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
+		audioDeviceName: {
+			type: Sequelize.INTEGER,
+			allowNull: false
+		},
+	}, {sequelize, tableName:'audioDevice'});
+	return AudioDevice;
 };
