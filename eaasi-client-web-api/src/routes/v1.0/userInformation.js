@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const UserController = require('../../controllers/UserController');
-const controller = new UserController();
+const UserInformationController = require('../../controllers/UserInformationController');
+const controller = new UserInformationController();
 
 router.get('/', (req, res) => controller.getAll(req, res));
 router.get('/:id', (req, res) => controller.get(req, res));

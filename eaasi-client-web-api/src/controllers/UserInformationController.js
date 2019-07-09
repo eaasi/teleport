@@ -1,6 +1,6 @@
 const Users = require('../data_access/models/index').UserInformation;
 
-class UserController {
+class UserInformationController {
 	/**
 	 * Get All UserInformation data
 	 * @param req request
@@ -36,6 +36,7 @@ class UserController {
 	 * @param res response
 	 */
 	create(req, res) {
+		console.log(req.body)
 		Users.create(req.body).then(user =>
 			res.status(201).send(user)
 		);
@@ -82,4 +83,4 @@ class UserController {
 	}
 }
 
-module.exports = UserController;
+module.exports = UserInformationController;
