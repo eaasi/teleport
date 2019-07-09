@@ -87,7 +87,7 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# Jetbrains
+# JetBrains
 .idea/
 
 # Build directory

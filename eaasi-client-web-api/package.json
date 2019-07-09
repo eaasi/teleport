@@ -1,26 +1,54 @@
 {
-  "name": "eaasi-api-server",
+  "name": "eaasi-web-api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "npm run prod",
+    "server": "babel-node ./src/bin/www",
+    "server:prod": "node ./dist/bin/www",
+    "clean": "rimraf dist",
+    "build": "babel ./src --out-dir dist --source-maps --copy-files",
+    "dev": "NODE_ENV=development npm run server",
+    "prod": "NODE_ENV=production npm run clean && npm run build && npm run server:prod"
   },
   "dependencies": {
+    "acorn": "^6.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "helmet": "^3.18.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "pg": "^7.11.0",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^5.8.12",
-    "sequelize-auto-migrations": "^1.0.3"
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^5.8.11",
+    "typescript": "^3.4.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "@types/bluebird": "^3.5.27",
-    "@types/node": "^12.0.10",
+    "@types/node": "^12.6.0",
     "@types/validator": "^10.11.1",
-    "typescript": "^3.5.2"
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "pg": "^7.4.1",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "superagent": "^5.1.0",
+    "supertest": "^4.0.2"
   }
 }
