@@ -1,7 +1,7 @@
 const {UserInformation} = require('../../../../src/data_access/models/index');
 
 describe('models/userInformation', () => {
-	test('It should ...', async () => {
-		const userInfo = await UserInformation.findAll()
+	test('Should have table name `userInformation`', () => {
+		expect(UserInformation.tableName).toEqual('userInformation')
 	})
 })

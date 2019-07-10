@@ -1,4 +1,4 @@
-const SoftwareVersion = require('../data_access/models/index').SoftwareVersion;
+const {SoftwareVersion} = require('../data_access/models/index');
 
 class SoftwareVersionController {
 	/**
