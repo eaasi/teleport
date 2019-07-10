@@ -1,4 +1,5 @@
-const Users = require('../data_access/models/index').UserInformation;
+const {UserInformation} = require('../data_access/models/index');
+const UserInfo = UserInformation;
 
 class UserInformationController {
 	/**
@@ -7,7 +8,7 @@ class UserInformationController {
 	 * @param res response
 	 */
 	getAll(req, res) {
-		return Users
+		return UserInfo
 			.findAll()
 			.then(users => res.status(200).send(users))
 			.catch(error => res.status(400).send(error));
@@ -20,7 +21,7 @@ class UserInformationController {
 	 */
 	get(req, res) {
 		const id = req.params.id;
-		Users.findByPk(id).then(user => {
+		UserInfo.findByPk(id).then(user => {
 			if (!user) {
 				return res.status(404).send({
 					message: 'UserInformation not found.'
@@ -36,8 +37,7 @@ class UserInformationController {
 	 * @param res response
 	 */
 	create(req, res) {
-		console.log(req.body)
-		Users.create(req.body).then(user =>
+		UserInfo.create(req.body).then(user =>
 			res.status(201).send(user)
 		);
 	}
@@ -49,7 +49,7 @@ class UserInformationController {
 	 */
 	update(req, res) {
 		const id = req.params.id;
-		return Users.findByPk(id).then(user => {
+		return UserInfo.findByPk(id).then(user => {
 			if (!user) {
 				return res.status(404).send({
 					message: 'UserInformation not found.'
@@ -69,7 +69,7 @@ class UserInformationController {
 	 */
 	delete(req, res) {
 		const id = req.params.id;
-		return Users.findByPk(id).then(user => {
+		return UserInfo.findByPk(id).then(user => {
 			if (!user) {
 				return res.status(404).send({
 					message: 'UserInformation not found.'

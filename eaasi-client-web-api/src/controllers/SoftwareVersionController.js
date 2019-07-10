@@ -36,7 +36,6 @@ class SoftwareVersionController {
 	 * @param res response
 	 */
 	create(req, res) {
-		console.log(req.body)
 		SoftwareVersion.create(req.body).then(sv =>
 			res.status(201).send(sv)
 		);
