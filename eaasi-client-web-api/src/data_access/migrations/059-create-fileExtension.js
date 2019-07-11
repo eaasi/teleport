@@ -7,24 +7,16 @@ module.exports = {
 		return queryInterface.createTable('fileExtension', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			formatImplementationID: {
+			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			formatImplementationName: {
+			extension: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			implementationExtension: {
-				type: Sq.INTEGER,
-				allowNull: true,
-				references: {
-					model: 'fileExtension',
-					key: 'fileExtensionID'
-				}
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
