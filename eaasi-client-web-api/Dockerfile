@@ -1,6 +1,8 @@
-FROM node:10-alpine
+FROM node:10.16-alpine
 
 WORKDIR /app
+
+COPY .babelrc ./
 
 COPY . ./
 
