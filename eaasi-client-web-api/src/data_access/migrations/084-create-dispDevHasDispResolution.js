@@ -20,7 +20,7 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'displayResolution',
-					key: 'displayResolutionName'
+					key: 'displayResolutionID'
 				}
 			},
 		});
