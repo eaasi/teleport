@@ -55,11 +55,10 @@
     "supertest": "^4.0.2"
   },
   "jest": {
-      "collectCoverage": true,
-      "coverageReporters": ["json", "html"],
-      "testResultsProcessor": "jest-sonar-reporter",
-      "reportPath": "test/reports",
-      "reportFile": "test-coverage.xml",
-      "indent": 4
+      "testResultsProcessor": "jest-sonar-reporter"
+  },
+  "jestSonar": {
+      "reportPath": "coverage",
+      "reportFile": "coverage-report.xml"
   }
 }

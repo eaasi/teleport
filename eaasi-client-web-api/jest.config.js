@@ -6,4 +6,6 @@ module.exports = {
 	},
 	testURL: 'http://localhost/',
 	testMatch: ['**/test/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
+        collectCoverage: true,
+        testResultsProcessor: "jest-sonar-reporter"
 };
