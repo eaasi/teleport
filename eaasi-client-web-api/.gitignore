@@ -94,4 +94,4 @@ typings/
 dist/
 
 # Test coverage reports
-test/reports
+coverage/
