@@ -54,12 +54,10 @@
     "superagent": "^5.1.0",
     "supertest": "^4.0.2"
   },
-  {
-      "jest": {
-          "testResultsProcessor": "jest-sonar-reporter",
-          "reportPath": "test/reports",
-          "reportFile": "test-coverage.xml",
-          "indent": 4
-      }
+  "jest": {
+      "testResultsProcessor": "jest-sonar-reporter",
+      "reportPath": "test/reports",
+      "reportFile": "test-coverage.xml",
+      "indent": 4
   }
 }
