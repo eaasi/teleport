@@ -1,81 +1,80 @@
-const {UserInformation} = require('../data_access/models/index');
-const UserInfo = UserInformation;
+const {SoftwareVersion} = require('../data_access/models/index');
 
-class UserInformationController {
+class SoftwareVersionController {
 	/**
-	 * Get All UserInformation data
+	 * Get All SoftwareVersion data
 	 * @param req request
 	 * @param res response
 	 */
 	getAll(req, res) {
-		return UserInfo
+		return SoftwareVersion
 			.findAll()
-			.then(users => res.status(200).send(users))
+			.then(sv => res.status(200).send(sv))
 			.catch(error => res.status(400).send(error));
 	}
 
 	/**
-	 * Get a UserInformation resource by ID
+	 * Get a SoftwareVersion resource by ID
 	 * @param req request
 	 * @param res response
 	 */
 	get(req, res) {
 		const id = req.params.id;
-		UserInfo.findByPk(id).then(user => {
-			if (!user) {
+		SoftwareVersion.findByPk(id).then(sv => {
+			if (!sv) {
 				return res.status(404).send({
-					message: 'UserInformation not found.'
+					message: 'SoftwareVersion not found.'
 				});
 			}
-			return res.json(user);
+			return res.json(sv);
 		});
 	}
 
 	/**
-	 * Create a new UserInformation resource
+	 * Create a new SoftwareVersion resource
 	 * @param req request
 	 * @param res response
 	 */
 	create(req, res) {
-		UserInfo.create(req.body).then(user =>
-			res.status(201).send(user)
+		SoftwareVersion.create(req.body).then(sv =>
+			res.status(201).send(sv)
 		);
 	}
 
 	/**
-	 * Update a UserInformation resource by ID
+	 * Update a SoftwareVersion resource by ID
 	 * @param req request
 	 * @param res response
 	 */
 	update(req, res) {
 		const id = req.params.id;
-		return UserInfo.findByPk(id).then(user => {
-			if (!user) {
+		return SoftwareVersion.findByPk(id).then(sv => {
+			if (!sv) {
 				return res.status(404).send({
-					message: 'UserInformation not found.'
+					message: 'SoftwareVersion not found.'
 				});
 			}
-			return user.update({
-				user: req.body
-			}).then(() => res.status(200).send(user))
+			return sv.update({
+				sv: req.body
+			}).then(() => res.status(200).send(sv))
 				.catch((error) => res.status(400).send(error));
 		}).catch((error) => res.status(400).send(error));
 	}
 
 	/**
-	 * Delete a UserInformation resource by ID
+	 * Delete a SoftwareVersion resource by ID
 	 * @param req request
 	 * @param res response
 	 */
 	delete(req, res) {
 		const id = req.params.id;
-		return UserInfo.findByPk(id).then(user => {
-			if (!user) {
+		return SoftwareVersion.findByPk(id).then(sv => {
+			if (!sv) {
 				return res.status(404).send({
-					message: 'UserInformation not found.'
+					message: 'SoftwareVersion not found.'
 				});
 			}
-			return user.destroy({
+			return sv.destroy({
 				where: { id }
 			}).then(() => res.status(204).send())
 				.catch(error => res.status(400).send(error));
@@ -83,4 +82,4 @@ class UserInformationController {
 	}
 }
 
-module.exports = UserInformationController;
+module.exports = SoftwareVersionController;

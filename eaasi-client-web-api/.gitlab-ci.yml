@@ -12,3 +12,9 @@ install_npm_packages:
     stage: build
     script:
         - npm install
+
+run_tests:
+    stage: test
+    script:
+        - npm install -g jest
+        - jest --verbose --detectOpenHandles --logHeapUsage

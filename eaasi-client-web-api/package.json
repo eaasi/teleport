@@ -48,6 +48,7 @@
     "pg": "^7.4.1",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
+    "sequelize-mock": "^0.10.2",
     "superagent": "^5.1.0",
     "supertest": "^4.0.2"
   }
