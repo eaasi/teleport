@@ -17,4 +17,5 @@ run_tests:
     stage: test
     script:
         - npm install -g jest
-        - jest --verbose --detectOpenHandles --logHeapUsage
+        - jest --verbose --detectOpenHandles --logHeapUsage --coverage
+
