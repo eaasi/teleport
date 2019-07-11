@@ -7,34 +7,22 @@ module.exports = {
 		return queryInterface.createTable('displayDevice_has_displayResolution', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			digitalObject_digitalObjectID: {
+			displayDevice_displayDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'digitalObject',
-					key: 'digitalObjectID'
+					model: 'displayDevice',
+					key: 'displayDeviceID'
 				}
 			},
-			digitalObjectFileID: {
+			availableDisplayResolution: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'file',
-					key: 'fileID'
+					model: 'displayResolution',
+					key: 'displayResolutionName'
 				}
 			},
-			digitalObjectFileLabel: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			digitalObjectFile_usesMountFormat: {
-				type: Sq.STRING,
-				allowNull: true,
-				references: {
-					model: 'mountFormat',
-					key: 'mountFormatQID'
-				}
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {

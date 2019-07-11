@@ -7,15 +7,15 @@ module.exports = {
 		return queryInterface.createTable('keyboardDevice_has_machineInterface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			gpuDevice_gpuDeviceID: {
+			keyboardDevice_keyboardDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'gpuDevice',
-					key: 'gpuDeviceID'
+					model: 'keyboardDevice',
+					key: 'keyboardDeviceID'
 				}
 			},
-			gpuDevice_machineInterfaceID: {
+			keyboardDevice_machineInterfaceID: {
 				type: Sq.INTEGER,
 				allowNull: false
 			}

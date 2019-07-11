@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('gpuDevice_has_driverSoftware', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			networkDevice_networkDeviceID: {
+			gpuDevice_gpuDeviceID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
-					model: 'networkDevice',
-					key: 'networkDeviceID'
+					model: 'gpuDevice',
+					key: 'gpuDeviceID'
 				}
 			},
-			driverSoftware_driverSoftware: {
+			gpuDevice_driverSoftwareID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'softwareVersion',
 					key: 'softwareVersionID'
