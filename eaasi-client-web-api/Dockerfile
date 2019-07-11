@@ -6,7 +6,7 @@ COPY .babelrc ./
 
 COPY . ./
 
-RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations pg
+RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations pg babel-cli
 
 RUN apk update
 
