@@ -1,6 +1,7 @@
 version: "3"
 
 services:
+    # PostgresQL Database
     eaasi-database:
         image: eaasi-database
         build:
@@ -12,6 +13,7 @@ services:
         volumes:
             - eaasi_db:/var/lib/postgresql/data
 
+    # Vue.js Front End SPA
     eaasi-client:
         image: eaasi-client
         build:
@@ -21,6 +23,7 @@ services:
         environment:
             - API_URL=http://localhost:8081
 
+    # Express Web API
     eaasi-web-api:
         image: eaasi-web-api
         build:
@@ -28,11 +31,11 @@ services:
         depends_on:
            - eaasi-database
         environment:
-            - API_DATABASE_URL=eaasi-database:5432
+            - NODE_ENV=production
         ports:
             - 8081:3000
-        command: >
-            bash -c "./wait-for-it.sh eaasi-database:5432 -- npx sequelize-cli db:migrate && npm run dev"
+        command: bash -c "./wait-for-it.sh eaasi-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
 
 volumes:
+    # Database Data
     eaasi_db:
