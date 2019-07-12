@@ -20,7 +20,7 @@ module.exports = {
         "username": "eaasi_test",
         "password": "eaasi_test",
         "database": "eaasi_test",
-        "host": "eaasi-database-test",
+        "host": "eaasi-test-database",
         "port": 5432,
         "dialect": "postgres",
         "operatorsAliases": false
