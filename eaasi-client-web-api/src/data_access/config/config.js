@@ -13,19 +13,21 @@ module.exports = {
         "operatorsAliases": false
     },
 
-    // TBD
+    // Used for isolated integration testing. Postgres database
+    // must be available on docker compose network 'eaasi-database-test'
+    // compose networked services have a hostname of their service name.
     "test": {
-        "username": "eaasi_dev",
-        "password": "eaasi_dev",
-        "database": "eaasi_dev",
-        "host": "eaasi-database",
+        "username": "eaasi_test",
+        "password": "eaasi_test",
+        "database": "eaasi_test",
+        "host": "eaasi-database-test",
         "port": 5432,
         "dialect": "postgres",
         "operatorsAliases": false
     },
 
-    // Used for docker-compose deployment, postgres database
-    // must be available on compose network 'host eaasi-database'
+    // Used for docker-compose deployment. Postgres database
+    // must be available on docker compose network host 'eaasi-database'
     // compose networked services have a hostname of their service name.
     "production": {
         "username": "eaasi_dev",

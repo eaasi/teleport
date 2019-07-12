@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "cypress:run": "cypress run",
+    "cypress:verify": "cypress verify",
+    "cypress:version": "cypress version",
     "start": "npm run prod",
     "server": "babel-node ./src/bin/www",
     "server:prod": "babel-node ./dist/bin/www",
@@ -10,7 +13,8 @@
     "build": "babel ./src --out-dir dist --source-maps --copy-files",
     "dev": "NODE_ENV=development npm run server",
     "prod": "NODE_ENV=production npm run clean && npm run build && npm run server:prod",
-    "test": "jest --verbose --detectOpenHandles --logHeapUsage --coverage"
+    "test:unit": "jest --verbose --detectOpenHandles --logHeapUsage --coverage",
+    "test:ui": "NODE_ENV=test npm run clean && npm run build && npm run server:prod && cypress:run"
   },
   "dependencies": {
     "acorn": "^6.2.0",
