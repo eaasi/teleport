@@ -3,7 +3,7 @@ version: "3"
 services:
   # PostgresQL Database
   eaasi-test-database:
-    image: eaasi-database
+    image: eaasi-test-database
     build:
         context: ./eaasi-client-database
         dockerfile: Dockerfile.test
@@ -36,7 +36,7 @@ services:
         - NODE_ENV=test
     ports:
         - 8081:3000
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
+    command: bash -c "./wait-for-it.sh eaasi-test-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
 
 volumes:
     # Database Data
