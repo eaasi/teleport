@@ -6,7 +6,7 @@ services:
     image: eaasi-database
     build:
         context: ./eaasi-client-database
-        dockerfile: ./eaasi-client-database/Dockerfile.test
+        dockerfile: Dockerfile.test
     env_file:
         - ./eaasi-client-database/vars.env
     ports:
@@ -29,7 +29,7 @@ services:
     image: eaasi-web-api
     build:
         context: ./eaasi-client-web-api
-        dockerfile: ./eaasi-client-database/Dockerfile.test
+        dockerfile: Dockerfile.test
     depends_on:
         - eaasi-test-database
     environment:
