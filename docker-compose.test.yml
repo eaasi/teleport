@@ -2,7 +2,7 @@ version: "3"
 
 services:
   # PostgresQL Database
-  eaasi-database-test:
+  eaasi-test-database:
     image: eaasi-database
     build:
         context: ./eaasi-client-database
@@ -31,7 +31,7 @@ services:
         context: ./eaasi-client-web-api
         dockerfile: ./eaasi-client-database/Dockerfile.test
     depends_on:
-        - eaasi-database
+        - eaasi-test-database
     environment:
         - NODE_ENV=test
     ports:
