@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  # PostgresQL Database
+  eaasi-test-database:
+    image: eaasi-test-database
+    build:
+        context: ./eaasi-client-database
+        dockerfile: Dockerfile
+    env_file:
+        - ./eaasi-client-database/vars.env
+    ports:
+        - 5432:5432
+    volumes:
+        - eaasi_db:/var/lib/postgresql/data
+
+  # Vue.js Front End SPA
+  eaasi-client:
+    image: eaasi-client
+    build:
+        context: ./eaasi-front-end
+    ports:
+        - 8080:80
+    environment:
+        - API_URL=http://localhost:8081
+
+  # Express Web API
+  eaasi-web-api:
+    image: eaasi-web-api
+    build:
+        context: ./eaasi-client-web-api
+        dockerfile: Dockerfile
+    depends_on:
+        - eaasi-test-database
+    environment:
+        - NODE_ENV=test
+    ports:
+        - 8081:3000
+    command: bash -c "./wait-for-it.sh eaasi-test-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
+
+
+  # CAS Development Server
+  eeasi-cas:
+    image: eaasi-cas
+    build: ./cas-test-server
+    ports:
+        - "8443:8443"
+        - "8080:8444"
+
+
+volumes:
+    # Database Data
+    eaasi_db:
