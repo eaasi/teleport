@@ -2,8 +2,8 @@ version: "3"
 
 services:
   # PostgresQL Database
-  eaasi-test-database:
-    image: eaasi-test-database
+  eaasi-database:
+    image: eaasi-database
     build:
         context: ./eaasi-client-database
         dockerfile: Dockerfile
@@ -31,21 +31,22 @@ services:
         context: ./eaasi-client-web-api
         dockerfile: Dockerfile
     depends_on:
-        - eaasi-test-database
+        - eaasi-database
+        - eaasi-cas
     environment:
-        - NODE_ENV=test
+        - NODE_ENV=development
     ports:
         - 8081:3000
-    command: bash -c "./wait-for-it.sh eaasi-test-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
+    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- npx sequelize-cli db:migrate sequelize && npx sequelize-cli db:seed:all && npm run prod"
 
 
   # CAS Development Server
-  eeasi-cas:
+  eaasi-cas:
     image: eaasi-cas
-    build: ./cas-test-server
+    build:
+        context: ./cas-test-server
     ports:
         - "8443:8443"
-        - "8080:8444"
 
 
 volumes:
