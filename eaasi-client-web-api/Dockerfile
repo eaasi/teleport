@@ -1,6 +1,6 @@
 FROM node:10.16-alpine
 
-WORKDIR /appSpec
+WORKDIR /app
 
 COPY .babelrc ./
 
