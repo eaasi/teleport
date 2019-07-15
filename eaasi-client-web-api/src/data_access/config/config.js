@@ -10,7 +10,7 @@ module.exports = {
         "host": "localhost",
         "port": 5432,
         "dialect": "postgres",
-        "operatorsAliases": false
+        // "operatorsAliases": false
     },
 
     // Used for isolated integration testing. Postgres database
@@ -23,7 +23,7 @@ module.exports = {
         "host": "eaasi-test-database",
         "port": 5432,
         "dialect": "postgres",
-        "operatorsAliases": false
+        // "operatorsAliases": false
     },
 
     // Used for docker-compose deployment. Postgres database
@@ -36,6 +36,6 @@ module.exports = {
         "host": "eaasi-database",
         "port": 5432,
         "dialect": "postgres",
-        "operatorsAliases": false
+        // "operatorsAliases": false
     }
 }
