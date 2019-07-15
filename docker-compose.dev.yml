@@ -41,7 +41,6 @@ services:
         - 8081:3000
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- npx sequelize-cli db:migrate sequelize && npx sequelize-cli db:seed:all && npm run prod"
 
-
   # CAS Development Server
   eaasi-cas:
     image: eaasi-cas
