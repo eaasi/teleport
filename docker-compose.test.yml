@@ -21,8 +21,14 @@ services:
         context: ./eaasi-front-end
     ports:
         - 8080:80
-    environment:
-        - API_URL=http://localhost:8081
+
+  # CAS Development Server
+  eaasi-cas:
+    image: eaasi-cas
+    build:
+        context: ./cas-test-server
+    ports:
+        - "8443:8443"
 
   # Express Web API
   eaasi-web-api:
@@ -32,11 +38,15 @@ services:
         dockerfile: Dockerfile.test
     depends_on:
         - eaasi-test-database
-    environment:
-        - NODE_ENV=test
+        - eaasi-cas
+    env_file:
+        - ./eaasi-client-web-api/env/test.env
     ports:
-        - 8081:3000
-    command: bash -c "./wait-for-it.sh eaasi-test-database:5432 -- npx sequelize-cli db:migrate && npm run prod"
+        - 8081:8081
+    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- \
+                      npx sequelize-cli db:migrate \
+                      && npx sequelize-cli db:seed:all \
+                      && npm run prod"
 
 volumes:
     # Database Data
