@@ -45,7 +45,7 @@ services:
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- \
                       npx sequelize-cli db:migrate \
                       && npx sequelize-cli db:seed:all \
-                      &sequelizeo& npm run prod"
+                      && npm run prod"
 
 volumes:
     # Database Data
