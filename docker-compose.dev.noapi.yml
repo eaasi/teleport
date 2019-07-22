@@ -29,23 +29,6 @@ services:
     ports:
         - "8443:8443"
 
-  # Express Web API
-  eaasi-web-api:
-    image: eaasi-web-api
-    build:
-        context: ./eaasi-client-web-api
-    depends_on:
-        - eaasi-database
-        - eaasi-cas
-    env_file:
-          # do not check into version control
-        - ./eaasi-client-web-api/env/prod.env
-    ports:
-        - 8081:8081
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- \
-                      npx sequelize-cli db:migrate \
-                      && npx sequelize-cli db:seed:all \
-                      && npm run prod"
 
 volumes:
     # Database Data

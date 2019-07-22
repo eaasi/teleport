@@ -38,8 +38,7 @@ services:
         - eaasi-database
         - eaasi-cas
     env_file:
-          # do not check into version control
-        - ./eaasi-client-web-api/env/prod.env
+        - ./eaasi-client-web-api/env/dev.env
     ports:
         - 8081:8081
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- \
