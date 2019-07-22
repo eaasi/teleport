@@ -1,4 +1,4 @@
-<template>
+<template functional>
 	<header id="header" class="flex-row">
 		<div id="headerLogo" class="flex flex-center">
 			<img src="../../assets/header-logo.png" alt="Eaasi Logo" />
@@ -8,26 +8,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-export default Vue.extend({
-	name: 'AppHeader',
-	props: {
-
-	},
-	components: {
-
-	},
-	computed: {
-
-	},
-	data() {
-		return {
-
-		};
-	},
-	methods: {
-
-	}
-});
+import Component from 'vue-class-component';
+@Component
+export default class AppHeader extends Vue {};
 </script>
 
 <style lang="scss">

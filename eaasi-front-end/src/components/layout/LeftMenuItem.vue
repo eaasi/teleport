@@ -12,15 +12,17 @@
 <script lang="ts">
 import Vue from 'vue';;
 import { IMenuItem } from '@/types/Navigation';
-export default Vue.extend({
-	name: 'LeftMenuItem',
+import Component from 'vue-class-component';
+
+@Component({
 	props: {
 		item: {
 			type: Object as () => IMenuItem,
 			required: true
 		}
 	}
-});
+})
+export default class LeftMenuItem extends Vue {}
 </script>
 
 <style lang="scss">
