@@ -21,14 +21,6 @@ services:
     ports:
         - 8080:80
 
-  # CAS Development Server
-  eaasi-cas:
-    image: eaasi-cas
-    build:
-        context: ./cas-test-server
-    ports:
-        - "8443:8443"
-
   # Express Web API
   eaasi-web-api:
     image: eaasi-web-api
@@ -36,7 +28,6 @@ services:
         context: ./eaasi-client-web-api
     depends_on:
         - eaasi-database
-        - eaasi-cas
     env_file:
           # do not check into version control
         - ./eaasi-client-web-api/env/prod.env

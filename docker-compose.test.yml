@@ -22,14 +22,6 @@ services:
     ports:
         - 8080:80
 
-  # CAS Development Server
-  eaasi-cas:
-    image: eaasi-cas
-    build:
-        context: ./cas-test-server
-    ports:
-        - "8443:8443"
-
   # Express Web API
   eaasi-web-api:
     image: eaasi-web-api
@@ -38,7 +30,6 @@ services:
         dockerfile: Dockerfile.test
     depends_on:
         - eaasi-test-database
-        - eaasi-cas
     env_file:
         - ./eaasi-client-web-api/env/test.env
     ports:
