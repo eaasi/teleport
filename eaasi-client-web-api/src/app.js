@@ -1,9 +1,14 @@
+import {NOT_FOUND, SERVER_ERROR} from "./http_helpers";
+
 const createError = require('http-errors');
 const express = require('express');
-const helmet = require('helmet');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+
+const bodyParser = require('body-parser');
+
+import Cors from 'cors';
 
 const app = express();
 
@@ -11,22 +16,25 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(helmet());
 app.use(logger('dev'));
+
+app.use(Cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/api', require('./routes'))
 
-app.use('/', function(req, res) {
-  res.redirect('/api/v1.0');
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  next(createError(NOT_FOUND));
 });
 
 // error handler
@@ -36,7 +44,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status || SERVER_ERROR);
   res.render('error');
 });
 
