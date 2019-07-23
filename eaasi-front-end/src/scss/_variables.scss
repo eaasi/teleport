@@ -2,8 +2,8 @@
  == Fonts
 /============================================================*/
 
-$font-main: sans-serif;
-$font-headlines: serif;
+$font-primary: 'Yantramanav', sans-serif;
+$font-secondary: 'Lato', sans-serif;
 
 /*============================================================
  == Colors
@@ -15,6 +15,8 @@ $primary-link-color: #337ab7;
  == Sizes
 /============================================================*/
 
+$headerHeight: 8rem;
+$leftSidebarWidth: 9rem;
 $minAppWidth: 320px;
 $remBase: 10px
 

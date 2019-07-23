@@ -9,17 +9,20 @@ html {
 	font-size: $remBase;
 }
 
-html, body {
-	height: 100%;
+html,
+body {
+	margin: 0;
 	min-width: $minAppWidth;
 	overflow-x: hidden;
+	padding: 0;
 }
 
 body {
-	background-color: #FFF;
-	font-family: $font-main;
-	font-weight: 400;
+	background-color: #F6F6F6;
+	color: #555;
+	font-family: $font-primary;
 	font-size: 1.6rem;
+	font-weight: 400;
 	overflow: hidden;
 	-webkit-overflow-scrolling: touch;
 	&.modal-open {
@@ -28,13 +31,14 @@ body {
 }
 
 /*============================================================
- == Text Ekements
+ == Text Ekements / Classes
 /============================================================*/
 
-h1,h2,h3,h4 {
+h1, h2, h3, h4 {
+	font-family: $font-secondary;
+	font-weight: bold;
 	margin-bottom: 1rem;
 	margin-top: 0;
-	font-family: $font-headlines;
 }
 
 h1 {
@@ -67,7 +71,8 @@ h4 {
 
 p {
 	font-size: 1.6rem;
-	line-height: 1.5em;
+	line-height: 1.2em;
+	margin: 0;
 	margin-bottom: 1rem;
 	@include mobile() {
 		font-size: 1.4rem;
@@ -83,8 +88,24 @@ ul {
 a {
 	color: $primary-link-color;
 	&:visited, &:active, &:focus, &:hover {
-		color: $primary-link-color;
+		color: inherit;
 	}
+}
+
+.txt-sm {
+	font-size: 1.2rem;
+}
+
+.txt-lg {
+	font-size: 1.8rem;
+}
+
+.txt-center {
+	text-align: center;
+}
+
+.txt-right {
+	text-align: right;
 }
 
 /*============================================================
@@ -228,6 +249,26 @@ a {
 
 .flex-auto {
 	flex: 0 0 auto;
+}
+
+/*============================================================
+ == Margin and spacing
+/============================================================*/
+
+.mb {
+	margin-bottom: 1.5rem;
+}
+
+.mb-sm {
+	margin-bottom: 1rem;
+}
+
+.mb-lg {
+	margin-bottom: 2rem;
+}
+
+.no-mb {
+	margin-bottom: none;
 }
 
 /*============================================================

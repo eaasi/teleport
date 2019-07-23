@@ -22,7 +22,7 @@ module.exports = {
 	],
 	rules: {
 		indent: ['error', 'tab'],
-		'lines-between-class-members': ['warn', 'always'],
+		'lines-between-class-members': ['off', 'never'],
 		'vue/component-name-in-template-casing': ['error', 'kebab-case'],
 		'vue/order-in-components': [
 			'error', {
@@ -51,6 +51,12 @@ module.exports = {
 			'alignAttributesVertically': true,
 			'ignores': []
 		}],
+		'vue/html-self-closing': ['warn', {
+			'html': {
+				'normal': 'never',
+				'void': 'always'
+			}
+		}],
 		'vue/max-attributes-per-line': ['error', {
 			'singleline': 4,
 			'multiline': {
@@ -63,6 +69,7 @@ module.exports = {
 			'ignoreWhenEmpty': true,
 			'ignores': ['router-link', 'pre', 'textarea', ...INLINE_ELEMENTS]
 		}],
+		'vue/require-default-prop': ['off', 'never'],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		quotes: [ 'error', 'single' ],
