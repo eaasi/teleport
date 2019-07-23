@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const UserInformationController = require('../../controllers/UserInformationController');
-const controller = new UserInformationController();
+const EaasiRoleController = require('../controllers/eaasi-role-controller');
+const controller = new EaasiRoleController();
 
 router.get('/', (req, res) => controller.getAll(req, res));
 router.get('/:id', (req, res) => controller.get(req, res));
