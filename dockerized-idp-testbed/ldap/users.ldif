@@ -1,0 +1,42 @@
+dn: cn=admin,dc=idptestbed
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+userPassword: password
+description: LDAP administrator
+
+dn: uid=portal_admin,ou=People,dc=idptestbed
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Admin
+uid: portal_admin
+sn: TestUser
+cn: Admin TestUser
+mail: wes@portalmedia.com
+userPassword: lakeCabin
+
+dn: uid=portal_contrib,ou=People,dc=idptestbed
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Contrib
+uid: portal_contrib
+sn: TestUser
+cn: Contrib TestUser
+mail: wes@portalmedia.com
+userPassword: lakeCabin
+
+dn: uid=portal_config,ou=People,dc=idptestbed
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Config
+uid: portal_config
+sn: TestUser
+cn: Config TestUser
+mail: wes@portalmedia.com
+userPassword: lakeCabin
