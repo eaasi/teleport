@@ -2,14 +2,22 @@
  == Fonts
 /============================================================*/
 
-$font-primary: 'Yantramanav', sans-serif;
+$font-primary: 'Lato', sans-serif;
 $font-secondary: 'Lato', sans-serif;
 
 /*============================================================
  == Colors
 /============================================================*/
 
-$primary-link-color: #337ab7;
+$dark-neutral: #6f6a67;
+$light-neutral: #f0e2d6;
+$dark-blue: #2479AA;
+$light-blue: #73BDE8;
+$teal: #2F9EB2;
+$green: #00C34B;
+$yellow: #FFD742;
+$orange: #F5964B;
+$red: #F26362;
 
 /*============================================================
  == Sizes
@@ -17,7 +25,7 @@ $primary-link-color: #337ab7;
 
 $headerHeight: 8rem;
 $leftSidebarWidth: 9rem;
-$minAppWidth: 320px;
+$minAppWidth: 1024px;
 $remBase: 10px
 
 /*============================================================

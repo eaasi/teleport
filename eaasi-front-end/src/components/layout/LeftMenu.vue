@@ -28,14 +28,14 @@ export default class LeftMenu extends Vue {
 			route: '/dashboard'
 		},
 		{
-			icon: 'clipboard',
-			label: 'Explore Resources',
-			route: '/explore'
-		},
-		{
-			icon: 'clipboard',
+			icon: 'clipboard-list',
 			label: 'My Resources',
 			route: '/my-resources'
+		},
+		{
+			icon: 'file-search',
+			label: 'Explore Resources',
+			route: '/explore'
 		}
 	]
 
@@ -45,7 +45,7 @@ export default class LeftMenu extends Vue {
 
 <style lang="scss">
 .left-menu {
-	background-color: #F6FAFD;
+	background-color: lighten($teal, 90%);
 	border-top: solid 1px #D5D5D5;
 	border-bottom: solid 1px #D5D5D5;
 	border-right: solid 2px #E3DEDA;
@@ -53,7 +53,7 @@ export default class LeftMenu extends Vue {
 	left: 0;
 	margin-top: $headerHeight;
 	position: fixed;
-	top: 0;
+	top: 2px;
 	width: $leftSidebarWidth;
 }
 </style>

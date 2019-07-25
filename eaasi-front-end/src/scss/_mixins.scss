@@ -21,6 +21,18 @@
 }
 
 /*============================================================
+ == Colors
+/============================================================*/
+
+@function lighten($color, $percentage) {
+	@return scale-color($color, $lightness: $percentage);
+}
+
+@function darken($color, $percentage) {
+	@return scale-color($color, $lightness: $percentage * -1);
+}
+
+/*============================================================
  == Display and Positioning
 /============================================================*/
 
