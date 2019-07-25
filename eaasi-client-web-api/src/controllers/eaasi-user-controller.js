@@ -1,30 +1,11 @@
 import EaasiUserService from "../services/eaasi-user-service";
+import BaseController from "./base-controller";
 
-class EaasiUserController {
+class EaasiUserController extends BaseController {
 
 	constructor() {
+		super(new EaasiUserService());
 		this.userService = new EaasiUserService();
-	}
-
-	/**
-	 * Gets all EaasiUser data (paginated)
-	 * @param req request
-	 * @param res response
-	 */
-	async getAll(req, res) {
-		let limit = req.query.limit;
-		let page = req.query.page || 1;
-		await this.userService.getAll(limit, page, res, 'id')
-	}
-
-	/**
-	 * Gets an EaasiUser resource by ID
-	 * @param req request
-	 * @param res response
-	 */
-	async get(req, res) {
-		const id = req.params.id;
-		await this.userService.getByPk(id, res)
 	}
 
 	/**

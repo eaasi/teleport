@@ -1,30 +1,11 @@
 import EaasiRoleService from "../services/eaasi-role-service";
+import BaseController from "./base-controller";
 
-class EaasiRoleController {
+class EaasiRoleController extends BaseController {
 
 	constructor() {
+		super(new EaasiRoleService());
 		this.roleService = new EaasiRoleService();
-	}
-
-	/**
-	 * Gets all EaasiRole data (paginated)
-	 * @param req request
-	 * @param res response
-	 */
-	async getAll(req, res) {
-		let limit = req.query.limit;
-		let page = req.query.page || 1;
-		await this.roleService.getAll(limit, page, res, 'id')
-	}
-
-	/**
-	 * Gets an EaasiRole resource by ID
-	 * @param req request
-	 * @param res response
-	 */
-	async get(req, res) {
-		const id = req.params.id;
-		await this.roleService.getByPk(id, res)
 	}
 
 	/**

@@ -1,4 +1,4 @@
-import {NOT_FOUND, SERVER_ERROR} from "./http_helpers";
+import {NOT_FOUND, SERVER_ERROR} from "./utils/http_helpers";
 
 const createError = require('http-errors');
 const express = require('express');

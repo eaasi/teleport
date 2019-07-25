@@ -2,13 +2,13 @@
  * Standard Error Responses for web API Requests
  */
 
-import {NOT_FOUND} from "../../dist/http_helpers";
+import {NOT_FOUND} from "./http_helpers";
 
 class ErrorResponse {
 	constructor(httpCode, message) {
 		this.message = {
 			status: httpCode,
-			message: message
+			message: message,
 		}
 	}
 }
@@ -18,8 +18,10 @@ class ErrorResponse {
  * Resource not found response
  * @type {{}}
  */
-function build_404_response(resource_name) {
+export function build_404_response(requestedUrl) {
+
 	const message =
-		`The resource ${resource_name} was not found at this location.`;
+		`No resource was not found at the requested location: ${requestedUrl} `;
+
 	return new ErrorResponse(NOT_FOUND, message).message
 }

@@ -1,4 +1,4 @@
-import {BAD_REQUEST, DELETED, CREATED, NOT_FOUND, OK} from "../../http_helpers";
+import {BAD_REQUEST, DELETED, CREATED, NOT_FOUND, OK} from "../../utils/http_helpers";
 
 export default class ApiService {
 	constructor(model) {
@@ -21,50 +21,38 @@ export default class ApiService {
 	 * @param page starting page of response results
 	 * @param sortCol column by which to sort response results
 	 * @param res response
-	 * @returns {Promise<void>}
+	 * @returns {Promise<{}>}
 	 */
-	async getAll(limit, page, res, sortCol) {
+	async getAll(limit, page, sortCol) {
 		if(limit == null) {
 			limit = this.MAX_GET_ALL_PAGE_SIZE
 		}
-		await this.model
-			.findAndCountAll()
-			.then((data) => {
-				// Set total pages and offset for pagination
-				let total_pages = Math.ceil(data.count / limit);
-				let offset = limit * (page - 1);
 
-				return this.model.findAll({
-					limit: limit,
-					offset: offset,
-					$sort: sortCol ? {sortCol: 1} : null
-				}).then(results => res.status(OK)
-					.send({
-						'results': results,
-						'count': data.count,
-						'total_pages': total_pages
-					})
-				).catch(error => res.status(BAD_REQUEST)
-					.send(error)
-				);
-			});
+		let totalResults = await this.model.findAndCountAll()
+		let total_pages = Math.ceil(totalResults.count / limit);
+		let offset = limit * (page - 1);
+
+		let results = await this.model.findAll({
+			limit: limit,
+			offset: offset,
+			$sort: sortCol ? {sortCol: 1} : null
+		})
+
+		return {
+			'result': results,
+			'count': results.count,
+			'total_pages': total_pages
+		}
 	};
 
 	/**
 	 * Gets a model instance by PK
 	 * @param pk instance primary key
 	 * @param res response
-	 * @returns {Promise<void>}
+	 * @returns {Promise<{}>}
 	 */
-	async getByPk (pk, res) {
-		await this.model.findByPk(pk).then(found => {
-			if (!found) {
-				return res.status(NOT_FOUND).send({
-					message: ApiService.notFound()
-				});
-			}
-			return res.json(found);
-		});
+	async getByPk (pk) {
+		return await this.model.findByPk(pk);
 	};
 
 	/**
