@@ -1,5 +1,5 @@
 <template>
-	<nav class="left-menu">
+	<nav class="left-menu" role="navigation">
 		<left-menu-item
 			v-for="item in menuItems"
 			:item="item"

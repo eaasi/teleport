@@ -12,6 +12,11 @@ export default new Router({
 			path: '/',
 			name: 'home',
 			component: Home
+		},
+		{
+			path: '/dashboard',
+			name: 'dashboard',
+			component: Home
 		}
 	]
 });

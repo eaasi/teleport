@@ -14,6 +14,10 @@
 			:tabs="tabs"
 			v-model="activeTab"
 		/>
+		<eaasi-loader />
+		<pagination
+			:total-results="200"
+		/>
 	</div>
 </template>
 
@@ -22,13 +26,17 @@ import { Component, Vue } from 'vue-property-decorator';
 import { IEaasiTab } from '@/types/Navigation';
 import EaasiButton from '@/components/global/EaasiButton.vue';
 import EaasiTabs from '@/components/global/EaasiTabs.vue';
+import EaasiLoader from '@/components/global/EaasiLoader.vue';
 import OptionsBox from '@/components/global/OptionsBox.vue';
+import Pagination from '@/components/global/Pagination.vue';
 
 @Component({
 	components: {
 		EaasiButton,
+		EaasiLoader,
 		EaasiTabs,
-		OptionsBox
+		OptionsBox,
+		Pagination
 	}
 })
 export default class Home extends Vue {

@@ -25,7 +25,7 @@ export default class OptionsBox extends Vue {}
 
 <style lang="scss">
 .options-box {
-	background-color: lighten($light-neutral, 80%);
+	background-color: lighten($light-neutral, 60%);
 	border-radius: 1rem;
 	display: inline-block;
 	min-width: 320px;
