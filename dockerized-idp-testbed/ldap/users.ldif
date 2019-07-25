@@ -5,38 +5,39 @@ cn: admin
 userPassword: password
 description: LDAP administrator
 
-dn: uid=portal_admin,ou=People,dc=idptestbed
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
-objectClass: inetOrgPerson
-givenName: Admin
-uid: portal_admin
-sn: TestUser
-cn: Admin TestUser
-mail: wes@portalmedia.com
-userPassword: lakeCabin
 
 dn: uid=portal_contrib,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
-givenName: Contrib
+givenName: Portal
 uid: portal_contrib
-sn: TestUser
-cn: Contrib TestUser
-mail: wes@portalmedia.com
-userPassword: lakeCabin
+sn: Contributor
+cn: Portal Contributor
+mail: portal_contrib@idptestbed.edu
+userPassword: password
+
+dn: uid=portal_admin,ou=People,dc=idptestbed
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Portal
+uid: portal_admin
+sn: Admin
+cn: Portal Admin
+mail: portal_admin@idptestbed.edu
+userPassword: password
 
 dn: uid=portal_config,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
-givenName: Config
+givenName: Portal
 uid: portal_config
-sn: TestUser
-cn: Config TestUser
-mail: wes@portalmedia.com
-userPassword: lakeCabin
+sn: Config User
+cn: Portal Config User
+mail: portal_config@idptestbed.edu
+userPassword: password
