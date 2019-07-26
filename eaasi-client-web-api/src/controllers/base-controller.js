@@ -1,5 +1,5 @@
 import {build_400_response, build_404_response, build_500_response} from "../utils/error_helpers";
-import {BAD_REQUEST, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http_helpers";
+import {BAD_REQUEST, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http_response_codes";
 
 export default class BaseController {
 	constructor(entityService) {
