@@ -11,6 +11,8 @@ export default class ApiService {
 
 	/**
 	 * Gets all model instances. Implements pagination
+	 * On success, returns object containing results, count, and total pages
+	 * On error, returns error object
 	 * @param limit number of results to limit in the response
 	 * @param page starting page of response results
 	 * @param sortCol column by which to sort response results
@@ -50,6 +52,8 @@ export default class ApiService {
 
 	/**
 	 * Gets a model instance by PK
+	 * On success, returns model data of found resource
+	 * On error, returns error object
 	 * @param pk instance primary key
 	 * @returns {Promise<{}>}
 	 */
@@ -64,6 +68,8 @@ export default class ApiService {
 
 	/**
 	 * Creates a model instance and persists to database
+	 * On success, returns model data of created resource
+	 * On error, returns error object
 	 * @param modelData model object
 	 * @returns {Promise<{}>}
 	 */
@@ -78,12 +84,14 @@ export default class ApiService {
 
 	/**
 	 * Updates a model instance and persists changes to database
+	 * On success, returns model data of updated resource
+	 * On error, returns error object
 	 * @param pk instance primary key
 	 * @param modelData model object
 	 * @returns {Promise<{}>}
 	 */
 	async update(pk, modelData) {
-		return await this.model.findByPk(id)
+		return await this.model.findByPk(pk)
 			.then(found => {
 				if (!found) {
 					return { hasError: true, error: "notFound" }
@@ -91,7 +99,7 @@ export default class ApiService {
 				found.update({
 					found: modelData
 				}).then(() => {
-					return found
+					return { hasError: false, result: found }
 				}).catch((error) => {
 					return {hasError: true, error: error}
 				});
@@ -102,20 +110,26 @@ export default class ApiService {
 
 	/**
 	 * Deletes a model instance and persists changes to database
+	 * On success, returns PK of deleted resource
+	 * On error, returns error object
 	 * @param pk instance primary key
 	 * @returns {Promise<{}>}
 	 */
 	async destroy(pk) {
-		await this.model.findByPk(pk).then(found => {
-			if (!found) {
-				res.status(NOT_FOUND).send({
-					message: ApiService.notFound()
+		await this.model.findByPk(pk)
+			.then(found => {
+				if (!found) {
+					return {hasError: true, error: "notFound" }
+				}
+				found.destroy({
+					where: { pk }
+				}).then(() => {
+					return { hasError: false, result: pk }
+				}).catch(error => {
+					return {hasError: true, error: error}
 				});
-			}
-			found.destroy({
-				where: { pk }
-			}).then(() => res.status(DELETED).send())
-				.catch(error => res.status(BAD_REQUEST).send(error));
-		}).catch(error => res.status(BAD_REQUEST).send(error));
+			}).catch(error => {
+				return {hasError: true, error: error}
+			});
 	}
 }
