@@ -45,4 +45,15 @@ export default class SequelizeModelFake {
 
 		return await this.rows.slice(offset, offset + limit);
 	};
+
+	/**
+	 * Method fake for SequelizeModel.findByPk
+	 * @param pk instance primary key
+	 * @returns {Promise<void>}
+	 */
+	async findByPk(pk) {
+		return this.rows.find(obj => {
+			return obj.id === pk;
+		});
+	}
 }

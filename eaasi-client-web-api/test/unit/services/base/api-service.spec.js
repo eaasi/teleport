@@ -32,7 +32,7 @@ describe("API Service", () => {
 			expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(expected);
 		});
 
-	it("should called findAndCountAll() once when getting all model instances",
+	it("should called findAndCountAll() once when calling getAll()",
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -40,7 +40,7 @@ describe("API Service", () => {
 			expect(sut.model.findAndCountAll_callCount).toBe(1);
 		});
 
-	it("should called findAll() once when getting all model instances",
+	it("should called findAll() once when calling getAll()",
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -55,6 +55,8 @@ describe("API Service", () => {
 			const response = await sut.getAll('foo', 'bar', 'baz');
 			expect(response.hasError).toBe(false);
 		});
+
+	// Start Pagination Tests
 
 	it.each`
 	limit   | page | tableSize | expected
@@ -93,4 +95,13 @@ describe("API Service", () => {
 			const response = await sut.getAll(limit, page);
 			expect(response.result.result.length).toBe(expected);
 		});
+
+	// End Pagination Tests
+
+	it("should get a single object by pk", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		const response = await sut.getByPk(2);
+		expect(response.result.id).toBe(2)
+	})
 })
