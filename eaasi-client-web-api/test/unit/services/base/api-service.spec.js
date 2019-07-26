@@ -15,9 +15,18 @@ describe("API Service", () => {
 		expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(100)
 	})
 
-	it("should override MAX_GET_ALL_PAGE_SIZE via instance method", () => {
-		let sut = new ApiService(modelSpy)
-		sut.setMaxPaginationValue(990)
-		expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(990)
-	})
+	it.each`
+	input     | expected
+	${0}      | ${0}
+	${1}      | ${1}
+	${10}     | ${10}
+	${889}    | ${889}
+	${-99999} | ${-99999}
+	`
+	('should override MAX_GET_ALL_PAGE_SIZE with $input via instance method',
+		({input, expected}) => {
+			let sut = new ApiService(modelSpy)
+			sut.setMaxPaginationValue(input)
+			expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(expected)
+		})
 })
