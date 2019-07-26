@@ -8,13 +8,8 @@ const FORBIDDEN    = 403   // User made a valid request but is unauthorized to a
 const NOT_FOUND    = 404   // The requested resource is not found
 const SERVER_ERROR = 500   // The server cannot handle the request for an unknown reason
 
-function build_not_found_message(resource_name) {
-	return `${resource_name} was not found`
-}
-
 module.exports = {
 	OK, CREATED, ACCEPTED, REDIRECT,
 	BAD_REQUEST, UNAUTHORIZED, FORBIDDEN,
 	NOT_FOUND, SERVER_ERROR,
-	build_not_found_message
 }
