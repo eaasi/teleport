@@ -2,7 +2,7 @@ import {OK, ACCEPTED, REDIRECT, BAD_REQUEST,
 	NOT_FOUND, SERVER_ERROR, CREATED, FORBIDDEN,
 	UNAUTHORIZED} from "../../../src/utils/http_response_codes";
 
-describe('The response code', () => {
+describe('The HTTP response code', () => {
 	it("for 'OK' should be 200", () => {
 		const okCode = OK
 		expect(200).toBe(okCode)
