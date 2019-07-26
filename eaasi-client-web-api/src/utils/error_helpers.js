@@ -27,6 +27,26 @@ export function build_400_response(requestBody) {
 }
 
 /**
+ * HTTP "Unauthorized" error response (Requester is not authenticated)
+ * @type {{}}
+ */
+export function build_401_response() {
+	const messageDetail = `You need to be authenticated to access the requested resource`;
+
+	return new ErrorResponse(NOT_FOUND, messageDetail).message
+}
+
+/**
+ * HTTP "Forbidden" error response  (Requester is not authorized)
+ * @type {{}}
+ */
+export function build_403_response() {
+	const messageDetail = `You do not have permission to access the requested resource`;
+
+	return new ErrorResponse(NOT_FOUND, messageDetail).message
+}
+
+/**
  * Resource not found response
  * @type {{}}
  */
@@ -42,7 +62,7 @@ export function build_404_response(requestedUrl) {
  * @type {{}}
  */
 export function build_500_response(serverError) {
-	let standardizedError = getStandardizedErrorDetail(serverError.name);
+	let standardizedError = _getStandardizedServerError(serverError.name);
 
 	const messageDetail =
 		`A server error occurred while processing the request: ${standardizedError}`;
@@ -55,10 +75,10 @@ export function build_500_response(serverError) {
  * @param errorName the error type returned from the server
  * @returns {*|string}
  */
-export function getStandardizedErrorDetail(errorName) {
+export function _getStandardizedServerError(errorName) {
 	let messageMap = {
 		'SequelizeDatabaseError': "Server could not parse the provided query"
 	}
 
-	return messageMap[errorName] || "Unspecified Server Error"
+	return messageMap[errorName] || "Unspecified server error"
 }
