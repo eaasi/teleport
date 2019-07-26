@@ -1,5 +1,5 @@
 import {build_400_response, build_404_response, build_500_response} from "../utils/error_helpers";
-import {BAD_REQUEST, DELETED, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http_helpers";
+import {BAD_REQUEST, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http_helpers";
 
 export default class BaseController {
 	constructor(entityService) {
@@ -12,13 +12,21 @@ export default class BaseController {
 	 * @param res response
 	 */
 	async getAll(req, res) {
-		let limit = req.query.limit;
+		let limit = req.query.limit || 100;
 		let page = req.query.page || 1;
 		let sortCol = req.query.sortCol;
+
+		if (!Number.isInteger(limit) || !Number.isInteger(page)) {
+			console.log(req.query)
+			return await res.status(BAD_REQUEST)
+				.send(build_400_response(JSON.stringify(req.query)))
+		}
+
 		let response = await this._entityService.getAll(limit, page, sortCol)
 
 		if (response.hasError) {
-			return await res.status(SERVER_ERROR).send(build_500_response(response.error))
+			return await res.status(SERVER_ERROR)
+				.send(build_500_response(response.error))
 		}
 
 		return await res.send(response.result);
