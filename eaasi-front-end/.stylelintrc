@@ -7,7 +7,6 @@
 	"processors": ["stylelint-processor-html"],
     "rules": {
 		"color-hex-case": null,
-		"empty-link-before": null,
 		"indentation": ["tab"],
 		"length-zero-no-unit": null,
         "order/order": [
