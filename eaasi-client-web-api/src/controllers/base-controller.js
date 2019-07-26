@@ -1,5 +1,6 @@
 import {build_400_response, build_404_response, build_500_response} from "../utils/error_helpers";
 import {BAD_REQUEST, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http_response_codes";
+import {areAllValidIntegerParams} from "../utils/validators";
 
 export default class BaseController {
 	constructor(entityService) {
@@ -16,8 +17,8 @@ export default class BaseController {
 		let page = req.query.page || 1;
 		let sortCol = req.query.sortCol;
 
-		if (!Number.isInteger(limit) || !Number.isInteger(page)) {
-			console.log(req.query)
+		// todo: investigate more robust query string validation, add sortCol validation
+		if (!areAllValidIntegerParams([limit, page])) {
 			return await res.status(BAD_REQUEST)
 				.send(build_400_response(JSON.stringify(req.query)))
 		}
