@@ -1,3 +1,9 @@
+/**
+ * Custom validators for query strings
+ * @param param
+ * @returns {boolean}
+ */
+
 export function isValidIntegerParam(param) {
 	return Number.isInteger(parseInt(param));
 }
