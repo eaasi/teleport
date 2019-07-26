@@ -1,5 +1,3 @@
-import {BAD_REQUEST, DELETED, CREATED, NOT_FOUND, OK} from "../../utils/http_helpers";
-
 export default class ApiService {
 	constructor(model) {
 		// Sequelize Model
@@ -53,7 +51,6 @@ export default class ApiService {
 	/**
 	 * Gets a model instance by PK
 	 * @param pk instance primary key
-	 * @param res response
 	 * @returns {Promise<{}>}
 	 */
 	async getByPk (pk) {
@@ -73,10 +70,7 @@ export default class ApiService {
 	async create(modelData){
 		return await this.model.create(modelData)
 			.then(created => {
-				return {
-					hasError: false,
-					result: created
-				}
+				return { hasError: false, result: created }
 			}).catch(error => {
 				return {hasError: true, error: error}
 			});
@@ -86,34 +80,32 @@ export default class ApiService {
 	 * Updates a model instance and persists changes to database
 	 * @param pk instance primary key
 	 * @param modelData model object
-	 * @param res response
 	 * @returns {Promise<{}>}
 	 */
 	async update(pk, modelData) {
-		await this.model.findByPk(id).then(found => {
-			if (!found) {
-				return null
-			}
-
-			found.update({
-				found: modelData
-			}).then(() => {
-				return found
+		return await this.model.findByPk(id)
+			.then(found => {
+				if (!found) {
+					return { hasError: true, error: "notFound" }
+				}
+				found.update({
+					found: modelData
+				}).then(() => {
+					return found
+				}).catch((error) => {
+					return {hasError: true, error: error}
+				});
 			}).catch((error) => {
-				res.status(BAD_REQUEST).send(error)
+				return {hasError: true, error: error}
 			});
-		}).catch((error) => {
-			res.status(BAD_REQUEST).send(error)
-		});
 	};
 
 	/**
 	 * Deletes a model instance and persists changes to database
 	 * @param pk instance primary key
-	 * @param res response
 	 * @returns {Promise<{}>}
 	 */
-	async destroy(pk, res) {
+	async destroy(pk) {
 		await this.model.findByPk(pk).then(found => {
 			if (!found) {
 				res.status(NOT_FOUND).send({
