@@ -5,7 +5,7 @@ export default class ApiService {
 		this.MAX_GET_ALL_PAGE_SIZE = 100
 	}
 
-	async setMaxPaginationValue(max_val) {
+	setMaxPaginationValue(max_val) {
 		this.MAX_GET_ALL_PAGE_SIZE = max_val
 	};
 

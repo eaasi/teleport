@@ -1,8 +1,10 @@
 /**
  * Test Spy for Sequelize Models
  */
-class SequelizeModelSpy {
-	constructor() {
+export default class SequelizeModelSpy {
+
+	constructor(modelName) {
+		this.modelName = modelName
 		this.findAndCountAllWasCalled = false;
 		this.findAndCountAll_CallCount = 0;
 
