@@ -15,7 +15,7 @@ class EaasiRoleController extends BaseController {
 	 */
 	async create(req, res) {
 		const roleData = req.body;
-		await this.roleService.create(roleData, res)
+		await this.roleService.create(roleData)
 	}
 
 	/**
@@ -26,7 +26,7 @@ class EaasiRoleController extends BaseController {
 	async update(req, res) {
 		const id = req.params.id;
 		const roleData = req.body;
-		await this.roleService.update(id, roleData, res)
+		await this.roleService.update(id, roleData)
 	}
 
 	/**
@@ -36,7 +36,7 @@ class EaasiRoleController extends BaseController {
 	 */
 	async delete(req, res) {
 		const id = req.params.id;
-		await this.roleService.destroy(id, res);
+		await this.roleService.destroy(id);
 	}
 }
 

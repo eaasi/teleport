@@ -20,34 +20,24 @@ export default class ApiService {
 	 * @returns {Promise<{}>}
 	 */
 	async getAll(limit, page, sortCol) {
-		if (limit == null) {
-			limit = this.MAX_GET_ALL_PAGE_SIZE
-		}
+
+		let resultsCountLimit = limit || this.MAX_GET_ALL_PAGE_SIZE
 
 		let totalResults = await this.model.findAndCountAll()
 			.catch(error => {
-				return {
-					hasError: true,
-					result: {
-						error: error
-					}
-				}
+				return {hasError: true, error: error}
 			});
 
-		let total_pages = Math.ceil(totalResults.count / limit);
-		let offset = limit * (page - 1);
+		let total_pages = Math.ceil(totalResults.count / resultsCountLimit);
+
+		let offset = resultsCountLimit * (page - 1);
 
 		let results = await this.model.findAll({
-			limit: limit,
+			limit: resultsCountLimit,
 			offset: offset,
 			$sort: sortCol ? {sortCol: 1} : null
 		}).catch(error => {
-			return {
-				hasError: true,
-				result: {
-					error: error
-				}
-			}
+			return {hasError: true, error: error}
 		});
 
 		return {
@@ -67,21 +57,12 @@ export default class ApiService {
 	 * @returns {Promise<{}>}
 	 */
 	async getByPk (pk) {
-		console.log("Called getByPk with ", pk)
-
-		let result = await this.model.findByPk(pk).catch(error => {
-			return {
-				hasError: true,
-				result: {
-					error: error
-				}
-			}
-		});
-
-		return {
-			hasError: false,
-			result: result
-		}
+		return await this.model.findByPk(pk)
+			.then(result => {
+				return { hasError: false, result: result }
+			}).catch(error => {
+				return { hasError: true, error: error }
+			});
 	};
 
 	/**
@@ -90,17 +71,14 @@ export default class ApiService {
 	 * @returns {Promise<{}>}
 	 */
 	async create(modelData){
-		await this.model.create(modelData)
+		return await this.model.create(modelData)
 			.then(created => {
 				return {
 					hasError: false,
 					result: created
 				}
 			}).catch(error => {
-				return {
-					hasError: true,
-					result: error
-				}
+				return {hasError: true, error: error}
 			});
 	};
 

@@ -15,7 +15,7 @@ class EaasiUserController extends BaseController {
 	 */
 	async create(req, res) {
 		const userData = req.body;
-		await this.userService.create(userData, res)
+		await this.userService.create(userData)
 	}
 
 	/**
@@ -26,7 +26,7 @@ class EaasiUserController extends BaseController {
 	async update(req, res) {
 		const id = req.params.id;
 		const userData = req.body;
-		await this.userService.update(id, userData, res)
+		await this.userService.update(id, userData)
 	}
 
 	/**
@@ -36,7 +36,7 @@ class EaasiUserController extends BaseController {
 	 */
 	async delete(req, res) {
 		const id = req.params.id;
-		await this.userService.destroy(id, res);
+		await this.userService.destroy(id);
 	}
 }
 
