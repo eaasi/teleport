@@ -5,16 +5,16 @@ export default class SequelizeModelSpy {
 
 	constructor(modelName) {
 		this.modelName = modelName
-		this.findAndCountAllWasCalled = false;
-		this.findAndCountAll_CallCount = 0;
+		this.findAndCountAll_wasCalled = false;
+		this.findAndCountAll_callCount = 0;
 
-		this.findAllWasCalled = false;
-		this.findAll_CallCount = 0;
+		this.findAll_wasCalled = false;
+		this.findAll_callCount = 0;
 	}
 
 	async findAndCountAll() {
-		this.findAndCountAllWasCalled = true;
-		this.findAndCountAllWasCalled += 1;
+		this.findAndCountAll_wasCalled = true;
+		this.findAndCountAll_callCount += 1;
 		return await {
 			count: 42,
 			rows: []
@@ -22,8 +22,8 @@ export default class SequelizeModelSpy {
 	}
 
 	async findAll() {
-		this.findAllWasCalled =  true;
-		this.findAll_CallCount += 1;
+		this.findAll_wasCalled =  true;
+		this.findAll_callCount += 1;
 		return await []
 	};
 }

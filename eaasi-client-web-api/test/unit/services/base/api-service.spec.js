@@ -5,15 +5,17 @@ import SequelizeModelSpy from "../../../helpers/spies/sequelize-model-spy"
 describe("API Service", () => {
 	let modelSpy = new SequelizeModelSpy("fakeModel")
 
-	it("should assign domain model via ctor", () => {
-		let sut = new ApiService(modelSpy)
-		expect(sut.model).toBeInstanceOf(SequelizeModelSpy)
-	})
+	it("should assign domain model via ctor",
+		() => {
+			let sut = new ApiService(modelSpy)
+			expect(sut.model).toBeInstanceOf(SequelizeModelSpy)
+		})
 
-	it("should have default MAX_GET_PAGE_SIZE of 100", () => {
-		let sut = new ApiService(modelSpy)
-		expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(100)
-	})
+	it("should have default MAX_GET_PAGE_SIZE of 100",
+		() => {
+			let sut = new ApiService(modelSpy)
+			expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(100)
+		})
 
 	it.each`
 	input     | expected
@@ -23,10 +25,17 @@ describe("API Service", () => {
 	${889}    | ${889}
 	${-99999} | ${-99999}
 	`
-	('should override MAX_GET_ALL_PAGE_SIZE with $input via instance method',
+	('should set custom MAX_GET_ALL_PAGE_SIZE with input ($input) via instance method',
 		({input, expected}) => {
 			let sut = new ApiService(modelSpy)
 			sut.setMaxPaginationValue(input)
 			expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(expected)
+		})
+
+	it("should called findAndCountAll once when getting all model instances",
+		async () => {
+			let sut = new ApiService(modelSpy)
+			await sut.getAll(10, 1, 'id')
+			expect(sut.model.findAndCountAll_callCount).toBe(1)
 		})
 })
