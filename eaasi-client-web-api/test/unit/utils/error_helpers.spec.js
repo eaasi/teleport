@@ -1,7 +1,7 @@
 import {
 	build_400_response,
 	build_401_response,
-	build_403_response, build_404_response,
+	build_403_response, build_404_response, build_500_response,
 	ErrorResponse
 } from "../../../src/utils/error_helpers";
 
@@ -66,7 +66,7 @@ describe('build_404_response', () => {
 		expect(result).toBeInstanceOf(ErrorResponse)
 	});
 
-	it('should specify a message that shows the requesting client is forbidden from accessing resource', () => {
+	it('should specify a message showing that the resource was not found', () => {
 		const fakeUrl = "/foo/bar/"
 		let result = build_404_response(fakeUrl)
 		expect(result.message).toBe(`Resource was not found at the requested location: ${fakeUrl}`)
@@ -76,5 +76,31 @@ describe('build_404_response', () => {
 		const fakeUrl = "/foo/bar/"
 		let result = build_404_response(fakeUrl)
 		expect(result.status).toBe(404)
+	});
+})
+
+describe('build_500_response', () => {
+	it('should return an ErrorResponse object', () => {
+		const fakeServerError = "meltdown!"
+		let result = build_500_response(fakeServerError)
+		expect(result).toBeInstanceOf(ErrorResponse)
+	});
+
+	it('should provide "Unspecified server error" for an unmapped error type', () => {
+		const fakeServerError = "meltdown!"
+		let result = build_500_response(fakeServerError)
+		expect(result.message).toBe("Unspecified server error")
+	});
+
+	it('should provide "Server could not parse the provided query" for a SequelizeDatabaseError', () => {
+		const fakeServerError = "SequelizeDatabaseError"
+		let result = build_500_response(fakeServerError)
+		expect(result.message).toBe("Server could not parse the provided query")
+	});
+
+	it('should provide an ErrorResponse with HTTP status code 500', () => {
+		const fakeUrl = "/foo/bar/"
+		let result = build_500_response(fakeUrl)
+		expect(result.status).toBe(500)
 	});
 })
