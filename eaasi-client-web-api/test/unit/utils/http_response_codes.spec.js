@@ -9,8 +9,8 @@ describe('The HTTP response code', () => {
 	});
 
 	it("for 'CREATED' should be 201", () => {
-		const okCode = OK
-		expect(200).toBe(okCode)
+		const createdCode = CREATED
+		expect(201).toBe(createdCode)
 	});
 
 	it("for 'ACCEPTED' should be 202", () => {
