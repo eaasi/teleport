@@ -11,10 +11,6 @@ export default class ApiService {
 		this.MAX_GET_ALL_PAGE_SIZE = max_val
 	};
 
-	async notFound() {
-		await "The request returned no results."
-	};
-
 	/**
 	 * Gets all model instances. Implements pagination
 	 * @param limit number of results to limit in the response
@@ -24,11 +20,20 @@ export default class ApiService {
 	 * @returns {Promise<{}>}
 	 */
 	async getAll(limit, page, sortCol) {
-		if(limit == null) {
+		if (limit == null) {
 			limit = this.MAX_GET_ALL_PAGE_SIZE
 		}
 
 		let totalResults = await this.model.findAndCountAll()
+			.catch(error => {
+				return {
+					hasError: true,
+					result: {
+						error: error
+					}
+				}
+			});
+
 		let total_pages = Math.ceil(totalResults.count / limit);
 		let offset = limit * (page - 1);
 
@@ -36,12 +41,22 @@ export default class ApiService {
 			limit: limit,
 			offset: offset,
 			$sort: sortCol ? {sortCol: 1} : null
-		})
+		}).catch(error => {
+			return {
+				hasError: true,
+				result: {
+					error: error
+				}
+			}
+		});
 
 		return {
-			'result': results,
-			'count': results.count,
-			'total_pages': total_pages
+			hasError: false,
+			result: {
+				'result': results,
+				'count': results.length,
+				'total_pages': total_pages
+			}
 		}
 	};
 
@@ -52,19 +67,41 @@ export default class ApiService {
 	 * @returns {Promise<{}>}
 	 */
 	async getByPk (pk) {
-		return await this.model.findByPk(pk);
+		console.log("Called getByPk with ", pk)
+
+		let result = await this.model.findByPk(pk).catch(error => {
+			return {
+				hasError: true,
+				result: {
+					error: error
+				}
+			}
+		});
+
+		return {
+			hasError: false,
+			result: result
+		}
 	};
 
 	/**
 	 * Creates a model instance and persists to database
 	 * @param modelData model object
-	 * @param res response
-	 * @returns {Promise<void>}
+	 * @returns {Promise<{}>}
 	 */
-	async create(modelData, res){
-		await this.model.create(modelData).then(created =>
-			res.status(CREATED).send(created)
-		);
+	async create(modelData){
+		await this.model.create(modelData)
+			.then(created => {
+				return {
+					hasError: false,
+					result: created
+				}
+			}).catch(error => {
+				return {
+					hasError: true,
+					result: error
+				}
+			});
 	};
 
 	/**
@@ -72,27 +109,31 @@ export default class ApiService {
 	 * @param pk instance primary key
 	 * @param modelData model object
 	 * @param res response
-	 * @returns {Promise<void>}
+	 * @returns {Promise<{}>}
 	 */
-	async update(pk, modelData, res) {
+	async update(pk, modelData) {
 		await this.model.findByPk(id).then(found => {
 			if (!found) {
-				res.status(NOT_FOUND).send({
-					message: ApiService.notFound()
-				});
+				return null
 			}
+
 			found.update({
 				found: modelData
-			}).then(() => res.status(OK).send(found))
-				.catch((error) => res.status(BAD_REQUEST).send(error));
-		}).catch((error) => res.status(BAD_REQUEST).send(error));
+			}).then(() => {
+				return found
+			}).catch((error) => {
+				res.status(BAD_REQUEST).send(error)
+			});
+		}).catch((error) => {
+			res.status(BAD_REQUEST).send(error)
+		});
 	};
 
 	/**
 	 * Deletes a model instance and persists changes to database
 	 * @param pk instance primary key
 	 * @param res response
-	 * @returns {Promise<void>}
+	 * @returns {Promise<{}>}
 	 */
 	async destroy(pk, res) {
 		await this.model.findByPk(pk).then(found => {

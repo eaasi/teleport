@@ -1,4 +1,4 @@
-import {build_404_response} from "../utils/json_response_helpers";
+import {build_404_response, build_500_response} from "../utils/json_response_helpers";
 
 export default class BaseController {
 	constructor(entityService) {
@@ -13,8 +13,15 @@ export default class BaseController {
 	async getAll(req, res) {
 		let limit = req.query.limit;
 		let page = req.query.page || 1;
-		let users = await this.entityService.getAll(limit, page, 'id')
-		await res.send(users);
+		let response = await this.entityService.getAll(limit, page, 'id')
+
+		if (response.hasError) {
+			await res.send(
+				build_500_response(response.error)
+			)
+		}
+
+		await res.send(response.result);
 	}
 
 	/**
@@ -24,15 +31,21 @@ export default class BaseController {
 	 */
 	async get(req, res) {
 		const id = req.params.id;
-		let user = await this.entityService.getByPk(id)
 
-		if (user == null) {
+		let response = await this.entityService.getByPk(id)
+
+		if (response.hasError) {
+			await res.send(
+				build_500_response(response.error)
+			)
+		}
+
+		if (response.result == null) {
 			await res.send(
 				build_404_response(req.originalUrl)
 			)
 		}
 
-		await res.send(user)
+		await res.send(response.result)
 	}
-
 }
