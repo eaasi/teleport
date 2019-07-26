@@ -17,7 +17,7 @@ describe("API Service", () => {
 
 	it("should override MAX_GET_ALL_PAGE_SIZE via instance method", () => {
 		let sut = new ApiService(modelSpy)
-		sut.setMaxPaginationValue(2_000_000)
-		expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(2_000_000)
+		sut.setMaxPaginationValue(990)
+		expect(sut.MAX_GET_ALL_PAGE_SIZE).toBe(990)
 	})
 })
