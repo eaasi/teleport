@@ -49,7 +49,7 @@ export function build_403_response() {
  */
 export function build_404_response(requestedUrl) {
 	const messageDetail =
-		`No resource was not found at the requested location: ${requestedUrl}`;
+		`Resource was not found at the requested location: ${requestedUrl}`;
 
 	return new ErrorResponse(NOT_FOUND, messageDetail)
 }

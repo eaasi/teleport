@@ -1,7 +1,7 @@
 import {
 	build_400_response,
 	build_401_response,
-	build_403_response,
+	build_403_response, build_404_response,
 	ErrorResponse
 } from "../../../src/utils/error_helpers";
 
@@ -56,5 +56,25 @@ describe('build_403_response', () => {
 	it('should provide an ErrorResponse with HTTP status code 403', () => {
 		let result = build_403_response()
 		expect(result.status).toBe(403)
+	});
+})
+
+describe('build_404_response', () => {
+	it('should return an ErrorResponse object', () => {
+		const fakeUrl = "/foo/bar/"
+		let result = build_404_response(fakeUrl)
+		expect(result).toBeInstanceOf(ErrorResponse)
+	});
+
+	it('should specify a message that shows the requesting client is forbidden from accessing resource', () => {
+		const fakeUrl = "/foo/bar/"
+		let result = build_404_response(fakeUrl)
+		expect(result.message).toBe(`Resource was not found at the requested location: ${fakeUrl}`)
+	});
+
+	it('should provide an ErrorResponse with HTTP status code 404', () => {
+		const fakeUrl = "/foo/bar/"
+		let result = build_404_response(fakeUrl)
+		expect(result.status).toBe(404)
 	});
 })
