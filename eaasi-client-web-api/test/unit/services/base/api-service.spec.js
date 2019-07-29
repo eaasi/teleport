@@ -98,10 +98,57 @@ describe("API Service", () => {
 
 	// End Pagination Tests
 
+	// Read Single Object Tests
+
 	it("should get a single object by pk", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		const response = await sut.getByPk(2);
 		expect(response.result.id).toBe(2)
-	})
+	});
+
+	it("should invoke model.findByPk when getByPk method is called", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		await sut.getByPk(2);
+		expect(modelFake.findByPk_callCount).toBe(1)
+	});
+
+	it("should call model.findByPk with param passed to getByPk", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		await sut.getByPk("foo");
+		expect(modelFake.findByPk_calledWith).toBe("foo")
+	});
+
+	it("should catch and response with error if getByPk fails", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 5);
+
+		// Force reject the Promise
+		const rejectedPromise = Promise.reject("it broke");
+		modelFake.findByPk = () => rejectedPromise;
+
+		let sut = new ApiService(modelFake);
+		const response = await sut.getByPk(4);
+
+		// Use toStrictEqual for deep equality comparison
+		expect(response).toStrictEqual({"hasError": true, "error": "it broke"})
+	});
+
+	// Create Object Tests
+
+	it("should invoke model.create when create method is called", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		await sut.create({'foo': 'bar'})
+		expect(modelFake.create_callCount).toBe(1);
+	});
+
+	it("should invoke model.create with passed params", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		let fakeData = {'foo': 'bar', 'baz': 'qux'}
+		await sut.create(fakeData)
+		expect(modelFake.create_calledWith).toBe(fakeData);
+	});
 })
