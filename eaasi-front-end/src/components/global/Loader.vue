@@ -11,6 +11,9 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
+/**
+ * A loading overlay with an animated spinner
+ */
 @Component({
 	name: 'Loader'
 })

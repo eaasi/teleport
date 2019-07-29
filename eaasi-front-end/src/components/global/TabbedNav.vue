@@ -18,6 +18,9 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiTab } from '@/types/Navigation';
 
+/**
+ * A component for performing tabbed navigation
+ */
 @Component({
 	name: 'TabbedNav'
 })

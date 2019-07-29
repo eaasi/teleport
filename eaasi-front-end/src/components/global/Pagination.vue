@@ -44,6 +44,9 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 
+/**
+ * Pagination for paginated lists of data
+ */
 @Component({
 	name: 'Pagination'
 })
