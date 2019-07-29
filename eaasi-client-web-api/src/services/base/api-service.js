@@ -103,14 +103,14 @@ export default class ApiService {
 				if (!found) {
 					return { hasError: true, error: "notFound" }
 				}
-				found.update({
+				return found.update({
 					found: modelData
 				}).then(() => {
 					return { hasError: false, result: found }
-				}).catch((error) => {
-					return {hasError: true, error: error}
+				}).catch(error => {
+					return { hasError: true, error: error }
 				});
-			}).catch((error) => {
+			}).catch(error => {
 				return {hasError: true, error: error}
 			});
 	};
@@ -128,8 +128,7 @@ export default class ApiService {
 				if (!found) {
 					return {hasError: true, error: "notFound" }
 				}
-
-				found.destroy({
+				return found.destroy({
 					where: { pk }
 				}).then(() => {
 					return { hasError: false, result: pk }

@@ -175,6 +175,35 @@ describe("API Service", () => {
 		expect(res).toStrictEqual({hasError: true, error: "notFound"});
 	})
 
+	it("should return an error if findByPk Promise is rejected", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force reject the Promise
+		const rejectedPromise = Promise.reject("findByPk broke");
+		modelFake.findByPk = () => rejectedPromise;
+
+		let res = await sut.update(34, {fake: "updateData"});
+		expect(res).toStrictEqual({hasError: true, error: "findByPk broke"});
+	})
+
+	it("should return an error if update Promise is rejected", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force the findByPk Promise to resolve to a value
+		const foundModel = new SequelizeModelFake("foundModel", 5)
+		const foundModelResolution = Promise.resolve(foundModel);
+		modelFake.findByPk = () =>  foundModelResolution;
+
+		// Force reject the update Promise
+		const rejectedPromise = Promise.reject("update broke");
+		foundModel.update = () => rejectedPromise;
+
+		let res = await sut.update(32, {fake: "updateData"});
+		expect(res).toStrictEqual({hasError: true, error: "update broke"});
+	})
+
 	// Destroy Object Tests
 
 	it("should invoke model.destroy", async () => {
@@ -188,7 +217,6 @@ describe("API Service", () => {
 
 		await sut.destroy(5)
 		expect(foundModel.destroy_callCount).toBe(1);
-		console.log("DESTROY CALLE WITH:", foundModel.destroy_calledWith)
 	});
 
 	it("should invoke model.destroy with where: pk clause", async () => {
@@ -221,6 +249,23 @@ describe("API Service", () => {
 
 		let res = await sut.destroy(17);
 		expect(res).toStrictEqual({hasError: true, error: "notFound"});
+	})
+
+	it("should return an error if destroy Promise is rejected", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force the findByPk Promise to resolve to a value
+		const foundModel = new SequelizeModelFake("foundModel", 5)
+		const foundModelResolution = Promise.resolve(foundModel);
+		modelFake.findByPk = () =>  foundModelResolution;
+
+		// Force reject the destroy Promise
+		const rejectedPromise = Promise.reject("destroy broke");
+		foundModel.destroy = () => rejectedPromise;
+
+		let res = await sut.destroy(98);
+		expect(res).toStrictEqual({hasError: true, error: "destroy broke"});
 	})
 
 	// Pagination Tests
