@@ -5,7 +5,7 @@ import {
     build_404_response,
     build_500_response,
     ErrorResponse
-} from "../../../src/utils/error_helpers";
+} from "../../../src/utils/error-helpers";
 
 describe("build_400_response", () => {
     it("returns an ErrorResponse object", () => {

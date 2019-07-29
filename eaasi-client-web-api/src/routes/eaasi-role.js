@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const EaasiRoleController = require('../controllers/eaasi-role-controller');
+const EaasiRoleController = require('../controllers/EaasiRoleController');
 const controller = new EaasiRoleController();
 
 router.get('/', (req, res) => controller.getAll(req, res));

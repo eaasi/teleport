@@ -2,7 +2,7 @@
  * Standard Error Responses for web API Requests
  */
 
-import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, SERVER_ERROR, UNAUTHORIZED} from "./http_response_codes";
+import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, SERVER_ERROR, UNAUTHORIZED} from "./http-response-codes";
 
 /**
  * Provides a common message response object

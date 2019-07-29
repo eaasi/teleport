@@ -1,4 +1,4 @@
-export default class ApiService {
+export default class CrudService {
     constructor(model) {
         // Sequelize Model
         this.model = model;

@@ -2,19 +2,19 @@ import {
     build_400_response,
     build_404_response,
     build_500_response
-} from "../utils/error_helpers";
+} from "../utils/error-helpers";
 import {
     BAD_REQUEST,
     CREATED,
     NOT_FOUND,
     OK,
     SERVER_ERROR
-} from "../utils/http_response_codes";
+} from "../utils/http-response-codes";
 import { areAllValidIntegerParams } from "../utils/validators";
 
-export default class BaseController {
-    constructor(entityService) {
-        this._entityService = entityService;
+export default class BaseCrudController {
+    constructor(crudService) {
+        this._crudService = crudService;
     }
 
     /**
@@ -34,7 +34,7 @@ export default class BaseController {
                 .send(build_400_response(JSON.stringify(req.query)));
         }
 
-        let response = await this._entityService.getAll(limit, page, sortCol);
+        let response = await this._crudService.getAll(limit, page, sortCol);
 
         if (response.hasError) {
             return await res
@@ -59,7 +59,7 @@ export default class BaseController {
                 .send(build_400_response(req.params));
         }
 
-        let response = await this._entityService.getByPk(id);
+        let response = await this._crudService.getByPk(id);
 
         if (response.hasError) {
             return await res
@@ -90,7 +90,7 @@ export default class BaseController {
                 .send(build_400_response(req.body));
         }
 
-        let response = await this._entityService.create(newObject);
+        let response = await this._crudService.create(newObject);
 
         if (response.hasError) {
             return await res
@@ -109,7 +109,7 @@ export default class BaseController {
     async update(req, res) {
         const id = req.params.id;
         const updateData = req.body;
-        let updateResponse = await this._entityService.update(id, updateData);
+        let updateResponse = await this._crudService.update(id, updateData);
 
         if (updateResponse.hasError) {
             return this._handleUpdateError(req, res, updateResponse);
@@ -125,7 +125,7 @@ export default class BaseController {
      */
     async delete(req, res) {
         const id = req.params.id;
-        let deleteResponse = await this._entityService.destroy(id);
+        let deleteResponse = await this._crudService.destroy(id);
 
         if (deleteResponse.hasError) {
             return this._handleDeleteError(req, res, deleteResponse);

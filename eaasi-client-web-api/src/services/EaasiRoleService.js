@@ -1,8 +1,8 @@
-import ApiService from "./base/api-service";
+import CrudService from "./base/CrudService";
 
 const { EaasiRole } = require("../data_access/models");
 
-export default class EaasiRoleService extends ApiService {
+export default class EaasiRoleService extends CrudService {
     constructor() {
         super(EaasiRole);
     }

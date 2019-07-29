@@ -8,7 +8,7 @@ import {
     CREATED,
     FORBIDDEN,
     UNAUTHORIZED
-} from "../../../src/utils/http_response_codes";
+} from "../../../src/utils/http-response-codes";
 
 describe("The HTTP response code", () => {
     it("for 'OK' returns 200", () => {
