@@ -58,6 +58,20 @@ describe("API Service", () => {
 			expect(response.hasError).toBe(false);
 		});
 
+	it("should catch and respond with error if getAll fails", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 10);
+
+		// Force reject the Promise
+		const rejectedPromise = Promise.reject("it broke");
+		modelFake.findAll = () => rejectedPromise;
+
+		let sut = new ApiService(modelFake);
+		const response = await sut.getAll(2, 3);
+
+		// Use toStrictEqual for deep equality comparison
+		expect(response).toStrictEqual({hasError: true, error: "it broke"})
+	});
+
 	// Read Single Object Tests
 
 	it("should get a single object by pk", async () => {
@@ -81,7 +95,7 @@ describe("API Service", () => {
 		expect(modelFake.findByPk_calledWith).toBe("foo")
 	});
 
-	it("should catch and response with error if getByPk fails", async () => {
+	it("should catch and respond with error if getByPk fails", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 5);
 
 		// Force reject the Promise

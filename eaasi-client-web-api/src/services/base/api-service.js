@@ -28,6 +28,10 @@ export default class ApiService {
 				return {hasError: true, error: error}
 			});
 
+		if (totalResults.hasError) {
+			return totalResults
+		}
+
 		let total_pages = Math.ceil(totalResults.count / resultsCountLimit);
 
 		let offset = resultsCountLimit * (page - 1);
@@ -38,6 +42,10 @@ export default class ApiService {
 		}).catch(error => {
 			return {hasError: true, error: error}
 		});
+
+		if (results.hasError) {
+			return results
+		}
 
 		return {
 			hasError: false,
