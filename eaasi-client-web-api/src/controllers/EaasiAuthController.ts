@@ -1,3 +1,5 @@
+import express from 'express';
+
 class EaasiAuthController {
     constructor() {}
     /**
@@ -5,7 +7,7 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-    async login(req, res) {
+    async login(req: express.Request, res: express.Response) {
         // TODO
         console.log("Not implemented");
         await res.json({});
@@ -16,7 +18,7 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-    async logout(req, res) {
+    async logout(req: express.Request, res: express.Response) {
         // TODO
         console.log("Not implemented");
         await res.json({});
@@ -27,7 +29,7 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-    async refresh(req, res) {
+    async refresh(req: express.Request, res: express.Response) {
         // TODO
         console.log("Not implemented");
         await res.json({});

@@ -4,20 +4,32 @@
 
 import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, SERVER_ERROR, UNAUTHORIZED} from "./http-response-codes";
 
+interface IErrorResponse {
+	hasError: boolean,
+	status: number,
+	message: string
+}
+
 /**
  * Provides a common message response object
  */
-export function ErrorResponse(httpStatusCode, message) {
-	this.hasError = true;
-	this.status = httpStatusCode;
-	this.message = message;
+export class ErrorResponse implements IErrorResponse {
+	constructor(httpStatusCode: number, message: string) {
+		this.hasError = true;
+		this.status = httpStatusCode;
+		this.message = message;
+	}
+
+	hasError: boolean;
+	message: string;
+	status: number;
 }
 
 /**
  * Malformed request error response
  * @type {{}}
  */
-export function build_400_response(requestBody) {
+export function build_400_response(requestBody: string) {
 	const messageDetail = `The provided request format is invalid: ${requestBody}`;
 	return new ErrorResponse(BAD_REQUEST, messageDetail)
 }
@@ -45,7 +57,7 @@ export function build_403_response() {
  * Resource not found response
  * @type {{}}
  */
-export function build_404_response(requestedUrl) {
+export function build_404_response(requestedUrl: string) {
 	const messageDetail =
 		`Resource was not found at the requested location: ${requestedUrl}`;
 	return new ErrorResponse(NOT_FOUND, messageDetail)
@@ -55,7 +67,7 @@ export function build_404_response(requestedUrl) {
  * Internal server error response
  * @type {{}}
  */
-export function build_500_response(serverError) {
+export function build_500_response(serverError: any) {
 	let standardizedError = _getStandardizedServerError(serverError.name);
 	const messageDetail =
 		`A server error occurred while processing the request: ${standardizedError}`;
@@ -67,9 +79,10 @@ export function build_500_response(serverError) {
  * @param errorName the error type returned from the server
  * @returns {*|string}
  */
-export function _getStandardizedServerError(errorName) {
-	let messageMap = {
-		'SequelizeDatabaseError': "Server could not parse the provided query"
+export function _getStandardizedServerError(errorName: string) :string {
+	if (errorName === "SequelizeDatabaseError"){
+		return "Server could not parse the provided query"
 	}
-	return messageMap[errorName] || "Unspecified server error"
+
+	return "Unspecified server error"
 }

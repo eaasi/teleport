@@ -2,9 +2,17 @@
 
 const Sequelize = require('sequelize');
 
-class EaasiUser extends Sequelize.Model {}
+class EaasiUser extends Sequelize.Model {
+	public id!: number;
+	public createdAt!: Date;
+	public updatedAt!: Date;
+	public username!: string;
+	public firstName!: string;
+	public roleId!: number;
+	public lastLogin!: Date;
+}
 
-module.exports = (sequelize) => {
+module.exports = (sequelize: any) => {
 	EaasiUser.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
@@ -39,7 +47,7 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'eaasi_user' });
 
-	EaasiUser.associate = models => {
+	EaasiUser.associate = (models: any) => {
 		models.EaasiUser.hasOne(models.EaasiRole, {foreignKey: 'id'});
 	};
 

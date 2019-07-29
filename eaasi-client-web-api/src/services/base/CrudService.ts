@@ -1,11 +1,16 @@
+import Sequelize from "sequelize";
+
 export default class CrudService {
-    constructor(model) {
-        // Sequelize Model
+
+    private MAX_GET_ALL_PAGE_SIZE: number;
+    private model: Sequelize.Model;
+
+    constructor(model: Sequelize.Model) {
         this.model = model;
         this.MAX_GET_ALL_PAGE_SIZE = 100;
     }
 
-    setMaxPaginationValue(max_val) {
+    setMaxPaginationValue(max_val: number) {
         this.MAX_GET_ALL_PAGE_SIZE = max_val;
     }
 
@@ -19,12 +24,13 @@ export default class CrudService {
      * @param res response
      * @returns {Promise<{}>}
      */
-    async getAll(limit, page) {
+    async getAll(limit: number, page: number) : Promise<object> {
         let resultsCountLimit = limit || this.MAX_GET_ALL_PAGE_SIZE;
 
-        let totalResults = await this.model.findAndCountAll().catch(error => {
-            return { hasError: true, error: error };
-        });
+        let totalResults = await this.model.findAndCountAll()
+            .catch(error => {
+                return { hasError: true, error: error };
+            });
 
         if (totalResults.hasError) {
             return totalResults;
@@ -64,7 +70,7 @@ export default class CrudService {
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-    async getByPk(pk) {
+    async getByPk(pk: number) {
         return await this.model
             .findByPk(pk)
             .then(result => {
@@ -82,7 +88,7 @@ export default class CrudService {
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-    async create(modelData) {
+    async create(modelData: any) {
         return await this.model
             .create(modelData)
             .then(created => {
@@ -101,7 +107,7 @@ export default class CrudService {
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-    async update(pk, modelData) {
+    async update(pk: number, modelData: any) {
         return await this.model
             .findByPk(pk)
             .then(found => {
@@ -131,7 +137,7 @@ export default class CrudService {
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-    async destroy(pk) {
+    async destroy(pk: number) {
         return await this.model
             .findByPk(pk)
             .then(found => {
