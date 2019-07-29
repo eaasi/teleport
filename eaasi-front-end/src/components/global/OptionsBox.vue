@@ -3,7 +3,7 @@
 		<div class="ob-header" v-if="props.header">
 			<span>{{ props.header }}</span>
 		</div>
-		<div class="ob-content">
+		<div class="ob-content text-center">
 			<slot></slot>
 		</div>
 	</div>

@@ -1,4 +1,4 @@
-<template>
+<template functional>
 	<div class="eaasi-loader-wrapper flex flex-center">
 		<div class="eaasi-loader">
 			<div class="eaasi-loader-rings"></div>
@@ -12,17 +12,14 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 @Component({
-	name: 'EaasiLoader',
-	props: {
-
-	}
+	name: 'EaasiLoader'
 })
 export default class EaasiLoader extends Vue {}
 </script>
 
 <style lang="scss">
 $baseColor: $dark-blue;
-$speed: 0.8s;
+$speed: 0.9s;
 .eeasi-loader-wrapper {
 	bottom: 0;
 	left: 0;
@@ -32,15 +29,15 @@ $speed: 0.8s;
 }
 .eaasi-loader {
 	position: relative;
-	height: 80px;
-	width: 80px;
+	height: 100px;
+	width: 100px;
 }
 .eaasi-logo {
 	position: absolute;
-	height: 38px;
-	width: 38px;
-	top: 24px;
-	left: 24px;
+	height: 50px;
+	width: 50px;
+	top: 28px;
+	left: 28px;
 	opacity: 1;
 }
 .eaasi-loader-rings {
@@ -50,8 +47,8 @@ $speed: 0.8s;
 	border-top-color: $baseColor;
 	display: block;
 	position: relative;
-	height: 80px;
-	width: 80px;
+	height: 100px;
+	width: 100px;
 
 	&:before {
 		content: "";

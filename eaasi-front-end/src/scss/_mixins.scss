@@ -36,6 +36,21 @@
  == Display and Positioning
 /============================================================*/
 
+@mixin clearfix {
+	&:after {
+		clear: both;
+		content: "";
+		display: table;
+	}
+}
+
+@mixin stretch {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
 @mixin aspect-ratio($width, $height) {
     position: relative;
 
