@@ -10,7 +10,7 @@ export default class SequelizeModelFake {
 
 		if (this.resultCount > 0) {
 			for (let i=0; i < this.resultCount; i++) {
-				this.rows.push({id: i})
+				this.rows.push({id: i});
 			}
 		}
 
@@ -18,8 +18,10 @@ export default class SequelizeModelFake {
 		this.findByPk_callCount = 0;
 
 		this.findAndCountAll_callCount = 0;
-		this.create_callCount = 0;
 		this.findAll_callCount = 0;
+		this.findAll_calledWith = {};
+
+		this.create_callCount = 0;
 		this.create_calledWith = {}
 	}
 
@@ -46,6 +48,8 @@ export default class SequelizeModelFake {
 	 * @returns {Promise<void>}
 	 */
 	async findAll(options) {
+		this.findAll_calledWith = options;
+
 		let limit = options.limit;
 		let offset = options.offset;
 		let $sort = options.$sort;

@@ -19,7 +19,7 @@ export default class ApiService {
 	 * @param res response
 	 * @returns {Promise<{}>}
 	 */
-	async getAll(limit, page, sortCol) {
+	async getAll(limit, page) {
 
 		let resultsCountLimit = limit || this.MAX_GET_ALL_PAGE_SIZE
 
@@ -35,7 +35,6 @@ export default class ApiService {
 		let results = await this.model.findAll({
 			limit: resultsCountLimit,
 			offset: offset,
-			$sort: sortCol ? {sortCol: 1} : null
 		}).catch(error => {
 			return {hasError: true, error: error}
 		});
