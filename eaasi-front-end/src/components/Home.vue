@@ -6,6 +6,7 @@
 			label="Big Button"
 			sublabel="Explanation of button here"
 			info="Additional information could go here in the future."
+			size="sm"
 		/>
 	</div>
 </template>

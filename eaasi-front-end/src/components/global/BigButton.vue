@@ -1,7 +1,7 @@
 <template>
-	<div class="eb-wrapper">
+	<div :class="['eb-wrapper', 'size-' + size]">
 		<div
-			:class="['eaasi-big-button', 'size-' + size]"
+			class="eaasi-big-button"
 			role="button"
 			@click="$emit('click')"
 		>
@@ -31,18 +31,23 @@ export default class BigButton extends Vue {
 	/* Props
 	============================================*/
 
+	// Font icon name
 	@Prop({type: String, required: false})
 	readonly icon: string
 
+	// Primary label of the button
 	@Prop({type: String, required: true})
 	readonly label: string
 
+	// Text below the primary label
 	@Prop({type: String, required: false})
 	readonly sublabel: string
 
+	// Alternative size of the modal. Accepts 'sm, small, lg, or large'
 	@Prop({type: String, required: false, default: ''})
 	readonly size: string
 
+	// Additional text that will appear below the button
 	@Prop({type: String, required: false})
 	readonly info: string
 
@@ -51,6 +56,18 @@ export default class BigButton extends Vue {
 </script>
 
 <style lang="scss">
+.eb-wrapper {
+	max-width: 32rem;
+	&.size-sm,
+	&.size-small {
+		max-width: 24rem;
+	}
+	&.size-lg,
+	&.size-large {
+		max-width: 40rem;
+	}
+}
+
 .eaasi-big-button {
 	background-color: lighten($light-blue, 90%);
 	border: solid 2px $light-blue;
@@ -80,10 +97,6 @@ export default class BigButton extends Vue {
 		color: $dark-neutral;
 		margin-top: 6px;
 	}
-}
-
-.eb-wrapper {
-	max-width: 32rem;
 }
 
 .eb-info {
