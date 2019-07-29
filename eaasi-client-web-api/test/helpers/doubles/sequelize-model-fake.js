@@ -114,15 +114,15 @@ export default class SequelizeModelFake {
 	}
 
 	//
-	// Delete
+	// Destroy
 	//
 
 	/**
-	 * Method fake for SequelizeModel.delete
+	 * Method fake for SequelizeModel.destroy
 	 * @param fakePk stub
 	 * @returns {Promise<void>}
 	 */
-	async delete(fakePk) {
+	async destroy(fakePk) {
 		this.destroy_callCount += 1;
 		this.destroy_calledWith = fakePk
 	}
