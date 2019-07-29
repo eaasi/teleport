@@ -1,16 +1,22 @@
 <template>
 	<div class="home">
 		<h1>(Eaasi Goes Here)</h1>
+		<big-button
+			icon="bolt"
+			label="Big Button"
+			sublabel="Explanation of button here"
+			info="Additional information could go here in the future."
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { IEaasiTab } from '@/types/Navigation';
-
+import BigButton from '@/components/global/BigButton.vue';
 @Component({
 	components: {
-
+		BigButton
 	}
 })
 export default class Home extends Vue {
