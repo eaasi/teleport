@@ -21,6 +21,7 @@ export default class OptionsBox extends Vue {
 	/* Props
 	============================================*/
 
+	// Optional header text
 	@Prop({type: String, required: false})
 	readonly header: String
 

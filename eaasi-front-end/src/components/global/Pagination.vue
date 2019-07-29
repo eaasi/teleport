@@ -52,15 +52,19 @@ export default class Pagination extends Vue {
 	/* Props
 	============================================*/
 
+	// The total results to divide into pages
 	@Prop({type: Number, required: true})
 	readonly totalResults: number;
 
+	// The amount of results to show per page
 	@Prop({type: Number, default: 25})
 	readonly resultsPerPage: number = 25;
 
+	// How many page numbers to show at a time
 	@Prop({type: Number, default: 4})
 	readonly maxPages: number = 4;
 
+	// The currently selected page number
 	@Prop({type: Number})
 	readonly pageNum: number = 1;
 
