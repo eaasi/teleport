@@ -35,10 +35,8 @@ describe("API Service", () => {
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
-
 			const page = 3
 			const limit = 250
-
 			const expectedOffset = limit * (page -1)
 
 			await sut.getAll(limit, page);
@@ -156,7 +154,7 @@ describe("API Service", () => {
 
 	// Update Object Tests
 
-	it("on update invokes model.update", async () => {
+	it("on update invokes model.update once", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		let fakeData = {foo: "bar", baz: "qux"}
@@ -168,6 +166,20 @@ describe("API Service", () => {
 
 		await sut.update(5, fakeData)
 		expect(foundModel.update_callCount).toBe(1);
+	});
+
+	it("on update invokes model.update with provided parameters", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		let fakeData = {foo: "bar", baz: "qux"}
+
+		// Force the findByPk Promise to resolve to a value
+		const foundModel = new SequelizeModelFake("foundModel", 5)
+		const foundModelResolution = Promise.resolve(foundModel);
+		modelFake.findByPk = () =>  foundModelResolution;
+
+		await sut.update(5, fakeData)
+		expect(foundModel.update_calledWith).toBe([5, fakeData]);
 	});
 
 	it("on update first attempts to find an existing object by pk", async () => {
@@ -305,8 +317,8 @@ describe("API Service", () => {
 
 	it.each`
 	limit   | page | tableSize | expected
-	${0}    | ${0} | ${0}      | ${0}    // 0th page always returns 0 results
-	${1}    | ${0} | ${0}      | ${0}    // 0th page always returns 0 results
+	${0}    | ${0} | ${0}      | ${0}    // 0th page returns 0 results
+	${1}    | ${0} | ${0}      | ${0}    // 0th page returns 0 results if limit is 1
 	${1}    | ${1} | ${0}      | ${0}    // Take 1 from page 1 with empty table returns 0 results
 	${1}    | ${1} | ${1}      | ${1}    // Take 1 from page 1 with 1 result in table returns 1 result
 	${2}    | ${1} | ${1}      | ${1}    // Take 2 from page 1 with 1 result in table returns 1 result

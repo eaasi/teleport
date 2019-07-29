@@ -1,5 +1,7 @@
 /**
- * Test double for Sequelize Models.
+ * Test mock for Sequelize Models. Contains spies for testing
+ * the behavior of clients.  Initialization provides a means of
+ * creating a stub result set for basic querying and manipulation
  */
 export default class SequelizeModelFake {
 
@@ -8,6 +10,7 @@ export default class SequelizeModelFake {
 		this.rows = [];
 		this.resultCount = fakeResultCount || 0;
 
+		// Build array of fake result objects
 		if (this.resultCount > 0) {
 			for (let i=0; i < this.resultCount; i++) {
 				this.rows.push({id: i});
@@ -30,10 +33,6 @@ export default class SequelizeModelFake {
 		this.destroy_callCount = 0;
 		this.destroy_calledWith = {}
 	}
-
-	//
-	// Find Many
-	//
 
 	/**
 	 * Method fake for SequelizeModel.findAndCountAll
@@ -63,10 +62,6 @@ export default class SequelizeModelFake {
 		return await this.rows.slice(offset, offset + limit);
 	};
 
-	//
-	// Find One
-	//
-
 	/**
 	 * Method fake for SequelizeModel.findByPk
 	 * @param pk instance primary key
@@ -81,10 +76,6 @@ export default class SequelizeModelFake {
 		});
 	}
 
-	//
-	// Create
-	//
-
 	/**
 	 * Method fake for SequelizeModel.create
 	 * @param fakeData stub
@@ -94,10 +85,6 @@ export default class SequelizeModelFake {
 		this.create_callCount += 1;
 		this.create_calledWith = fakeData
 	}
-
-	//
-	// Update
-	//
 
 	/**
 	 * Method fake for SequelizeModel.update
@@ -109,10 +96,6 @@ export default class SequelizeModelFake {
 		this.update_callCount += 1;
 		this.update_calledWith = [fakePk, fakeData]
 	}
-
-	//
-	// Destroy
-	//
 
 	/**
 	 * Method fake for SequelizeModel.destroy
