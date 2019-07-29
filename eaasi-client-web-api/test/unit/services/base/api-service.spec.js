@@ -177,17 +177,9 @@ describe("API Service", () => {
 
 	// Destroy Object Tests
 
-	it("should on destroy first attempt to find an existing object by pk", async () => {
-		let modelFake = new SequelizeModelFake("fakeModel", 3);
-		let sut = new ApiService(modelFake);
-		await sut.destroy(24);
-		expect(modelFake.findByPk_calledWith).toBe(24);
-	});
-
 	it("should invoke model.destroy", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
-		let fakeData = {foo: "bar", baz: "qux"}
 
 		// Force the findByPk Promise to resolve to a value
 		const foundModel = new SequelizeModelFake("foundModel", 5)
@@ -196,7 +188,41 @@ describe("API Service", () => {
 
 		await sut.destroy(5)
 		expect(foundModel.destroy_callCount).toBe(1);
+		console.log("DESTROY CALLE WITH:", foundModel.destroy_calledWith)
 	});
+
+	it("should invoke model.destroy with where: pk clause", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force the findByPk Promise to resolve to a value
+		const foundModel = new SequelizeModelFake("foundModel", 5)
+		const foundModelResolution = Promise.resolve(foundModel);
+		modelFake.findByPk = () =>  foundModelResolution;
+
+		await sut.destroy(5)
+		expect(foundModel.destroy_calledWith).toStrictEqual({where: {pk: 5}});
+	});
+
+	it("should on destroy first attempt to find an existing object by pk", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		await sut.destroy(24);
+		expect(modelFake.findByPk_calledWith).toBe(24);
+	});
+
+	it("should return notFound error if PK not found before destroy", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force the findByPk Promise to resolve to undefined
+		const emptyObject = Promise.resolve(undefined);
+		modelFake.findByPk = () =>  emptyObject;
+
+		let res = await sut.destroy(17);
+		expect(res).toStrictEqual({hasError: true, error: "notFound"});
+	})
+
 
 
 	// Pagination Tests

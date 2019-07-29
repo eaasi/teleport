@@ -123,11 +123,12 @@ export default class ApiService {
 	 * @returns {Promise<{}>}
 	 */
 	async destroy(pk) {
-		await this.model.findByPk(pk)
+		return await this.model.findByPk(pk)
 			.then(found => {
 				if (!found) {
 					return {hasError: true, error: "notFound" }
 				}
+
 				found.destroy({
 					where: { pk }
 				}).then(() => {
