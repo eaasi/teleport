@@ -59,9 +59,6 @@ export default class SequelizeModelFake {
 
 		let limit = options.limit;
 		let offset = options.offset;
-		let $sort = options.$sort;
-
-		this.rows.sort((a, b) => (a[$sort] > b[$sort]) ? 1 : -1)
 
 		return await this.rows.slice(offset, offset + limit);
 	};

@@ -3,47 +3,47 @@ import {OK, ACCEPTED, REDIRECT, BAD_REQUEST,
 	UNAUTHORIZED} from "../../../src/utils/http_response_codes";
 
 describe('The HTTP response code', () => {
-	it("for 'OK' should be 200", () => {
+	it("for 'OK' returns 200", () => {
 		const okCode = OK
 		expect(200).toBe(okCode)
 	});
 
-	it("for 'CREATED' should be 201", () => {
+	it("for 'CREATED' returns 201", () => {
 		const createdCode = CREATED
 		expect(201).toBe(createdCode)
 	});
 
-	it("for 'ACCEPTED' should be 202", () => {
+	it("for 'ACCEPTED' returns be 202", () => {
 		const acceptedCode = ACCEPTED
 		expect(202).toBe(acceptedCode)
 	});
 
-	it("for 'REDIRECT' should be 302", () => {
+	it("for 'REDIRECT' returns be 302", () => {
 		const rdCode = REDIRECT
 		expect(302).toBe(rdCode)
 	});
 
-	it("for 'BAD_REQUEST' should be 400", () => {
+	it("for 'BAD_REQUEST' returns 400", () => {
 		const badRequestCode = BAD_REQUEST
 		expect(400).toBe(badRequestCode)
 	});
 
-	it("for 'UNAUTHORIZED' should be 401", () => {
+	it("for 'UNAUTHORIZED' returns 401", () => {
 		const unauthorized = UNAUTHORIZED
 		expect(401).toBe(unauthorized)
 	});
 
-	it("for 'FORBIDDEN' should be 403", () => {
+	it("for 'FORBIDDEN' returns 403", () => {
 		const forbiddenCode = FORBIDDEN
 		expect(403).toBe(forbiddenCode)
 	});
 
-	it("for 'NOT_FOUND' should be 404", () => {
+	it("for 'NOT_FOUND' returns 404", () => {
 		const notFoundCode = NOT_FOUND
 		expect(404).toBe(notFoundCode)
 	});
 
-	it("for 'SERVER_ERROR' should be 500", () => {
+	it("for 'SERVER_ERROR' returns 500", () => {
 		const serverErrorCode = SERVER_ERROR
 		expect(500).toBe(serverErrorCode)
 	});

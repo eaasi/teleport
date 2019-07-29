@@ -6,7 +6,7 @@ describe("API Service", () => {
 
 	// Constructor Tests
 
-	it("should assign domain model via ctor",
+	it("on initialization assigns object model via ctor",
 		() => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -15,7 +15,7 @@ describe("API Service", () => {
 
 	// Read Many Objects Tests
 
-	it("should call findAndCountAll() once when calling getAll()",
+	it("on getAll calls findAndCountAll() once",
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -23,7 +23,7 @@ describe("API Service", () => {
 			expect(sut.model.findAndCountAll_callCount).toBe(1);
 		});
 
-	it("should call findAll() once when calling getAll()",
+	it("on getAll calls findAll() once",
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -31,7 +31,7 @@ describe("API Service", () => {
 			expect(sut.model.findAll_callCount).toBe(1);
 		});
 
-	it("should call findAll() with expected pagination object param when calling getAll()",
+	it("on getAll calls findAll() with expected pagination object parameters",
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -50,7 +50,7 @@ describe("API Service", () => {
 			});
 		});
 
-	it("should respond with hasError: false with in a successful response object",
+	it("on getAll responds with hasError: false with a successful response",
 		async () => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -58,44 +58,58 @@ describe("API Service", () => {
 			expect(response.hasError).toBe(false);
 		});
 
-	it("should catch and respond with error if getAll fails", async () => {
+	it("on getAll catches and responds with error if findAll Promise is rejected", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 10);
 
-		// Force reject the Promise
-		const rejectedPromise = Promise.reject("it broke");
+		// Force reject the findAll Promise
+		const rejectedPromise = Promise.reject("findAll broke");
 		modelFake.findAll = () => rejectedPromise;
 
 		let sut = new ApiService(modelFake);
 		const response = await sut.getAll(2, 3);
 
 		// Use toStrictEqual for deep equality comparison
-		expect(response).toStrictEqual({hasError: true, error: "it broke"})
+		expect(response).toStrictEqual({hasError: true, error: "findAll broke"})
+	});
+
+	it("on getAll catches and responds with error if findAndCountAll Promise is rejected", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 10);
+
+		// Force reject the findAndCountAll Promise
+		const rejectedPromise = Promise.reject("findAndCountAll broke");
+		modelFake.findAndCountAll = () => rejectedPromise;
+
+		let sut = new ApiService(modelFake);
+		const response = await sut.getAll(2, 3);
+
+		// Use toStrictEqual for deep equality comparison
+		expect(response).toStrictEqual({hasError: true, error: "findAndCountAll broke"})
 	});
 
 	// Read Single Object Tests
 
-	it("should get a single object by pk", async () => {
+	it("on getByPk gets a single object by its pk value", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		const response = await sut.getByPk(2);
 		expect(response.result.id).toBe(2)
 	});
 
-	it("should invoke model.findByPk when getByPk method is called", async () => {
+	it("on getByPk invokes model.findByPk", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		await sut.getByPk(2);
 		expect(modelFake.findByPk_callCount).toBe(1)
 	});
 
-	it("should call model.findByPk with param passed to getByPk", async () => {
+	it("on getByPk calls model.findByPk with provided parameter", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		await sut.getByPk("foo");
 		expect(modelFake.findByPk_calledWith).toBe("foo")
 	});
 
-	it("should catch and respond with error if getByPk fails", async () => {
+	it("on getByPk catches and respond with error if findByPk Promise is rejected", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 5);
 
 		// Force reject the Promise
@@ -111,14 +125,14 @@ describe("API Service", () => {
 
 	// Create Object Tests
 
-	it("should invoke model.create when create method is called", async () => {
+	it("on create invokes model.create", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		await sut.create({'foo': 'bar'})
 		expect(modelFake.create_callCount).toBe(1);
 	});
 
-	it("should invoke model.create with passed params", async () => {
+	it("on create invokes model.create with passed object parameter", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		let fakeData = {foo: "bar", baz: "qux"}
@@ -126,7 +140,7 @@ describe("API Service", () => {
 		expect(modelFake.create_calledWith).toBe(fakeData);
 	});
 
-	it("should catch and respond with error if create fails", async () => {
+	it("on create catches and responds with error if model.create Promise is rejected", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 5);
 
 		// Force reject the Promise
@@ -142,7 +156,7 @@ describe("API Service", () => {
 
 	// Update Object Tests
 
-	it("should invoke model.update", async () => {
+	it("on update invokes model.update", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		let fakeData = {foo: "bar", baz: "qux"}
@@ -156,14 +170,14 @@ describe("API Service", () => {
 		expect(foundModel.update_callCount).toBe(1);
 	});
 
-	it("should on update first attempt to find an existing object by pk", async () => {
+	it("on update first attempts to find an existing object by pk", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		await sut.update(17, {fake: "updateData"});
 		expect(modelFake.findByPk_calledWith).toBe(17);
 	});
 
-	it("should return notFound error if PK not found before update", async () => {
+	it("on update returns notFound error if PK not found", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -175,7 +189,7 @@ describe("API Service", () => {
 		expect(res).toStrictEqual({hasError: true, error: "notFound"});
 	})
 
-	it("should return an error if findByPk Promise is rejected", async () => {
+	it("on update returns an error if findByPk Promise is rejected", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -187,7 +201,7 @@ describe("API Service", () => {
 		expect(res).toStrictEqual({hasError: true, error: "findByPk broke"});
 	})
 
-	it("should return an error if update Promise is rejected", async () => {
+	it("on update returns an error if instance model.update Promise is rejected", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -206,7 +220,7 @@ describe("API Service", () => {
 
 	// Destroy Object Tests
 
-	it("should invoke model.destroy", async () => {
+	it("on destroy invokes model.destroy", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -219,7 +233,7 @@ describe("API Service", () => {
 		expect(foundModel.destroy_callCount).toBe(1);
 	});
 
-	it("should invoke model.destroy with where: pk clause", async () => {
+	it("on destroy invokes model.destroy with where clause", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -232,14 +246,14 @@ describe("API Service", () => {
 		expect(foundModel.destroy_calledWith).toStrictEqual({where: {pk: 5}});
 	});
 
-	it("should on destroy first attempt to find an existing object by pk", async () => {
+	it("on destroy attempts to find an existing object by pk", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 		await sut.destroy(24);
 		expect(modelFake.findByPk_calledWith).toBe(24);
 	});
 
-	it("should return notFound error if PK not found before destroy", async () => {
+	it("on destroy returns notFound error if pk not found", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -251,7 +265,7 @@ describe("API Service", () => {
 		expect(res).toStrictEqual({hasError: true, error: "notFound"});
 	})
 
-	it("should return an error if destroy Promise is rejected", async () => {
+	it("on destroy returns an error if destroy Promise is rejected", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
 
@@ -268,9 +282,21 @@ describe("API Service", () => {
 		expect(res).toStrictEqual({hasError: true, error: "destroy broke"});
 	})
 
+	it("on destroy returns an error on if findByPk Promise is rejected", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force reject the Promise
+		const rejectedPromise = Promise.reject("findByPk broke");
+		modelFake.findByPk = () => rejectedPromise;
+
+		let res = await sut.destroy(34);
+		expect(res).toStrictEqual({hasError: true, error: "findByPk broke"});
+	})
+
 	// Pagination Tests
 
-	it("should have default MAX_GET_PAGE_SIZE of 100",
+	it("has a default MAX_GET_PAGE_SIZE of 100",
 		() => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
@@ -288,7 +314,7 @@ describe("API Service", () => {
 	${100}  | ${1} | ${250}    | ${100}  // Take 100 from page 1 with 250 results in table returns 100 results
 	${100}  | ${2} | ${250}    | ${100}  // Take 100 from page 2 with 250 results in table returns 100 results
 	${100}  | ${3} | ${250}    | ${50}   // Take 100 from page 3 with 250 results in table returns 50 results
-	`("should return $expected count given limit: $limit, page: $page, and table size: $tableSize",
+	`("returns $expected count given limit: $limit, page: $page, and table size: $tableSize",
 		async ({limit, page, tableSize, expected}) => {
 			let modelFake = new SequelizeModelFake("fakeModel", tableSize);
 			let sut = new ApiService(modelFake);
@@ -302,7 +328,7 @@ describe("API Service", () => {
 	${1}      | ${1}
 	${889}    | ${889}
 	${-1} | ${-1}
-	`('should set custom MAX_GET_ALL_PAGE_SIZE with input ($input) via instance method',
+	`('sets custom MAX_GET_ALL_PAGE_SIZE with input ($input) via instance method',
 		({input, expected}) => {
 			let modelFake = new SequelizeModelFake("fakeModel");
 			let sut = new ApiService(modelFake);
