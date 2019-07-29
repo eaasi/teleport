@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const EaasiAuthController = require('../controllers/eaasi-auth-controller');
+const EaasiAuthController = require('../controllers/EaasiAuthController');
 const controller = new EaasiAuthController();
 
 router.post('/login', (req, res) => controller.login(req, res));

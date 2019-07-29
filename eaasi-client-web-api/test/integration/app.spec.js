@@ -1,10 +1,10 @@
 const request = require("supertest");
-const app = require("../../../../src/app");
+const app = require("../../src/app");
 
-describe("The eaasi-user route", () => {
-    it("should result in HTTP success response", () => {
+describe("The root web API path", () => {
+    it("should provide a 200 success response to GET", () => {
         return request(app)
-            .get("/api/eaasi-user/")
+            .get("/api/")
             .then(response => {
                 expect(response.statusCode).toBe(200);
             });
