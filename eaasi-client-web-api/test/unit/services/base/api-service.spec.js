@@ -142,20 +142,60 @@ describe("API Service", () => {
 
 	// Update Object Tests
 
+	it("should invoke model.update", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		let fakeData = {foo: "bar", baz: "qux"}
+
+		// Force the findByPk Promise to resolve to a value
+		const foundModel = new SequelizeModelFake("foundModel", 5)
+		const foundModelResolution = Promise.resolve(foundModel);
+		modelFake.findByPk = () =>  foundModelResolution;
+
+		await sut.update(5, fakeData)
+		expect(foundModel.update_callCount).toBe(1);
+	});
+
 	it("should on update first attempt to find an existing object by pk", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
-		await sut.update(17, {fake: "updateData"})
+		await sut.update(17, {fake: "updateData"});
 		expect(modelFake.findByPk_calledWith).toBe(17);
 	});
+
+	it("should return notFound error if PK not found before update", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+
+		// Force the findByPk Promise to resolve to undefined
+		const emptyObject = Promise.resolve(undefined);
+		modelFake.findByPk = () =>  emptyObject;
+
+		let res = await sut.update(17, {fake: "updateData"});
+		expect(res).toStrictEqual({hasError: true, error: "notFound"});
+	})
 
 	// Destroy Object Tests
 
 	it("should on destroy first attempt to find an existing object by pk", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
-		await sut.destroy(24)
+		await sut.destroy(24);
 		expect(modelFake.findByPk_calledWith).toBe(24);
+	});
+
+	it("should invoke model.destroy", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		let fakeData = {foo: "bar", baz: "qux"}
+
+		// Force the findByPk Promise to resolve to a value
+		const foundModel = new SequelizeModelFake("foundModel", 5)
+		const foundModelResolution = Promise.resolve(foundModel);
+		modelFake.findByPk = () =>  foundModelResolution;
+
+		await sut.destroy(5)
+		expect(foundModel.destroy_callCount).toBe(1);
 	});
 
 

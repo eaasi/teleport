@@ -27,8 +27,8 @@ export default class SequelizeModelFake {
 		this.update_callCount = 0;
 		this.update_calledWith = {}
 
-		this.delete_callCount = 0;
-		this.delete_calledWith = {}
+		this.destroy_callCount = 0;
+		this.destroy_calledWith = {}
 	}
 
 	//
@@ -103,7 +103,8 @@ export default class SequelizeModelFake {
 	//
 
 	/**
-	 * Method fake for SequelizeModel.create
+	 * Method fake for SequelizeModel.update
+	 * @param fakePk stub
 	 * @param fakeData stub
 	 * @returns {Promise<void>}
 	 */
@@ -117,12 +118,12 @@ export default class SequelizeModelFake {
 	//
 
 	/**
-	 * Method fake for SequelizeModel.create
-	 * @param fakeData stub
+	 * Method fake for SequelizeModel.delete
+	 * @param fakePk stub
 	 * @returns {Promise<void>}
 	 */
 	async delete(fakePk) {
-		this.delete_callCount += 1;
-		this.delete_calledWith = fakePk
+		this.destroy_callCount += 1;
+		this.destroy_calledWith = fakePk
 	}
 }
