@@ -23,6 +23,12 @@ export default class SequelizeModelFake {
 
 		this.create_callCount = 0;
 		this.create_calledWith = {}
+
+		this.update_callCount = 0;
+		this.update_calledWith = {}
+
+		this.delete_callCount = 0;
+		this.delete_calledWith = {}
 	}
 
 	//
@@ -48,6 +54,7 @@ export default class SequelizeModelFake {
 	 * @returns {Promise<void>}
 	 */
 	async findAll(options) {
+		this.findAll_callCount += 1;
 		this.findAll_calledWith = options;
 
 		let limit = options.limit;
@@ -55,7 +62,6 @@ export default class SequelizeModelFake {
 		let $sort = options.$sort;
 
 		this.rows.sort((a, b) => (a[$sort] > b[$sort]) ? 1 : -1)
-		this.findAll_callCount += 1;
 
 		return await this.rows.slice(offset, offset + limit);
 	};
@@ -90,5 +96,33 @@ export default class SequelizeModelFake {
 	async create(fakeData) {
 		this.create_callCount += 1;
 		this.create_calledWith = fakeData
+	}
+
+	//
+	// Update
+	//
+
+	/**
+	 * Method fake for SequelizeModel.create
+	 * @param fakeData stub
+	 * @returns {Promise<void>}
+	 */
+	async update(fakePk, fakeData) {
+		this.update_callCount += 1;
+		this.update_calledWith = [fakePk, fakeData]
+	}
+
+	//
+	// Delete
+	//
+
+	/**
+	 * Method fake for SequelizeModel.create
+	 * @param fakeData stub
+	 * @returns {Promise<void>}
+	 */
+	async delete(fakePk) {
+		this.delete_callCount += 1;
+		this.delete_calledWith = fakePk
 	}
 }

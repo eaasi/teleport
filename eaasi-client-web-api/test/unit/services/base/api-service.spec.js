@@ -121,10 +121,43 @@ describe("API Service", () => {
 	it("should invoke model.create with passed params", async () => {
 		let modelFake = new SequelizeModelFake("fakeModel", 3);
 		let sut = new ApiService(modelFake);
-		let fakeData = {'foo': 'bar', 'baz': 'qux'}
+		let fakeData = {foo: "bar", baz: "qux"}
 		await sut.create(fakeData)
 		expect(modelFake.create_calledWith).toBe(fakeData);
 	});
+
+	it("should catch and respond with error if create fails", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 5);
+
+		// Force reject the Promise
+		const rejectedPromise = Promise.reject("it broke");
+		modelFake.create = () => rejectedPromise;
+
+		let sut = new ApiService(modelFake);
+		const response = await sut.create({fake: "data"});
+
+		// Use toStrictEqual for deep equality comparison
+		expect(response).toStrictEqual({hasError: true, error: "it broke"})
+	});
+
+	// Update Object Tests
+
+	it("should on update first attempt to find an existing object by pk", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		await sut.update(17, {fake: "updateData"})
+		expect(modelFake.findByPk_calledWith).toBe(17);
+	});
+
+	// Destroy Object Tests
+
+	it("should on destroy first attempt to find an existing object by pk", async () => {
+		let modelFake = new SequelizeModelFake("fakeModel", 3);
+		let sut = new ApiService(modelFake);
+		await sut.destroy(24)
+		expect(modelFake.findByPk_calledWith).toBe(24);
+	});
+
 
 	// Pagination Tests
 
@@ -177,9 +210,8 @@ describe("API Service", () => {
 	input     | expected
 	${0}      | ${0}
 	${1}      | ${1}
-	${10}     | ${10}
 	${889}    | ${889}
-	${-99999} | ${-99999}
+	${-1} | ${-1}
 	`('should set custom MAX_GET_ALL_PAGE_SIZE with input ($input) via instance method',
 		({input, expected}) => {
 			let modelFake = new SequelizeModelFake("fakeModel");
