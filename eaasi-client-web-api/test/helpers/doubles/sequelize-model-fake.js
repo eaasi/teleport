@@ -91,9 +91,9 @@ export default class SequelizeModelFake {
      * @param fakeData stub
      * @returns {Promise<void>}
      */
-    async update(fakePk, fakeData) {
+    async update(fakeData) {
         this.update_callCount += 1;
-        this.update_calledWith = [fakePk, fakeData];
+        this.update_calledWith = fakeData;
     }
 
     /**

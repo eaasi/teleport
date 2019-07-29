@@ -173,12 +173,12 @@ describe("API Service", () => {
         let fakeData = { foo: "bar", baz: "qux" };
 
         // Force the findByPk Promise to resolve to a value
-        const foundModel = new SequelizeModelFake("foundModel", 5);
+        const foundModel = new SequelizeModelFake("foundModel", 1);
         const foundModelResolution = Promise.resolve(foundModel);
         modelFake.findByPk = () => foundModelResolution;
 
         await sut.update(5, fakeData);
-        expect(foundModel.update_calledWith).toBe([5, fakeData]);
+        expect(foundModel.update_calledWith).toStrictEqual({found: fakeData});
     });
 
     it("on update first attempts to find an existing object by pk", async () => {
