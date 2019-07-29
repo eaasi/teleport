@@ -8,18 +8,36 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Prop } from 'vue-property-decorator';
 
+/**
+ * A general button for UI interaction
+ */
 @Component({
-	name: 'EaasiButton',
-	props: {
-		block: Boolean, // Make display type: block
-		secondary: Boolean, // Use secondary styles
-		icon: String, // Font icon name
-		iconRight: Boolean // Show icon on right side of slot (instead of left)
-	}
+	name: 'UiButton'
 })
-export default class EaasiButton extends Vue {}
+export default class UiButton extends Vue {
+
+	/* Props
+	============================================*/
+
+	// Make display type: block
+	@Prop({type: Boolean, required: false})
+	readonly block: boolean
+
+ 	// Use secondary styles
+	@Prop({type: Boolean, required: false})
+	readonly secondary: boolean
+
+	// Font icon name
+	@Prop({type: String, required: false})
+	readonly icon: string
+
+	// Show icon on right side of slot (instead of left)
+	@Prop({type: String, required: false})
+	readonly iconRight: string
+
+}
 </script>
 
 <style lang="scss">
@@ -31,18 +49,21 @@ button.eaasi-button {
 	color: #FFF;
 	cursor: pointer;
 	font-size: 1.6rem;
+	min-width: 17.5rem;
 	outline: none;
 	padding: 0.8rem 1.6rem;
 	transition: background-color 0.3s;
-	min-width: 17.5rem;
-	*.block {
+
+	&.block {
 		display: block;
 		margin: 0 auto;
 		max-width: 2.6rem;
 	}
+
 	&:hover {
 		background-color: darken($dark-blue, 20%);
 	}
+
 	&.secondary {
 		background-color: lighten($light-blue, 80%);
 		border: solid 2px $light-blue;
@@ -51,11 +72,13 @@ button.eaasi-button {
 			background-color: lighten($light-blue, 40%);
 		}
 	}
+
 	.icon {
-		margin-right: .4em;
+		margin-right: 0.4em;
 	}
+
 	.icon-right {
-		margin-left: .4rem;
+		margin-left: 0.4rem;
 	}
 }
 </style>

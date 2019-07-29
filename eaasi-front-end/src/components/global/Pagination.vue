@@ -64,21 +64,6 @@ export default class Pagination extends Vue {
 	@Prop({type: Number})
 	readonly pageNum: number = 1;
 
-	/* Watchers
-	============================================*/
-
-	@Watch('pageNum')
-	onPageNumChanged(newPage: number) {
-		if(newPage !== this.currentPage) {
-			this.paginate(newPage, true);
-		}
-	}
-
-	@Watch('totalResults')
-	onTotalResultsChanged() {
-		this.updateResult();
-	}
-
 	/* Data
 	============================================*/
 
@@ -136,7 +121,7 @@ export default class Pagination extends Vue {
 		this.showGoToEnd = end < numPages;
 	}
 
-	paginate(pageNum, suppressEvent = false) {
+	paginate(pageNum: number, suppressEvent: boolean = false) {
 		if(pageNum === this.currentPage) return;
 		if(pageNum < 1 || pageNum > this.numPages) return;
 		this.currentPage = pageNum;
@@ -146,12 +131,28 @@ export default class Pagination extends Vue {
 		this.updateResult();
 	}
 
-	/* Lifecycle
+	/* Lifecycle Hooks
 	============================================*/
 
 	mounted() {
 		this.updateResult();
 	}
+
+	/* Watchers
+	============================================*/
+
+	@Watch('pageNum')
+	onPageNumChanged(newPage: number) {
+		if(newPage !== this.currentPage) {
+			this.paginate(newPage, true);
+		}
+	}
+
+	@Watch('totalResults')
+	onTotalResultsChanged() {
+		this.updateResult();
+	}
+
 }
 
 </script>
@@ -165,6 +166,7 @@ export default class Pagination extends Vue {
 		margin-bottom: 0.5rem;
 	}
 }
+
 .pagination {
 	padding: 0;
 

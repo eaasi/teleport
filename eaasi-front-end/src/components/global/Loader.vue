@@ -12,14 +12,15 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 @Component({
-	name: 'EaasiLoader'
+	name: 'Loader'
 })
-export default class EaasiLoader extends Vue {}
+export default class Loader extends Vue {}
 </script>
 
 <style lang="scss">
 $baseColor: $dark-blue;
 $speed: 0.9s;
+
 .eeasi-loader-wrapper {
 	bottom: 0;
 	left: 0;
@@ -27,71 +28,76 @@ $speed: 0.9s;
 	right: 0;
 	top: 0;
 }
+
 .eaasi-loader {
-	position: relative;
 	height: 100px;
+	position: relative;
 	width: 100px;
 }
+
 .eaasi-logo {
-	position: absolute;
 	height: 50px;
-	width: 50px;
-	top: 28px;
 	left: 28px;
 	opacity: 1;
+	position: absolute;
+	top: 28px;
+	width: 50px;
 }
+
 .eaasi-loader-rings {
 	animation: spin ($speed * 1.2) linear infinite;
-	border-radius: 50%;
 	border: 3px solid transparent;
+	border-radius: 50%;
 	border-top-color: $baseColor;
 	display: block;
-	position: relative;
 	height: 100px;
+	position: relative;
 	width: 100px;
 
-	&:before {
-		content: "";
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		right: 5px;
-		bottom: 5px;
-		border-radius: 50%;
-		border: 3px solid transparent;
-		border-top-color: lighten($baseColor, 50%);
+	&::before {
 		animation: spin ($speed * 2.5) linear infinite;
+		border: 3px solid transparent;
+		border-radius: 50%;
+		border-top-color: lighten($baseColor, 50%);
+		bottom: 5px;
+		content: "";
+		left: 5px;
+		position: absolute;
+		right: 5px;
+		top: 5px;
 	}
 
-	&:after {
-		content: "";
-		position: absolute;
-		top: 15px;
-		left: 15px;
-		right: 15px;
-		bottom: 15px;
-		border-radius: 50%;
-		border: 3px solid transparent;
-		border-top-color: darken($baseColor, 50%);
+	&::after {
 		animation: spin ($speed * 1.5) linear infinite;
+		border: 3px solid transparent;
+		border-radius: 50%;
+		border-top-color: darken($baseColor, 50%);
+		bottom: 15px;
+		content: "";
+		left: 15px;
+		position: absolute;
+		right: 15px;
+		top: 15px;
 	}
 }
 
 @-webkit-keyframes spin {
-    0%   {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 @keyframes spin {
-    0%   {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }
 </style>

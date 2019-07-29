@@ -19,11 +19,23 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiTab } from '@/types/Navigation';
 
 @Component({
-	name: 'EaasiTabs'
+	name: 'TabbedNav'
 })
-export default class EaasiTabs extends Vue {
-	@Prop({type: Array, required: true}) readonly tabs: Array<IEaasiTab> // List of tabs
-	@Prop({type: String, required: true}) readonly value: string // Active tab label (use v-model)
+export default class TabbedNav extends Vue {
+
+	/* Props
+	============================================*/
+
+	// List of tabs
+	@Prop({type: Array, required: true})
+	readonly tabs: Array<IEaasiTab>
+
+	// Active tab label (use v-model)
+	@Prop({type: String, required: true})
+	readonly value: string
+
+	/* Methods
+	============================================*/
 
 	selectTab(tab: IEaasiTab) {
 		this.$emit('input', tab.label);

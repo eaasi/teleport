@@ -11,15 +11,20 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Prop } from 'vue-property-decorator';
 
 @Component({
-	name: 'OptionsBox',
-	props: {
-		header: String
-	}
+	name: 'OptionsBox'
 })
-export default class OptionsBox extends Vue {}
+export default class OptionsBox extends Vue {
+
+	/* Props
+	============================================*/
+
+	@Prop({type: String, required: false})
+	readonly header: String
+
+}
 
 </script>
 
@@ -30,9 +35,11 @@ export default class OptionsBox extends Vue {}
 	display: inline-block;
 	min-width: 320px;
 	overflow: hidden;
+
 	.ob-content {
 		padding: 1.5rem;
 	}
+
 	.ob-header {
 		background-color: $light-blue;
 		color: #FFF;

@@ -46,6 +46,7 @@ export default class Modal extends Vue {
 	@Prop({type: Boolean, required: true})
 	readonly show: boolean
 
+
 	/* Lifecycle Hooks
 	============================================*/
 
