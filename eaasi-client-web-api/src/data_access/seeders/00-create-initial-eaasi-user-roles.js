@@ -12,6 +12,6 @@ module.exports = {
 
     down: (queryInterface, Sequelize) => {
         queryInterface.sequelize.query("ALTER SEQUENCE \"eaasi_role_id_seq\" RESTART WITH 1;");
-        return queryInterface.bulkDelete('eaasi_role', null, {});
+        return queryInterface.bulkDelete('eaasi_role', {}, {});
     }
 };

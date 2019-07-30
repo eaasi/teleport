@@ -1,21 +1,7 @@
-import {
-    build_400_response,
-    build_404_response,
-    build_500_response
-} from "@/utils/error-helpers";
-
-
-import {
-    BAD_REQUEST,
-    CREATED,
-    NOT_FOUND,
-    OK,
-    SERVER_ERROR
-} from "@/utils/http-response-codes";
-
-import { areAllValidIntegerParams } from "@/utils/validators";
-
 import express from 'express';
+import {areAllValidIntegerParams} from "../utils/validators";
+import {BAD_REQUEST, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http-response-codes";
+import {build_400_response, build_404_response, build_500_response} from "../utils/error-helpers";
 
 
 export default class BaseCrudController {
@@ -120,7 +106,7 @@ export default class BaseCrudController {
         let updateResponse = await this._crudService.update(id, updateData);
 
         if (updateResponse.hasError) {
-            return this._handleUpdateError(req, res, updateResponse);
+            return BaseCrudController._handleUpdateError(req, res, updateResponse);
         }
 
         return await res.status(OK).send(updateResponse);
@@ -136,7 +122,7 @@ export default class BaseCrudController {
         let deleteResponse = await this._crudService.destroy(id);
 
         if (deleteResponse.hasError) {
-            return this._handleDeleteError(req, res, deleteResponse);
+            return BaseCrudController._handleDeleteError(req, res, deleteResponse);
         }
 
         return await res.status(OK).send(deleteResponse);
@@ -150,7 +136,7 @@ export default class BaseCrudController {
      * @returns {Promise<*>}
      * @private
      */
-    async _handleUpdateError(req: express.Request, res: express.Response, updateResponse: any) {
+    static async _handleUpdateError(req: express.Request, res: express.Response, updateResponse: any) {
         if (updateResponse.error === "notFound") {
             return await res
                 .status(SERVER_ERROR)
@@ -170,7 +156,7 @@ export default class BaseCrudController {
      * @returns {Promise<*>}
      * @private
      */
-    async _handleDeleteError(req: express.Request, res: express.Response, deleteResponse: any) {
+    static async _handleDeleteError(req: express.Request, res: express.Response, deleteResponse: any) {
         if (deleteResponse.error === "notFound") {
             return await res
                 .status(SERVER_ERROR)
