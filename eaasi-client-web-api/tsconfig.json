@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./built",
-    "allowJs": true,
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
+    "outDir": "dist",
+    "allowJs": true,
     "strict": true,
     "importHelpers": true,
     "moduleResolution": "node",
@@ -17,21 +17,14 @@
       "webpack-env",
       "jest"
     ],
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
     "lib": [
       "esnext",
-      "dom",
-      "dom.iterable",
       "scripthost"
     ]
   },
   "include": [
-    "./dist/**/*.js",
-    "./dist/**/*.ts"
+    "src",
+    "test"
   ],
   "exclude": [
     "node_modules"
