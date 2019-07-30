@@ -3,9 +3,9 @@ import Sequelize from "sequelize";
 export default class CrudService {
 
     private MAX_GET_ALL_PAGE_SIZE: number;
-    private model: Sequelize.Model;
+    private model: any;
 
-    constructor(model: Sequelize.Model) {
+    constructor(model: any) {
         this.model = model;
         this.MAX_GET_ALL_PAGE_SIZE = 100;
     }
@@ -20,15 +20,13 @@ export default class CrudService {
      * On error, returns error object
      * @param limit number of results to limit in the response
      * @param page starting page of response results
-     * @param sortCol column by which to sort response results
-     * @param res response
      * @returns {Promise<{}>}
      */
     async getAll(limit: number, page: number) : Promise<object> {
         let resultsCountLimit = limit || this.MAX_GET_ALL_PAGE_SIZE;
 
         let totalResults = await this.model.findAndCountAll()
-            .catch(error => {
+            .catch((error: string) => {
                 return { hasError: true, error: error };
             });
 
@@ -45,7 +43,7 @@ export default class CrudService {
                 limit: resultsCountLimit,
                 offset: offset
             })
-            .catch(error => {
+            .catch((error: string) => {
                 return { hasError: true, error: error };
             });
 
@@ -70,13 +68,13 @@ export default class CrudService {
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-    async getByPk(pk: number) {
+    async getByPk(pk: number) : Promise<{}> {
         return await this.model
             .findByPk(pk)
-            .then(result => {
+            .then((result: object) => {
                 return { hasError: false, result: result };
             })
-            .catch(error => {
+            .catch((error: string)=> {
                 return { hasError: true, error: error };
             });
     }
@@ -88,13 +86,13 @@ export default class CrudService {
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-    async create(modelData: any) {
+    async create(modelData: any) : Promise<{}> {
         return await this.model
             .create(modelData)
-            .then(created => {
+            .then((created: object) => {
                 return { hasError: false, result: created };
             })
-            .catch(error => {
+            .catch((error: string) => {
                 return { hasError: true, error: error };
             });
     }
@@ -107,10 +105,10 @@ export default class CrudService {
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-    async update(pk: number, modelData: any) {
+    async update(pk: number, modelData: any) : Promise<{}> {
         return await this.model
             .findByPk(pk)
-            .then(found => {
+            .then((found: Sequelize.Model) => {
                 if (!found) {
                     return { hasError: true, error: "notFound" };
                 }
@@ -125,7 +123,7 @@ export default class CrudService {
                         return { hasError: true, error: error };
                     });
             })
-            .catch(error => {
+            .catch((error: string) => {
                 return { hasError: true, error: error };
             });
     }
@@ -137,25 +135,22 @@ export default class CrudService {
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-    async destroy(pk: number) {
+    async destroy(pk: number) : Promise<{}> {
         return await this.model
             .findByPk(pk)
-            .then(found => {
+            .then((found: Sequelize.Model) => {
                 if (!found) {
                     return { hasError: true, error: "notFound" };
                 }
-                return found
-                    .destroy({
-                        where: { pk }
-                    })
+                return found.destroy()
                     .then(() => {
                         return { hasError: false, result: pk };
                     })
-                    .catch(error => {
+                    .catch((error: string) => {
                         return { hasError: true, error: error };
                     });
             })
-            .catch(error => {
+            .catch((error: string) => {
                 return { hasError: true, error: error };
             });
     }
