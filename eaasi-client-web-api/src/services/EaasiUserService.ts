@@ -1,4 +1,4 @@
-import CrudService from "./base/CrudService";
+import CrudService from "@/services/base/CrudService";
 
 const { EaasiUser } = require("../data_access/models");
 
