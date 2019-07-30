@@ -10,8 +10,8 @@
     "cypress:verify": "cypress verify",
     "cypress:version": "cypress version",
     "server:prod": "babel-node ./built/dist/bin/www",
-    "test:unit": "jest --verbose --logHeapUsage",
-    "test:unit:coverage": "jest --verbose --logHeapUsage --coverage",
+    "test:unit": "npm run build && jest --verbose --logHeapUsage",
+    "test:unit:coverage": "npm run build && jest --verbose --logHeapUsage --coverage",
     "test:ui": "NODE_ENV=test npm run clean && npm run build && npm run server:prod && cypress:run",
     "local:watch": "NODE_ENV=local npm run clean && npm run build && nodemon server:prod",
     "dev": "NODE_ENV=development npm run clean && npm run build && npm run server:prod",
@@ -19,6 +19,7 @@
     "prod": "NODE_ENV=production npm run clean && npm run build && npm run server:prod"
   },
   "dependencies": {
+    "@types/webpack-env": "^1.14.0",
     "acorn": "^6.2.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",

@@ -244,21 +244,6 @@ describe("API Service", () => {
         expect(foundModel.destroy_callCount).toBe(1);
     });
 
-    it("on destroy invokes model.destroy with where clause", async () => {
-        let modelFake = new SequelizeModelFake("fakeModel", 3);
-        let sut = new CrudService(modelFake);
-
-        // Force the findByPk Promise to resolve to a value
-        const foundModel = new SequelizeModelFake("foundModel", 5);
-        const foundModelResolution = Promise.resolve(foundModel);
-        modelFake.findByPk = () => foundModelResolution;
-
-        await sut.destroy(5);
-        expect(foundModel.destroy_calledWith).toStrictEqual({
-            where: { pk: 5 }
-        });
-    });
-
     it("on destroy attempts to find an existing object by pk", async () => {
         let modelFake = new SequelizeModelFake("fakeModel", 3);
         let sut = new CrudService(modelFake);

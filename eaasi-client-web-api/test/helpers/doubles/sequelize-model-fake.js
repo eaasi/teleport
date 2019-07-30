@@ -87,7 +87,6 @@ export default class SequelizeModelFake {
 
     /**
      * Method fake for SequelizeModel.update
-     * @param fakePk stub
      * @param fakeData stub
      * @returns {Promise<void>}
      */
@@ -98,11 +97,9 @@ export default class SequelizeModelFake {
 
     /**
      * Method fake for SequelizeModel.destroy
-     * @param fakePk stub
      * @returns {Promise<void>}
      */
-    async destroy(fakePk) {
+    async destroy() {
         this.destroy_callCount += 1;
-        this.destroy_calledWith = fakePk;
     }
 }

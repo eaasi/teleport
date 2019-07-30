@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./built",
+    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -29,8 +30,10 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts"
+    "./src/**/*.js",
+    "./test/**/*.js",
+    "./src/**/*.ts",
+    "./test/**/*.ts"
   ],
   "exclude": [
     "node_modules"
