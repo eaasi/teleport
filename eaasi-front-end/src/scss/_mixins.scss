@@ -21,8 +21,35 @@
 }
 
 /*============================================================
+ == Colors
+/============================================================*/
+
+@function lighten($color, $percentage) {
+	@return scale-color($color, $lightness: $percentage);
+}
+
+@function darken($color, $percentage) {
+	@return scale-color($color, $lightness: $percentage * -1);
+}
+
+/*============================================================
  == Display and Positioning
 /============================================================*/
+
+@mixin clearfix {
+	&:after {
+		clear: both;
+		content: "";
+		display: table;
+	}
+}
+
+@mixin stretch {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
 
 @mixin aspect-ratio($width, $height) {
     position: relative;

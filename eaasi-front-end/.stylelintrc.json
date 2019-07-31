@@ -2,12 +2,15 @@
 	"extends": "stylelint-config-standard",
 	"ignoreFiles": ["**/*.js", "**/*.ts"],
 	"plugins": [
-        "stylelint-order"
+        "stylelint-order",
+		"stylelint-scss"
     ],
 	"processors": ["stylelint-processor-html"],
     "rules": {
+		"at-rule-no-unknown": null,
+    	"scss/at-rule-no-unknown": true,
 		"color-hex-case": null,
-		"empty-link-before": null,
+		"declaration-empty-line-before": "never",
 		"indentation": ["tab"],
 		"length-zero-no-unit": null,
         "order/order": [

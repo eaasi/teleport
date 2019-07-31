@@ -1,3 +1,4 @@
+@import '_reset.scss';
 @import '_mixins.scss';
 @import '_variables.scss';
 
@@ -13,12 +14,11 @@ html,
 body {
 	margin: 0;
 	min-width: $minAppWidth;
-	overflow-x: hidden;
 	padding: 0;
 }
 
 body {
-	background-color: #F6F6F6;
+	background-color: #FFF;
 	color: #555;
 	font-family: $font-primary;
 	font-size: 1.6rem;
@@ -86,7 +86,7 @@ ul {
 }
 
 a {
-	color: $primary-link-color;
+	color: $dark-blue;
 	&:visited, &:active, &:focus, &:hover {
 		color: inherit;
 	}
@@ -106,6 +106,26 @@ a {
 
 .txt-right {
 	text-align: right;
+}
+
+/*============================================================
+ == Text Styles
+/============================================================*/
+
+.bold {
+	font-weight: 900;
+}
+
+.medium {
+	font-weight: 700;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
 }
 
 /*============================================================
@@ -268,7 +288,7 @@ a {
 }
 
 .no-mb {
-	margin-bottom: none;
+	margin-bottom: 0;
 }
 
 /*============================================================

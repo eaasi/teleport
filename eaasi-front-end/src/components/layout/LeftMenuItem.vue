@@ -1,7 +1,12 @@
 <template functional>
-	<router-link :to="props.item.route" class="left-menu-item" active-class="active">
+	<router-link
+		:to="props.item.route"
+		class="left-menu-item medium"
+		active-class="active"
+		data-test="left-menu-item"
+	>
 		<div class="left-menu-icon">
-			<i :class="`fa fa-${props.item.icon}`"></i>
+			<i :class="`fal fa-${props.item.icon}`"></i>
 		</div>
 		<p class="txt-sm no-mb">
 			{{ props.item.label }}
@@ -26,8 +31,8 @@ export default class LeftMenuItem extends Vue {}
 </script>
 
 <style lang="scss">
-.left-menu-item {
-	color: #106393 !important;
+a.left-menu-item {
+	color: $dark-neutral;
 	cursor: pointer;
 	display: block;
 	padding: 1.5rem 1rem;
@@ -40,8 +45,9 @@ export default class LeftMenuItem extends Vue {}
 		text-transform: uppercase;
 	}
 
-	i.fa {
-		font-size: 4rem;
+	i.fal {
+		color: $teal;
+		font-size: 3.6rem;
 	}
 
 	&::before {
@@ -59,12 +65,12 @@ export default class LeftMenuItem extends Vue {}
 	&.active {
 		background-color: #fff;
 		&::before {
-			border-left: 4px solid #106393;
+			border-left: 4px solid $teal;
 		}
 	}
 }
 
 .left-menu-icon {
-	height: 4.5rem;
+	height: 3.8rem;
 }
 </style>

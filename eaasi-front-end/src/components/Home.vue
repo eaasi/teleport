@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { IEaasiTab } from '@/types/Navigation';
 
 @Component
 export default class Home extends Vue {}

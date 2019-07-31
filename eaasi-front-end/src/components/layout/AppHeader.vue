@@ -15,10 +15,10 @@ export default class AppHeader extends Vue {};
 
 <style lang="scss">
 #header {
-	background-color: #fbf8f6;
+	background-color: $teal;
 	height: $headerHeight;
 	left: 0;
-	outline: solid 1px #d5d5d5;
+	outline: solid 2px darken($teal, 59%);
 	position: fixed;
 	right: 0;
 	top: 0;
