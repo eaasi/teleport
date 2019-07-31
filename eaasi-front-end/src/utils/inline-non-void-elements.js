@@ -21,6 +21,7 @@ module.exports = [
 	'mark',
 	'noscript',
 	'object',
+	'option',
 	'output',
 	'picture',
 	'q',
