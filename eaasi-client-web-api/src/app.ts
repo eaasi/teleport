@@ -1,4 +1,4 @@
-import {NOT_FOUND, SERVER_ERROR} from "./utils/http-response-codes";
+import HttpResponseCode from "./utils/HttpResponseCode";
 
 const createError = require('http-errors');
 const path = require('path');
@@ -35,7 +35,7 @@ app.use('/api', require('./routes'))
 
 // catch 404 and forward to error handler
 app.use(function(req: express.Request, res: express.Response, next: express.NextFunction) {
-  next(createError(NOT_FOUND));
+  next(createError(HttpResponseCode.NOT_FOUND));
 });
 
 // error handler
@@ -45,7 +45,7 @@ app.use(function(err: any, req: express.Request, res: express.Response, next: ex
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || SERVER_ERROR);
+  res.status(err.status || HttpResponseCode.SERVER_ERROR);
   res.render('error');
 });
 

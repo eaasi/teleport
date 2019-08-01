@@ -1,10 +1,14 @@
 import express from 'express';
 import {areAllValidIntegerParams} from "../utils/validators";
-import {BAD_REQUEST, CREATED, NOT_FOUND, OK, SERVER_ERROR} from "../utils/http-response-codes";
 import {build_400_response, build_404_response, build_500_response} from "../utils/error-helpers";
+import ICrudController from "./interfaces/ICrudController";
+import HttpResponseCode from "../utils/HttpResponseCode";
 
 
-export default class BaseCrudController {
+/**
+ * Base class for Controllers that handle CRUD logic
+ */
+export default class BaseCrudController implements ICrudController {
     private _crudService: any;
 
     constructor(crudService: any) {
@@ -12,7 +16,7 @@ export default class BaseCrudController {
     }
 
     /**
-     * Gets all EaasiUser data (paginated)
+     * Returns all object instances in paginated form.
      * @param req request
      * @param res response
      */
@@ -24,7 +28,7 @@ export default class BaseCrudController {
         // todo: investigate more robust query string validation, add sortCol validation
         if (!areAllValidIntegerParams([limit, page])) {
             return await res
-                .status(BAD_REQUEST)
+                .status(HttpResponseCode.BAD_REQUEST)
                 .send(build_400_response(JSON.stringify(req.query)));
         }
 
@@ -32,7 +36,7 @@ export default class BaseCrudController {
 
         if (response.hasError) {
             return await res
-                .status(SERVER_ERROR)
+                .status(HttpResponseCode.SERVER_ERROR)
                 .send(build_500_response(response.error));
         }
 
@@ -40,7 +44,7 @@ export default class BaseCrudController {
     }
 
     /**
-     * Gets an EaasiUser resource by ID
+     * Gets a resource by ID
      * @param req request
      * @param res response
      */
@@ -49,7 +53,7 @@ export default class BaseCrudController {
 
         if (req.params.id == null) {
             return await res
-                .status(BAD_REQUEST)
+                .status(HttpResponseCode.BAD_REQUEST)
                 .send(build_400_response(req.params));
         }
 
@@ -57,21 +61,21 @@ export default class BaseCrudController {
 
         if (response.hasError) {
             return await res
-                .status(SERVER_ERROR)
+                .status(HttpResponseCode.SERVER_ERROR)
                 .send(build_500_response(response.error));
         }
 
         if (response.result == null) {
             return await res
-                .status(NOT_FOUND)
+                .status(HttpResponseCode.NOT_FOUND)
                 .send(build_404_response(req.originalUrl));
         }
 
-        return await res.status(OK).send(response.result);
+        return await res.status(HttpResponseCode.OK).send(response.result);
     }
 
     /**
-     * Creates a new EaasiUser resource
+     * Creates a new resource and persists to database
      * @param req request
      * @param res response
      */
@@ -80,7 +84,7 @@ export default class BaseCrudController {
 
         if (newObject == null) {
             return await res
-                .status(BAD_REQUEST)
+                .status(HttpResponseCode.BAD_REQUEST)
                 .send(build_400_response(req.body));
         }
 
@@ -88,15 +92,15 @@ export default class BaseCrudController {
 
         if (response.hasError) {
             return await res
-                .status(SERVER_ERROR)
+                .status(HttpResponseCode.SERVER_ERROR)
                 .send(build_500_response(response.error));
         }
 
-        return await res.status(CREATED).send(response.result);
+        return await res.status(HttpResponseCode.CREATED).send(response.result);
     }
 
     /**
-     * Updates an EaasiUser resource by ID
+     * Updates a resource by ID
      * @param req request
      * @param res response
      */
@@ -109,11 +113,11 @@ export default class BaseCrudController {
             return BaseCrudController._handleUpdateError(req, res, updateResponse);
         }
 
-        return await res.status(OK).send(updateResponse);
+        return await res.status(HttpResponseCode.OK).send(updateResponse);
     }
 
     /**
-     * Delete an EaasiUser resource by ID
+     * Deletes a resource by ID
      * @param req request
      * @param res response
      */
@@ -125,11 +129,11 @@ export default class BaseCrudController {
             return BaseCrudController._handleDeleteError(req, res, deleteResponse);
         }
 
-        return await res.status(OK).send(deleteResponse);
+        return await res.status(HttpResponseCode.OK).send(deleteResponse);
     }
 
     /**
-     *
+     * Handles sending an error response for an update action
      * @param req Express req
      * @param res Express res
      * @param updateResponse response object from ApiService
@@ -139,17 +143,17 @@ export default class BaseCrudController {
     static async _handleUpdateError(req: express.Request, res: express.Response, updateResponse: any) {
         if (updateResponse.error === "notFound") {
             return await res
-                .status(SERVER_ERROR)
+                .status(HttpResponseCode.NOT_FOUND)
                 .send(build_404_response(req.originalUrl));
         }
 
         return await res
-            .status(SERVER_ERROR)
+            .status(HttpResponseCode.SERVER_ERROR)
             .send(build_500_response(updateResponse.error));
     }
 
     /**
-     *
+     * Handles sending an error response for a delete action
      * @param req Express req
      * @param res Express res
      * @param deleteResponse response object from ApiService
@@ -159,12 +163,12 @@ export default class BaseCrudController {
     static async _handleDeleteError(req: express.Request, res: express.Response, deleteResponse: any) {
         if (deleteResponse.error === "notFound") {
             return await res
-                .status(SERVER_ERROR)
+                .status(HttpResponseCode.NOT_FOUND)
                 .send(build_404_response(req.originalUrl));
         }
 
         return await res
-            .status(SERVER_ERROR)
+            .status(HttpResponseCode.SERVER_ERROR)
             .send(build_500_response(deleteResponse.error));
     }
 }
