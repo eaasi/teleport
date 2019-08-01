@@ -2,28 +2,12 @@
  * Standard Error Responses for web API Requests
  */
 
-import {BAD_REQUEST, FORBIDDEN, NOT_FOUND, SERVER_ERROR, UNAUTHORIZED} from "./http-response-codes";
-
-interface IErrorResponse {
-	hasError: boolean,
-	status: number,
-	message: string
-}
+import ErrorResponse from "./ErrorResponse";
+import HttpResponseCode from "./HttpResponseCode";
 
 /**
  * Provides a common message response object
  */
-export class ErrorResponse implements IErrorResponse {
-	constructor(httpStatusCode: number, message: string) {
-		this.hasError = true;
-		this.status = httpStatusCode;
-		this.message = message;
-	}
-
-	hasError: boolean;
-	message: string;
-	status: number;
-}
 
 /**
  * Malformed request error response
@@ -31,7 +15,7 @@ export class ErrorResponse implements IErrorResponse {
  */
 export function build_400_response(requestBody: string) {
 	const messageDetail = `The provided request format is invalid: ${requestBody}`;
-	return new ErrorResponse(BAD_REQUEST, messageDetail)
+	return new ErrorResponse(HttpResponseCode.BAD_REQUEST, messageDetail)
 }
 
 /**
@@ -40,7 +24,7 @@ export function build_400_response(requestBody: string) {
  */
 export function build_401_response() {
 	const messageDetail = `You need to be authenticated to access the requested resource`;
-	return new ErrorResponse(UNAUTHORIZED, messageDetail)
+	return new ErrorResponse(HttpResponseCode.UNAUTHORIZED, messageDetail)
 
 }
 
@@ -50,7 +34,7 @@ export function build_401_response() {
  */
 export function build_403_response() {
 	const messageDetail = `You do not have permission to access the requested resource`;
-	return new ErrorResponse(FORBIDDEN, messageDetail)
+	return new ErrorResponse(HttpResponseCode.FORBIDDEN, messageDetail)
 }
 
 /**
@@ -60,7 +44,7 @@ export function build_403_response() {
 export function build_404_response(requestedUrl: string) {
 	const messageDetail =
 		`Resource was not found at the requested location: ${requestedUrl}`;
-	return new ErrorResponse(NOT_FOUND, messageDetail)
+	return new ErrorResponse(HttpResponseCode.NOT_FOUND, messageDetail)
 }
 
 /**
@@ -71,7 +55,7 @@ export function build_500_response(serverError: any) {
 	let standardizedError = _getStandardizedServerError(serverError.name);
 	const messageDetail =
 		`A server error occurred while processing the request: ${standardizedError}`;
-	return new ErrorResponse(SERVER_ERROR, messageDetail)
+	return new ErrorResponse(HttpResponseCode.SERVER_ERROR, messageDetail)
 }
 
 /**

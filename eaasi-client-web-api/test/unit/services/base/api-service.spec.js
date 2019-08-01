@@ -1,5 +1,6 @@
 import CrudService from "../../../../src/services/base/CrudService";
 import SequelizeModelFake from "../../../helpers/doubles/sequelize-model-fake";
+import CrudServiceErrorResult from "../../../../src/services/base/CrudServiceErrorResult";
 
 describe("API Service", () => {
     // Constructor Tests
@@ -59,11 +60,10 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.getAll(2, 3);
 
+        const expectedError = new CrudServiceErrorResult("findAll broke")
+
         // Use toStrictEqual for deep equality comparison
-        expect(response).toStrictEqual({
-            hasError: true,
-            error: "findAll broke"
-        });
+        expect(response).toStrictEqual(expectedError);
     });
 
     it("on getAll catches and responds with error if findAndCountAll Promise is rejected", async () => {
@@ -76,11 +76,10 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.getAll(2, 3);
 
+        const expectedError = new CrudServiceErrorResult("findAndCountAll broke")
+
         // Use toStrictEqual for deep equality comparison
-        expect(response).toStrictEqual({
-            hasError: true,
-            error: "findAndCountAll broke"
-        });
+        expect(response).toStrictEqual(expectedError);
     });
 
     // Read Single Object Tests
@@ -116,8 +115,10 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.getByPk(4);
 
+        const expectedError = new CrudServiceErrorResult("it broke")
+
         // Use toStrictEqual for deep equality comparison
-        expect(response).toStrictEqual({ hasError: true, error: "it broke" });
+        expect(response).toStrictEqual(expectedError);
     });
 
     // Create Object Tests
@@ -147,8 +148,10 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.create({ fake: "data" });
 
+        const expectedError = new CrudServiceErrorResult("it broke")
+
         // Use toStrictEqual for deep equality comparison
-        expect(response).toStrictEqual({ hasError: true, error: "it broke" });
+        expect(response).toStrictEqual(expectedError);
     });
 
     // Update Object Tests
@@ -197,7 +200,9 @@ describe("API Service", () => {
         modelFake.findByPk = () => emptyObject;
 
         let res = await sut.update(17, { fake: "updateData" });
-        expect(res).toStrictEqual({ hasError: true, error: "notFound" });
+        const expectedError = new CrudServiceErrorResult("notFound")
+
+        expect(res).toStrictEqual(expectedError);
     });
 
     it("on update returns an error if findByPk Promise is rejected", async () => {
@@ -209,7 +214,9 @@ describe("API Service", () => {
         modelFake.findByPk = () => rejectedPromise;
 
         let res = await sut.update(34, { fake: "updateData" });
-        expect(res).toStrictEqual({ hasError: true, error: "findByPk broke" });
+
+        const expectedError = new CrudServiceErrorResult("findByPk broke")
+        expect(res).toStrictEqual(expectedError);
     });
 
     it("on update returns an error if instance model.update Promise is rejected", async () => {
@@ -226,7 +233,9 @@ describe("API Service", () => {
         foundModel.update = () => rejectedPromise;
 
         let res = await sut.update(32, { fake: "updateData" });
-        expect(res).toStrictEqual({ hasError: true, error: "update broke" });
+        const expectedError = new CrudServiceErrorResult("update broke")
+
+        expect(res).toStrictEqual(expectedError);
     });
 
     // Destroy Object Tests
@@ -260,7 +269,9 @@ describe("API Service", () => {
         modelFake.findByPk = () => emptyObject;
 
         let res = await sut.destroy(17);
-        expect(res).toStrictEqual({ hasError: true, error: "notFound" });
+
+        const expectedError = new CrudServiceErrorResult("notFound")
+        expect(res).toStrictEqual(expectedError);
     });
 
     it("on destroy returns an error if destroy Promise is rejected", async () => {
@@ -277,7 +288,9 @@ describe("API Service", () => {
         foundModel.destroy = () => rejectedPromise;
 
         let res = await sut.destroy(98);
-        expect(res).toStrictEqual({ hasError: true, error: "destroy broke" });
+        const expectedError = new CrudServiceErrorResult("destroy broke")
+
+        expect(res).toStrictEqual(expectedError);
     });
 
     it("on destroy returns an error on if findByPk Promise is rejected", async () => {
@@ -289,7 +302,9 @@ describe("API Service", () => {
         modelFake.findByPk = () => rejectedPromise;
 
         let res = await sut.destroy(34);
-        expect(res).toStrictEqual({ hasError: true, error: "findByPk broke" });
+        const expectedError = new CrudServiceErrorResult("findByPk broke")
+
+        expect(res).toStrictEqual(expectedError);
     });
 
     // Pagination Tests

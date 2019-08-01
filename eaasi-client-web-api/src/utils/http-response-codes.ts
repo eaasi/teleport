@@ -1,9 +1,0 @@
-export const OK           :number = 200   // Successful request
-export const CREATED      :number = 201   // The specified resource was created
-export const ACCEPTED     :number = 202   // The request was accepted
-export const REDIRECT     :number = 302   // "Found" - can be used for redirecting a request
-export const BAD_REQUEST  :number = 400   // HTTP request sent to server has invalid syntax
-export const UNAUTHORIZED :number = 401   // User trying to access the resource is not authenticated
-export const FORBIDDEN    :number = 403   // User made a valid request but is unauthorized to access resource
-export const NOT_FOUND    :number = 404   // The requested resource is not found
-export const SERVER_ERROR :number = 500   // The server cannot handle the request for an unknown reason
