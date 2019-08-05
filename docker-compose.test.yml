@@ -22,23 +22,6 @@ services:
     ports:
         - 8080:80
 
-  # Express Web API
-  eaasi-web-api:
-    image: eaasi-web-api
-    build:
-        context: ./eaasi-client-web-api
-        dockerfile: Dockerfile.test
-    depends_on:
-        - eaasi-test-database
-    env_file:
-        - ./eaasi-client-web-api/env/test.env
-    ports:
-        - 8081:8081
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- \
-                      npx sequelize-cli db:migrate \
-                      && npx sequelize-cli db:seed:all \
-                      && npm run prod"
-
 volumes:
     # Database Data
     eaasi_db_test:
