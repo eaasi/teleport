@@ -52,9 +52,15 @@ export function build_404_response(requestedUrl: string) {
  * @type {{}}
  */
 export function build_500_response(serverError: any) {
-	let standardizedError = _getStandardizedServerError(serverError.name);
+	const nodeEnvironment = process.env.NODE_ENV || ""
+
+    if(["test", "development", "local"].includes(nodeEnvironment)) {
+		return new ErrorResponse(HttpResponseCode.SERVER_ERROR, serverError)
+	}
+
+	let error = _getStandardizedServerError(serverError.name);
 	const messageDetail =
-		`A server error occurred while processing the request: ${standardizedError}`;
+		`A server error occurred while processing the request: ${error}`;
 	return new ErrorResponse(HttpResponseCode.SERVER_ERROR, messageDetail)
 }
 
