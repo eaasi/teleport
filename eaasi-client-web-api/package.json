@@ -12,14 +12,14 @@
     "start": "npm run prod",
     "test:unit": "npm run build && jest --verbose --logHeapUsage",
     "test:unit:coverage": "npm run build && jest --verbose --logHeapUsage --coverage",
-    "test:e2e:open": "NODE_ENV=test run-p --race local:test cy:open",
-    "test:e2e": "NODE_ENV=test run-p --race local:test cy:run",
-    "local:test": "NODE_ENV=test npm run clean && npm run build && npm run server:prod",
-    "local:test:watch": "NODE_ENV=test npm run clean && npm run build && nodemon server:prod",
-    "local:watch": "NODE_ENV=local npm run clean && npm run build && nodemon server:prod",
-    "dev": "NODE_ENV=development npm run clean && npm run build && npm run server:prod",
-    "dev:watch": "NODE_ENV=development npm run clean && npm run build && nodemon server:prod",
-    "prod": "NODE_ENV=production npm run clean && npm run build && npm run server:prod"
+    "test:e2e:open": "export NODE_ENV=test && run-p --race local:test cy:open",
+    "test:e2e": "export NODE_ENV=test && run-p --race local:test cy:run",
+    "local:test": "export NODE_ENV=test && npm run clean && npm run build && npm run server:prod",
+    "local:test:watch": "export NODE_ENV=test && npm run clean && npm run build && nodemon server:prod",
+    "local:watch": "export NODE_ENV=local && npm run clean && npm run build && nodemon server:prod",
+    "dev": "export NODE_ENV=development && npm run clean && npm run build && npm run server:prod",
+    "dev:watch": "export NODE_ENV=development && npm run clean && npm run build && nodemon server:prod",
+    "prod": "export NODE_ENV=production && npm run clean && npm run build && npm run server:prod"
   },
   "dependencies": {
     "@babel/plugin-proposal-numeric-separator": "^7.2.0",

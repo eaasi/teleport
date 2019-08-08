@@ -95,20 +95,53 @@ describe("build_500_response", () => {
         expect(result).toBeInstanceOf(ErrorResponse);
     });
 
-    it('provides "Unspecified server error" for an unmapped error type', () => {
+    it('in production mode, provides "Unspecified server error" for an unmapped error type', () => {
+        const original_env = process.env.NODE_ENV
+        process.env.NODE_ENV = "production"
         const fakeServerError = { name: "meltdown!" };
         let result = build_500_response(fakeServerError);
         expect(result.message).toBe(
             "A server error occurred while processing the request: Unspecified server error"
         );
+        process.env.NODE_ENV = original_env
     });
 
-    it('provides "Server could not parse the provided query" for a SequelizeDatabaseError', () => {
+    it('in production mode, provides "Server could not parse the provided query" for a SequelizeDatabaseError', () => {
+        const original_env = process.env.NODE_ENV
+        process.env.NODE_ENV = "production"
         const fakeServerError = { name: "SequelizeDatabaseError" };
         let result = build_500_response(fakeServerError);
         expect(result.message).toBe(
             "A server error occurred while processing the request: Server could not parse the provided query"
         );
+        process.env.NODE_ENV = original_env
+    });
+
+    it('in development mode, provides full error object for an arbitrary error', () => {
+        const original_env = process.env.NODE_ENV
+        process.env.NODE_ENV = "development"
+        const fakeServerError = { name: "The servers melted" };
+        let result = build_500_response(fakeServerError);
+        expect(result.message).toBe(fakeServerError);
+        process.env.NODE_ENV = original_env
+    });
+
+    it('in test mode, provides full error object for an arbitrary error', () => {
+        const original_env = process.env.NODE_ENV
+        process.env.NODE_ENV = "test"
+        const fakeServerError = { name: "All the tests are broken" };
+        let result = build_500_response(fakeServerError);
+        expect(result.message).toBe(fakeServerError);
+        process.env.NODE_ENV = original_env
+    });
+
+    it('in local mode, provides full error object for an arbitrary error', () => {
+        const original_env = process.env.NODE_ENV
+        process.env.NODE_ENV = "local"
+        const fakeServerError = { name: "Your laptop melted" };
+        let result = build_500_response(fakeServerError);
+        expect(result.message).toBe(fakeServerError);
+        process.env.NODE_ENV = original_env
     });
 
     it("provides an ErrorResponse with HTTP status code 500", () => {
