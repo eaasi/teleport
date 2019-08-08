@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "generate-docs": "apidoc -i src/ -o apidoc",
     "check-types": "tsc",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
@@ -16,9 +17,9 @@
     "test:e2e": "export NODE_ENV=test && run-p --race local:test cy:run",
     "local:test": "export NODE_ENV=test && npm run clean && npm run build && npm run server:prod",
     "local:test:watch": "export NODE_ENV=test && npm run clean && npm run build && nodemon server:prod",
-    "local:watch": "export NODE_ENV=local && npm run clean && npm run build && nodemon server:prod",
+    "local:watch": "export NODE_ENV=local && npm run clean && npm run build && nodemon ./dist/bin/www.js",
     "dev": "export NODE_ENV=development && npm run clean && npm run build && npm run server:prod",
-    "dev:watch": "export NODE_ENV=development && npm run clean && npm run build && nodemon server:prod",
+    "dev:watch": "export NODE_ENV=development && npm run clean && npm run build && nodemon ./dist/bin/www.js",
     "prod": "export NODE_ENV=production && npm run clean && npm run build && npm run server:prod"
   },
   "dependencies": {
@@ -34,6 +35,7 @@
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
     "express": "~4.16.1",
+    "express-validator": "^6.1.1",
     "faker": "^4.1.0",
     "http-errors": "~1.6.3",
     "jade": "^1.11.0",

@@ -3,6 +3,7 @@ import {areAllValidIntegerParams} from "../utils/validators";
 import {build_400_response, build_404_response, build_500_response} from "../utils/error-helpers";
 import ICrudController from "./interfaces/ICrudController";
 import HttpResponseCode from "../utils/HttpResponseCode";
+import {Result, ValidationError} from "express-validator";
 
 
 /**
@@ -130,6 +131,31 @@ export default class BaseCrudController implements ICrudController {
         }
 
         return await res.status(HttpResponseCode.OK).send(deleteResponse);
+    }
+
+    /**
+     * Formats an express-validator error message when a malformed request is made
+     * @param req request
+     * @param res response
+     * @param errors express-validator Result errors
+     */
+    async sendMalformedRequestResponse(req: express.Request, res: express.Response, errors: Result<any>) {
+        let allErrors = errors.array();
+        let errorMessage = "";
+
+        for (let i = 0; i < allErrors.length; i++) {
+
+            let thisError = allErrors[i],
+                value = thisError.value,
+                message = thisError.msg,
+                param = thisError.param,
+                location = thisError.location;
+
+            errorMessage +=
+                `${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `
+        }
+
+        await res.send(build_400_response(errorMessage))
     }
 
     /**
