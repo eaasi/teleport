@@ -181,7 +181,7 @@ describe("API Service", () => {
         modelFake.findByPk = () => foundModelResolution;
 
         await sut.update(5, fakeData);
-        expect(foundModel.update_calledWith).toStrictEqual({found: fakeData});
+        expect(foundModel.update_calledWith).toStrictEqual(fakeData);
     });
 
     it("on update first attempts to find an existing object by pk", async () => {

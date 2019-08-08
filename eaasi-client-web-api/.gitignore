@@ -97,3 +97,5 @@ dist/
 # Test coverage reports
 coverage/
 built/
+
+cypress/screenshots/

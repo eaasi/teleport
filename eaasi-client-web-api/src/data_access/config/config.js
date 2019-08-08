@@ -25,13 +25,12 @@ module.exports = {
     },
 
     // Used for isolated integration testing. Postgres database
-    // must be available on docker compose network 'eaasi-database-test'
-    // compose networked services have a hostname of their service name.
+    // must be available on localhost:5432
     "test": {
         "username": "eaasi_test",
         "password": "eaasi_test",
         "database": "eaasi_test",
-        "host": "eaasi-test-database",
+        "host": "localhost",
         "port": 5432,
         "dialect": "postgres",
     },

@@ -119,10 +119,9 @@ async update(pk: number, modelData: any) : Promise<ICrudServiceResult> {
                 return new CrudServiceErrorResult("notFound");
             }
             return found
-                .update({
-                    found: modelData
-                })
+                .update(modelData)
                 .then(() => {
+                    found.save()
                     return new CrudServiceSuccessResult(found);
                 })
                 .catch((error: string) => {
