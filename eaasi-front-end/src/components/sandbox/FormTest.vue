@@ -1,6 +1,5 @@
 <template>
 	<div class="form-test">
-		<h2>Form Test</h2>
 		<eaasi-form ref="_form">
 			<autocomplete
 				anchor="email"

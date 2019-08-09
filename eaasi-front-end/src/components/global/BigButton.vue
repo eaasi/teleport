@@ -24,7 +24,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 /**
- * A largeer UI button with additional areas for text
+ * A larger UI button with additional areas for text
  */
 @Component({
 	name: 'BigButton',

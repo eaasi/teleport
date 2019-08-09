@@ -23,7 +23,7 @@ body {
 	font-family: $font-primary;
 	font-size: 1.6rem;
 	font-weight: 400;
-	overflow: hidden;
+	overflow: scroll;
 	-webkit-overflow-scrolling: touch;
 	&.modal-open {
 		overflow: hidden;
@@ -31,7 +31,7 @@ body {
 }
 
 /*============================================================
- == Text Ekements / Classes
+ == Text Elements / Classes
 /============================================================*/
 
 h1, h2, h3, h4 {
@@ -160,7 +160,7 @@ a {
 	position: fixed;
 }
 
-/* Psuedo-tables
+/* Pseudo-tables
 ============================================*/
 
 .display-table {

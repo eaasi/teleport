@@ -2,7 +2,7 @@
 	<div id="app">
 		<app-header />
 		<left-menu />
-		<app-content />
+        <app-content />
 	</div>
 </template>
 
@@ -20,3 +20,5 @@ export default Vue.extend({
 	}
 });
 </script>
+<style>
+</style>
