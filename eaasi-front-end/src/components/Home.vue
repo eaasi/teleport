@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AllComponents from "../components/sandbox/AllComponents";
+import AllComponents from '@/components/sandbox/AllComponents.vue';
 
 @Component({
 	components: {AllComponents}
