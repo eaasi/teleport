@@ -6,7 +6,7 @@ COPY .babelrc ./
 
 COPY . ./
 
-RUN npm install -g sequelize sequelize-cli sequelize-auto-migrations pg babel-cli
+RUN npm install -g npx sequelize sequelize-cli sequelize-auto-migrations pg babel-cli
 
 RUN apk update
 
@@ -16,6 +16,6 @@ RUN apk add bash
 
 RUN ["chmod", "+x", "./wait-for-it.sh"]
 
-RUN npm install
+RUN npm install --only=prod
 
 EXPOSE 8081
