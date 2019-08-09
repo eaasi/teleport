@@ -33,10 +33,7 @@ services:
         - ./eaasi-client-web-api/env/prod.env
     ports:
         - 8081:8081
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- \
-                      npx sequelize-cli db:migrate \
-                      && npx sequelize-cli db:seed:all \
-                      && npm run prod"
+    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"
 
 volumes:
     # Database Data
