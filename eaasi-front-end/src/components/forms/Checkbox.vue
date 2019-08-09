@@ -75,16 +75,18 @@ $checkboxSize: 20px;
 	}
 
 	.checkmark {
-		background-color: #eee;
+		border: 1px solid $light-sky-blue;
+		border-radius: 0.5em;
+		background-color: #fff;
 		height: $checkboxSize;
-		left: 0;
+		left: 3px;
 		position: absolute;
-		top: 0;
+		top: 3px;
 		width: $checkboxSize;
 	}
 
 	label input:checked ~ .checkmark {
-		background-color: $light-blue;
+		background-color: $dark-sky-blue;
 	}
 
 	.checkmark::after {

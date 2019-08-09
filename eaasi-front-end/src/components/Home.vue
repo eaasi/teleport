@@ -1,14 +1,17 @@
 <template>
 	<div class="home">
-		<h1>Dashboard</h1>
+		<all-components></all-components>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import AllComponents from "../components/sandbox/AllComponents";
 
-@Component
-export default class Home extends Vue {}
+@Component({
+	components: {AllComponents}
+})
+export default class Home extends Vue { }
 </script>
 
 <style>
