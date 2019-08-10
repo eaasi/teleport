@@ -24,7 +24,8 @@ export default class Loader extends Vue {}
 $baseColor: $dark-blue;
 $speed: 0.9s;
 
-.eeasi-loader-wrapper {
+.eaasi-loader-wrapper {
+	background-color: rgba(0, 0, 0, 0.2);
 	bottom: 0;
 	left: 0;
 	position: absolute;

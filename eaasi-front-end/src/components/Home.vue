@@ -1,6 +1,6 @@
 <template>
 	<div class="home">
-		<all-components></all-components>
+		<all-components />
 	</div>
 </template>
 
@@ -9,9 +9,11 @@ import { Component, Vue } from 'vue-property-decorator';
 import AllComponents from '@/components/sandbox/AllComponents.vue';
 
 @Component({
-	components: {AllComponents}
+	components: {
+		AllComponents
+	}
 })
-export default class Home extends Vue { }
+export default class Home extends Vue {}
 </script>
 
 <style>

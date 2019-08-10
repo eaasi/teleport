@@ -11,6 +11,7 @@ import Vue from 'vue';
 import AppHeader from './components/layout/AppHeader.vue';
 import AppContent from './components/layout/AppContent.vue';
 import LeftMenu from './components/layout/LeftMenu.vue';
+import eventBus from '@/utils/event-bus';
 export default Vue.extend({
 	name: 'App',
 	components: {
@@ -20,5 +21,3 @@ export default Vue.extend({
 	}
 });
 </script>
-<style>
-</style>
