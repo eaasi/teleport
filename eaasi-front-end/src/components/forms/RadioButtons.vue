@@ -24,7 +24,6 @@
 
 <script lang="ts">
 
-import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
@@ -35,6 +34,10 @@ function isRadioOption(object: any): object is IRadioOption {
 	return 'label' in object && 'value' in object;
 }
 
+/**
+ * A Radio button component
+ * @example ../docs/RadioButtons.Example.md
+ */
 @Component({
 	name: 'RadioButtons',
 	components: {
@@ -46,7 +49,7 @@ export default class RadioButtons extends BaseFormField {
 	/* Props
 	============================================*/
 
-	// Wether or not to display the radio buttons inline
+	// Whether or not to display the radio buttons inline
 	@Prop({type: Boolean, required: false})
 	readonly inline: Boolean
 
@@ -104,6 +107,7 @@ export default class RadioButtons extends BaseFormField {
 	label.inline {
 		display: inline-block;
 		margin-left: 1.5rem;
+
 		&:first-child {
 			margin-left: 0;
 		}

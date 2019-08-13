@@ -7,7 +7,12 @@ import Vue from 'vue';
 import validator from '@/utils/form-validator';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 
-// A template-less base component for all form input fields
+/**
+ * A template-less base component for all form input fields
+ *
+ * @example ../docs/BaseFormField.Example.md
+ *
+ */
 @Component({
 	name: 'BaseFormField',
 })

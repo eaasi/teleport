@@ -9,7 +9,10 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 
-// A form wrapper for BaseFormField components
+/**
+ * A form wrapper for BaseFormField components
+ * @example ../docs/EaasiForm.Example.md
+ */
 @Component({
 	name: 'EaasiForm',
 })

@@ -20,6 +20,7 @@ import { IEaasiTab } from '@/types/Navigation';
 
 /**
  * A component for performing tabbed navigation
+ * @example ../docs/TabbedNav.Example.md
  */
 @Component({
 	name: 'TabbedNav'

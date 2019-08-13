@@ -14,7 +14,8 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 /**
- * A reusuable, styled content wrapper
+ * A reusable styled content wrapper
+ * @example ../docs/OptionsBox.Example.md
  */
 @Component({
 	name: 'OptionsBox'

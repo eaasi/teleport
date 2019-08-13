@@ -14,6 +14,7 @@ import NumberedStep from './NumberedStep.vue';
 
 	/**
 	 * A Horizontal List of Steps which can be displayed as individually Complete
+	 * @example ../../docs/NumberedSteps.Example.md
 	 */
 	@Component({
 		name: 'NumberedSteps',

@@ -21,7 +21,10 @@ import { Component } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
-// A validatable text input
+/**
+ * A Text Input form field
+ * @example ../docs/TextInput.Example.md
+ */
 @Component({
 	name: 'TextInput',
 	components: {

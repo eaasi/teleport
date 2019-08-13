@@ -1,0 +1,6 @@
+### Example Usage
+
+
+```js
+<loader />
+```

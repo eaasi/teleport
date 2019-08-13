@@ -12,6 +12,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A general button for UI interaction
+ * @example ../docs/UiButton.Example.md
  */
 @Component({
 	name: 'UiButton'

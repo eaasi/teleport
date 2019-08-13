@@ -86,6 +86,7 @@ import Vue from 'vue';
 
 	/**
 	 * A small clickable Bookmark component
+	 * @example ../docs/SmallBookmark.Example.md
 	 */
 	@Component({
 		name: 'SmallBookmark',

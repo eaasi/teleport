@@ -13,7 +13,7 @@
 		</div>
 
 		<div class="content">
-			{{ props.text }}
+			<slot></slot>
 		</div>
 	</div>
 </template>
@@ -24,6 +24,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A Card showing information about an Error, Warning, Success, or Info
+ * @example ../docs/AlertCard.Example.md
  */
 @Component({
 	name: 'AlertCard'
@@ -32,10 +33,6 @@ export default class AlertCard extends Vue {
 
 /* Props
 ============================================*/
-// Text description of the alert
-@Prop({type: String, required: true})
-readonly text: string
-
 // Type of alert
 @Prop({type: String, required: true})
 readonly type: string
@@ -44,31 +41,31 @@ readonly type: string
 
 <style lang="scss">
 	.card-container {
-		width: 230px;
-		line-height: 1.5em;
 		border-top: 2px solid $lighter-grey;
-		padding: 16px;
 		font-size: 0.9em;
+		line-height: 1.5em;
+		padding: 16px;
+		width: 230px;
 	}
 
 	.error {
-		color: $darker-red;
 		background-color: $lighter-red;
+		color: $darker-red;
 	}
 
 	.warning {
-		color: $darker-red;
 		background-color: #FFF;
+		color: $darker-red;
 	}
 
 	.info {
-		color: $dark-sky-blue;
 		background-color: $lighter-sky-blue;
+		color: $dark-sky-blue;
 	}
 
 	.success {
-		color: $darker-success-green;
 		background-color: $lighter-success-green;
+		color: $darker-success-green;
 	}
 
 	.icon {

@@ -23,7 +23,10 @@ import { Component } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
-// A validatable select list input
+/**
+ * A select list form input
+ * @example ../docs/SelectList.Example.md
+ */
 @Component({
 	name: 'SelectList',
 	components: {

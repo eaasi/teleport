@@ -18,6 +18,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 	/**
 	 * A Section Heading
+	 * @example ../docs/SectionHeading.Example.md
 	 */
 	@Component({
 		name: 'SectionHeading'
