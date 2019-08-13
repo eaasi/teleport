@@ -25,6 +25,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A simple pop-up modal with three content slots: content (default), header, and footer
+ * @example ../docs/Modal.Example.md
  */
 @Component({
 	name: 'Modal'
@@ -32,31 +33,31 @@ import { Component, Prop } from 'vue-property-decorator';
 export default class Modal extends Vue {
 
 	/* Props
-	============================================*/
+    ============================================*/
 
-	/**
-	 * Alternative size of the modal. Accepts 'sm, small, lg, or large'
-	 */
-	@Prop({type: String, default: 'medium'})
-	readonly size: string
+    /**
+     * Alternative size of the modal. Accepts 'sm, small, lg, or large'
+     */
+    @Prop({type: String, default: 'medium'})
+    readonly size: string
 
-	/**
-	 * Whether to show or hide the modal
-	 */
-	@Prop({type: Boolean, required: true})
-	readonly show: boolean
+    /**
+     * Whether to show or hide the modal
+     */
+    @Prop({type: Boolean, required: true})
+    readonly show: boolean
 
 
-	/* Lifecycle Hooks
-	============================================*/
+    /* Lifecycle Hooks
+    ============================================*/
 
-	mounted() {
-		document.body.classList.add('modal-open');
-	}
+    mounted() {
+    	document.body.classList.add('modal-open');
+    }
 
-	beforeDestroy() {
-		document.body.classList.remove('modal-open');
-	}
+    beforeDestroy() {
+    	document.body.classList.remove('modal-open');
+    }
 
 }
 

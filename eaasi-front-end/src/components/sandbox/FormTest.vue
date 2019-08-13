@@ -31,7 +31,6 @@
 				:values="radios"
 				label="Radio Buttons"
 			/>
-
 		</eaasi-form>
 		<ui-button @click="$refs._form.submit()">
 			Submit

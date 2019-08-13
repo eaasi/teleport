@@ -13,6 +13,7 @@ import Component from 'vue-class-component';
 
 /**
  * A loading overlay with an animated spinner
+ * @example ../docs/Loader.Example.md
  */
 @Component({
 	name: 'Loader'

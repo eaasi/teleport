@@ -15,6 +15,11 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
+/**
+ * Wrapper for form fields.  Provides a label and error alert for a slotted field.
+ * Provides two slots, a default and a named slot `below-field`
+ * @example ../docs/FormFieldWrapper.Example.md
+ */
 @Component({
 	name: 'FormFieldWrapper',
 })

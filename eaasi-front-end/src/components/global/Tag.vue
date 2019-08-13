@@ -1,6 +1,6 @@
 <template functional>
 	<div :class="['eaasi-tag', props.color]">
-		<span class="tag-icon">
+		<span v-if="props.icon" class="tag-icon">
 			<i :class="['fas', props.icon]"></i>
 		</span>
 		<span class="tag-text">
@@ -13,28 +13,34 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
-	/**
-	 * A Rectangular Tag containing an Icon and short Text
-	 */
-	@Component({
-		name: 'Tag'
-	})
+/**
+ * Tags are rectangular elements that can be used to
+ * add context to adjacent or surrounding content.
+* @example ../docs/Tag.Example.md
+*/
+@Component({
+	name: 'Tag'
+})
 export default class Tag extends Vue {
-
 	/* Props
     ============================================*/
+	/**
+	 * The text displayed in the Tag
+	 */
+    @Prop({type: String, required: true})
+    readonly text: string
 
-		// Tag display text
-		@Prop({type: String, required: true})
-		readonly text: string
+    /**
+	 * The FontAwesome icon name displayed in the Tag
+	 */
+    @Prop({type: String, required: false})
+    readonly icon: string
 
-		// Font icon name (optional)
-		@Prop({type: String, required: false})
-		readonly icon: string
-
-		// Tag background color
-		@Prop({type: String, required: false})
-		readonly color: string
+    /**
+	 * The color of the Tag
+	 */
+    @Prop({type: String, required: false})
+    readonly color: string
 }
 </script>
 

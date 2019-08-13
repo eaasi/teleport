@@ -18,6 +18,12 @@ import BaseFormField from './BaseFormField.vue';
 import { Component, Prop } from 'vue-property-decorator';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
+/**
+ * A Checkbox form element
+ *
+ * @example ../docs/Checkbox.Example.md
+ *
+ */
 @Component({
 	name: 'Checkbox',
 	components: {
@@ -75,9 +81,9 @@ $checkboxSize: 20px;
 	}
 
 	.checkmark {
+		background-color: #fff;
 		border: 1px solid $light-sky-blue;
 		border-radius: 0.5em;
-		background-color: #fff;
 		height: $checkboxSize;
 		left: 3px;
 		position: absolute;

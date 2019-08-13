@@ -44,6 +44,7 @@ import SelectableCardContent from './SelectableCardContent.vue';
 
 /**
  * A Card for displaying information that can be selected or bookmarked
+ * @example ../../docs/SelectableCard.Example.md
  */
 @Component({
 	name: 'SelectableCard',
@@ -106,22 +107,22 @@ export default class SelectableCard extends Vue {
 
 <style lang="scss">
 	hr {
+		border: 0.5px solid $lighter-grey;
 		margin-bottom: 1px;
-		border: .5px solid $lighter-grey;
 	}
 
 	.resource-object-container {
-		position: relative;
+		border: 1px solid $light-sky-blue;
 		display: flex;
 		flex-direction: row;
-		width: 420px;
-		min-height: 80px;
 		margin-top: 12px;
-		border: 1px solid $light-sky-blue;
+		min-height: 80px;
+		position: relative;
+		width: 420px;
 
 		&.selected {
-			border: 2px solid $sky-blue;
 			background-color: $light-sky-blue;
+			border: 2px solid $sky-blue;
 		}
 
 		.bookmark {
@@ -132,8 +133,8 @@ export default class SelectableCard extends Vue {
 	}
 
 	.panel-left {
-		width: 32px;
 		background-color: $lighter-sky-blue;
+		width: 32px;
 
 		&.selected {
 			background-color: $light-sky-blue;
@@ -152,8 +153,8 @@ export default class SelectableCard extends Vue {
 		}
 
 		.header {
-			font-size: 1.06em;
 			color: $dark-sky-blue;
+			font-size: 1.06em;
 		}
 
 		.content {
@@ -163,9 +164,9 @@ export default class SelectableCard extends Vue {
 	}
 
 	.panel-footer {
+		bottom: 8px;
 		display: flex;
 		justify-content: space-between;
 		padding-top: 10px;
-		bottom: 8px;
 	}
 </style>

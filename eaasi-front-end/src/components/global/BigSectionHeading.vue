@@ -12,6 +12,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A Big Section Heading
+ * @example ../docs/BigSectionHeading.Example.md
  */
 @Component({
 	name: 'BigSectionHeading'

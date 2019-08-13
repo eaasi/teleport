@@ -14,10 +14,10 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import Tag from './Tag.vue';
-import {ITag} from "@/types/Tag";
+import {ITag} from '@/types/Tag';
 
 /**
- * A group of Tags
+ * A TagGroup provides a simple way to pass a list of `ITag` objects to a single component that renders a group of inline Tags.
  */
 @Component({
 	name: 'TagGroup',
@@ -34,4 +34,3 @@ export default class TagGroup extends Vue {
 }
 
 </script>
-

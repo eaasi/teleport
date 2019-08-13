@@ -40,14 +40,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 import { sortByQuery } from '@/utils/functions';
 
 /**
  * An autocomplete search input with a dropdown list of selectable results
+ *
+ * @example ../docs/Autocomplete.Example.md
+ *
  */
 @Component({
 	name: 'Autocomplete',
@@ -64,23 +66,33 @@ export default class Autocomplete extends BaseFormField {
 	/* Props
 	============================================*/
 
-	// The key of the object value to search by and display
+	/**
+	 * The key of the object value to search by and display
+	 */
 	@Prop({type: String, required: true})
 	readonly anchor: string
 
-	// When true, clears the input field when an item is selected
+	/**
+	 * When true, clears the input field when an item is selected
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly clearOnSelect: boolean
 
-	// A local array of objects to search
+	 /**
+	 * A local array of objects to search
+	 */
 	@Prop({type: Array, required: false})
 	readonly data: Array<Object>
 
-	// A JSON endpoint url for receiving remote objects to search through
+	/**
+	 * A JSON endpoint url for receiving remote objects to search through
+	 */
 	@Prop({type: String, required: false})
 	readonly url: string
 
-	// The text value of the input field
+	/**
+	 *  The text value of the input field
+	 */
 	@Prop({type: String, required: false})
 	readonly value: string
 

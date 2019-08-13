@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<numbered-steps :steps="numberedSteps1" />
-        <numbered-steps :steps="numberedSteps2" class="darker"/>
+		<numbered-steps :steps="numberedSteps2" class="darker" />
 	</div>
 </template>
 
@@ -17,17 +17,17 @@ export default class NumberedStepsTest extends Vue {
 	numberedSteps1 = [
 		{
 			stepNumber: 1,
-			description: "METADATA",
+			description: 'METADATA',
 			isComplete: true
 		},
 		{
 			stepNumber: 2,
-			description: "FILES",
+			description: 'FILES',
 			isComplete: false
 		},
 		{
 			stepNumber: 3,
-			description: "FINISH",
+			description: 'FINISH',
 			isComplete: false
 		},
 	]
@@ -35,22 +35,22 @@ export default class NumberedStepsTest extends Vue {
 	numberedSteps2 = [
 		{
 			stepNumber: 1,
-			description: "ONE STEP",
+			description: 'ONE STEP',
 			isComplete: true
 		},
 		{
 			stepNumber: 2,
-			description: "ANOTHER STEP",
+			description: 'ANOTHER STEP',
 			isComplete: true
 		},
 		{
 			stepNumber: 3,
-			description: "AND ANOTHER",
+			description: 'AND ANOTHER',
 			isComplete: true
 		},
 		{
 			stepNumber: 4,
-			description: "HERE WE GO",
+			description: 'HERE WE GO',
 			isComplete: false
 		},
 	]
