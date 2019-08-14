@@ -2,6 +2,7 @@
 
 
 ```js
-<small-bookmark />
+<div id="small-bookmark-example">
+    <small-bookmark/>
+</div>
 ```
-

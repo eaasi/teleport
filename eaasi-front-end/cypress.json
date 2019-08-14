@@ -1,3 +1,12 @@
 {
-  "pluginsFile": "tests/e2e/plugins/index.js"
+  "baseUrl": "http://localhost:8080",
+  "projectId": "eaasi-front-end",
+  "video": false,
+  "integrationFolder": "tests/e2e/specs",
+  "fixturesFolder": "tests/e2e/fixtures",
+  "pluginsFile": "tests/e2e/plugins/index.js",
+  "screenshotsFolder": "tests/e2e/screenshots",
+  "supportFile": "tests/e2e/support/index.js",
+  "viewportWidth":1680,
+  "viewportHeight":1200
 }
