@@ -10,7 +10,7 @@ in the Autocomplete input.
 let autoInput = ''
 let checked = false
 let text = ''
-<div>
+<div id="example-autocomplete-wrapper">
     <eaasi-form ref="_form">
         <div style="padding: 10px 0;">
             <autocomplete
@@ -19,6 +19,7 @@ let text = ''
                 v-model="autoInput"
                 label="Search Email Addresses"
                 rules="required"
+                id="example-autocomplete"
             />
         </div>
     </eaasi-form>

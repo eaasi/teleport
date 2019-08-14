@@ -25,7 +25,6 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A simple pop-up modal with three content slots: content (default), header, and footer
- * @example ../docs/Modal.Example.md
  */
 @Component({
 	name: 'Modal'

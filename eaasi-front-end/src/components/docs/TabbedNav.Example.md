@@ -3,10 +3,21 @@
 
 ```js
 let tabs = [
-	{label: "Foo"},
-	{label: "Bar"},
-	{label: "Baz"}
-] 
-<tabbed-nav :tabs="tabs" value="Foo"/>
-```
+	{label: "First"},
+	{label: "Second"},
+	{label: "Third"}
+];
 
+let selected = "First"
+
+function updateSelected(newValue) {
+	selected = newValue;
+};
+
+<div id="example-tabbed-nav-wrapper">
+    <tabbed-nav 
+        :tabs="tabs" 
+        v-model="selected" 
+        v-on:input="updateSelected"/>
+</div>
+```
