@@ -10,4 +10,4 @@ npx sequelize-cli db:seed:undo:all --env=production
 npx sequelize-cli db:seed:all --env=production
 
 # Build and run the Express API with nodemon
-npm run prod
+npm run dev

@@ -11,17 +11,33 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			createdAt: Sq.DATE,
-			updatedAt: Sq.DATE,
+			createdAt: {
+				type: Sq.DATE,
+				defaultValue: new Date()
+			},
+			updatedAt: {
+				type: Sq.DATE,
+				defaultValue: new Date()
+			},
 			username: {
-				type: Sq.STRING,
+				type: Sq.STRING(50),
 				allowNull: false,
 				columnName: 'username'
 			},
 			firstName: {
-				type: Sq.STRING,
+				type: Sq.STRING(50),
 				allowNull: true,
 				columnName: 'first_name'
+			},
+			lastName: {
+				type: Sq.STRING(50),
+				allowNull: true,
+				columnName: 'last_name'
+			},
+			email: {
+				type: Sq.STRING(200),
+				allowNull: false,
+				columnName: 'email'
 			},
 			roleId: {
 				type: Sq.INTEGER,

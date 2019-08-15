@@ -1,8 +1,7 @@
 import Sequelize from "sequelize";
 import ICrudService from "../interfaces/ICrudService";
 import ICrudServiceResult from "../interfaces/ICrudServiceResult";
-import CrudServiceSuccessResult from "./CrudServiceSuccessResult";
-import CrudServiceErrorResult from "./CrudServiceErrorResult";
+import CrudServiceResult from "./CrudServiceResult";
 
 export default class CrudService implements ICrudService {
 
@@ -31,132 +30,136 @@ export default class CrudService implements ICrudService {
      * @param page starting page of response results
      * @returns {Promise<{}>}
      */
-    async getAll(limit: number, page: number): Promise<ICrudServiceResult> {
-        let resultsCountLimit = limit || this.MAX_GET_ALL_PAGE_SIZE;
-
+    async getAll(limit: number, page: number, sortCol?: string, descending?: boolean): Promise<ICrudServiceResult> {
         let totalResults = await this.model.findAndCountAll()
             .catch((error: string) => {
-                return new CrudServiceErrorResult(error);
+                return new CrudServiceResult(error);
             });
 
         if (totalResults.hasError) {
             return totalResults;
-        }
+		}
 
-        let total_pages = Math.ceil(totalResults.count / resultsCountLimit);
-
-        let offset = resultsCountLimit * (page - 1);
+		let options = this.createFindAllOptions(limit, page, sortCol, descending);
 
         let results = await this.model
-            .findAll({
-                limit: resultsCountLimit,
-                offset: offset
-            })
+            .findAll(options)
             .catch((error: string) => {
-                return new CrudServiceErrorResult(error);
+                return new CrudServiceResult(error);
             });
 
         if (results.hasError) {
             return results;
         }
 
-        return new CrudServiceSuccessResult({
+        return new CrudServiceResult(null, {
             result: results,
             count: results.length,
-            total_pages: total_pages
+            totalResults: totalResults.count
         });
     };
 
-/**
- * Gets a model instance by PK
- * On success, returns model data of found resource
- * On error, returns error object
- * @param pk instance primary key
- * @returns {Promise<{}>}
- */
-async getByPk(pk: number) : Promise<ICrudServiceResult> {
-    return await this.model
-        .findByPk(pk)
-        .then((result: object) => {
-            return new CrudServiceSuccessResult(result);
-        })
-        .catch((error: string)=> {
-            return new CrudServiceErrorResult(error);
-        });
-}
+	/**
+	 * Gets a model instance by PK
+	 * On success, returns model data of found resource
+	 * On error, returns error object
+	 * @param pk instance primary key
+	 * @returns {Promise<{}>}
+	 */
+	async getByPk(pk: number) : Promise<ICrudServiceResult> {
+		return await this.model
+			.findByPk(pk)
+			.then((result: object) => {
+				return new CrudServiceResult(null, result);
+			})
+			.catch((error: string)=> {
+				return new CrudServiceResult(error);
+			});
+	}
 
-/**
- * Creates a model instance and persists to database
- * On success, returns model data of created resource
- * On error, returns error object
- * @param modelData model object
- * @returns {Promise<{}>}
- */
-async create(modelData: object) : Promise<ICrudServiceResult> {
-    return await this.model
-        .create(modelData)
-        .then((created: object) => {
-            return new CrudServiceSuccessResult(created);
-        })
-        .catch((error: string) => {
-            return new CrudServiceErrorResult(error);
-        });
-}
+	/**
+	 * Creates a model instance and persists to database
+	 * On success, returns model data of created resource
+	 * On error, returns error object
+	 * @param modelData model object
+	 * @returns {Promise<{}>}
+	 */
+	async create(modelData: object) : Promise<ICrudServiceResult> {
+		return await this.model
+			.create(modelData)
+			.then((created: object) => {
+				return new CrudServiceResult(null, created);
+			})
+			.catch((error: string) => {
+				return new CrudServiceResult(error);
+			});
+	}
 
-/**
- * Updates a model instance and persists changes to database
- * On success, returns model data of updated resource
- * On error, returns error object
- * @param pk instance primary key
- * @param modelData model object
- * @returns {Promise<{}>}
- */
-async update(pk: number, modelData: any) : Promise<ICrudServiceResult> {
-    return await this.model
-        .findByPk(pk)
-        .then((found: Sequelize.Model) => {
-            if (!found) {
-                return new CrudServiceErrorResult("notFound");
-            }
-            return found
-                .update(modelData)
-                .then(() => {
-                    found.save()
-                    return new CrudServiceSuccessResult(found);
-                })
-                .catch((error: string) => {
-                    return new CrudServiceErrorResult(error);
-                });
-        })
-        .catch((error: string) => {
-            return new CrudServiceErrorResult(error);
-        });
-}
+	/**
+	 * Updates a model instance and persists changes to database
+	 * On success, returns model data of updated resource
+	 * On error, returns error object
+	 * @param pk instance primary key
+	 * @param modelData model object
+	 * @returns {Promise<{}>}
+	 */
+	async update(pk: number, modelData: any) : Promise<ICrudServiceResult> {
+		return await this.model
+			.findByPk(pk)
+			.then((found: Sequelize.Model) => {
+				if (!found) {
+					return new CrudServiceResult("notFound");
+				}
+				return found
+					.update(modelData)
+					.then(() => {
+						found.save()
+						return new CrudServiceResult(null, found);
+					})
+					.catch((error: string) => {
+						return new CrudServiceResult(error);
+					});
+			})
+			.catch((error: string) => {
+				return new CrudServiceResult(error);
+			});
+	}
 
-/**
- * Deletes a model instance and persists changes to database
- * On success, returns PK of deleted resource
- * On error, returns error object
- * @param pk instance primary key
- * @returns {Promise<{}>}
- */
-async destroy(pk: number) : Promise<ICrudServiceResult> {
-    return await this.model
-        .findByPk(pk)
-        .then((found: Sequelize.Model) => {
-            if (!found) {
-                return new CrudServiceErrorResult("notFound");
-            }
-            return found.destroy()
-                .then(() => {
-                    return new CrudServiceSuccessResult(pk);
-                })
-                .catch((error: string) => {
-                    return new CrudServiceErrorResult(error);
-                });
-        })
-        .catch((error: string) => {
-            return new CrudServiceErrorResult(error);
-        });
-}
+	/**
+	 * Deletes a model instance and persists changes to database
+	 * On success, returns PK of deleted resource
+	 * On error, returns error object
+	 * @param pk instance primary key
+	 * @returns {Promise<{}>}
+	 */
+	async destroy(pk: number) : Promise<ICrudServiceResult> {
+		return await this.model
+			.findByPk(pk)
+			.then((found: Sequelize.Model) => {
+				if (!found) {
+					return new CrudServiceResult("notFound");
+				}
+				return found.destroy()
+					.then(() => {
+						return new CrudServiceResult(null, pk);
+					})
+					.catch((error: string) => {
+						return new CrudServiceResult(error);
+					});
+			})
+			.catch((error: string) => {
+				return new CrudServiceResult(error);
+			});
+	}
+
+	private createFindAllOptions(limit: number, page: number, sortCol?: string, descending?: boolean) {
+		limit = limit || this.MAX_GET_ALL_PAGE_SIZE;
+		let offset = limit * (page - 1);
+		let options = { limit, offset } as any;
+		if(!sortCol) return options;
+		options.order = [
+			[sortCol, descending ? 'DESC' : 'ASC']
+		]
+		return options;
+	}
 }

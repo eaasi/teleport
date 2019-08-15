@@ -7,8 +7,14 @@ class EaasiUser extends Sequelize.Model {
 
 module.exports = (sequelize) => {
 	EaasiUser.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
+		createdAt: {
+			type: Sequelize.DATE,
+			defaultValue: new Date()
+		},
+		updatedAt: {
+			type: Sequelize.DATE,
+			defaultValue: new Date()
+		},
 		id: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
@@ -16,18 +22,29 @@ module.exports = (sequelize) => {
 			autoIncrement: true
 		},
 		username: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING(50),
 			allowNull: false,
 			columnName: 'username'
 		},
 		firstName: {
-			type: Sequelize.STRING,
+			type: Sequelize.STRING(50),
 			allowNull: true,
 			columnName: 'first_name'
 		},
+		lastName: {
+			type: Sequelize.STRING(50),
+			allowNull: true,
+			columnName: 'last_name'
+		},
+		email: {
+			type: Sequelize.STRING(200),
+			allowNull: false,
+			columnName: 'email',
+			unique: true
+		},
 		roleId: {
 			type: Sequelize.STRING,
-			allowNull: true,
+			allowNull: false,
 			columnName: 'role_id',
 			references: {
 				model: 'eaasi_role',

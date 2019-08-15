@@ -4,13 +4,14 @@ import {build_400_response, build_404_response, build_500_response} from "../uti
 import ICrudController from "./interfaces/ICrudController";
 import HttpResponseCode from "../utils/HttpResponseCode";
 import {Result, ValidationError} from "express-validator";
+import CrudService from 'src/services/base/CrudService';
 
 
 /**
  * Base class for Controllers that handle CRUD logic
  */
 export default class BaseCrudController implements ICrudController {
-    private _crudService: any;
+    private _crudService: CrudService;
 
     constructor(crudService: any) {
         this._crudService = crudService;
@@ -24,7 +25,8 @@ export default class BaseCrudController implements ICrudController {
     async getAll(req: express.Request, res: express.Response) {
         let limit = req.query.limit || 100;
         let page = req.query.page || 1;
-        let sortCol = req.query.sortCol;
+		let sortCol = req.query.sortCol;
+		let descending = req.query.descending === 'true';
 
         // todo: investigate more robust query string validation, add sortCol validation
         if (!areAllValidIntegerParams([limit, page])) {
@@ -33,7 +35,7 @@ export default class BaseCrudController implements ICrudController {
                 .send(build_400_response(JSON.stringify(req.query)));
         }
 
-        let response = await this._crudService.getAll(limit, page, sortCol);
+        let response = await this._crudService.getAll(limit, page, sortCol, descending);
 
         if (response.hasError) {
             return await res
