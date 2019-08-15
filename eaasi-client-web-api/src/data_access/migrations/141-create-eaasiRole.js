@@ -5,8 +5,14 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('eaasi_role', {
-			createdAt: Sq.DATE,
-			updatedAt: Sq.DATE,
+			createdAt: {
+				type: Sq.DATE,
+				defaultValue: new Date()
+			},
+			updatedAt: {
+				type: Sq.DATE,
+				defaultValue: new Date()
+			},
 			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
@@ -17,7 +23,13 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false,
 				columnName: 'role_name',
+				unique: true,
 			},
+			roleDescription: {
+				type: Sq.STRING(100),
+				allowNull: false,
+				columnName: 'role_description'
+			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {

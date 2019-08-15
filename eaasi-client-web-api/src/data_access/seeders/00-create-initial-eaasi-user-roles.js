@@ -2,11 +2,10 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        let now = new Date();
         return queryInterface.bulkInsert('eaasi_role', [
-            { roleName: 'admin', createdAt: now, updatedAt: now },
-            { roleName: 'contributor', createdAt: now, updatedAt: now },
-            { roleName: 'configuration_user', createdAt: now, updatedAt: now },
+            { roleName: 'Admin', roleDescription: 'Manage Users, Publish Resources, & Config User Permissions' },
+            { roleName: 'Manager', roleDescription: 'Manage Users, Publish Resources, & Config User Permissions' },
+            { roleName: 'Configuration User', roleDescription: 'Configure Resources from Existing Resources, View and Run Emulation' },
         ]);
     },
 

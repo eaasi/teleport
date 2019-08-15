@@ -1,6 +1,6 @@
 import CrudService from "../../../../src/services/base/CrudService";
 import SequelizeModelFake from "../../../helpers/doubles/sequelize-model-fake";
-import CrudServiceErrorResult from "../../../../src/services/base/CrudServiceErrorResult";
+import CrudServiceResult from "../../../../src/services/base/CrudServiceResult";
 
 describe("API Service", () => {
     // Constructor Tests
@@ -60,7 +60,7 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.getAll(2, 3);
 
-        const expectedError = new CrudServiceErrorResult("findAll broke")
+        const expectedError = new CrudServiceResult("findAll broke")
 
         // Use toStrictEqual for deep equality comparison
         expect(response).toStrictEqual(expectedError);
@@ -76,7 +76,7 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.getAll(2, 3);
 
-        const expectedError = new CrudServiceErrorResult("findAndCountAll broke")
+        const expectedError = new CrudServiceResult("findAndCountAll broke")
 
         // Use toStrictEqual for deep equality comparison
         expect(response).toStrictEqual(expectedError);
@@ -115,7 +115,7 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.getByPk(4);
 
-        const expectedError = new CrudServiceErrorResult("it broke")
+        const expectedError = new CrudServiceResult("it broke")
 
         // Use toStrictEqual for deep equality comparison
         expect(response).toStrictEqual(expectedError);
@@ -148,7 +148,7 @@ describe("API Service", () => {
         let sut = new CrudService(modelFake);
         const response = await sut.create({ fake: "data" });
 
-        const expectedError = new CrudServiceErrorResult("it broke")
+        const expectedError = new CrudServiceResult("it broke")
 
         // Use toStrictEqual for deep equality comparison
         expect(response).toStrictEqual(expectedError);
@@ -200,7 +200,7 @@ describe("API Service", () => {
         modelFake.findByPk = () => emptyObject;
 
         let res = await sut.update(17, { fake: "updateData" });
-        const expectedError = new CrudServiceErrorResult("notFound")
+        const expectedError = new CrudServiceResult("notFound")
 
         expect(res).toStrictEqual(expectedError);
     });
@@ -215,7 +215,7 @@ describe("API Service", () => {
 
         let res = await sut.update(34, { fake: "updateData" });
 
-        const expectedError = new CrudServiceErrorResult("findByPk broke")
+        const expectedError = new CrudServiceResult("findByPk broke")
         expect(res).toStrictEqual(expectedError);
     });
 
@@ -233,7 +233,7 @@ describe("API Service", () => {
         foundModel.update = () => rejectedPromise;
 
         let res = await sut.update(32, { fake: "updateData" });
-        const expectedError = new CrudServiceErrorResult("update broke")
+        const expectedError = new CrudServiceResult("update broke")
 
         expect(res).toStrictEqual(expectedError);
     });
@@ -270,7 +270,7 @@ describe("API Service", () => {
 
         let res = await sut.destroy(17);
 
-        const expectedError = new CrudServiceErrorResult("notFound")
+        const expectedError = new CrudServiceResult("notFound")
         expect(res).toStrictEqual(expectedError);
     });
 
@@ -288,7 +288,7 @@ describe("API Service", () => {
         foundModel.destroy = () => rejectedPromise;
 
         let res = await sut.destroy(98);
-        const expectedError = new CrudServiceErrorResult("destroy broke")
+        const expectedError = new CrudServiceResult("destroy broke")
 
         expect(res).toStrictEqual(expectedError);
     });
@@ -302,7 +302,7 @@ describe("API Service", () => {
         modelFake.findByPk = () => rejectedPromise;
 
         let res = await sut.destroy(34);
-        const expectedError = new CrudServiceErrorResult("findByPk broke")
+        const expectedError = new CrudServiceResult("findByPk broke")
 
         expect(res).toStrictEqual(expectedError);
     });
