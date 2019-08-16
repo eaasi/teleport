@@ -17,12 +17,14 @@ install_vue_npm_packages:
     script:
         - cd ./eaasi-front-end
         - npm install
+        - npm run build
 
 install_web_api_npm_packages:
     stage: build
     script:
         - cd ./eaasi-web-api
         - npm install
+        - npm run build
 
 # Test Runner Jobs
 run_vue_unit_tests:
@@ -35,6 +37,7 @@ run_api_unit_tests:
     stage: test
     script:
         - cd ./eaasi-web-api
+        - npm install
         - npm install -g jest
         - jest --verbose --detectOpenHandles --logHeapUsage --coverage
 
@@ -42,8 +45,8 @@ run_api_unit_tests:
 run_vue_linters:
     stage: merge
     script:
+        - npm install
         - cd ./eaasi-front-end
         - npm run lint
     only:
         - merge_requests
-
