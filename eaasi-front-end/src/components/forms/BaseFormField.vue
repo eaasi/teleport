@@ -21,19 +21,27 @@ export default class BaseFormField extends Vue {
 	/* Props
 	============================================*/
 
-	// Hides the label when try
+	/**
+	 * Hides the label when try
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly hideLabel: boolean
 
-	// The label to display above the field
+	/**
+	 * The label to display above the field
+	 */
 	@Prop({type: String, required: false})
 	readonly label: string
 
-	// Pipe "|" delimited validation rules
+	/**
+	 * Pipe "|" delimited validation rules
+	 */
 	@Prop({type: [String, Function], required: false})
 	readonly rules: string | Function
 
-	// The value of the field
+	/**
+	 * The value of the field
+	 */
 	@Prop({required: true})
 	readonly value: any
 

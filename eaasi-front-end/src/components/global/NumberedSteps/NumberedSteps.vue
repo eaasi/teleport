@@ -25,7 +25,7 @@ export default class Tag extends Vue {
         ============================================*/
 		// Steps to Complete
 		@Prop({type: Array, required: true})
-		readonly steps: Array<INumberedStep>
+		readonly steps: INumberedStep[]
 }
 </script>
 

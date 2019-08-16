@@ -1,42 +1,44 @@
 <template>
 	<div class="pagination-wrapper" v-if="numPages > 1">
-		<div><label>{{ totalText }}</label></div>
-		<ul class="pagination">
-			<li
-				@click="paginate(1)"
-				:class="['page-arrow', {'hide-page': !showGoToStart }]"
-				v-if="numPages > maxPages"
-			>
-				<a href="javascript:void(0);">&#10094;&#10094;</a>
-			</li>
-			<li
-				@click="paginate(currentPage - 1)"
-				:class="['page-arrow', {'hide-page': currentPage <= 1}]"
-			>
-				<a href="javascript:void(0);">&#10094;</a>
-			</li>
-			<li
-				v-for="p in pages"
-				:class="{'active': p == currentPage}"
-				@click="paginate(p)"
-				:key="p"
-			>
-				<a href="javascript:void(0);">{{ p }}</a>
-			</li>
-			<li
-				@click="paginate(currentPage + 1)"
-				:class="['page-arrow', {'hide-page': currentPage >= numPages}]"
-			>
-				<a href="javascript:void(0);">&#10095;</a>
-			</li>
-			<li
-				@click="paginate(numPages)"
-				:class="['page-arrow', {'hide-page': !showGoToEnd }]"
-				v-if="numPages > maxPages"
-			>
-				<a href="javascript:void(0);">&#10095;&#10095;</a>
-			</li>
-		</ul>
+		<div class="flex-row justify-between">
+			<div><label>{{ totalText }}</label></div>
+			<ul class="pagination">
+				<li
+					@click="paginate(1)"
+					:class="['page-arrow', {'hide-page': !showGoToStart }]"
+					v-if="numPages > maxPages"
+				>
+					<a href="javascript:void(0);">&#10094;&#10094;</a>
+				</li>
+				<li
+					@click="paginate(currentPage - 1)"
+					:class="['page-arrow', {'hide-page': currentPage <= 1}]"
+				>
+					<a href="javascript:void(0);">&#10094;</a>
+				</li>
+				<li
+					v-for="p in pages"
+					:class="{'active': p == currentPage}"
+					@click="paginate(p)"
+					:key="p"
+				>
+					<a href="javascript:void(0);">{{ p }}</a>
+				</li>
+				<li
+					@click="paginate(currentPage + 1)"
+					:class="['page-arrow', {'hide-page': currentPage >= numPages}]"
+				>
+					<a href="javascript:void(0);">&#10095;</a>
+				</li>
+				<li
+					@click="paginate(numPages)"
+					:class="['page-arrow', {'hide-page': !showGoToEnd }]"
+					v-if="numPages > maxPages"
+				>
+					<a href="javascript:void(0);">&#10095;&#10095;</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 </template>
 
@@ -62,21 +64,21 @@ export default class Pagination extends Vue {
 
 	// The amount of results to show per page
 	@Prop({type: Number, default: 25})
-	readonly resultsPerPage: number = 25;
+	readonly resultsPerPage: number;
 
 	// How many page numbers to show at a time
 	@Prop({type: Number, default: 4})
-	readonly maxPages: number = 4;
+	readonly maxPages: number;
 
 	// The currently selected page number
 	@Prop({type: Number})
-	readonly pageNum: number = 1;
+	readonly pageNum: number;
 
 	/* Data
 	============================================*/
 
 	currentPage: number = 1;
-	pages: Array<number> = [];
+	pages: number[] = [];
 	numPages: number = 1;
 	showGoToStart: boolean = false;
 	showGoToEnd: boolean = false
@@ -91,7 +93,7 @@ export default class Pagination extends Vue {
 			: 1;
 		let end = this.currentPage * this.resultsPerPage;
 		end = end > total ? total : end;
-		return `Showing ${start} - ${end} of ${total}`;
+		return `Records ${start}-${end} of ${total}`;
 	}
 
 	/* Methods
@@ -167,15 +169,18 @@ export default class Pagination extends Vue {
 
 <style lang="scss">
 .pagination-wrapper {
+	border-bottom: 4px solid darken($light-neutral, 10%);
+
 	label {
-		color: $dark-neutral;
+		color: lighten($dark-neutral, 30%);
 		display: block;
-		font-size: 1.4rem;
+		font-size: 1.6rem;
 		margin-bottom: 0.5rem;
 	}
 }
 
 .pagination {
+	margin-bottom: 1rem;
 	padding: 0;
 
 	a {

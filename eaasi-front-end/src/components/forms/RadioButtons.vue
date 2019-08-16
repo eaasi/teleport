@@ -59,7 +59,7 @@ export default class RadioButtons extends BaseFormField {
 
 	// A list of strings or IRadioButtons to display as radio buttons
 	@Prop({type: Array, required: true})
-	readonly values: Array<string> | Array<IRadioOption>
+	readonly values: string[] | IRadioOption[]
 
 
 	@Prop({required: true})
@@ -68,10 +68,10 @@ export default class RadioButtons extends BaseFormField {
 	/* Computed
 	============================================*/
 
-	get options(): Array<IRadioOption> {
+	get options(): IRadioOption[] {
 		if(!this.values.length) return [];
 		if(isRadioOption(this.values[0])) {
-			return this.values as Array<IRadioOption>;
+			return this.values as IRadioOption[];
 		}
 		let opts = new Array<IRadioOption>();
 		for(let i=0;i<this.values.length;i++) {

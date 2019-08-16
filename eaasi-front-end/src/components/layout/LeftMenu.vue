@@ -12,7 +12,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import LeftMenuItem from './LeftMenuItem.vue';
-import { IMenuItem } from '@/types/Navigation';
+import { IMenuItem } from 'eaasi-nav';
 
 @Component({
 	components: {
@@ -21,7 +21,7 @@ import { IMenuItem } from '@/types/Navigation';
 })
 export default class LeftMenu extends Vue {
 
-	menuItems: Array<IMenuItem> = [
+	menuItems: IMenuItem[] = [
 		{
 			icon: 'home',
 			label: 'My Dashboard',
@@ -36,6 +36,11 @@ export default class LeftMenu extends Vue {
 			icon: 'file-search',
 			label: 'Explore Resources',
 			route: '/explore'
+		},
+		{
+			icon: 'cog',
+			label: 'Manage Node',
+			route: '/admin/users'
 		}
 	]
 

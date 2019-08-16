@@ -17,7 +17,7 @@ export interface IResource {
 	/**
 	 * A group of Tags
 	 */
-	tagGroup: Array<ITag>
+	tagGroup: ITag[]
 
 	/**
 	 * Contains key-value pairs of data represented

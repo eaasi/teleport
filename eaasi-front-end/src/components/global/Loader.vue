@@ -25,7 +25,7 @@ $baseColor: $dark-blue;
 $speed: 0.9s;
 
 .eaasi-loader-wrapper {
-	background-color: rgba(0, 0, 0, 0.2);
+	/* background-color: rgba(0, 0, 0, 0.2); */
 	bottom: 0;
 	left: 0;
 	position: absolute;

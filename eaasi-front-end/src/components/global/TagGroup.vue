@@ -30,7 +30,7 @@ export default class TagGroup extends Vue {
     ============================================*/
     // Data required to display a
     @Prop({type: Array, required: true})
-    tags: Array<ITag>
+    tags: ITag[]
 }
 
 </script>

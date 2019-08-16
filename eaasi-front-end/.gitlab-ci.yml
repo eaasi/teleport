@@ -3,6 +3,7 @@ image: cypress/base:10
 stages:
     - build
     - test
+    - merge
 
 cache:
     paths:
@@ -18,3 +19,9 @@ run_tests:
     script:
         - npm run test:styleguide:ci
 
+run_linters:
+    stage: merge
+    script:
+        - npm run lint
+    only:
+        - merge_requests

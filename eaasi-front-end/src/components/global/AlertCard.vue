@@ -46,30 +46,30 @@ readonly type: string
 		line-height: 1.5em;
 		padding: 16px;
 		width: 230px;
-	}
 
-	.error {
-		background-color: $lighter-red;
-		color: $darker-red;
-	}
+		&.error {
+			background-color: $lighter-red;
+			color: $darker-red;
+		}
 
-	.warning {
-		background-color: #FFF;
-		color: $darker-red;
-	}
+		&.warning {
+			background-color: #FFF;
+			color: $darker-red;
+		}
 
-	.info {
-		background-color: $lighter-sky-blue;
-		color: $dark-sky-blue;
-	}
+		&.info {
+			background-color: $lighter-sky-blue;
+			color: $dark-sky-blue;
+		}
 
-	.success {
-		background-color: $lighter-success-green;
-		color: $darker-success-green;
-	}
+		&.success {
+			background-color: $lighter-success-green;
+			color: $darker-success-green;
+		}
 
-	.icon {
-		font-size: 2em;
-		padding: 0 0 12px 0;
+		.icon {
+			font-size: 2em;
+			padding: 0 0 12px 0;
+		}
 	}
 </style>
