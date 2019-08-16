@@ -14,7 +14,6 @@ deploy-containers:
         - export DOCKER_HOST=ssh://portalmedia@66.222.124.3/eaasi/eaasi-client-dev
         - git checkout master
         - git pull --recurse-submodules
-        - cd eaasi/eaasi-client-dev
         - docker-compose down -v
         - docker-compose build && docker-compose up -d
         - unset DOCKER_HOST
