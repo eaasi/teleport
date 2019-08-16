@@ -22,8 +22,7 @@ install_web_api_npm_packages:
     stage: build
     script:
         - cd ./eaasi-web-api
-          # - npm install
-        - echo 'install_web_api_npm'
+        - npm install
 
 # Test Runner Jobs
 run_vue_unit_tests:
@@ -31,22 +30,20 @@ run_vue_unit_tests:
     script:
         - cd ./eaasi-front-end
           # - npm run test:unit
-        - echo 'run_vue_unit_tests'
 
 run_api_unit_tests:
     stage: test
     script:
         - cd ./eaasi-web-api
-          # - npm install -g jest
-        - echo 'run_api_unit_tests'
+        - npm install -g jest
+        - jest --verbose --detectOpenHandles --logHeapUsage --coverage
 
 # Linting Jobs
 run_vue_linters:
     stage: merge
     script:
         - cd ./eaasi-front-end
-          # - npm run lint
-        - echo 'run_vue_linters'
+        - npm run lint
     only:
         - merge_requests
 
