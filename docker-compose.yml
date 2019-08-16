@@ -5,17 +5,17 @@ services:
   eaasi-database:
     image: eaasi-database
     build:
-        context: ./eaasi-client-database
+        context: ./eaasi-database
     env_file:
-        - ./eaasi-client-database/vars.env
+        - ./eaasi-database/vars.env
     ports:
         - 5432:5432
     volumes:
         - eaasi_db:/var/lib/postgresql/data
 
   # Vue.js Front End SPA
-  eaasi-client:
-    image: eaasi-client
+  eaasi-front-end:
+    image: eaasi-front-end
     build:
         context: ./eaasi-front-end
     ports:
@@ -25,12 +25,12 @@ services:
   eaasi-web-api:
     image: eaasi-web-api
     build:
-        context: ./eaasi-client-web-api
+        context: ./eaasi-web-api
     depends_on:
         - eaasi-database
     env_file:
           # do not check into version control
-        - ./eaasi-client-web-api/env/prod.env
+        - ./eaasi-web-api/env/prod.env
     ports:
         - 8081:8081
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"

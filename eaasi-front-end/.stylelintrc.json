@@ -1,0 +1,29 @@
+{
+	"extends": "stylelint-config-standard",
+	"ignoreFiles": [
+		"**/*.js",
+		"**/*.ts",
+		"**/*.md",
+		"**/*.json"
+	],
+	"plugins": [
+        "stylelint-order",
+		"stylelint-scss"
+    ],
+	"processors": ["stylelint-processor-html"],
+    "rules": {
+		"at-rule-no-unknown": null,
+		"at-rule-empty-line-before": null,
+    	"scss/at-rule-no-unknown": true,
+		"color-hex-case": null,
+		"comment-whitespace-inside": null,
+		"declaration-empty-line-before": "never",
+		"indentation": ["tab"],
+		"length-zero-no-unit": null,
+        "order/order": [
+            "custom-properties",
+            "declarations"
+        ],
+        "order/properties-alphabetical-order": true
+    }
+}

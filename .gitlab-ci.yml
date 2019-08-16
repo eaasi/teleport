@@ -1,0 +1,53 @@
+# image: cypress/base:10
+image: node:latest
+
+stages:
+    - build
+    - test
+    - merge
+
+cache:
+    paths:
+        - .eaasi-web-api/node_modules/
+        - .eaasi-front-end/node_modules/
+
+# Build Jobs
+install_vue_npm_packages:
+    stage: build
+    script:
+        - cd ./eaasi-front-end
+        - npm install
+        - npm run build
+
+install_web_api_npm_packages:
+    stage: build
+    script:
+        - cd ./eaasi-web-api
+        - npm install
+        - npm install -g babel-cli
+        - npm run build
+
+# Test Runner Jobs
+run_vue_unit_tests:
+    stage: test
+    script:
+        - cd ./eaasi-front-end
+          # - npm run test:unit
+
+run_api_unit_tests:
+    stage: test
+    script:
+        - cd ./eaasi-web-api
+        - npm install -g jest
+        - npm install
+        - jest --verbose --detectOpenHandles --logHeapUsage --coverage
+
+# Linting Jobs
+run_vue_linters:
+    stage: merge
+    script:
+        - cd ./eaasi-front-end
+        - npm install
+        - npm run lint
+    only:
+        - merge_requests
