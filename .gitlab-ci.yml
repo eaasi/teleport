@@ -23,7 +23,6 @@ install_web_api_npm_packages:
     stage: build
     script:
         - cd ./eaasi-web-api
-        - npm install
         - npm install -g babel-cli
         - npm run build
 
@@ -46,8 +45,8 @@ run_api_unit_tests:
 run_vue_linters:
     stage: merge
     script:
-        - npm install
         - cd ./eaasi-front-end
+        - npm install
         - npm run lint
     only:
         - merge_requests
