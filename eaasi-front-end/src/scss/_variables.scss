@@ -20,6 +20,20 @@ $yellow: #FFD742;
 $orange: #F5964B;
 $red: #F26362;
 
+/* stylelint-disable property-case, property-no-unknown, selector-pseudo-class-no-unknown */
+:export {
+	darkBlue: $dark-blue;
+	darkNeutral: $dark-neutral;
+	green: $green;
+	lightBlue: $light-blue;
+	lightGreen: $light-green;
+	lightNeutral: $light-neutral;
+	orange: $orange;
+	red: $red;
+	teal: $teal;
+	yellow: $yellow;
+}
+
 $dark-sky-blue: #2479AA;
 $sky-blue: #73BDE8;
 $light-sky-blue: #C7E4F5;

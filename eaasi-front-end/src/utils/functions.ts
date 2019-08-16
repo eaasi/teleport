@@ -1,6 +1,12 @@
 import def_get from 'lodash/get';
 
-// Lodash get doesn't return default value if object is null
+/**
+ * Extends Lodash's 'get' to return a default value if the result is null
+ *
+ * @param obj - The object to search
+ * @param {string} path - A dot notated path to the value
+ * @param def  - The default value
+ */
 export function _get(obj: object, path: string, def: any) {
 	if(!obj) return def;
 	let result = def_get(obj, path, def);
@@ -14,12 +20,25 @@ export function _get(obj: object, path: string, def: any) {
  == Comparison helpers
 /============================================================*/
 
-export function jsonCopy(obj: any) {
-	return JSON.parse(JSON.stringify(obj));
+/**
+ * Uses JSON to clone a value
+ *
+ * @param val - The value to copy
+ * @return {T} - The ccopied value
+ */
+export function jsonCopy<T>(val: any) : T {
+	return JSON.parse(JSON.stringify(val)) as T;
 }
 
-export function jsonEquals(a: any, b: any) {
-	return JSON.stringify(a) === JSON.stringify(b);
+/**
+ * Uses JSON to check if two values are equal when stringified
+ *
+ * @param val1 - The value to compare
+ * @param val2 - The comparison value
+ * @return {Boolean} - Returns true when JSON strings are equal
+ */
+export function jsonEquals(val1: any, val2: any) : boolean {
+	return JSON.stringify(val1) === JSON.stringify(val2);
 }
 
 /*============================================================
@@ -39,15 +58,6 @@ export function sortByQuery(val1: string, val2: string, query: string) {
 		return 0;
 	}
 	return indexA - indexB;
-}
-
-/*============================================================
- == Type Checkers
-/============================================================*/
-
-export function isPromise(value: Promise<any>) {
-	if (typeof value != 'object') return false;
-	if (typeof value.then == 'function') return true;
 }
 
 /*============================================================

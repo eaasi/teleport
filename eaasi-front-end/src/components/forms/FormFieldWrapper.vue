@@ -88,6 +88,10 @@ export default class FormFieldWrapper extends Vue {
 		font-size: 1.6rem;
 		outline: none;
 		width: 100%;
+
+		&::placeholder {
+			color: #888;
+		}
 	}
 
 	&.error {

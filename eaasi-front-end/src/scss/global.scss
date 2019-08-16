@@ -160,6 +160,41 @@ a {
 	position: fixed;
 }
 
+/* Tables
+============================================*/
+
+.eaasi-table {
+	font-size: 14px;
+	width: 100%;
+
+	thead th {
+		color: #A8A29E;
+		font-size: 13px;
+		padding: 2rem 0;
+		text-align: left;
+		text-transform: uppercase;
+	}
+
+	tbody tr {
+		background-color: lighten($light-blue, 90%);
+	}
+
+	tbody td {
+		border-bottom: solid 8px #FFF;
+		border-right: solid 1px lighten($light-blue, 60%);
+		padding: 1.4rem 1rem;
+	}
+
+	&.clickable {
+		tbody tr {
+			transition: background-color 0.2s;
+			&:hover {
+				background-color: lighten($light-blue, 80%);
+			}
+		}
+	}
+}
+
 /* Pseudo-tables
 ============================================*/
 
@@ -275,6 +310,29 @@ a {
 	flex: 0 0 auto;
 }
 
+/* Flex Grid
+============================================*/
+
+.flex-grid {
+	display: flex;
+	justify-content: space-between;
+}
+
+.col-6 {
+	flex: 0 0 48%;
+	width: 48%;
+}
+
+.col-4 {
+	flex: 0 0 31%;
+	width: 31%;
+}
+
+.col-3 {
+	flex: 0 0 24%;
+	width: 24%;
+}
+
 /*============================================================
  == Margin and spacing
 /============================================================*/
@@ -295,6 +353,18 @@ a {
 	margin-bottom: 0;
 }
 
+.padded {
+	padding: 2rem;
+}
+
+.padded-sm {
+	padding: 1rem;
+}
+
+.padded-lg {
+	padding: 3rem;
+}
+
 /*============================================================
  == Helper Classes
 /============================================================*/
@@ -306,29 +376,39 @@ a {
 }
 
 .clearfix {
-	&:after {
+	&::after {
 		clear: both;
 		content: "";
 		display: table;
 	}
 }
 
+.clickable {
+	cursor: pointer;
+}
+
 .full-fixed {
+	bottom: 0;
+	left: 0;
 	position: fixed;
-	top: 0; right: 0; bottom: 0; left: 0;
+	right: 0;
+	top: 0;
 }
 
 .fill-parent {
+	bottom: 0;
+	left: 0;
 	position: absolute;
-	top: 0; right: 0; bottom: 0; left: 0;
+	right: 0;
+	top: 0;
 }
 
 .invisible {
 	height: 1px;
-	width: 1px;
+	left: 1px;
 	pointer-events: none;
-	visibility: hidden;
 	position: fixed;
 	top: -1px;
-	left: 1px;
+	visibility: hidden;
+	width: 1px;
 }

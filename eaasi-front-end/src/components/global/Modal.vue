@@ -1,6 +1,6 @@
 <template>
 	<transition name="modal-fade">
-		<div class="eaasi-modal-container flex-column flex-center" role="dialog" v-if="show">
+		<div class="eaasi-modal-container flex-column flex-center" role="dialog">
 			<div :class="['eaasi-modal', 'size-' + size]">
 				<div class="eaasi-modal-header">
 					<div class="eaasi-modal-close" @click="$emit('close')">
@@ -40,12 +40,6 @@ export default class Modal extends Vue {
     @Prop({type: String, default: 'medium'})
     readonly size: string
 
-    /**
-     * Whether to show or hide the modal
-     */
-    @Prop({type: Boolean, required: true})
-    readonly show: boolean
-
 
     /* Lifecycle Hooks
     ============================================*/
@@ -63,7 +57,7 @@ export default class Modal extends Vue {
 </script>
 
 <style lang="scss">
-	$base-size: 70rem;
+	$base-size: 80rem;
 
 	.eaasi-modal-container {
 		@include stretch;
@@ -71,10 +65,12 @@ export default class Modal extends Vue {
 		opacity: 1;
 		overflow-y: scroll;
 		position: fixed;
+		z-index: 10;
 	}
 
 	.eaasi-modal {
 		background-color: #FFF;
+		box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.4);
 		max-width: $base-size;
 		width: 100%;
 
@@ -102,7 +98,8 @@ export default class Modal extends Vue {
 	.eaasi-modal-close {
 		cursor: pointer;
 		float: right;
-		font-size: 3rem;
+		font-size: 2.6rem;
+		position: relative;
 	}
 
 	.modal-fade-enter-active,

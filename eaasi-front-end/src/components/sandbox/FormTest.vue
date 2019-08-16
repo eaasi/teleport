@@ -69,7 +69,7 @@ export default class FormTest extends Vue {
 	text: string = ''
 	textAreaText: string = ''
 	radio: string = 'Option 1'
-	radios: Array<string> = [
+	radios: string[] = [
 		'Option 1',
 		'Option 2',
 		'Option 3'

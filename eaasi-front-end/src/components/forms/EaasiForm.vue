@@ -21,7 +21,7 @@ export default class EaasiForm extends Vue {
 	/* Data
 	============================================*/
 
-	errors: Array<string> = []
+	errors: string[] = []
 
 	/* Computed
 	============================================*/

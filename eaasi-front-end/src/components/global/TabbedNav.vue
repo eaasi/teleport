@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiTab } from '@/types/Navigation';
+import { IEaasiTab } from 'eaasi-nav';
 
 /**
  * A component for performing tabbed navigation
@@ -32,7 +32,7 @@ export default class TabbedNav extends Vue {
 
 	// List of tabs
 	@Prop({type: Array, required: true})
-	readonly tabs: Array<IEaasiTab>
+	readonly tabs: IEaasiTab[]
 
 	// Active tab label (use v-model)
 	@Prop({type: String, required: true})

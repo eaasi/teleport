@@ -16,18 +16,14 @@
 
 <script lang="ts">
 import Vue from 'vue';;
-import { IMenuItem } from '@/types/Navigation';
-import Component from 'vue-class-component';
+import { Component, Prop } from 'vue-property-decorator';
+import { IMenuItem } from 'eaasi-nav';
 
-@Component({
-	props: {
-		item: {
-			type: Object as () => IMenuItem,
-			required: true
-		}
-	}
-})
-export default class LeftMenuItem extends Vue {}
+@Component
+export default class LeftMenuItem extends Vue {
+	@Prop({type: Object as () => IMenuItem, required: true})
+	readonly item: IMenuItem
+}
 </script>
 
 <style lang="scss">

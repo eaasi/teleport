@@ -1,6 +1,11 @@
 {
 	"extends": "stylelint-config-standard",
-	"ignoreFiles": ["**/*.js", "**/*.ts"],
+	"ignoreFiles": [
+		"**/*.js",
+		"**/*.ts",
+		"**/*.md",
+		"**/*.json"
+	],
 	"plugins": [
         "stylelint-order",
 		"stylelint-scss"

@@ -82,7 +82,7 @@ export default class Autocomplete extends BaseFormField {
 	 * A local array of objects to search
 	 */
 	@Prop({type: Array, required: false})
-	readonly data: Array<Object>
+	readonly data: Object[]
 
 	/**
 	 * A JSON endpoint url for receiving remote objects to search through
@@ -103,7 +103,7 @@ export default class Autocomplete extends BaseFormField {
 	highlightedIndex?: number = null
 	loading: boolean = false
 	listVisible: boolean = true
-	results: Array<any> = []
+	results: any[] = []
 	timeout?: number = null
 
 	/* Computed
