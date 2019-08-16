@@ -13,8 +13,6 @@ build:
     stage: build
     script:
         - docker-compose build
-    tags:
-        - docker-test
 
 deploy-containers:
     stage: deploy
@@ -25,5 +23,3 @@ deploy-containers:
         - docker-compose down -v
         - docker-compose up -d
         - unset DOCKER_HOST
-    tags:
-        - docker-test
