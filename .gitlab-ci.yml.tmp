@@ -1,5 +1,4 @@
-# image: cypress/base:10
-image: node:latest
+image: cypress/base:10
 
 stages:
     - build
@@ -16,38 +15,33 @@ install_vue_npm_packages:
     stage: build
     script:
         - cd ./eaasi-front-end
-          # - npm install
-        - echo 'install_vue_npm'
+        - npm install
 
 install_web_api_npm_packages:
     stage: build
     script:
         - cd ./eaasi-web-api
-          # - npm install
-        - echo 'install_web_api_npm'
+        - npm install
 
 # Test Runner Jobs
 run_vue_unit_tests:
     stage: test
     script:
         - cd ./eaasi-front-end
-          # - npm run test:unit
-        - echo 'run_vue_unit_tests'
+        - npm run test:unit
 
 run_api_unit_tests:
     stage: test
     script:
         - cd ./eaasi-web-api
-          # - npm install -g jest
-        - echo 'run_api_unit_tests'
+        - npm install -g jest
 
 # Linting Jobs
 run_vue_linters:
     stage: merge
     script:
         - cd ./eaasi-front-end
-          # - npm run lint
-        - echo 'run_vue_linters'
+        - npm run lint
     only:
         - merge_requests
 
