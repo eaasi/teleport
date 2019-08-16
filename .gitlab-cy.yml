@@ -19,7 +19,8 @@ build:
 deploy-containers:
     stage: deploy
     script:
-        - export DOCKER_HOST=ssh://portalmedia@66.222.124.3
+        - export DOCKER_HOST=ssh://portalmedia@66.222.124.3/eaasi/eaasi-client-dev
+        - git pull --recurse-submodules
         - cd eaasi/eaasi-client-dev
         - docker-compose down -v
         - docker-compose up -d
