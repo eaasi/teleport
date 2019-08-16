@@ -1,0 +1,27 @@
+image: cypress/base:10
+
+stages:
+    - build
+    - test
+    - merge
+
+cache:
+    paths:
+        - ./node_modules/
+
+install_npm_packages:
+    stage: build
+    script:
+        - npm install
+
+run_tests:
+    stage: test
+    script:
+        - npm run test:styleguide:ci
+
+run_linters:
+    stage: merge
+    script:
+        - npm run lint
+    only:
+        - merge_requests

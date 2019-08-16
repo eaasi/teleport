@@ -1,0 +1,414 @@
+@import '_reset.scss';
+@import '_mixins.scss';
+@import '_variables.scss';
+
+/*============================================================
+ == Global Elements
+/============================================================*/
+
+html {
+	font-size: $remBase;
+}
+
+html,
+body {
+	margin: 0;
+	min-width: $minAppWidth;
+	padding: 0;
+}
+
+body {
+	background-color: #FFF;
+	color: darken($dark-neutral, 20%);
+	font-family: $font-primary;
+	font-size: 1.6rem;
+	font-weight: 400;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+	&.modal-open {
+		overflow: hidden;
+	}
+}
+
+/*============================================================
+ == Text Elements / Classes
+/============================================================*/
+
+h1, h2, h3, h4 {
+	font-family: $font-secondary;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 2.4rem;
+
+	@include mobile() {
+		font-size: 2.2rem;
+	}
+}
+
+h2 {
+	font-size: 2rem;
+
+	@include mobile() {
+		font-size: 1.8rem;
+	}
+}
+
+h3 {
+	font-size: 1.8rem;
+
+	@include mobile() {
+		font-size: 1.6rem;
+	}
+}
+
+h4 {
+	font-size: 1.6rem;
+
+	@include mobile() {
+		font-size: 1.4rem;
+	}
+}
+
+p {
+	font-size: 1.6rem;
+	line-height: 1.2em;
+	margin: 0;
+	margin-bottom: 1rem;
+	@include mobile() {
+		font-size: 1.4rem;
+	}
+}
+
+ul {
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-left: 2rem;
+}
+
+a {
+	color: $dark-blue;
+	&:visited, &:active, &:focus, &:hover {
+		color: inherit;
+	}
+}
+
+.txt-sm {
+	font-size: 1.2rem;
+}
+
+.txt-lg {
+	font-size: 1.8rem;
+}
+
+.txt-center {
+	text-align: center;
+}
+
+.txt-right {
+	text-align: right;
+}
+
+/*============================================================
+ == Text Styles
+/============================================================*/
+
+.bold {
+	font-weight: 900;
+}
+
+.medium {
+	font-weight: 700;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
+/*============================================================
+ == Display and Positioning
+/============================================================*/
+
+.block {
+	display: block;
+}
+
+.inline {
+	display: inline;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.static {
+	position: static;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.fixed {
+	position: fixed;
+}
+
+/* Tables
+============================================*/
+
+.eaasi-table {
+	font-size: 14px;
+	width: 100%;
+
+	thead th {
+		color: #A8A29E;
+		font-size: 13px;
+		padding: 2rem 0;
+		text-align: left;
+		text-transform: uppercase;
+	}
+
+	tbody tr {
+		background-color: lighten($light-blue, 90%);
+	}
+
+	tbody td {
+		border-bottom: solid 8px #FFF;
+		border-right: solid 1px lighten($light-blue, 60%);
+		padding: 1.4rem 1rem;
+	}
+
+	&.clickable {
+		tbody tr {
+			transition: background-color 0.2s;
+			&:hover {
+				background-color: lighten($light-blue, 80%);
+			}
+		}
+	}
+}
+
+/* Pseudo-tables
+============================================*/
+
+.display-table {
+	display: table;
+}
+
+.table-header {
+	display: table-header-group;
+	> div {
+		display: table-row;
+		> div {
+			display: table-cell;
+		}
+	}
+}
+
+.table-body {
+	display: table-row-group;
+	> div {
+		display: table-row;
+		> div {
+			display: table-cell;
+		}
+	}
+}
+
+.table-row {
+	display: table-row;
+	> div {
+		display: table-cell;
+	}
+}
+
+.table-cell {
+	display: table-cell;
+}
+
+/*============================================================
+ == Flex
+/============================================================*/
+
+.flex {
+	display: flex;
+}
+
+.flex-row {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-center {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+.align-start {
+	align-items: flex-start;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.align-end {
+	align-items: flex-end;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: flex-end;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-around {
+	justify-content: space-around;
+}
+
+.flex-adapt {
+	flex: 1 1 auto;
+}
+
+.flex-grow {
+	flex: 1 0 auto;
+}
+
+.flex-shrink {
+	flex: 0 1 auto;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.flex-auto {
+	flex: 0 0 auto;
+}
+
+/* Flex Grid
+============================================*/
+
+.flex-grid {
+	display: flex;
+	justify-content: space-between;
+}
+
+.col-6 {
+	flex: 0 0 48%;
+	width: 48%;
+}
+
+.col-4 {
+	flex: 0 0 31%;
+	width: 31%;
+}
+
+.col-3 {
+	flex: 0 0 24%;
+	width: 24%;
+}
+
+/*============================================================
+ == Margin and spacing
+/============================================================*/
+
+.mb {
+	margin-bottom: 1.5rem;
+}
+
+.mb-sm {
+	margin-bottom: 1rem;
+}
+
+.mb-lg {
+	margin-bottom: 2rem;
+}
+
+.no-mb {
+	margin-bottom: 0;
+}
+
+.padded {
+	padding: 2rem;
+}
+
+.padded-sm {
+	padding: 1rem;
+}
+
+.padded-lg {
+	padding: 3rem;
+}
+
+/*============================================================
+ == Helper Classes
+/============================================================*/
+
+.appearance-none {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.clearfix {
+	&::after {
+		clear: both;
+		content: "";
+		display: table;
+	}
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.full-fixed {
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+.fill-parent {
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.invisible {
+	height: 1px;
+	left: 1px;
+	pointer-events: none;
+	position: fixed;
+	top: -1px;
+	visibility: hidden;
+	width: 1px;
+}
