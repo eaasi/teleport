@@ -1,5 +1,4 @@
 stages:
-    - build
     - deploy
 
 before_script:
@@ -9,11 +8,6 @@ before_script:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
-build:
-    stage: build
-    script:
-        - docker-compose build
-
 deploy-containers:
     stage: deploy
     script:
@@ -21,5 +15,5 @@ deploy-containers:
         - git pull --recurse-submodules
         - cd eaasi/eaasi-client-dev
         - docker-compose down -v
-        - docker-compose up -d
+        - docker-compose build && docker-compose up -d
         - unset DOCKER_HOST
