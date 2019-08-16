@@ -16,8 +16,7 @@ install_vue_npm_packages:
     stage: build
     script:
         - cd ./eaasi-front-end
-          # - npm install
-        - echo 'install_vue_npm'
+        - npm install
 
 install_web_api_npm_packages:
     stage: build
