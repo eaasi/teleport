@@ -1,4 +1,4 @@
-image: node:latest
+image: cypress/base:10
 
 stages:
     - build
@@ -24,16 +24,13 @@ install_web_api_npm_packages:
         - npm install
 
 # Test Runner Jobs
-# Note we're using a cypress Docker image
 run_vue_unit_tests:
-    image: cypress/base:10
     stage: test
     script:
         - cd ./eaasi-front-end
         - npm run test:unit
 
 run_api_unit_tests:
-    image: cypress/base:10
     stage: test
     script:
         - cd ./eaasi-web-api
