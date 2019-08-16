@@ -1,6 +1,3 @@
-[submodule "eaasi-client-database"]
-	path = eaasi-client-database
-	url = https://gitlab.com/eaasi/eaasi-client-database.git
 [submodule "eaasi-client-web-api"]
 	path = eaasi-client-web-api
 	url = https://gitlab.com/eaasi/eaasi-client-web-api.git
