@@ -71,7 +71,7 @@ class CliRunner:
 
     def run_unit_tests(self):
         print("Running EaaSI Client Unit Tests...")
-        subprocess.run(f'cd \'{self.project_root}\' && cd eaasi-client-web-api && npm install && npm run test:unit', shell=True)
+        subprocess.run(f'cd \'{self.project_root}\' && cd eaasi-web-api && npm install && npm run test:unit', shell=True)
 
     def run_int_tests(self):
         print("Running EaaSI Client Integration Tests...")
