@@ -1,5 +1,6 @@
 import User from '@/models/auth/User';
 import faker from 'faker';
+import {IEaasiRole} from "eaasi-auth";
 
 export function generateFakeUsers(userCount: number) : User[] {
 	let users = [];
@@ -16,3 +17,16 @@ export function generateFakeUsers(userCount: number) : User[] {
 	return users;
 }
 
+export function generateFakeRoles(roleCount: number) : IEaasiRole[] {
+	let roles = [];
+	for (let i = 1; i <= roleCount; i++) {
+		roles.push({
+			id: faker.random.number(),
+			roleName: faker.hacker.noun(),
+			roleDescription: faker.random.words(),
+			createdAt: faker.date.past(),
+			updatedAt: faker.date.recent()
+		});
+	}
+	return roles;
+}

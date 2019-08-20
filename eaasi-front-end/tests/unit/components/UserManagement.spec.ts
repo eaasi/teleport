@@ -4,8 +4,8 @@ import pathify from 'vuex-pathify';
 import userStore from '@/store/user-store';
 import globalStore from '@/store/global-store';
 import UserManagement from '@/components/admin/UserManagement.vue';
-import {Pagination} from '@/components/global';
 import UserList from '@/components/admin/UserList.vue';
+import {Pagination} from '@/components/global';
 import { makeUserStoreState } from '../store-helpers';
 
 const localVue = createLocalVue();
