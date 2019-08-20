@@ -1,21 +1,15 @@
-import User from '@/models/auth/User';
 import { make } from 'vuex-pathify';
-import { Store } from 'vuex';
-import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import _svc from '@/services/UserService';
-import { IEaasiSearchQuery } from 'eaasi-http';
 
 /*============================================================
  == State
 /============================================================*/
 
-class GlobalState {
-	adminMenuOpen: boolean = false;
-	// TODO: This should come from the deployment config or be managed in the node admin
-	nodeName: string = 'PortalMedia Inc';
+class SearchState {
+	keyword: string = ''
 }
 
-const state = new GlobalState();
+const state = new SearchState();
 
 /*============================================================
  == Mutations
