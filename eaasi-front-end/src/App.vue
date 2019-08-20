@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AppHeader from './components/layout/AppHeader.vue';
+import AppHeader from './components/layout/header/AppHeader.vue';
 import AppContent from './components/layout/AppContent.vue';
 import LeftMenu from './components/layout/LeftMenu.vue';
 import eventBus from '@/utils/event-bus';

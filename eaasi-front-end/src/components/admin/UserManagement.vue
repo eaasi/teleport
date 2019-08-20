@@ -4,17 +4,13 @@
 			<h1>Node Users</h1>
 			<search-bar
 				:border-color="$colors.lightNeutral"
-				placeholder="Enter a search term..."
+				placeholder="Enter a name or email address"
 				v-model="query.keyword"
-			>
-				<div slot="left">
-					<i class="fal fa-search"></i>
-				</div>
-			</search-bar>
+			/>
 		</div>
 		<div class="padded" v-if="list">
 			<pagination
-				:total-results="(list.total_pages * query.limit)"
+				:total-results="list.totalResults"
 				:results-per-page="query.limit"
 				:page-num="query.page"
 				@paginate="paginate"
@@ -38,6 +34,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
 import { IEaasiUser } from 'eaasi-auth';
 import { jsonCopy } from '@/utils/functions';
+import AdminScreen from './AdminScreen.vue';
 
 @Component({
 	name: 'UserManagement',
@@ -49,7 +46,7 @@ import { jsonCopy } from '@/utils/functions';
 		UiButton
 	}
 })
-export default class UserManagement extends Vue {
+export default class UserManagement extends AdminScreen {
 
 	/* Props
 	============================================*/
@@ -78,7 +75,6 @@ export default class UserManagement extends Vue {
 	}
 
 	init() {
-		this.$store.commit('global/SET_ADMIN_MENU_OPEN', true);
 		this.getUsers();
 	}
 
@@ -102,10 +98,6 @@ export default class UserManagement extends Vue {
 		this.init();
 	}
 
-	beforeDestroy() {
-		this.$store.commit('global/SET_ADMIN_MENU_OPEN', false);
-	}
-
 }
 </script>
 
@@ -116,12 +108,6 @@ export default class UserManagement extends Vue {
 
 	h1 {
 		font-size: 1.8rem;
-	}
-
-	.fa-search {
-		color: darken($light-neutral, 80%);
-		font-size: 1.4rem;
-		margin: 0 0.6rem;
 	}
 }
 
