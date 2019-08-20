@@ -1,8 +1,7 @@
-import User from '@/models/auth/User';
 import faker from 'faker';
-import {IEaasiRole} from "eaasi-auth";
+import {IEaasiRole, IEaasiUser} from 'eaasi-auth';
 
-export function generateFakeUsers(userCount: number) : User[] {
+export function generateFakeUsers(userCount: number) : IEaasiUser[] {
 	let users = [];
 	for (let i = 1; i <= userCount; i++) {
 		users.push({
@@ -14,7 +13,12 @@ export function generateFakeUsers(userCount: number) : User[] {
 			lastLogin: faker.date.recent()
 		});
 	}
+
 	return users;
+}
+
+export function generateFakeUser(): IEaasiUser {
+	return generateFakeUsers(1)[0];
 }
 
 export function generateFakeRoles(roleCount: number) : IEaasiRole[] {
@@ -29,4 +33,8 @@ export function generateFakeRoles(roleCount: number) : IEaasiRole[] {
 		});
 	}
 	return roles;
+}
+
+export function generateFakeRole(): IEaasiRole {
+	return generateFakeRoles(1)[0];
 }

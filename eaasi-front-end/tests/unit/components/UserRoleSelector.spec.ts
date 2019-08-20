@@ -1,10 +1,9 @@
 import Vuex from 'Vuex';
-import {createLocalVue, shallowMount} from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import pathify from 'vuex-pathify';
 import userStore from '@/store/user-store';
 import globalStore from '@/store/global-store';
-import {FormModal} from '@/components/forms';
-import {generateFakeRoles, generateFakeUsers} from '../generators';
+import { generateFakeRole } from '../generators';
 import { makeUserStoreState } from '../store-helpers';
 import UserRoleSelector from '@/components/admin/UserRoleSelector.vue';
 
@@ -32,7 +31,7 @@ describe('UserRoleSelector.vue', () => {
 		const wrapper = shallowMount(UserRoleSelector, {
 			localVue,
 			propsData: {
-				role: generateFakeRoles(1)[0],
+				role: generateFakeRole(),
 				value: 1
 			},
 			store
@@ -44,7 +43,7 @@ describe('UserRoleSelector.vue', () => {
 		const wrapper = shallowMount(UserRoleSelector, {
 			localVue,
 			propsData: {
-				role: generateFakeRoles(1)[0],
+				role: generateFakeRole(),
 				value: 1
 			},
 			store
