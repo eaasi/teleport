@@ -9,7 +9,7 @@ const menuItem = {
 };
 
 
-describe('AdminMenu.vue', () => {
+describe('AdminMenuItem.vue', () => {
 	it('Renders item icon', () => {
 		const wrapper = shallowMount(AdminMenuItem, {
 			stubs: ['router-link'],

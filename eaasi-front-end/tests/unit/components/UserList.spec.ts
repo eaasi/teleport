@@ -1,30 +1,14 @@
 import {createLocalVue, shallowMount} from '@vue/test-utils';
 import UserList from '@/components/admin/UserList.vue';
-import User from '@/models/auth/User';
-import Vuex, {Module} from 'vuex';
+import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import userStore from '@/store/user-store';
+import {generateFakeUsers} from '../generators';
 
-import faker from 'faker';
 
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
-
-function generateFakeUsers(userCount: number) : User[] {
-	let users = [];
-	for (let i = 1; i <= userCount; i++) {
-		users.push({
-			id: faker.random.number(),
-			firstName: faker.name.firstName(),
-			username: faker.hacker.adjective() + '_' + faker.hacker.noun(),
-			createdAt: faker.date.past(),
-			updatedAt: faker.date.recent(),
-			lastLogin: faker.date.recent()
-		});
-	}
-	return users;
-}
 
 describe('AdminMenu.vue', () => {
 	let store;
