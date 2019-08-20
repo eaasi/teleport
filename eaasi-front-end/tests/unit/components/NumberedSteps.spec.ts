@@ -1,8 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import faker from 'faker';
 import NumberedStep from '@/components/global/NumberedSteps/NumberedStep.vue';
 import NumberedSteps from '@/components/global/NumberedSteps/NumberedSteps.vue';
 import {INumberedStep} from '@/types/NumberedStep';
+
+import faker from 'faker';
 
 const stubSteps = [
 	{

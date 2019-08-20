@@ -2,36 +2,36 @@
 	<div class="user-list">
 		<table class="eaasi-table clickable">
 			<thead>
-				<tr>
-					<sort-header sort-col="username" :query="query" @sort="sort">
-						Username
-					</sort-header>
-					<sort-header sort-col="email" :query="query" @sort="sort">
-						Email
-					</sort-header>
-					<sort-header sort-col="firstName" :query="query" @sort="sort">
-						First Name
-					</sort-header>
-					<sort-header sort-col="lastName" :query="query" @sort="sort">
-						Last Name
-					</sort-header>
-					<sort-header sort-col="roleId" :query="query" @sort="sort">
-						Role
-					</sort-header>
-					<sort-header sort-col="lastLogin" :query="query" @sort="sort">
-						Last Login
-					</sort-header>
-				</tr>
+			<tr>
+				<sort-header sort-col="username" :query="query" @sort="sort">
+					Username
+				</sort-header>
+				<sort-header sort-col="email" :query="query" @sort="sort">
+					Email
+				</sort-header>
+				<sort-header sort-col="firstName" :query="query" @sort="sort">
+					First Name
+				</sort-header>
+				<sort-header sort-col="lastName" :query="query" @sort="sort">
+					Last Name
+				</sort-header>
+				<sort-header sort-col="roleId" :query="query" @sort="sort">
+					Role
+				</sort-header>
+				<sort-header sort-col="lastLogin" :query="query" @sort="sort">
+					Last Login
+				</sort-header>
+			</tr>
 			</thead>
 			<tbody>
-				<tr v-for="u in users" :key="u.id" @click="$emit('rowClick', u)">
-					<td>{{ u.username }}</td>
-					<td>{{ u.email }}</td>
-					<td>{{ u.firstName }}</td>
-					<td>{{ u.lastName }}</td>
-					<td>{{ getRole(u) }}</td>
-					<td>{{ u.lastLogin || 'Never' }}</td>
-				</tr>
+			<tr v-for="u in users" :key="u.id" @click="$emit('rowClick', u)">
+				<td>{{ u.username }}</td>
+				<td>{{ u.email }}</td>
+				<td>{{ u.firstName }}</td>
+				<td>{{ u.lastName }}</td>
+				<td>{{ getRole(u) }}</td>
+				<td>{{ u.lastLogin || 'Never' }}</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>
