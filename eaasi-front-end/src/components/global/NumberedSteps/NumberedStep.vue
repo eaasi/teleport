@@ -27,7 +27,7 @@ import {INumberedStep} from '@/types/NumberedStep';
 @Component({
 	name: 'NumberedStep'
 })
-export default class Tag extends Vue {
+export default class NumberedStep extends Vue {
     /* Props
     ============================================*/
     // A Step which can be completed
@@ -42,9 +42,9 @@ export default class Tag extends Vue {
 	$defaultLetterSpacing: 0.15rem;
 
 	.numbered-step-container {
-		font-size: $defaultFontSize;
 		display: inline-flex;
 		flex-direction: row;
+		font-size: $defaultFontSize;
 		letter-spacing: $defaultLetterSpacing;
 		padding:14px;
 	}
@@ -52,12 +52,12 @@ export default class Tag extends Vue {
 	.step-number {
 		background: transparent;
 		border: 3px solid #fff;
-		color: #000;
-		margin-right: 12px;
 		border-radius: 50%;
-		padding: 1.1rem;
+		color: #000;
 		font-size: 1.6rem;
 		line-height: 3.5rem;
+		margin-right: 12px;
+		padding: 1.1rem;
 
 		&.fill-bg {
 			background: #fff;
@@ -70,15 +70,14 @@ export default class Tag extends Vue {
 
 	.step-description {
 		font-weight: $defaultFontWeight;
-		text-transform: uppercase;
 		line-height: 3.8rem;
+		text-transform: uppercase;
 		vertical-align: middle;
 
-		// todo: There is a more elegant way to fill remaining space with dots.
-		&:after {
-			font-weight: normal;
+		&::after {
 			color: $warm-grey;
-			content: "..................."
+			content: "...................";
+			font-weight: normal;
 		}
 	}
 
