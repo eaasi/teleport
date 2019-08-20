@@ -1,5 +1,5 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'Vuex';
+import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import userStore from '@/store/user-store';
 import globalStore from '@/store/global-store';
