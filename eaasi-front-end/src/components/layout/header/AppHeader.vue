@@ -16,7 +16,7 @@
 		<div id="headerRight" class="flex flex-end">
 			<!-- TODO: What does the user item do? -->
 			<header-menu-item
-				label="Test Tester"
+				:label="`${user.firstName} ${user.lastName}`"
 				icon="user"
 				@click="$router.push('/dashboard')"
 			/>
@@ -35,6 +35,7 @@ import Component from 'vue-class-component';
 import HeaderMenuItem from './HeaderMenuItem.vue';
 import { SearchBar } from '@/components/forms';
 import { Get, Sync } from 'vuex-pathify';
+import { IEaasiUser } from 'eaasi-auth';
 
 @Component({
 	name: 'AppHeader',
@@ -53,6 +54,9 @@ export default class AppHeader extends Vue {
 
 	@Sync('search/keyword')
 	searchKeyword: string
+
+	@Get('global/loggedInUser')
+	user: IEaasiUser
 
 	/* Methods
 	============================================*/
