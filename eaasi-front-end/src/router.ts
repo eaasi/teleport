@@ -2,13 +2,22 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home.vue';
 import UserManagement from '@/components/admin/UserManagement.vue';
+import LoginScreen from '@/components/login/LoginScreen.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [
+		{
+			path: '/login',
+			name: 'Login',
+			component: LoginScreen,
+			meta: {
+				allowGuest: true
+			}
+		},
 		{
 			path: '/',
 			name: 'home',
@@ -26,3 +35,18 @@ export default new Router({
 		}
 	]
 });
+
+router.beforeEach((to, from, next) => {
+	// TODO: Need to validate the jwt
+	let isAuthorized = localStorage.getItem('jwt');
+	if(!isAuthorized && !to.matched.some(x => x.meta.allowGuest)) {
+		next({
+			path: '/login',
+			params: { redirectTo: to.fullPath }
+		});
+	} else {
+		next();
+	}
+});
+
+export default router;

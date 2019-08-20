@@ -1,8 +1,13 @@
 <template>
 	<div id="app">
-		<app-header />
-		<left-menu />
-		<app-content />
+		<template v-if="!loggedIn">
+			<router-view />
+		</template>
+		<template v-else>
+			<app-header />
+			<left-menu />
+			<app-content />
+		</template>
 	</div>
 </template>
 
