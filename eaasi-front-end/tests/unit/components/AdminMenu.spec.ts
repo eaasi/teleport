@@ -5,7 +5,10 @@ import AdminMenuItem from '@/components/admin/AdminMenuItem.vue';
 describe('AdminMenu.vue', () => {
 	it('Displays all menu items', () => {
 		const wrapper = shallowMount(AdminMenu, {});
-		expect(wrapper.findAll(AdminMenuItem).length).toBe(7);
+		const userMenuItems = wrapper.vm.$data['userMenuItems'];
+		const menuItems = wrapper.vm.$data['menuItems'];
+		const allItems = userMenuItems.concat(menuItems);
+		expect(wrapper.findAll(AdminMenuItem).length).toBe(allItems.length);
 	});
 
 	it('Contains Node Management section', () => {
