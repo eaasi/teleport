@@ -2,7 +2,9 @@ declare module 'eaasi-auth' {
 
 	export interface IEaasiUser {
 		id: number;
+		email: string;
 		firstName: string;
+		lastName: string;
 		username: string;
 		roleId: number;
 		createdAt: Date;

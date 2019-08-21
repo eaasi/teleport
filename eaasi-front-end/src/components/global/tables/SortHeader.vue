@@ -54,7 +54,12 @@ export default class SortHeader extends Vue {
 
 	sort() {
 		let query = jsonCopy<IEaasiSearchQuery>(this.query);
-		query.descending = this.sortCol === query.sortCol ? !query.descending : false;
+		if(this.sortCol === query.sortCol) {
+			query.descending = !query.descending;
+		} else {
+			query.descending = false;
+			query.page = 1;
+		}
 		query.sortCol = this.sortCol;
 		this.$emit('sort', query);
 	}

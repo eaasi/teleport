@@ -3,7 +3,9 @@
 		<div class="eaasi-input-wrapper" :style="{'border': `solid 2px ${borderColor}`}">
 			<div :class="['eaasi-input flex-row', fieldStatus]">
 				<div classs="sb-content-left">
-					<slot name="left"></slot>
+					<slot name="left">
+						<i class="fal fa-search"></i>
+					</slot>
 				</div>
 				<input
 					v-bind="$attrs"
@@ -58,7 +60,10 @@ export default class SearchBar extends BaseFormField {
 
 <style lang="scss">
 .eaasi-search-bar {
+
 	.eaasi-input-wrapper {
+		border-radius: 6px;
+		overflow: hidden;
 		padding-bottom: 0;
 	}
 
@@ -70,6 +75,12 @@ export default class SearchBar extends BaseFormField {
 		color: darken($dark-blue, 40%);
 		cursor: pointer;
 		font-size: 21px;
+	}
+
+	.fa-search {
+		color: darken($light-neutral, 80%);
+		font-size: 1.4rem;
+		margin: 0 0.6rem;
 	}
 }
 </style>
