@@ -5,8 +5,8 @@ import userStore from '@/store/user-store';
 import globalStore from '@/store/global-store';
 import {FormModal} from '@/components/forms';
 import UserModal from '@/components/admin/UserModal.vue';
-import { generateFakeUsers } from '../generators';
-import { makeUserStoreState } from '../store-helpers';
+import { generateFakeUsers } from '../../generators';
+import { makeUserStoreState } from '../../store-helpers';
 
 const localVue = createLocalVue();
 

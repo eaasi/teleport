@@ -3,7 +3,7 @@ import UserList from '@/components/admin/UserList.vue';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import userStore from '@/store/user-store';
-import {generateFakeUsers} from '../generators';
+import {generateFakeUsers} from '../../generators';
 
 
 const localVue = createLocalVue();

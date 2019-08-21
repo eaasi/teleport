@@ -3,8 +3,8 @@ import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import userStore from '@/store/user-store';
 import globalStore from '@/store/global-store';
-import { generateFakeRole } from '../generators';
-import { makeUserStoreState } from '../store-helpers';
+import { generateFakeRole } from '../../generators';
+import { makeUserStoreState } from '../../store-helpers';
 import UserRoleSelector from '@/components/admin/UserRoleSelector.vue';
 
 const localVue = createLocalVue();
