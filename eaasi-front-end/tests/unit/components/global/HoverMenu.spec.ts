@@ -1,0 +1,33 @@
+import { shallowMount } from '@vue/test-utils';
+import { HoverMenu } from '@/components/global';
+
+describe('HoverMenu.vue', () => {
+	it('Has invisible menu slot if no mouseenter event is triggered', () => {
+		const wrapper = shallowMount(HoverMenu, {
+			propsData: {
+				closeDelay: 500
+			},
+			slots: {
+				menu: 'fake menu item'
+			}
+		});
+		let menuWrapperText = wrapper.find('.hover-menu-wrapper').text();
+		expect(menuWrapperText).toBeFalsy();
+	});
+
+	it('On mouse enter event makes menu slot visible', () => {
+		const wrapper = shallowMount(HoverMenu, {
+			propsData: {
+				closeDelay: 500
+			},
+			slots: {
+				menu: 'fake menu item'
+			}
+		});
+		// Trigger the mouse enter event
+		wrapper.find('.hover-menu-wrapper').trigger('mouseenter');
+
+		let menuWrapperText = wrapper.find('.hover-menu-wrapper').text();
+		expect(menuWrapperText).toBe('fake menu item');
+	});
+});

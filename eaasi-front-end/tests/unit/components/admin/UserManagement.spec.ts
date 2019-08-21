@@ -53,7 +53,7 @@ describe('UserManagement.vue', () => {
 			mocks: {$colors},
 			localVue,
 			propsData: {
-				showCreateModal: false
+				showCreateModal: false,
 			},
 			store
 		});

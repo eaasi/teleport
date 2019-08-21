@@ -1,17 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import {Autocomplete, FormModal} from '@/components/forms';
-
-function loadAutoCompleteTestProps(numUsers) {
-	return {
-		/**
-		 * Searched by autocomplete
-		 */
-		data: [],
-		anchor: '',
-		clearOnSelect: false,
-		value: '',
-	};
-}
+import {Autocomplete } from '@/components/forms';
 
 describe('AutoComplete.vue', () => {
 	it('If list is visible, renders Searching message', () => {
@@ -25,7 +13,6 @@ describe('AutoComplete.vue', () => {
 				data: [
 					{id: 12, name: 'Sammy'},
 					{id: 430, name: 'Rosa'},
-					{id: -9, name: 'Tim'},
 				]
 			},
 		});

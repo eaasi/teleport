@@ -10,7 +10,7 @@
 		</div>
 		<div class="padded" v-if="list">
 			<pagination
-				:total-results="list.totalResults"
+				:total-results="list.count"
 				:results-per-page="query.limit"
 				:page-num="query.page"
 				@paginate="paginate"
