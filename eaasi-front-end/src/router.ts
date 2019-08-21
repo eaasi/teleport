@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/components/Home.vue';
 import UserManagement from '@/components/admin/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
+import store from '@/store';
 
 Vue.use(Router);
 
@@ -37,14 +38,18 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-	// TODO: Need to validate the jwt
-	let isAuthorized = localStorage.getItem('jwt');
+	let isAuthorized = store.get('global/isLoggedIn');
 	if(!isAuthorized && !to.matched.some(x => x.meta.allowGuest)) {
 		next({
 			path: '/login',
 			params: { redirectTo: to.fullPath }
 		});
-	} else {
+	} else if(isAuthorized && to.name === 'Login') {
+		next({
+			path: '/dashboard'
+		});
+	}
+	else {
 		next();
 	}
 });

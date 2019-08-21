@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<template v-if="!loggedIn">
+		<template v-if="!isLoggedIn">
 			<router-view />
 		</template>
 		<template v-else>
@@ -14,6 +14,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { Get } from 'vuex-pathify';
 import AppHeader from './components/layout/header/AppHeader.vue';
 import AppContent from './components/layout/AppContent.vue';
 import LeftMenu from './components/layout/LeftMenu.vue';
@@ -27,7 +28,12 @@ import eventBus from '@/utils/event-bus';
 		LeftMenu
 	}
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+
+	@Get('global/isLoggedIn')
+	isLoggedIn: boolean
+
+}
 
 </script>
 

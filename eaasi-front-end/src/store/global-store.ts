@@ -1,4 +1,4 @@
-import { make } from 'vuex-pathify';
+import { make, commit } from 'vuex-pathify';
 import _svc from '@/services/UserService';
 import { IEaasiUser } from 'eaasi-auth';
 import User from '@/models/auth/User';
@@ -7,18 +7,11 @@ import User from '@/models/auth/User';
  == State
 /============================================================*/
 
-// TODO: User should come from the server as part of the auth flow
-const fakeUser = new User();
-fakeUser.firstName = 'Test';
-fakeUser.lastName = 'Tester';
-fakeUser.roleId = 1;
-fakeUser.username = 'TestTester01';
-
 class GlobalState {
 	adminMenuOpen: boolean = false;
 	// TODO: This should come from the deployment config or be managed in the node admin
 	nodeName: string = 'PortalMedia Inc';
-	loggedInUser: IEaasiUser = fakeUser;
+	loggedInUser: IEaasiUser = null;
 }
 
 const state = new GlobalState();
@@ -35,13 +28,36 @@ const mutations = make.mutations(state);
 
 const actions = {
 
+	async login({commit}) {
+		// TODO: Check localstorage for JWT and validate in service layer
+		const fakeUser = new User();
+		fakeUser.firstName = 'Test';
+		fakeUser.lastName = 'Tester';
+		fakeUser.roleId = 1;
+		fakeUser.username = 'TestTester01';
+		commit('SET_LOGGED_IN_USER', fakeUser);
+		return true;
+	},
+
+	async logout({commit}) {
+		// TODO: Will likely need to clear other application state
+		commit('SET_LOGGED_IN_USER', null);
+	}
+
 };
 
 /*============================================================
  == Getters
 /============================================================*/
 
-const getters = {};
+const getters = {
+
+	isLoggedIn(state: GlobalState) {
+		// TODO: Need token validation
+		return state.loggedInUser !== null;
+	}
+
+};
 
 export default {
 	state,
