@@ -13,16 +13,22 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
 import AppHeader from './components/layout/AppHeader.vue';
 import AppContent from './components/layout/AppContent.vue';
 import LeftMenu from './components/layout/LeftMenu.vue';
 import eventBus from '@/utils/event-bus';
-export default Vue.extend({
+
+@Component({
 	name: 'App',
 	components: {
 		AppHeader,
 		AppContent,
 		LeftMenu
 	}
-});
+})
+export default class App extends Vue {}
+
 </script>
+
+<style lang="scss"></style>
