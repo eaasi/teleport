@@ -6,9 +6,12 @@
 				<h2>Emulation-as-as-Service-Infrastructure</h2>
 			</div>
 			<div id="loginBox">
-				<h3>{{nodeName}}</h3>
+				<h3>{{ nodeName }}</h3>
 				<div>
-					<ui-button @click="login">Login</ui-button>
+					<!-- TODO: this should link to shibboleth SP -->
+					<a href="/login/auth?userid=3">
+						<ui-button>Login</ui-button>
+					</a>
 					<p>Using your approved access account.</p>
 				</div>
 			</div>
@@ -34,6 +37,7 @@ export default class LoginScreen extends Vue {
 
 	/* Data
 	============================================*/
+	baseUrl: string = process.env.VUE_APP_API_BASE_URL;
 
 	/* Computed
 	============================================*/

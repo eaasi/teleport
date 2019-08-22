@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<template v-if="!isLoggedIn">
+		<template v-if="!authorized">
 			<router-view />
 		</template>
 		<template v-else>
@@ -30,8 +30,8 @@ import eventBus from '@/utils/event-bus';
 })
 export default class App extends Vue {
 
-	@Get('global/isLoggedIn')
-	isLoggedIn: boolean
+	@Get('global/authorized')
+	authorized: boolean
 
 }
 

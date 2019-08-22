@@ -1,7 +1,7 @@
 import express from "express";
 
 const router = express.Router();
-
+router.use('/auth', require('./eaasi-auth'));
 router.use('/eaasi-user', require('./eaasi-user'))
 router.use('/eaasi-role', require('./eaasi-role'))
 

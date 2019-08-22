@@ -1,16 +1,26 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
+import EaasiUserService from '../services/EaasiUserService';
+import jwt, { Secret } from 'jsonwebtoken';
 
+const JWT_SECRET = process.env.JWT_SECRET as Secret;
 class EaasiAuthController {
-    constructor() {}
+
     /**
-     * Logs a user in
+     * Callback URL for shibboleth SP login
      * @param req request
      * @param res response
      */
-    async login(req: express.Request, res: express.Response) {
-        // TODO
-        console.log("Not implemented");
-        await res.json({});
+    async login(req: Request, res: Response) {
+		let svc = new EaasiUserService();
+		console.log('JWT SECRET', JWT_SECRET);
+		svc.getByPk(Number(req.body.userId)).then(dbRes => {
+			if(!dbRes || !dbRes.result) return res.json(false);
+			let user = dbRes.result.get({plain: true});
+			let token = jwt.sign(user, JWT_SECRET, {
+				expiresIn: '24h'
+			});
+			return res.json({user, token});
+		});
     }
 
     /**
@@ -18,8 +28,8 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-    async logout(req: express.Request, res: express.Response) {
-        // TODO
+    async logout(req: Request, res: Response) {
+		// TODO
         console.log("Not implemented");
         await res.json({});
     }
@@ -29,7 +39,7 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-    async refresh(req: express.Request, res: express.Response) {
+    async refresh(req: Request, res: Response) {
         // TODO
         console.log("Not implemented");
         await res.json({});

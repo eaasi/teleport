@@ -1,7 +1,8 @@
-import { make, commit } from 'vuex-pathify';
-import _svc from '@/services/UserService';
+import { make } from 'vuex-pathify';
+import _authService from '@/services/AuthService';
+import _userService from '@/services/UserService';
 import { IEaasiUser } from 'eaasi-auth';
-import User from '@/models/auth/User';
+import { validateUserToken } from '@/utils/auth';
 
 /*============================================================
  == State
@@ -9,9 +10,11 @@ import User from '@/models/auth/User';
 
 class GlobalState {
 	adminMenuOpen: boolean = false;
-	// TODO: This should come from the deployment config or be managed in the node admin
-	nodeName: string = 'PortalMedia Inc';
+	authorized: boolean = false;
 	loggedInUser: IEaasiUser = null;
+	// TODO: nodeName should come from the deployment config or be managed in the node admin
+	nodeName: string = 'PortalMedia Inc';
+	userToken: string = null;
 }
 
 const state = new GlobalState();
@@ -28,20 +31,41 @@ const mutations = make.mutations(state);
 
 const actions = {
 
-	async login({commit}) {
-		// TODO: Check localstorage for JWT and validate in service layer
-		const fakeUser = new User();
-		fakeUser.firstName = 'Test';
-		fakeUser.lastName = 'Tester';
-		fakeUser.roleId = 1;
-		fakeUser.username = 'TestTester01';
-		commit('SET_LOGGED_IN_USER', fakeUser);
-		return true;
+	async authorize({commit}, {userid}): Promise<boolean> {
+		let res = await _authService.authorize(userid);
+		if(!res || !res.token || !res.user) return false;
+		let user = validateUserToken(res.token);
+		if(!user) return false;
+		commit('SET_USER_TOKEN', res.token);
+		commit('SET_LOGGED_IN_USER', res.user);
 	},
 
 	async logout({commit}) {
-		// TODO: Will likely need to clear other application state
+		commit('SET_USER_TOKEN', null);
 		commit('SET_LOGGED_IN_USER', null);
+		localStorage.removeItem('EAASI_TOKEN');
+		// Do a full refresh to clear all application state
+		location.reload();
+	},
+
+	async validateToken({commit, state}) {
+		let token = state.userToken || localStorage.getItem('EAASI_TOKEN');
+		let user = null;
+		if(token) user = validateUserToken(token);
+
+		if(state.loggedInUser === null || user === null) {
+			commit('SET_LOGGED_IN_USER', user);
+		}
+
+		if(token !== state.userToken) {
+			commit('SET_USER_TOKEN', !!user ? token : null);
+		}
+
+		if(state.authorized !== !!user) {
+			commit('SET_AUTHORIZED', !!user);
+		}
+
+		return !!user;
 	}
 
 };
@@ -50,14 +74,7 @@ const actions = {
  == Getters
 /============================================================*/
 
-const getters = {
-
-	isLoggedIn(state: GlobalState) {
-		// TODO: Need token validation
-		return state.loggedInUser !== null;
-	}
-
-};
+const getters = {};
 
 export default {
 	state,

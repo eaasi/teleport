@@ -8,5 +8,13 @@ const { EaasiUser } = require("../data_access/models");
 export default class EaasiUserService extends CrudService {
     constructor() {
         super(EaasiUser);
-    }
+	}
+
+	async getByEmail(email: string) {
+		return await this.model.findOne({
+			where: {
+				email
+			}
+		});
+	}
 }
