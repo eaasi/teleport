@@ -32,11 +32,6 @@ import { UiButton } from '@/components/global';
 })
 export default class LoginScreen extends Vue {
 
-	/* Data
-	============================================*/
-
-	baseUrl: string = process.env.VUE_APP_API_BASE_URL;
-
 	/* Computed
 	============================================*/
 
