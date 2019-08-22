@@ -132,12 +132,13 @@ export default class BaseHttpService {
 	 * @return {Request} A fetch request object
 	 */
 	private _createRequest(url: string, options: EaasiApiRequest): Request {
+		let token = localStorage.getItem('EAASI_TOKEN');
 		return new Request(this.BASE_URL + url, {
-			// credentials: options.credentials,
 			method: options.method,
 			headers: {
 				'Content-Type': 'application/json',
-				Accept: 'application/json'
+				'Accept': 'application/json',
+				'Authorization': token ? `Bearer ${token}` : null
 			},
 			mode: options.mode,
 			body: options.data
