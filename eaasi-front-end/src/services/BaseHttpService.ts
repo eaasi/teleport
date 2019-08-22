@@ -4,6 +4,7 @@ import eventBus from '@/utils/event-bus';
 
 export default class BaseHttpService {
 	readonly BASE_URL: string = process.env.VUE_APP_API_BASE_URL;
+	readonly JWT_NAME: string = process.env.VUE_APP_JWT_NAME;
 
 	/*============================================================
 	 == CRUD Methods
@@ -132,7 +133,7 @@ export default class BaseHttpService {
 	 * @return {Request} A fetch request object
 	 */
 	private _createRequest(url: string, options: EaasiApiRequest): Request {
-		let token = localStorage.getItem('EAASI_TOKEN');
+		let token = localStorage.getItem(this.JWT_NAME);
 		return new Request(this.BASE_URL + url, {
 			method: options.method,
 			headers: {

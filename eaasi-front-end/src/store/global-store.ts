@@ -4,6 +4,8 @@ import _userService from '@/services/UserService';
 import { IEaasiUser } from 'eaasi-auth';
 import { validateUserToken } from '@/utils/auth';
 
+const JWT_NAME = process.env.VUE_APP_JWT_NAME;
+
 /*============================================================
  == State
 /============================================================*/
@@ -43,13 +45,13 @@ const actions = {
 	async logout({commit}) {
 		commit('SET_USER_TOKEN', null);
 		commit('SET_LOGGED_IN_USER', null);
-		localStorage.removeItem('EAASI_TOKEN');
+		localStorage.removeItem(JWT_NAME);
 		// Do a full refresh to clear all application state
 		location.reload();
 	},
 
 	async validateToken({commit, state}) {
-		let token = state.userToken || localStorage.getItem('EAASI_TOKEN');
+		let token = state.userToken || localStorage.getItem(JWT_NAME);
 		let user = null;
 		if(token) user = validateUserToken(token);
 
