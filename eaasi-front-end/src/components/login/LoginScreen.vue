@@ -32,11 +32,9 @@ import { UiButton } from '@/components/global';
 })
 export default class LoginScreen extends Vue {
 
-	/* Props
-	============================================*/
-
 	/* Data
 	============================================*/
+
 	baseUrl: string = process.env.VUE_APP_API_BASE_URL;
 
 	/* Computed
@@ -44,22 +42,6 @@ export default class LoginScreen extends Vue {
 
 	@Get('global/nodeName')
 	nodeName: string
-
-	/* Methods
-	============================================*/
-
-	async login() {
-		// TODO: Redirect to shibboleth SSO
-		let user = await this.$store.dispatch('global/login');
-		console.log('user', user);
-		this.$router.push('/dashboard');
-	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
 
 }
 
