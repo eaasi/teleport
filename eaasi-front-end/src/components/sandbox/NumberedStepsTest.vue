@@ -59,6 +59,6 @@ export default class NumberedStepsTest extends Vue {
 
 <style lang="scss">
 	.darker {
-		background-color: $light-warm-grey;
+		background-color: #F9F3EE;
 	}
 </style>

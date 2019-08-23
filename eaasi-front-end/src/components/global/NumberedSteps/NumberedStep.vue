@@ -77,7 +77,7 @@ export default class Tag extends Vue {
 		// todo: There is a more elegant way to fill remaining space with dots.
 		&:after {
 			font-weight: normal;
-			color: $warm-grey;
+			color: #AAAAAA;;
 			content: "..................."
 		}
 	}
