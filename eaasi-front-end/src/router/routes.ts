@@ -11,12 +11,12 @@ export default [
 	},
 	{
 		path: '/dashboard',
-		name: 'dashboard',
+		name: 'Dashboard',
 		component: Home
 	},
 	{
 		path: '/admin/users',
-		name: 'user management',
+		name: 'User Management',
 		component: UserManagement
 	},
 	{
