@@ -33,9 +33,6 @@ import { UiButton } from '@/components/global';
 })
 export default class LoginScreen extends Vue {
 
-	/* Props
-	============================================*/
-
 	/* Computed
 	============================================*/
 
