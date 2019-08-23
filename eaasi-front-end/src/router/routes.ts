@@ -6,8 +6,9 @@ import { authorize } from './middleware';
 export default [
 	{
 		path: '/',
-		name: 'home',
-		component: Home
+		redirect: {
+			path: '/dashboard'
+		}
 	},
 	{
 		path: '/dashboard',
