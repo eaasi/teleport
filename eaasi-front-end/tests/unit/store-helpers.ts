@@ -1,4 +1,5 @@
 import {generateFakeUsers} from './generators';
+import { UserState } from '@/store/user-store';
 
 /**
  * Provides stub userStore object for use in unit tests.
@@ -6,7 +7,7 @@ import {generateFakeUsers} from './generators';
  * Add additional parameters and modify as needed.
  * @param numUsers
  */
-export function makeUserStoreState(numUsers) {
+export function makeUserStoreState(numUsers) : UserState {
 	return {
 		activeUser: undefined,
 		query: {
@@ -19,8 +20,7 @@ export function makeUserStoreState(numUsers) {
 
 		roles: [],
 		usersResult: {
-			count: numUsers,
-			totalPages: 2,
+			totalResults: numUsers,
 			result: generateFakeUsers(numUsers)
 		}
 	};
