@@ -14,6 +14,7 @@ class GlobalState {
 	adminMenuOpen: boolean = false;
 	authorized: boolean = false;
 	loggedInUser: IEaasiUser = null;
+	loginError: string = null;
 	// TODO: nodeName should come from the deployment config or be managed in the node admin
 	nodeName: string = 'PortalMedia Inc';
 	userToken: string = null;

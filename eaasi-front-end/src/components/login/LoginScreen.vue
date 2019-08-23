@@ -9,10 +9,11 @@
 				<h3>{{ nodeName }}</h3>
 				<div>
 					<!-- TODO: this should link to shibboleth SP -->
-					<a href="/login/auth?userid=3">
+					<a href="/login/auth?userid=25">
 						<ui-button>Login</ui-button>
 					</a>
-					<p>Using your approved access account.</p>
+					<p v-if="!loginError">Using your approved access account.</p>
+					<p class="error" v-if="loginError">{{ loginError }}</p>
 				</div>
 			</div>
 		</div>
@@ -32,11 +33,17 @@ import { UiButton } from '@/components/global';
 })
 export default class LoginScreen extends Vue {
 
+	/* Props
+	============================================*/
+
 	/* Computed
 	============================================*/
 
 	@Get('global/nodeName')
 	nodeName: string
+
+	@Get('global/loginError')
+	loginError: string
 
 }
 
@@ -81,12 +88,19 @@ export default class LoginScreen extends Vue {
 	}
 
 	div {
-		padding: 5rem 1rem;
+		padding: 5rem 3rem;
 		text-align: center;
 	}
 
 	p {
 		margin: 2rem 0 0;
+	}
+
+	p.error {
+		background-color: lighten($red, 90%);
+		border: solid 1px $red;
+		color: $red;
+		padding: 1rem;
 	}
 }
 </style>
