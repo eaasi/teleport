@@ -12,7 +12,6 @@ class EaasiAuthController {
      */
     async login(req: Request, res: Response) {
 		let svc = new EaasiUserService();
-		console.log('JWT SECRET', JWT_SECRET);
 		svc.getByPk(Number(req.body.userId)).then(dbRes => {
 			if(!dbRes || !dbRes.result) return res.json(false);
 			let user = dbRes.result.get({plain: true});
