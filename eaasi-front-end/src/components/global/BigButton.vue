@@ -16,6 +16,9 @@
 		<div class="eb-info" v-if="info">
 			<span>{{ info }}</span>
 		</div>
+		<div class="eb-subtext" v-if="subtext">
+			<span>{{ subtext }}</span>
+		</div>
 	</div>
 </template>
 
@@ -51,26 +54,19 @@ export default class BigButton extends Vue {
 	@Prop({type: String, required: false, default: ''})
 	readonly size: string
 
-	// Additional text that will appear below the button
+	// Additional text that will appear below the button in a colored wrapper
 	@Prop({type: String, required: false})
 	readonly info: string
+
+	// Additional text that will appear below the button
+	@Prop({type: String, required: false})
+	readonly subtext: string
 
 }
 
 </script>
 
 <style lang="scss">
-.eb-wrapper {
-	max-width: 32rem;
-	&.size-sm,
-	&.size-small {
-		max-width: 24rem;
-	}
-	&.size-lg,
-	&.size-large {
-		max-width: 40rem;
-	}
-}
 
 .eaasi-big-button {
 	background-color: lighten($light-blue, 90%);
@@ -81,6 +77,16 @@ export default class BigButton extends Vue {
 	padding: 1.5rem 1.5rem 3.5rem;
 	text-align: center;
 	transition: background-color 0.3s;
+
+	max-width: 32rem;
+	&.size-sm,
+	&.size-small {
+		max-width: 24rem;
+	}
+	&.size-lg,
+	&.size-large {
+		max-width: 40rem;
+	}
 
 	&:hover {
 		background-color: lighten($light-blue, 70%);
@@ -101,6 +107,14 @@ export default class BigButton extends Vue {
 		color: $dark-neutral;
 		margin-top: 6px;
 	}
+}
+
+.eb-subtext {
+	color: $dark-neutral;
+	font-size: 1.4rem;
+	line-height: 1.6em;
+	margin: 1rem 1.6rem;
+	text-align: center;
 }
 
 .eb-info {

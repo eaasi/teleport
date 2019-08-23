@@ -1,17 +1,17 @@
 <template functional>
-	<div class="numbered-step-container">
-		<span v-if="props.stepData.isComplete">
+	<div class="numbered-step-container flex-row">
+		<span v-if="props.complete">
 			<span class="step-number fill-bg">
 				<i class="icon-label fas fa-check"></i>
 			</span>
 		</span>
 		<span v-else>
-			<span class="step-number">
-				{{ props.stepData.stepNumber }}
+			<span class="step-number flex flex-center">
+				{{ props.step.stepNumber }}
 			</span>
 		</span>
 		<span class="step-description">
-			{{ props.stepData.description }}
+			{{ props.step.description }}
 		</span>
 	</div>
 </template>
@@ -27,12 +27,23 @@ import {INumberedStep} from '@/types/NumberedStep';
 @Component({
 	name: 'NumberedStep'
 })
-export default class Tag extends Vue {
-    /* Props
-    ============================================*/
-    // A Step which can be completed
+export default class Step extends Vue {
+
+	/* Props
+	============================================*/
+
+    /**
+	 * A step to be completed
+	 */
     @Prop({type: Object as () => INumberedStep, required: true})
-    stepData: INumberedStep
+	step: INumberedStep
+
+	/**
+	 * Whether or not the step has been completed
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly complete: boolean
+
 }
 </script>
 
@@ -40,24 +51,24 @@ export default class Tag extends Vue {
 	$defaultFontSize: 1.3rem;
 	$defaultFontWeight: bold;
 	$defaultLetterSpacing: 0.15rem;
+	$circleSize: 3rem;
 
 	.numbered-step-container {
-		font-size: $defaultFontSize;
 		display: inline-flex;
 		flex-direction: row;
+		font-size: $defaultFontSize;
 		letter-spacing: $defaultLetterSpacing;
-		padding:14px;
 	}
 
 	.step-number {
 		background: transparent;
 		border: 3px solid #fff;
-		color: #000;
-		margin-right: 12px;
 		border-radius: 50%;
-		padding: 1.1rem;
-		font-size: 1.6rem;
-		line-height: 3.5rem;
+		color: #000;
+		font-weight: bold;
+		height: $circleSize;
+		margin-right: 1.2rem;
+		width: $circleSize;
 
 		&.fill-bg {
 			background: #fff;
@@ -71,14 +82,13 @@ export default class Tag extends Vue {
 	.step-description {
 		font-weight: $defaultFontWeight;
 		text-transform: uppercase;
-		line-height: 3.8rem;
 		vertical-align: middle;
 
-		// todo: There is a more elegant way to fill remaining space with dots.
+		// TODO: There is a more elegant way to fill remaining space with dots.
 		&:after {
-			font-weight: normal;
 			color: $warm-grey;
-			content: "..................."
+			content: "...........................";
+			font-weight: normal;
 		}
 	}
 

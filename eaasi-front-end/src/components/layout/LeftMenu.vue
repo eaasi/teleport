@@ -38,6 +38,11 @@ export default class LeftMenu extends Vue {
 			route: '/explore'
 		},
 		{
+			icon: 'upload',
+			label: 'Import Resource',
+			route: '/import-resource'
+		},
+		{
 			icon: 'cog',
 			label: 'Manage Node',
 			route: '/admin/users'

@@ -60,13 +60,15 @@ $lighter-grey: #DED0C6;
 $pale-yellow: #F8F7DF;
 
 /*============================================================
- == Sizes
+ == Sizes / Spacing
 /============================================================*/
 
+$defaultScreenPadding: 2rem;
 $headerHeight: 8rem;
 $leftSidebarWidth: 9rem;
 $minAppWidth: 1024px;
-$remBase: 10px
+$remBase: 10px;
+$tipLaneWidth: 40rem;
 
 /*============================================================
  == Media

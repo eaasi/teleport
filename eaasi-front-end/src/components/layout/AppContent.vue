@@ -1,7 +1,7 @@
 <template>
 	<div id="contentWrapper" class="flex">
 		<admin-menu v-if="adminMenuOpen" />
-		<section id="appContent" class="flex-grow">
+		<section id="appContent" class="flex-adapt">
 			<router-view />
 			<loader v-if="showLoader" />
 		</section>
@@ -75,6 +75,7 @@ export default class AppContent extends Vue {
 	#contentWrapper {
 		margin-top: $headerHeight;
 		min-height: 1200px;
+		min-width: 0;
 		padding-left: $leftSidebarWidth;
 	}
 </style>

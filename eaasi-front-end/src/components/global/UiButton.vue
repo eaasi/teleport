@@ -61,6 +61,11 @@ export default class UiButton extends Vue {
 		max-width: 2.6rem;
 	}
 
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+
 	&:hover {
 		background-color: darken($dark-blue, 20%);
 	}
