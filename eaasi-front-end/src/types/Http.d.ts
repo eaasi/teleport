@@ -6,7 +6,7 @@ declare module 'eaasi-http' {
 	export interface IEaasiSearchResponse<T> {
 		count: number,
 		result: T[],
-		totalPages: number
+		totalResults: number
 	}
 
 	export interface IEaasiSearchQuery {
