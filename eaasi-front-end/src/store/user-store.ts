@@ -10,7 +10,7 @@ import { IEaasiRole } from 'eaasi-auth';
  == State
 /============================================================*/
 
-class UserState {
+export class UserState {
 	activeUser?: User = null;
 	query: IEaasiSearchQuery = new EaasiSearchQuery();
 	usersResult: IEaasiSearchResponse<User> = null;
