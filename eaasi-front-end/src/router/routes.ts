@@ -9,12 +9,13 @@ import { authorize } from './middleware';
 export default [
 	{
 		path: '/',
-		name: 'home',
-		component: Home
+		redirect: {
+			path: '/dashboard'
+		}
 	},
 	{
 		path: '/dashboard',
-		name: 'dashboard',
+		name: 'Dashboard',
 		component: Home
 	},
 
@@ -23,7 +24,7 @@ export default [
 
 	{
 		path: '/admin/users',
-		name: 'user management',
+		name: 'User Management',
 		component: UserManagement
 	},
 

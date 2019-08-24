@@ -5,7 +5,7 @@ class AuthService extends BaseHttpService {
 
 	async authorize(userId: number): Promise<IEaasiAuthResponse> {
 		let res = await this.post('/auth/login', {userId});
-		if(!res.ok) return null;
+		if(!res || !res.ok) return null;
 		return res.result as IEaasiAuthResponse;
 	}
 

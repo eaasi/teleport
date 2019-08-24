@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import routes from './routes';
-import { loggedInGuard } from './middleware';
+import { loggedInGuard, updateMeta } from './middleware';
 
 Vue.use(Router);
 
@@ -12,5 +12,6 @@ const router = new Router({
 });
 
 router.beforeEach(loggedInGuard);
+router.afterEach(updateMeta);
 
 export default router;
