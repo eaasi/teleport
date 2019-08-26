@@ -18,6 +18,14 @@ module.exports = {
 			content: 'src/components/docs/sections/Global.md',
 			components: 'src/components/global/**/*.vue'
 		},
+
+		{
+			name: 'Layout Components',
+			content: 'src/components/docs/sections/Layout.md',
+			components: [
+				'src/components/layout/SlideMenu.vue'
+			]
+		}
 	],
 	ignore: [
 		'**/layout/**',
