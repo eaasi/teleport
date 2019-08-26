@@ -1,11 +1,11 @@
-<template>
-	<div class="resource-action flex-row">
+<template functional>
+	<div class="resource-action flex-row" @click="listeners.click">
 		<div class="ra-icon">
-			<i :class="`fas fa-fw fa-${action.icon}`"></i>
+			<i :class="`fas fa-fw fa-${props.action.icon}`"></i>
 		</div>
 		<div class="ra-info flex-adapt">
-			<b>{{ action.label }}</b>
-			<p class="no-mb">{{ action.description }}</p>
+			<b>{{ props.action.label }}</b>
+			<p class="no-mb">{{ props.action.description }}</p>
 		</div>
 		<div class="ra-arrow flex flex-center">
 			<i class="fas fa-chevron-right"></i>
@@ -27,21 +27,6 @@ export default class ResourceAction extends Vue {
 	============================================*/
 	@Prop({type: Object as () => IAction, required: true})
 	readonly action: IAction
-
-	/* Data
-	============================================*/
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
 
 }
 
@@ -77,6 +62,7 @@ export default class ResourceAction extends Vue {
 	border-radius: 50%;
 	height: 2.8rem;
 	width: 2.8rem;
+
 	i.fas {
 		font-size: 1.2rem;
 	}

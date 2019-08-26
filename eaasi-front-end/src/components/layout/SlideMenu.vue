@@ -1,5 +1,5 @@
 <template>
-	<div :class="['slide-menu', {open}]" :style="styles">
+	<div :class="['slide-menu', {'open': open}]" :style="styles">
 		<slot></slot>
 	</div>
 </template>
@@ -8,6 +8,9 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
+/**
+ * A sliding menu positoned on the right side of the main UI
+ */
 @Component({
 	name: 'SlideMenu',
 })
@@ -17,7 +20,7 @@ export default class SlideMenu extends Vue {
 	============================================*/
 
 	/**
-	 * a CSS easing rule
+	 * The CSS easing rule for the open animation
 	 */
 	@Prop({type: String, required: false, default: 'ease-out'})
 	readonly easing: string
@@ -37,18 +40,12 @@ export default class SlideMenu extends Vue {
 	/* Computed
 	============================================*/
 
-	get styles() {
+	get styles(): any {
 		let { speed, easing } = this;
-		if(speed === 0) return {}; // If speed is 0, do not animate
 		return {
-			'transition': `transform ${speed}s ${easing}`
+			transition: `transform ${speed}s ${easing}`
 		};
 	}
-
-	mounted() {
-		console.log(this.styles);
-	}
-
 
 }
 
@@ -56,17 +53,17 @@ export default class SlideMenu extends Vue {
 
 <style lang="scss">
 .slide-menu {
-	background-color: #FFF;
 	bottom: 0;
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
 	overflow-y: auto;
 	position: fixed;
 	right: 0;
 	top: $headerHeight;
+	transform: translate3d($slideMenuWidth + 1rem, 0, 0);
 	width: $slideMenuWidth;
 
 	&.open {
-		transform: translate3d($slideMenuWidth, 0, 0);
+		transform: translate3d(0, 0, 0);
 	}
 }
 </style>

@@ -12,7 +12,7 @@ declare module 'eaasi-nav' {
 	}
 
 	export interface IEaasiTab {
-		icon: string,
+		icon?: string,
 		label: string
 	}
 }

@@ -1,27 +1,56 @@
 <template>
-	<slide-menu class="resource-actions-slide-menu" :open="open">
-		<div class="ra-resource-title">
-			{{ resource.title }}
-		</div>
-		<resource-action
-			v-for="a in actions"
-			:action="a"
-			:key="a.label"
-		/>
-		<div class="ra-local-actions">
-			<resource-action
-				v-for="a in localActions"
-				:action="a"
-				:key="a.label"
+	<slide-menu class="resource-slide-menu" :open="open">
+		<div class="rsm-header">
+			<div class="rsm-resource-title flex-row">
+				<span class="flex-adapt">{{ resource.title }}</span>
+				<i class="fas fa-times" @click="$emit('close')"></i>
+			</div>
+			<tabbed-nav
+				v-if="hasDetails"
+				v-model="tab"
+				:tabs="tabs"
 			/>
 		</div>
+		<div v-if="tab === 'Details'" class="rsm-details">
+			<resource-detail
+				name="Description"
+				value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In lobortis placerat quam, nec sodales metus pellentesque vitae. Proin lacinia congue est, nec blandit tortor convallis sed. Praesent semper non urna id dapibus."
+			/>
+			<resource-detail
+				name="Operating System Name"
+				value=".iso"
+			/>
+			<resource-detail
+				name="Language"
+				value=".iso"
+			/>
+			<resource-detail
+				name="User Information"
+				value=".iso"
+			/>
+			<resource-detail
+				name="Hardware Template Name"
+				value=".iso"
+			/>
+		</div>
+		<div v-if="tab === 'Actions'">
+			<div class="rsm-local-actions">
+				<resource-action
+					v-for="a in localActions"
+					:action="a"
+					:key="a.label"
+					@click="doAction(a)"
+				/>
+			</div>
 
-		<div class="ra-node-actions">
-			<resource-action
-				v-for="a in nodeActions"
-				:action="a"
-				:key="a.label"
-			/>
+			<div class="rsm-node-actions">
+				<resource-action
+					v-for="a in nodeActions"
+					:action="a"
+					:key="a.label"
+					@click="doAction(a)"
+				/>
+			</div>
 		</div>
 	</slide-menu>
 </template>
@@ -29,19 +58,23 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IAction } from 'eaasi-nav';
+import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from 'eaasi-resource';
+import { TabbedNav } from '@/components/global';
 import ResourceAction from './ResourceAction.vue';
+import ResourceDetail from './ResourceDetail.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 
 @Component({
-	name: 'ResourceActionsMenu',
+	name: 'ResourceSlideMenu',
 	components: {
 		ResourceAction,
-		SlideMenu
+		ResourceDetail,
+		SlideMenu,
+		TabbedNav
 	}
 })
-export default class ResourceActionsMenu extends Vue {
+export default class ResourceSlideMenu extends Vue {
 
 	/* Props
 	============================================*/
@@ -103,36 +136,62 @@ export default class ResourceActionsMenu extends Vue {
 		}
 	]
 
+	tabs: IEaasiTab[] = [
+		{
+			label: 'Details'
+		},
+		{
+			label: 'Actions'
+		}
+	]
+
+	tab: string = 'Actions'
+
 	/* Computed
 	============================================*/
+
+	get hasDetails() {
+		// TODO: Logic for showing details tab
+		return true;
+	}
 
 	/* Methods
 	============================================*/
 
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
+	doAction(action: IAction) {
+		// TODO
+		console.log(`Action clicked: ${action.label}`);
+	}
 
 }
 
 </script>
 
 <style lang="scss">
-.resource-actions-slide-menu {
+.resource-slide-menu {
 	background-color: lighten($light-neutral, 60%);
+
+	.fa-times {
+		cursor: pointer;
+	}
 }
 
-.ra-resource-title {
+.rsm-header {
 	background-color: #FFF;
 	border-bottom: solid 4px lighten($dark-neutral, 70%);
+}
+
+.rsm-details {
+	padding: 2.4rem;
+}
+
+.rsm-resource-title {
 	border-top: solid 6px $dark-blue;
 	font-size: 1.7rem;
 	padding: 2rem;
 }
 
-.ra-local-actions {
+.rsm-local-actions {
 	border-bottom: solid 4px lighten($light-neutral, 10%);
 	margin-bottom: 3rem;
 }

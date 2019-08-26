@@ -1,12 +1,13 @@
 <template>
-	<div class="">
+	<div class="padded" id="myResources">
 		<h1>My Resources</h1>
 		<ui-button @click="menuOpen = !menuOpen">
 			Toggle Slide Menu
 		</ui-button>
-		<resource-actions-menu
+		<resource-slide-menu
 			:open="menuOpen"
 			:resource="resource"
+			@close="menuOpen = false"
 		/>
 	</div>
 </template>
@@ -15,13 +16,13 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
-import ResourceActionsMenu from './ResourceActionsMenu.vue';
+import ResourceSlideMenu from './ResourceSlideMenu.vue';
 import { IEaasiResource } from 'eaasi-resource';
 
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
-		ResourceActionsMenu,
+		ResourceSlideMenu,
 		UiButton
 	}
 })

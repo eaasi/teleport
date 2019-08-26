@@ -36,7 +36,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {IEaasiResource} from '@/types/Resource';
+import { IEaasiResource } from 'eaasi-resource';
 import Tag from '../Tag.vue';
 import Checkbox from '../../forms/Checkbox.vue';
 import Bookmark from './Bookmark.vue';
