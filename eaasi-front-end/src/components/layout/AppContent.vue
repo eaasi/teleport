@@ -5,7 +5,6 @@
 			<router-view />
 			<loader v-if="showLoader" />
 		</section>
-		<slide-menu />
 	</div>
 </template>
 

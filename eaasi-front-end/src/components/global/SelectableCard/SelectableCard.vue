@@ -36,7 +36,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {IResource} from '@/types/Resource';
+import {IEaasiResource} from '@/types/Resource';
 import Tag from '../Tag.vue';
 import Checkbox from '../../forms/Checkbox.vue';
 import Bookmark from './Bookmark.vue';
@@ -58,8 +58,8 @@ import SelectableCardContent from './SelectableCardContent.vue';
 export default class SelectableCard extends Vue {
 		/* Props
         ============================================*/
-		@Prop({type: Object as () => IResource, required: true})
-		data: IResource
+		@Prop({type: Object as () => IEaasiResource, required: true})
+		data: IEaasiResource
 
 		@Prop({type: Boolean, required: false, default: false})
 		bookmark: boolean
