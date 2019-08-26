@@ -74,8 +74,9 @@ export default class NumberedStep extends Vue {
 		text-transform: uppercase;
 		vertical-align: middle;
 
+		/* todo: There is a more elegant way to fill remaining space with dots. */
 		&::after {
-			color: $warm-grey;
+			color: $grey;
 			content: "...................";
 			font-weight: normal;
 		}

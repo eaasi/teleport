@@ -94,7 +94,7 @@ export default class Bookmark extends Vue {
 		/* Computed
         ============================================*/
 		get fillColor() : String {
-			// $dark-sky-blue
+			// $dark-blue
 			return this.isActive ? '#2479AA' : 'white';
 		}
 
