@@ -41,11 +41,10 @@ const actions = {
 		if(!user) return false;
 		commit('SET_USER_TOKEN', res.token);
 		commit('SET_LOGGED_IN_USER', res.user);
+		return true;
 	},
 
 	async logout({commit}) {
-		commit('SET_USER_TOKEN', null);
-		commit('SET_LOGGED_IN_USER', null);
 		localStorage.removeItem(JWT_NAME);
 		// Do a full refresh to clear all application state
 		location.reload();
