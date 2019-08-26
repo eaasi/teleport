@@ -25,6 +25,7 @@ install_web_api_npm_packages:
         - cd ./eaasi-web-api
         - npm install
         - npm install -g babel-cli
+        - npm install -g apidoc
         - npm run build
 
 # Test Runner Jobs

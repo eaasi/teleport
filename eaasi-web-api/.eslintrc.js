@@ -1,5 +1,3 @@
-const INLINE_ELEMENTS = require('./src/utils/inline-non-void-elements.js');
-
 module.exports = {
 	root: true,
 	env: {
@@ -25,6 +23,7 @@ module.exports = {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		quotes: [ 'error', 'single' ],
-		semi: [ 'error', 'always' ]
+		semi: [ 'error', 'always' ],
+		'@typescript-eslint/array-type': ['error', 'array']
 	}
 };
