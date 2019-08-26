@@ -2,6 +2,6 @@
 
 
 ```js
-<pagination :totalResults=1934 />
+<pagination :total-results="1934" />
 ```
 

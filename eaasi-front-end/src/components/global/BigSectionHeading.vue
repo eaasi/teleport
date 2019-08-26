@@ -19,9 +19,9 @@ import { Component, Prop } from 'vue-property-decorator';
 })
 export default class BigSectionHeading extends Vue {
 
-/* Props
-============================================*/
-// Title of the Section
+/**
+ * Title of the Section
+ */
 @Prop({type: String, required: true})
 readonly title: string
 }
