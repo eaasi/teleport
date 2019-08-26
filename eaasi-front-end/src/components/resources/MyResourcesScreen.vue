@@ -4,7 +4,10 @@
 		<ui-button @click="menuOpen = !menuOpen">
 			Toggle Slide Menu
 		</ui-button>
-		<resource-actions-manu :open="menuOpen" />
+		<resource-actions-menu
+			:open="menuOpen"
+			:resource="resource"
+		/>
 	</div>
 </template>
 
@@ -12,12 +15,13 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
-import SlideMenu from '@/components/layout/SlideMenu.vue';
+import ResourceActionsMenu from './ResourceActionsMenu.vue';
+import { IEaasiResource } from 'eaasi-resource';
 
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
-		SlideMenu,
+		ResourceActionsMenu,
 		UiButton
 	}
 })
@@ -29,6 +33,9 @@ export default class MyResourcesScreen extends Vue {
 	/* Data
 	============================================*/
 	menuOpen: boolean = false;
+	resource: IEaasiResource = {
+		title: 'Adobe Acrobat'
+	}
 
 	/* Computed
 	============================================*/
