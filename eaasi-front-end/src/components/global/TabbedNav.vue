@@ -1,13 +1,13 @@
 <template>
 	<div class="eaasi-tabs">
-		<ul>
+		<ul class="flex justify-stretch">
 			<li
 				v-for="(t, i) in tabs"
 				:key="i"
 				:class="{active: t.label === value}"
 				@click="selectTab(t)"
 			>
-				{{ t.label }}
+				<span>{{ t.label }}</span>
 			</li>
 		</ul>
 	</div>
@@ -54,37 +54,53 @@ export default class TabbedNav extends Vue {
 	border-bottom: solid 4px lighten($dark-neutral, 70%);
 	border-top: solid 4px lighten($light-neutral, 10%);
 	padding-bottom: 5px;
+
 	ul {
 		margin: 0;
 		padding: 0;
 	}
+
 	li {
-		background-color: lighten($light-neutral, 80%);
+		background-color: #FFF;
 		box-sizing: border-box;
-		color: $dark-blue;
-		cursor: pointer;
-		display: inline-block;
-		padding: .8rem 1.6rem;
+		flex: 1 1 auto;
+		max-width: 24rem;
+		padding: 0.5rem;
 		position: relative;
-		text-align: center;
-		width: 175px;
 		transition: background-color $animation-time, color $animation-time;
 
-		&:before {
+		span {
+			background-color: lighten($light-neutral, 80%);
+			border-radius: 6px;
+			box-sizing: border-box;
+			color: $dark-blue;
+			cursor: pointer;
+			display: block;
+			padding: 1rem 1.6rem;
+			position: relative;
+			text-align: center;
+			transition: background-color $animation-time, color $animation-time;
+		}
+
+		&::before {
 			background-color: $dark-blue;
 			content: "";
 			display: block;
-			position: absolute;
 			height: 4px;
-			top: -4px; left: 0;
-			width: 0;
+			left: 0;
+			position: absolute;
+			top: -4px;
 			transition: width $animation-time;
+			width: 0;
 		}
 
 		&.active {
-			background-color: lighten($light-blue, 80%);
-			color: $dark-neutral;
-			&:before {
+			span {
+				background-color: lighten($light-blue, 80%);
+				color: $dark-neutral;
+			}
+
+			&::before {
 				width: 100%;
 			}
 		}
