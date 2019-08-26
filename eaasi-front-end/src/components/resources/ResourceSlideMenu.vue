@@ -11,28 +11,7 @@
 				:tabs="tabs"
 			/>
 		</div>
-		<div v-if="tab === 'Details'" class="rsm-details">
-			<resource-detail
-				name="Description"
-				value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In lobortis placerat quam, nec sodales metus pellentesque vitae. Proin lacinia congue est, nec blandit tortor convallis sed. Praesent semper non urna id dapibus."
-			/>
-			<resource-detail
-				name="Operating System Name"
-				value=".iso"
-			/>
-			<resource-detail
-				name="Language"
-				value=".iso"
-			/>
-			<resource-detail
-				name="User Information"
-				value=".iso"
-			/>
-			<resource-detail
-				name="Hardware Template Name"
-				value=".iso"
-			/>
-		</div>
+		<resource-details v-if="tab === 'Details'" class="rsm-details" />
 		<div v-if="tab === 'Actions'">
 			<div class="rsm-local-actions">
 				<resource-action
@@ -59,17 +38,17 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
-import { IEaasiResource } from 'eaasi-resource';
+import { IEaasiResource } from '@/types/Resource.d.ts';
 import { TabbedNav } from '@/components/global';
 import ResourceAction from './ResourceAction.vue';
-import ResourceDetail from './ResourceDetail.vue';
+import ResourceDetails from './ResourceDetails.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 
 @Component({
 	name: 'ResourceSlideMenu',
 	components: {
 		ResourceAction,
-		ResourceDetail,
+		ResourceDetails,
 		SlideMenu,
 		TabbedNav
 	}
@@ -88,7 +67,7 @@ export default class ResourceSlideMenu extends Vue {
 	/* Data
 	============================================*/
 
-	// TODO: These should become dynamic based on resource type and user role
+	// TODO: Actions should become dynamic based on resource type and user role
 	localActions: IAction[] = [
 		{
 			label: 'View Details',
@@ -112,7 +91,6 @@ export default class ResourceSlideMenu extends Vue {
 		}
 	]
 
-	// TODO: These should become dynamic based on resource type and user role
 	nodeActions: IAction[] = [
 		{
 			label: 'Save To My Node',
@@ -150,6 +128,9 @@ export default class ResourceSlideMenu extends Vue {
 	/* Computed
 	============================================*/
 
+	/**
+	 * Computes whether or not to show the details tab
+	 */
 	get hasDetails() {
 		// TODO: Logic for showing details tab
 		return true;

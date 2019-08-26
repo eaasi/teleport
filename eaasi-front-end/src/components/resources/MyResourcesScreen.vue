@@ -17,7 +17,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import ResourceSlideMenu from './ResourceSlideMenu.vue';
-import { IEaasiResource } from 'eaasi-resource';
+import { IEaasiResource } from '@/types/Resource.d.ts';
 
 @Component({
 	name: 'MyResourcesScreen',
@@ -28,27 +28,14 @@ import { IEaasiResource } from 'eaasi-resource';
 })
 export default class MyResourcesScreen extends Vue {
 
-	/* Props
-	============================================*/
-
 	/* Data
 	============================================*/
+
 	menuOpen: boolean = false;
 	resource: IEaasiResource = {
+		id: 1,
 		title: 'Adobe Acrobat'
 	}
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
 
 }
 

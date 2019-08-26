@@ -1,37 +1,47 @@
 /**
  * Data specification for a Resource component
  */
-import {ITag} from './Tag.d';
+import { ITag } from './Tag.d';
 
-declare module 'eaasi-resource' {
-	export interface IEaasiResource {
-		/**
-		 * A unique identifier for the Resource object
-		 */
-		id: number | string
+export interface IEaasiResource {
+	/**
+	 * A unique identifier for the Resource object
+	 */
+	id: number | string
 
-		/**
-		 * The title of a Resource object
-		 */
-		title: string
+	/**
+	 * The title of a Resource object
+	 */
+	title: string
+}
 
-		/**
-		 * A group of Tags
-		 */
-		tagGroup: ITag[]
+export interface IEaasiResourceSummary extends IEaasiResource {
+	/**
+	 * A unique identifier for the Resource object
+	 */
+	id: number | string
 
-		/**
-		 * Contains key-value pairs of data represented
-		 * as an Object. Appears in the right pane of
-		 * a SelectableCard
-		 */
-		content: object
+	/**
+	 * The title of a Resource object
+	 */
+	title: string
 
-		/**
-		 * Contains key-value pairs of data represented as
-		 * an Object. Appears after a thematic break following
-		 * content in a SelectableCard
-		 */
-		subContent: object
-	}
+	/**
+	 * A group of Tags
+	 */
+	tagGroup: ITag[]
+
+	/**
+	 * Contains key-value pairs of data represented
+	 * as an Object. Appears in the right pane of
+	 * a SelectableCard
+	 */
+	content: object
+
+	/**
+	 * Contains key-value pairs of data represented as
+	 * an Object. Appears after a thematic break following
+	 * content in a SelectableCard
+	 */
+	subContent: object
 }
