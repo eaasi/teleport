@@ -50,7 +50,7 @@
 		"passport-saml": "^1.1.0",
 		"pg": "^7.4.1",
 		"pg-hstore": "^2.3.2",
-		"sequelize": "^5.8.11"
+		"sequelize": "^5.15.10"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.5.0",
@@ -95,5 +95,9 @@
 	"jestSonar": {
 		"reportPath": "coverage",
 		"reportFile": "coverage-report.xml"
+	},
+	"apidoc": {
+		"title": "EaaSI Web API",
+		"url": "http://localhost:8081/api/"
 	}
 }
