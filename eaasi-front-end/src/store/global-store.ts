@@ -1,24 +1,23 @@
 import { make } from 'vuex-pathify';
-import _svc from '@/services/UserService';
+import _authService from '@/services/AuthService';
+import _userService from '@/services/UserService';
 import { IEaasiUser } from 'eaasi-auth';
-import User from '@/models/auth/User';
+import { validateUserToken } from '@/utils/auth';
+
+const JWT_NAME = process.env.VUE_APP_JWT_NAME;
 
 /*============================================================
  == State
 /============================================================*/
 
-// TODO: User should come from the server as part of the auth flow
-const fakeUser = new User();
-fakeUser.firstName = 'Test';
-fakeUser.lastName = 'Tester';
-fakeUser.roleId = 1;
-fakeUser.username = 'TestTester01';
-
 class GlobalState {
 	adminMenuOpen: boolean = false;
-	// TODO: This should come from the deployment config or be managed in the node admin
+	authorized: boolean = false;
+	loggedInUser: IEaasiUser = null;
+	loginError: string = null;
+	// TODO: nodeName should come from the deployment config or be managed in the node admin
 	nodeName: string = 'PortalMedia Inc';
-	loggedInUser: IEaasiUser = fakeUser;
+	userToken: string = null;
 }
 
 const state = new GlobalState();
@@ -34,6 +33,43 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
+
+	async authorize({commit}, {userid}): Promise<boolean> {
+		let res = await _authService.authorize(userid);
+		if(!res || !res.token || !res.user) return false;
+		let user = validateUserToken(res.token);
+		if(!user) return false;
+		commit('SET_USER_TOKEN', res.token);
+		commit('SET_LOGGED_IN_USER', res.user);
+	},
+
+	async logout({commit}) {
+		commit('SET_USER_TOKEN', null);
+		commit('SET_LOGGED_IN_USER', null);
+		localStorage.removeItem(JWT_NAME);
+		// Do a full refresh to clear all application state
+		location.reload();
+	},
+
+	async validateToken({commit, state}) {
+		let token = state.userToken || localStorage.getItem(JWT_NAME);
+		let user = null;
+		if(token) user = validateUserToken(token);
+
+		if(state.loggedInUser === null || user === null) {
+			commit('SET_LOGGED_IN_USER', user);
+		}
+
+		if(token !== state.userToken) {
+			commit('SET_USER_TOKEN', !!user ? token : null);
+		}
+
+		if(state.authorized !== !!user) {
+			commit('SET_AUTHORIZED', !!user);
+		}
+
+		return !!user;
+	}
 
 };
 

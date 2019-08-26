@@ -18,7 +18,7 @@
 			<header-menu-item
 				:label="`${user.firstName} ${user.lastName}`"
 				icon="user"
-				@click="$router.push('/dashboard')"
+				@click="$store.dispatch('global/logout')"
 			/>
 			<header-menu-item
 				:label="nodeName"
