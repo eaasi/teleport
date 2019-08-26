@@ -5,8 +5,8 @@ import CrudServiceResult from "./CrudServiceResult";
 
 export default class CrudService implements ICrudService {
 
-    private MAX_GET_ALL_PAGE_SIZE: number;
-    private model: any;
+    protected MAX_GET_ALL_PAGE_SIZE: number;
+    protected model: any;
 
     constructor(model: any) {
         this.model = model;

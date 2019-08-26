@@ -8,6 +8,7 @@ import store from './store';
 const colorVariables = require('@/scss/_variables.scss');
 Vue.prototype.$colors = colorVariables;
 
+// Turn off production tip
 Vue.config.productionTip = false;
 
 new Vue({

@@ -20,4 +20,9 @@ declare module 'eaasi-auth' {
 		updatedAt: Date;
 	}
 
+	export interface IEaasiAuthResponse {
+		user: IEaasiUser,
+		token: string
+	}
+
 }

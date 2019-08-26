@@ -31,11 +31,14 @@ import { Component, Prop } from 'vue-property-decorator';
 })
 export default class AlertCard extends Vue {
 
-/* Props
-============================================*/
-// Type of alert
-@Prop({type: String, required: true})
-readonly type: string
+	/* Props
+        ============================================*/
+
+		/**
+		 * The type of alert
+		 */
+		@Prop({type: String, required: true})
+		readonly type: string
 }
 </script>
 

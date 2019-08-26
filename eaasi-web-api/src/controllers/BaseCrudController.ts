@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import {areAllValidIntegerParams} from "../utils/validators";
 import {build_400_response, build_404_response, build_500_response} from "../utils/error-helpers";
 import ICrudController from "./interfaces/ICrudController";
@@ -22,7 +22,7 @@ export default class BaseCrudController implements ICrudController {
      * @param req request
      * @param res response
      */
-    async getAll(req: express.Request, res: express.Response) {
+    async getAll(req: Request, res: Response) {
         let limit = req.query.limit || 100;
         let page = req.query.page || 1;
 		let sortCol = req.query.sortCol;
@@ -51,7 +51,7 @@ export default class BaseCrudController implements ICrudController {
      * @param req request
      * @param res response
      */
-    async get(req: express.Request, res: express.Response) {
+    async get(req: Request, res: Response) {
         const id = req.params.id;
 
         if (req.params.id == null) {
@@ -82,7 +82,7 @@ export default class BaseCrudController implements ICrudController {
      * @param req request
      * @param res response
      */
-    async create(req: express.Request, res: express.Response) {
+    async create(req: Request, res: Response) {
         const newObject = req.body;
 
         if (newObject == null) {
@@ -107,7 +107,7 @@ export default class BaseCrudController implements ICrudController {
      * @param req request
      * @param res response
      */
-    async update(req: express.Request, res: express.Response) {
+    async update(req: Request, res: Response) {
         const id = req.params.id;
         const updateData = req.body;
         let updateResponse = await this._crudService.update(id, updateData);
@@ -124,7 +124,7 @@ export default class BaseCrudController implements ICrudController {
      * @param req request
      * @param res response
      */
-    async delete(req: express.Request, res: express.Response) {
+    async delete(req: Request, res: Response) {
         const id = req.params.id;
         let deleteResponse = await this._crudService.destroy(id);
 
@@ -141,7 +141,7 @@ export default class BaseCrudController implements ICrudController {
      * @param res response
      * @param errors express-validator Result errors
      */
-    async sendMalformedRequestResponse(req: express.Request, res: express.Response, errors: Result<any>) {
+    async sendMalformedRequestResponse(req: Request, res: Response, errors: Result<any>) {
         let allErrors = errors.array();
         let errorMessage = "";
 
@@ -168,7 +168,7 @@ export default class BaseCrudController implements ICrudController {
      * @returns {Promise<*>}
      * @private
      */
-    static async _handleUpdateError(req: express.Request, res: express.Response, updateResponse: any) {
+    static async _handleUpdateError(req: Request, res: Response, updateResponse: any) {
         if (updateResponse.error === "notFound") {
             return await res
                 .status(HttpResponseCode.NOT_FOUND)
@@ -188,7 +188,7 @@ export default class BaseCrudController implements ICrudController {
      * @returns {Promise<*>}
      * @private
      */
-    static async _handleDeleteError(req: express.Request, res: express.Response, deleteResponse: any) {
+    static async _handleDeleteError(req: Request, res: Response, deleteResponse: any) {
         if (deleteResponse.error === "notFound") {
             return await res
                 .status(HttpResponseCode.NOT_FOUND)
