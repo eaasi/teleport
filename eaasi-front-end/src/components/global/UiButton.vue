@@ -42,7 +42,7 @@ export default class UiButton extends Vue {
 </script>
 
 <style lang="scss">
-button.eaasi-button {
+.eaasi-button {
 	appearance: none;
 	background-color: $dark-blue;
 	border: solid 2px darken($dark-blue, 20%);
