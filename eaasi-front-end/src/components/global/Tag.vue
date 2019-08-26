@@ -50,7 +50,7 @@ export default class Tag extends Vue {
 		height: 20px;
 		line-height: 20px;
 		background-color: #fff;
-		border: solid 1px $lighter-grey;
+		border: solid 1px #DDDDDD;
 		border-radius: 0.6rem;
 		color: black;
 		font-size: 1.1rem;
@@ -63,19 +63,19 @@ export default class Tag extends Vue {
 		}
 
 		&.yellow {
-			background-color: $pale-yellow;
+			background-color: #F8F7DF;
 		}
 
 		&.blue {
-			background-color: $light-sky-blue;
+			background-color: lighten($light-blue, 90%);
 		}
 
 		&.red {
-			background-color: $lighter-red;
+			background-color: lighten(red, 75%);
 		}
 
 		&.green {
-			background-color: $lighter-success-green;
+			background-color: lighten(green, 85%);
 		}
 	}
 </style>

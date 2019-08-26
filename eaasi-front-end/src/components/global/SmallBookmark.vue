@@ -100,7 +100,7 @@ export default class SmallBookmark extends Vue {
 		/* Computed
         ============================================*/
 		get fillColor() : String {
-			// $dark-sky-blue
+			// $dark-blue
 			return this.isActive ? '#2479AA' : 'white';
 		}
 
@@ -131,6 +131,6 @@ export default class SmallBookmark extends Vue {
 		line-height: 3.0rem;
 		font-size: 1.5rem;
 		padding-left: 4px;
-		color: $dark-sky-blue;
+		color: $dark-blue;
 	}
 </style>

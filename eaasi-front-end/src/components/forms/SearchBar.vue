@@ -27,7 +27,7 @@ import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
 /**
- * A text-input styled specificly for search keyword input
+ * A text-input styled specifically for search keyword input
  * @example ../docs/SearchBar.Example.md
  */
 @Component({

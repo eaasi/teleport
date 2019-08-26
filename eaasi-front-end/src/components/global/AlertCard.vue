@@ -31,40 +31,43 @@ import { Component, Prop } from 'vue-property-decorator';
 })
 export default class AlertCard extends Vue {
 
-/* Props
-============================================*/
-// Type of alert
-@Prop({type: String, required: true})
-readonly type: string
+	/* Props
+        ============================================*/
+
+		/**
+		 * The type of alert
+		 */
+		@Prop({type: String, required: true})
+		readonly type: string
 }
 </script>
 
 <style lang="scss">
 	.card-container {
-		border-top: 2px solid $lighter-grey;
+		border-top: 2px solid #DDD;
 		font-size: 0.9em;
 		line-height: 1.5em;
 		padding: 16px;
 		width: 230px;
 
 		&.error {
-			background-color: $lighter-red;
-			color: $darker-red;
+			background-color: lighten(red, 85%);
+			color: darken($red, 35%);
 		}
 
 		&.warning {
-			background-color: #FFF;
-			color: $darker-red;
+			background-color: lighten($orange, 80%);
+			color: darken($orange, 30%);
 		}
 
 		&.info {
-			background-color: $lighter-sky-blue;
-			color: $dark-sky-blue;
+			background-color: lighten($light-blue, 80%);
+			color: $dark-blue;
 		}
 
 		&.success {
-			background-color: $lighter-success-green;
-			color: $darker-success-green;
+			background-color: lighten(green, 95%);
+			color: darken($green, 20%);
 		}
 
 		.icon {

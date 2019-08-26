@@ -107,12 +107,12 @@ export default class SelectableCard extends Vue {
 
 <style lang="scss">
 	hr {
-		border: 0.5px solid $lighter-grey;
+		border: 0.5px solid #DDDDDD;
 		margin-bottom: 1px;
 	}
 
 	.resource-object-container {
-		border: 1px solid $light-sky-blue;
+		border: 2px solid lighten($light-blue, 70%);
 		display: flex;
 		flex-direction: row;
 		margin-top: 12px;
@@ -121,8 +121,8 @@ export default class SelectableCard extends Vue {
 		width: 420px;
 
 		&.selected {
-			background-color: $light-sky-blue;
-			border: 2px solid $sky-blue;
+			background-color: lighten($light-blue, 90%);
+			border: 2px solid $light-blue;
 		}
 
 		.bookmark {
@@ -133,11 +133,11 @@ export default class SelectableCard extends Vue {
 	}
 
 	.panel-left {
-		background-color: $lighter-sky-blue;
+		background-color: lighten($light-blue, 70%);
 		width: 32px;
 
 		&.selected {
-			background-color: $light-sky-blue;
+			background-color: lighten($light-blue, 50%);
 		}
 	}
 
@@ -149,11 +149,11 @@ export default class SelectableCard extends Vue {
 		width: 100%;
 
 		&.selected {
-			background-color: $lighter-sky-blue;
+			background-color: lighten($light-blue, 90%);
 		}
 
 		.header {
-			color: $dark-sky-blue;
+			color: $dark-blue;
 			font-size: 1.06em;
 		}
 

@@ -12,15 +12,15 @@ import { Component, Prop } from 'vue-property-decorator';
 import { INumberedStep } from '@/types/NumberedStep';
 import NumberedStep from './NumberedStep.vue';
 
-	/**
-	 * A Horizontal List of Steps which can be displayed as individually Complete
-	 * @example ../../docs/NumberedSteps.Example.md
-	 */
-	@Component({
-		name: 'NumberedSteps',
-		components: {NumberedStep}
-	})
-export default class Tag extends Vue {
+/**
+ * A Horizontal List of Steps which can be displayed as individually Complete
+ * @example ../../docs/NumberedSteps.Example.md
+ */
+@Component({
+	name: 'NumberedSteps',
+	components: {NumberedStep}
+})
+export default class NumberedSteps extends Vue {
 		/* Props
         ============================================*/
 		// Steps to Complete
