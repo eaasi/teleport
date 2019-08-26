@@ -1,6 +1,7 @@
 import Home from '@/components/Home.vue';
 import UserManagement from '@/components/admin/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
+import MyResourcesScreen from '@/components/resources/MyResourcesScreen.vue';
 import { authorize } from './middleware';
 
 export default [
@@ -35,5 +36,10 @@ export default [
 		meta: {
 			allowGuest: true
 		}
+	},
+	{
+		path: '/my-resources',
+		name: 'My Resources',
+		component: MyResourcesScreen
 	}
 ];
