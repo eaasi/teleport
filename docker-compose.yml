@@ -30,7 +30,7 @@ services:
         - eaasi-database
     env_file:
           # do not check into version control
-        - ./eaasi-web-api/env/prod.env
+        - ./eaasi-web-api/.env.production
     ports:
         - 8081:8081
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"

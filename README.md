@@ -8,9 +8,9 @@ This repository contains the Vue + Express + PostgreSQL EaaSI application.
 
 ## Configuration
 
-To run the application in production mode, create a `prod.env` file in the `./eaasi-web-api/env/` directory.
-Failure to create a `prod.env` file before launching the application with Docker will cause the Express API to fail.
-An example `dev.env` file is provided in that directory for reference.
+To run the application in production mode, create a `.env.production` file in the `./eaasi-web-api/env/` directory.
+Failure to create a `.env.production` file before launching the application with Docker will cause the Express API to fail.
+An example `.env` file is provided in that directory for reference.
 
 ## Running the Application
 
