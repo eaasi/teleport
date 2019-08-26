@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api', require('./routes'))
+app.use('/docs', express.static(path.join(__dirname, '../apidoc')));
 app.use(errorHandler);
 app.use(notFoundHandler);
 
