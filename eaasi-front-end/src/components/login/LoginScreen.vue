@@ -9,9 +9,9 @@
 				<h3>{{ nodeName }}</h3>
 				<div>
 					<!-- TODO: this should link to shibboleth SP -->
-					<a href="/login/auth?userid=25">
+					<router-link to="/login/auth?userid=25">
 						<ui-button>Login</ui-button>
-					</a>
+					</router-link>
 					<p v-if="!loginError">Using your approved access account.</p>
 					<p class="error" v-if="loginError">{{ loginError }}</p>
 				</div>
