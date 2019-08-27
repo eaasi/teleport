@@ -2,8 +2,10 @@ import { make } from 'vuex-pathify';
 import _authService from '@/services/AuthService';
 import { IEaasiUser } from 'eaasi-auth';
 import { validateUserToken } from '@/utils/auth';
+import { IAppError } from '@/types/AppError';
 
 const JWT_NAME = process.env.VUE_APP_JWT_NAME;
+const SHOW_DEBUG_ERRORS = process.env.VUE_APP_SHOW_DEBUG_ERRORS;
 
 /*============================================================
  == State
@@ -17,7 +19,9 @@ class GlobalState {
 	// TODO: nodeName should come from the deployment config or be managed in the node admin
 	nodeName: string = 'PortalMedia Inc';
 	userToken: string = null;
-	showErrorModal: boolean = false;
+	isErrorModalOpen: boolean = false;
+	appError: IAppError = null;
+	readonly showDebugErrors: boolean = SHOW_DEBUG_ERRORS == 'true';
 }
 
 const state = new GlobalState();

@@ -1,7 +1,6 @@
 <template>
 	<div class="home padded">
 		<h1>My Dashboard</h1>
-		<button @click="makeError">Make Error</button>
 	</div>
 </template>
 
@@ -12,11 +11,7 @@ import BigButton from '@/components/global/BigButton.vue';
 @Component({
 	components: {BigButton}
 })
-export default class Home extends Vue {
-	makeError() {
-		foo = 'bar';
-	}
-}
+export default class Home extends Vue { }
 </script>
 
 <style>

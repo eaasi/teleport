@@ -13,7 +13,11 @@ Vue.config.productionTip = false;
 
 // Configure a custom error handler
 Vue.config.errorHandler = function(err, vm, info) {
-	console.log(`Howdy: ${err.toString()}\nInfo: ${info}`);
+	store.set('global/isErrorModalOpen', true);
+	store.set('global/appError', {
+		message: err.toString(),
+		info: info
+	});
 };
 
 new Vue({
