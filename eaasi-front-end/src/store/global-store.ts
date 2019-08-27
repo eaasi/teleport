@@ -50,7 +50,7 @@ const actions = {
 	async logout({commit}) {
 		localStorage.removeItem(JWT_NAME);
 		// Do a full refresh to clear all application state
-		location.reload();
+		location.assign(process.env.VUE_APP_BASE_URL);
 	},
 
 	async validateToken({commit, state}) {
