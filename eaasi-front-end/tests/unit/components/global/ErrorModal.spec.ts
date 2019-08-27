@@ -17,7 +17,6 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 		// Show the modal, force showDebugErrors => true
 		// @ts-ignore
 		globalStore.state.showDebugErrors = true;
-		globalStore.state.isErrorModalOpen = true;
 
 		globalStore.state.appError = {
 			message: 'Abort, Retry, Fail?',
@@ -37,7 +36,7 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 	afterAll(() => {
 		// @ts-ignore
 		globalStore.state.showDebugErrors = false;
-		globalStore.state.isErrorModalOpen = false;
+		globalStore.state.appError = null;
 	});
 
 	it('Is not hidden', () => {
@@ -90,7 +89,7 @@ describe('ErrorModal.vue when showDebugErrors is false', () => {
 	afterAll(() => {
 		// @ts-ignore
 		globalStore.state.showDebugErrors = false;
-		globalStore.state.isErrorModalOpen = false;
+		globalStore.state.appError = null;
 	});
 
 	it('Is not hidden', () => {
@@ -115,17 +114,13 @@ describe('ErrorModal.vue when showDebugErrors is false', () => {
 	});
 });
 
-describe('ErrorModal.vue when isErrorModalOpen false', () => {
+describe('ErrorModal.vue when appError is null', () => {
 
 	let store;
 
 	beforeEach(() => {
 		// Explicitly hide the modal
-		globalStore.state.isErrorModalOpen = false;
-		globalStore.state.appError = {
-			message: 'Abort, Retry, Fail?',
-			info: 'Critical Error'
-		};
+		globalStore.state.appError = null;
 
 		store = new Vuex.Store({
 			actions: {},
@@ -140,7 +135,7 @@ describe('ErrorModal.vue when isErrorModalOpen false', () => {
 	afterAll(() => {
 		// @ts-ignore
 		globalStore.state.showDebugErrors = false;
-		globalStore.state.isErrorModalOpen = false;
+		globalStore.state.appError = null;
 	});
 
 	it('Is hidden', () => {

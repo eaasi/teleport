@@ -1,5 +1,5 @@
 <template>
-	<div v-if="isErrorModalOpen" class="errorModalContainer">
+	<div v-if="error !== null" class="errorModalContainer">
 		<modal @close="closeModal">
 			<template v-slot:header>
 				<span id="errorHeader">
@@ -43,11 +43,8 @@ export default class ErrorModal extends Vue {
 	 * Sets global isErrorModalOpen state to false
 	 */
 	closeModal() {
-		this.isErrorModalOpen = false;
+		this.error = null;
 	}
-
-	@Sync('global/isErrorModalOpen')
-	isErrorModalOpen: boolean
 
 	@Sync('global/appError')
 	error: string
@@ -73,14 +70,14 @@ export default class ErrorModal extends Vue {
 	}
 
 	#debugErrorMessage {
-		padding: 10px 0;
+		padding: 1rem 0;
 	}
 
 	#debugErrorInfo {
-		padding: 10px 0;
+		padding: 1rem 0;
 	}
 
 	#errorMessage {
-		padding: 10px 0;
+		padding: 1rem 0;
 	}
 </style>
