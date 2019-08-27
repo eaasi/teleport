@@ -1,24 +1,22 @@
 <template>
-	<div v-if="isErrorModalOpen">
+	<div v-if="isErrorModalOpen" class="errorModalContainer">
 		<modal @close="closeModal">
 			<template v-slot:header>
-				<span id="error-header">
+				<span id="errorHeader">
 					An Error Has Occurred
 				</span>
 			</template>
 
 			<div v-if="showDebugErrors" class="errorContainer">
-				<div id="debug-error-message">
-					<h3>Message:</h3>
+				<div id="debugErrorMessage">
 					{{ error.message }}
 				</div>
-				<div id="error-info">
-					<h3>Info:</h3>
+				<div id="debugErrorInfo">
 					{{ error.info }}
 				</div>
 			</div>
 			<div v-else class="errorContainer">
-				<div id="error-message">
+				<div id="errorMessage">
 					There was an error loading the application. We're sorry for the inconvenience.
 				</div>
 			</div>
@@ -65,7 +63,7 @@ export default class ErrorModal extends Vue {
 </script>
 
 <style lang="scss">
-	#error-header {
+	#errorHeader {
 		font-weight: bold;
 	}
 
@@ -74,15 +72,15 @@ export default class ErrorModal extends Vue {
 		padding: 1.5rem;
 	}
 
-	#debug-error-message {
+	#debugErrorMessage {
 		padding: 10px 0;
 	}
 
-	#error-info {
+	#debugErrorInfo {
 		padding: 10px 0;
 	}
 
-	#error-message {
+	#errorMessage {
 		padding: 10px 0;
 	}
 </style>

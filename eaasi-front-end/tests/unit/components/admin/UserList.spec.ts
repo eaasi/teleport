@@ -11,8 +11,8 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('AdminMenu.vue', () => {
-	let store;
 
+	let store;
 
 	beforeEach(() => {
 		store = new Vuex.Store({
