@@ -39,9 +39,6 @@ import {Get, Sync} from 'vuex-pathify';
 })
 export default class ErrorModal extends Vue {
 
-	/**
-	 * Sets global isErrorModalOpen state to false
-	 */
 	closeModal() {
 		this.error = null;
 	}

@@ -1,6 +1,7 @@
 <template>
 	<div class="home padded">
 		<h1>My Dashboard</h1>
+		<button @click="throwErr">Error</button>
 	</div>
 </template>
 
@@ -10,7 +11,11 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({
 	components: {}
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+	throwErr() {
+		x = 1;
+	}
+}
 </script>
 
 <style>
