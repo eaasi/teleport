@@ -29,7 +29,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Modal from '@/components/global/Modal/Modal.vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 
 /**
