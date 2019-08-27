@@ -33,7 +33,7 @@ run_vue_unit_tests:
     stage: test
     script:
         - cd ./eaasi-front-end
-          # - npm run test:unit
+        - npm run test:unit --verbose
 
 run_api_unit_tests:
     stage: test
