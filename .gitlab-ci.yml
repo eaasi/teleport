@@ -33,15 +33,6 @@ install_web_api_npm_packages:
         - merge_requests
 
 # Test Runner Jobs
-run_vue_unit_tests:
-    stage: test
-    script:
-        - cd ./eaasi-front-end
-        - npm install
-        - npm install -g vue-cli-service
-        - npm run test:unit
-    only:
-        - merge_requests
 
 run_api_unit_tests:
     stage: test
