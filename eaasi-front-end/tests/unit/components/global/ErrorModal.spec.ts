@@ -1,4 +1,4 @@
-import {createLocalVue, mount } from '@vue/test-utils';
+import {createLocalVue, hallowMount} from '@vue/test-utils';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 
 import Vuex from 'vuex';
@@ -41,24 +41,24 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 	});
 
 	it('Is not hidden', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		expect(wrapper.find('.errorModalContainer').exists()).toBe(true);
 	});
 
 	it('Displays error message', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		let errorText = wrapper.find('#debugErrorMessage').text();
 		expect(errorText).toBe('Abort, Retry, Fail?');
 	});
 
 	it('Displays error info', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		let errorText = wrapper.find('#debugErrorInfo').text();
 		expect(errorText).toBe('Critical Error');
 	});
 
 	it('Does not show default error message', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		let friendlyErrorMessage = wrapper.find('#errorMessage');
 		expect(friendlyErrorMessage.exists()).toBe(false);
 	});
@@ -94,23 +94,23 @@ describe('ErrorModal.vue when showDebugErrors is false', () => {
 	});
 
 	it('Is not hidden', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		expect(wrapper.find('.errorModalContainer').exists()).toBe(true);
 	});
 
 	it('Displays a default error message', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		let errorText = wrapper.find('#errorMessage').text();
 		expect(errorText).toContain('We\'re sorry');
 	});
 
 	it('Does not show debug error message', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		expect(wrapper.find('#debugErrorMessage').exists()).toBe(false);
 	});
 
 	it('Does not show debug error info', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		expect(wrapper.find('#debugErrorInfo').exists()).toBe(false);
 	});
 });
@@ -144,7 +144,7 @@ describe('ErrorModal.vue when isErrorModalOpen false', () => {
 	});
 
 	it('Is hidden', () => {
-		const wrapper = mount(ErrorModal, { localVue, store, });
+		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		expect(wrapper.find('.errorModalContainer').exists()).toBe(false);
 	});
 });
