@@ -6,13 +6,10 @@
 			</template>
 			<div v-if="isProductionMode" class="prodError">
 				<span class="errorMsg">
-					An Error Has Occurred.
+					An error occurred while processing your request.
 				</span>
 			</div>
 			<div v-else class="debugError">
-				<span class="errorMsg">
-					An Error Has Occurred.
-				</span>
 				<div>
 					{{ errorDetails }}
 				</div>
