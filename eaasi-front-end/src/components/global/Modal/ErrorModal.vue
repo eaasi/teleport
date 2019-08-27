@@ -28,7 +28,7 @@
 import Vue from 'vue';
 import Modal from '@/components/global/Modal/Modal.vue';
 import { Component } from 'vue-property-decorator';
-import { Sync } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 
 /**
  * A pop-up modal that notifies a user that an error has occurred
@@ -49,11 +49,11 @@ export default class ErrorModal extends Vue {
 	@Sync('global/isErrorModalOpen')
 	isErrorModalOpen: boolean
 
-	@Sync('global/showDebugErrors')
-	showDebugErrors: boolean
-
 	@Sync('global/appError')
 	error: string
+
+	@Get('global/showDebugErrors')
+	showDebugErrors: boolean
 
 	beforeDestroy() {
 		this.error = null;
