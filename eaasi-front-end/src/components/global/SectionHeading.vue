@@ -16,25 +16,24 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
-	/**
-	 * A Section Heading
-	 * @example ../docs/SectionHeading.Example.md
-	 */
-	@Component({
-		name: 'SectionHeading'
-	})
+/**
+ * A Section Heading
+ * @example ../docs/SectionHeading.Example.md
+ */
+@Component({
+	name: 'SectionHeading'
+})
 export default class Tag extends Vue {
-
 	/* Props
-        ============================================*/
+    ============================================*/
 
-		// Title of the Section
-		@Prop({type: String, required: true})
-		readonly title: string
+    // Title of the Section
+    @Prop({type: String, required: true})
+    readonly title: string
 
-		// Font icon name (optional)
-		@Prop({type: String, required: false})
-		readonly icon: string
+    // Font icon name (optional)
+    @Prop({type: String, required: false})
+    readonly icon: string
 }
 </script>
 
@@ -43,7 +42,7 @@ export default class Tag extends Vue {
 
 	.heading-container {
 		display: flex;
-		padding: 1.0rem 0;
+		padding: 1rem 0;
 	}
 
 	.heading-icon {
