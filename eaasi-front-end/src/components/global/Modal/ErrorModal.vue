@@ -1,10 +1,9 @@
 <template>
 	<div v-if="isErrorModalOpen">
-		<modal v-on:close="closeModal">
-
+		<modal @close="closeModal">
 			<template v-slot:header>
 				<span id="error-header">
-                    An Error Has Occurred
+					An Error Has Occurred
 				</span>
 			</template>
 
