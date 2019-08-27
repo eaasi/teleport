@@ -15,7 +15,8 @@ Vue.config.productionTip = false;
 Vue.config.errorHandler = function(err, vm, info) {
 	store.set('global/appError', {
 		message: err.toString(),
-		info: info
+		info: info,
+		stack: err.stack
 	});
 };
 

@@ -2,17 +2,25 @@
 	<div v-if="error !== null" class="errorModalContainer">
 		<modal @close="closeModal">
 			<template v-slot:header>
-				<span id="errorHeader">
-					An Error Has Occurred
-				</span>
+                <h3>An Error Has Occurred</h3>
 			</template>
 
 			<div v-if="showDebugErrors" class="errorContainer">
 				<div id="debugErrorMessage">
+					<p class="errorSection">Error Message:</p>
 					{{ error.message }}
 				</div>
+
 				<div id="debugErrorInfo">
+					<p class="errorSection">Error Info:</p>
 					{{ error.info }}
+				</div>
+
+				<div id="debugErrorStack" v-if="error.stack">
+					<p class="errorSection">Stack Trace:</p>
+					<div>
+                        {{ error.stack }}
+					</div>
 				</div>
 			</div>
 			<div v-else class="errorContainer">
@@ -61,20 +69,38 @@ export default class ErrorModal extends Vue {
 		font-weight: bold;
 	}
 
+	.errorSection {
+		font-size: 1.2rem;
+	}
+
 	.errorContainer {
 		line-height: 2.4rem;
 		padding: 1.5rem;
 	}
 
 	#debugErrorMessage {
-		padding: 1rem 0;
+		padding-bottom: 2.4rem;
 	}
 
 	#debugErrorInfo {
-		padding: 1rem 0;
+		padding-bottom: 2.4rem;
+	}
+
+	#debugErrorStack {
+		background: lighten($dark-neutral, 90%);
+		border-left: 3px solid $red;
+		color: $dark-neutral;
+		display: block;
+		font-family: monospace;
+		font-size: 15px;
+		line-height: 1.6;
+		margin-bottom: 1.6rem;
+		padding: 1rem 1.5rem;
+		white-space: pre-line;
 	}
 
 	#errorMessage {
 		padding: 1rem 0;
 	}
+
 </style>
