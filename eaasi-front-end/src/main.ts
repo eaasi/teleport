@@ -11,6 +11,11 @@ Vue.prototype.$colors = colorVariables;
 // Turn off production tip
 Vue.config.productionTip = false;
 
+// Configure a custom error handler
+Vue.config.errorHandler = function(err, vm, info) {
+	console.log(`Howdy: ${err.toString()}\nInfo: ${info}`);
+};
+
 new Vue({
 	router,
 	store,
