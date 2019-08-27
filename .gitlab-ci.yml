@@ -33,7 +33,9 @@ run_vue_unit_tests:
     stage: test
     script:
         - cd ./eaasi-front-end
-        - npm run test:unit --verbose
+        - npm install
+        - npm install -g vue-cli-service
+        - npm run test:unit
 
 run_api_unit_tests:
     stage: test
