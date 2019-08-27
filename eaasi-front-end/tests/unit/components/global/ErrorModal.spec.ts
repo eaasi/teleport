@@ -1,4 +1,4 @@
-import {createLocalVue, hallowMount} from '@vue/test-utils';
+import {createLocalVue, shallowMount} from '@vue/test-utils';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 
 import Vuex from 'vuex';
