@@ -31,7 +31,6 @@ import Vue from 'vue';
 import Modal from '@/components/global/Modal/Modal.vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
-import store from '../../../store';
 
 /**
  * A pop-up modal that notifies a user that an error has occurred
@@ -41,10 +40,12 @@ import store from '../../../store';
 	components: { Modal }
 })
 export default class ErrorModal extends Vue {
-	isProductionMode: boolean = false;
 
+	/**
+	 * Sets global isErrorModalOpen state to false
+	 */
 	closeModal() {
-		store.set('global/isErrorModalOpen', false);
+		this.isErrorModalOpen = false;
 	}
 
 	@Sync('global/isErrorModalOpen')
@@ -57,7 +58,7 @@ export default class ErrorModal extends Vue {
 	error: string
 
 	beforeDestroy() {
-		store.set('global/appError', undefined);
+		this.error = null;
 	}
 }
 

@@ -37,7 +37,6 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-
 	async authorize({commit}, {userid}): Promise<boolean> {
 		let res = await _authService.authorize(userid);
 		if(!res || !res.token || !res.user) return false;

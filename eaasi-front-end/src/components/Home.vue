@@ -6,12 +6,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BigButton from '@/components/global/BigButton.vue';
 
 @Component({
-	components: {BigButton}
+	components: {}
 })
-export default class Home extends Vue { }
+export default class Home extends Vue {}
 </script>
 
 <style>
