@@ -2,7 +2,7 @@
 	<div v-if="error !== null" class="errorModalContainer">
 		<modal @close="closeModal">
 			<template v-slot:header>
-                <h3>An Error Has Occurred</h3>
+				<h3>An Error Has Occurred</h3>
 			</template>
 
 			<div v-if="showDebugErrors" class="errorContainer">
@@ -16,10 +16,10 @@
 					{{ error.info }}
 				</div>
 
+				<p class="errorSection">Stack Trace:</p>
 				<div id="debugErrorStack" v-if="error.stack">
-					<p class="errorSection">Stack Trace:</p>
 					<div>
-                        {{ error.stack }}
+						{{ error.stack }}
 					</div>
 				</div>
 			</div>
