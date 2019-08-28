@@ -93,8 +93,10 @@ export default class ErrorModal extends Vue {
 		display: block;
 		font-family: monospace;
 		font-size: 15px;
+		height: 16rem;
 		line-height: 1.6;
 		margin-bottom: 1.6rem;
+		overflow: scroll;
 		padding: 1rem 1.5rem;
 		white-space: pre-line;
 	}

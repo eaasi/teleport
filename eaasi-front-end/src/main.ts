@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import './scss/global.scss';
 import store from './store';
+import eventBus from '@/utils/event-bus';
 
 // Add global SCSS colors
 const colorVariables = require('@/scss/_variables.scss');
@@ -19,6 +20,17 @@ Vue.config.errorHandler = function(err, vm, info) {
 		stack: err.stack
 	});
 };
+
+/**
+ * Listen for ajaxErrors globally
+ */
+eventBus.$on('ajaxError', err => {
+	store.set('global/appError', {
+		message: err.message,
+		info: err.info,
+		stack: err.stack
+	});
+});
 
 new Vue({
 	router,

@@ -139,7 +139,8 @@ export default class BaseHttpService {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
-				'Authorization': token ? `Bearer ${token}` : null
+				'Authorization': token ? `Bearer ${token}` : null,
+				'X-Requested-With':  'XMLHttpRequest'
 			},
 			mode: options.mode,
 			body: options.data
@@ -161,7 +162,8 @@ export default class BaseHttpService {
 		if (suppressError) return res;
 
 		try {
-			let error = await res.body;
+			// let error = await res.body;
+			let error = await res.json();
 			eventBus.$emit('ajaxError', error);
 		} catch (e) {
 			this._handleError(e, suppressError);
