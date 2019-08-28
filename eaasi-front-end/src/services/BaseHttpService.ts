@@ -116,11 +116,13 @@ export default class BaseHttpService {
 
 			// If 200 response, parse the body as the generic type
 			if (res.ok) response.result = await res.json();
+
 			// Handle non-200 responses
-			else self._handleBadResponse<T>(res, options.suppressErrors);
+			else self._handleBadResponse<T>(request, res, options.suppressErrors);
 			return response;
 		} catch (e) {
 			eventBus.$emit('ajaxEnd');
+			e.request = request;
 			self._handleError(e, options.suppressErrors);
 		}
 	}
@@ -154,6 +156,7 @@ export default class BaseHttpService {
 	 * @param {boolean} suppressError - When true, will not alert the user of an error
 	 */
 	private async _handleBadResponse<T>(
+		request: Request,
 		response: Response,
 		suppressError: boolean
 	): Promise<IEaasiApiResponse<T>> {
@@ -162,10 +165,11 @@ export default class BaseHttpService {
 		if (suppressError) return res;
 
 		try {
-			// let error = await res.body;
 			let error = await res.json();
+			error.request = request.url;
 			eventBus.$emit('ajaxError', error);
 		} catch (e) {
+			e.request = request.url;
 			this._handleError(e, suppressError);
 		}
 		return response as IEaasiApiResponse<T>;

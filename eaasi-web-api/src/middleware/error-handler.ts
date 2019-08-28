@@ -12,8 +12,6 @@ import createError from 'http-errors';
 export function clientErrorHandler(err: any, req: Request, res: Response, next: NextFunction) {
 	console.log("in client error handler");
 	if (req.xhr) {
-		console.log("is req.xhr");
-        console.log("err", err);
 		let { name, message, stack } = err;
 		res.status(500).send({
 			name,

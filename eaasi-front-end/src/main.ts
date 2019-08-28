@@ -25,10 +25,12 @@ Vue.config.errorHandler = function(err, vm, info) {
  * Listen for ajaxErrors globally
  */
 eventBus.$on('ajaxError', err => {
+	console.log("err.request", err.request)
 	store.set('global/appError', {
 		message: err.message,
 		info: err.info,
-		stack: err.stack
+		stack: err.stack,
+		request: JSON.stringify(err.request, null, 4)
 	});
 });
 

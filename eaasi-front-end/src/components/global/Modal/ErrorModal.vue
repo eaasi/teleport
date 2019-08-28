@@ -6,14 +6,19 @@
 			</template>
 
 			<div v-if="showDebugErrors" class="errorContainer">
-				<div id="debugErrorMessage">
+				<div id="debugErrorMessage" v-if="error.message">
 					<p class="errorSection">Error Message:</p>
 					{{ error.message }}
 				</div>
 
-				<div id="debugErrorInfo">
+				<div id="debugErrorInfo" v-if="error.info">
 					<p class="errorSection">Error Info:</p>
 					{{ error.info }}
+				</div>
+
+				<div id="debugErrorRequest" v-if="error.request">
+					<p class="errorSection">Request URL:</p>
+					{{ error.request }}
 				</div>
 
 				<p class="errorSection">Stack Trace:</p>
@@ -88,6 +93,7 @@ export default class ErrorModal extends Vue {
 
 	#debugErrorStack {
 		background: lighten($dark-neutral, 90%);
+		border: 1px solid lighten($dark-neutral, 80%);
 		border-left: 3px solid $red;
 		color: $dark-neutral;
 		display: block;
