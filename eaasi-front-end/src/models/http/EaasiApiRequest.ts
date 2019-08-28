@@ -9,8 +9,10 @@ export default class EaasiApiRequest {
 		'Content-Type': 'application/json',
 		Accept: 'application/json'
 	}
+	url: string
 
-	constructor(method: string, data?: any) {
+	constructor(url: string, method: string, data?: any) {
+		this.url = url;
 		this.method = method;
 		if(data) this.data = JSON.stringify(data);
 	}

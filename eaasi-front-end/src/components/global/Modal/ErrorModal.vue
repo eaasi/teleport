@@ -1,40 +1,41 @@
 <template>
-	<div v-if="error !== null" class="errorModalContainer">
-		<modal @close="closeModal">
-			<template v-slot:header>
-				<h3>An Error Has Occurred</h3>
-			</template>
+	<modal class="error-modal-container" @close="closeModal" v-if="error !== null" :size="size">
+		<template v-slot:header>
+			<h3>An Error Has Occurred</h3>
+		</template>
 
-			<div v-if="showDebugErrors" class="errorContainer">
-				<div id="debugErrorMessage" v-if="error.message">
-					<p class="errorSection">Error Message:</p>
-					{{ error.message }}
-				</div>
+		<div v-if="showDebugErrors" class="error-container">
+			<div id="debugErrorMessage" class="error-section" v-if="error.message">
+				<p>Error Message:</p>
+				{{ error.message }}
+			</div>
 
-				<div id="debugErrorInfo" v-if="error.info">
-					<p class="errorSection">Error Info:</p>
-					{{ error.info }}
-				</div>
+			<div id="debugErrorInfo" class="error-section" v-if="error.info">
+				<p>Error Info:</p>
+				{{ error.info }}
+			</div>
 
-				<div id="debugErrorRequest" v-if="error.request">
-					<p class="errorSection">Request URL:</p>
-					{{ error.request }}
-				</div>
+			<div id="debugErrorRequest" class="error-section" v-if="error.request">
+				<p>Response Info</p>
+				<b>URL: </b>{{ error.request.url }}
+			</div>
 
-				<p class="errorSection">Stack Trace:</p>
+			<div class="error-section">
+				<p>Stack Trace: </p>
 				<div id="debugErrorStack" v-if="error.stack">
 					<div>
 						{{ error.stack }}
 					</div>
 				</div>
 			</div>
-			<div v-else class="errorContainer">
-				<div id="errorMessage">
-					There was an error loading the application. We're sorry for the inconvenience.
-				</div>
+		</div>
+		<div v-else class="error-container">
+			<div id="defaultErrorMessage" class="text-center">
+				<h2>Oops, something went wrong!</h2>
+				<p>An unexpected error has occured. Our developers have been automatically notified. Please try again later.</p>
 			</div>
-		</modal>
-	</div>
+		</div>
+	</modal>
 </template>
 
 <script lang="ts">
@@ -51,6 +52,14 @@ import {Get, Sync} from 'vuex-pathify';
 	components: { Modal }
 })
 export default class ErrorModal extends Vue {
+
+	/* Computed
+	============================================*/
+
+	get size() {
+		if(this.showDebugErrors) return 'md';
+		return 'sm';
+	}
 
 	closeModal() {
 		this.error = null;
@@ -74,21 +83,17 @@ export default class ErrorModal extends Vue {
 		font-weight: bold;
 	}
 
-	.errorSection {
-		font-size: 1.2rem;
+	.error-section {
+		margin-bottom: 2.4rem;
+
+		p {
+			font-size: 1.2rem;
+		}
 	}
 
-	.errorContainer {
+	.error-container {
 		line-height: 2.4rem;
 		padding: 1.5rem;
-	}
-
-	#debugErrorMessage {
-		padding-bottom: 2.4rem;
-	}
-
-	#debugErrorInfo {
-		padding-bottom: 2.4rem;
 	}
 
 	#debugErrorStack {
@@ -99,12 +104,16 @@ export default class ErrorModal extends Vue {
 		display: block;
 		font-family: monospace;
 		font-size: 15px;
-		height: 16rem;
 		line-height: 1.6;
 		margin-bottom: 1.6rem;
-		overflow: scroll;
 		padding: 1rem 1.5rem;
 		white-space: pre-line;
+	}
+
+	#defaultErrorMessage {
+		padding: 4rem 0;
+		margin: 0 auto;
+		max-width: 50rem;
 	}
 
 	#errorMessage {
