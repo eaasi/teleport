@@ -6,7 +6,7 @@ import ICrudServiceResult from "../interfaces/ICrudServiceResult";
  */
 export default class CrudServiceResult implements ICrudServiceResult {
 	readonly result?: object | string | number;
-	readonly error: string | Error | null
+	readonly error: string | Error | null;
 	readonly hasError: boolean;
 
     constructor(error: string | Error | null, result?: object | string | number) {
