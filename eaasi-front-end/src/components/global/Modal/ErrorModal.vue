@@ -1,9 +1,11 @@
 <template>
-	<modal class="error-modal-container" @close="closeModal" v-if="error !== null" :size="size">
-		<template v-slot:header>
-			<h3>An Error Has Occurred</h3>
-		</template>
-
+	<info-modal
+		class="error-modal-container"
+		@close="closeModal"
+		v-if="error !== null"
+		:size="size"
+		title="An Error Has Occurred"
+	>
 		<div v-if="showDebugErrors" class="error-container">
 			<div id="debugErrorMessage" class="error-section" v-if="error.message">
 				<p>Error Message:</p>
@@ -35,12 +37,12 @@
 				<p>An unexpected error has occured. Our developers have been automatically notified. Please try again later.</p>
 			</div>
 		</div>
-	</modal>
+	</info-modal>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Modal from '@/components/global/Modal/Modal.vue';
+import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import { Component } from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 
@@ -49,7 +51,7 @@ import {Get, Sync} from 'vuex-pathify';
  */
 @Component({
 	name: 'ErrorModal',
-	components: { Modal }
+	components: { InfoModal }
 })
 export default class ErrorModal extends Vue {
 
@@ -57,12 +59,7 @@ export default class ErrorModal extends Vue {
 	============================================*/
 
 	get size() {
-		if(this.showDebugErrors) return 'md';
-		return 'sm';
-	}
-
-	closeModal() {
-		this.error = null;
+		return this.showDebugErrors ? 'md' : 'sm';
 	}
 
 	@Sync('global/appError')
@@ -70,6 +67,16 @@ export default class ErrorModal extends Vue {
 
 	@Get('global/showDebugErrors')
 	showDebugErrors: boolean
+
+	/* Methods
+	============================================*/
+
+	closeModal() {
+		this.error = null;
+	}
+
+	/* Lifecycle hooks
+	============================================*/
 
 	beforeDestroy() {
 		this.error = null;
