@@ -22,7 +22,6 @@ router.get('/',
     [check('limit').optional().isNumeric()],
     [check('page').optional().isNumeric()],
     (req: Express.Request, res: Express.Response) => {
-		throw new Error("UGH!");
         const errors = validationResult(req);
         return !errors.isEmpty()
             ? controller.sendMalformedRequestResponse(req, res, errors)
