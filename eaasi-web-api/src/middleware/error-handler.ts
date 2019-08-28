@@ -2,7 +2,36 @@ import { Request, Response, NextFunction } from 'express';
 import HttpResponseCode from '../utils/HttpResponseCode';
 import createError from 'http-errors';
 
+/**
+ * Handle XHR Errors
+ * @param err
+ * @param req
+ * @param res
+ * @param next
+ */
+export function clientErrorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+	console.log("in client error handler");
+	if (req.xhr) {
+		let { name, message, stack } = err;
+		res.status(500).send({
+			name,
+			message,
+			stack
+		})
+	} else {
+		next(err)
+	}
+}
+
+	/**
+ * Final Error Handler, renders error Page if 500 response
+ * @param err
+ * @param req
+ * @param res
+ * @param next
+ */
 export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+		console.log("inside errorHandler")
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -12,6 +41,12 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
 	res.render('error');
 }
 
+/**
+ * 404 Error Handler
+ * @param req
+ * @param res
+ * @param next
+ */
 export function notFoundHandler(req: Request, res: Response, next: NextFunction) {
 	next(createError(HttpResponseCode.NOT_FOUND));
 }

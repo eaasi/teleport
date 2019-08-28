@@ -1,10 +1,10 @@
-import Cors from 'cors';
-import express from "express";
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
 import bodyParser from 'body-parser';
-import { errorHandler, notFoundHandler } from './middleware/error-handler';
+import cookieParser from 'cookie-parser';
+import Cors from 'cors';
+import express from 'express';
+import logger from 'morgan';
+import path from 'path';
+import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
 // import passport from 'passport';
 
 require('dotenv-flow').config();
@@ -29,8 +29,9 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
-app.use('/api', require('./routes'))
+app.use('/api', require('./routes'));
 app.use('/docs', express.static(path.join(__dirname, '../apidoc')));
+app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
