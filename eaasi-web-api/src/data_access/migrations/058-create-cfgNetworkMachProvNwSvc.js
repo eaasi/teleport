@@ -26,10 +26,10 @@ module.exports = {
 			 configuredNetworkMachine_configuredNetworkID: {
 			 	type: Sq.INTEGER,
 			 	allowNull: false,
-			// 	references: {
-			// 		model: 'configuredNetwork_has_configuredMachine',
-			// 		key: 'configuredNetwork_configuredNetworkID'
-			// 	}
+				// 	references: {
+				// 		model: 'configuredNetwork_has_configuredMachine',
+				// 		key: 'configuredNetwork_configuredNetworkID'
+				// 	}
 			 },
 		});
 	},
