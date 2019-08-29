@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import {AlertCard } from '@/components/global';
+import { AlertCard } from '@/components/global';
 
 describe('AlertCard.vue', () => {
 	it('Error alert card shows triangle warning icon', () => {

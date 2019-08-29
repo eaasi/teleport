@@ -37,19 +37,19 @@ export default class BigButton extends Vue {
 
 	// Font icon name
 	@Prop({type: String, required: false})
-	readonly icon: string
+	readonly icon: string;
 
 	// Primary label of the button
 	@Prop({type: String, required: true})
-	readonly label: string
+	readonly label: string;
 
 	// Text below the primary label
 	@Prop({type: String, required: false})
-	readonly sublabel: string
+	readonly sublabel: string;
 
 	// Alternative size of the modal. Accepts 'sm, small, lg, or large'
 	@Prop({type: String, required: false, default: ''})
-	readonly size: string
+	readonly size: string;
 
 	// Additional text that will appear below the button
 	@Prop({type: String, required: false})
