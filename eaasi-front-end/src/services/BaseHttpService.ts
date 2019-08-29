@@ -101,8 +101,8 @@ export default class BaseHttpService {
 		options?: EaasiApiRequest
 	): Promise<IEaasiApiResponse<T>> {
 		let self = this;
-		if (!options) options = new EaasiApiRequest(method, data);
-		let request = self._createRequest(url, options);
+		if (!options) options = new EaasiApiRequest(this.BASE_URL + url, method, data);
+		let request = self._createRequest(options);
 		let response: IEaasiApiResponse<T>;
 
 		try {
@@ -116,11 +116,13 @@ export default class BaseHttpService {
 
 			// If 200 response, parse the body as the generic type
 			if (res.ok) response.result = await res.json();
+
 			// Handle non-200 responses
-			else self._handleBadResponse<T>(res, options.suppressErrors);
+			else self._handleBadResponse<T>(options, res, options.suppressErrors);
 			return response;
 		} catch (e) {
 			eventBus.$emit('ajaxEnd');
+			e.request = options;
 			self._handleError(e, options.suppressErrors);
 		}
 	}
@@ -132,14 +134,15 @@ export default class BaseHttpService {
 	 * @param {EaasiApiRequest} [options] - Request options
 	 * @return {Request} A fetch request object
 	 */
-	private _createRequest(url: string, options: EaasiApiRequest): Request {
+	private _createRequest(options: EaasiApiRequest): Request {
 		let token = localStorage.getItem(this.JWT_NAME);
-		return new Request(this.BASE_URL + url, {
+		return new Request(options.url, {
 			method: options.method,
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
-				'Authorization': token ? `Bearer ${token}` : null
+				'Authorization': token ? `Bearer ${token}` : null,
+				'X-Requested-With':  'XMLHttpRequest'
 			},
 			mode: options.mode,
 			body: options.data
@@ -153,6 +156,7 @@ export default class BaseHttpService {
 	 * @param {boolean} suppressError - When true, will not alert the user of an error
 	 */
 	private async _handleBadResponse<T>(
+		request: EaasiApiRequest,
 		response: Response,
 		suppressError: boolean
 	): Promise<IEaasiApiResponse<T>> {
@@ -161,9 +165,11 @@ export default class BaseHttpService {
 		if (suppressError) return res;
 
 		try {
-			let error = await res.body;
+			let error = await res.json();
+			error.request = request;
 			eventBus.$emit('ajaxError', error);
 		} catch (e) {
+			e.request = request;
 			this._handleError(e, suppressError);
 		}
 		return response as IEaasiApiResponse<T>;

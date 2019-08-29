@@ -16,7 +16,7 @@
 		"test:styleguide": "export CYPRESS_BASE_URL=http://localhost:6060 && run-p --race styleguide cy:run:styleguide",
 		"test:styleguide:ci": "export CYPRESS_BASE_URL=http://localhost:6060 && cypress install && run-p --race styleguide cy:run:styleguide",
 		"test:styleguide:open": "export CYPRESS_BASE_URL=http://localhost:6060 && run-p --race styleguide cy:open",
-		"test:unit": "vue-cli-service test:unit"
+		"test:unit": "vue-cli-service test:unit --verbose --coverage"
 	},
 	"dependencies": {
 		"@vue/cli-service": "^3.8.0",
