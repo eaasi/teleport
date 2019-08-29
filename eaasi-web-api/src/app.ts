@@ -4,14 +4,18 @@ import Cors from 'cors';
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
+import http from 'http';
 import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
+import { onError, normalizePort } from './utils/server';
 // import passport from 'passport';
 
 require('dotenv-flow').config();
 require('./middleware/passport');
+
+const port = normalizePort(process.env.EXPRESS_PORT || '8081');
 const app = express();
 
-// view engine setup
+app.set('port', port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -35,4 +39,12 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-module.exports = app;
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
+server.listen(port);
+server.on('error', (err) => onError(err, port));
+server.on('listening', () => {
+	console.log('Express is listening on: ' + port);
+});

@@ -4,7 +4,7 @@ module.exports = {
 		browser: false,
 		es6: true
 	},
-	extends: [],
+	extends: ['plugin:@typescript-eslint/recommended'],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly'
@@ -18,7 +18,12 @@ module.exports = {
 		'@typescript-eslint',
 	],
 	rules: {
+		camelcase: 'off',
+		'@typescript-eslint/camelcase': 'off',
 		indent: ['error', 'tab'],
+		'@typescript-eslint/explicit-function-return-type': 'off',
+		'@typescript-eslint/explicit-member-accessibility': 'off',
+		'@typescript-eslint/indent': ['error', 'tab'],
 		'lines-between-class-members': ['warn', 'always'],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
