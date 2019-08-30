@@ -41,19 +41,25 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 
 	it('Is not hidden', () => {
 		const wrapper = shallowMount(ErrorModal, { localVue, store, });
-		expect(wrapper.find('.errorModalContainer').exists()).toBe(true);
+		expect(wrapper.find('.error-modal-container').exists()).toBe(true);
 	});
 
 	it('Displays error message', () => {
 		const wrapper = shallowMount(ErrorModal, { localVue, store, });
-		let errorText = wrapper.find('#debugErrorMessage').text();
-		expect(errorText).toBe('Abort, Retry, Fail?');
+		let errorText = wrapper.find('.error-section').text();
+		expect(errorText
+			.replace(/(\r\n|\n|\r)/gm, '')
+			.replace(/\s\s+/g, ' '))
+			.toBe('Error Message: Abort, Retry, Fail?');
 	});
 
 	it('Displays error info', () => {
 		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		let errorText = wrapper.find('#debugErrorInfo').text();
-		expect(errorText).toBe('Critical Error');
+		expect(errorText
+			.replace(/(\r\n|\n|\r)/gm, '')
+			.replace(/\s\s+/g, ' '))
+			.toBe('Error Info: Critical Error');
 	});
 
 	it('Does not show default error message', () => {
@@ -94,13 +100,13 @@ describe('ErrorModal.vue when showDebugErrors is false', () => {
 
 	it('Is not hidden', () => {
 		const wrapper = shallowMount(ErrorModal, { localVue, store, });
-		expect(wrapper.find('.errorModalContainer').exists()).toBe(true);
+		expect(wrapper.find('.error-modal-container').exists()).toBe(true);
 	});
 
 	it('Displays a default error message', () => {
 		const wrapper = shallowMount(ErrorModal, { localVue, store, });
-		let errorText = wrapper.find('#errorMessage').text();
-		expect(errorText).toContain('We\'re sorry');
+		let errorText = wrapper.find('#defaultErrorMessage').text();
+		expect(errorText).toContain('developers have been automatically notified');
 	});
 
 	it('Does not show debug error message', () => {

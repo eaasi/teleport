@@ -24,19 +24,19 @@ export default class UiButton extends Vue {
 
 	// Make display type: block
 	@Prop({type: Boolean, required: false})
-	readonly block: boolean
+	readonly block: boolean;
 
  	// Use secondary styles
 	@Prop({type: Boolean, required: false})
-	readonly secondary: boolean
+	readonly secondary: boolean;
 
 	// Font icon name
 	@Prop({type: String, required: false})
-	readonly icon: string
+	readonly icon: string;
 
 	// Show icon on right side of slot (instead of left)
-	@Prop({type: String, required: false})
-	readonly iconRight: string
+	@Prop({type: Boolean, required: false})
+	readonly iconRight: boolean;
 
 }
 </script>

@@ -42,7 +42,7 @@ describe('NumberedSteps.vue', () => {
 		expect(wrapper.findAll(NumberedStep).exists()).toBe(false);
 	});
 
-	it('When 1 step passed as props => renders 3 Numbered Step components', () => {
+	it('When 1 step passed as props => renders 1 Numbered Step components', () => {
 		const testSteps = getSteps(1);
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
 			steps: testSteps
@@ -58,7 +58,7 @@ describe('NumberedSteps.vue', () => {
 		expect(wrapper.findAll(NumberedStep).length).toBe(3);
 	});
 
-	it('When 5 steps passed as props => renders 3 Numbered Step components', () => {
+	it('When 5 steps passed as props => renders 5 Numbered Step components', () => {
 		const testSteps = getSteps(5);
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
 			steps: testSteps
