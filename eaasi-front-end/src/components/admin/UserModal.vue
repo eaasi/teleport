@@ -112,6 +112,7 @@ export default class UserModal extends Vue {
 }
 
 .eaasi-user-modal {
+
 	h3 {
 		font-weight: 300;
 		margin-bottom: 3rem;
