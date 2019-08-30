@@ -44,14 +44,14 @@ export default class AlertCard extends Vue {
 
 <style lang="scss">
 	.card-container {
-		border-top: 2px solid #DDD;
+		border-top: 2px solid #DDDDDD;
 		font-size: 0.9em;
 		line-height: 1.5em;
 		padding: 16px;
 		width: 230px;
 
 		&.error {
-			background-color: lighten(red, 85%);
+			background-color: lighten($red, 85%);
 			color: darken($red, 35%);
 		}
 
@@ -66,7 +66,7 @@ export default class AlertCard extends Vue {
 		}
 
 		&.success {
-			background-color: lighten(green, 95%);
+			background-color: lighten($green, 95%);
 			color: darken($green, 20%);
 		}
 

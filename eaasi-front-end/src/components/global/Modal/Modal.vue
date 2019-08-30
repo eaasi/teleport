@@ -69,7 +69,7 @@ export default class Modal extends Vue {
 	}
 
 	.eaasi-modal {
-		background-color: #FFF;
+		background-color: #FFFFFF;
 		box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.4);
 		max-width: $base-size;
 		width: 100%;

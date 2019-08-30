@@ -48,7 +48,7 @@ a.admin-menu-item {
 	user-select: none;
 
 	p {
-		color: #FFF;
+		color: #FFFFFF;
 		font-size: 1.6rem;
 		padding: 1.2rem 0;
 		transition: color 0.1s;

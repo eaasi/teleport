@@ -9,7 +9,7 @@
 		"cy:run:styleguide": "cypress run --spec cy tests/e2e/specs/styleguide/**/*",
 		"cy:open": "cypress open",
 		"lint": "vue-cli-service lint --fix",
-		"lint:css": "stylelint '**/*.vue' --fix --syntax scss",
+		"lint:css": "stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
 		"test:e2e": "vue-cli-service test:e2e",

@@ -47,7 +47,7 @@ export default class UiButton extends Vue {
 	background-color: $dark-blue;
 	border: solid 2px darken($dark-blue, 20%);
 	border-radius: 0.4rem;
-	color: #FFF;
+	color: #FFFFFF;
 	cursor: pointer;
 	font-size: 1.6rem;
 	min-width: 17.5rem;
@@ -69,6 +69,7 @@ export default class UiButton extends Vue {
 		background-color: lighten($light-blue, 80%);
 		border: solid 2px $light-blue;
 		color: $dark-blue;
+
 		&:hover {
 			background-color: lighten($light-blue, 40%);
 		}

@@ -58,7 +58,7 @@ export default class ResourceAction extends Vue {
 }
 
 .ra-arrow {
-	background-color: #FFF;
+	background-color: #FFFFFF;
 	border-radius: 50%;
 	height: 2.8rem;
 	width: 2.8rem;

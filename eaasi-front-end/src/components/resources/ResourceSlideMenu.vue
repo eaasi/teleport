@@ -11,7 +11,11 @@
 				:tabs="tabs"
 			/>
 		</div>
-		<resource-details v-if="tab === 'Details'" class="rsm-details" />
+		<resource-details
+			v-if="tab === 'Details'"
+			class="rsm-details"
+			:resource="resource"
+		/>
 		<div v-if="tab === 'Actions'">
 			<div class="rsm-local-actions">
 				<resource-action
@@ -158,7 +162,7 @@ export default class ResourceSlideMenu extends Vue {
 }
 
 .rsm-header {
-	background-color: #FFF;
+	background-color: #FFFFFF;
 	border-bottom: solid 4px lighten($dark-neutral, 70%);
 }
 

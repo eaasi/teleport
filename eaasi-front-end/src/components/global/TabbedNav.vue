@@ -61,7 +61,7 @@ export default class TabbedNav extends Vue {
 	}
 
 	li {
-		background-color: #FFF;
+		background-color: #FFFFFF;
 		box-sizing: border-box;
 		flex: 1 1 auto;
 		max-width: 24rem;
@@ -84,7 +84,7 @@ export default class TabbedNav extends Vue {
 
 		&::before {
 			background-color: $dark-blue;
-			content: "";
+			content: '';
 			display: block;
 			height: 4px;
 			left: 0;
@@ -95,6 +95,7 @@ export default class TabbedNav extends Vue {
 		}
 
 		&.active {
+
 			span {
 				background-color: lighten($light-blue, 80%);
 				color: $dark-neutral;

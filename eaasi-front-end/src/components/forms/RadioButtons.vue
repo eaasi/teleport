@@ -100,6 +100,7 @@ export default class RadioButtons extends BaseFormField {
 
 <style lang="scss">
 .eaasi-radios {
+
 	.eaasi-label {
 		display: block;
 	}

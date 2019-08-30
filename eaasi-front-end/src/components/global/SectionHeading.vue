@@ -43,7 +43,7 @@ export default class Tag extends Vue {
 
 	.heading-container {
 		display: flex;
-		padding: 1.0rem 0;
+		padding: 1rem 0;
 	}
 
 	.heading-icon {
@@ -59,9 +59,9 @@ export default class Tag extends Vue {
 	}
 
 	.heading-break-line {
-		box-sizing: border-box;
-		height: 15px;
 		border-bottom: 3px solid $grey;
+		box-sizing: border-box;
 		flex: 1;
+		height: 15px;
 	}
 </style>

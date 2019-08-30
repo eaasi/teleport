@@ -283,7 +283,7 @@ export default class Autocomplete extends BaseFormField {
 }
 
 .ac-list {
-	background-color: white;
+	background-color: #FFFFFF;
 	box-shadow: 1px 4px 8px 0 rgba(17, 12, 12, 0.2);
 	left: 0;
 	max-height: 300px;
@@ -300,7 +300,7 @@ export default class Autocomplete extends BaseFormField {
 	user-select: none;
 
 	&:hover {
-		background-color: #eee;
+		background-color: #eeeeee;
 	}
 
 	&.highlighted {
@@ -309,7 +309,7 @@ export default class Autocomplete extends BaseFormField {
 }
 
 .ac-loading {
-	color: #aaa;
+	color: #aaaaaa;
 	padding: 10px;
 }
 </style>
