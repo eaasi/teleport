@@ -15,7 +15,7 @@ describe('HoverMenu.vue', () => {
 		expect(menuWrapperText).toBeFalsy();
 	});
 
-	it('On mouse enter event makes menu slot visible', () => {
+	it('On mouse enter event makes menu slot visible', done => {
 		const wrapper = shallowMount(HoverMenu, {
 			propsData: {
 				closeDelay: 500
@@ -24,10 +24,12 @@ describe('HoverMenu.vue', () => {
 				menu: 'fake menu item'
 			}
 		});
+
 		// Trigger the mouse enter event
 		wrapper.find('.hover-menu-wrapper').trigger('mouseenter');
-
-		let menuWrapperText = wrapper.find('.hover-menu-wrapper').text();
-		expect(menuWrapperText).toBe('fake menu item');
+		wrapper.vm.$nextTick(() => {
+			expect(wrapper.emitted('opened')).toBeTruthy();
+		});
+		done();
 	});
 });
