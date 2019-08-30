@@ -35,8 +35,8 @@ export default class UiButton extends Vue {
 	readonly icon: string;
 
 	// Show icon on right side of slot (instead of left)
-	@Prop({type: String, required: false})
-	readonly iconRight: string;
+	@Prop({type: Boolean, required: false})
+	readonly iconRight: boolean;
 
 }
 </script>
