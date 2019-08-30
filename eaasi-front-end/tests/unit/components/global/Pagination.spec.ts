@@ -27,7 +27,7 @@ describe('Pagination.vue', () => {
 				totalResults: 1200,
 				resultsPerPage: 10,
 				maxPages: 5,
-				pageNum: 120
+				pageNum: 10
 			},
 			data() {
 				return {
@@ -36,12 +36,91 @@ describe('Pagination.vue', () => {
 				};
 			}
 		});
-
 		let arrow = wrapper.find('.page-arrow');
 		arrow.trigger('click');
-
 		wrapper.vm.$nextTick(() => {
 			expect(wrapper.emitted('paginate')).toBeTruthy();
+		});
+	});
+
+	it('Displays current records out of total number of records as label', () => {
+		const wrapper = mount(Pagination, {
+			propsData: {
+				totalResults: 1200,
+				resultsPerPage: 10,
+				maxPages: 5,
+				pageNum: 118
+			},
+			data() {
+				return {
+					numPages: 120,
+					currentPage: 118
+				};
+			}
+		});
+		expect(wrapper.find('label').text()).toBe('Records 1170-1180 of 1200');
+	});
+
+	it('Displays current page as active', () => {
+		const wrapper = mount(Pagination, {
+			propsData: {
+				totalResults: 1200,
+				resultsPerPage: 10,
+				maxPages: 5,
+				pageNum: 118
+			},
+			data() {
+				return {
+					numPages: 120,
+					currentPage: 118
+				};
+			}
+		});
+
+		// We need next tick for DOM to update after component is mounted
+		wrapper.vm.$nextTick(() => {
+			expect(wrapper.find('.active').text()).toBe('118');
+		});
+	});
+
+	it('Displays current records out of total number of records as label', () => {
+		const wrapper = mount(Pagination, {
+			propsData: {
+				totalResults: 1200,
+				resultsPerPage: 10,
+				maxPages: 5,
+				pageNum: 118
+			},
+			data() {
+				return {
+					numPages: 120,
+					currentPage: 118
+				};
+			}
+		});
+		expect(wrapper.find('label').text()).toBe('Records 1170-1180 of 1200');
+	});
+
+	it('Displays expected number of list items in navigation given maxPages prop', () => {
+		const wrapper = mount(Pagination, {
+			propsData: {
+				totalResults: 1200,
+				resultsPerPage: 10,
+				maxPages: 5,
+				pageNum: 118
+			},
+			data() {
+				return {
+					numPages: 120,
+					currentPage: 118
+				};
+			}
+		});
+
+		// We need next tick for DOM to update after component is mounted
+		wrapper.vm.$nextTick(() => {
+			// There are 9 elements: maxPages (which is 5), and 4 list navigation links: <<, <, >, >>
+			expect(wrapper.findAll('li').length).toBe(9);
 		});
 	});
 });
