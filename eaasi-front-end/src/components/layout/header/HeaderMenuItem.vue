@@ -38,7 +38,7 @@ export default class HeaderMenuItem extends Vue {
 
 <style lang="scss">
 .header-menu-item {
-	color: #FFF;
+	color: #FFFFFF;
 	cursor: pointer;
 	height: $headerHeight;
 	padding: 0 2rem;

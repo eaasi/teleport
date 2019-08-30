@@ -84,6 +84,7 @@ export default class AppHeader extends Vue {
 }
 
 #headerRight {
+
 	a {
 		display: block;
 		padding: 1rem;

@@ -46,20 +46,20 @@ export default class Tag extends Vue {
 
 <style lang="scss">
 	.eaasi-tag {
-		display: inline-block;
-		height: 20px;
-		line-height: 20px;
-		background-color: #fff;
+		background-color: #ffffff;
 		border: solid 1px #DDDDDD;
 		border-radius: 0.6rem;
-		color: black;
+		color: #000000;
+		display: inline-block;
 		font-size: 1.1rem;
+		height: 20px;
+		line-height: 20px;
 		margin: 0 1px;
 		padding: 0 8px;
 
 		i {
-			margin-right: 0.4em;
 			color: rgba(0, 0, 0, 0.4);
+			margin-right: 0.4em;
 		}
 
 		&.yellow {
@@ -71,11 +71,11 @@ export default class Tag extends Vue {
 		}
 
 		&.red {
-			background-color: lighten(red, 75%);
+			background-color: lighten($red, 75%);
 		}
 
 		&.green {
-			background-color: lighten(green, 85%);
+			background-color: lighten($green, 85%);
 		}
 	}
 </style>

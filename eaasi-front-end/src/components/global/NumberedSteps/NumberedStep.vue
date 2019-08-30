@@ -46,21 +46,21 @@ export default class NumberedStep extends Vue {
 		flex-direction: row;
 		font-size: $defaultFontSize;
 		letter-spacing: $defaultLetterSpacing;
-		padding:14px;
+		padding: 14px;
 	}
 
 	.step-number {
 		background: transparent;
-		border: 3px solid #fff;
+		border: 3px solid #ffffff;
 		border-radius: 50%;
-		color: #000;
+		color: #000000;
 		font-size: 1.6rem;
 		line-height: 3.5rem;
 		margin-right: 12px;
 		padding: 1.1rem;
 
 		&.fill-bg {
-			background: #fff;
+			background: #ffffff;
 		}
 	}
 
@@ -75,9 +75,10 @@ export default class NumberedStep extends Vue {
 		vertical-align: middle;
 
 		/* todo: There is a more elegant way to fill remaining space with dots. */
+
 		&::after {
 			color: $grey;
-			content: "...................";
+			content: '...................';
 			font-weight: normal;
 		}
 	}

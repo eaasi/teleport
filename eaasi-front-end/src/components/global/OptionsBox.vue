@@ -47,7 +47,7 @@ export default class OptionsBox extends Vue {
 
 	.ob-header {
 		background-color: $light-blue;
-		color: #FFF;
+		color: #FFFFFF;
 		font-size: 1.2rem;
 		padding: 2px 10px;
 		text-align: center;
