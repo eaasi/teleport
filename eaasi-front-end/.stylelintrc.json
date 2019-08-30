@@ -1,16 +1,14 @@
 {
 	"extends": "stylelint-config-standard",
-	"ignoreFiles": [
-		"**/*.js",
-		"**/*.ts",
-		"**/*.md",
-		"**/*.json"
+	"files": [
+		"**/*.vue",
+		"**/*.scss",
+		"**/*.css"
 	],
 	"plugins": [
         "stylelint-order",
 		"stylelint-scss"
     ],
-	"processors": ["stylelint-processor-html"],
     "rules": {
 		"at-rule-no-unknown": null,
 		"at-rule-empty-line-before": null,
@@ -18,12 +16,42 @@
 		"color-hex-case": null,
 		"comment-whitespace-inside": null,
 		"declaration-empty-line-before": "never",
-		"indentation": ["tab"],
 		"length-zero-no-unit": null,
-        "order/order": [
+		"order/properties-alphabetical-order": true,
+		"indentation": "tab",
+        "string-quotes": "single",
+        "no-duplicate-selectors": true,
+        "color-hex-length": "long",
+        "color-named": "never",
+        "selector-combinator-space-after": "always",
+        "selector-attribute-quotes": "always",
+        "selector-attribute-operator-space-before": "never",
+        "selector-attribute-operator-space-after": "never",
+        "selector-attribute-brackets-space-inside": "never",
+        "declaration-block-trailing-semicolon": "always",
+        "declaration-no-important": true,
+        "declaration-colon-space-before": "never",
+        "declaration-colon-space-after": "always",
+        "property-no-vendor-prefix": true,
+        "value-no-vendor-prefix": true,
+        "number-leading-zero": "always",
+        "function-url-quotes": "always",
+        "at-rule-no-vendor-prefix": true,
+        "rule-empty-line-before": "always-multi-line",
+        "selector-pseudo-element-colon-notation": "double",
+        "selector-pseudo-class-parentheses-space-inside": "never",
+        "selector-no-vendor-prefix": true,
+        "media-feature-range-operator-space-before": "always",
+        "media-feature-range-operator-space-after": "always",
+        "media-feature-parentheses-space-inside": "never",
+        "media-feature-name-no-vendor-prefix": true,
+        "media-feature-colon-space-before": "never",
+		"media-feature-colon-space-after": "always",
+		"no-empty-source": null,
+		"no-descending-specificity": null,
+		"order/order": [
             "custom-properties",
             "declarations"
-        ],
-        "order/properties-alphabetical-order": true
+        ]
     }
 }

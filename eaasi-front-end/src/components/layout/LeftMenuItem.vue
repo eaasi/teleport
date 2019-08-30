@@ -59,7 +59,8 @@ a.left-menu-item {
 	}
 
 	&.active {
-		background-color: #fff;
+		background-color: #ffffff;
+
 		&::before {
 			border-left: 4px solid $teal;
 		}

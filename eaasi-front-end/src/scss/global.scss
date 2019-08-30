@@ -18,13 +18,14 @@ body {
 }
 
 body {
-	background-color: #FFF;
+	background-color: #FFFFFF;
 	color: darken($dark-neutral, 20%);
 	font-family: $font-primary;
 	font-size: 1.6rem;
 	font-weight: 400;
 	overflow: scroll;
 	-webkit-overflow-scrolling: touch;
+
 	&.modal-open {
 		overflow: hidden;
 	}
@@ -34,7 +35,10 @@ body {
  == Text Elements / Classes
 /============================================================*/
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
 	font-family: $font-secondary;
 	font-weight: bold;
 	margin-bottom: 1rem;
@@ -91,7 +95,11 @@ ul {
 
 a {
 	color: $dark-blue;
-	&:visited, &:active, &:focus, &:hover {
+
+	&:visited,
+	&:active,
+	&:focus,
+	&:hover {
 		color: inherit;
 	}
 }
@@ -185,14 +193,16 @@ strong {
 	}
 
 	tbody td {
-		border-bottom: solid 8px #FFF;
+		border-bottom: solid 8px #FFFFFF;
 		border-right: solid 1px lighten($light-blue, 60%);
 		padding: 1.4rem 1rem;
 	}
 
 	&.clickable {
+
 		tbody tr {
 			transition: background-color 0.2s;
+
 			&:hover {
 				background-color: lighten($light-blue, 80%);
 			}
@@ -209,8 +219,10 @@ strong {
 
 .table-header {
 	display: table-header-group;
+
 	> div {
 		display: table-row;
+
 		> div {
 			display: table-cell;
 		}
@@ -219,8 +231,10 @@ strong {
 
 .table-body {
 	display: table-row-group;
+
 	> div {
 		display: table-row;
+
 		> div {
 			display: table-cell;
 		}
@@ -229,6 +243,7 @@ strong {
 
 .table-row {
 	display: table-row;
+
 	> div {
 		display: table-cell;
 	}
@@ -375,15 +390,14 @@ strong {
 /============================================================*/
 
 .appearance-none {
-	-webkit-appearance: none;
-	-moz-appearance: none;
 	appearance: none;
 }
 
 .clearfix {
+
 	&::after {
 		clear: both;
-		content: "";
+		content: '';
 		display: table;
 	}
 }

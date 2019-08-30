@@ -22,18 +22,19 @@ $orange: #F5964B;
 $red: #F26362;
 
 /* stylelint-disable property-case, property-no-unknown, selector-pseudo-class-no-unknown */
+
 :export {
-	darkBlue: $dark-blue;
-	darkNeutral: $dark-neutral;
+	darkblue: $dark-blue;
+	darkneutral: $dark-neutral;
 	green: $green;
-	$grey: $grey;
-	lightBlue: $light-blue;
-	lightGreen: $light-green;
-	lightNeutral: $light-neutral;
+	lightblue: $light-blue;
+	lightgreen: $light-green;
+	lightneutral: $light-neutral;
 	orange: $orange;
 	red: $red;
 	teal: $teal;
 	yellow: $yellow;
+	$grey: $grey;
 }
 
 /*============================================================

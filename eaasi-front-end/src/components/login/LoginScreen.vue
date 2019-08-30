@@ -48,14 +48,14 @@ export default class LoginScreen extends Vue {
 
 <style lang="scss">
 #loginScreen {
-	background-color: #222;
+	background-color: #222222;
 	background-image: url('../../assets/login-bg.png');
 	background-size: cover;
 	min-height: 100vh;
 }
 
 #loginTitle {
-	color: #FFF;
+	color: #FFFFFF;
 	text-align: center;
 
 	h1 {
@@ -73,12 +73,12 @@ export default class LoginScreen extends Vue {
 }
 
 #loginBox {
-	background-color: #FFF;
+	background-color: #FFFFFF;
 	flex: 0 1 40rem;
 
 	h3 {
 		background-color: $teal;
-		color: #FFF;
+		color: #FFFFFF;
 		font-weight: 300;
 		padding: 3rem 1rem;
 		text-align: center;
