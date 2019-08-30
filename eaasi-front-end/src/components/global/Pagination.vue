@@ -81,7 +81,7 @@ export default class Pagination extends Vue {
 	pages: number[] = [];
 	numPages: number = 1;
 	showGoToStart: boolean = false;
-	showGoToEnd: boolean = false
+	showGoToEnd: boolean = false;
 
 	/* Computed
 	============================================*/

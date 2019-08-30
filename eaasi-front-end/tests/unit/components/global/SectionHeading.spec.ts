@@ -10,4 +10,14 @@ describe('SectionHeading.vue', () => {
 		});
 		expect(wrapper.find('.heading-text').text()).toBe('alrighty');
 	});
+
+	it('Renders icon passed as prop', () => {
+		const wrapper = shallowMount(SectionHeading, {
+			propsData: {
+				title: 'welcome to',
+				icon: 'delaware'
+			},
+		});
+		expect(wrapper.find('.delaware').exists()).toBe(true);
+	});
 });

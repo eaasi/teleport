@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import { BigSectionHeading } from '@/components/global';
 
 describe('BigSectionHeading.vue', () => {
-	it('Renders prop title as heading text', () => {
+	it('Renders `title` prop as heading text', () => {
 		const wrapper = shallowMount(BigSectionHeading, {
 			propsData: {
 				title: 'welcome'
@@ -10,4 +10,5 @@ describe('BigSectionHeading.vue', () => {
 		});
 		expect(wrapper.find('.big-heading-text').text()).toBe('welcome');
 	});
+
 });

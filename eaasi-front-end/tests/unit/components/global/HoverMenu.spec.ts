@@ -24,10 +24,11 @@ describe('HoverMenu.vue', () => {
 				menu: 'fake menu item'
 			}
 		});
+
 		// Trigger the mouse enter event
 		wrapper.find('.hover-menu-wrapper').trigger('mouseenter');
-
-		let menuWrapperText = wrapper.find('.hover-menu-wrapper').text();
-		expect(menuWrapperText).toBe('fake menu item');
+		wrapper.vm.$nextTick(() => {
+			expect(wrapper.emitted('opened')).toBeTruthy();
+		});
 	});
 });
