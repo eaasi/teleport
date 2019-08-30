@@ -34,7 +34,7 @@
 		<div v-else class="error-container">
 			<div id="defaultErrorMessage" class="text-center">
 				<h2>Oops, something went wrong!</h2>
-				<p>An unexpected error has occured. Our developers have been automatically notified. Please try again later.</p>
+				<p>An unexpected error has occurred. Our developers have been automatically notified. Please try again later.</p>
 			</div>
 		</div>
 	</info-modal>
@@ -118,13 +118,9 @@ export default class ErrorModal extends Vue {
 	}
 
 	#defaultErrorMessage {
-		padding: 4rem 0;
 		margin: 0 auto;
 		max-width: 50rem;
-	}
-
-	#errorMessage {
-		padding: 1rem 0;
+		padding: 4rem 0;
 	}
 
 </style>
