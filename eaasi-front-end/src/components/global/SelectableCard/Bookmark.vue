@@ -18,7 +18,7 @@
 					:stroke-dasharray="dashSize"
 					stroke-dashoffset="8"
 					font-size="none"
-					style="mix-blend-mode: normal"
+					style="mix-blend-mode: normal;"
 				>
 					<g
 						fill="#000000"

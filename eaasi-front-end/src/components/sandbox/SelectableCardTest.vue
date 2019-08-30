@@ -131,9 +131,9 @@ export default class ResourceCardTest extends Vue {
 
 <style>
 	.row {
-		padding: 12px;
 		display: flex;
 		flex-direction: row;
+		padding: 12px;
 	}
 
 	.col {

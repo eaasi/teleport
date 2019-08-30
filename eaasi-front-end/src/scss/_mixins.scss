@@ -37,35 +37,36 @@
 /============================================================*/
 
 @mixin clearfix {
-	&:after {
+
+	&::after {
 		clear: both;
-		content: "";
+		content: '';
 		display: table;
 	}
 }
 
 @mixin stretch {
-	top: 0;
+	bottom: 0;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	top: 0;
 }
 
 @mixin aspect-ratio($width, $height) {
-    position: relative;
+	position: relative;
 
-    &:before {
-        display: block;
-        content: "";
-        width: 100%;
-        padding-top: ($height / $width) * 100%;
-    }
+	&::before {
+		content: '';
+		display: block;
+		padding-top: ($height / $width) * 100%;
+		width: 100%;
+	}
 
-    > div {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
+	> div {
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
 }

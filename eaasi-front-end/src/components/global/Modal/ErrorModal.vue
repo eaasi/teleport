@@ -118,9 +118,9 @@ export default class ErrorModal extends Vue {
 	}
 
 	#defaultErrorMessage {
-		padding: 4rem 0;
 		margin: 0 auto;
 		max-width: 50rem;
+		padding: 4rem 0;
 	}
 
 	#errorMessage {

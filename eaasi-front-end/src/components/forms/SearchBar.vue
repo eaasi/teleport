@@ -68,7 +68,7 @@ export default class SearchBar extends BaseFormField {
 	}
 
 	.eaasi-input {
-		background-color: #FFF;
+		background-color: #FFFFFF;
 	}
 
 	.eaasi-field-icon {
