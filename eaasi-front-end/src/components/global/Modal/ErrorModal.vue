@@ -122,5 +122,4 @@ export default class ErrorModal extends Vue {
 		max-width: 50rem;
 		padding: 4rem 0;
 	}
-
 </style>

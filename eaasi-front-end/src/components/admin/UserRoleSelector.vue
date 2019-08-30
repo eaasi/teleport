@@ -48,7 +48,7 @@ export default class UserRoleSelector extends Vue {
 
 <style lang="scss">
 .eaasi-user-role-selector {
-	background-color: #FFF;
+	background-color: #FFFFFF;
 	border: solid 2px $light-blue;
 	border-radius: 10px;
 	box-sizing: border-box;
@@ -96,7 +96,7 @@ export default class UserRoleSelector extends Vue {
 
 		&.checked {
 			background-color: $light-blue;
-			box-shadow: inset 0px 0px 2px 2px #FFF;
+			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
 		}
 	}
 }

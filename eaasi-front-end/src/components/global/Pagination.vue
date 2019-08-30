@@ -195,11 +195,12 @@ export default class Pagination extends Vue {
 		transition: background-color 0.2s;
 
 		&.active {
-			background-color: #FFF;
+			background-color: #FFFFFF;
 			border-bottom: solid 2px $dark-blue;
 			cursor: default;
+
 			&:hover {
-				background-color: #FFF;
+				background-color: #FFFFFF;
 			}
 		}
 

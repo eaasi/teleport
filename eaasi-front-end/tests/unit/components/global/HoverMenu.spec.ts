@@ -15,7 +15,7 @@ describe('HoverMenu.vue', () => {
 		expect(menuWrapperText).toBeFalsy();
 	});
 
-	it('On mouse enter event makes menu slot visible', done => {
+	it('On mouse enter event makes menu slot visible', () => {
 		const wrapper = shallowMount(HoverMenu, {
 			propsData: {
 				closeDelay: 500
@@ -30,6 +30,5 @@ describe('HoverMenu.vue', () => {
 		wrapper.vm.$nextTick(() => {
 			expect(wrapper.emitted('opened')).toBeTruthy();
 		});
-		done();
 	});
 });

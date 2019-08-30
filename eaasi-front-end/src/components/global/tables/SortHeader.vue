@@ -79,6 +79,7 @@ export default class SortHeader extends Vue {
 	}
 
 	&.sorted {
+
 		.sh-arrow {
 			visibility: visible;
 		}

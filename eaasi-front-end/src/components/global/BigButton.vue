@@ -62,10 +62,12 @@ export default class BigButton extends Vue {
 <style lang="scss">
 .eb-wrapper {
 	max-width: 32rem;
+
 	&.size-sm,
 	&.size-small {
 		max-width: 24rem;
 	}
+
 	&.size-lg,
 	&.size-large {
 		max-width: 40rem;

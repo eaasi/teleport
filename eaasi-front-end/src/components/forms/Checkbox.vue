@@ -81,7 +81,7 @@ $checkboxSize: 20px;
 	}
 
 	.checkmark {
-		background-color: #fff;
+		background-color: #ffffff;
 		border: 1px solid lighten($light-blue, 90%);
 		border-radius: 0.5em;
 		height: $checkboxSize;
@@ -96,13 +96,13 @@ $checkboxSize: 20px;
 	}
 
 	.checkmark::after {
-		content: "";
+		content: '';
 		display: none;
 		position: absolute;
 	}
 
 	label .checkmark::after {
-		border: solid white;
+		border: solid #FFFFFF;
 		border-width: 0 3px 3px 0;
 		height: 10px;
 		left: 6px;
