@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import passport from 'passport';
 
 const router = express.Router();
@@ -9,5 +9,6 @@ const controller = new EaasiAuthController();
 router.post('/login', passport.authenticate('saml'), controller.login);
 router.delete('/logout', controller.logout);
 router.post('/refresh', controller.refresh);
+router.get('/shibboleth', controller.shibbolethXml);
 
 module.exports = router;
