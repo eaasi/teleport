@@ -36,13 +36,13 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-	async authorize({commit}, {userid}): Promise<boolean> {
-		let res = await _authService.authorize(userid);
-		if(!res || !res.token || !res.user) return false;
-		let user = validateUserToken(res.token);
+	async authorize({commit}, token): Promise<boolean> {
+		//let res = await _authService.authorize(userid);
+		//if(!res || !res.token || !res.user) return false;
+		let user = validateUserToken(token);
 		if(!user) return false;
-		commit('SET_USER_TOKEN', res.token);
-		commit('SET_LOGGED_IN_USER', res.user);
+		commit('SET_USER_TOKEN', token);
+		commit('SET_LOGGED_IN_USER', user);
 		return true;
 	},
 

@@ -7,6 +7,7 @@ import path from 'path';
 import http from 'http';
 import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
 import { onError, normalizePort } from './utils/server';
+import passport from 'passport';
 // import passport from 'passport';
 
 require('dotenv-flow').config();
@@ -21,10 +22,8 @@ app.set('view engine', 'jade');
 
 // Middleware
 
-/** We made need this eventually depending on shibboleth flow
- * app.use(passport.initialize());
- */
 
+app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(Cors());
 app.use(express.urlencoded({ extended: false }));
