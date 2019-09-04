@@ -3,10 +3,10 @@ import { IEaasiAuthResponse } from 'eaasi-auth';
 
 class AuthService extends BaseHttpService {
 
-	async authorize(userId: number): Promise<IEaasiAuthResponse> {
-		let res = await this.post('/auth/login', {userId});
+	async getUserData() {
+		let res = await this.get('/auth/user');
 		if(!res || !res.ok) return null;
-		return res.result as IEaasiAuthResponse;
+		return res.result;
 	}
 
 	async logout(): Promise<boolean> {
@@ -14,13 +14,6 @@ class AuthService extends BaseHttpService {
 		return res.ok;
 	}
 
-	async validateToken(token): Promise<boolean> {
-		let res = await this.post('/auth/validate', token, {
-			suppressErrors: true,
-			suppressSpinner: true
-		});
-		return res && res.ok;
-	}
 }
 
 export default new AuthService();

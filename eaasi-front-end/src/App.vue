@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<template v-if="!authorized">
+		<template v-if="!loggedIn">
 			<router-view />
 		</template>
 		<template v-else>
@@ -37,8 +37,8 @@ export default class App extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('global/authorized')
-	authorized: boolean
+	@Get('global/loggedIn')
+	loggedIn: boolean
 
 	/* Methods
 	============================================*/

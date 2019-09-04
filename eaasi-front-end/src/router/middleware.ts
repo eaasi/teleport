@@ -15,40 +15,22 @@ export function loggedInGuard(to: Route, _from: Route, next: any) {
 
 	// Redirect to login if no token and the route does not allow guests
 	if(!token && !to.matched.some(x => x.meta.allowGuest)) {
-		next({
+		return next({
 			path: '/login',
 			params: { redirectTo: to.fullPath }
 		});
-
-	// Redirect to home if the user is trying to go to login but already has a token
-	} else if(token && to.name === 'Login') {
-		let path = to.params.redirectTo || '/';
-		next({path});
 	}
 
-	// Go to requested route
-	else {
-		next();
-	}
-}
+	store.dispatch('global/verifyUserData').then(() => {
+		// Redirect to home if the user is trying to go to login but already has a token
+		if(token && to.name === 'Login') {
+			let path = to.params.redirectTo || '/';
+			next({path});
+		}
 
-/**
- * Handles auth callbacks from shibboleth
- * @param to The route to go to
- * @param _from The current route (unused)
- * @param next Callback method
- */
-export function authorize(to: Route, _from: Route, next: any) {
-	let samlToken = getParameterByName('t');
-	store.dispatch('global/authorize', samlToken).then(success => {
-		if(!success) {
-			store.commit('global/SET_LOGIN_ERROR', 'Invalid login, please try again');
-			next({
-				path: '/login'
-			});
-		} else {
-			store.commit('global/SET_LOGIN_ERROR', null);
-			next({path: '/'});
+		// Go to requested route
+		else {
+			next();
 		}
 	});
 }

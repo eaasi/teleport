@@ -17,6 +17,7 @@ passport.use(new passportJWT.Strategy({
 	jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: JWT_SECRET
 }, (jwtPayload: any, done: any) => {
+	console.log(jwtPayload);
 	done(null, jwtPayload);
 }));
 
@@ -35,7 +36,7 @@ passport.use(new SamlStrategy(samlConfig, function(profile: any, done: any) {
 		} else {
 			let user = dbRes.result.get({plain: true});
 			let token = jwt.sign(user, JWT_SECRET, {
-				expiresIn: '24h'
+				expiresIn: '24h' // TODO: This should match IDP token expiration
 			});
 			done(null, {user, token});
 		}

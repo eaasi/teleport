@@ -6,20 +6,9 @@ import path from 'path';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
+const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
 
-class EaasiAuthController {
-
-	constructor() {
-	}
-
-	/**
-     * Callback URL for Shibboleth SP login
-     * @param req request
-     * @param res response
-     */
-	async login(req: Request, res: Response) {
-		// TODO: This should be caught by saml middleware. If not, then what?
-	}
+export default class EaasiAuthController {
 
 	/**
      * Callback URL for shibboleth SP login
@@ -28,7 +17,17 @@ class EaasiAuthController {
      */
 	callback(req: Request, res: Response) {
 		req.method = 'GET';
-		res.redirect(`http://localhost:8084/login/auth?t=${req.user.token}`);
+		res.redirect(CLIENT_URL);
+	}
+
+	/**
+     * Gets logged in user data
+     * @param req request
+     * @param res response
+     */
+	user(req: Request, res: Response) {
+		console.log('Want user!!!');
+		res.json({test: true});
 	}
 
 	/**
@@ -36,10 +35,10 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-	async logout(req: Request, res: Response) {
+	logout(req: Request, res: Response) {
 		// TODO
 		console.log('Not implemented');
-		await res.json({});
+		res.json({});
 	}
 
 	/**
@@ -47,10 +46,10 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-	async refresh(req: Request, res: Response) {
+	refresh(req: Request, res: Response) {
 		// TODO
 		console.log('Not implemented');
-		await res.json({});
+		res.json({});
 	}
 
 	/**
@@ -72,6 +71,7 @@ class EaasiAuthController {
 			res.status(401).send('Login failed');
 		}
 	}
+
 }
 
 module.exports = EaasiAuthController;

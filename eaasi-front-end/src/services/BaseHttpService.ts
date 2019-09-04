@@ -102,14 +102,11 @@ export default class BaseHttpService {
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 
-		console.log(url, method, data, options);
-
 		if(url.indexOf('://') === -1) url = this.BASE_URL + url;
 
 		let self = this;
 		let requestInit = new EaasiApiRequestInit(url, method, data, options);
 		let request = new Request(url, requestInit);
-		console.log(JSON.stringify(requestInit, null, 4));
 		let response: IEaasiApiResponse<T>;
 		options = options || requestInit.options;
 
@@ -121,6 +118,8 @@ export default class BaseHttpService {
 			// Let Vue know that an ajax request has been completed
 			eventBus.$emit('ajaxEnd');
 			response = res as IEaasiApiResponse<T>;
+
+			console.log(res);
 
 			// If 200 response, parse the body as the generic type
 			if (res.ok) response.result = await res.json();

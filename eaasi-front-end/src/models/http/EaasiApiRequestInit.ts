@@ -2,8 +2,8 @@ import { IEaasiApiRequestOptions } from 'eaasi-auth';
 import config from '@/config';
 
 export default class EaasiApiRequestInit implements RequestInit {
-	readonly data: any;
-	readonly method: string;
+	readonly data: any
+	readonly method: string
 	readonly credentials: RequestCredentials = 'include'
 	readonly mode: RequestMode = 'cors'
 	options: IEaasiApiRequestOptions
