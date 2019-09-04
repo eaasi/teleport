@@ -9,6 +9,6 @@ const controller = new EaasiAuthController();
 router.post('/login', passport.authenticate('saml'), controller.login);
 router.delete('/logout', controller.logout);
 router.post('/refresh', controller.refresh);
-router.get('/shibboleth', controller.shibbolethXml);
+router.get('/Shibboleth.sso', controller.shibbolethXml);
 
 module.exports = router;
