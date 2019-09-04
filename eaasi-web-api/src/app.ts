@@ -5,6 +5,7 @@ import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import http from 'http';
+import passport from 'passport';
 import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
 import { onError, normalizePort } from './utils/server';
 // import passport from 'passport';
@@ -21,10 +22,7 @@ app.set('view engine', 'jade');
 
 // Middleware
 
-/** We made need this eventually depending on shibboleth flow
- * app.use(passport.initialize());
- */
-
+app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(Cors());
 app.use(express.urlencoded({ extended: false }));
