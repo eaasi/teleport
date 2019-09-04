@@ -13,6 +13,14 @@ class AuthService extends BaseHttpService {
 		let res = await this.get('/auth/logout');
 		return res.ok;
 	}
+
+	async validateToken(token): Promise<boolean> {
+		let res = await this.post('/auth/validate', token, {
+			suppressErrors: true,
+			suppressSpinner: true
+		});
+		return res && res.ok;
+	}
 }
 
 export default new AuthService();
