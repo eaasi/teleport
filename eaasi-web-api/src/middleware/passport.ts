@@ -24,12 +24,14 @@ passport.use(new passportJWT.Strategy({
  == SAML
 /============================================================*/
 
+const USER_EMAIL_CLAIM = process.env.USER_EMAIL_CLAIM_PROPERTY as string;
+
 passport.use(new SamlStrategy(samlConfig, function(profile: any, done: any) {
 	let svc = new EaasiUserService();
-	let email = profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+	let email = profile[USER_EMAIL_CLAIM];
 	svc.getByEmail(email).then(dbRes => {
 		if(!dbRes || !dbRes.result) {
-			done('ERROR!');
+			done(`Error retrieving information using claim ${USER_EMAIL_CLAIM} with value ${email}`);
 		} else {
 			let user = dbRes.result.get({plain: true});
 			let token = jwt.sign(user, JWT_SECRET, {
