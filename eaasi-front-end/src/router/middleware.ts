@@ -1,6 +1,8 @@
 import { Route } from 'vue-router';
 import { getParameterByName } from '@/utils/functions';
-import store from '@/store';/**
+import store from '@/store';
+
+const JWT_NAME = process.env.VUE_APP_JWT_NAME;
 
 /**
  * Ensures a user is logged in with a valid token befor allowing them to access protecteed routes
@@ -9,20 +11,25 @@ import store from '@/store';/**
  * @param next Callback method
  */
 export function loggedInGuard(to: Route, _from: Route, next: any) {
-	store.dispatch('global/validateToken').then(validated => {
-		if(!validated && !to.matched.some(x => x.meta.allowGuest)) {
-			next({
-				path: '/login',
-				params: { redirectTo: to.fullPath }
-			});
-		} else if(validated && to.name === 'Login') {
-			let path = to.params.redirectTo || '/';
-			next({path});
-		}
-		else {
-			next();
-		}
-	});
+	let token = localStorage.getItem(JWT_NAME);
+
+	// Redirect to login if no token and the route does not allow guests
+	if(!token && !to.matched.some(x => x.meta.allowGuest)) {
+		next({
+			path: '/login',
+			params: { redirectTo: to.fullPath }
+		});
+
+	// Redirect to home if the user is trying to go to login but already has a token
+	} else if(token && to.name === 'Login') {
+		let path = to.params.redirectTo || '/';
+		next({path});
+	}
+
+	// Go to requested route
+	else {
+		next();
+	}
 }
 
 /**
@@ -32,9 +39,8 @@ export function loggedInGuard(to: Route, _from: Route, next: any) {
  * @param next Callback method
  */
 export function authorize(to: Route, _from: Route, next: any) {
-	// TODO: userid is temporary for testing. to.query should contain data from shibboleth callback
-	let token = getParameterByName('t');
-	store.dispatch('global/authorize', token).then(success => {
+	let samlToken = getParameterByName('t');
+	store.dispatch('global/authorize', samlToken).then(success => {
 		if(!success) {
 			store.commit('global/SET_LOGIN_ERROR', 'Invalid login, please try again');
 			next({

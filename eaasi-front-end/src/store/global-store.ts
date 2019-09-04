@@ -1,11 +1,8 @@
 import { make } from 'vuex-pathify';
 import _authService from '@/services/AuthService';
 import { IEaasiUser } from 'eaasi-auth';
-import { validateUserToken } from '@/utils/auth';
 import {IAppError} from '@/types/AppError';
-
-const JWT_NAME = process.env.VUE_APP_JWT_NAME;
-const SHOW_DEBUG_ERRORS = process.env.VUE_APP_SHOW_DEBUG_ERRORS;
+import config from '@/config';
 
 /*============================================================
  == State
@@ -20,7 +17,7 @@ class GlobalState {
 	nodeName: string = 'PortalMedia Inc';
 	userToken: string = null;
 	appError: IAppError = null;
-	readonly showDebugErrors: boolean = SHOW_DEBUG_ERRORS == 'true';
+	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
 }
 
 const state = new GlobalState();
@@ -36,40 +33,25 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-	async authorize({commit}, token): Promise<boolean> {
-		//let res = await _authService.authorize(userid);
-		//if(!res || !res.token || !res.user) return false;
-		let user = validateUserToken(token);
-		if(!user) return false;
-		commit('SET_USER_TOKEN', token);
-		commit('SET_LOGGED_IN_USER', user);
+
+	async authorize({commit}, samlToken): Promise<boolean> {
+		let res = await _authService.authorize(samlToken);
+		if(!res || !res.user || !res.token) return false;
+		commit('SET_USER_TOKEN', res.token);
+		commit('SET_LOGGED_IN_USER', res.user);
 		return true;
 	},
 
-	async logout({commit}) {
-		localStorage.removeItem(JWT_NAME);
-		// Do a full refresh to clear all application state
-		location.assign(process.env.VUE_APP_BASE_URL);
+	async validateToken(): Promise<boolean> {
+		let token = localStorage.getItem(config.JWT_NAME);
+		if(!token) return false;
+		return await _authService.validateToken(token);
 	},
 
-	async validateToken({commit, state}) {
-		let token = state.userToken || localStorage.getItem(JWT_NAME);
-		let user = null;
-		if(token) user = validateUserToken(token);
-
-		if(state.loggedInUser === null || user === null) {
-			commit('SET_LOGGED_IN_USER', user);
-		}
-
-		if(token !== state.userToken) {
-			commit('SET_USER_TOKEN', !!user ? token : null);
-		}
-
-		if(state.authorized !== !!user) {
-			commit('SET_AUTHORIZED', !!user);
-		}
-
-		return !!user;
+	async logout({commit}) {
+		localStorage.removeItem(config.JWT_NAME);
+		// Do a full refresh to clear all application state
+		location.assign(process.env.VUE_APP_BASE_URL);
 	}
 
 };

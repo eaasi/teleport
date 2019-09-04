@@ -34,8 +34,33 @@ import eventBus from '@/utils/event-bus';
 })
 export default class App extends Vue {
 
+	/* Computed
+	============================================*/
+
 	@Get('global/authorized')
 	authorized: boolean
+
+	/* Methods
+	============================================*/
+
+	initListeners() {
+		let self = this;
+
+		// Global error listener
+		eventBus.$on('ajaxError', err => {
+			this.$store.commit('global/SET_APP_ERROR', err);
+		});
+
+		// Other global listeners here
+
+	}
+
+	/* Lifecycle Hooks
+	============================================*/
+
+	created() {
+		this.initListeners();
+	}
 
 }
 

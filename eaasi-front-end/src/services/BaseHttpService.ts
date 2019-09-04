@@ -1,6 +1,7 @@
-import EaasiApiRequest from '@/models/http/EaasiApiRequest';
+import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiApiResponse, IEaasiSearchQuery } from 'eaasi-http';
 import eventBus from '@/utils/event-bus';
+import { IEaasiApiRequestOptions } from 'eaasi-auth';
 
 export default class BaseHttpService {
 	readonly BASE_URL: string = process.env.VUE_APP_API_BASE_URL;
@@ -14,10 +15,10 @@ export default class BaseHttpService {
 	 * Makes a GET request using Fetch
 	 *
 	 * @param {string} url - The request URL
-	 * @param {EaasiApiRequest} [options] - Request options
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
 	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
 	 */
-	async get<T>(url: string, options?: EaasiApiRequest): Promise<IEaasiApiResponse<T>> {
+	async get<T>(url: string, options?: IEaasiApiRequestOptions): Promise<IEaasiApiResponse<T>> {
 		return this._makeRequest(url, 'GET', null, options);
 	}
 
@@ -25,13 +26,13 @@ export default class BaseHttpService {
 	 * Makes a POST request using Fetch
 	 *
 	 * @param {string} url - The request URL
-	 * @param {EaasiApiRequest} [options] - Request options
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
 	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
 	 */
 	async post<T>(
 		url: string,
 		data: any,
-		options?: EaasiApiRequest
+		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 		return this._makeRequest(url, 'POST', data, options);
 	}
@@ -40,10 +41,10 @@ export default class BaseHttpService {
 	 * Makes a PUT request using Fetch
 	 *
 	 * @param {string} url - The request URL
-	 * @param {EaasiApiRequest} [options] - Request options
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
 	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
 	 */
-	async put<T>(url: string, data: any, options?: EaasiApiRequest): Promise<IEaasiApiResponse<T>> {
+	async put<T>(url: string, data: any, options?: IEaasiApiRequestOptions): Promise<IEaasiApiResponse<T>> {
 		return this._makeRequest(url, 'PUT', data, options);
 	}
 
@@ -51,10 +52,10 @@ export default class BaseHttpService {
 	 * Makes a DELETE request using Fetch
 	 *
 	 * @param {string} url - The request URL
-	 * @param {EaasiApiRequest} [options] - Request options
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
 	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
 	 */
-	async delete<T>(url: string, options?: EaasiApiRequest): Promise<IEaasiApiResponse<T>> {
+	async delete<T>(url: string, options?: IEaasiApiRequestOptions): Promise<IEaasiApiResponse<T>> {
 		return this._makeRequest(url, 'DELETE', null, options);
 	}
 
@@ -91,19 +92,26 @@ export default class BaseHttpService {
 	 * @param {string} url - The request URL
 	 * @param {string} method  - The request method type
 	 * @param {any} data - Data to send as the body of the request
-	 * @param {EaasiApiRequest} [options] - Request options
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
 	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
 	 */
 	private async _makeRequest<T>(
 		url: string,
 		method: string,
 		data?: any,
-		options?: EaasiApiRequest
+		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
+
+		console.log(url, method, data, options);
+
+		if(url.indexOf('://') === -1) url = this.BASE_URL + url;
+
 		let self = this;
-		if (!options) options = new EaasiApiRequest(this.BASE_URL + url, method, data);
-		let request = self._createRequest(options);
+		let requestInit = new EaasiApiRequestInit(url, method, data, options);
+		let request = new Request(url, requestInit);
+		console.log(JSON.stringify(requestInit, null, 4));
 		let response: IEaasiApiResponse<T>;
+		options = options || requestInit.options;
 
 		try {
 			// Let Vue know that an ajax request has been initiated
@@ -118,7 +126,7 @@ export default class BaseHttpService {
 			if (res.ok) response.result = await res.json();
 
 			// Handle non-200 responses
-			else self._handleBadResponse<T>(options, res, options.suppressErrors);
+			else self._handleBadResponse<T>(requestInit, res, options.suppressErrors);
 			return response;
 		} catch (e) {
 			eventBus.$emit('ajaxEnd');
@@ -128,35 +136,13 @@ export default class BaseHttpService {
 	}
 
 	/**
-	 *	Creates a Request object using properties from EaasiApiRequest
-	 *
-	 * @param {string} url - The request URL
-	 * @param {EaasiApiRequest} [options] - Request options
-	 * @return {Request} A fetch request object
-	 */
-	private _createRequest(options: EaasiApiRequest): Request {
-		let token = localStorage.getItem(this.JWT_NAME);
-		return new Request(options.url, {
-			method: options.method,
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-				'Authorization': token ? `Bearer ${token}` : null,
-				'X-Requested-With':  'XMLHttpRequest'
-			},
-			mode: options.mode,
-			body: options.data
-		});
-	}
-
-	/**
 	 * Handles non-200 Fetch responses
 	 *
 	 * @param {Response} response - The fetch response object
 	 * @param {boolean} suppressError - When true, will not alert the user of an error
 	 */
 	private async _handleBadResponse<T>(
-		request: EaasiApiRequest,
+		request: EaasiApiRequestInit,
 		response: Response,
 		suppressError: boolean
 	): Promise<IEaasiApiResponse<T>> {
