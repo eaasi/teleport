@@ -13,7 +13,6 @@ class AuthService extends BaseHttpService {
 		let res = await this.get('/auth/logout');
 		return res.ok;
 	}
-
 }
 
 export default new AuthService();
