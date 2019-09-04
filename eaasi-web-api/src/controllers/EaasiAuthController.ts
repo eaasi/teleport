@@ -38,7 +38,7 @@ class EaasiAuthController {
      */
 	async logout(req: Request, res: Response) {
 		req.logout();
-		res.redirect(`http://localhost:8084`);
+		res.redirect('http://localhost:8084');
 	}
 
 	/**
