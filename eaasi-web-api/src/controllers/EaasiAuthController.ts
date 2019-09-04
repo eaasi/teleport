@@ -37,9 +37,8 @@ class EaasiAuthController {
      * @param res response
      */
 	async logout(req: Request, res: Response) {
-		// TODO
-		console.log('Not implemented');
-		await res.json({});
+		req.logout();
+		res.redirect(`http://localhost:8084`);
 	}
 
 	/**
