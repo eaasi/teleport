@@ -27,9 +27,7 @@ class EaasiAuthController {
      * @param res response
      */
 	callback(req: Request, res: Response) {
-		console.log('In callback', req.user);
 		req.method = 'GET';
-		console.log(req.user.token);
 		res.redirect(`http://localhost:8084/login/auth?t=${req.user.token}`);
 	}
 
