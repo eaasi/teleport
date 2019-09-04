@@ -7,9 +7,13 @@ import fs from 'fs';
 import path from 'path';
 
 const JWT_SECRET = process.env.JWT_SECRET as Secret;
+const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
+const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
+
 class EaasiAuthController {
 
-	constructor() { }
+	constructor() {
+	}
 
 	/**
      * Callback URL for Shibboleth SP login
@@ -57,8 +61,8 @@ class EaasiAuthController {
 	 */
 	shibbolethXml(req: Request, res: Response) {
 		try {
-			let cert = fs.readFileSync(path.resolve('certs/cert.pem'), 'utf8');
-			let idpCert = fs.readFileSync(path.resolve('certs/idp-cert.pem'), 'utf8');
+			let cert = fs.readFileSync(path.resolve(SP_CERT_RELPATH), 'utf8');
+			let idpCert = fs.readFileSync(path.resolve(IDP_CERT_RELPATH), 'utf8');
 			let samlStrategy = new SamlStrategy(samlConfig, () => null);
 			res.type('application/xml');
 			res.status(200);
