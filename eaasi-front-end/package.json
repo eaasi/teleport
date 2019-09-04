@@ -8,8 +8,7 @@
 		"cy:run": "cypress run",
 		"cy:run:styleguide": "cypress run --spec cy tests/e2e/specs/styleguide/**/*",
 		"cy:open": "cypress open",
-		"lint": "vue-cli-service lint --fix",
-		"lint:css": "stylelint src/components src/scss --fix",
+		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
 		"test:e2e": "vue-cli-service test:e2e",
@@ -67,10 +66,5 @@
 		"ts-jest": "^23.0.0",
 		"vue-cli-plugin-styleguidist": "^3.19.5",
 		"vue-template-compiler": "^2.6.10"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint"
-		}
 	}
 }

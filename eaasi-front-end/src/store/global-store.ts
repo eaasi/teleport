@@ -1,5 +1,4 @@
 import { make } from 'vuex-pathify';
-import _authService from '@/services/AuthService';
 import { IEaasiUser } from 'eaasi-auth';
 import {IAppError} from '@/types/AppError';
 import config from '@/config';

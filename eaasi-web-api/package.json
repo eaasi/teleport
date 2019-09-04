@@ -9,6 +9,7 @@
 		"cy:open": "cypress open",
 		"clean": "rimraf dist",
 		"build": "npm run generate-docs && npm run clean && babel src --out-dir dist --copy-files --source-maps --extensions \".ts,.js\"",
+		"lint": "eslint src --fix",
 		"server:prod": "node ./dist/app.js",
 		"start": "npm run prod",
 		"watch": "babel-watch src/app.ts --extensions \".ts,.js\"",

@@ -40,9 +40,8 @@ export default class EaasiAuthController {
      * @param res response
      */
 	logout(req: Request, res: Response) {
-		// TODO
-		console.log('Not implemented');
-		res.json({});
+		req.logout();
+		res.redirect('http://localhost:8084');
 	}
 
 	/**

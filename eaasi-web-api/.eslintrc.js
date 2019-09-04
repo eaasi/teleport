@@ -18,17 +18,18 @@ module.exports = {
 		'@typescript-eslint',
 	],
 	rules: {
-		camelcase: 'off',
-		'@typescript-eslint/camelcase': 'off',
-		indent: ['error', 'tab'],
-		'@typescript-eslint/explicit-function-return-type': 'off',
-		'@typescript-eslint/explicit-member-accessibility': 'off',
-		'@typescript-eslint/indent': ['error', 'tab'],
+		'camelcase': 'off',
+		'indent': ['error', 'tab'],
 		'lines-between-class-members': ['warn', 'always'],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-		quotes: [ 'error', 'single' ],
-		semi: [ 'error', 'always' ],
-		'@typescript-eslint/array-type': ['error', 'array']
+		'quotes': [ 'error', 'single' ],
+		'semi': [ 'error', 'always' ],
+		'@typescript-eslint/array-type': ['error', 'array'],
+		'@typescript-eslint/explicit-function-return-type': 'off',
+		'@typescript-eslint/explicit-member-accessibility': 'off',
+		'@typescript-eslint/indent': ['error', 'tab'],
+		'@typescript-eslint/no-var-requires': 'off',
+		'@typescript-eslint/camelcase': 'off'
 	}
 };
