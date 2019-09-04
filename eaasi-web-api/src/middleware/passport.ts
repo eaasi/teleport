@@ -11,7 +11,7 @@ import EaasiUserService from '../services/EaasiUserService';
  == JWT
 /============================================================*/
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET as Secret;
 
 passport.use(new passportJWT.Strategy({
 	jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
