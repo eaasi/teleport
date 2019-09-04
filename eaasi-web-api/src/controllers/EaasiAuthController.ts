@@ -71,7 +71,7 @@ class EaasiAuthController {
 			res.send(xml);
 		} catch(e) {
 			console.log(e);
-			// res.send('no');
+			res.status(401).send('Login failed');
 		}
 	}
 }
