@@ -5,7 +5,7 @@ import EaasiAuthController from '../controllers/EaasiAuthController';
 const router = express.Router();
 const controller = new EaasiAuthController();
 
-router.get('/user', controller.user);
+router.get('/user', passport.authenticate('jwt', {session: false}), controller.user);
 router.post('/callback', passport.authenticate('saml', {session: false}), controller.callback);
 router.delete('/logout', controller.logout);
 router.post('/refresh', controller.refresh);

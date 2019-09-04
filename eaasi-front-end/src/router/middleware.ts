@@ -11,19 +11,17 @@ const JWT_NAME = process.env.VUE_APP_JWT_NAME;
  * @param next Callback method
  */
 export function loggedInGuard(to: Route, _from: Route, next: any) {
-	let token = localStorage.getItem(JWT_NAME);
+	store.dispatch('global/initSession').then((success) => {
+		// Redirect to login if no token and the route does not allow guests
+		if(!success && !to.matched.some(x => x.meta.allowGuest)) {
+			next({
+				path: '/login',
+				params: { redirectTo: to.fullPath }
+			});
+		}
 
-	// Redirect to login if no token and the route does not allow guests
-	if(!token && !to.matched.some(x => x.meta.allowGuest)) {
-		return next({
-			path: '/login',
-			params: { redirectTo: to.fullPath }
-		});
-	}
-
-	store.dispatch('global/verifyUserData').then(() => {
 		// Redirect to home if the user is trying to go to login but already has a token
-		if(token && to.name === 'Login') {
+		else if(success && to.name === 'Login') {
 			let path = to.params.redirectTo || '/';
 			next({path});
 		}
@@ -45,7 +43,6 @@ export function updateMeta(to: Route) {
 	} else if(to.name) {
 		document.title = 'Eaasi | ' + to.name;
 	} else {
-		// TODO: Default title should be controlled in the admin CMS
 		document.title = 'Eaasi | Emulation as a Service Infrastructure';
 	}
 };

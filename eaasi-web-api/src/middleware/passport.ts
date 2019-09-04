@@ -17,7 +17,6 @@ passport.use(new passportJWT.Strategy({
 	jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: JWT_SECRET
 }, (jwtPayload: any, done: any) => {
-	console.log(jwtPayload);
 	done(null, jwtPayload);
 }));
 

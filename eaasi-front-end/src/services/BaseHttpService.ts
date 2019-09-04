@@ -119,8 +119,6 @@ export default class BaseHttpService {
 			eventBus.$emit('ajaxEnd');
 			response = res as IEaasiApiResponse<T>;
 
-			console.log(res);
-
 			// If 200 response, parse the body as the generic type
 			if (res.ok) response.result = await res.json();
 

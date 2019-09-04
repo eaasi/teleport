@@ -17,6 +17,10 @@ export default class EaasiAuthController {
      */
 	callback(req: Request, res: Response) {
 		req.method = 'GET';
+		// Set JWT cookie
+		res.cookie('EAASI_TOKEN', req.user.token, {
+			maxAge: 60 * 60 * 24
+		});
 		res.redirect(CLIENT_URL);
 	}
 
@@ -26,8 +30,8 @@ export default class EaasiAuthController {
      * @param res response
      */
 	user(req: Request, res: Response) {
-		console.log('Want user!!!');
-		res.json({test: true});
+		console.log('Want user!!!', req.user);
+		res.json(req.user);
 	}
 
 	/**

@@ -3,6 +3,7 @@ import _authService from '@/services/AuthService';
 import { IEaasiUser } from 'eaasi-auth';
 import {IAppError} from '@/types/AppError';
 import config from '@/config';
+import Cookies from 'js-cookie';
 
 /*============================================================
  == State
@@ -33,14 +34,16 @@ const mutations = make.mutations(state);
 
 const actions = {
 
-	async logout({commit}) {
-		localStorage.removeItem(config.JWT_NAME);
+	async logout() {
+		Cookies.remove(config.JWT_NAME);
 		// Do a full refresh to clear all application state
 		location.assign(process.env.VUE_APP_BASE_URL);
 	},
 
-	async verifyUserData({commit, state}) {
-		if(state.loggedInUser) return false;;
+	async initSession({commit, state}) {
+		if(state.loggedInUser) return true;
+		let token = Cookies.get(config.JWT_NAME);
+		if(!token) return false;
 		let user = await _authService.getUserData();
 		if(!user) return false;
 		commit('SET_LOGGED_IN_USER', user);
