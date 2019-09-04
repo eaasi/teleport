@@ -10,6 +10,6 @@ router.post('/login', passport.authenticate('saml', {session: false}), controlle
 router.post('/callback', passport.authenticate('saml', {session: false}), controller.callback);
 router.delete('/logout', controller.logout);
 router.post('/refresh', controller.refresh);
-router.get('/shibboleth', controller.shibbolethXml);
+router.get('/Shibboleth.sso', controller.shibbolethXml);
 
 module.exports = router;

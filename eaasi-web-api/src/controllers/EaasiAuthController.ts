@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response} from 'express';
 import EaasiUserService from '../services/EaasiUserService';
 import jwt, { Secret } from 'jsonwebtoken';
 import samlConfig from '../config/saml-config';
@@ -7,14 +7,16 @@ import fs from 'fs';
 import path from 'path';
 
 const JWT_SECRET = process.env.JWT_SECRET as Secret;
+const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
+const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
+
 class EaasiAuthController {
 
 	constructor() {
-		console.log('Constructed!');
 	}
 
 	/**
-     * Callback URL for shibboleth SP login
+     * Callback URL for Shibboleth SP login
      * @param req request
      * @param res response
      */
@@ -62,18 +64,16 @@ class EaasiAuthController {
 	 */
 	shibbolethXml(req: Request, res: Response) {
 		try {
-			let cert = fs.readFileSync(path.resolve('certs/cert.pem'), 'utf8');
-			let idpCert = fs.readFileSync(path.resolve('certs/idp-cert.pem'), 'utf8');
-			console.log('here!', cert);
+			let cert = fs.readFileSync(path.resolve(SP_CERT_RELPATH), 'utf8');
+			let idpCert = fs.readFileSync(path.resolve(IDP_CERT_RELPATH), 'utf8');
 			let samlStrategy = new SamlStrategy(samlConfig, () => null);
 			res.type('application/xml');
 			res.status(200);
 			let xml = samlStrategy.generateServiceProviderMetadata(cert, idpCert);
-			console.log('XML', xml);
 			res.send(xml);
 		} catch(e) {
 			console.log(e);
-			res.send('no');
+			// res.send('no');
 		}
 	}
 }

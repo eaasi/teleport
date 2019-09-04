@@ -34,7 +34,6 @@ export function loggedInGuard(to: Route, _from: Route, next: any) {
 export function authorize(to: Route, _from: Route, next: any) {
 	// TODO: userid is temporary for testing. to.query should contain data from shibboleth callback
 	let token = getParameterByName('t');
-	console.log('token', token);
 	store.dispatch('global/authorize', token).then(success => {
 		if(!success) {
 			store.commit('global/SET_LOGIN_ERROR', 'Invalid login, please try again');
