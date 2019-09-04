@@ -1,4 +1,5 @@
 import { Route } from 'vue-router';
+import { getParameterByName } from '@/utils/functions';
 import store from '@/store';/**
 
 /**
@@ -32,9 +33,9 @@ export function loggedInGuard(to: Route, _from: Route, next: any) {
  */
 export function authorize(to: Route, _from: Route, next: any) {
 	// TODO: userid is temporary for testing. to.query should contain data from shibboleth callback
-	let { userid } = to.query;
-	store.dispatch('global/authorize', {userid}).then(success => {
-		if (!success) {
+	let token = getParameterByName('t');
+	store.dispatch('global/authorize', token).then(success => {
+		if(!success) {
 			store.commit('global/SET_LOGIN_ERROR', 'Invalid login, please try again');
 			next({
 				path: '/login'

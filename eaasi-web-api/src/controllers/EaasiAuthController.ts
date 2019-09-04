@@ -1,12 +1,9 @@
 import { Request, Response} from 'express';
-import EaasiUserService from '../services/EaasiUserService';
-import jwt, { Secret } from 'jsonwebtoken';
 import samlConfig from '../config/saml-config';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import fs from 'fs';
 import path from 'path';
 
-const JWT_SECRET = process.env.JWT_SECRET as Secret;
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
 
@@ -21,15 +18,19 @@ class EaasiAuthController {
      * @param res response
      */
 	async login(req: Request, res: Response) {
-		let svc = new EaasiUserService();
-		svc.getByPk(Number(req.body.userId)).then(dbRes => {
-			if(!dbRes || !dbRes.result) return res.json(false);
-			let user = dbRes.result.get({plain: true});
-			let token = jwt.sign(user, JWT_SECRET, {
-				expiresIn: '24h'
-			});
-			return res.json({user, token});
-		});
+		// TODO: This should be caught by saml middleware. If not, then what?
+	}
+
+	/**
+     * Callback URL for shibboleth SP login
+     * @param req request
+     * @param res response
+     */
+	callback(req: Request, res: Response) {
+		console.log('In callback', req.user);
+		req.method = 'GET';
+		console.log(req.user.token);
+		res.redirect(`http://localhost:8084/login/auth?t=${req.user.token}`);
 	}
 
 	/**

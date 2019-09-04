@@ -5,10 +5,9 @@ import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import http from 'http';
-import passport from 'passport';
 import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
 import { onError, normalizePort } from './utils/server';
-// import passport from 'passport';
+import passport from 'passport';
 
 require('dotenv-flow').config();
 require('./middleware/passport');
@@ -20,8 +19,9 @@ app.set('port', port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// Middleware
-
+/**
+ * Middleware
+ */
 app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(Cors());
