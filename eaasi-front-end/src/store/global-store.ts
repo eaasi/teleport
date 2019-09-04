@@ -3,6 +3,7 @@ import { IEaasiUser } from 'eaasi-auth';
 import {IAppError} from '@/types/AppError';
 import config from '@/config';
 import Cookies from 'js-cookie';
+import _authService from '@/services/AuthService';
 
 /*============================================================
  == State
