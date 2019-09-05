@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<template v-if="!authorized">
+		<template v-if="!loggedIn">
 			<router-view />
 		</template>
 		<template v-else>
@@ -34,8 +34,33 @@ import eventBus from '@/utils/event-bus';
 })
 export default class App extends Vue {
 
-	@Get('global/authorized')
-	authorized: boolean
+	/* Computed
+	============================================*/
+
+	@Get('global/loggedIn')
+	loggedIn: boolean
+
+	/* Methods
+	============================================*/
+
+	initListeners() {
+		let self = this;
+
+		// Global error listener
+		eventBus.$on('ajaxError', err => {
+			this.$store.commit('global/SET_APP_ERROR', err);
+		});
+
+		// Other global listeners here
+
+	}
+
+	/* Lifecycle Hooks
+	============================================*/
+
+	created() {
+		this.initListeners();
+	}
 
 }
 

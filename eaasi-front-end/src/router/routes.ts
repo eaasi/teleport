@@ -2,7 +2,6 @@ import Home from '@/components/Home.vue';
 import UserManagement from '@/components/admin/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
 import MyResourcesScreen from '@/components/resources/MyResourcesScreen.vue';
-import { authorize } from './middleware';
 
 export default [
 	{
@@ -25,14 +24,6 @@ export default [
 		path: '/login',
 		name: 'Login',
 		component: LoginScreen,
-		meta: {
-			allowGuest: true
-		}
-	},
-	{
-		path: '/login/auth',
-		name: 'Authorization Callback',
-		beforeEnter: authorize,
 		meta: {
 			allowGuest: true
 		}
