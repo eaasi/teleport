@@ -3,6 +3,7 @@ import samlConfig from '../config/saml-config';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import fs from 'fs';
 import path from 'path';
+import { MAX_AGE } from '../config/jwt-config';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
@@ -19,7 +20,7 @@ export default class EaasiAuthController {
 		req.method = 'GET';
 		// Set JWT cookie
 		res.cookie('EAASI_TOKEN', req.user.token, {
-			maxAge: 60 * 60 * 24
+			maxAge: MAX_AGE
 		});
 		res.redirect(CLIENT_URL);
 	}
@@ -30,7 +31,6 @@ export default class EaasiAuthController {
      * @param res response
      */
 	user(req: Request, res: Response) {
-		console.log('Want user!!!', req.user);
 		res.json(req.user);
 	}
 

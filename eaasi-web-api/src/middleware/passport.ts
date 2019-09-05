@@ -4,6 +4,7 @@ import jwt, { Secret } from 'jsonwebtoken';
 import samlConfig from '../config/saml-config.js';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import EaasiUserService from '../services/EaasiUserService';
+import { MAX_AGE } from '../config/jwt-config';
 
 // TODO: implement types
 
@@ -35,7 +36,7 @@ passport.use(new SamlStrategy(samlConfig, function(profile: any, done: any) {
 		} else {
 			let user = dbRes.result.get({plain: true});
 			let token = jwt.sign(user, JWT_SECRET, {
-				expiresIn: '24h' // TODO: This should match IDP token expiration
+				expiresIn: MAX_AGE
 			});
 			done(null, {user, token});
 		}

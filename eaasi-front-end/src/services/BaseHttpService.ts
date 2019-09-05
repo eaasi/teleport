@@ -2,10 +2,9 @@ import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiApiResponse, IEaasiSearchQuery } from 'eaasi-http';
 import eventBus from '@/utils/event-bus';
 import { IEaasiApiRequestOptions } from 'eaasi-auth';
+import config from '@/config';
 
 export default class BaseHttpService {
-	readonly BASE_URL: string = process.env.VUE_APP_API_BASE_URL;
-	readonly JWT_NAME: string = process.env.VUE_APP_JWT_NAME;
 
 	/*============================================================
 	 == CRUD Methods
@@ -102,7 +101,7 @@ export default class BaseHttpService {
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 
-		if(url.indexOf('://') === -1) url = this.BASE_URL + url;
+		if(url.indexOf('://') === -1) url = config.API_BASE_URL + url;
 
 		let self = this;
 		let requestInit = new EaasiApiRequestInit(url, method, data, options);
