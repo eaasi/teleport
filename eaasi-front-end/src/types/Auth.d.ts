@@ -25,4 +25,9 @@ declare module 'eaasi-auth' {
 		token: string
 	}
 
+	export interface IEaasiApiRequestOptions {
+		suppressErrors?: boolean,
+		suppressSpinner?: boolean
+	}
+
 }

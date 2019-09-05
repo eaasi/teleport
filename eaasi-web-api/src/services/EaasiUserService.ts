@@ -1,12 +1,16 @@
-import CrudService from "./base/CrudService";
+import CrudService from './base/CrudService';
 
-const { EaasiUser } = require("../data_access/models");
+const { EaasiUser } = require('../data_access/models');
 
 /**
  * Handles CRUD operations for EaasIUser domain
  */
 export default class EaasiUserService extends CrudService {
-    constructor() {
-        super(EaasiUser);
+	constructor() {
+		super(EaasiUser);
+	}
+
+	getByEmail(email: string) {
+		return this.getByPk(1);
 	}
 }

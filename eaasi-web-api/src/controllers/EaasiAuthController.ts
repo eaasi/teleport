@@ -1,25 +1,37 @@
-import express, { Request, Response, NextFunction } from 'express';
-import EaasiUserService from '../services/EaasiUserService';
-import jwt, { Secret } from 'jsonwebtoken';
+import { Request, Response} from 'express';
+import samlConfig from '../config/saml-config';
+import { Strategy as SamlStrategy } from 'passport-saml';
+import fs from 'fs';
+import path from 'path';
+import { MAX_AGE } from '../config/jwt-config';
 
-const JWT_SECRET = process.env.JWT_SECRET as Secret;
-class EaasiAuthController {
+const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
+const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
+const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
+
+export default class EaasiAuthController {
 
 	/**
      * Callback URL for shibboleth SP login
      * @param req request
      * @param res response
      */
-	async login(req: Request, res: Response) {
-		let svc = new EaasiUserService();
-		svc.getByPk(Number(req.body.userId)).then(dbRes => {
-			if(!dbRes || !dbRes.result) return res.json(false);
-			let user = dbRes.result.get({plain: true});
-			let token = jwt.sign(user, JWT_SECRET, {
-				expiresIn: '24h'
-			});
-			return res.json({user, token});
+	callback(req: Request, res: Response) {
+		req.method = 'GET';
+		// Set JWT cookie
+		res.cookie('EAASI_TOKEN', req.user.token, {
+			maxAge: MAX_AGE
 		});
+		res.redirect(CLIENT_URL);
+	}
+
+	/**
+     * Gets logged in user data
+     * @param req request
+     * @param res response
+     */
+	user(req: Request, res: Response) {
+		res.json(req.user);
 	}
 
 	/**
@@ -27,10 +39,9 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-	async logout(req: Request, res: Response) {
-		// TODO
-		console.log('Not implemented');
-		await res.json({});
+	logout(req: Request, res: Response) {
+		req.logout();
+		res.redirect('http://localhost:8084');
 	}
 
 	/**
@@ -38,11 +49,32 @@ class EaasiAuthController {
      * @param req request
      * @param res response
      */
-	async refresh(req: Request, res: Response) {
+	refresh(req: Request, res: Response) {
 		// TODO
 		console.log('Not implemented');
-		await res.json({});
+		res.json({});
 	}
+
+	/**
+	 * Get Shibboleth SP metadata XML
+	 * @param req request
+     * @param res response
+	 */
+	shibbolethXml(req: Request, res: Response) {
+		try {
+			let cert = fs.readFileSync(path.resolve(SP_CERT_RELPATH), 'utf8');
+			let idpCert = fs.readFileSync(path.resolve(IDP_CERT_RELPATH), 'utf8');
+			let samlStrategy = new SamlStrategy(samlConfig, () => null);
+			res.type('application/xml');
+			res.status(200);
+			let xml = samlStrategy.generateServiceProviderMetadata(cert, idpCert);
+			res.send(xml);
+		} catch(e) {
+			console.log(e);
+			res.status(401).send('Login failed');
+		}
+	}
+
 }
 
 module.exports = EaasiAuthController;

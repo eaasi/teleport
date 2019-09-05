@@ -98,3 +98,7 @@ built/
 
 cypress/screenshots/
 apidoc/
+
+# local certs
+certs/cert.pem
+certs/key.pem
