@@ -1,11 +1,9 @@
 import { make } from 'vuex-pathify';
-import _authService from '@/services/AuthService';
 import { IEaasiUser } from 'eaasi-auth';
-import { validateUserToken } from '@/utils/auth';
 import {IAppError} from '@/types/AppError';
-
-const JWT_NAME = process.env.VUE_APP_JWT_NAME;
-const SHOW_DEBUG_ERRORS = process.env.VUE_APP_SHOW_DEBUG_ERRORS;
+import config from '@/config';
+import Cookies from 'js-cookie';
+import _authService from '@/services/AuthService';
 
 /*============================================================
  == State
@@ -13,14 +11,13 @@ const SHOW_DEBUG_ERRORS = process.env.VUE_APP_SHOW_DEBUG_ERRORS;
 
 class GlobalState {
 	adminMenuOpen: boolean = false;
-	authorized: boolean = false;
 	loggedInUser: IEaasiUser = null;
 	loginError: string = null;
 	// TODO: nodeName should come from the deployment config or be managed in the node admin
 	nodeName: string = 'PortalMedia Inc';
 	userToken: string = null;
 	appError: IAppError = null;
-	readonly showDebugErrors: boolean = SHOW_DEBUG_ERRORS == 'true';
+	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
 }
 
 const state = new GlobalState();
@@ -36,40 +33,21 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-	async authorize({commit}, {userid}): Promise<boolean> {
-		let res = await _authService.authorize(userid);
-		if(!res || !res.token || !res.user) return false;
-		let user = validateUserToken(res.token);
-		if(!user) return false;
-		commit('SET_USER_TOKEN', res.token);
-		commit('SET_LOGGED_IN_USER', res.user);
-		return true;
-	},
 
-	async logout({commit}) {
-		localStorage.removeItem(JWT_NAME);
+	async logout() {
+		Cookies.remove(config.JWT_NAME);
 		// Do a full refresh to clear all application state
 		location.assign(process.env.VUE_APP_BASE_URL);
 	},
 
-	async validateToken({commit, state}) {
-		let token = state.userToken || localStorage.getItem(JWT_NAME);
-		let user = null;
-		if(token) user = validateUserToken(token);
-
-		if(state.loggedInUser === null || user === null) {
-			commit('SET_LOGGED_IN_USER', user);
-		}
-
-		if(token !== state.userToken) {
-			commit('SET_USER_TOKEN', !!user ? token : null);
-		}
-
-		if(state.authorized !== !!user) {
-			commit('SET_AUTHORIZED', !!user);
-		}
-
-		return !!user;
+	async initSession({commit, state}) {
+		if(state.loggedInUser) return true;
+		let token = Cookies.get(config.JWT_NAME);
+		if(!token) return false;
+		let user = await _authService.getUserData();
+		if(!user) return false;
+		commit('SET_LOGGED_IN_USER', user);
+		return true;
 	}
 
 };
@@ -78,7 +56,13 @@ const actions = {
  == Getters
 /============================================================*/
 
-const getters = {};
+const getters = {
+
+	loggedIn(state) {
+		return !!state.loggedInUser;
+	}
+
+};
 
 export default {
 	state,

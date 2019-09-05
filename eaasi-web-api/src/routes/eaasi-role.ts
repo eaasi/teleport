@@ -1,5 +1,5 @@
-import express from "express";
-import {check, validationResult} from "express-validator";
+import express from 'express';
+import {check, validationResult} from 'express-validator';
 
 const router = express.Router();
 
@@ -19,14 +19,14 @@ const controller = new EaasiRoleController();
  * @apiSuccess {[]Object} result Array of EaasiRole objects.
  */
 router.get('/',
-    [check('limit').optional().isNumeric()],
-    [check('page').optional().isNumeric()],
-    (req: Express.Request, res: Express.Response) => {
-        const errors = validationResult(req);
-        return !errors.isEmpty()
-            ? controller.sendMalformedRequestResponse(req, res, errors)
-            : controller.getAll(req, res)
-    });
+	[check('limit').optional().isNumeric()],
+	[check('page').optional().isNumeric()],
+	(req: Express.Request, res: Express.Response) => {
+		const errors = validationResult(req);
+		return !errors.isEmpty()
+			? controller.sendMalformedRequestResponse(req, res, errors)
+			: controller.getAll(req, res);
+	});
 
 /**
  * @api {get} api/eaasi-role/:id Request EaasiRole by ID
@@ -43,13 +43,13 @@ router.get('/',
  * @apiSuccess {String} roleName The name of the EaasiRole
  */
 router.get('/:id',
-    [check('id').isNumeric()],
-    (req: Express.Request, res: Express.Response) => {
-        const errors = validationResult(req);
-        return !errors.isEmpty()
-            ? controller.sendMalformedRequestResponse(req, res, errors)
-            : controller.get(req, res);
-    });
+	[check('id').isNumeric()],
+	(req: Express.Request, res: Express.Response) => {
+		const errors = validationResult(req);
+		return !errors.isEmpty()
+			? controller.sendMalformedRequestResponse(req, res, errors)
+			: controller.get(req, res);
+	});
 
 /**
  * @api {post} api/eaasi-role/ Create a new EaasiRole resource
@@ -69,9 +69,9 @@ router.get('/:id',
  * @apiSuccess (201 Success Response) {Date} updatedAt Timestamp of the latest time the EaasiRole resource was updated.
  */
 router.post('/',
-    (req: Express.Request, res: Express.Response) => {
-        return controller.create(req, res)
-    });
+	(req: Express.Request, res: Express.Response) => {
+		return controller.create(req, res);
+	});
 
 /**
  * @api {put} api/eaasi-role/:id Update an EaasiRole resource by ID
@@ -97,13 +97,13 @@ router.post('/',
  * @apiSuccess (200 Success Response) {Date} updatedAt Timestamp of the latest time the EaasiRole resource was updated.
  */
 router.put('/:id',
-    [check('id').isNumeric()],
-    (req: Express.Request, res: Express.Response) => {
-        const errors = validationResult(req);
-        return !errors.isEmpty()
-            ? controller.sendMalformedRequestResponse(req, res, errors)
-            : controller.update(req, res)
-    });
+	[check('id').isNumeric()],
+	(req: Express.Request, res: Express.Response) => {
+		const errors = validationResult(req);
+		return !errors.isEmpty()
+			? controller.sendMalformedRequestResponse(req, res, errors)
+			: controller.update(req, res);
+	});
 
 /**
  * @api {delete} api/eaasi-role/:id Delete an EaasiRole resource by ID
@@ -119,12 +119,12 @@ router.put('/:id',
  * @apiSuccess (200 Success Response) {Object} Result Object containing the PK of the deleted resource.
  */
 router.delete('/:id',
-    [check('id').isNumeric()],
-    (req: Express.Request, res: Express.Response) => {
-        const errors = validationResult(req);
-        return !errors.isEmpty()
-            ? controller.sendMalformedRequestResponse(req, res, errors)
-            : controller.delete(req, res)
-    });
+	[check('id').isNumeric()],
+	(req: Express.Request, res: Express.Response) => {
+		const errors = validationResult(req);
+		return !errors.isEmpty()
+			? controller.sendMalformedRequestResponse(req, res, errors)
+			: controller.delete(req, res);
+	});
 
 module.exports = router;
