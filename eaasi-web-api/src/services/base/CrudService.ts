@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import AppLogger from "../../logging/appLogger";
 import ICrudService from '../interfaces/ICrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from './CrudServiceResult';
@@ -9,9 +10,12 @@ export default class CrudService implements ICrudService {
 
 	protected model: any;
 
+	private _logger: any;
+
 	constructor(model: any) {
 		this.model = model;
     	this.MAX_GET_ALL_PAGE_SIZE = 100;
+    	this._logger = new AppLogger(this.constructor.name);
 	}
 
 	/**
@@ -34,6 +38,7 @@ export default class CrudService implements ICrudService {
 	async getAll(limit: number, page: number, sortCol?: string, descending?: boolean): Promise<ICrudServiceResult> {
 		let totalResults = await this.model.findAndCountAll()
 			.catch((error: string) => {
+				this._logger.log.error(error);
     			return new CrudServiceResult(error);
 			});
 
@@ -46,6 +51,7 @@ export default class CrudService implements ICrudService {
 		let results = await this.model
     		.findAll(options)
 			.catch((error: string) => {
+				this._logger.log.error(error);
 				return new CrudServiceResult(error);
 			});
 
@@ -74,6 +80,7 @@ export default class CrudService implements ICrudService {
     			return new CrudServiceResult(null, result);
     		})
     		.catch((error: string)=> {
+				this._logger.log.error(error);
     			return new CrudServiceResult(error);
     		});
 	}
@@ -92,6 +99,7 @@ export default class CrudService implements ICrudService {
     			return new CrudServiceResult(null, created);
     		})
     		.catch((error: string) => {
+				this._logger.log.error(error);
     			return new CrudServiceResult(error);
     		});
 	}
@@ -118,10 +126,12 @@ export default class CrudService implements ICrudService {
     					return new CrudServiceResult(null, found);
     				})
     				.catch((error: string) => {
+						this._logger.log.error(error);
     					return new CrudServiceResult(error);
     				});
     		})
     		.catch((error: string) => {
+				this._logger.log.error(error);
     			return new CrudServiceResult(error);
     		});
 	}
@@ -145,10 +155,12 @@ export default class CrudService implements ICrudService {
     					return new CrudServiceResult(null, pk);
     				})
     				.catch((error: string) => {
+						this._logger.log.error(error);
     					return new CrudServiceResult(error);
     				});
     		})
     		.catch((error: string) => {
+				this._logger.log.error(error);
     			return new CrudServiceResult(error);
     		});
 	}

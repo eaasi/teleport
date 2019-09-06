@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import AppLogger from "../logging/appLogger";
 import {areAllValidIntegerParams} from '../utils/validators';
 import {build_400_response, build_404_response, build_500_response} from '../utils/error-helpers';
 import ICrudController from './interfaces/ICrudController';
@@ -12,9 +13,11 @@ import CrudService from 'src/services/base/CrudService';
  */
 export default class BaseCrudController implements ICrudController {
 	private _crudService: CrudService;
+	private _logger: any
 
 	constructor(crudService: any) {
 		this._crudService = crudService;
+		this._logger = new AppLogger(this.constructor.name);
 	}
 
 	/**
@@ -38,6 +41,7 @@ export default class BaseCrudController implements ICrudController {
 		let response = await this._crudService.getAll(limit, page, sortCol, descending);
 
 		if (response.hasError) {
+			this._logger.log.error(response.error);
 			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
@@ -63,6 +67,7 @@ export default class BaseCrudController implements ICrudController {
 		let response = await this._crudService.getByPk(id);
 
     	if (response.hasError) {
+			this._logger.log.error(response.error);
 			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
@@ -94,6 +99,7 @@ export default class BaseCrudController implements ICrudController {
 		let response = await this._crudService.create(newObject);
 
     	if (response.hasError) {
+			this._logger.log.error(response.error);
     		return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
@@ -113,6 +119,7 @@ export default class BaseCrudController implements ICrudController {
     	let updateResponse = await this._crudService.update(id, updateData);
 
     	if (updateResponse.hasError) {
+			this._logger.log.error(updateResponse.error);
     		return BaseCrudController._handleUpdateError(req, res, updateResponse);
 		}
 
@@ -129,6 +136,7 @@ export default class BaseCrudController implements ICrudController {
     	let deleteResponse = await this._crudService.destroy(id);
 
     	if (deleteResponse.hasError) {
+			this._logger.log.error(deleteResponse.error);
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 

@@ -16,8 +16,8 @@ export default class OrmTransport extends Transport {
 	 */
 	protected source: string;
 
-	constructor(options: any, source: string) {
-		super(options);
+	constructor(source: string) {
+		super();
 		this.source = source;
 	}
 
