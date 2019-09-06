@@ -13,7 +13,7 @@ export default class OrmTransport extends Transport {
 	protected source: string;
 
 	/**
-	 * Log Model
+	 * Model
 	 */
 	protected model: any;
 

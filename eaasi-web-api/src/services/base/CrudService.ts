@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import AppLogger from "../../logging/appLogger";
+import AppLogger from '../../logging/appLogger';
 import ICrudService from '../interfaces/ICrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from './CrudServiceResult';
