@@ -165,6 +165,7 @@ export default class BaseCrudController implements ICrudController {
                 `${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `;
 		}
 
+		this._logger.log.error(errorMessage);
 		await res.send(build_400_response(errorMessage));
 	}
 
