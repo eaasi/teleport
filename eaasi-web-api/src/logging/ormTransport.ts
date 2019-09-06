@@ -12,9 +12,15 @@ export default class OrmTransport extends Transport {
 	 */
 	protected source: string;
 
-	constructor(source: string) {
+	/**
+	 * Log Model
+	 */
+	protected model: any;
+
+	constructor(source: string, model: any = ApplicationLog) {
 		super();
 		this.source = source;
+		this.model = model;
 	}
 
 	/**
@@ -30,7 +36,7 @@ export default class OrmTransport extends Transport {
 				source: this.source,
 			};
 
-			ApplicationLog.create(data)
+			this.model.create(data)
 				.then((log: any) => {
 					this.emit('logged');
 					callback(null, log.get());
