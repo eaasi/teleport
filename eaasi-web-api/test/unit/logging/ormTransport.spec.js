@@ -4,7 +4,8 @@ import SequelizeModelFake from '../../helpers/doubles/sequelize-model-fake';
 describe('ORM Log Transport', () => {
 
 	it('on initialization sets log source via ctor', () => {
-		let sut = new OrmTransport('zot');
+		let modelSpy = new SequelizeModelFake();
+		let sut = new OrmTransport('zot', modelSpy);
 		expect(sut.source).toBe('zot');
 	});
 
