@@ -12,10 +12,10 @@ export default class CrudService implements ICrudService {
 
 	private _logger: any;
 
-	constructor(model: any) {
+	constructor(model: any, logger: any = null) {
 		this.model = model;
     	this.MAX_GET_ALL_PAGE_SIZE = 100;
-    	this._logger = new AppLogger(this.constructor.name);
+		this._logger = logger || new AppLogger(this.constructor.name);
 	}
 
 	/**
