@@ -22,22 +22,22 @@ export default class BaseCrudController implements ICrudController {
 	}
 
 	/**
-     * Returns all object instances in paginated form.
-     * @param req request
-     * @param res response
-     */
+	 * Returns all object instances in paginated form.
+	 * @param req request
+	 * @param res response
+	 */
 	async getAll(req: Request, res: Response) {
 		let limit = req.query.limit || 100;
-    	let page = req.query.page || 1;
-    	let sortCol = req.query.sortCol;
-    	let descending = req.query.descending === 'true';
+		let page = req.query.page || 1;
+		let sortCol = req.query.sortCol;
+		let descending = req.query.descending === 'true';
 
 		// todo: investigate more robust query string validation, add sortCol validation
 		if (!areAllValidIntegerParams([limit, page])) {
 			return await res
-    			.status(HttpResponseCode.BAD_REQUEST)
-    			.send(build_400_response(JSON.stringify(req.query)));
-    	}
+				.status(HttpResponseCode.BAD_REQUEST)
+				.send(build_400_response(JSON.stringify(req.query)));
+		}
 
 		let response = await this._crudService.getAll(limit, page, sortCol, descending);
 
@@ -52,22 +52,22 @@ export default class BaseCrudController implements ICrudController {
 	}
 
 	/**
-     * Gets a resource by ID
-     * @param req request
-     * @param res response
-     */
+	 * Gets a resource by ID
+	 * @param req request
+	 * @param res response
+	 */
 	async get(req: Request, res: Response) {
-    	const id = req.params.id;
+		const id = req.params.id;
 
 		if (req.params.id == null) {
-    		return await res
+			return await res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.params));
-    	}
+		}
 
 		let response = await this._crudService.getByPk(id);
 
-    	if (response.hasError) {
+		if (response.hasError) {
 			this._logger.log.error(response.error);
 			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
@@ -76,94 +76,94 @@ export default class BaseCrudController implements ICrudController {
 
 		if (response.result == null) {
 			return await res
-    			.status(HttpResponseCode.NOT_FOUND)
-    			.send(build_404_response(req.originalUrl));
+				.status(HttpResponseCode.NOT_FOUND)
+				.send(build_404_response(req.originalUrl));
 		}
 
-    	return await res.status(HttpResponseCode.OK).send(response.result);
+		return await res.status(HttpResponseCode.OK).send(response.result);
 	}
 
 	/**
-     * Creates a new resource and persists to database
-     * @param req request
-     * @param res response
-     */
+	 * Creates a new resource and persists to database
+	 * @param req request
+	 * @param res response
+	 */
 	async create(req: Request, res: Response) {
 		const newObject = req.body;
 
 		if (newObject == null) {
-    		return await res
+			return await res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.body));
 		}
 
 		let response = await this._crudService.create(newObject);
 
-    	if (response.hasError) {
+		if (response.hasError) {
 			this._logger.log.error(response.error);
-    		return await res
+			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
-    	}
+		}
 
 		return await res.status(HttpResponseCode.CREATED).send(response.result);
 	}
 
 	/**
-     * Updates a resource by ID
-     * @param req request
-     * @param res response
-     */
+	 * Updates a resource by ID
+	 * @param req request
+	 * @param res response
+	 */
 	async update(req: Request, res: Response) {
 		const id = req.params.id;
-    	const updateData = req.body;
-    	let updateResponse = await this._crudService.update(id, updateData);
+		const updateData = req.body;
+		let updateResponse = await this._crudService.update(id, updateData);
 
-    	if (updateResponse.hasError) {
+		if (updateResponse.hasError) {
 			this._logger.log.error(updateResponse.error);
-    		return BaseCrudController._handleUpdateError(req, res, updateResponse);
+			return BaseCrudController._handleUpdateError(req, res, updateResponse);
 		}
 
-    	return await res.status(HttpResponseCode.OK).send(updateResponse);
+		return await res.status(HttpResponseCode.OK).send(updateResponse);
 	}
 
 	/**
-     * Deletes a resource by ID
-     * @param req request
-     * @param res response
-     */
+	 * Deletes a resource by ID
+	 * @param req request
+	 * @param res response
+	 */
 	async delete(req: Request, res: Response) {
 		const id = req.params.id;
-    	let deleteResponse = await this._crudService.destroy(id);
+		let deleteResponse = await this._crudService.destroy(id);
 
-    	if (deleteResponse.hasError) {
+		if (deleteResponse.hasError) {
 			this._logger.log.error(deleteResponse.error);
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 
-    	return await res.status(HttpResponseCode.OK).send(deleteResponse);
+		return await res.status(HttpResponseCode.OK).send(deleteResponse);
 	}
 
 	/**
-     * Formats an express-validator error message when a malformed request is made
-     * @param req request
-     * @param res response
-     * @param errors express-validator Result errors
-     */
+	 * Formats an express-validator error message when a malformed request is made
+	 * @param req request
+	 * @param res response
+	 * @param errors express-validator Result errors
+	 */
 	async sendMalformedRequestResponse(req: Request, res: Response, errors: Result<any>) {
 		let allErrors = errors.array();
 		let errorMessage = '';
 
 		for (let i = 0; i < allErrors.length; i++) {
 
-    		let thisError = allErrors[i],
+			let thisError = allErrors[i],
 				value = thisError.value,
 				message = thisError.msg,
 				param = thisError.param,
 				location = thisError.location;
 
-    		errorMessage +=
-                `${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `;
+			errorMessage +=
+				`${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `;
 		}
 
 		this._logger.log.error(errorMessage);
@@ -171,42 +171,42 @@ export default class BaseCrudController implements ICrudController {
 	}
 
 	/**
-     * Handles sending an error response for an update action
-     * @param req Express req
-     * @param res Express res
-     * @param updateResponse response object from ApiService
-     * @returns {Promise<*>}
-     * @private
-     */
+	 * Handles sending an error response for an update action
+	 * @param req Express req
+	 * @param res Express res
+	 * @param updateResponse response object from ApiService
+	 * @returns {Promise<*>}
+	 * @private
+	 */
 	static async _handleUpdateError(req: Request, res: Response, updateResponse: any) {
 		if (updateResponse.error === 'notFound') {
-    		return await res
+			return await res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
 
 		return await res
-    		.status(HttpResponseCode.SERVER_ERROR)
+			.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(updateResponse.error));
 	}
 
 	/**
-     * Handles sending an error response for a delete action
-     * @param req Express req
-     * @param res Express res
-     * @param deleteResponse response object from ApiService
-     * @returns {Promise<*>}
-     * @private
-     */
+	 * Handles sending an error response for a delete action
+	 * @param req Express req
+	 * @param res Express res
+	 * @param deleteResponse response object from ApiService
+	 * @returns {Promise<*>}
+	 * @private
+	 */
 	static async _handleDeleteError(req: Request, res: Response, deleteResponse: any) {
 		if (deleteResponse.error === 'notFound') {
-    		return await res
-    			.status(HttpResponseCode.NOT_FOUND)
-    			.send(build_404_response(req.originalUrl));
-    	}
+			return await res
+				.status(HttpResponseCode.NOT_FOUND)
+				.send(build_404_response(req.originalUrl));
+		}
 
-    	return await res
+		return await res
 			.status(HttpResponseCode.SERVER_ERROR)
-    		.send(build_500_response(deleteResponse.error));
+			.send(build_500_response(deleteResponse.error));
 	}
 }
