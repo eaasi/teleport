@@ -8,10 +8,9 @@ router.use('/eaasi-role', passport.authenticate('jwt', {session: false}), requir
 
 router.get('/', function(req: express.Request, res: express.Response) {
 
-	res.render('index',
-		{
-			title: 'EaaSI Internal Web API (version 1.0)'
-		});
+	res.render('index', {
+		title: 'EaaSI Internal Web API (version 1.0)'
+	});
 });
 
 router.get('*', function(req: express.Request, res: express.Response) {

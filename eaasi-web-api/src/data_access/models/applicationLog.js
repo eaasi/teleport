@@ -7,6 +7,7 @@ class ApplicationLog extends Sequelize.Model {}
 module.exports = (sequelize) => {
 	ApplicationLog.init({
 		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
 		/**
 		 * Log Level (DEBUG, INFO, WARN, ERROR, FATAL)
 		 */
@@ -28,7 +29,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
-	}, { sequelize, tableName: 'userInformation' });
+	}, { sequelize, tableName: 'application_log' });
 
 	return ApplicationLog;
 };

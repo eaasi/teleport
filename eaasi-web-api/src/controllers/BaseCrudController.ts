@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import AppLogger from "../logging/appLogger";
+import AppLogger from '../logging/appLogger';
 import {areAllValidIntegerParams} from '../utils/validators';
 import {build_400_response, build_404_response, build_500_response} from '../utils/error-helpers';
 import ICrudController from './interfaces/ICrudController';
@@ -13,6 +13,7 @@ import CrudService from 'src/services/base/CrudService';
  */
 export default class BaseCrudController implements ICrudController {
 	private _crudService: CrudService;
+
 	private _logger: any
 
 	constructor(crudService: any) {

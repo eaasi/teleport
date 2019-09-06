@@ -15,6 +15,10 @@ module.exports = {
 				type: Sq.DATE,
 				defaultValue: new Date()
 			},
+			updatedAt: {
+				type: Sq.DATE,
+				defaultValue: new Date()
+			},
 			level: {
 				type: Sq.STRING(16),
 				allowNull: false,
