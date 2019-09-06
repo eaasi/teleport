@@ -30,8 +30,6 @@ export default class OrmTransport extends Transport {
 				source: this.source,
 			};
 
-			console.log('Saving data: ', data);
-
 			ApplicationLog.create(data)
 				.then((log: any) => {
 					this.emit('logged');
