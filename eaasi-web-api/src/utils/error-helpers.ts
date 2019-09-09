@@ -2,8 +2,8 @@
  * Standard Error Responses for web API Requests
  */
 
-import ErrorResponse from "./ErrorResponse";
-import HttpResponseCode from "./HttpResponseCode";
+import ErrorResponse from './ErrorResponse';
+import HttpResponseCode from './HttpResponseCode';
 
 /**
  * Provides a common message response object
@@ -15,7 +15,7 @@ import HttpResponseCode from "./HttpResponseCode";
  */
 export function build_400_response(requestBody: string) {
 	const messageDetail = `The provided request format is invalid: ${requestBody}`;
-	return new ErrorResponse(HttpResponseCode.BAD_REQUEST, messageDetail)
+	return new ErrorResponse(HttpResponseCode.BAD_REQUEST, messageDetail);
 }
 
 /**
@@ -23,8 +23,8 @@ export function build_400_response(requestBody: string) {
  * @type {{}}
  */
 export function build_401_response() {
-	const messageDetail = `You need to be authenticated to access the requested resource`;
-	return new ErrorResponse(HttpResponseCode.UNAUTHORIZED, messageDetail)
+	const messageDetail = 'You need to be authenticated to access the requested resource';
+	return new ErrorResponse(HttpResponseCode.UNAUTHORIZED, messageDetail);
 
 }
 
@@ -33,8 +33,8 @@ export function build_401_response() {
  * @type {{}}
  */
 export function build_403_response() {
-	const messageDetail = `You do not have permission to access the requested resource`;
-	return new ErrorResponse(HttpResponseCode.FORBIDDEN, messageDetail)
+	const messageDetail = 'You do not have permission to access the requested resource';
+	return new ErrorResponse(HttpResponseCode.FORBIDDEN, messageDetail);
 }
 
 /**
@@ -44,7 +44,20 @@ export function build_403_response() {
 export function build_404_response(requestedUrl: string) {
 	const messageDetail =
 		`Resource was not found at the requested location: ${requestedUrl}`;
-	return new ErrorResponse(HttpResponseCode.NOT_FOUND, messageDetail)
+	return new ErrorResponse(HttpResponseCode.NOT_FOUND, messageDetail);
+}
+
+
+/**
+ * Builds a standardized error payload based on the message returned from the server.
+ * @param errorName the error type returned from the server
+ * @returns {*|string}
+ */
+export function _getStandardizedServerError(errorName: string): string {
+	if (errorName === 'SequelizeDatabaseError'){
+		return 'Server could not parse the provided query';
+	}
+	return 'Unspecified server error';
 }
 
 /**
@@ -52,27 +65,14 @@ export function build_404_response(requestedUrl: string) {
  * @type {{}}
  */
 export function build_500_response(serverError: any) {
-	const nodeEnvironment = process.env.NODE_ENV || ""
+	const nodeEnvironment = process.env.NODE_ENV || '';
 
-    if(["test", "development", "local"].includes(nodeEnvironment)) {
-		return new ErrorResponse(HttpResponseCode.SERVER_ERROR, serverError)
+	if(['test', 'development', 'local'].includes(nodeEnvironment)) {
+		return new ErrorResponse(HttpResponseCode.SERVER_ERROR, serverError);
 	}
 
 	let error = _getStandardizedServerError(serverError.name);
 	const messageDetail =
 		`A server error occurred while processing the request: ${error}`;
-	return new ErrorResponse(HttpResponseCode.SERVER_ERROR, messageDetail)
-}
-
-/**
- * Builds a standardized error payload based on the message returned from the server.
- * @param errorName the error type returned from the server
- * @returns {*|string}
- */
-export function _getStandardizedServerError(errorName: string) :string {
-	if (errorName === "SequelizeDatabaseError"){
-		return "Server could not parse the provided query"
-	}
-
-	return "Unspecified server error"
+	return new ErrorResponse(HttpResponseCode.SERVER_ERROR, messageDetail);
 }
