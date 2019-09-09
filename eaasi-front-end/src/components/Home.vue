@@ -2,7 +2,7 @@
 	<div class="home padded">
 		<h1>My Dashboard</h1>
 		<button @click="showModal">Create Environment</button>
-		<create-base-env-modal v-if="isModalOpen"/>
+		<create-base-env-modal v-if="isModalOpen" v-on:close="closeModal"/>
 	</div>
 </template>
 
@@ -14,7 +14,14 @@ import CreateBaseEnvModal from '@/components/global/Modal/CreateBaseEnvModal.vue
 	components: {CreateBaseEnvModal}
 })
 export default class Home extends Vue {
+	isModalOpen = false;
+
 	showModal() {
+		this.isModalOpen = true;
+	}
+
+	closeModal() {
+		this.isModalOpen = false;
 	}
 }
 </script>
