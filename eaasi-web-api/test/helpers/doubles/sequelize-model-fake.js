@@ -34,18 +34,16 @@ export default class SequelizeModelFake {
 	}
 
 	/**
-     * Method fake for SequelizeModel.findAndCountAll
-     * @returns {Promise<void>}
-     */
+	 * Method fake for SequelizeModel.findAndCountAll
+	 * @returns {Promise<void>}
+	 */
 	async findAndCountAll() {
-		return new Promise((res, err) => {
-			this.findAndCountAll_callCount += 1;
+		this.findAndCountAll_callCount += 1;
 
-			return {
-				count: this.rows.length,
-				rows: this.rows
-			};
-		});
+		return await {
+			count: this.rows.length,
+			rows: this.rows
+		};
 	}
 
 	/**
@@ -54,15 +52,13 @@ export default class SequelizeModelFake {
 	 * @returns {Promise<void>}
 	 */
 	async findAll(options) {
-		return new Promise((res, err) => {
-			this.findAll_callCount += 1;
-			this.findAll_calledWith = options;
+		this.findAll_callCount += 1;
+		this.findAll_calledWith = options;
 
-			let limit = options.limit;
-			let offset = options.offset;
+		let limit = options.limit;
+		let offset = options.offset;
 
-			return this.rows.slice(offset, offset + limit);
-		});
+		return await this.rows.slice(offset, offset + limit);
 	}
 
 	/**
@@ -71,47 +67,39 @@ export default class SequelizeModelFake {
 	 * @returns {Promise<void>}
 	 */
 	async findByPk(pk) {
-		return new Promise((res, err) => {
-			this.findByPk_calledWith = pk;
-			this.findByPk_callCount += 1;
+		this.findByPk_calledWith = pk;
+		this.findByPk_callCount += 1;
 
-			return this.rows.find(obj => {
-				return obj.id === pk;
-			});
+		return await this.rows.find(obj => {
+			return obj.id === pk;
 		});
 	}
 
 	/**
-     * Method fake for SequelizeModel.create
-     * @param fakeData stub
-     * @returns {Promise<void>}
-     */
+	 * Method fake for SequelizeModel.create
+	 * @param fakeData stub
+	 * @returns {Promise<void>}
+	 */
 	async create(fakeData) {
-		return new Promise((res, err) => {
-			this.create_callCount += 1;
-			this.create_calledWith = fakeData;
-		});
+		this.create_callCount += 1;
+		this.create_calledWith = fakeData;
 	}
 
 	/**
-     * Method fake for SequelizeModel.update
-     * @param fakeData stub
-     * @returns {Promise<void>}
-     */
+	 * Method fake for SequelizeModel.update
+	 * @param fakeData stub
+	 * @returns {Promise<void>}
+	 */
 	async update(fakeData) {
-		return new Promise((res, err) => {
-			this.update_callCount += 1;
-			this.update_calledWith = fakeData;
-		});
+		this.update_callCount += 1;
+		this.update_calledWith = fakeData;
 	}
 
 	/**
-     * Method fake for SequelizeModel.destroy
-     * @returns {Promise<void>}
-     */
+	 * Method fake for SequelizeModel.destroy
+	 * @returns {Promise<void>}
+	 */
 	async destroy() {
-		return new Promise((res, err) => {
-			this.destroy_callCount += 1;
-		});
+		this.destroy_callCount += 1;
 	}
 }

@@ -8,7 +8,7 @@ describe('API Service', () => {
 	it('on initialization assigns object model via ctor', () => {
 		let modelFake = new SequelizeModelFake('fakeModel');
 		let sut = new CrudService(modelFake);
-		expect(sut.model).toBeInstanceOf(SequelizeModelFake);
+		expect(sut.model).toBe(modelFake);
 	});
 
 	// Read Many Objects Tests
