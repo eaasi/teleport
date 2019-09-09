@@ -12,6 +12,17 @@ const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
 export default class EaasiAuthController {
 
 	/**
+     * SAML protected login route
+     * @param req request
+     * @param res response
+     */
+	login(req: Request, res: Response) {
+		// This should get redirected by passport-saml middleware,
+		// if not, fallback to the client root
+		res.redirect(CLIENT_URL);
+	}
+
+	/**
      * Callback URL for shibboleth SP login
      * @param req request
      * @param res response
@@ -41,7 +52,7 @@ export default class EaasiAuthController {
      */
 	logout(req: Request, res: Response) {
 		req.logout();
-		res.redirect('http://localhost:8084');
+		res.redirect(CLIENT_URL);
 	}
 
 	/**
