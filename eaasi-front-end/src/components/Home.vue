@@ -1,16 +1,22 @@
 <template>
 	<div class="home padded">
 		<h1>My Dashboard</h1>
+		<button @click="showModal">Create Environment</button>
+		<create-base-env-modal v-if="isModalOpen"/>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import CreateBaseEnvModal from '@/components/global/Modal/CreateBaseEnvModal.vue';
 
 @Component({
-	components: {}
+	components: {CreateBaseEnvModal}
 })
-export default class Home extends Vue { }
+export default class Home extends Vue {
+	showModal() {
+	}
+}
 </script>
 
 <style>

@@ -9,7 +9,7 @@
 				<h3>{{ nodeName }}</h3>
 				<div>
 					<!-- TODO: this should link to shibboleth SP -->
-					<a href="https://portalmedia.auth0.com/samlp/vjy3cEjTOHOPr75pGDLZArrNrQviTGtw">
+					<a :href="loginUrl">
 						<ui-button>Login</ui-button>
 					</a>
 					<p v-if="!loginError">Using your approved access account.</p>
@@ -42,6 +42,7 @@ export default class LoginScreen extends Vue {
 	@Get('global/loginError')
 	loginError: string
 
+	loginUrl: string = process.env.VUE_APP_SAML_AUTH_ENDPOINT
 }
 
 </script>

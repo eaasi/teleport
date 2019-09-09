@@ -21,13 +21,13 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Modal, UiButton } from '@/components/global';
 
-	@Component({
-		name: 'InfoModal',
-		components: {
-			Modal,
-			UiButton
-		}
-	})
+@Component({
+	name: 'InfoModal',
+	components: {
+		Modal,
+		UiButton
+	}
+})
 export default class InfoModal extends Vue {
 
 	/* Props

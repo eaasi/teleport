@@ -1,5 +1,9 @@
 <template>
-	<modal @close="$emit('close')" :size="size">
+	<modal
+		v-if="isOpen"
+		@close="$emit('close')"
+		:size="size"
+	>
 		<div class="eaasi-info-modal-title" slot="header">
 			<h2 v-if="title">Create Base Environment</h2>
 		</div>
@@ -29,6 +33,7 @@ import { Modal, UiButton } from '@/components/global';
 	}
 })
 export default class CreateBaseEnvModal extends Vue {
+	isOpen = false;
 }
 
 </script>
