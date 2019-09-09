@@ -9,7 +9,7 @@
 				<h3>{{ nodeName }}</h3>
 				<div>
 					<!-- TODO: this should link to shibboleth SP -->
-					<a href="https://portalmedia.auth0.com/samlp/vjy3cEjTOHOPr75pGDLZArrNrQviTGtw">
+					<a :href="loginUrl">
 						<ui-button>Login</ui-button>
 					</a>
 					<p v-if="!loginError">Using your approved access account.</p>
@@ -25,6 +25,7 @@ import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
+import config from '@/config';
 @Component({
 	name: 'LoginScreen',
 	components: {
@@ -41,6 +42,12 @@ export default class LoginScreen extends Vue {
 
 	@Get('global/loginError')
 	loginError: string
+
+
+	/* Data
+	============================================*/
+
+	loginUrl: string = config.API_BASE_URL + '/auth/login';
 
 }
 
