@@ -2,7 +2,7 @@
 	<div class="home padded">
 		<h1>My Dashboard</h1>
 		<button @click="showModal">Create Environment</button>
-		<create-base-env-modal v-if="isModalOpen" v-on:close="closeModal"/>
+		<create-base-env-modal v-if="isModalOpen" @close="closeModal" />
 	</div>
 </template>
 

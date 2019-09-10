@@ -5,13 +5,13 @@ import userStore from '@/store/user-store';
 import globalStore from '@/store/global-store';
 import { generateFakeRole } from '../../generators';
 import { makeUserStoreState } from '../../store-helpers';
-import UserRoleSelector from '@/components/admin/UserRoleSelector.vue';
+import DescriptiveSelector from '@components/forms/DescriptiveSelector.vue';
 
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
 
-describe('UserRoleSelector.vue', () => {
+describe('DescriptiveSelector.vue', () => {
 	let store;
 	beforeEach(() => {
 		let localUserStore = userStore;
@@ -28,7 +28,7 @@ describe('UserRoleSelector.vue', () => {
 	});
 
 	it('Displays Role Name passed as Props', () => {
-		const wrapper = shallowMount(UserRoleSelector, {
+		const wrapper = shallowMount(DescriptiveSelector, {
 			localVue,
 			propsData: {
 				role: generateFakeRole(),
@@ -40,7 +40,7 @@ describe('UserRoleSelector.vue', () => {
 	});
 
 	it('Displays Role Description passed as Props', () => {
-		const wrapper = shallowMount(UserRoleSelector, {
+		const wrapper = shallowMount(DescriptiveSelector, {
 			localVue,
 			propsData: {
 				role: generateFakeRole(),

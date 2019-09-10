@@ -38,8 +38,8 @@
 		<div class="user-roles">
 			<h3>User Roles & Permissions</h3>
 			<div class="flex justify-between">
-				<user-role-selector
-					:role="role"
+				<descriptive-selector
+					:selectable-option="mapToSelectable(role)"
 					v-for="role in roles"
 					:key="role.id"
 					v-model="user.roleId"
@@ -56,14 +56,14 @@ import { Component, Prop } from 'vue-property-decorator';
 import { FormModal, TextInput } from '@/components/forms';
 import { IEaasiUser, IEaasiRole } from 'eaasi-auth';
 import { Get } from 'vuex-pathify';
-import UserRoleSelector from './UserRoleSelector.vue';
+import DescriptiveSelector from '../forms/DescriptiveSelector.vue';
 
 @Component({
 	name: 'UserModal',
 	components: {
 		FormModal,
 		TextInput,
-		UserRoleSelector
+		DescriptiveSelector: DescriptiveSelector
 	}
 })
 export default class UserModal extends Vue {
@@ -86,6 +86,14 @@ export default class UserModal extends Vue {
 
 	get modalTitle() {
 		return this.isNew ? 'Create New User' : 'Edit User';
+	}
+
+	mapToSelectable(role) {
+		return {
+			id: role.id,
+			title: role.roleName,
+			description: role.roleDescription
+		};
 	}
 
 	/* Methods

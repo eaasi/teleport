@@ -1,11 +1,11 @@
 <template>
-	<div :class="['eaasi-user-role-selector', { checked }]" @click="$emit('input', role.id)">
-		<div class="eur-info">
-			<h3>{{ role.roleName }}</h3>
-			<p>{{ role.roleDescription }}</p>
+	<div :class="['descriptive-selector', { checked }]" @click="$emit('input', selectableOption.id)">
+		<div class="ds-info">
+			<h3>{{ selectableOption.title }}</h3>
+			<p>{{ selectableOption.description }}</p>
 		</div>
-		<div class="eur-footer">
-			<div :class="['eur-checkbox', { checked }]"></div>
+		<div class="ds-footer">
+			<div :class="['ds-checkbox', { checked }]"></div>
 		</div>
 	</div>
 </template>
@@ -16,21 +16,21 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiRole } from 'eaasi-auth';
 
 @Component({
-	name: 'UserRoleSelector',
+	name: 'DescriptiveSelector',
 })
-export default class UserRoleSelector extends Vue {
+export default class DescriptiveSelector extends Vue {
 
 	/* Props
 	============================================*/
 
 	/**
-	 * A user role
+	 * A selectable object
 	 */
-	@Prop({type: Object as () => IEaasiRole, required: true})
-	readonly role: IEaasiRole
+	@Prop({type: Object as () => any, required: true})
+	readonly selectableOption: any
 
 	/**
-	 * The ID of the selected user role
+	 * The underlying value
 	 */
 	@Prop({type: Number, required: true})
 	readonly value: number;
@@ -39,7 +39,7 @@ export default class UserRoleSelector extends Vue {
 	============================================*/
 
 	get checked() {
-		return this.role.id === this.value;
+		return this.selectableOption.id === this.value;
 	}
 
 }
@@ -47,7 +47,7 @@ export default class UserRoleSelector extends Vue {
 </script>
 
 <style lang="scss">
-.eaasi-user-role-selector {
+.descriptive-selector {
 	background-color: #FFFFFF;
 	border: solid 2px $light-blue;
 	border-radius: 10px;
@@ -61,7 +61,7 @@ export default class UserRoleSelector extends Vue {
 	&.checked {
 		background-color: lighten($light-blue, 80%);
 
-		.eur-footer {
+		.ds-footer {
 			background-color: lighten($light-blue, 50%);
 		}
 	}
@@ -70,23 +70,23 @@ export default class UserRoleSelector extends Vue {
 		color: $dark-neutral;
 	}
 
-	.eur-info {
+	.ds-info {
 		padding: 1.5rem;
 	}
 
-	.eur-icon {
+	.ds-icon {
 		font-size: 2.5rem;
 		margin-bottom: 6px;
 	}
 
-	.eur-footer {
+	.ds-footer {
 		background-color: lighten($light-blue, 90%);
 		border-top: solid 2px $light-blue;
 		padding: 1rem;
 		transition: background-color 0.3s;
 	}
 
-	.eur-checkbox {
+	.ds-checkbox {
 		border: solid 2px $light-blue;
 		border-radius: 50%;
 		display: inline-block;
