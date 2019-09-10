@@ -55,7 +55,7 @@
 					v-for="template in hardwareTemplates"
 					:selectable-option="template"
 					:key="template.id"
-					v-model="template.id"
+					v-model="selectedHardware"
 					class="col-4"
 				/>
 			</div>
@@ -104,17 +104,17 @@ export default class CreateBaseEnvModal extends Vue {
 	hardwareTemplates = [
 		{
 			id: 1,
-			title: 'Foo',
+			title: 'Low End Hardware',
 			description: 'There is something here.'
 		},
 		{
 			id: 2,
-			title: 'Bar',
+			title: 'Basic Hardware',
 			description: 'There is something here.'
 		},
 		{
 			id: 3,
-			title: 'Baz',
+			title: 'High-End Hardware',
 			description: 'There is something here.'
 		},
 	];
