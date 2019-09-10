@@ -25,8 +25,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { SearchBar } from '@/components/forms';
-import { Pagination, UiButton } from '@/components/global';
 import User from '@/models/auth/User';
 import UserList from './UserList.vue';
 import UserModal from './UserModal.vue';
@@ -39,11 +37,8 @@ import AdminScreen from '../AdminScreen.vue';
 @Component({
 	name: 'UserManagement',
 	components: {
-		Pagination,
-		SearchBar,
 		UserList,
-		UserModal,
-		UiButton
+		UserModal
 	}
 })
 export default class UserManagement extends AdminScreen {

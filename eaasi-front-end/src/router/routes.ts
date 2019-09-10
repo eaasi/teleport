@@ -1,4 +1,5 @@
 import Home from '@/components/Home.vue';
+import EumlatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
 import MyResourcesScreen from '@/components/resources/MyResourcesScreen.vue';
@@ -19,6 +20,11 @@ export default [
 		path: '/admin/users',
 		name: 'User Management',
 		component: UserManagement
+	},
+	{
+		path: '/admin/emulators',
+		name: 'Emulators',
+		component: EumlatorManagement
 	},
 	{
 		path: '/login',

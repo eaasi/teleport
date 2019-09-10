@@ -44,8 +44,8 @@ export default class AdminMenu extends Vue {
 		},
 		{
 			icon: 'server',
-			label: 'Emulator Settings',
-			route: '/admin/emulator-settings'
+			label: 'Emulators',
+			route: '/admin/emulators'
 		},
 		{
 			icon: 'history',

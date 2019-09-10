@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { TextInput } from '@/components/forms';
+import { TextInput } from '@/components/global/forms';
 
 describe('TextInput.vue', () => {
 	it('Renders an input field', () => {

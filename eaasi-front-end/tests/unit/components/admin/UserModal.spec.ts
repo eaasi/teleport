@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import adminStore from '@/store/admin-store';
 import globalStore from '@/store/global-store';
-import {FormModal} from '@/components/forms';
+import {FormModal} from '@/components/global/forms';
 import UserModal from '@/components/admin/users/UserModal.vue';
 import { generateFakeUsers } from '../../generators';
 import { makeAdminStoreState } from '../../store-helpers';
