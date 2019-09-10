@@ -49,6 +49,10 @@ export default class LoginScreen extends Vue {
 
 	loginUrl: string = config.API_BASE_URL + '/auth/login';
 
+	mounted() {
+		console.log(process.env.VUE_APP_API_BASE_URL);
+	}
+
 }
 
 </script>

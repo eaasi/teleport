@@ -1,9 +1,23 @@
 import BaseHttpService from './BaseHttpService';
 import User from '@/models/auth/User';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
-import { IEaasiRole } from 'eaasi-auth';
+import { IEaasiRole, IEmulator } from 'eaasi-admin';
 
-class UserService extends BaseHttpService {
+class AdminService extends BaseHttpService {
+
+	/* Emulators
+	============================================*/
+
+	async getEmulators(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEmulator>> {
+		let url = this.createQueryUrl('/emulator', query);
+		let res = await this.get<IEaasiSearchResponse<IEmulator>>(url);
+		if (!res.ok) return null;
+		return res.result as IEaasiSearchResponse<IEmulator>;
+	}
+
+	/* USers
+	============================================*/
+
 	async getUsers(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<User>> {
 		let url = this.createQueryUrl('/eaasi-user', query);
 		let res = await this.get<IEaasiSearchResponse<User>>(url);
@@ -33,7 +47,7 @@ class UserService extends BaseHttpService {
 		return res.ok;
 	}
 
-	/* Roles
+	/* User Roles
 	============================================*/
 
 	async getRoles(): Promise<IEaasiSearchResponse<IEaasiRole>>  {
@@ -42,6 +56,7 @@ class UserService extends BaseHttpService {
 		if (!res.ok) return null;
 		return res.result as IEaasiSearchResponse<IEaasiRole>;
 	}
+
 }
 
-export default new UserService();
+export default new AdminService();

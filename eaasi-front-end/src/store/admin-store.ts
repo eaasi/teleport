@@ -1,23 +1,26 @@
-import User from '@/models/auth/User';
 import { make } from 'vuex-pathify';
 import { Store } from 'vuex';
-import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
-import _svc from '@/services/UserService';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
-import { IEaasiRole } from 'eaasi-auth';
+import { IEaasiRole } from 'eaasi-admin';
+import { IEmulator } from '@/types/Emulator';
+import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
+import User from '@/models/auth/User';
+import _svc from '@/services/AdminService';
 
 /*============================================================
  == State
 /============================================================*/
 
-export class UserState {
+export class AdminState {
 	activeUser?: User = null;
-	query: IEaasiSearchQuery = new EaasiSearchQuery();
+	emulatorsResult: IEaasiSearchResponse<IEmulator> = null;
+	emulatorsQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	usersResult: IEaasiSearchResponse<User> = null;
+	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
 }
 
-const state = new UserState();
+const state = new AdminState();
 
 /*============================================================
  == Mutations
@@ -30,26 +33,40 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-	async getUsers({ commit, state }: Store<UserState>) {
-		let usersResult = await _svc.getUsers(state.query);
+
+	/* Emulators
+	============================================*/
+
+	async getEmulators({ commit, state }: Store<AdminState>) {
+		let result = await _svc.getEmulators(state.emulatorsQuery);
+		if (!result) return;
+		commit('SET_EMULATORS_RESULT', result);
+	},
+
+	/* Users
+	============================================*/
+
+	async getUsers({ commit, state }: Store<AdminState>) {
+		let usersResult = await _svc.getUsers(state.usersQuery);
 		if (!usersResult) return;
 		commit('SET_USERS_RESULT', usersResult);
 	},
 
-	async getUser(_store: Store<UserState>, userID: number) {
+	async getUser(_store: Store<AdminState>, userID: number) {
 		return await _svc.getUser(userID);
 	},
 
-	async saveUser(_store: Store<UserState>, user: User) {
+	async saveUser(_store: Store<AdminState>, user: User) {
 		if (user.id) return await _svc.updateUser(user);
 		return await _svc.addUser(user);
 	},
 
-	async getRoles({ commit, state }: Store<UserState>) {
+	async getRoles({ commit }: Store<AdminState>) {
 		let rolesResult = await _svc.getRoles();
 		if (!rolesResult) return;
 		commit('SET_ROLES', rolesResult.result);
-	},
+	}
+
 };
 
 /*============================================================

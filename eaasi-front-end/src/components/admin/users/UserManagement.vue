@@ -32,9 +32,9 @@ import UserList from './UserList.vue';
 import UserModal from './UserModal.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
-import { IEaasiUser } from 'eaasi-auth';
+import { IEaasiUser } from 'eaasi-admin';
 import { jsonCopy } from '@/utils/functions';
-import AdminScreen from './AdminScreen.vue';
+import AdminScreen from '../AdminScreen.vue';
 
 @Component({
 	name: 'UserManagement',
@@ -57,21 +57,21 @@ export default class UserManagement extends AdminScreen {
 	/* Computed
 	============================================*/
 
-	@Sync('users/activeUser')
+	@Sync('admin/activeUser')
 	activeUser: User
 
-	@Get('users/query')
+	@Get('admin/usersQuery')
 	query: IEaasiSearchQuery
 
-	@Sync('users/usersResult')
+	@Sync('admin/usersResult')
 	list: IEaasiSearchResponse<User>
 
 	/* Methods
 	============================================*/
 
 	getUsers() {
-		this.$store.dispatch('users/getUsers');
-		this.$store.dispatch('users/getRoles');
+		this.$store.dispatch('admin/getUsers');
+		this.$store.dispatch('admin/getRoles');
 	}
 
 	init() {
@@ -84,7 +84,7 @@ export default class UserManagement extends AdminScreen {
 	}
 
 	search() {
-		this.$store.dispatch('users/getUsers');
+		this.$store.dispatch('admin/getUsers');
 	}
 
 	setActiveUser(user: IEaasiUser) {

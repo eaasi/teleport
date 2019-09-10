@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import userStore from './user-store';
+import adminStore from './admin-store';
 import globalStore from './global-store';
 import searchStore from './search-store';
 
@@ -12,9 +12,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	modules: {
+		admin: adminStore,
 		global: globalStore,
-		search: searchStore,
-		users: userStore
+		search: searchStore
 	},
 	plugins: [pathify.plugin]
 });
