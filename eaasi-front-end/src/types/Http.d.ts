@@ -15,4 +15,9 @@ declare module 'eaasi-http' {
 		sortCol?: string;
 		descending: boolean;
 	}
+
+	export interface IEaasiApiRequestOptions {
+		suppressErrors?: boolean,
+		suppressSpinner?: boolean
+	}
 }

@@ -1,7 +1,7 @@
 /**
  * Data specification for a Resource component
  */
-import { ITag } from './Tag.d';
+import { ITag } from './Tag';
 
 export interface IEaasiResource {
 	/**

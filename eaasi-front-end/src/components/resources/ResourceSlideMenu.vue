@@ -43,7 +43,6 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import { TabbedNav } from '@/components/global';
 import ResourceAction from './ResourceAction.vue';
 import ResourceDetails from './ResourceDetails.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
@@ -53,8 +52,7 @@ import SlideMenu from '@/components/layout/SlideMenu.vue';
 	components: {
 		ResourceAction,
 		ResourceDetails,
-		SlideMenu,
-		TabbedNav
+		SlideMenu
 	}
 })
 export default class ResourceSlideMenu extends Vue {

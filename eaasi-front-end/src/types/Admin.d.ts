@@ -1,4 +1,15 @@
-declare module 'eaasi-auth' {
+declare module 'eaasi-admin' {
+
+	/* Emulator
+	============================================*/
+
+	export interface IEmulator {
+		id: number;
+		name: string;
+	}
+
+	/* User
+	============================================*/
 
 	export interface IEaasiUser {
 		id: number;
@@ -23,11 +34,6 @@ declare module 'eaasi-auth' {
 	export interface IEaasiAuthResponse {
 		user: IEaasiUser,
 		token: string
-	}
-
-	export interface IEaasiApiRequestOptions {
-		suppressErrors?: boolean,
-		suppressSpinner?: boolean
 	}
 
 }

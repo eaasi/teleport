@@ -18,6 +18,7 @@
 						<div class="bedc-kv">
 							<div class="bedc-key">Audio Device</div>
 							<div class="bedc-value">{{ props.templateDetails.audioDevice }}</div>
+
 						</div>
 					</div>
 					<div class="bedc-col">

@@ -15,15 +15,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { UiButton } from '@/components/global';
 import ResourceSlideMenu from './ResourceSlideMenu.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
-		ResourceSlideMenu,
-		UiButton
+		ResourceSlideMenu
 	}
 })
 export default class MyResourcesScreen extends Vue {

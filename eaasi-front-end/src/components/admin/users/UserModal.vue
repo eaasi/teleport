@@ -53,17 +53,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { FormModal, TextInput } from '@/components/forms';
-import { IEaasiUser, IEaasiRole } from 'eaasi-auth';
+import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
 import { Get } from 'vuex-pathify';
 import DescriptiveSelector from '../forms/DescriptiveSelector.vue';
 
 @Component({
 	name: 'UserModal',
 	components: {
-		FormModal,
-		TextInput,
-		DescriptiveSelector: DescriptiveSelector
+		DescriptiveSelector
 	}
 })
 export default class UserModal extends Vue {
@@ -77,7 +74,7 @@ export default class UserModal extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('users/roles')
+	@Get('admin/roles')
 	roles: IEaasiRole[]
 
 	get isNew() {
@@ -103,9 +100,9 @@ export default class UserModal extends Vue {
 	 * Posts or puts the user via REST API and retreives update user list
 	 */
 	async saveUser() {
-		let success = await this.$store.dispatch('users/saveUser', this.user);
+		let success = await this.$store.dispatch('admin/saveUser', this.user);
 		if(!success) return;
-		this.$store.dispatch('users/getUsers');
+		this.$store.dispatch('admin/getUsers');
 		this.$emit('close');
 	}
 

@@ -1,11 +1,11 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import userStore from '@/store/user-store';
+import adminStore from '@/store/admin-store';
 import globalStore from '@/store/global-store';
 import { generateFakeRole } from '../../generators';
-import { makeUserStoreState } from '../../store-helpers';
-import DescriptiveSelector from '@components/forms/DescriptiveSelector.vue';
+import { makeAdminStoreState } from '../../store-helpers';
+import DescriptiveSelector from '@/components/forms/DescriptiveSelector.vue';
 
 const localVue = createLocalVue();
 
@@ -14,12 +14,12 @@ localVue.use(Vuex);
 describe('DescriptiveSelector.vue', () => {
 	let store;
 	beforeEach(() => {
-		let localUserStore = userStore;
-		localUserStore.state = makeUserStoreState(10);
+		let localAdminStore = adminStore;
+		localAdminStore.state = makeAdminStoreState(10);
 		store = new Vuex.Store({
 			modules: {
 				// @ts-ignore
-				users: localUserStore,
+				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore
 			},
