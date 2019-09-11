@@ -47,15 +47,6 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		return await res.send(response.result);
 	}
 
-	private _getQueryFromParams(req: Request) {
-		let query = new CrudQuery()
-		query.limit = req.query.limit || 100;
-		query.page = req.query.page || 1;
-		query.sortCol = req.query.sortCol;
-		query.descending = req.query.descending === 'true';
-		return query;
-	}
-
 	/**
 	 * Gets a resource by ID
 	 * @param req request

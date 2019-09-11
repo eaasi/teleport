@@ -5,6 +5,6 @@ const router = express.Router();
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.use('/admin', jwtAuth, require('./admin'));
-router.use('/auth', jwtAuth, require('./auth'));
+router.use('/auth', require('./auth'));
 
 module.exports = router;

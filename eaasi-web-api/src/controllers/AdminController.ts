@@ -1,31 +1,35 @@
-import CrudQuery from '@/services/base/CrudQuery';
-import UserService from '@/services/admin/UserService';
+import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
 export default class AdminController extends BaseController {
 
-	readonly _userSvc: UserService;
+	readonly _userSvc: UserAdminService;
 
 	constructor() {
 		super();
-		this._userSvc = new UserService();
+		this._userSvc = new UserAdminService();
 	}
 
 	async getUsers(req: Request, res: Response) {
-		let query = req.body as CrudQuery;
+
+		// Parse request object to unpack limit, page, etc.
+		let query = this._getQueryFromParams(req);
+
 		try {
-		    // TODO Verify this is equivalent to awaiting into a var then return
-			return await this._userSvc.getUsers(query);
+			let users = await this._userSvc.getUsers(query);
+			res.send(users);
 		} catch(e) {
-			this.sendError(e.message, res);
+			return this.sendError(e.message, res);
 		}
 	}
 
-	async getRoles() {
-		this._userSvc.getRoles().then((res) => {
-			res.send(res.result);
-		});
+	async getRoles(req: Request, res: Response) {
+		try {
+			let roles = await this._userSvc.getRoles();
+			res.send(roles);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
 	}
-
 }

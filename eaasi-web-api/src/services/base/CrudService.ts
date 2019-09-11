@@ -33,6 +33,7 @@ export default class CrudService extends BaseService implements ICrudService {
 	 * @param query CRUD query with pagination parameters
 	 */
 	async getAll(query: CrudQuery): Promise<ICrudServiceResult> {
+
 		let totalResults = await this.model.findAndCountAll()
     		.catch((error: string) => {
 				this._logger.log.error(error);
@@ -83,11 +84,29 @@ export default class CrudService extends BaseService implements ICrudService {
 	}
 
 	/**
+	 * Gets all instances matching whereOptions
 	 * Accepts Sequelize WhereOptions to query a matched object
 	 * @param whereOptions
 	 */
-	async getWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
+	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
 		return await this.model.findAll({
+			where: whereOptions
+		}).then((result: object[]) => {
+			return new CrudServiceResult(null, result);
+		}).catch((error: string) => {
+			this._logger.log.error(error);
+			return new CrudServiceResult(error);
+		})
+	}
+
+	/**
+	 * Gets first instance matching whereOptions
+	 * Accepts Sequelize WhereOptions to query a matched object
+	 * @param whereOptions
+	 */
+	async getOneWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
+	    console.log('whereOptions', whereOptions);
+		return await this.model.findOne({
 			where: whereOptions
 		}).then((result: object) => {
 			return new CrudServiceResult(null, result);
@@ -179,13 +198,18 @@ export default class CrudService extends BaseService implements ICrudService {
 	}
 
 	private createFindAllOptions(query: CrudQuery) {
+	    console.log("QUERY", query);
+
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1);
     	let options = { limit, offset } as any;
-    	if(!query.sortCol) return options;
+
+    	if (!query.sortCol) return options;
+
 		options.order = [
 			[query.sortCol, query.descending ? 'DESC' : 'ASC']
     	];
+
     	return options;
 	}
 

@@ -1,11 +1,15 @@
 import ICrudService from '../interfaces/ICrudService';
 import CrudService from '../base/CrudService';
-import EaasiUser from '@/data_access/models/eaasiUser';
-import EaasiRole from '@/data_access/models/eaasiRole';
+const { EaasiUser } = require('@/data_access/models');
+const { EaasiRole } = require('@/data_access/models');
 import CrudQuery from '../base/CrudQuery';
 import BaseService from '../base/BaseService';
 
-export default class UserService extends BaseService {
+
+/**
+ * Handles business logic related to working with User and Role data
+ */
+export default class UserAdminService extends BaseService {
 
 	private readonly _userCrudService: ICrudService;
 	private readonly _roleCrudService: ICrudService;
@@ -47,7 +51,7 @@ export default class UserService extends BaseService {
 	}
 
 	async getUserByEmail(email: string) {
-		let result = await this._userCrudService.getWhere({email});
+		let result = await this._userCrudService.getOneWhere({email});
 
 		if (result.hasError) {
 			throw result.error;
@@ -85,7 +89,9 @@ export default class UserService extends BaseService {
 
 	async getRoles() {
 		let query = new CrudQuery();
-		query.limit = Infinity;
+
+		query.limit = 10000;
+
 		let result = await this._roleCrudService.getAll(query);
 
 		if (result.hasError) {

@@ -1,7 +1,8 @@
 import AppLogger from '@/logging/appLogger';
+import CrudQuery from '@/services/base/CrudQuery';
 import HttpResponseCode from '@/utils/HttpResponseCode';
 import { build_500_response } from '@/utils/error-helpers';
-import { Response } from 'express';
+import {Request, Response} from 'express';
 
 export default class BaseController {
 
@@ -11,8 +12,17 @@ export default class BaseController {
 		this._logger = new AppLogger(this.constructor.name);
 	}
 
-	sendError(error: string, response: Response) {
+	protected sendError(error: string, response: Response) {
 		response.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(error));
+	}
+
+	protected _getQueryFromParams(req: Request) {
+		let query = new CrudQuery()
+		query.limit = req.query.limit || 100;
+		query.page = req.query.page || 1;
+		query.sortCol = req.query.sortCol;
+		query.descending = req.query.descending === 'true';
+		return query;
 	}
 }
