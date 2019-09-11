@@ -13,7 +13,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiRole } from 'eaasi-auth';
+import { IEaasiRole } from 'eaasi-admin';
 
 @Component({
 	name: 'UserRoleSelector',

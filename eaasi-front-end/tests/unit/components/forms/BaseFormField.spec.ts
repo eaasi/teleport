@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { BaseFormField } from '@/components/forms';
+import { BaseFormField } from '@/components/global/forms';
 
 describe('BaseFormField.vue', () => {
 	it('Has canValidate data with false by default', () => {

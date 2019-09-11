@@ -41,16 +41,12 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiRole, IEaasiUser } from 'eaasi-auth';
-import User from '@/models/auth/User';
+import { IEaasiRole, IEaasiUser } from 'eaasi-admin';
+import User from '@/models/admin/User';
 import { IEaasiSearchQuery } from 'eaasi-http';
-import { SortHeader } from '@/components/global';
 
 @Component({
-	name: 'UserList',
-	components: {
-		SortHeader
-	}
+	name: 'UserList'
 })
 export default class UserList extends Vue {
 
@@ -63,10 +59,10 @@ export default class UserList extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('users/roles')
+	@Get('admin/roles')
 	roles: IEaasiRole[]
 
-	@Sync('users/query')
+	@Sync('admin/usersQuery')
 	query: IEaasiSearchQuery
 
 	/* Methods
@@ -80,7 +76,7 @@ export default class UserList extends Vue {
 
 	sort(query: IEaasiSearchQuery) {
 		this.query = query;
-		this.$store.dispatch('users/getUsers');
+		this.$store.dispatch('admin/getUsers');
 	}
 
 }

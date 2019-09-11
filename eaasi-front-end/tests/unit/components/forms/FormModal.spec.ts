@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { FormModal } from '@/components/forms';
+import { FormModal } from '@/components/global/forms';
 
 // TODO: Test button click emissions
 

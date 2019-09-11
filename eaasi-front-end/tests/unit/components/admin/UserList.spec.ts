@@ -1,8 +1,8 @@
 import {createLocalVue, shallowMount} from '@vue/test-utils';
-import UserList from '@/components/admin/UserList.vue';
+import UserList from '@/components/admin/users/UserList.vue';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import userStore from '@/store/user-store';
+import adminStore from '@/store/admin-store';
 import {generateFakeUsers} from '../../generators';
 
 
@@ -19,7 +19,7 @@ describe('AdminMenu.vue', () => {
 			actions: {},
 			modules: {
 				// @ts-ignore
-				users: userStore
+				admin: adminStore
 			},
 			plugins: [pathify.plugin]
 		});

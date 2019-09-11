@@ -1,7 +1,7 @@
 import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiApiResponse, IEaasiSearchQuery } from 'eaasi-http';
 import eventBus from '@/utils/event-bus';
-import { IEaasiApiRequestOptions } from 'eaasi-auth';
+import { IEaasiApiRequestOptions } from 'eaasi-http';
 import config from '@/config';
 
 export default class BaseHttpService {

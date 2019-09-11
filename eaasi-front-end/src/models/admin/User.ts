@@ -1,4 +1,4 @@
-import { IEaasiUser } from 'eaasi-auth';
+import { IEaasiUser } from 'eaasi-admin';
 
 export default class User implements IEaasiUser {
 	id: number;

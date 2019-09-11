@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { TextAreaInput } from '@/components/forms';
+import { TextAreaInput } from '@/components/global/forms';
 
 describe('TextAreaInput.vue', () => {
 

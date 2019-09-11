@@ -1,5 +1,5 @@
 import { make } from 'vuex-pathify';
-import _svc from '@/services/UserService';
+import _svc from '@/services/AdminService';
 
 /*============================================================
  == State

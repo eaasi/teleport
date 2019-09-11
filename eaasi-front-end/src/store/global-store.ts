@@ -1,5 +1,5 @@
 import { make } from 'vuex-pathify';
-import { IEaasiUser } from 'eaasi-auth';
+import { IEaasiUser } from 'eaasi-admin';
 import {IAppError} from '@/types/AppError';
 import config from '@/config';
 import Cookies from 'js-cookie';

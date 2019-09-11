@@ -1,8 +1,8 @@
 <template>
-	<div class="pagination-wrapper" v-if="numPages > 1">
+	<div class="pagination-wrapper">
 		<div class="flex-row justify-between">
 			<div><label>{{ totalText }}</label></div>
-			<ul class="pagination">
+			<ul class="pagination" v-if="numPages > 1">
 				<li
 					@click="paginate(1)"
 					:class="['page-arrow', {'hide-page': !showGoToStart }]"

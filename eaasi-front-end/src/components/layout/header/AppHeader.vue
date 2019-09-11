@@ -33,17 +33,15 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import HeaderMenuItem from './HeaderMenuItem.vue';
-import { SearchBar } from '@/components/forms';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiUser } from 'eaasi-auth';
+import { IEaasiUser } from 'eaasi-admin';
 import authService from '@/services/AuthService';
 
 
 @Component({
 	name: 'AppHeader',
 	components: {
-		HeaderMenuItem,
-		SearchBar
+		HeaderMenuItem
 	}
 })
 export default class AppHeader extends Vue {

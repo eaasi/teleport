@@ -1,4 +1,4 @@
-import { IEaasiApiRequestOptions } from 'eaasi-auth';
+import { IEaasiApiRequestOptions } from 'eaasi-http';
 import config from '@/config';
 import Cookies from 'js-cookie';
 
