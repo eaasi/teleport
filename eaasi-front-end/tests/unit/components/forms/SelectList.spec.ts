@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { SelectList } from '@/components/forms';
+import { SelectList } from '@/components/global/forms';
 
 describe('SelectList.vue', () => {
 	it('Renders a Select Item passed to slot', () => {

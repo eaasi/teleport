@@ -86,7 +86,7 @@ export default class Modal extends Vue {
 	}
 
 	.eaasi-modal-content {
-		max-height: 60vh;
+		max-height: 70vh;
 		overflow-y: auto;
 		padding: 1.5rem;
 	}

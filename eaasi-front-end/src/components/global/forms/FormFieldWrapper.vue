@@ -2,6 +2,7 @@
 	<div class="eaasi-form-control">
 		<label v-if="label && !hideLabel" class="eaasi-label">
 			{{ label }}
+			<span v-if="!required" class="ef-optional"> &mdash; optional</span>
 		</label>
 		<span class="error" role="alert" v-if="error">
 			{{ error }}
@@ -67,6 +68,10 @@ export default class FormFieldWrapper extends Vue {
 		text-transform: uppercase;
 	}
 
+	.ef-optional {
+		text-transform: none;
+	}
+
 	.error {
 		color: $red;
 		font-size: 1.2rem;
@@ -90,7 +95,7 @@ export default class FormFieldWrapper extends Vue {
 		width: 100%;
 
 		&::placeholder {
-			color: #888888;
+			color: #AAAAAA;
 		}
 	}
 
