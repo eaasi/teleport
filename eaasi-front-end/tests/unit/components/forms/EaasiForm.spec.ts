@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import {EaasiForm } from '@/components/forms';
+import {EaasiForm } from '@/components/global/forms';
 
 describe('EaasiForm.vue', () => {
 

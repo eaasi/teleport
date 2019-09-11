@@ -1,5 +1,5 @@
 import faker from 'faker';
-import {IEaasiRole, IEaasiUser} from 'eaasi-auth';
+import {IEaasiRole, IEaasiUser} from 'eaasi-admin';
 
 export function generateFakeUsers(userCount: number) : IEaasiUser[] {
 	let users = [];

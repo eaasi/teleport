@@ -2,6 +2,9 @@
 	<modal @close="$emit('close')">
 		<div class="eaasi-form-modal-title" slot="header">
 			<h2 v-if="title">{{ title }}</h2>
+			<div class="eaasi-form-modal-subtitle">
+				<span v-if="subtitle"> {{ subtitle }}</span>
+			</div>
 		</div>
 		<div class="eaasi-form-modal-content">
 			<eaasi-form ref="_form" @submit="$emit('save')">
@@ -26,16 +29,13 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import EaasiForm from './EaasiForm.vue';
-import { Modal, UiButton } from '@/components/global';
 
-	@Component({
-		name: 'FormModal',
-		components: {
-			EaasiForm,
-			Modal,
-			UiButton
-		}
-	})
+@Component({
+	name: 'FormModal',
+	components: {
+		EaasiForm
+	}
+})
 export default class FormModal extends Vue {
 
 	/* Props
@@ -45,7 +45,13 @@ export default class FormModal extends Vue {
      * The user-facing title at the top of the modal
      */
     @Prop({type: String, required: false})
-    readonly title: string
+	readonly title: string
+
+    /**
+     * Optional subtitle under the main title
+     */
+    @Prop({type: String, required: false})
+    readonly subtitle: string
 
     /**
      * Save button text
@@ -65,12 +71,19 @@ export default class FormModal extends Vue {
 
 <style lang="scss">
 	.eaasi-form-modal-title {
-		border-bottom: solid 4px darken($light-neutral, 10%);
 		padding: 2rem 0 1rem;
 
 		h2 {
+			font-size: 1.8rem;
+			font-weight: 300;
 			padding-left: 2rem;
 		}
+	}
+
+	.eaasi-form-modal-subtitle {
+		background-color: lighten($light-neutral, 60%);
+		border-top: solid 4px darken($light-neutral, 10%);
+		padding: 1.6rem 2rem;
 	}
 
 	.eaasi-form-modal-buttons {

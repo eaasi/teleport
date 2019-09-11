@@ -385,6 +385,22 @@ strong {
 	padding: 3rem;
 }
 
+.padded-xl {
+	padding: 5rem 5rem;
+}
+
+.container {
+	max-width: 1440px;
+}
+
+.container-sm {
+	max-width: 1000px;
+}
+
+.container-xs {
+	max-width: 800px;
+}
+
 /*============================================================
  == Helper Classes
 /============================================================*/

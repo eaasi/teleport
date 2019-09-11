@@ -4,8 +4,10 @@ import router from './router';
 import './scss/global.scss';
 import store from './store';
 import EaasiVueConfig from '@/plugins/EaasiVueConfig';
+import GlobalComponents from '@/components/global';
 
 Vue.use(EaasiVueConfig);
+Vue.use(GlobalComponents);
 
 new Vue({
 	router,

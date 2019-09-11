@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { SearchBar } from '@/components/forms';
+import { SearchBar } from '@/components/global/forms';
 
 describe('SearchBar.vue', () => {
 	it('Emits search when triggered by click event on eaasi-field-icon', () => {

@@ -38,7 +38,6 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
 import Tag from '../Tag.vue';
-import Checkbox from '../../forms/Checkbox.vue';
 import Bookmark from './Bookmark.vue';
 import SelectableCardContent from './SelectableCardContent.vue';
 
@@ -51,7 +50,6 @@ import SelectableCardContent from './SelectableCardContent.vue';
 	components: {
 		SelectableCardContent,
 		Bookmark,
-		Checkbox,
 		Tag,
 	}
 })

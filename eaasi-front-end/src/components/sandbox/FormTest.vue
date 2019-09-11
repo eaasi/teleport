@@ -40,29 +40,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {
-	Autocomplete,
-	Checkbox,
-	EaasiForm,
-	RadioButtons,
-	SelectList,
-	TextAreaInput,
-	TextInput
-} from '@/components/forms';
-import { UiButton } from '@/components/global';
 
-@Component({
-	components: {
-		Autocomplete,
-		Checkbox,
-		EaasiForm,
-		RadioButtons,
-		SelectList,
-		TextAreaInput,
-		TextInput,
-		UiButton
-	}
-})
+@Component({})
 export default class FormTest extends Vue {
 	autoInput: string = ''
 	checked: boolean = false

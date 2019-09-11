@@ -1,12 +1,12 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import userStore from '@/store/user-store';
+import adminStore from '@/store/admin-store';
 import globalStore from '@/store/global-store';
-import UserManagement from '@/components/admin/UserManagement.vue';
-import UserList from '@/components/admin/UserList.vue';
+import UserManagement from '@/components/admin/users/UserManagement.vue';
+import UserList from '@/components/admin/users/UserList.vue';
 import {Pagination} from '@/components/global';
-import { makeUserStoreState } from '../../store-helpers';
+import { makeAdminStoreState } from '../../store-helpers';
 
 const localVue = createLocalVue();
 
@@ -20,14 +20,14 @@ describe('UserManagement.vue', () => {
 	let store;
 
 	beforeEach(() => {
-		let localUserStore = userStore;
+		let localAdminStore = adminStore;
 
-		localUserStore.state = makeUserStoreState(10);
+		localAdminStore.state = makeAdminStoreState(10);
 
 		store = new Vuex.Store({
 			modules: {
 				// @ts-ignore
-				users: localUserStore,
+				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore
 			},

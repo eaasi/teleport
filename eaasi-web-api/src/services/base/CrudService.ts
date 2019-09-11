@@ -7,10 +7,8 @@ import CrudServiceResult from './CrudServiceResult';
 export default class CrudService implements ICrudService {
 
 	protected MAX_GET_ALL_PAGE_SIZE: number;
-
 	protected model: any;
-
-	private _logger: any;
+	private _logger: AppLogger
 
 	constructor(model: any) {
 		this.model = model;

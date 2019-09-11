@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import { RadioButtons } from '@/components/forms';
+import { RadioButtons } from '@/components/global/forms';
 
 describe('RadioButtons.vue', () => {
 	it('Renders label passed as prop', () => {

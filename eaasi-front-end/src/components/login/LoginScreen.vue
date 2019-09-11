@@ -24,13 +24,9 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { UiButton } from '@/components/global';
 import config from '@/config';
 @Component({
-	name: 'LoginScreen',
-	components: {
-		UiButton
-	}
+	name: 'LoginScreen'
 })
 export default class LoginScreen extends Vue {
 
@@ -48,6 +44,10 @@ export default class LoginScreen extends Vue {
 	============================================*/
 
 	loginUrl: string = config.API_BASE_URL + '/auth/login';
+
+	mounted() {
+		console.log(process.env.VUE_APP_API_BASE_URL);
+	}
 
 }
 
