@@ -104,10 +104,10 @@ export default class BaseEnvironmentDetailsCard extends Vue {
 	}
 
 	.bedc-value {
-
+		padding: 2.3rem;
 	}
 
 	.bedc-content {
-
+		padding: 2.3rem;
 	}
 </style>
