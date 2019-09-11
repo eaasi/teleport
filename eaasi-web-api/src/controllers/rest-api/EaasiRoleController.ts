@@ -1,5 +1,5 @@
-import EaasiRoleService from '../services/EaasiRoleService';
-import BaseCrudController from './BaseCrudController';
+import EaasiRoleService from '@/services/rest-api/EaasiRoleService';
+import BaseCrudController from '@/controllers/base/BaseCrudController';
 
 class EaasiRoleController extends BaseCrudController {
 	constructor() {

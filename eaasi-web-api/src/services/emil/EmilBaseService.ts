@@ -1,4 +1,4 @@
-import HttpJSONService from './HttpJSONService';
+import HttpJSONService from '../base/HttpJSONService';
 import IHttpService from '../interfaces/IHttpService';
 
 const BASE_URL = process.env.EMIL_SERVICE_URL;

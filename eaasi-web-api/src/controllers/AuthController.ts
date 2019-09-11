@@ -1,15 +1,16 @@
 import { Request, Response} from 'express';
-import samlConfig from '../config/saml-config';
+import samlConfig from '@/config/saml-config';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import fs from 'fs';
 import path from 'path';
-import { MAX_AGE } from '../config/jwt-config';
+import { MAX_AGE } from '@/config/jwt-config';
+import BaseController from './base/BaseController';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
 const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
 
-export default class EaasiAuthController {
+export default class EaasiAuthController extends BaseController {
 
 	/**
      * SAML protected login route

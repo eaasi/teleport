@@ -3,7 +3,7 @@ import passportJWT from 'passport-jwt';
 import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
 import samlConfig from '../config/saml-config.js';
 import { Strategy as SamlStrategy } from 'passport-saml';
-import EaasiUserService from '../services/EaasiUserService';
+import UserService from '@/services/admin/UserService';
 import { MAX_AGE, SECRET } from '../config/jwt-config';
 
 // TODO: implement types
@@ -26,7 +26,7 @@ passport.use(new passportJWT.Strategy({
 const USER_EMAIL_CLAIM = process.env.USER_EMAIL_CLAIM_PROPERTY as string;
 
 passport.use(new SamlStrategy(samlConfig, function(profile: any, done: any) {
-	let svc = new EaasiUserService();
+	let svc = new UserService();
 	let email = profile[USER_EMAIL_CLAIM];
 	svc.getByEmail(email).then(dbRes => {
 		if(!dbRes || !dbRes.result) {

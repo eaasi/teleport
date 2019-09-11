@@ -1,19 +1,19 @@
 import Sequelize from 'sequelize';
-import AppLogger from '../../logging/appLogger';
+import AppLogger from '@/logging/appLogger';
 import ICrudService from '../interfaces/ICrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from './CrudServiceResult';
+import BaseService from './BaseService';
 
-export default class CrudService implements ICrudService {
+export default class CrudService extends BaseService implements ICrudService {
 
 	protected MAX_GET_ALL_PAGE_SIZE: number;
 	protected model: any;
-	private _logger: AppLogger
 
 	constructor(model: any) {
+		super();
 		this.model = model;
     	this.MAX_GET_ALL_PAGE_SIZE = 100;
-    	this._logger = new AppLogger(this.constructor.name);
 	}
 
 	/**
@@ -34,6 +34,7 @@ export default class CrudService implements ICrudService {
      * @returns {Promise<{}>}
      */
 	async getAll(limit: number, page: number, sortCol?: string, descending?: boolean): Promise<ICrudServiceResult> {
+		// TODO: Refactor arguments to use CrudQuery
 		let totalResults = await this.model.findAndCountAll()
     		.catch((error: string) => {
 				this._logger.log.error(error);
@@ -111,6 +112,7 @@ export default class CrudService implements ICrudService {
      * @returns {Promise<{}>}
      */
 	async update(pk: number, modelData: any): Promise<ICrudServiceResult> {
+		// TODO: Pull the pk off of the modelData
     	return await this.model
 			.findByPk(pk)
     		.then((found: Sequelize.Model) => {
@@ -173,4 +175,5 @@ export default class CrudService implements ICrudService {
     	];
     	return options;
 	}
+
 }

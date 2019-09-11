@@ -1,24 +1,23 @@
 import { Request, Response } from 'express';
-import AppLogger from '../logging/appLogger';
-import {areAllValidIntegerParams} from '../utils/validators';
-import {build_400_response, build_404_response, build_500_response} from '../utils/error-helpers';
-import ICrudController from './interfaces/ICrudController';
-import HttpResponseCode from '../utils/HttpResponseCode';
+import {areAllValidIntegerParams} from '@/utils/validators';
+import {build_400_response, build_404_response, build_500_response} from '@/utils/error-helpers';
+import ICrudController from '@/controllers/interfaces/ICrudController';
+import HttpResponseCode from '@/utils/HttpResponseCode';
 import {Result} from 'express-validator';
 import CrudService from 'src/services/base/CrudService';
+import BaseController from './BaseController';
 
 
 /**
  * Base class for Controllers that handle CRUD logic
  */
-export default class BaseCrudController implements ICrudController {
+export default class BaseCrudController extends BaseController implements ICrudController {
+
 	private _crudService: CrudService;
 
-	private _logger: any
-
-	constructor(crudService: any) {
+	constructor(crudService: CrudService) {
+		super();
 		this._crudService = crudService;
-		this._logger = new AppLogger(this.constructor.name);
 	}
 
 	/**
