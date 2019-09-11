@@ -105,7 +105,6 @@ export default class CrudService extends BaseService implements ICrudService {
 	 * @param whereOptions
 	 */
 	async getOneWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
-	    console.log('whereOptions', whereOptions);
 		return await this.model.findOne({
 			where: whereOptions
 		}).then((result: object) => {
@@ -198,8 +197,6 @@ export default class CrudService extends BaseService implements ICrudService {
 	}
 
 	private createFindAllOptions(query: CrudQuery) {
-	    console.log("QUERY", query);
-
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1);
     	let options = { limit, offset } as any;

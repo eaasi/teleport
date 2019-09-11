@@ -1,3 +1,4 @@
+import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
@@ -5,10 +6,12 @@ import BaseController from './base/BaseController';
 export default class AdminController extends BaseController {
 
 	readonly _userSvc: UserAdminService;
+	readonly _emulatorAdminSvc: EmulatorAdminService;
 
 	constructor() {
 		super();
 		this._userSvc = new UserAdminService();
+		this._emulatorAdminSvc = new EmulatorAdminService();
 	}
 
 	async getUsers(req: Request, res: Response) {
@@ -28,6 +31,15 @@ export default class AdminController extends BaseController {
 		try {
 			let roles = await this._userSvc.getRoles();
 			res.send(roles);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	async getEmulators(req: Request, res: Response) {
+		try {
+			let emulators = await this._emulatorAdminSvc.getEmulators();
+			res.send(emulators);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}

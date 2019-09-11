@@ -8,11 +8,10 @@ class AdminService extends BaseHttpService {
 	/* Emulators
 	============================================*/
 
-	async getEmulators(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEmulator>> {
-		let url = this.createQueryUrl('/emulator', query);
-		let res = await this.get<IEaasiSearchResponse<IEmulator>>(url);
+	async getEmulators(query: IEaasiSearchQuery): Promise<IEmulator[]> {
+		let res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
-		return res.result as IEaasiSearchResponse<IEmulator>;
+		return res.result as IEmulator[];
 	}
 
 	/* Users
