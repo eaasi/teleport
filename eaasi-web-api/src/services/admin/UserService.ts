@@ -23,24 +23,61 @@ export default class UserService extends BaseService {
 	============================================*/
 
 	async getUsers(query: CrudQuery) {
-		return await this._userCrudService.getAll(query.limit, query.page, query.sortCol, query.descending);
+		let result = await this._userCrudService.getAll(query);
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		return result.result;
 	}
 
 	async getUser(id: number) {
-		let user = this._userCrudService.getByPk(id);
-		return this
+		let result = await this._userCrudService.getByPk(id);
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		if (result.result === null) {
+			throw `Cannot find user with id: ${id}`
+		}
+
+		return result.result;
 	}
 
-	async getUser(email: string) {
-		return await this._userCrudService.getWhere({email});
+	async getUserByEmail(email: string) {
+		let result = await this._userCrudService.getWhere({email});
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		if (result.result === null) {
+			throw `Cannot find user with email: ${email}`
+		}
+
+		return result.result;
 	}
 
 	async saveUser(id: number, user: object) {
-		return await this._userCrudService.update(id, user);
+		let result = await this._userCrudService.update(id, user);
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		return result.result;
 	}
 
 	async deleteUser(id: number) {
-		return await this._userCrudService.destroy(id);
+		let result = await this._userCrudService.destroy(id);
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		return result.result;
 	}
 
 	/* Roles
@@ -49,7 +86,13 @@ export default class UserService extends BaseService {
 	async getRoles() {
 		let query = new CrudQuery();
 		query.limit = Infinity;
-		return await this._roleCrudService.getAll(query.limit, query.page, query.sortCol, query.descending);
+		let result = await this._roleCrudService.getAll(query);
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		return result.result;
 	}
 
 }

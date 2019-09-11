@@ -15,9 +15,10 @@ export default class AdminController extends BaseController {
 	async getUsers(req: Request, res: Response) {
 		let query = req.body as CrudQuery;
 		try {
-			let result = await this._userSvc.getUsers(query);
-		} catch(e: Error) {
-			this.sendError(e.message);
+		    // TODO Verify this is equivalent to awaiting into a var then return
+			return await this._userSvc.getUsers(query);
+		} catch(e) {
+			this.sendError(e.message, res);
 		}
 	}
 
