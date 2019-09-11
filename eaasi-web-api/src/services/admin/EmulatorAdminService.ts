@@ -40,14 +40,6 @@ export default class EmulatorAdminService extends BaseService {
 			throw result.error;
 		}
 
-		/**
-		 * response from
-		 * {
-		 *   aliases: [{}]
-		 *   entries: [{'entry': val}]
-		 * }
-		 */
-
 		// Returns with properties aliases and entries
 		let response = await this._emilService.get('getNameIndexes');
 
