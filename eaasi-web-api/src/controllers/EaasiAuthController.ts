@@ -19,8 +19,10 @@ export default class EaasiAuthController {
 	callback(req: Request, res: Response) {
 		req.method = 'GET';
 		// Set JWT cookie
+		let expires = new Date();
+		expires.setSeconds(expires.getSeconds() + MAX_AGE);
 		res.cookie('EAASI_TOKEN', req.user.token, {
-			maxAge: MAX_AGE
+			expires
 		});
 		res.redirect(CLIENT_URL);
 	}

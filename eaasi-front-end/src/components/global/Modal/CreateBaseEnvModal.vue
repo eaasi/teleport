@@ -3,6 +3,7 @@
 		v-if="isOpen"
 		@close="$emit('close')"
 		title="Create Base Environment"
+		button-text="Cancel"
 	>
 		<div class="base-env-container">
 			<div class="base-env-heading">
@@ -13,8 +14,8 @@
 					<select-list label="Operating System Type" v-model="selectedOsType">
 						<option
 							v-for="osType in osTypeOptions"
-							:value="osType.value"
-							:key="osType.value"
+							:value="osType.name"
+							:key="osType.id"
 						>
 							{{ osType.name }}
 						</option>
@@ -22,8 +23,8 @@
 					<select-list label="Operating System Version" v-model="selectedOsVersion">
 						<option
 							v-for="osVersion in osVersionOptions"
-							:value="osVersion.value"
-							:key="osVersion.value"
+							:value="osVersion.name"
+							:key="osVersion.id"
 						>
 							{{ osVersion.name }}
 						</option>
@@ -50,19 +51,30 @@
 				Select Hardware Template
 			</div>
 
-			<div class="hw-templates-container">
-				<descriptive-selector
-					v-for="template in hardwareTemplates"
-					:selectable-option="template"
-					:key="template.id"
-					v-model="selectedHardware"
-					class="col-4"
+			<div class="hw-container">
+				<div class="hw-templates-container" v-if="hardwareTemplates.length > 0">
+					<descriptive-selector
+						v-for="template in hardwareTemplates"
+						:selectable-option="template"
+						:key="template.id"
+						:value="template.id"
+						v-model="selectedHardware"
+						class="col-4"
+					/>
+				</div>
+				<base-environment-details-card
+					:template-details="templateDetails"
 				/>
 			</div>
-			<div>
-				Template Details
-			</div>
 		</div>
+		<template v-slot:buttons>
+			<div class="justify-end buttons-right">
+				<ui-button @click="$emit('close')" secondary>Cancel</ui-button>
+			</div>
+			<div class="justify-end buttons-right">
+				<ui-button @click="$emit('save')">Save</ui-button>
+			</div>
+		</template>
 	</info-modal>
 </template>
 
@@ -75,6 +87,7 @@ import AlertCard from '@/components/global/AlertCard.vue';
 import SelectList from '@/components/forms/SelectList.vue';
 import RadioButtons from '@/components/forms/RadioButtons.vue';
 import DescriptiveSelector from '@/components/forms/DescriptiveSelector.vue';
+import BaseEnvironmentDetailsCard from '@/components/global/BaseEnvironmentDetailsCard.vue';
 
 @Component({
 	name: 'CreateBaseEnvModal',
@@ -84,7 +97,8 @@ import DescriptiveSelector from '@/components/forms/DescriptiveSelector.vue';
 		InfoModal,
 		UiButton,
 		SelectList,
-		DescriptiveSelector
+		DescriptiveSelector,
+		BaseEnvironmentDetailsCard
 	}
 })
 export default class CreateBaseEnvModal extends Vue {
@@ -93,31 +107,61 @@ export default class CreateBaseEnvModal extends Vue {
 	selectedOsVersion = null;
 	selectedHardware = null;
 
+	// TODO Hardware Template Interface
+	hardwareTemplates = [];
+
 	// TODO OS Type Interface
-	@Prop({ type: Array, required: true })
 	osTypeOptions: object[] = [];
 
 	// TODO OS Version Interface
-	@Prop({ type: Array, required: true })
 	osVersionOptions: object[] = [];
 
-	hardwareTemplates = [
-		{
-			id: 1,
-			title: 'Low End Hardware',
-			description: 'There is something here.'
-		},
-		{
-			id: 2,
-			title: 'Basic Hardware',
-			description: 'There is something here.'
-		},
-		{
-			id: 3,
-			title: 'High-End Hardware',
-			description: 'There is something here.'
-		},
-	];
+	// TODO HardwareTemplateDetails Interface
+	templateDetails: object = {};
+
+	getTemplateDetails() {
+		this.templateDetails = {
+			emulator: 'QEMU 2.12.1',
+			networkDevice: 'Realtek Fast Ethernet',
+			cpuCores: '1',
+			gpuDevice: 'Cirrus CLGD 5546 VGA',
+			cpuArchitecture: 'x86_64',
+			audioDevice: 'Creative Sound Blaster 16',
+		};
+	}
+
+	getHardwareTemplates() {
+		// TODO: Temporary test only for building feature
+		this.hardwareTemplates = [
+			{
+				id: 1,
+				title: 'Low End Hardware',
+				description: 'There is something here.'
+			},
+			{
+				id: 2,
+				title: 'Basic Hardware',
+				description: 'There is something here.'
+			},
+			{
+				id: 3,
+				title: 'High-End Hardware',
+				description: 'There is something here.'
+			},
+		];
+	}
+
+	getOsTypes() {
+		this.osTypeOptions = [{id: 1, name: 'ArchLinux'}, {id: 2, name: 'Windows'}];
+		this.osVersionOptions = [{id: 82743}];
+	}
+
+	created() {
+		this.getHardwareTemplates();
+		this.getOsTypes();
+		this.getTemplateDetails();
+	}
+
 }
 
 </script>
@@ -161,7 +205,7 @@ export default class CreateBaseEnvModal extends Vue {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		padding: 2.4rem;
+		padding: 2.4rem 0;
 
 		.hw-template-container {
 			border: 2px solid lighten($light-blue, 40%);

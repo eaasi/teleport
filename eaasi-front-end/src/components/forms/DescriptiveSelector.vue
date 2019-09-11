@@ -32,16 +32,14 @@ export default class DescriptiveSelector extends Vue {
 	/**
 	 * The underlying value
 	 */
-	@Prop({type: Number, required: true})
+	@Prop({type: Number, required: false})
 	readonly value: number;
 
 	/* Computed
 	============================================*/
-
 	get checked() {
 		return this.selectableOption.id === this.value;
 	}
-
 }
 
 </script>
