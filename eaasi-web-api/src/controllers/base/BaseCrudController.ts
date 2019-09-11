@@ -1,24 +1,23 @@
 import { Request, Response } from 'express';
-import AppLogger from '../logging/appLogger';
-import {areAllValidIntegerParams} from '../utils/validators';
-import {build_400_response, build_404_response, build_500_response} from '../utils/error-helpers';
-import ICrudController from './interfaces/ICrudController';
-import HttpResponseCode from '../utils/HttpResponseCode';
+import {areAllValidIntegerParams} from '@/utils/validators';
+import {build_400_response, build_404_response, build_500_response} from '@/utils/error-helpers';
+import ICrudController from '@/controllers/interfaces/ICrudController';
+import HttpResponseCode from '@/utils/HttpResponseCode';
 import {Result} from 'express-validator';
 import CrudService from 'src/services/base/CrudService';
+import BaseController from './BaseController';
 
 
 /**
  * Base class for Controllers that handle CRUD logic
  */
-export default class BaseCrudController implements ICrudController {
+export default class BaseCrudController extends BaseController implements ICrudController {
+
 	private _crudService: CrudService;
 
-	private _logger: any
-
-	constructor(crudService: any) {
+	constructor(crudService: CrudService) {
+		super();
 		this._crudService = crudService;
-		this._logger = new AppLogger(this.constructor.name);
 	}
 
 	/**
@@ -27,22 +26,18 @@ export default class BaseCrudController implements ICrudController {
 	 * @param res response
 	 */
 	async getAll(req: Request, res: Response) {
-		let limit = req.query.limit || 100;
-		let page = req.query.page || 1;
-		let sortCol = req.query.sortCol;
-		let descending = req.query.descending === 'true';
+		let query = this._getQueryFromParams(req);
 
 		// todo: investigate more robust query string validation, add sortCol validation
-		if (!areAllValidIntegerParams([limit, page])) {
+		if (!areAllValidIntegerParams([query.limit, query.page])) {
 			return await res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(JSON.stringify(req.query)));
 		}
 
-		let response = await this._crudService.getAll(limit, page, sortCol, descending);
+		let response = await this._crudService.getAll(req.query);
 
 		if (response.hasError) {
-			this._logger.log.error(response.error);
 			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
@@ -68,7 +63,6 @@ export default class BaseCrudController implements ICrudController {
 		let response = await this._crudService.getByPk(id);
 
 		if (response.hasError) {
-			this._logger.log.error(response.error);
 			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
@@ -100,7 +94,6 @@ export default class BaseCrudController implements ICrudController {
 		let response = await this._crudService.create(newObject);
 
 		if (response.hasError) {
-			this._logger.log.error(response.error);
 			return await res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
@@ -120,7 +113,6 @@ export default class BaseCrudController implements ICrudController {
 		let updateResponse = await this._crudService.update(id, updateData);
 
 		if (updateResponse.hasError) {
-			this._logger.log.error(updateResponse.error);
 			return BaseCrudController._handleUpdateError(req, res, updateResponse);
 		}
 
@@ -137,7 +129,6 @@ export default class BaseCrudController implements ICrudController {
 		let deleteResponse = await this._crudService.destroy(id);
 
 		if (deleteResponse.hasError) {
-			this._logger.log.error(deleteResponse.error);
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 

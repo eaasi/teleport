@@ -1,6 +1,6 @@
-import CrudService from './base/CrudService';
+import CrudService from '../base/CrudService';
 
-const { EaasiRole } = require('../data_access/models');
+const { EaasiRole } = require('@/data_access/models');
 
 /**
  * Handles CRUD operations for EaasIRole domain
