@@ -24,13 +24,9 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { UiButton } from '@/components/global';
 import config from '@/config';
 @Component({
-	name: 'LoginScreen',
-	components: {
-		UiButton
-	}
+	name: 'LoginScreen'
 })
 export default class LoginScreen extends Vue {
 

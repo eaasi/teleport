@@ -1,5 +1,5 @@
 import BaseHttpService from './BaseHttpService';
-import User from '@/models/auth/User';
+import User from '@/models/admin/User';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
 import { IEaasiRole, IEmulator } from 'eaasi-admin';
 

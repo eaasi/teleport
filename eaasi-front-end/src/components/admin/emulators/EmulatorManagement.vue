@@ -4,7 +4,9 @@
 			<div class="container-xs">
 				<div class="flex-row justify-between">
 					<h1>Emulators</h1>
-					<ui-button>Add Emulator</ui-button>
+					<ui-button class="mb" @click="addEmulator">
+						Import Emulator
+					</ui-button>
 				</div>
 				<search-bar
 					:border-color="$colors.lightNeutral"
@@ -26,6 +28,11 @@
 				:query="query"
 			/>
 		</div>
+		<emulator-modal
+			:emulator="activeEmulator"
+			v-if="activeEmulator"
+			@close="activeEmulator = null"
+		/>
 	</div>
 </template>
 
@@ -33,7 +40,9 @@
 import Vue from 'vue';
 import AdminScreen from '../AdminScreen.vue';
 import { Component, Prop } from 'vue-property-decorator';
+import Emulator from '@/models/admin/Emulator';
 import EmulatorList from './EmulatorList.vue';
+import EmulatorModal from './EmulatorModal.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEmulator } from 'eaasi-admin';
 import { IEaasiSearchResponse, IEaasiSearchQuery } from 'eaasi-http';
@@ -41,19 +50,17 @@ import { IEaasiSearchResponse, IEaasiSearchQuery } from 'eaasi-http';
 @Component({
 	name: 'EmulatorManagement',
 	components: {
-		EmulatorList
+		EmulatorList,
+		EmulatorModal
 	}
 })
 export default class EmulatorManagement extends AdminScreen {
 
-	/* Props
-	============================================*/
-
-	/* Data
-	============================================*/
-
 	/* Computed
 	============================================*/
+
+	@Sync('admin/activeEmulator')
+	activeEmulator: IEmulator
 
 	@Get('admin/emulatorsResult')
 	result: IEaasiSearchResponse<IEmulator>
@@ -63,6 +70,10 @@ export default class EmulatorManagement extends AdminScreen {
 
 	/* Methods
 	============================================*/
+
+	addEmulator() {
+		this.activeEmulator = new Emulator();
+	}
 
 	paginate(page) {
 		this.query.page = page;
@@ -76,9 +87,6 @@ export default class EmulatorManagement extends AdminScreen {
 			this.$store.dispatch('admin/getEmulators');
 		}
 	}
-
-	/* Watchers
-	============================================*/
 
 }
 

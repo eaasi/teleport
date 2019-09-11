@@ -31,13 +31,9 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
 import { Get, Sync } from 'vuex-pathify';
 import { IEmulator } from 'eaasi-admin';
-import { SortHeader } from '@/components/global';
 
 @Component({
-	name: 'EmulatorList',
-	components: {
-		SortHeader
-	}
+	name: 'EmulatorList'
 })
 export default class EmulatorList extends Vue {
 

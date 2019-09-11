@@ -1,51 +1,30 @@
 <template>
 	<form-modal
+		class="emulator-modal"
+		title="Add New Emulator"
+		subtitle="Import emulator from a Docker container registry."
 		@close="$emit('close')"
-		:title="modalTitle"
-		class="eaasi-user-modal"
-		@save="saveUser"
+		@save="save"
 	>
-		<div class="user-info">
-			<h3>User Information</h3>
+		<div class="emulator-info">
 			<text-input
-				v-model="user.email"
-				label="Organization Email"
-				rules="required|email"
-				class="col-6"
-			/>
-			<text-input
-				v-model="user.username"
-				label="Username"
+				label="Emulator Name"
+				v-model="emulator.name"
 				rules="required"
-				class="col-6"
+				placeholder="Enter a name..."
 			/>
-			<div class="flex-grid name-fields">
-				<text-input
-					v-model="user.firstName"
-					label="First Name"
-					rules="required"
-					class="col-6"
-				/>
-				<text-input
-					v-model="user.lastName"
-					label="Last Name"
-					rules="required"
-					class="col-6"
-				/>
-			</div>
-		</div>
 
-		<div class="user-roles">
-			<h3>User Roles & Permissions</h3>
-			<div class="flex justify-between">
-				<user-role-selector
-					:role="role"
-					v-for="role in roles"
-					:key="role.id"
-					v-model="user.roleId"
-					class="col-4"
-				/>
-			</div>
+			<text-input
+				label="Emulator Tag"
+				v-model="emulator.name"
+				placeholder="Enter a tag..."
+			/>
+
+			<text-input
+				label="Emulator Alias"
+				v-model="emulator.name"
+				placeholder="Enter an alias..."
+			/>
 		</div>
 	</form-modal>
 </template>
@@ -53,48 +32,30 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
+import { IEaasiUser, IEaasiRole, IEmulator } from 'eaasi-admin';
 import { Get } from 'vuex-pathify';
-import UserRoleSelector from './UserRoleSelector.vue';
 
 @Component({
-	name: 'UserModal',
-	components: {
-		UserRoleSelector
-	}
+	name: 'EmulatorModal'
 })
-export default class UserModal extends Vue {
+export default class EmulatorModal extends Vue {
 
 	/* Props
 	============================================*/
 
-	@Prop({type: Object as () => IEaasiUser, required: true})
-	readonly user: IEaasiUser
-
-	/* Computed
-	============================================*/
-
-	@Get('admin/roles')
-	roles: IEaasiRole[]
+	@Prop({type: Object as () => IEmulator, required: true})
+	readonly emulator: IEmulator
 
 	get isNew() {
-		return !this.user.id;
-	}
-
-	get modalTitle() {
-		return this.isNew ? 'Create New User' : 'Edit User';
+		return !this.emulator.id;
 	}
 
 	/* Methods
 	============================================*/
 
-	/**
-	 * Posts or puts the user via REST API and retreives update user list
-	 */
-	async saveUser() {
-		let success = await this.$store.dispatch('admin/saveUser', this.user);
-		if(!success) return;
-		this.$store.dispatch('admin/getUsers');
+	async save() {
+		// TODO
+		this.$store.dispatch('admin/getEmulators');
 		this.$emit('close');
 	}
 
@@ -103,16 +64,10 @@ export default class UserModal extends Vue {
 </script>
 
 <style lang="scss">
-.user-info,
-.user-roles {
-	margin: 2rem;
-}
 
-.eaasi-user-modal {
-
-	h3 {
-		font-weight: 300;
-		margin-bottom: 3rem;
-	}
+.emulator-info {
+	margin: 0 auto;
+	max-width: 60rem;
+	padding: 2rem 0 4rem;
 }
 </style>

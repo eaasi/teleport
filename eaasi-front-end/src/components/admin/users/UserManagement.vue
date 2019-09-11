@@ -25,7 +25,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import User from '@/models/auth/User';
+import User from '@/models/admin/User';
 import UserList from './UserList.vue';
 import UserModal from './UserModal.vue';
 import { Get, Sync } from 'vuex-pathify';

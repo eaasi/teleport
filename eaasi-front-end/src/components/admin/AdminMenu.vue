@@ -13,7 +13,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IMenuItem } from 'eaasi-nav';
 import AdminMenuItem from './AdminMenuItem.vue';
-import User from '@/models/auth/User';
+import User from '@/models/admin/User';
 
 @Component({
 	name: 'AdminMenu',

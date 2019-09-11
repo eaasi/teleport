@@ -42,15 +42,11 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiRole, IEaasiUser } from 'eaasi-admin';
-import User from '@/models/auth/User';
+import User from '@/models/admin/User';
 import { IEaasiSearchQuery } from 'eaasi-http';
-import { SortHeader } from '@/components/global';
 
 @Component({
-	name: 'UserList',
-	components: {
-		SortHeader
-	}
+	name: 'UserList'
 })
 export default class UserList extends Vue {
 

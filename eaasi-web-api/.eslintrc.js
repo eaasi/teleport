@@ -24,12 +24,16 @@ module.exports = {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'quotes': [ 'error', 'single' ],
-		'semi': [ 'error', 'always' ],
+		'semi': 'off',
+		'lines-between-class-members': ['error', 'always', {
+			'exceptAfterSingleLine': true
+		}],
 		'@typescript-eslint/array-type': ['error', 'array'],
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/explicit-member-accessibility': 'off',
 		'@typescript-eslint/indent': ['error', 'tab'],
 		'@typescript-eslint/no-var-requires': 'off',
-		'@typescript-eslint/camelcase': 'off'
+		'@typescript-eslint/camelcase': 'off',
+		'@typescript-eslint/interface-name-prefix': 'off'
 	}
 };

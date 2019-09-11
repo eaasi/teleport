@@ -4,7 +4,7 @@ import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
 import { IEaasiRole } from 'eaasi-admin';
 import { IEmulator } from '@/types/Emulator';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
-import User from '@/models/auth/User';
+import User from '@/models/admin/User';
 import _svc from '@/services/AdminService';
 
 /*============================================================
@@ -12,7 +12,8 @@ import _svc from '@/services/AdminService';
 /============================================================*/
 
 export class AdminState {
-	activeUser?: User = null;
+	activeEmulator: IEmulator = null;
+	activeUser: User = null;
 	emulatorsResult: IEaasiSearchResponse<IEmulator> = null;
 	emulatorsQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	usersResult: IEaasiSearchResponse<User> = null;
