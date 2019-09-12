@@ -1,9 +1,9 @@
 <template>
-	<div>
+	<div class="vh-container">
 		<div class="vh-title">
 			{{ title }}
 		</div>
-		<div class="vh-subtitle">
+		<div class="vh-subsection">
 			<div class="vh-description">
 				<slot></slot>
 			</div>
@@ -42,6 +42,10 @@ export default class ViewHeader extends Vue {
 </script>
 
 <style lang="scss">
+	.vh-container {
+		overflow-x: hidden;
+	}
+
 	.vh-title {
 		background: lighten($light-neutral, 80%);
 		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.1);
@@ -52,23 +56,26 @@ export default class ViewHeader extends Vue {
 		z-index: 2;
 	}
 
-	.vh-subtitle {
+	.vh-subsection {
 		border-bottom: 2px solid $light-neutral;
 		display: flex;
 		flex-direction: row;
 		font-size: 1.4rem;
+		max-width: 100%;
 		position: relative;
 	}
 
 	.vh-description {
 		background: lighten($light-neutral, 40%);
 		flex-grow: 1;
-		padding: 2.4rem 1.3rem;
+		line-height: 2.1rem;
+		max-width: 52rem;
+		padding: 1.4rem 20rem 1.1rem 1.8rem;
 	}
 
 	.vh-actions {
 		align-content: flex-end;
-		background: lighten($light-neutral, 95%);
-		padding: 2.4rem 1.3rem;
+		flex-grow: 1;
+		margin: auto;
 	}
 </style>
