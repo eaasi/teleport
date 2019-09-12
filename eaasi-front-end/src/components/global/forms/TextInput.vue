@@ -23,7 +23,7 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 
 /**
  * A Text Input form field
- * @example ../docs/TextInput.Example.md
+ * @example ../../docs/TextInput.Example.md
  */
 @Component({
 	name: 'TextInput',
