@@ -1,6 +1,15 @@
 <template>
 	<div>
-		<section-heading />
+		<view-header title="Emulation Project" />
+		<div>
+			<section-heading title="Base Environment"/>
+		</div>
+		<div>
+			<section-heading title="Software Resources"/>
+		</div>
+		<div>
+			<section-heading title="Content Resources"/>
+		</div>
 	</div>
 </template>
 
