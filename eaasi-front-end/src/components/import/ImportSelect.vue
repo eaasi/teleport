@@ -51,16 +51,10 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
-import { BigButton } from '@/components/global';
-import { SelectList } from '@/components/forms';
 import { ImportType } from 'eaasi-import';
 
 @Component({
-	name: 'ImportSelect',
-	components: {
-		BigButton,
-		SelectList
-	}
+	name: 'ImportSelect'
 })
 export default class ImportSelect extends Vue {
 

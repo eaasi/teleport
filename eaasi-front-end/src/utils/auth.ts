@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { IEaasiUser } from 'eaasi-auth';
+import { IEaasiUser } from 'eaasi-admin';
 
 const SECRET = process.env.VUE_APP_JWT_SECRET;
 const JWT_NAME = process.env.VUE_APP_JWT_NAME;

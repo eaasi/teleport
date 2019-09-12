@@ -87,7 +87,7 @@ export default class Step extends Vue {
 		// TODO: There is a more elegant way to fill remaining space with dots.
 
 		&::after {
-			color: $warm-grey;
+			color: #888;
 			content: '...........................';
 			font-weight: normal;
 		}
