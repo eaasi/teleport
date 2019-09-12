@@ -10,22 +10,23 @@
 				</div>
 				<search-bar
 					:border-color="$colors.lightNeutral"
-					placeholder="Enter a name or email address"
-					v-model="query.keyword"
+					placeholder="Enter an emulator name..."
+					:value="keyword"
+					@input="search"
 				/>
 			</div>
 		</div>
-		<div class="padded-xl container-xs" v-if="result">
+		<div class="padded-xl container-xs" v-if="list">
 			<pagination
-				:total-results="result.totalResults"
-				:results-per-page="query.limit"
-				:page-num="query.page"
-				@paginate="paginate"
+				:total-results="result.length"
+				:results-per-page="result.length"
+				:page-num="1"
 				class="user-pagination"
 			/>
 			<emulator-list
-				:list="result.result"
-				:query="query"
+				:list="result"
+				v-if="result.length"
+				@click:row="showDetails"
 			/>
 		</div>
 		<emulator-modal
@@ -62,11 +63,19 @@ export default class EmulatorManagement extends AdminScreen {
 	@Sync('admin/activeEmulator')
 	activeEmulator: IEmulator
 
-	@Get('admin/emulatorsResult')
-	result: IEaasiSearchResponse<IEmulator>
+	@Get('admin/emulators')
+	list: IEmulator[]
 
-	@Sync('admin/emulatorsQuery')
-	query: IEaasiSearchQuery
+	get result() {
+		if(!this.list || !this.list.length) return [];
+		return this.list.filter(x => x.name.indexOf(this.keyword) > -1);
+	}
+
+	/* Data
+	============================================*/
+
+	keyword: string = '';
+
 
 	/* Methods
 	============================================*/
@@ -75,17 +84,19 @@ export default class EmulatorManagement extends AdminScreen {
 		this.activeEmulator = new Emulator();
 	}
 
-	paginate(page) {
-		this.query.page = page;
+	search(keyword) {
+		this.keyword = keyword;
+	}
+
+	showDetails(emulator) {
+		this.activeEmulator = emulator;
 	}
 
 	/* Lifecycle Hooks
 	============================================*/
 
 	mounted() {
-		if(!this.result) {
-			this.$store.dispatch('admin/getEmulators');
-		}
+		this.$store.dispatch('admin/getEmulators');
 	}
 
 }

@@ -14,8 +14,7 @@ import _svc from '@/services/AdminService';
 export class AdminState {
 	activeEmulator: IEmulator = null;
 	activeUser: User = null;
-	emulatorsResult: IEaasiSearchResponse<IEmulator> = null;
-	emulatorsQuery: IEaasiSearchQuery = new EaasiSearchQuery();
+	emulators: IEmulator[] = null;
 	usersResult: IEaasiSearchResponse<User> = null;
 	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
@@ -39,9 +38,9 @@ const actions = {
 	============================================*/
 
 	async getEmulators({ commit, state }: Store<AdminState>) {
-		let result = await _svc.getEmulators(state.emulatorsQuery);
+		let result = await _svc.getEmulators();
 		if (!result) return;
-		commit('SET_EMULATORS_RESULT', result);
+		commit('SET_EMULATORS', result);
 	},
 
 	/* Users

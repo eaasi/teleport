@@ -55,7 +55,9 @@ export default class CrudService extends BaseService implements ICrudService {
 
 		if (results.hasError) {
     		return results;
-    	}
+		}
+
+		console.log(results);
 
 		return new CrudServiceResult(null, {
     		result: results,
@@ -199,7 +201,11 @@ export default class CrudService extends BaseService implements ICrudService {
 	private createFindAllOptions(query: CrudQuery) {
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1);
-    	let options = { limit, offset } as any;
+    	let options = {
+			limit,
+			offset,
+			raw: true
+		} as any;
 
     	if (!query.sortCol) return options;
 

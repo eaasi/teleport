@@ -8,7 +8,7 @@ class AdminService extends BaseHttpService {
 	/* Emulators
 	============================================*/
 
-	async getEmulators(query: IEaasiSearchQuery): Promise<IEmulator[]> {
+	async getEmulators(): Promise<IEmulator[]> {
 		let res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
 		return res.result as IEmulator[];

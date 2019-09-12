@@ -6,6 +6,28 @@ declare module 'eaasi-admin' {
 	export interface IEmulator {
 		id: number;
 		name: string;
+		entries: IEmulatorEntry[];
+	}
+
+	export interface IEmulatorEntry {
+		name: string;
+		version: string;
+		image: IEmulatorImage;
+		provenance: IEmulatorProvenance;
+		digest: string;
+	}
+
+	export interface IEmulatorImage {
+		url: string;
+		id: string;
+		type: string;
+		fstype: string;
+	}
+
+	export interface IEmulatorProvenance {
+		ociSourceUrl: string;
+		versionTag: string;
+		layers: string[];
 	}
 
 	/* User

@@ -14,6 +14,15 @@ export default class AdminController extends BaseController {
 		this._emulatorAdminSvc = new EmulatorAdminService();
 	}
 
+	/*============================================================
+	 == Users
+	/============================================================*/
+
+	/**
+	 * Gets a paginated user list
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
 	async getUsers(req: Request, res: Response) {
 
 		// Parse request object to unpack limit, page, etc.
@@ -27,6 +36,11 @@ export default class AdminController extends BaseController {
 		}
 	}
 
+	/**
+	 * Gets all user roles
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
 	async getRoles(req: Request, res: Response) {
 		try {
 			let roles = await this._userSvc.getRoles();
@@ -36,6 +50,15 @@ export default class AdminController extends BaseController {
 		}
 	}
 
+	/*============================================================
+	 == Emulators
+	/============================================================*/
+
+	/**
+	 * Gets the list of emulators
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
 	async getEmulators(req: Request, res: Response) {
 		try {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
