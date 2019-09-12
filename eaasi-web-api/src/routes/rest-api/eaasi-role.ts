@@ -3,7 +3,7 @@ import {check, validationResult} from 'express-validator';
 
 const router = express.Router();
 
-const EaasiRoleController = require('../controllers/EaasiRoleController');
+const EaasiRoleController = require('@/controllers/rest-api/EaasiRoleController');
 const controller = new EaasiRoleController();
 
 

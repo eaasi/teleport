@@ -1,30 +1,47 @@
-import CrudQuery from '@/services/base/CrudQuery';
-import UserService from '@/services/admin/UserService';
+import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
+import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
 export default class AdminController extends BaseController {
 
-	readonly _userSvc: UserService;
+	readonly _userSvc: UserAdminService;
+	readonly _emulatorAdminSvc: EmulatorAdminService;
 
 	constructor() {
 		super();
-		this._userSvc = new UserService();
+		this._userSvc = new UserAdminService();
+		this._emulatorAdminSvc = new EmulatorAdminService();
 	}
 
 	async getUsers(req: Request, res: Response) {
-		let query = req.body as CrudQuery;
+
+		// Parse request object to unpack limit, page, etc.
+		let query = this._getQueryFromParams(req);
+
 		try {
-			let result = await this._userSvc.getUsers(query);
-		} catch(e: Error) {
-			this.sendError(e.message);
+			let users = await this._userSvc.getUsers(query);
+			res.send(users);
+		} catch(e) {
+			return this.sendError(e.message, res);
 		}
 	}
 
-	async getRoles() {
-		this._userSvc.getRoles().then((res) => {
-			res.send(res.result);
-		});
+	async getRoles(req: Request, res: Response) {
+		try {
+			let roles = await this._userSvc.getRoles();
+			res.send(roles);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
 	}
 
+	async getEmulators(req: Request, res: Response) {
+		try {
+			let emulators = await this._emulatorAdminSvc.getEmulators();
+			res.send(emulators);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
 }
