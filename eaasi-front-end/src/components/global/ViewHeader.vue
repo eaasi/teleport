@@ -69,7 +69,7 @@ export default class ViewHeader extends Vue {
 		background: lighten($light-neutral, 40%);
 		flex-grow: 1;
 		line-height: 2.1rem;
-		max-width: 52rem;
+		max-width: $actionViewLeftWidth;
 		padding: 1.4rem 20rem 1.1rem 1.8rem;
 	}
 
