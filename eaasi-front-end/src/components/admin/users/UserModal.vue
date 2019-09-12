@@ -55,7 +55,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
 import { Get } from 'vuex-pathify';
-import DescriptiveSelector from '../forms/DescriptiveSelector.vue';
+import DescriptiveSelector from '@/components/forms/DescriptiveSelector.vue';
 
 @Component({
 	name: 'UserModal',

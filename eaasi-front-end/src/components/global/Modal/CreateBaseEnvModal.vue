@@ -84,15 +84,13 @@ import {Component, Prop} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import AlertCard from '@/components/global/AlertCard.vue';
-import SelectList from '@/components/forms/SelectList.vue';
-import RadioButtons from '@/components/forms/RadioButtons.vue';
 import DescriptiveSelector from '@/components/forms/DescriptiveSelector.vue';
 import BaseEnvironmentDetailsCard from '@/components/global/BaseEnvironmentDetailsCard.vue';
+import SelectList from '@/components/global/forms/SelectList.vue';
 
 @Component({
 	name: 'CreateBaseEnvModal',
 	components: {
-		RadioButtons,
 		AlertCard,
 		InfoModal,
 		UiButton,
