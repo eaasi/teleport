@@ -55,7 +55,7 @@
 
 			<!-- HARDWARE TEMPLATES -->
 			<div v-if="hardwareTemplates.length > 0">
-				<hardware-template-selection :templates="hardwareTemplates"/>
+				<hardware-template-selection :templates="hardwareTemplates" />
 			</div>
 			<!-- END HARDWARE TEMPLATES -->
 		</div>
