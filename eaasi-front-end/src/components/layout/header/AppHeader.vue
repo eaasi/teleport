@@ -18,7 +18,7 @@
 			<header-menu-item
 				:label="`${user.firstName} ${user.lastName}`"
 				icon="user"
-				@click="$store.dispatch('global/logout')"
+				@click="logout"
 			/>
 			<header-menu-item
 				:label="nodeName"
@@ -33,15 +33,15 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import HeaderMenuItem from './HeaderMenuItem.vue';
-import { SearchBar } from '@/components/forms';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiUser } from 'eaasi-auth';
+import { IEaasiUser } from 'eaasi-admin';
+import authService from '@/services/AuthService';
+
 
 @Component({
 	name: 'AppHeader',
 	components: {
-		HeaderMenuItem,
-		SearchBar
+		HeaderMenuItem
 	}
 })
 export default class AppHeader extends Vue {
@@ -68,6 +68,13 @@ export default class AppHeader extends Vue {
 		this.$router.push(`/search?q=${this.searchKeyword}`);
 	}
 
+	/**
+	 * Logs out a User
+	 */
+	logout() {
+		this.$store.dispatch('global/logout');
+		authService.logout();
+	}
 };
 </script>
 
@@ -84,6 +91,7 @@ export default class AppHeader extends Vue {
 }
 
 #headerRight {
+
 	a {
 		display: block;
 		padding: 1rem;

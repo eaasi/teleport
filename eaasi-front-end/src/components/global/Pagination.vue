@@ -1,8 +1,8 @@
 <template>
-	<div class="pagination-wrapper" v-if="numPages > 1">
+	<div class="pagination-wrapper">
 		<div class="flex-row justify-between">
 			<div><label>{{ totalText }}</label></div>
-			<ul class="pagination">
+			<ul class="pagination" v-if="numPages > 1">
 				<li
 					@click="paginate(1)"
 					:class="['page-arrow', {'hide-page': !showGoToStart }]"
@@ -81,7 +81,7 @@ export default class Pagination extends Vue {
 	pages: number[] = [];
 	numPages: number = 1;
 	showGoToStart: boolean = false;
-	showGoToEnd: boolean = false
+	showGoToEnd: boolean = false;
 
 	/* Computed
 	============================================*/
@@ -195,11 +195,12 @@ export default class Pagination extends Vue {
 		transition: background-color 0.2s;
 
 		&.active {
-			background-color: #FFF;
+			background-color: #FFFFFF;
 			border-bottom: solid 2px $dark-blue;
 			cursor: default;
+
 			&:hover {
-				background-color: #FFF;
+				background-color: #FFFFFF;
 			}
 		}
 

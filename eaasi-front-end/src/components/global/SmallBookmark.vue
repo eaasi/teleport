@@ -19,7 +19,7 @@
 						:stroke-dasharray="dashSize"
 						stroke-dashoffset="8"
 						font-size="none"
-						style="mix-blend-mode: normal"
+						style="mix-blend-mode: normal;"
 					>
 						<g
 							fill="#000000"
@@ -100,7 +100,7 @@ export default class SmallBookmark extends Vue {
 		/* Computed
         ============================================*/
 		get fillColor() : String {
-			// $dark-sky-blue
+			// $dark-blue
 			return this.isActive ? '#2479AA' : 'white';
 		}
 
@@ -123,14 +123,14 @@ export default class SmallBookmark extends Vue {
 
 <style lang="scss">
 	.bookmark {
-		position: relative;
 		cursor: pointer;
+		position: relative;
 	}
 
 	.add-remove-message {
-		line-height: 3.0rem;
+		color: $dark-blue;
 		font-size: 1.5rem;
+		line-height: 3rem;
 		padding-left: 4px;
-		color: $dark-sky-blue;
 	}
 </style>

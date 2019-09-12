@@ -8,19 +8,19 @@
 		"cy:run": "cypress run",
 		"cy:run:styleguide": "cypress run --spec cy tests/e2e/specs/styleguide/**/*",
 		"cy:open": "cypress open",
-		"lint": "vue-cli-service lint --fix",
-		"lint:css": "stylelint '**/*.vue' --fix --syntax scss",
+		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
 		"test:e2e": "vue-cli-service test:e2e",
 		"test:styleguide": "export CYPRESS_BASE_URL=http://localhost:6060 && run-p --race styleguide cy:run:styleguide",
 		"test:styleguide:ci": "export CYPRESS_BASE_URL=http://localhost:6060 && cypress install && run-p --race styleguide cy:run:styleguide",
 		"test:styleguide:open": "export CYPRESS_BASE_URL=http://localhost:6060 && run-p --race styleguide cy:open",
-		"test:unit": "vue-cli-service test:unit"
+		"test:unit": "vue-cli-service test:unit --verbose --coverage"
 	},
 	"dependencies": {
 		"@vue/cli-service": "^3.8.0",
 		"core-js": "^2.6.5",
+		"js-cookie": "^2.2.1",
 		"jsonwebtoken": "^8.5.1",
 		"lodash": "^4.17.11",
 		"npm-run-all": "^4.1.5",
@@ -66,10 +66,5 @@
 		"ts-jest": "^23.0.0",
 		"vue-cli-plugin-styleguidist": "^3.19.5",
 		"vue-template-compiler": "^2.6.10"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint"
-		}
 	}
 }

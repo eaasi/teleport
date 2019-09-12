@@ -71,7 +71,7 @@ export default class Step extends Vue {
 		width: $circleSize;
 
 		&.fill-bg {
-			background: #fff;
+			background: #ffffff;
 		}
 	}
 

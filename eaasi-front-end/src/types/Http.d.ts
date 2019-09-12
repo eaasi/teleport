@@ -4,9 +4,8 @@ declare module 'eaasi-http' {
 	}
 
 	export interface IEaasiSearchResponse<T> {
-		count: number,
 		result: T[],
-		totalPages: number
+		totalResults: number
 	}
 
 	export interface IEaasiSearchQuery {
@@ -15,5 +14,10 @@ declare module 'eaasi-http' {
 		keyword?: string;
 		sortCol?: string;
 		descending: boolean;
+	}
+
+	export interface IEaasiApiRequestOptions {
+		suppressErrors?: boolean,
+		suppressSpinner?: boolean
 	}
 }

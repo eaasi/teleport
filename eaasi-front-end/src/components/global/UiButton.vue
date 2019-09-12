@@ -24,19 +24,19 @@ export default class UiButton extends Vue {
 
 	// Make display type: block
 	@Prop({type: Boolean, required: false})
-	readonly block: boolean
+	readonly block: boolean;
 
  	// Use secondary styles
 	@Prop({type: Boolean, required: false})
-	readonly secondary: boolean
+	readonly secondary: boolean;
 
 	// Font icon name
 	@Prop({type: String, required: false})
-	readonly icon: string
+	readonly icon: string;
 
 	// Show icon on right side of slot (instead of left)
-	@Prop({type: String, required: false})
-	readonly iconRight: string
+	@Prop({type: Boolean, required: false})
+	readonly iconRight: boolean;
 
 }
 </script>
@@ -47,7 +47,7 @@ export default class UiButton extends Vue {
 	background-color: $dark-blue;
 	border: solid 2px darken($dark-blue, 20%);
 	border-radius: 0.4rem;
-	color: #FFF;
+	color: #FFFFFF;
 	cursor: pointer;
 	font-size: 1.6rem;
 	min-width: 17.5rem;
@@ -74,6 +74,7 @@ export default class UiButton extends Vue {
 		background-color: lighten($light-blue, 80%);
 		border: solid 2px $light-blue;
 		color: $dark-blue;
+
 		&:hover {
 			background-color: lighten($light-blue, 40%);
 		}

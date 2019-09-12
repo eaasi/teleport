@@ -13,7 +13,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IMenuItem } from 'eaasi-nav';
 import AdminMenuItem from './AdminMenuItem.vue';
-import User from '@/models/auth/User';
+import User from '@/models/admin/User';
 
 @Component({
 	name: 'AdminMenu',
@@ -44,8 +44,8 @@ export default class AdminMenu extends Vue {
 		},
 		{
 			icon: 'server',
-			label: 'Emulator Settings',
-			route: '/admin/emulator-settings'
+			label: 'Emulators',
+			route: '/admin/emulators'
 		},
 		{
 			icon: 'history',
@@ -73,7 +73,7 @@ export default class AdminMenu extends Vue {
 
 	addUser() {
 		this.$router.push('/admin/user');
-		this.$store.commit('users/SET_ACTIVE_USER', new User());
+		this.$store.commit('admin/SET_ACTIVE_USER', new User());
 	}
 
 }
@@ -85,11 +85,12 @@ export default class AdminMenu extends Vue {
 .admin-menu {
 	background-color: darken($teal, 40%);
 	box-sizing: border-box;
-	color: #FFF;
+	color: #FFFFFF;
 	padding: 2rem;
 	width: 25rem;
+
 	h2 {
-		color: #AAA;
+		color: #AAAAAA;
 		font-size: 1.2rem;
 		text-transform: uppercase;
 	}

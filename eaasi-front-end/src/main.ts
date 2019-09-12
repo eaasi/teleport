@@ -3,13 +3,11 @@ import App from './App.vue';
 import router from './router';
 import './scss/global.scss';
 import store from './store';
+import EaasiVueConfig from '@/plugins/EaasiVueConfig';
+import GlobalComponents from '@/components/global';
 
-// Add global SCSS colors
-const colorVariables = require('@/scss/_variables.scss');
-Vue.prototype.$colors = colorVariables;
-
-// Turn off production tip
-Vue.config.productionTip = false;
+Vue.use(EaasiVueConfig);
+Vue.use(GlobalComponents);
 
 new Vue({
 	router,

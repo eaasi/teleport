@@ -1,0 +1,60 @@
+import { shallowMount } from '@vue/test-utils';
+import NumberedStep from '@/components/global/NumberedSteps/NumberedStep.vue';
+
+const incompleteStep =  {
+	stepNumber: 8,
+	description: 'Foo Bar',
+	isComplete: false
+};
+
+const completeStep = {
+	stepNumber: 99,
+	description: 'Baz Quux',
+	isComplete: true
+};
+
+describe('NumberedStep.vue', () => {
+	it('When not complete => renders step number that is passed as props', () => {
+		const wrapper = shallowMount(NumberedStep, {
+			context: {
+				props: {
+					stepData: incompleteStep
+				}
+			}
+		});
+		expect(wrapper.find('span.step-number').text()).toBe('8');
+	});
+
+	it('When not complete => renders step description', () => {
+		const wrapper = shallowMount(NumberedStep, {
+			context: {
+				props: {
+					stepData: incompleteStep
+				}
+			}
+		});
+		expect(wrapper.find('span.step-description').text()).toBe('Foo Bar');
+	});
+
+	it('When complete => renders step number that is passed as props', () => {
+		const wrapper = shallowMount(NumberedStep, {
+			context: {
+				props: {
+					stepData: completeStep
+				}
+			}
+		});
+		expect(wrapper.contains('i.fa-check')).toBe(true);
+	});
+
+	it('When complete => renders step description', () => {
+		const wrapper = shallowMount(NumberedStep, {
+			context: {
+				props: {
+					stepData: completeStep
+				}
+			}
+		});
+		expect(wrapper.find('span.step-description').text()).toBe('Baz Quux');
+	});
+});

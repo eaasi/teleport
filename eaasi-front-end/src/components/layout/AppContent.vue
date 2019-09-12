@@ -11,17 +11,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { Loader } from '@/components/global';
 import eventBus from '@/utils/event-bus';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
-
+import SlideMenu from '@/components/layout/SlideMenu.vue';
 import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'AppContent',
 	components: {
 		AdminMenu,
-		Loader
+		SlideMenu
 	}
 })
 export default class AppContent extends Vue {

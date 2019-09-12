@@ -1,12 +1,10 @@
-const INLINE_ELEMENTS = require('./src/utils/inline-non-void-elements.js');
-
 module.exports = {
 	root: true,
 	env: {
 		browser: false,
 		es6: true
 	},
-	extends: [],
+	extends: ['plugin:@typescript-eslint/recommended'],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly'
@@ -20,11 +18,22 @@ module.exports = {
 		'@typescript-eslint',
 	],
 	rules: {
-		indent: ['error', 'tab'],
+		'camelcase': 'off',
+		'indent': ['error', 'tab'],
 		'lines-between-class-members': ['warn', 'always'],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-		quotes: [ 'error', 'single' ],
-		semi: [ 'error', 'always' ]
+		'quotes': [ 'error', 'single' ],
+		'semi': 'off',
+		'lines-between-class-members': ['error', 'always', {
+			'exceptAfterSingleLine': true
+		}],
+		'@typescript-eslint/array-type': ['error', 'array'],
+		'@typescript-eslint/explicit-function-return-type': 'off',
+		'@typescript-eslint/explicit-member-accessibility': 'off',
+		'@typescript-eslint/indent': ['error', 'tab'],
+		'@typescript-eslint/no-var-requires': 'off',
+		'@typescript-eslint/camelcase': 'off',
+		'@typescript-eslint/interface-name-prefix': 'off'
 	}
 };

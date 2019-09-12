@@ -1,9 +1,21 @@
 /**
  * Data specification for a Resource component
  */
-import {ITag} from './Tag.d';
+import { ITag } from './Tag';
 
-export interface IResource {
+export interface IEaasiResource {
+	/**
+	 * A unique identifier for the Resource object
+	 */
+	id: number | string
+
+	/**
+	 * The title of a Resource object
+	 */
+	title: string
+}
+
+export interface IEaasiResourceSummary extends IEaasiResource {
 	/**
 	 * A unique identifier for the Resource object
 	 */
@@ -33,4 +45,3 @@ export interface IResource {
 	 */
 	subContent: object
 }
-

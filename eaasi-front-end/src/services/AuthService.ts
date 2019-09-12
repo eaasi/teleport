@@ -1,16 +1,16 @@
 import BaseHttpService from './BaseHttpService';
-import { IEaasiAuthResponse } from 'eaasi-auth';
+import { IEaasiAuthResponse, IEaasiUser } from 'eaasi-admin';
 
 class AuthService extends BaseHttpService {
 
-	async authorize(userId: number): Promise<IEaasiAuthResponse> {
-		let res = await this.post('/auth/login', {userId});
+	async getUserData(): Promise<IEaasiUser> {
+		let res = await this.get<IEaasiUser>('/auth/user');
 		if(!res || !res.ok) return null;
-		return res.result as IEaasiAuthResponse;
+		return res.result;
 	}
 
 	async logout(): Promise<boolean> {
-		let res = await this.get('/auth/logout');
+		let res = await this.delete('/auth/logout');
 		return res.ok;
 	}
 

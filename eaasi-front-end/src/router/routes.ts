@@ -5,6 +5,8 @@ import ImportScreen from '@/components/import/ImportResourceScreen.vue';
 import { authorize } from './middleware';
 
 // TODO: Should routes be split into their own files?
+import EumlatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
+import MyResourcesScreen from '@/components/resources/MyResourcesScreen.vue';
 
 export default [
 	{
@@ -18,19 +20,16 @@ export default [
 		name: 'Dashboard',
 		component: Home
 	},
-
-	/* Admin
-	============================================*/
-
 	{
 		path: '/admin/users',
 		name: 'User Management',
 		component: UserManagement
 	},
-
-	/* Auth
-	============================================*/
-
+	{
+		path: '/admin/emulators',
+		name: 'Emulators',
+		component: EumlatorManagement
+	},
 	{
 		path: '/login',
 		name: 'Login',
@@ -55,8 +54,10 @@ export default [
 		path: '/import-resource',
 		name: 'Import Resource',
 		component: ImportScreen,
-		meta: {
-			title: 'Import Resource'
-		}
+	},
+	{
+		path: '/my-resources',
+		name: 'My Resources',
+		component: MyResourcesScreen
 	}
 ];

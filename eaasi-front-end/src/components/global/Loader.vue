@@ -64,7 +64,7 @@ $speed: 0.9s;
 		border-radius: 50%;
 		border-top-color: lighten($baseColor, 50%);
 		bottom: 5px;
-		content: "";
+		content: '';
 		left: 5px;
 		position: absolute;
 		right: 5px;
@@ -77,7 +77,7 @@ $speed: 0.9s;
 		border-radius: 50%;
 		border-top-color: darken($baseColor, 50%);
 		bottom: 15px;
-		content: "";
+		content: '';
 		left: 15px;
 		position: absolute;
 		right: 15px;
@@ -85,7 +85,8 @@ $speed: 0.9s;
 	}
 }
 
-@-webkit-keyframes spin {
+@keyframes spin {
+
 	0% {
 		transform: rotate(0deg);
 	}
@@ -96,6 +97,7 @@ $speed: 0.9s;
 }
 
 @keyframes spin {
+
 	0% {
 		transform: rotate(0deg);
 	}

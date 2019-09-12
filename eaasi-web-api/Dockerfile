@@ -8,6 +8,8 @@ COPY . ./
 
 RUN npm install -g babel-cli
 
+RUN npm install -g apidoc
+
 RUN npm install npx sequelize sequelize-cli sequelize-auto-migrations pg
 
 RUN apk update

@@ -31,7 +31,7 @@ export default class HoverMenu extends Vue {
 	 * The delay before the menu closes after a mouseout event
 	 */
 	@Prop({type: Number, required: false, default: 150})
-	readonly closeDelay: number
+	readonly closeDelay: number;
 
 	/* Data
 	============================================*/
@@ -65,8 +65,8 @@ export default class HoverMenu extends Vue {
 	 */
 	showMenu(show: boolean): void {
 		let self = this;
-		if(show === true) {
-			if(self.menuTimer) clearInterval(self.menuTimer);
+		if (show === true) {
+			if (self.menuTimer) clearInterval(self.menuTimer);
 			self.openMenu();
 		} else {
 			self.menuTimer = setTimeout(() => {

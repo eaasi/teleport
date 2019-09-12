@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import Vue from 'vue';
 
 @Component({
 	name: 'AdminScreen'
@@ -16,7 +16,7 @@ export default class AdminScreen extends Vue {
 	/* Lifecycle Hooks
 	============================================*/
 
-	beforeCreate() {
+	mounted() {
 		this.$store.commit('global/SET_ADMIN_MENU_OPEN', true);
 	}
 

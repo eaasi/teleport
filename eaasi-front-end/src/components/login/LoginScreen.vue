@@ -9,7 +9,7 @@
 				<h3>{{ nodeName }}</h3>
 				<div>
 					<!-- TODO: this should link to shibboleth SP -->
-					<a href="/login/auth?userid=25">
+					<a :href="loginUrl">
 						<ui-button>Login</ui-button>
 					</a>
 					<p v-if="!loginError">Using your approved access account.</p>
@@ -24,12 +24,9 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { UiButton } from '@/components/global';
+import config from '@/config';
 @Component({
-	name: 'LoginScreen',
-	components: {
-		UiButton
-	}
+	name: 'LoginScreen'
 })
 export default class LoginScreen extends Vue {
 
@@ -42,20 +39,34 @@ export default class LoginScreen extends Vue {
 	@Get('global/loginError')
 	loginError: string
 
+
+	/* Data
+	============================================*/
+
+	loginUrl: string = config.SERVICE_URL + '/auth/login';
+
+	mounted() {
+		console.log(process.env.VUE_APP_SERVICE_URL);
+	}
+
+	mounted() {
+		console.log(process.env.VUE_APP_API_BASE_URL);
+	}
+
 }
 
 </script>
 
 <style lang="scss">
 #loginScreen {
-	background-color: #222;
+	background-color: #222222;
 	background-image: url('../../assets/login-bg.png');
 	background-size: cover;
 	min-height: 100vh;
 }
 
 #loginTitle {
-	color: #FFF;
+	color: #FFFFFF;
 	text-align: center;
 
 	h1 {
@@ -73,12 +84,12 @@ export default class LoginScreen extends Vue {
 }
 
 #loginBox {
-	background-color: #FFF;
+	background-color: #FFFFFF;
 	flex: 0 1 40rem;
 
 	h3 {
 		background-color: $teal;
-		color: #FFF;
+		color: #FFFFFF;
 		font-weight: 300;
 		padding: 3rem 1rem;
 		text-align: center;
