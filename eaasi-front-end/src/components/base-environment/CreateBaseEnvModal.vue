@@ -6,15 +6,12 @@
 		button-text="Cancel"
 	>
 		<div class="base-env-container">
-
-
 			<div class="base-env-heading">
 				Select Operating System
 			</div>
 
 			<!-- SELECT OS ROW -->
 			<div class="section-os">
-
 				<!-- LEFT COLUMN -->
 				<div class="left">
 					<select-list label="Operating System Type" v-model="selectedOsType">
@@ -58,29 +55,9 @@
 
 			<!-- HARDWARE TEMPLATES -->
 			<div v-if="hardwareTemplates.length > 0">
-				<div class="divider-border"></div>
-				<div class="base-env-heading">
-					Select Hardware Template
-				</div>
-
-				<div class="hw-container">
-					<div class="hw-templates-container">
-						<descriptive-selector
-							v-for="template in hardwareTemplates"
-							:selectable-option="template"
-							:key="template.id"
-							:value="template.id"
-							v-model="selectedHardware"
-							class="col-4"
-						/>
-					</div>
-					<base-environment-details-card
-						:template-details="templateDetails"
-					/>
-				</div>
+				<hardware-template-selection :templates="hardwareTemplates"/>
 			</div>
 			<!-- END HARDWARE TEMPLATES -->
-
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
@@ -95,83 +72,60 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import AlertCard from '@/components/global/AlertCard.vue';
-import DescriptiveSelector from '@/components/forms/DescriptiveSelector.vue';
-import BaseEnvironmentDetailsCard from '@/components/global/BaseEnvironmentDetailsCard.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
+import HardwareTemplateSelection from '@/components/base-environment/HardwareTemplateSelection.vue';
+import {IHardwareTemplate} from '@/types/HardwareTemplate';
 
 @Component({
 	name: 'CreateBaseEnvModal',
 	components: {
+		HardwareTemplateSelection,
 		AlertCard,
 		InfoModal,
 		UiButton,
 		SelectList,
-		DescriptiveSelector,
-		BaseEnvironmentDetailsCard
 	}
 })
 export default class CreateBaseEnvModal extends Vue {
 	isOpen = true;
 	selectedOsType = null;
 	selectedOsVersion = null;
-	selectedHardware = null;
-
-	// TODO Hardware Template Interface
-	hardwareTemplates = [];
 
 	// TODO OS Type Interface
+	/**
+	 * Array of available OS Types
+	 */
 	osTypeOptions: object[] = [];
 
 	// TODO OS Version Interface
+	/**
+	 * Array of available OS Versions
+	 */
 	osVersionOptions: object[] = [];
 
-	// TODO HardwareTemplateDetails Interface
-	templateDetails: object = {};
+	/**
+	 * Array of available Hardware Templates
+	 */
+	hardwareTemplates: IHardwareTemplate[];
 
-	getTemplateDetails() {
-		this.templateDetails = {
-			emulator: '',
-			networkDevice: '',
-			cpuCores: '',
-			gpuDevice: '',
-			cpuArchitecture: '',
-			audioDevice: '',
-		};
-	}
 
-	getHardwareTemplates() {
-		this.hardwareTemplates = [
-			{
-				id: 1,
-				title: 'Low End Hardware',
-				description: 'There is something here.'
-			},
-			{
-				id: 2,
-				title: 'Basic Hardware',
-				description: 'There is something here.'
-			},
-			{
-				id: 3,
-				title: 'High-End Hardware',
-				description: 'There is something here.'
-			},
-		];
-	}
-
+	// TODO
 	getOsTypes() {
-		this.osTypeOptions = [{id: 1, name: 'ArchLinux'}, {id: 2, name: 'Windows'}];
-		this.osVersionOptions = [{id: 82743}];
+		this.osTypeOptions = [];
+	}
+
+	// TODO
+	getHardwareTemplates() {
+		this.hardwareTemplates = [];
 	}
 
 	created() {
-		this.getHardwareTemplates();
 		this.getOsTypes();
-		this.getTemplateDetails();
+		this.getHardwareTemplates();
 	}
 
 }
