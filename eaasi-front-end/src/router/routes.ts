@@ -1,8 +1,9 @@
 import Home from '@/components/Home.vue';
-import EumlatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
+import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
 import MyResourcesScreen from '@/components/resources/MyResourcesScreen.vue';
+import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 
 export default [
 	{
@@ -24,7 +25,12 @@ export default [
 	{
 		path: '/admin/emulators',
 		name: 'Emulators',
-		component: EumlatorManagement
+		component: EmulatorManagement
+	},
+	{
+		path: '/emulation-project',
+		name: 'Emulation Project',
+		component: EmulationProjectScreen
 	},
 	{
 		path: '/login',

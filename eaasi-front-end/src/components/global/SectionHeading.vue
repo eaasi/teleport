@@ -23,7 +23,7 @@ import { Component, Prop } from 'vue-property-decorator';
 @Component({
 	name: 'SectionHeading'
 })
-export default class Tag extends Vue {
+export default class SectionHeading extends Vue {
 	/* Props
     ============================================*/
 
