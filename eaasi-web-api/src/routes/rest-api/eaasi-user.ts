@@ -3,7 +3,7 @@ import express from 'express';
 
 let router = express.Router();
 
-const EaasiUserController = require('../controllers/EaasiUserController');
+const EaasiUserController = require('@/controllers/rest-api/EaasiUserController');
 const controller = new EaasiUserController();
 
 /**

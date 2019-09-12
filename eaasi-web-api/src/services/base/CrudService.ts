@@ -1,19 +1,19 @@
-import Sequelize from 'sequelize';
-import AppLogger from '../../logging/appLogger';
+import Sequelize, {WhereOptions} from 'sequelize';
 import ICrudService from '../interfaces/ICrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from './CrudServiceResult';
+import CrudQuery from '@/services/base/CrudQuery';
+import BaseService from './BaseService';
 
-export default class CrudService implements ICrudService {
+export default class CrudService extends BaseService implements ICrudService {
 
 	protected MAX_GET_ALL_PAGE_SIZE: number;
 	protected model: any;
-	private _logger: AppLogger
 
 	constructor(model: any) {
+		super();
 		this.model = model;
     	this.MAX_GET_ALL_PAGE_SIZE = 100;
-    	this._logger = new AppLogger(this.constructor.name);
 	}
 
 	/**
@@ -26,14 +26,14 @@ export default class CrudService implements ICrudService {
 	}
 
 	/**
-     * Gets all model instances. Implements pagination
-     * On success, returns object containing results, count, and total pages
-     * On error, returns error object
-     * @param limit number of results to limit in the response
-     * @param page starting page of response results
-     * @returns {Promise<{}>}
-     */
-	async getAll(limit: number, page: number, sortCol?: string, descending?: boolean): Promise<ICrudServiceResult> {
+	 * Gets all model instances. Implements pagination
+	 * On success, returns object containing results, count, and total pages
+	 * On error, returns error object
+	 * @returns {Promise<{}>}
+	 * @param query CRUD query with pagination parameters
+	 */
+	async getAll(query: CrudQuery): Promise<ICrudServiceResult> {
+
 		let totalResults = await this.model.findAndCountAll()
     		.catch((error: string) => {
 				this._logger.log.error(error);
@@ -44,7 +44,7 @@ export default class CrudService implements ICrudService {
 			return totalResults;
     	}
 
-		let options = this.createFindAllOptions(limit, page, sortCol, descending);
+		let options = this.createFindAllOptions(query);
 
     	let results = await this.model
 			.findAll(options)
@@ -77,10 +77,42 @@ export default class CrudService implements ICrudService {
 			.then((result: object) => {
     			return new CrudServiceResult(null, result);
     		})
-    		.catch((error: string)=> {
+    		.catch((error: string) => {
 				this._logger.log.error(error);
     			return new CrudServiceResult(error);
     		});
+	}
+
+	/**
+	 * Gets all instances matching whereOptions
+	 * Accepts Sequelize WhereOptions to query a matched object
+	 * @param whereOptions
+	 */
+	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
+		return await this.model.findAll({
+			where: whereOptions
+		}).then((result: object[]) => {
+			return new CrudServiceResult(null, result);
+		}).catch((error: string) => {
+			this._logger.log.error(error);
+			return new CrudServiceResult(error);
+		})
+	}
+
+	/**
+	 * Gets first instance matching whereOptions
+	 * Accepts Sequelize WhereOptions to query a matched object
+	 * @param whereOptions
+	 */
+	async getOneWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
+		return await this.model.findOne({
+			where: whereOptions
+		}).then((result: object) => {
+			return new CrudServiceResult(null, result);
+		}).catch((error: string) => {
+			this._logger.log.error(error);
+			return new CrudServiceResult(error);
+		})
 	}
 
 	/**
@@ -111,6 +143,7 @@ export default class CrudService implements ICrudService {
      * @returns {Promise<{}>}
      */
 	async update(pk: number, modelData: any): Promise<ICrudServiceResult> {
+		// TODO: Pull the pk off of the modelData
     	return await this.model
 			.findByPk(pk)
     		.then((found: Sequelize.Model) => {
@@ -163,14 +196,18 @@ export default class CrudService implements ICrudService {
     		});
 	}
 
-	private createFindAllOptions(limit: number, page: number, sortCol?: string, descending?: boolean) {
-		limit = limit || this.MAX_GET_ALL_PAGE_SIZE;
-    	let offset = limit * (page - 1);
+	private createFindAllOptions(query: CrudQuery) {
+		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
+    	let offset = query.limit * (query.page - 1);
     	let options = { limit, offset } as any;
-    	if(!sortCol) return options;
+
+    	if (!query.sortCol) return options;
+
 		options.order = [
-			[sortCol, descending ? 'DESC' : 'ASC']
+			[query.sortCol, query.descending ? 'DESC' : 'ASC']
     	];
+
     	return options;
 	}
+
 }
