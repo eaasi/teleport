@@ -10,7 +10,7 @@
 		</div>
 		<div class="ip-actions flex flex-center">
 			<div>
-				<ui-button disabled style="margin-right: 2rem">Finish Import</ui-button>
+				<ui-button disabled style="margin-right: 2rem;">Finish Import</ui-button>
 				<ui-button secondary @click="reset">Cancel</ui-button>
 			</div>
 		</div>

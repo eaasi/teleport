@@ -62,9 +62,9 @@ export default class Step extends Vue {
 
 	.step-number {
 		background: transparent;
-		border: 3px solid #fff;
+		border: 3px solid #ffffff;
 		border-radius: 50%;
-		color: #000;
+		color: #000000;
 		font-weight: bold;
 		height: $circleSize;
 		margin-right: 1.2rem;
@@ -85,9 +85,10 @@ export default class Step extends Vue {
 		vertical-align: middle;
 
 		// TODO: There is a more elegant way to fill remaining space with dots.
-		&:after {
+
+		&::after {
 			color: $warm-grey;
-			content: "...........................";
+			content: '...........................';
 			font-weight: normal;
 		}
 	}

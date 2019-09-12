@@ -87,15 +87,16 @@ export default class BigButton extends Vue {
 	border-radius: 10px;
 	color: $dark-blue;
 	cursor: pointer;
+	max-width: 32rem;
 	padding: 1.5rem 1.5rem 3.5rem;
 	text-align: center;
 	transition: background-color 0.3s;
 
-	max-width: 32rem;
 	&.size-sm,
 	&.size-small {
 		max-width: 24rem;
 	}
+
 	&.size-lg,
 	&.size-large {
 		max-width: 40rem;

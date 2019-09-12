@@ -115,6 +115,7 @@ export default class ImportSelect extends Vue {
 }
 
 .import-types {
+
 	.eb-wrapper {
 		flex: 0 0 31%;
 		margin-bottom: 3rem;
