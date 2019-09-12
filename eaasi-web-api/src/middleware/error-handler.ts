@@ -10,7 +10,6 @@ import createError from 'http-errors';
  * @param next Next
  */
 export function clientErrorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
-	console.log('in client error handler');
 	if (req.xhr) {
 		let { name, message, stack } = err;
 		res.status(500).send({
@@ -31,13 +30,13 @@ export function clientErrorHandler(err: Error, req: Request, res: Response, next
  * @param next Next
  */
 export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-	console.log('inside errorHandler');
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
 	// render the error page
 	res.status(err.status || HttpResponseCode.SERVER_ERROR);
+	console.log('error', err)
 	res.render('error');
 }
 

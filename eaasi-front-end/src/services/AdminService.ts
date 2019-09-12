@@ -8,25 +8,24 @@ class AdminService extends BaseHttpService {
 	/* Emulators
 	============================================*/
 
-	async getEmulators(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEmulator>> {
-		let url = this.createQueryUrl('/emulator', query);
-		let res = await this.get<IEaasiSearchResponse<IEmulator>>(url);
+	async getEmulators(query: IEaasiSearchQuery): Promise<IEmulator[]> {
+		let res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
-		return res.result as IEaasiSearchResponse<IEmulator>;
+		return res.result as IEmulator[];
 	}
 
-	/* USers
+	/* Users
 	============================================*/
 
 	async getUsers(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<User>> {
-		let url = this.createQueryUrl('/eaasi-user', query);
+		let url = this.createQueryUrl('/admin/get-users', query);
 		let res = await this.get<IEaasiSearchResponse<User>>(url);
 		if (!res.ok) return null;
 		return res.result as IEaasiSearchResponse<User>;
 	}
 
 	async getUser(id: number): Promise<User> {
-		let res = await this.get<User>(`/eaasi-user/${id}`);
+		let res = await this.get<User>(`/admin/users?id=${id}`);
 		if (!res.ok) return null;
 		return res.result as User;
 	}
@@ -51,7 +50,7 @@ class AdminService extends BaseHttpService {
 	============================================*/
 
 	async getRoles(): Promise<IEaasiSearchResponse<IEaasiRole>>  {
-		let url = this.createQueryUrl('/eaasi-role');
+		let url = this.createQueryUrl('/admin/get-user-roles');
 		let res = await this.get<IEaasiSearchResponse<IEaasiRole>>(url);
 		if (!res.ok) return null;
 		return res.result as IEaasiSearchResponse<IEaasiRole>;

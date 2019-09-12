@@ -101,7 +101,7 @@ export default class BaseHttpService {
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 
-		if(url.indexOf('://') === -1) url = config.API_BASE_URL + url;
+		if(url.indexOf('://') === -1) url = config.SERVICE_URL + url;
 
 		let self = this;
 		let requestInit = new EaasiApiRequestInit(url, method, data, options);

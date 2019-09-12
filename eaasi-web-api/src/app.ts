@@ -31,8 +31,16 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
-app.use('/api', require('./routes'));
+
+// Eaasi path serves all the client view model data
+app.use('/eaasi', require('./routes/eaasi'));
+
+// API path is for RESTful data
+app.use('/api', require('./routes/rest-api'));
+
+// API docs
 app.use('/docs', express.static(path.join(__dirname, '../apidoc')));
+
 app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
