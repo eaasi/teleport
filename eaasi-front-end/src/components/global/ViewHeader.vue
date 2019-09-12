@@ -7,7 +7,7 @@
 			<div class="vh-description">
 				<slot></slot>
 			</div>
-			<div v-if="hasActions" class="vh-actions">
+			<div v-if="hasActions()" class="vh-actions">
 				<slot name="actions"></slot>
 			</div>
 		</div>
@@ -25,11 +25,18 @@ import Vue from 'vue';
 	name: 'ViewHeader'
 })
 export default class ViewHeader extends Vue {
+	/**
+	 * Title of the View
+	 */
 	@Prop({ required: true, type: String })
 	title: string
 
-	@Prop({ required: true, type: Boolean})
-	hasActions: boolean
+	/**
+	 * Returns true if there is content in the actions slot
+	 */
+	hasActions() {
+		return this.$slots.actions;
+	}
 }
 
 </script>
