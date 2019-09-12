@@ -6,10 +6,16 @@
 		button-text="Cancel"
 	>
 		<div class="base-env-container">
+
+
 			<div class="base-env-heading">
 				Select Operating System
 			</div>
+
+			<!-- SELECT OS ROW -->
 			<div class="section-os">
+
+				<!-- LEFT COLUMN -->
 				<div class="left">
 					<select-list label="Operating System Type" v-model="selectedOsType">
 						<option
@@ -20,6 +26,7 @@
 							{{ osType.name }}
 						</option>
 					</select-list>
+
 					<select-list label="Operating System Version" v-model="selectedOsVersion">
 						<option
 							v-for="osVersion in osVersionOptions"
@@ -30,7 +37,9 @@
 						</option>
 					</select-list>
 				</div>
+				<!-- LEFT COLUMN -->
 
+				<!-- RIGHT COLUMN -->
 				<div class="right">
 					<div class="alert-container">
 						<alert-card type="warning" display-modifier="transparent">
@@ -43,29 +52,35 @@
 						</alert-card>
 					</div>
 				</div>
+				<!-- END RIGHT COLUMN -->
 			</div>
+			<!-- END SELECT OS ROW -->
 
-			<div class="divider-border"></div>
+			<!-- HARDWARE TEMPLATES -->
+			<div v-if="hardwareTemplates.length > 0">
+				<div class="divider-border"></div>
+				<div class="base-env-heading">
+					Select Hardware Template
+				</div>
 
-			<div>
-				Select Hardware Template
-			</div>
-
-			<div class="hw-container">
-				<div class="hw-templates-container" v-if="hardwareTemplates.length > 0">
-					<descriptive-selector
-						v-for="template in hardwareTemplates"
-						:selectable-option="template"
-						:key="template.id"
-						:value="template.id"
-						v-model="selectedHardware"
-						class="col-4"
+				<div class="hw-container">
+					<div class="hw-templates-container">
+						<descriptive-selector
+							v-for="template in hardwareTemplates"
+							:selectable-option="template"
+							:key="template.id"
+							:value="template.id"
+							v-model="selectedHardware"
+							class="col-4"
+						/>
+					</div>
+					<base-environment-details-card
+						:template-details="templateDetails"
 					/>
 				</div>
-				<base-environment-details-card
-					:template-details="templateDetails"
-				/>
 			</div>
+			<!-- END HARDWARE TEMPLATES -->
+
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
@@ -119,17 +134,16 @@ export default class CreateBaseEnvModal extends Vue {
 
 	getTemplateDetails() {
 		this.templateDetails = {
-			emulator: 'QEMU 2.12.1',
-			networkDevice: 'Realtek Fast Ethernet',
-			cpuCores: '1',
-			gpuDevice: 'Cirrus CLGD 5546 VGA',
-			cpuArchitecture: 'x86_64',
-			audioDevice: 'Creative Sound Blaster 16',
+			emulator: '',
+			networkDevice: '',
+			cpuCores: '',
+			gpuDevice: '',
+			cpuArchitecture: '',
+			audioDevice: '',
 		};
 	}
 
 	getHardwareTemplates() {
-		// TODO: Temporary test only for building feature
 		this.hardwareTemplates = [
 			{
 				id: 1,
@@ -184,7 +198,7 @@ export default class CreateBaseEnvModal extends Vue {
 		.right {
 
 			.alert-container {
-				padding: 1.2rem;
+				padding: 1.1rem;
 			}
 		}
 	}
@@ -196,7 +210,7 @@ export default class CreateBaseEnvModal extends Vue {
 	}
 
 	.base-env-heading {
-		padding-bottom: 3rem;
+		padding-bottom: 1.2rem;
 	}
 
 	.hw-templates-container {

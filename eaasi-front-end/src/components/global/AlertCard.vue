@@ -11,7 +11,6 @@
 				<i class="fas fa-info-circle"></i>
 			</div>
 		</div>
-
 		<div class="content">
 			<slot></slot>
 		</div>
@@ -41,7 +40,7 @@ export default class AlertCard extends Vue {
 		readonly type: string
 
         /**
-         * Overrides styles assigned by `type`
+         * Appends additional class
          */
         @Prop({type: String, required: false})
         readonly displayModifier: boolean
