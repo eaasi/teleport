@@ -20,6 +20,7 @@
 			<div class="emu-project-content-left">
 				<div>
 					<section-heading title="Base Environment" icon="fa-box" />
+					<base-environment-wizard />
 					<div class="divider-border"></div>
 				</div>
 				<div>
@@ -40,9 +41,13 @@
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
 import Vue from 'vue';
+import BaseEnvironmentWizard from '@/components/emulation-project/BaseEnvironmentWizard.vue';
 
 @Component({
-	name: 'EmulationProjectScreen'
+	name: 'EmulationProjectScreen',
+	components : {
+		BaseEnvironmentWizard
+	}
 })
 export default class EmulationProjectScreen extends Vue {
 
