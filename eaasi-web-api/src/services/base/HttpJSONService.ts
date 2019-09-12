@@ -7,7 +7,7 @@ export default class HttpJSONService implements IHttpService {
 		headers: {
 			'Content-Type': 'application/json',
 			'Accept': 'application/json'
-		}
+		},
 	}
 
 	/**
@@ -15,10 +15,10 @@ export default class HttpJSONService implements IHttpService {
 	 *
 	 * @param {string} url - The request URL
 	 * @param {RequestInit} [options] - Request options
-	 * @return {Prommise<Response>} - Response from fetch APY
+	 * @return {Promise<Response>} - Response from fetch APY
 	 */
 	public async get(url: string, options?: RequestInit): Promise<Response> {
-		let requestInit = this._createRequestInit('POST', null, options);
+		let requestInit = this._createRequestInit('GET', null, options);
 		return await fetch(url, requestInit);
 	}
 
@@ -35,7 +35,7 @@ export default class HttpJSONService implements IHttpService {
 	}
 
 	/**
-	 * Merges default options with other request prperties
+	 * Merges default options with other request properties
 	 *
 	 * @param {string} method - The Request method
 	 * @param data - Optional JSON data ti send as post body
