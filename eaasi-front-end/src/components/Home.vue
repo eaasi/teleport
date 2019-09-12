@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import CreateBaseEnvModal from '@/components/base-environment/CreateBaseEnvModal.vue';
+import CreateBaseEnvModal from '@/components/emulation-project/CreateBaseEnvModal.vue';
 
 @Component({
 	components: {CreateBaseEnvModal}
