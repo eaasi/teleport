@@ -52,7 +52,6 @@
 			</div>
 		</div>
 		<!-- EMULATION PROJECT CONTENT /-->
-
 	</div>
 </template>
 

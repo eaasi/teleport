@@ -34,6 +34,7 @@ export default class TipsCard extends Vue {
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
+		line-height: 2.2rem;
 		min-height: 28rem;
 		padding: 2.4rem;
 		width: 28rem;
@@ -41,12 +42,11 @@ export default class TipsCard extends Vue {
 
 	.tips-title {
 		font-size: 1.8rem;
-		margin: 3.2rem 0;
+		margin: 1.2rem 0;
 	}
 
 	.tips-content {
 		color: lighten($dark-neutral, 10%);
-		line-height: 2.2rem;
 		margin: 1.2rem 0;
 	}
 
