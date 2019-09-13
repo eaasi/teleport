@@ -159,12 +159,6 @@ export default class CreateBaseEnvModal extends Vue {
 		}
 	}
 
-	.divider-border {
-		border-bottom: solid 3px $light-neutral;
-		margin-bottom: 1.8rem;
-		padding: 0.5rem;
-	}
-
 	.base-env-heading {
 		padding-bottom: 1.2rem;
 	}

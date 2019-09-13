@@ -3,8 +3,13 @@
 		<div class="ob-header" v-if="props.header">
 			<span>{{ props.header }}</span>
 		</div>
-		<div class="ob-content text-center">
-			<slot></slot>
+		<div class="ob-content">
+			<div class="ob-name text-center" v-if="props.optionName">
+				<span>{{ props.optionName }}</span>
+			</div>
+			<div class="ob-desc text-center">
+				<slot></slot>
+			</div>
 		</div>
 	</div>
 </template>
@@ -29,6 +34,10 @@ export default class OptionsBox extends Vue {
 	@Prop({type: String, required: false})
 	readonly header: String
 
+	// Optional name text
+	@Prop({type: String, required: false})
+	readonly optionName: String
+
 }
 
 </script>
@@ -38,20 +47,32 @@ export default class OptionsBox extends Vue {
 	background-color: lighten($light-neutral, 60%);
 	border-radius: 1rem;
 	display: inline-block;
-	min-width: 320px;
+	min-width: 32rem;
 	overflow: hidden;
 
 	.ob-content {
-		padding: 1.5rem;
+		padding: 2.4rem;
 	}
 
 	.ob-header {
 		background-color: $light-blue;
 		color: #FFFFFF;
 		font-size: 1.2rem;
-		padding: 2px 10px;
+		padding: 0.2rem 1rem;
 		text-align: center;
 		text-transform: uppercase;
+	}
+
+	.ob-name {
+		color: $dark-blue;
+		font-size: 1.6rem;
+		font-weight: bold;
+		margin: auto;
+		padding: 0.4rem 0 1.4rem 0;
+	}
+
+	.ob-desc {
+		font-size: 1.5rem;
 	}
 }
 </style>

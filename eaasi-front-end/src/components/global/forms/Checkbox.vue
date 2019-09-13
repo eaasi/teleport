@@ -21,7 +21,7 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 /**
  * A Checkbox form element
  *
- * @example ../docs/Checkbox.Example.md
+ * @example ../../docs/Checkbox.Example.md
  *
  */
 @Component({
