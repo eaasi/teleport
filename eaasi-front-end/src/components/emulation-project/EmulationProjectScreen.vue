@@ -46,9 +46,11 @@
 				<!-- CONTENT RESOURCES -->
 			</div>
 			<div class="emu-project-content-right">
-				<tips-card>
-					You will need at least a base environment to run an emulation project
-				</tips-card>
+				<div v-if="showTips">
+					<tips-card>
+						You will need at least a base environment to run an emulation project
+					</tips-card>
+				</div>
 			</div>
 		</div>
 		<!-- EMULATION PROJECT CONTENT /-->
@@ -71,6 +73,8 @@ import ContentResourcesWizard from '@/components/emulation-project/ContentResour
 	}
 })
 export default class EmulationProjectScreen extends Vue {
+
+	showTips: Boolean = true;
 
 	isReadyToRun() {
 		return false;

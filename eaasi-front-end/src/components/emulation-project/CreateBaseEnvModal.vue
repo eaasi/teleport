@@ -34,30 +34,27 @@
 						</option>
 					</select-list>
 				</div>
-				<!-- LEFT COLUMN -->
+				<!-- LEFT COLUMN /-->
 
 				<!-- RIGHT COLUMN -->
 				<div class="right">
 					<div class="alert-container">
-						<alert-card type="warning" display-modifier="transparent">
-							<div>
-								Operating system will be attached to your emulation project as a software resource.
-							</div>
-							<div>
-								It will need to be installed manually while emulating.
-							</div>
+						<alert-card type="warning-neutral" display-modifier="transparent">
+								Operating system will be attached to your emulation project as
+								a software resource. It will need to be installed manually while
+								emulating.
 						</alert-card>
 					</div>
 				</div>
-				<!-- END RIGHT COLUMN -->
+				<!-- RIGHT COLUMN /-->
 			</div>
-			<!-- END SELECT OS ROW -->
+			<!-- SELECT OS ROW /-->
 
 			<!-- HARDWARE TEMPLATES -->
 			<div v-if="hardwareTemplates.length > 0">
 				<hardware-template-selection :templates="hardwareTemplates" />
 			</div>
-			<!-- END HARDWARE TEMPLATES -->
+			<!-- HARDWARE TEMPLATES /-->
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
@@ -185,6 +182,10 @@ export default class CreateBaseEnvModal extends Vue {
 				color: #333333;
 			}
 		}
+	}
+
+	.base-env-alert-text {
+		color: $light-neutral;
 	}
 
 </style>

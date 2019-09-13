@@ -1,7 +1,7 @@
 <template functional>
 	<div :class="['card-container', props.type, props.displayModifier]">
 		<div class="icon">
-			<div v-if="props.type === 'error' || props.type === 'warning'">
+			<div v-if="props.type === 'error' || props.type.startsWith('warning')">
 				<i class="fas fa-exclamation-triangle"></i>
 			</div>
 			<div v-else-if="props.type === 'success'">
@@ -63,6 +63,11 @@ export default class AlertCard extends Vue {
 		&.warning {
 			background-color: lighten($orange, 80%);
 			color: darken($orange, 30%);
+		}
+
+		&.warning-neutral {
+			background-color: lighten($light-neutral, 80%);
+			color: darken($light-neutral, 30%);
 		}
 
 		&.info {
