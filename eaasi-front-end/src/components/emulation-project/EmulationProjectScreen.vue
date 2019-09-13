@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<!-- EMULATION PROJECT HEADER -->
 		<view-header title="Emulation Project">
 			<div>
 				Choose hardware and/or emulation settings, add imported or discovered resources, and run your emulation.
@@ -16,6 +17,9 @@
 				</div>
 			</template>
 		</view-header>
+		<!-- EMULATION PROJECT HEADER /-->
+
+		<!-- EMULATION PROJECT CONTENT -->
 		<div class="emu-project-content">
 			<div class="emu-project-content-left">
 				<!-- BASE ENVIRONMENT -->
@@ -41,9 +45,14 @@
 				</div>
 				<!-- CONTENT RESOURCES -->
 			</div>
-			<div class="emu-project-action-right">
+			<div class="emu-project-content-right">
+				<tips-card>
+					You will need at least a base environment to run an emulation project
+				</tips-card>
 			</div>
 		</div>
+		<!-- EMULATION PROJECT CONTENT /-->
+
 	</div>
 </template>
 
@@ -83,6 +92,7 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	.emu-project-content {
+		display: flex;
 		padding: 1.2rem;
 
 		.emu-project-content-left {
@@ -90,7 +100,7 @@ export default class EmulationProjectScreen extends Vue {
 		}
 
 		.emu-project-content-right {
-			overflow: hidden;
+			padding: 0 2.4rem;
 		}
 	}
 </style>
