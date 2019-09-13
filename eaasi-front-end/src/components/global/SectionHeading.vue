@@ -50,7 +50,7 @@ export default class SectionHeading extends Vue {
 
 	.heading-text {
 		display: inline-block;
-		font-size: 1.4rem;
+		font-size: 1.6rem;
 		padding-right: 1rem;
 	}
 </style>

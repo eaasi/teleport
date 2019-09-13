@@ -12,7 +12,6 @@
 
 			<!-- SELECT OS ROW -->
 			<div class="section-os">
-
 				<!-- LEFT COLUMN -->
 				<div class="left">
 					<select-list label="Operating System Type" v-model="selectedOsType">
@@ -51,7 +50,6 @@
 					</div>
 				</div>
 				<!-- END RIGHT COLUMN -->
-
 			</div>
 			<!-- END SELECT OS ROW -->
 
