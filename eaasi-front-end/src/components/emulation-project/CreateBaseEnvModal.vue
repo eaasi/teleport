@@ -40,9 +40,9 @@
 				<div class="right">
 					<div class="alert-container">
 						<alert-card type="warning-neutral" display-modifier="transparent">
-								Operating system will be attached to your emulation project as
-								a software resource. It will need to be installed manually while
-								emulating.
+							Operating system will be attached to your emulation project as
+							a software resource. It will need to be installed manually while
+							emulating.
 						</alert-card>
 					</div>
 				</div>
@@ -77,16 +77,16 @@ import SelectList from '@/components/global/forms/SelectList.vue';
 import HardwareTemplateSelection from '@/components/emulation-project/HardwareTemplateSelection.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
 
-	@Component({
-		name: 'CreateBaseEnvModal',
-		components: {
-			HardwareTemplateSelection,
-			AlertCard,
-			InfoModal,
-			UiButton,
-			SelectList,
-		}
-	})
+@Component({
+	name: 'CreateBaseEnvModal',
+	components: {
+		HardwareTemplateSelection,
+		AlertCard,
+		InfoModal,
+		UiButton,
+		SelectList,
+	}
+})
 export default class CreateBaseEnvModal extends Vue {
 		isOpen = true;
 		selectedOsType = null;
