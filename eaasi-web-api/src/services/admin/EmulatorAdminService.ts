@@ -6,6 +6,8 @@ import CrudQuery from '../base/CrudQuery';
 import BaseService from '../base/BaseService';
 import { EmulatorNamedIndexes } from '@/types/emil/EmilEnvironmentData';
 import { IEmulatorViewModel, IEmulator } from '@/types/admin/Emulator';
+import { TaskState } from '@/types/emil/Emil';
+import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 
 
 /**
@@ -14,57 +16,78 @@ import { IEmulatorViewModel, IEmulator } from '@/types/admin/Emulator';
 export default class EmulatorAdminService extends BaseService {
 
 	private readonly _emulatorAdminCrudService: ICrudService;
-	private readonly _emilService: EmilBaseService;
+	private readonly _emilContService: EmilBaseService;
+	private readonly _emilEnvService: EmilBaseService;
 
 	constructor(
 		emulatorAdminCrudSvc: ICrudService = new CrudService(Emulator),
-		emilService: EmilBaseService = new EmilBaseService('EmilEnvironmentData')
+		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
+		emilContService: EmilBaseService = new EmilBaseService('EmilContainerData')
 	) {
 		super();
 		this._emulatorAdminCrudService = emulatorAdminCrudSvc;
-		this._emilService = emilService;
+		this._emilEnvService = emilEnvService;
+		this._emilContService = emilContService;
 	}
-
-	/* EmulatorAdmins
-	============================================*/
 
 	/**
-	 * Gets Emulator data
+	 * Gets a list of emulator view models
 	 */
-	async getEmulators() {
+	async getEmulators(): Promise<IEmulatorViewModel[]> {
+
+		// Get full emulators list from the database
 		let query = new CrudQuery()
-
-		query.limit = 200;
-
+		query.limit = 10000;
 		let result = await this._emulatorAdminCrudService.getAll(query);
+		if (result.hasError) { throw result.error; }
 
-		if (result.hasError) {
-			throw result.error;
-		}
-
-		let dbData = result.result.result as IEmulator[];
-		// console.log(dbData);
-
-		// Returns with properties aliases and entries
-		let response = await this._emilService.get('getNameIndexes');
+		// Get named indexes from Emil
+		let dbList = result.result.result as IEmulator[];
+		let response = await this._emilEnvService.get('getNameIndexes');
 
 		if (response.ok) {
-			let { entries } = await response.json() as EmulatorNamedIndexes;
-			let emulators: IEmulatorViewModel[] = [];
-			dbData.forEach(em => {
-				emulators.push({
-					id: em.id,
-					name: em.name,
-					entries: entries.entry.filter(x => x.key.indexOf(em.name) > -1).map(x => x.value)
-				});
-			});
+			let indexes = await response.json() as EmulatorNamedIndexes;
+			let emulators = this._createEmulatorViewModels(dbList, indexes);
 			return emulators;
+		} else {
+			// TODO: Handle bad response
+			// return this.handleBadEmilResponse(response);
 		}
-
-		return result.result;
 	}
 
-	async updateEmulator(id: number) {
-		return await '';
+	/**
+	 * Requests emil to import a new emulator from a docker image
+	 * @param {IEmulatorImportRequest} importReq -- The import request
+	 */
+	async importEmulator(importReq: IEmulatorImportRequest): Promise<TaskState | null> {
+		let response = await this._emilContService.post('importEmulator', importReq);
+		if(response.ok) {
+			return await response.json() as TaskState;
+		}
+		return null;
+	}
+
+	/*============================================================
+	 == Private methods
+	/============================================================*/
+
+	/**
+	 * Creates emulator view models by matching index response from emil with
+	 * emulators from the pg database
+	 * @param {IEmulator[]} dbList - The list of emulators from the pg database
+	 * @param {EmulatorNamedIndexes} indexes - The named indexes response data from emil
+	 */
+	private _createEmulatorViewModels(dbList: IEmulator[], indexes: EmulatorNamedIndexes) {
+		let emulators: IEmulatorViewModel[] = [];
+		dbList.forEach(em => {
+			emulators.push({
+				id: em.id,
+				name: em.name,
+				entries: indexes.entries.entry
+					.filter(x => x.key.indexOf(em.name) > -1)
+					.map(x => x.value)
+			});
+		});
+		return emulators;
 	}
 }

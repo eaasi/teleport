@@ -16,7 +16,7 @@
 				<tr v-for="e in list" :key="e.name" @click="$emit('click:row', e)">
 					<td>{{ e.name }}</td>
 					<td>{{ e.entries.length }}</td>
-					<td @click="$emit('click:row', e)" class="text-center el-details-link">
+					<td @click="$emit('click:row', e)" class="text-center btn-cell">
 						<span>DETAILS</span>
 					</td>
 				</tr>
@@ -53,22 +53,3 @@ export default class EmulatorList extends Vue {
 }
 
 </script>
-
-<style lang="scss">
-table tbody td.el-details-link {
-	padding: 0.2rem 1rem;
-
-	span {
-		border-radius: 6px;
-		color: $dark-blue;
-		display: block;
-		font-weight: bold;
-		padding: 10px;
-		transition: background-color 0.2s;
-
-		&:hover {
-			background-color: #FFFFFF;
-		}
-	}
-}
-</style>

@@ -2,6 +2,7 @@ import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 
 export default class AdminController extends BaseController {
 
@@ -63,6 +64,21 @@ export default class AdminController extends BaseController {
 		try {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
 			res.send(emulators);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Gets the list of emulators
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async importEmulator(req: Request, res: Response) {
+		try {
+			let importRequest = req.body as IEmulatorImportRequest;
+			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
+			res.send(taskState);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}

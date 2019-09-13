@@ -33,10 +33,10 @@ export default class LoginScreen extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('global/nodeName')
+	@Get('nodeName')
 	nodeName: string
 
-	@Get('global/loginError')
+	@Get('loginError')
 	loginError: string
 
 

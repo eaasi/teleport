@@ -196,6 +196,29 @@ strong {
 		border-bottom: solid 8px #FFFFFF;
 		border-right: solid 1px lighten($light-blue, 60%);
 		padding: 1.4rem 1rem;
+
+		&.nb {
+			border-right: none;
+		}
+	}
+
+	td.btn-cell {
+		padding: 0.2rem 1rem;
+		& > span,
+		& > div {
+			border-radius: 6px;
+			color: $dark-blue;
+			cursor: pointer;
+			display: inline-block;
+			font-weight: bold;
+			padding: 10px;
+			text-transform: uppercase;
+			transition: background-color 0.2s;
+
+			&:hover {
+				background-color: #FFFFFF;
+			}
+		}
 	}
 
 	&.clickable {
@@ -370,7 +393,7 @@ strong {
 }
 
 .no-mb {
-	margin-bottom: 0;
+	margin-bottom: 0 !important;
 }
 
 .padded {

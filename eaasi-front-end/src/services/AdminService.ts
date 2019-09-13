@@ -2,6 +2,8 @@ import BaseHttpService from './BaseHttpService';
 import User from '@/models/admin/User';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
 import { IEaasiRole, IEmulator } from 'eaasi-admin';
+import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
+import { ITaskState } from '@/types/Task';
 
 class AdminService extends BaseHttpService {
 
@@ -13,6 +15,12 @@ class AdminService extends BaseHttpService {
 		if (!res.ok) return null;
 		return res.result as IEmulator[];
 	}
+
+	async importEmulator(req: EmulatorImportRequest): Promise<ITaskState> {
+		let res = await this.post('/admin/import-emulator', req);
+		if (!res.ok) return null;
+		return res.result as ITaskState;
+	};
 
 	/* Users
 	============================================*/

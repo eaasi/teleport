@@ -7,5 +7,6 @@ const controller = new AdminController();
 router.get('/get-users', (req, res) => controller.getUsers(req, res));
 router.get('/get-user-roles', (req, res) => controller.getRoles(req, res));
 router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
+router.post('/import-emulator', (req, res) => controller.importEmulator(req, res));
 
 module.exports = router;

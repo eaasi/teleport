@@ -29,10 +29,14 @@
 				@click:row="showDetails"
 			/>
 		</div>
-		<emulator-modal
+		<emulator-details-modal
 			:emulator="activeEmulator"
 			v-if="activeEmulator"
 			@close="activeEmulator = null"
+		/>
+		<emulator-import-modal
+			v-if="showImportModal"
+			@close="showImportModal = false"
 		/>
 	</div>
 </template>
@@ -43,7 +47,8 @@ import AdminScreen from '../AdminScreen.vue';
 import { Component, Prop } from 'vue-property-decorator';
 import Emulator from '@/models/admin/Emulator';
 import EmulatorList from './EmulatorList.vue';
-import EmulatorModal from './EmulatorModal.vue';
+import EmulatorDetailsModal from './EmulatorDetailsModal.vue';
+import EmulatorImportModal from './EmulatorImportModal.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEmulator } from 'eaasi-admin';
 import { IEaasiSearchResponse, IEaasiSearchQuery } from 'eaasi-http';
@@ -52,7 +57,8 @@ import { IEaasiSearchResponse, IEaasiSearchQuery } from 'eaasi-http';
 	name: 'EmulatorManagement',
 	components: {
 		EmulatorList,
-		EmulatorModal
+		EmulatorDetailsModal,
+		EmulatorImportModal
 	}
 })
 export default class EmulatorManagement extends AdminScreen {
@@ -75,13 +81,14 @@ export default class EmulatorManagement extends AdminScreen {
 	============================================*/
 
 	keyword: string = '';
+	showImportModal: boolean = false;
 
 
 	/* Methods
 	============================================*/
 
 	addEmulator() {
-		this.activeEmulator = new Emulator();
+		this.showImportModal = true;
 	}
 
 	search(keyword) {

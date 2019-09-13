@@ -1,11 +1,13 @@
 import { make } from 'vuex-pathify';
 import { Store } from 'vuex';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
-import { IEaasiRole } from 'eaasi-admin';
-import { IEmulator } from '@/types/Emulator';
+import { IEaasiRole, IEmulator } from 'eaasi-admin';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import User from '@/models/admin/User';
 import _svc from '@/services/AdminService';
+import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
+import { ITaskState } from '@/types/Task';
+import EaasiTask from '@/models/task/EaasiTask';
 
 /*============================================================
  == State
@@ -37,10 +39,19 @@ const actions = {
 	/* Emulators
 	============================================*/
 
-	async getEmulators({ commit, state }: Store<AdminState>) {
+	async getEmulators({ commit }: Store<AdminState>) {
 		let result = await _svc.getEmulators();
 		if (!result) return;
 		commit('SET_EMULATORS', result);
+	},
+
+	async importEmulator(store: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
+		let taskState = await _svc.importEmulator(req) as ITaskState;;
+		if(!taskState) return null;
+		let description = req.update ? 'Updating' : 'Importing';
+		let task = new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);
+		store.commit('ADD_OR_UPDATE_TASK', task, { root: true});
+		return task;
 	},
 
 	/* Users

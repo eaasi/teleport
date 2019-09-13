@@ -57,8 +57,6 @@ export default class CrudService extends BaseService implements ICrudService {
     		return results;
 		}
 
-		console.log(results);
-
 		return new CrudServiceResult(null, {
     		result: results,
 			count: results.length,
