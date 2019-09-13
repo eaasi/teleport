@@ -3,7 +3,7 @@
 		<div class="vh-title">
 			{{ title }}
 		</div>
-		<div class="vh-subsection">
+		<div class="vh-sub-section">
 			<div class="vh-description">
 				<slot></slot>
 			</div>
@@ -43,7 +43,10 @@ export default class ViewHeader extends Vue {
 
 <style lang="scss">
 	.vh-container {
-		overflow-x: hidden;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		width: 100%;
 	}
 
 	.vh-title {
@@ -56,7 +59,7 @@ export default class ViewHeader extends Vue {
 		z-index: 2;
 	}
 
-	.vh-subsection {
+	.vh-sub-section {
 		border-bottom: 2px solid $light-neutral;
 		display: flex;
 		flex-direction: row;
@@ -67,10 +70,9 @@ export default class ViewHeader extends Vue {
 
 	.vh-description {
 		background: lighten($light-neutral, 40%);
-		flex-grow: 1;
 		line-height: 2.1rem;
-		max-width: $actionViewLeftWidth;
 		padding: 1.4rem 20rem 1.1rem 1.8rem;
+		width: 40vw;
 	}
 
 	.vh-actions {

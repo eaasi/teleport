@@ -18,19 +18,28 @@
 		</view-header>
 		<div class="emu-project-content">
 			<div class="emu-project-content-left">
+				<!-- BASE ENVIRONMENT -->
 				<div>
 					<section-heading title="Base Environment" icon="fa-box" />
 					<base-environment-wizard />
 					<div class="divider-border"></div>
 				</div>
+				<!-- BASE ENVIRONMENT /-->
+
+				<!-- SOFTWARE RESOURCES -->
 				<div>
 					<section-heading title="Software Resources" icon="fa-box" />
+                    <software-resources-wizard />
 					<div class="divider-border"></div>
 				</div>
+				<!-- SOFTWARE RESOURCES -->
+
+				<!-- CONTENT RESOURCES -->
 				<div>
 					<section-heading title="Content Resources" icon="fa-box" />
 					<div class="divider-border"></div>
 				</div>
+				<!-- CONTENT RESOURCES -->
 			</div>
 			<div class="emu-project-action-right">
 			</div>
@@ -42,11 +51,13 @@
 import { Component, Prop } from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from '@/components/emulation-project/BaseEnvironmentWizard.vue';
+import SoftwareResourcesWizard from '@/components/emulation-project/SoftwareResourcesWizard.vue';
 
 @Component({
 	name: 'EmulationProjectScreen',
 	components : {
-		BaseEnvironmentWizard
+		BaseEnvironmentWizard,
+		SoftwareResourcesWizard
 	}
 })
 export default class EmulationProjectScreen extends Vue {
@@ -73,7 +84,7 @@ export default class EmulationProjectScreen extends Vue {
 		padding: 1.2rem;
 
 		.emu-project-content-left {
-			width: $actionViewLeftWidth;
+			width: 50vw;
 		}
 
 		.emu-project-content-right {

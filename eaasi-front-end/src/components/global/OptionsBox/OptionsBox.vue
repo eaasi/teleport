@@ -57,12 +57,36 @@ export default class OptionsBox extends Vue {
 .options-box {
 	background-color: lighten($light-neutral, 80%);
 	border-radius: 1rem;
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
 	min-width: 32rem;
 	overflow: hidden;
+	position: relative;
 
 	.ob-content {
-		padding: 2.4rem;
+		display: flex;
+		flex-direction: column;
+		margin-top: auto;
+		padding: 2.8rem 1.2rem;
+
+		.ob-name {
+			color: $dark-blue;
+			font-size: 1.6rem;
+			font-weight: bold;
+			padding: 0.4rem 0 1.4rem 0;
+		}
+
+		.ob-desc {
+			font-size: 1.5rem;
+			margin: auto;
+			width: 75%;
+		}
+
+		.ob-footer {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+		}
 	}
 
 	.ob-header {
@@ -72,26 +96,7 @@ export default class OptionsBox extends Vue {
 		padding: 0.4rem 1rem;
 		text-align: center;
 		text-transform: uppercase;
-	}
-
-	.ob-name {
-		color: $dark-blue;
-		font-size: 1.6rem;
-		font-weight: bold;
-		margin: auto;
-		padding: 0.4rem 0 1.4rem 0;
-	}
-
-	.ob-desc {
-		font-size: 1.5rem;
-	}
-
-	.ob-footer {
-		align-content: center;
-		align-items: center;
-		justify-content: center;
-		padding: 1.4rem;
-		text-align: center;
+		width: 100%;
 	}
 }
 </style>

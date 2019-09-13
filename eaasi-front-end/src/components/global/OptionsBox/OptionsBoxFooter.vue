@@ -1,6 +1,8 @@
 <template>
 	<div class="ob-footer-container">
-		<hr />
+		<div class="ob-footer-break">
+			<hr />
+		</div>
 		<div class="ob-footer-content">
 			<slot>
 			</slot>
@@ -38,13 +40,17 @@ export default class OptionsBoxFooter extends Vue {
 
 <style lang="scss">
 	.ob-footer-container {
-		align-content: center;
+		display: flex;
+		flex-direction: column;
+		padding: 1.2rem 0;
+	}
+
+	.ob-footer-break {
+		margin: 0.9rem 0;
 	}
 
 	.ob-footer-content {
-		align-content: center;
 		display: flex;
-		flex-direction: row;
-		padding: 1rem;
+		justify-content: center;
 	}
 </style>

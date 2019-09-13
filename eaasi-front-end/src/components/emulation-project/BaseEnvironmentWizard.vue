@@ -6,19 +6,18 @@
 				Find an existing base environment.
 				<template v-slot:footer>
 					<labeled-ui-button
-						labelText="...node or network saved resources"
+						label-text="...node or network saved resources"
 						@btnClicked="searchForEnvironment"
 					>
 						Search/Browse
 					</labeled-ui-button>
 
 					<labeled-ui-button
-						labelText="...imported or bookmarked resources"
+						label-text="...imported or bookmarked resources"
 						@btnClicked="openMyResources"
 					>
 						My Resources
 					</labeled-ui-button>
-
 				</template>
 			</options-box>
 		</div>
@@ -30,7 +29,7 @@
 				Use a system template with no configured operating system or software.
 				<template v-slot:footer>
 					<labeled-ui-button
-						labelText="...from your node's system templates"
+						label-text="...from your node's system templates"
 						@btnClicked="chooseTemplate"
 					>
 						Choose Template
@@ -39,7 +38,6 @@
 			</options-box>
 		</div>
 		<!-- CREATE BASE ENVIRONMENT /-->
-
 	</div>
 </template>
 
@@ -52,15 +50,12 @@ import Vue from 'vue';
 })
 export default class BaseEnvironmentWizard extends Vue {
 	searchForEnvironment() {
-
 	}
 
 	openMyResources() {
-
 	}
 
 	chooseTemplate() {
-
 	}
 }
 </script>
@@ -70,11 +65,13 @@ export default class BaseEnvironmentWizard extends Vue {
 		align-items: stretch;
 		display: flex;
 		flex-direction: row;
-		justify-content: flex-start;
+		justify-content: space-between;
 	}
 
 	.base-env-wiz-opt {
 		align-content: stretch;
+		flex-grow: 1;
 		margin-right: 1rem;
+		padding: 1.2rem 0;
 	}
 </style>

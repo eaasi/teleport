@@ -1,4 +1,5 @@
 import AlertCard from './AlertCard.vue';
+import AttachResourceCard from '@/components/global/AttachResourceCard.vue';
 import Autocomplete from './forms/Autocomplete.vue';
 import BaseFormField from './forms/BaseFormField.vue';
 import BigButton from './BigButton.vue';
@@ -36,6 +37,7 @@ import { VueConstructor } from 'vue';
 export default {
 	install(Vue: VueConstructor) {
 		Vue.component('AlertCard', AlertCard);
+		Vue.component('AttachResourceCard', AttachResourceCard);
 		Vue.component('Autocomplete', Autocomplete);
 		Vue.component('BaseFormField', BaseFormField);
 		Vue.component('BigButton', BigButton);
@@ -73,6 +75,7 @@ export default {
 
 export {
 	AlertCard,
+	AttachResourceCard,
 	Autocomplete,
 	BaseFormField,
 	BigButton,
