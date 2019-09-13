@@ -30,7 +30,7 @@
 				<template v-slot:footer>
 					<labeled-ui-button
 						label-text="...from your node's system templates"
-						@btnClicked="chooseTemplate"
+						@clicked="chooseTemplate"
 					>
 						Choose Template
 					</labeled-ui-button>
@@ -38,17 +38,29 @@
 			</options-box>
 		</div>
 		<!-- CREATE BASE ENVIRONMENT /-->
+
+		<!-- MODALS -->
+		<create-base-env-modal v-if="isChooseTemplateOpen" @close="closeChooseTemplate" />
+		<!-- MODALS /-->
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop } from 'vue-property-decorator';
+import CreateBaseEnvModal from '@/components/emulation-project/CreateBaseEnvModal.vue';
 import Vue from 'vue';
 
 @Component({
-	name: 'BaseEnvironmentWizard'
+	name: 'BaseEnvironmentWizard',
+	components: { CreateBaseEnvModal }
 })
 export default class BaseEnvironmentWizard extends Vue {
+
+	/**
+	 * True if the Choose Template Modal is open
+	 */
+	isChooseTemplateOpen = false;
+
 	searchForEnvironment() {
 		console.log('Search for Environment');
 	}
@@ -57,8 +69,18 @@ export default class BaseEnvironmentWizard extends Vue {
 		console.log('Open My Resources');
 	}
 
+	/**
+	 * Opens the Choose Template Modal
+	 */
 	chooseTemplate() {
-		console.log('Choose Template');
+		this.isChooseTemplateOpen = true;
+	}
+
+	/**
+	 * Closes the Choose Template Modal
+	 */
+	closeChooseTemplate() {
+		this.isChooseTemplateOpen = false;
 	}
 }
 </script>

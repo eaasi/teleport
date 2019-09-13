@@ -80,53 +80,53 @@ import SelectList from '@/components/global/forms/SelectList.vue';
 import HardwareTemplateSelection from '@/components/emulation-project/HardwareTemplateSelection.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
 
-@Component({
-	name: 'CreateBaseEnvModal',
-	components: {
-		HardwareTemplateSelection,
-		AlertCard,
-		InfoModal,
-		UiButton,
-		SelectList,
-	}
-})
+	@Component({
+		name: 'CreateBaseEnvModal',
+		components: {
+			HardwareTemplateSelection,
+			AlertCard,
+			InfoModal,
+			UiButton,
+			SelectList,
+		}
+	})
 export default class CreateBaseEnvModal extends Vue {
-	isOpen = true;
-	selectedOsType = null;
-	selectedOsVersion = null;
+		isOpen = true;
+		selectedOsType = null;
+		selectedOsVersion = null;
 
-	// TODO OS Type Interface
-	/**
-	 * Array of available OS Types
-	 */
-	osTypeOptions: object[] = [];
+		// TODO OS Type Interface
+		/**
+		 * Array of available OS Types
+		 */
+		osTypeOptions: object[] = [];
 
-	// TODO OS Version Interface
-	/**
-	 * Array of available OS Versions
-	 */
-	osVersionOptions: object[] = [];
+		// TODO OS Version Interface
+		/**
+		 * Array of available OS Versions
+		 */
+		osVersionOptions: object[] = [];
 
-	/**
-	 * Array of available Hardware Templates
-	 */
-	hardwareTemplates: IHardwareTemplate[];
+		/**
+		 * Array of available Hardware Templates
+		 */
+		hardwareTemplates: IHardwareTemplate[];
 
 
-	// TODO
-	getOsTypes() {
-		this.osTypeOptions = [];
-	}
+		// TODO
+		getOsTypes() {
+			this.osTypeOptions = [];
+		}
 
-	// TODO
-	getHardwareTemplates() {
-		this.hardwareTemplates = [];
-	}
+		// TODO
+		getHardwareTemplates() {
+			this.hardwareTemplates = [];
+		}
 
-	created() {
-		this.getOsTypes();
-		this.getHardwareTemplates();
-	}
+		created() {
+			this.getOsTypes();
+			this.getHardwareTemplates();
+		}
 
 }
 
