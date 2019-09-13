@@ -50,12 +50,15 @@ import Vue from 'vue';
 })
 export default class BaseEnvironmentWizard extends Vue {
 	searchForEnvironment() {
+		console.log('Search for Environment');
 	}
 
 	openMyResources() {
+		console.log('Open My Resources');
 	}
 
 	chooseTemplate() {
+		console.log('Choose Template');
 	}
 }
 </script>

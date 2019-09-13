@@ -49,6 +49,12 @@ export default class AttachResourceCard extends Vue {
 		 */
 		@Prop({ type: String, required: true })
 		title: string;
+
+		searchForEnvironment() {
+		}
+
+		openMyResources() {
+		}
 }
 </script>
 

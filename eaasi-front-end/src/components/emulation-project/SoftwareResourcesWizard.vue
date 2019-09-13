@@ -15,11 +15,6 @@ import Vue from 'vue';
 	name: 'SoftwareResourcesWizard'
 })
 export default class SoftwareResourcesWizard extends Vue {
-    /**
-     * Title of the View
-     */
-    @Prop({ required: true, type: String })
-    title: string
 }
 
 </script>

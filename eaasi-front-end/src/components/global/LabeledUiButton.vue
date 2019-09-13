@@ -28,14 +28,15 @@ export default class OptionsBoxFooter extends Vue {
 	/* Props
     ============================================*/
 
-    // Function to be called on click event
-    @Prop({type: String, required: true})
-    readonly clickEventAction: String
-
-    // Label Text
+	/**
+	 * Label Text
+	 */
     @Prop({type: String, required: true})
     readonly labelText: String
 
+    /**
+	 * Emit to parent when the button sub-component component is clicked
+	 */
     emitClicked() {
     	this.$emit('clicked');
     }

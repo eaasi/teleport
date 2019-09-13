@@ -38,7 +38,6 @@
 				<div>
 					<section-heading title="Content Resources" icon="fa-box" />
 					<content-resources-wizard />
-					<div class="divider-border"></div>
 				</div>
 				<!-- CONTENT RESOURCES -->
 			</div>
