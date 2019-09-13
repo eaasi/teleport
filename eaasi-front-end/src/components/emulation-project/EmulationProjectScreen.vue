@@ -29,7 +29,7 @@
 				<!-- SOFTWARE RESOURCES -->
 				<div>
 					<section-heading title="Software Resources" icon="fa-box" />
-                    <software-resources-wizard />
+					<software-resources-wizard />
 					<div class="divider-border"></div>
 				</div>
 				<!-- SOFTWARE RESOURCES -->
@@ -37,6 +37,7 @@
 				<!-- CONTENT RESOURCES -->
 				<div>
 					<section-heading title="Content Resources" icon="fa-box" />
+					<content-resources-wizard />
 					<div class="divider-border"></div>
 				</div>
 				<!-- CONTENT RESOURCES -->
@@ -52,12 +53,14 @@ import { Component, Prop } from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from '@/components/emulation-project/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from '@/components/emulation-project/SoftwareResourcesWizard.vue';
+import ContentResourcesWizard from '@/components/emulation-project/ContentResourcesWizard.vue';
 
 @Component({
 	name: 'EmulationProjectScreen',
 	components : {
 		BaseEnvironmentWizard,
-		SoftwareResourcesWizard
+		SoftwareResourcesWizard,
+		ContentResourcesWizard
 	}
 })
 export default class EmulationProjectScreen extends Vue {

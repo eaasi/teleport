@@ -1,6 +1,6 @@
 <template>
 	<div class="srw-container">
-		<attach-resource-card title="software"/>
+		<attach-resource-card title="software" />
 	</div>
 </template>
 
@@ -20,13 +20,6 @@ export default class SoftwareResourcesWizard extends Vue {
      */
     @Prop({ required: true, type: String })
     title: string
-
-    /**
-     * Returns true if there is content in the actions slot
-     */
-    hasActions() {
-    	return this.$slots.actions;
-    }
 }
 
 </script>

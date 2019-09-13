@@ -1,5 +1,6 @@
 <template>
 	<div class="crw-container">
+		<attach-resource-card title="content" />
 	</div>
 </template>
 
@@ -8,10 +9,10 @@ import { Component, Prop } from 'vue-property-decorator';
 import Vue from 'vue';
 
 /**
- * Provides Wizard to Add Software Resources
+ * Provides Wizard to Add Content Resources
  */
 @Component({
-	name: 'ContentResourcesWizard'
+	name: 'SoftwareResourcesWizard'
 })
 export default class ContentResourcesWizard extends Vue {
     /**
@@ -19,19 +20,15 @@ export default class ContentResourcesWizard extends Vue {
      */
     @Prop({ required: true, type: String })
     title: string
-
-    /**
-     * Returns true if there is content in the actions slot
-     */
-    hasActions() {
-    	return this.$slots.actions;
-    }
 }
 
 </script>
 
 <style lang="scss">
 	.crw-container {
-		padding: 1.2rem;
+		border-radius: 1rem;
+		display: flex;
+		padding: 1.2rem 0;
 	}
 </style>
+
