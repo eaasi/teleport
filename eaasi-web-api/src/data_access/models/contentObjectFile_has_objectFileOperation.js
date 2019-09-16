@@ -7,8 +7,8 @@ module.exports = (sequelize) => {
 	ContentObjectFileHasObjectFileOperation.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		contentObjectFile_contentObjectID: {
-			type: Sequelize.INTEGER,
+		contentObjectFile_contentObjectLocalID: {
+			type: Sequelize.STRING,
 			allowNull: true
 		},
 		contentObjectFile_fileID: {
@@ -32,9 +32,5 @@ module.exports = (sequelize) => {
 			allowNull: true
 		}
 	}, { sequelize, tableName: 'contentObjectFile_has_objectFileOperation' });
-	ContentObjectFileHasObjectFileOperation.associate = models => {
-		models.ContentObjectFileHasObjectFileOperation.hasOne(models.ContentObjectHasObjectFile, {foreignKey: 'contentObjectFileID'});
-		models.ContentObjectFileHasObjectFileOperation.hasOne(models.ObjectFileOperation, {foreignKey: 'operationID'});
-	};
 	return ContentObjectFileHasObjectFileOperation;
 };

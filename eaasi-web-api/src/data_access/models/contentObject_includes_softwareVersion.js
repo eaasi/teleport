@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		contentObject_contentObjectLocalID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'contentObject',

@@ -7,12 +7,12 @@ module.exports = (sequelize) => {
 	ContentObjectHasObjectFile.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		contentObject_contentObjectID: {
-			type: Sequelize.INTEGER,
+		contentObject_contentObjectLocalID: {
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'contentObject',
-				key: 'contentObjectID'
+				key: 'contentObjectLocalID'
 			}
 		},
 		contentObjectFileID: {

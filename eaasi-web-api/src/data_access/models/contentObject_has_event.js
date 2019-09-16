@@ -7,12 +7,12 @@ module.exports = (sequelize) => {
 	ContentObjectHasEvent.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		contentObject_contentObjectID: {
-			type: Sequelize.INTEGER,
+		contentObject_contentObjectLocalID: {
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'contentObject',
-				key: 'contentObjectID'
+				key: 'contentObjectLocalID'
 			}
 		},
 		event_eventID: {
@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'contentObject_has_event' });
 	ContentObjectHasEvent.associate = models => {
-		models.DigitalObjectHasEvent.hasOne(models.DigitalObject, {foreignKey: 'contentObjectLocalID'});
+		models.ContentObjectHasEvent.hasOne(models.ContentObject, {foreignKey: 'contentObjectLocalID'});
 	};
 	return ContentObjectHasEvent;
 };

@@ -8,16 +8,12 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			contentObjectFile_contentObjectLocalID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true
 			},
 			contentObjectFile_fileID: {
 				type: Sq.INTEGER,
 				allowNull: true,
-				// references: {
-				// 	model: 'contentObject_has_objectFile',
-				// 	key: 'contentObjectFileID'
-				// }
 			},
 			contentObjectFile_operationID: {
 				type: Sq.INTEGER,
