@@ -75,8 +75,6 @@ describe('ErrorModal.vue when showDebugErrors is false', () => {
 
 	beforeEach(() => {
 		// Show the modal
-		// @ts-ignore
-		globalStore.state.isErrorModalOpen = true;
 		globalStore.state.appError = {
 			message: 'Abort, Retry, Fail?',
 			info: 'Critical Error'

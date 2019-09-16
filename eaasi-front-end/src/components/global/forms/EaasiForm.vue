@@ -11,7 +11,7 @@ import BaseFormField from './BaseFormField.vue';
 
 /**
  * A form wrapper for BaseFormField components
- * @example ../docs/EaasiForm.Example.md
+ * @example ../../docs/EaasiForm.Example.md
  */
 @Component({
 	name: 'EaasiForm',

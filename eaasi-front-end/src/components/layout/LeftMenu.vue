@@ -33,6 +33,16 @@ export default class LeftMenu extends Vue {
 			route: '/my-resources'
 		},
 		{
+			icon: 'atom',
+			label: 'Emulation Project',
+			route: '/emulation-project'
+		},
+		{
+			icon: 'upload',
+			label: 'Import Resource',
+			route: '/import-resource'
+		},
+		{
 			icon: 'file-search',
 			label: 'Explore Resources',
 			route: '/explore'

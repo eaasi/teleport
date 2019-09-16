@@ -20,9 +20,9 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
-	@Component({
-		name: 'InfoModal'
-	})
+@Component({
+	name: 'InfoModal'
+})
 export default class InfoModal extends Vue {
 
 	/* Props

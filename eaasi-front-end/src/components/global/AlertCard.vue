@@ -1,7 +1,7 @@
 <template functional>
-	<div :class="['card-container', props.type]">
+	<div :class="['card-container', props.type, props.displayModifier]">
 		<div class="icon">
-			<div v-if="props.type === 'error' || props.type === 'warning'">
+			<div v-if="props.type === 'error' || props.type.startsWith('warning')">
 				<i class="fas fa-exclamation-triangle"></i>
 			</div>
 			<div v-else-if="props.type === 'success'">
@@ -11,7 +11,6 @@
 				<i class="fas fa-info-circle"></i>
 			</div>
 		</div>
-
 		<div class="content">
 			<slot></slot>
 		</div>
@@ -39,6 +38,12 @@ export default class AlertCard extends Vue {
 		 */
 		@Prop({type: String, required: true})
 		readonly type: string
+
+        /**
+         * Appends additional class
+         */
+        @Prop({type: String, required: false})
+        readonly displayModifier: boolean
 }
 </script>
 
@@ -60,6 +65,11 @@ export default class AlertCard extends Vue {
 			color: darken($orange, 30%);
 		}
 
+		&.warning-neutral {
+			background-color: lighten($light-neutral, 80%);
+			color: darken($light-neutral, 30%);
+		}
+
 		&.info {
 			background-color: lighten($light-blue, 80%);
 			color: $dark-blue;
@@ -68,6 +78,11 @@ export default class AlertCard extends Vue {
 		&.success {
 			background-color: lighten($green, 95%);
 			color: darken($green, 20%);
+		}
+
+		&.transparent {
+			background: transparent;
+			border-top: none;
 		}
 
 		.icon {

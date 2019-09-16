@@ -2,38 +2,41 @@
 
 const Sequelize = require('sequelize');
 
-class DigitalObject extends Sequelize.Model {}
+class ContentObject extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	DigitalObject.init({
+	ContentObject.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		digitalObjectID: {
-			type: Sequelize.INTEGER,
+		contentObjectLocalID: {
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
-		digitalObjectName: {
+		contentObjectIDSource: {
+			type: Sequelize.STRING,
+			allowNull: false,
+		},
+		contentObjectName: {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		digitalObjectDescription: {
+		contentObjectDescription: {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		digitalObjectProductKey: {
+		contentObjectProductKey: {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		digitalObjectHelpText: {
+		contentObjectHelpText: {
 			type: Sequelize.TEXT,
 			allowNull: true
 		},
-		digitalObjectSystemRequirements: {
+		contentObjectSystemRequirements: {
 			type: Sequelize.INTEGER,
 			allowNull: true
 		}
 	},
-	{ sequelize, tableName: 'digitalObject' });
-	return DigitalObject;
+	{ sequelize, tableName: 'contentObject' });
+	return ContentObject;
 };

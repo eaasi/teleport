@@ -25,7 +25,7 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 
 /**
  * A text area input form field
- * @example ../docs/TextAreaInput.Example.md
+ * @example ../../docs/TextAreaInput.Example.md
  */
 @Component({
 	name: 'TextAreaInput',
