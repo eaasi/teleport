@@ -4,15 +4,15 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('digitalObject_has_alternativeID', {
+		return queryInterface.createTable('contentObject_has_alternateID', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			digitalObject_digitalObjectID: {
+			contentObject_contentObjectLocalID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'digitalObject',
-					key: 'digitalObjectID'
+					model: 'contentObject',
+					key: 'contentObjectLocalID'
 				}
 			},
 			alternativeID_alternativeID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('digitalObject_has_alternativeID');
+		return queryInterface.dropTable('contentObject_has_alternateID');
 	}
 };

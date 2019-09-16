@@ -4,38 +4,41 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('digitalObject', {
+		return queryInterface.createTable('contentObject', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			digitalObjectID: {
-				type: Sq.INTEGER,
+			contentObjectLocalID: {
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
-			digitalObjectName: {
+			contentObjectIDSource: {
+				type: Sq.STRING,
+				allowNull: false,
+			},
+			contentObjectName: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			digitalObjectDescription: {
+			contentObjectDescription: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			digitalObjectProductKey: {
+			contentObjectProductKey: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			digitalObjectHelpText: {
+			contentObjectHelpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			},
-			digitalObjectSystemRequirements: {
+			contentObjectSystemRequirements: {
 				type: Sq.INTEGER,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('digitalObject');
+		return queryInterface.dropTable('contentObject');
 	}
 };

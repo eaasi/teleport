@@ -18,8 +18,14 @@ module.exports = (sequelize) => {
 		softwareObject_alternateID: {
 			type: Sequelize.STRING,
 			allowNull: true
-		}
+		},
+		softwareObject_alternateIDSource: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
+		softwareObject_localID: Sequelize.BOOLEAN
 	}, { sequelize, tableName: 'softwareObjectHasAlternateID' });
+
 	SoftwareObjectHasAlternateID.associate = models => {
 		models.SoftwareObjectHasAlternateID.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 	};

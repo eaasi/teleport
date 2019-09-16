@@ -4,22 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('digitalObjectFile_has_objectFileOperation', {
+		return queryInterface.createTable('contentObjectFile_has_objectFileOperation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			digitalObjectFile_digitalObjectID: {
+			contentObjectFile_contentObjectLocalID: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			digitalObjectFile_fileID: {
+			contentObjectFile_fileID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				// references: {
-				// 	model: 'digitalObject_has_objectFile',
-				// 	key: 'digitalObjectFileID'
+				// 	model: 'contentObject_has_objectFile',
+				// 	key: 'contentObjectFileID'
 				// }
 			},
-			digitalObjectFile_operationID: {
+			contentObjectFile_operationID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -27,13 +27,13 @@ module.exports = {
 					key: 'operationID'
 				}
 			},
-			digitalObjectFile_operationOrder: {
+			contentObjectFile_operationOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('digitalObjectFile_has_objectFileOperation');
+		return queryInterface.dropTable('contentObjectFile_has_objectFileOperation');
 	}
 };

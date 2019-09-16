@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class ObjectEnvironment extends Sequelize.Model {}
+class ContentEnvironment extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	ObjectEnvironment.init({
+	ContentEnvironment.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		objectEnvironment_objectEnvironment_computingEnvironmentID: {
@@ -40,9 +40,9 @@ module.exports = (sequelize) => {
 			allowNull: true
 		}
 	}, { sequelize, tableName: 'objectEnvironment' });
-	ObjectEnvironment.associate = models => {
+	ContentEnvironment.associate = models => {
 		models.ObjectEnvironment.hasOne(models.DigitalObject, {foreignKey: 'digitalObjectID'});
 		models.ObjectEnvironment.hasOne(models.ComputingEnvironment, {foreignKey: 'computingEnvironmentID'});
 	};
-	return ObjectEnvironment;
+	return ContentEnvironment;
 };
