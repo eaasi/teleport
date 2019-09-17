@@ -33,7 +33,6 @@ passport.use(new SamlStrategy(samlConfig, function(profile: any, done: any) {
 			if(!user) {
 				done(`Error retrieving information using claim ${USER_EMAIL_CLAIM} with value ${email}`);
 			} else {
-				console.log('user', user)
 				let res = user.get({plain: true});
 				let token = jwt.sign(res, SECRET as JwtSecret, {
 					expiresIn: MAX_AGE

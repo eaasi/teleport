@@ -3,20 +3,20 @@
 		<table class="eaasi-table clickable">
 			<thead>
 				<tr>
-					<sort-header sort-col="name" :query="query" @sort="sort">
+					<th>
 						Name
-					</sort-header>
-					<sort-header sort-col="email" :query="query" @sort="sort">
+					</th>
+					<th>
 						Number of Images
-					</sort-header>
+					</th>
 					<th style="width: 100px;"></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="e in list" :key="e.name" @click="$emit('rowClick', e)">
+				<tr v-for="e in list" :key="e.name" @click="$emit('click:row', e)">
 					<td>{{ e.name }}</td>
-					<td>{{ getNumImages(e) }}</td>
-					<td @click="$emit('click:row', e)" class="text-center el-details-link">
+					<td>{{ e.entries.length }}</td>
+					<td @click="$emit('click:row', e)" class="text-center btn-cell">
 						<span>DETAILS</span>
 					</td>
 				</tr>
@@ -43,16 +43,8 @@ export default class EmulatorList extends Vue {
 	@Prop({type: Array, required: true})
 	readonly list: IEmulator[]
 
-	@Prop({type: Object as () => IEaasiSearchQuery, required: true})
-	readonly query: IEaasiSearchQuery
-
 	/* Methods
 	============================================*/
-
-	getNumImages(e: IEmulator) {
-		// TODO
-		return 1;
-	}
 
 	sort(rule) {
 
@@ -61,22 +53,3 @@ export default class EmulatorList extends Vue {
 }
 
 </script>
-
-<style lang="scss">
-table tbody td.el-details-link {
-	padding: 0.2rem 1rem;
-
-	span {
-		border-radius: 6px;
-		color: $dark-blue;
-		display: block;
-		font-weight: bold;
-		padding: 10px;
-		transition: background-color 0.2s;
-
-		&:hover {
-			background-color: #FFFFFF;
-		}
-	}
-}
-</style>

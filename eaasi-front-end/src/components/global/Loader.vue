@@ -1,9 +1,7 @@
 <template functional>
-	<div class="eaasi-loader-wrapper flex flex-center">
-		<div class="eaasi-loader">
-			<div class="eaasi-loader-rings"></div>
-			<img class="eaasi-logo" src="@/assets/header-logo.png" alt="eaasi loader" />
-		</div>
+	<div class="eaasi-loader">
+		<div class="eaasi-loader-rings"></div>
+		<img class="eaasi-logo" src="@/assets/header-logo.png" alt="eaasi loader" />
 	</div>
 </template>
 
@@ -23,15 +21,6 @@ export default class Loader extends Vue {}
 <style lang="scss">
 $baseColor: $dark-blue;
 $speed: 0.9s;
-
-.eaasi-loader-wrapper {
-	/* background-color: rgba(0, 0, 0, 0.2); */
-	bottom: 0;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
 
 .eaasi-loader {
 	height: 100px;

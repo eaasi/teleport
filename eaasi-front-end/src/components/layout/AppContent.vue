@@ -3,8 +3,12 @@
 		<admin-menu v-if="adminMenuOpen" />
 		<section id="appContent" class="flex-grow">
 			<router-view />
-			<loader v-if="showLoader" />
+			<loader-overlay v-if="showLoader" />
 		</section>
+		<task-modal
+			:task="activeTask"
+			@close="activeTask = null"
+		/>
 	</div>
 </template>
 
@@ -14,21 +18,27 @@ import Component from 'vue-class-component';
 import eventBus from '@/utils/event-bus';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
+import TaskModal from '@/components/layout/TaskModal.vue';
+import EaasiTask from '@/models/task/EaasiTask';
 import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'AppContent',
 	components: {
 		AdminMenu,
-		SlideMenu
+		SlideMenu,
+		TaskModal
 	}
 })
 export default class AppContent extends Vue {
 
 	/* Computed
 	============================================*/
-	@Sync('global/adminMenuOpen')
+	@Sync('adminMenuOpen')
 	adminMenuOpen: boolean
+
+	@Sync('activeTask')
+	activeTask: EaasiTask
 
 	/* Data
 	============================================*/
