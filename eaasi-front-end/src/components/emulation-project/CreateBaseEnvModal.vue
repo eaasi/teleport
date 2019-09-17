@@ -10,9 +10,8 @@
 				Select Operating System
 			</div>
 
-			<!-- SELECT OS ROW -->
 			<div class="section-os">
-				<!-- LEFT COLUMN -->
+
 				<div class="left">
 					<select-list label="Operating System Type" v-model="selectedOsType">
 						<option
@@ -34,9 +33,7 @@
 						</option>
 					</select-list>
 				</div>
-				<!-- LEFT COLUMN /-->
 
-				<!-- RIGHT COLUMN -->
 				<div class="right">
 					<div class="alert-container">
 						<alert-card type="warning-neutral" display-modifier="transparent">
@@ -46,15 +43,11 @@
 						</alert-card>
 					</div>
 				</div>
-				<!-- RIGHT COLUMN /-->
 			</div>
-			<!-- SELECT OS ROW /-->
 
-			<!-- HARDWARE TEMPLATES -->
 			<div v-if="hardwareTemplates.length > 0">
 				<hardware-template-selection :templates="hardwareTemplates" />
 			</div>
-			<!-- HARDWARE TEMPLATES /-->
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
