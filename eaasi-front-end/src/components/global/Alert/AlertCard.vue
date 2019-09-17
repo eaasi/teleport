@@ -1,19 +1,9 @@
-<template functional>
-	<div :class="['card-container', props.type, props.displayModifier]">
-		<div class="icon">
-			<div v-if="props.type === 'error' || props.type.startsWith('warning')">
-				<i class="fas fa-exclamation-triangle"></i>
-			</div>
-			<div v-else-if="props.type === 'success'">
-				<i class="fas fa-check-circle"></i>
-			</div>
-			<div v-else-if="props.type === 'info'">
-				<i class="fas fa-info-circle"></i>
-			</div>
-		</div>
-		<div class="content">
-			<slot></slot>
-		</div>
+<template>
+	<div :class="['card-container', props.color]">
+		<alert :type="props.type">
+			<slot>
+			</slot>
+		</alert>
 	</div>
 </template>
 
@@ -29,21 +19,11 @@ import { Component, Prop } from 'vue-property-decorator';
 	name: 'AlertCard'
 })
 export default class AlertCard extends Vue {
-
-	/* Props
-        ============================================*/
-
-		/**
-		 * The type of alert
-		 */
-		@Prop({type: String, required: true})
-		readonly type: string
-
-        /**
-         * Appends additional class
-         */
-        @Prop({type: String, required: false})
-        readonly displayModifier: string
+    /**
+     * The color of the alert card
+     */
+    @Prop({type: String, required: true})
+    readonly color: string
 }
 </script>
 
@@ -55,27 +35,27 @@ export default class AlertCard extends Vue {
 		padding: 16px;
 		width: 230px;
 
-		&.error {
+		&.red {
 			background-color: lighten($red, 85%);
 			color: darken($red, 35%);
 		}
 
-		&.warning {
+		&.orange {
 			background-color: lighten($orange, 80%);
 			color: darken($orange, 30%);
 		}
 
-		&.warning-neutral {
+		&.neutral {
 			background-color: lighten($light-neutral, 80%);
 			color: darken($light-neutral, 30%);
 		}
 
-		&.info {
+		&.blue {
 			background-color: lighten($light-blue, 80%);
 			color: $dark-blue;
 		}
 
-		&.success {
+		&.green {
 			background-color: lighten($green, 95%);
 			color: darken($green, 20%);
 		}

@@ -1,4 +1,4 @@
-import AlertCard from './AlertCard.vue';
+import AlertCard from './Alert/AlertCard.vue';
 import AttachResourceCard from '@/components/global/AttachResourceCard.vue';
 import Autocomplete from './forms/Autocomplete.vue';
 import BaseFormField from './forms/BaseFormField.vue';
