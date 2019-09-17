@@ -28,7 +28,7 @@
 					<template v-slot:footer>
 						<ui-button
 							sub-label="...from your node's system templates"
-							@clicked="chooseTemplate"
+							@click="chooseTemplate"
 						>
 							Choose Template
 						</ui-button>

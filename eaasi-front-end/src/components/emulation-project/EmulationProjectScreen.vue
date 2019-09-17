@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<!-- EMULATION PROJECT HEADER -->
 		<view-header title="Emulation Project">
 			<div>
 				Choose hardware and/or emulation settings, add imported or discovered resources, and run your emulation.
@@ -17,36 +16,27 @@
 				</div>
 			</template>
 		</view-header>
-		<!-- EMULATION PROJECT HEADER /-->
 
-		<!-- EMULATION PROJECT CONTENT -->
 		<div class="emu-project-content">
 			<div class="emu-project-content-left">
-				<!-- BASE ENVIRONMENT -->
 				<div>
 					<section-heading title="Base Environment" icon="fa-box" />
 					<base-environment-wizard />
 					<div class="divider-border"></div>
 				</div>
-				<!-- BASE ENVIRONMENT /-->
 
-				<!-- SOFTWARE RESOURCES -->
 				<div>
 					<section-heading title="Software Resources" icon="fa-box" />
 					<software-resources-wizard />
 					<div class="divider-border"></div>
 				</div>
-				<!-- SOFTWARE RESOURCES -->
 
-				<!-- CONTENT RESOURCES -->
 				<div>
 					<section-heading title="Content Resources" icon="fa-box" />
 					<content-resources-wizard />
 				</div>
-				<!-- CONTENT RESOURCES -->
 			</div>
 		</div>
-		<!-- EMULATION PROJECT CONTENT /-->
 	</div>
 </template>
 
