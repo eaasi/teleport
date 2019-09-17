@@ -35,7 +35,7 @@
 
 				<div class="right">
 					<div class="alert-container">
-						<alert-card type="garbage" color="transparent">
+						<alert-card type="warning" color="transparent">
 							Operating system will be attached to your emulation project as
 							a software resource. It will need to be installed manually while
 							emulating.
