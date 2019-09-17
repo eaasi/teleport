@@ -1,6 +1,6 @@
 <template>
-	<div :class="['card-container', props.color]">
-		<alert :type="props.type">
+	<div :class="['card-container', color]">
+		<alert :alert-type="type">
 			<slot>
 			</slot>
 		</alert>
@@ -10,13 +10,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import isValidAlert from '@/types/validators/AlertType.validator';
 
 /**
  * A Card showing information about an Error, Warning, Success, or Info
  * @example ../docs/AlertCard.Example.md
  */
 @Component({
-	name: 'AlertCard'
+	name: 'AlertCard',
 })
 export default class AlertCard extends Vue {
     /**
@@ -24,6 +25,12 @@ export default class AlertCard extends Vue {
      */
     @Prop({type: String, required: true})
     readonly color: string
+
+	/**
+	 * The type / level of the alert
+	 */
+	@Prop({validator: isValidAlert, required: true})
+	readonly type: AlertType
 }
 </script>
 
@@ -63,6 +70,7 @@ export default class AlertCard extends Vue {
 		&.transparent {
 			background: transparent;
 			border-top: none;
+			color: darken($light-neutral, 30%);
 		}
 
 		.icon {

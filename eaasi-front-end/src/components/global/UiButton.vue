@@ -69,7 +69,6 @@ export default class UiButton extends Vue {
 		font-size: 1.2rem;
 		font-style: italic;
 		margin: auto;
-
 		max-width: 80%;
 		padding: 1rem 0;
 		text-align: center;

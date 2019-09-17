@@ -1,3 +1,4 @@
+import Alert from './Alert/Alert.vue';
 import AlertCard from './Alert/AlertCard.vue';
 import AttachResourceCard from '@/components/global/AttachResourceCard.vue';
 import Autocomplete from './forms/Autocomplete.vue';
@@ -36,6 +37,7 @@ import { VueConstructor } from 'vue';
 
 export default {
 	install(Vue: VueConstructor) {
+		Vue.component('Alert', Alert);
 		Vue.component('AlertCard', AlertCard);
 		Vue.component('AttachResourceCard', AttachResourceCard);
 		Vue.component('Autocomplete', Autocomplete);
@@ -74,6 +76,7 @@ export default {
 /============================================================*/
 
 export {
+	Alert,
 	AlertCard,
 	AttachResourceCard,
 	Autocomplete,
