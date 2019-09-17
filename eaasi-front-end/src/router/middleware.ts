@@ -11,7 +11,7 @@ const JWT_NAME = process.env.VUE_APP_JWT_NAME;
  * @param next Callback method
  */
 export function loggedInGuard(to: Route, _from: Route, next: any) {
-	store.dispatch('global/initSession').then((success) => {
+	store.dispatch('initSession').then((success) => {
 		// Redirect to login if no token and the route does not allow guests
 		if(!success && !to.matched.some(x => x.meta.allowGuest)) {
 			next({

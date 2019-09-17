@@ -29,7 +29,6 @@ export default class EaasiAuthController extends BaseController {
      * @param res response
      */
 	callback(req: Request, res: Response) {
-		console.log('req.user in controller', req.user);
 		req.method = 'GET';
 		// Set JWT cookie
 		let expires = new Date();

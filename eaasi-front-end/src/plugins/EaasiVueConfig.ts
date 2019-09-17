@@ -16,7 +16,7 @@ export default {
 
 		// Configure a custom error handler
 		Vue.config.errorHandler = (err, _vm, info) => {
-			store.set('global/appError', {
+			store.set('appError', {
 				message: err.toString(),
 				info: info,
 				stack: err.stack

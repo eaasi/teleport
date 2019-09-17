@@ -84,4 +84,11 @@ export default class EaasiForm extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.eaasi-form {
+
+	.eaasi-form-control {
+		margin-bottom: 2rem;
+	}
+}
+</style>

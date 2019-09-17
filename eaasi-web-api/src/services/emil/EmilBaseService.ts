@@ -14,11 +14,11 @@ export default class EmilBaseService implements IHttpService {
 	}
 
 	public async get(methodName: string) {
-		return this._svc.get(this._createUrl(methodName));
+		return await this._svc.get(this._createUrl(methodName));
 	}
 
 	public async post(methodName: string, data: any) {
-		return this._svc.post(this._createUrl(methodName), data);
+		return await this._svc.post(this._createUrl(methodName), data);
 	}
 
 	private _createUrl(methodName: string): string {

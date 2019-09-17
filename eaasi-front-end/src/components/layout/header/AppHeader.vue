@@ -49,13 +49,13 @@ export default class AppHeader extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('global/nodeName')
+	@Get('nodeName')
 	nodeName: string
 
 	@Sync('search/keyword')
 	searchKeyword: string
 
-	@Get('global/loggedInUser')
+	@Get('loggedInUser')
 	user: IEaasiUser
 
 	/* Methods
@@ -72,7 +72,7 @@ export default class AppHeader extends Vue {
 	 * Logs out a User
 	 */
 	logout() {
-		this.$store.dispatch('global/logout');
+		this.$store.dispatch('logout');
 		authService.logout();
 	}
 };
