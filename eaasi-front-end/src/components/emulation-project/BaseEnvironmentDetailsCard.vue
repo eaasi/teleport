@@ -72,10 +72,6 @@ export default class BaseEnvironmentDetailsCard extends Vue {
 		width: 100%;
 	}
 
-	.bedc-container {
-		width: 100%;
-	}
-
 	.bedc-title {
 		font-size: 1.2rem;
 		font-weight: bold;

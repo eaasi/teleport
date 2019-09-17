@@ -8,7 +8,7 @@
 				<slot></slot>
 			</div>
 			<div class="vh-actions">
-				<slot name="actions" />
+				<slot name="actions"></slot>
 			</div>
 		</div>
 	</div>
