@@ -5,7 +5,7 @@ import adminStore from '@/store/admin-store';
 import globalStore from '@/store/global-store';
 import { generateFakeRole } from '../../generators';
 import { makeAdminStoreState } from '../../store-helpers';
-import DescriptiveSelector from '@components/global/forms/DescriptiveSelector.vue';
+import DescriptiveSelector from '@/components/global/forms/DescriptiveSelector.vue';
 
 const localVue = createLocalVue();
 

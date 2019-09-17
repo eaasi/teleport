@@ -11,6 +11,7 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import isValidAlert from '@/types/validators/AlertType.validator';
+import Alert from './Alert.vue';
 
 /**
  * A Card showing information about an Error, Warning, Success, or Info
@@ -18,6 +19,7 @@ import isValidAlert from '@/types/validators/AlertType.validator';
  */
 @Component({
 	name: 'AlertCard',
+	components: { Alert }
 })
 export default class AlertCard extends Vue {
     /**

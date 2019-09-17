@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import FormFieldWrapper from '@/components/forms/FormFieldWrapper.vue';
+import FormFieldWrapper from '@/components/global/forms/FormFieldWrapper.vue';
 
 describe('FormFieldWrapper.vue', () => {
 
