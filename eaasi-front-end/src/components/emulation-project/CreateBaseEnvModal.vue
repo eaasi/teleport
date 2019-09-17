@@ -32,6 +32,7 @@
 							{{ osVersion.name }}
 						</option>
 					</select-list>
+
 				</div>
 
 				<div class="right">
@@ -69,6 +70,8 @@ import AlertCard from '@/components/global/AlertCard.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
 import HardwareTemplateSelection from '@/components/emulation-project/HardwareTemplateSelection.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
+import {IOsVersionOptions} from '@/types/IOsVersionOptions';
+import {IOsTypeOptions} from '@/types/IOsTypeOptions';
 
 @Component({
 	name: 'CreateBaseEnvModal',
@@ -85,17 +88,15 @@ export default class CreateBaseEnvModal extends Vue {
 		selectedOsType = null;
 		selectedOsVersion = null;
 
-		// TODO OS Type Interface
 		/**
 		 * Array of available OS Types
 		 */
-		osTypeOptions: object[] = [];
+		osTypeOptions: IOsTypeOptions[] = [];
 
-		// TODO OS Version Interface
 		/**
 		 * Array of available OS Versions
 		 */
-		osVersionOptions: object[] = [];
+		osVersionOptions: IOsVersionOptions[] = [];
 
 		/**
 		 * Array of available Hardware Templates
@@ -103,38 +104,12 @@ export default class CreateBaseEnvModal extends Vue {
 		hardwareTemplates: IHardwareTemplate[];
 
 
-		// TODO
 		getOsTypes() {
-			this.osTypeOptions = [
-				{
-					id:1,
-					name:'Low End',
-				},
-				{
-					id:2,
-					name:'Mid Range',
-				},
-				{
-					id:3,
-					name:'High End $$$',
-				},
-			];
+			this.osTypeOptions = [];
 		}
 
-		// TODO
 		getHardwareTemplates() {
-			this.hardwareTemplates = [
-				{
-					id: 1,
-					title: 'foo',
-					description: 'baz'
-				},
-				{
-					id: 2,
-					title: 'foo',
-					description: 'baz'
-				}
-			];
+			this.hardwareTemplates = [];
 		}
 
 		created() {

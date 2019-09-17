@@ -1,6 +1,3 @@
-/**
- * Hardware Template Details Card Interface
- */
 export interface IHardwareTemplateDetails {
 	emulator: string
 	networkDevice: string

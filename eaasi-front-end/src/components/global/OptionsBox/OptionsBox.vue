@@ -3,19 +3,26 @@
 		<div class="ob-header" v-if="header">
 			<span>{{ header }}</span>
 		</div>
+
 		<div class="ob-content">
 			<div class="ob-name text-center" v-if="optionName">
 				<span>{{ optionName }}</span>
 			</div>
+
 			<div class="ob-desc text-center">
 				<slot></slot>
 			</div>
-			<div class="ob-footer" v-if="hasFooter()">
-				<OptionsBoxFooter>
+
+			<div class="ob-footer-container" v-if="hasFooter()">
+				<div class="ob-footer-break">
+					<hr />
+				</div>
+				<div class="ob-footer-content">
 					<slot name="footer">
 					</slot>
-				</OptionsBoxFooter>
+				</div>
 			</div>
+
 		</div>
 	</div>
 </template>
@@ -31,7 +38,6 @@ import OptionsBoxFooter from '@/components/global/OptionsBox/OptionsBoxFooter.vu
  */
 @Component({
 	name: 'OptionsBox',
-	components: {OptionsBoxFooter}
 })
 export default class OptionsBox extends Vue {
 
@@ -97,6 +103,21 @@ export default class OptionsBox extends Vue {
 		text-align: center;
 		text-transform: uppercase;
 		width: 100%;
+	}
+
+	.ob-footer-container {
+		display: flex;
+		flex-direction: column;
+		padding: 1.2rem 0;
+	}
+
+	.ob-footer-break {
+		margin: 0.9rem 0;
+	}
+
+	.ob-footer-content {
+		display: flex;
+		justify-content: center;
 	}
 }
 </style>
