@@ -1,9 +1,14 @@
 <template>
-	<button :class="['eaasi-button', {block, secondary}]" v-on="$listeners" v-bind="$attrs">
-		<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
-		<slot></slot>
-		<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
-	</button>
+	<div>
+		<button :class="['eaasi-button', {block, secondary}]" v-on="$listeners" v-bind="$attrs">
+			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
+			<slot></slot>
+			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
+		</button>
+		<div class="labeled-btn-label" v-if="this.subLabel">
+			{{ sublabel }}
+		</div>
+	</div>
 </template>
 
 <script lang="ts">
@@ -22,22 +27,35 @@ export default class UiButton extends Vue {
 	/* Props
 	============================================*/
 
-	// Make display type: block
+	/**
+	 * Make display type: block
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly block: boolean;
 
- 	// Use secondary styles
+	/**
+	 * Use secondary styles
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly secondary: boolean;
 
-	// Font icon name
+	/**
+	 * Font icon name
+	 */
 	@Prop({type: String, required: false})
 	readonly icon: string;
 
-	// Show icon on right side of slot (instead of left)
+	/**
+	 * Show icon on right side of slot (instead of left)
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly iconRight: boolean;
 
+	/**
+	 * Shows a sublabel on the button
+	 */
+	@Prop({type: String, required: false})
+	readonly subLabel: string;
 }
 </script>
 
@@ -81,6 +99,13 @@ export default class UiButton extends Vue {
 
 	.icon-right {
 		margin-left: 0.4rem;
+	}
+
+	.labeled-btn-label {
+		font-size: 1.2rem;
+		font-style: italic;
+		padding: 1rem 0;
+		text-align: center;
 	}
 }
 </style>

@@ -7,19 +7,19 @@
 				<options-box option-name="Find a Base" header="Recommended" style="height: 100%;">
 					Find an existing base environment.
 					<template v-slot:footer>
-						<labeled-ui-button
-							label-text="...node or network saved resources"
-							@btnClicked="searchForEnvironment"
+						<ui-button
+							sub-label="...node or network saved resources"
+							@click="searchForEnvironment"
 						>
 							Search/Browse
-						</labeled-ui-button>
+						</ui-button>
 
-						<labeled-ui-button
-							label-text="...imported or bookmarked resources"
-							@btnClicked="openMyResources"
+						<ui-button
+							sub-label="...imported or bookmarked resources"
+							@click="openMyResources"
 						>
 							My Resources
-						</labeled-ui-button>
+						</ui-button>
 					</template>
 				</options-box>
 			</div>
@@ -30,12 +30,12 @@
 				<options-box option-name="Start from Scratch" header="Less Common" style="height: 100%;">
 					Use a system template with no configured operating system or software.
 					<template v-slot:footer>
-						<labeled-ui-button
-							label-text="...from your node's system templates"
+						<ui-button
+							sub-label="...from your node's system templates"
 							@clicked="chooseTemplate"
 						>
 							Choose Template
-						</labeled-ui-button>
+						</ui-button>
 					</template>
 				</options-box>
 			</div>

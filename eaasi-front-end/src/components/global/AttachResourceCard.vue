@@ -1,33 +1,28 @@
 <template>
 	<div class="arc-container">
 		<div class="arc-title">
-			<!-- ATTACH RESOURCES TITLE -->
 			<div>
 				<i :class="`fas fa-paperclip`"></i>
 				Attach <span class="uppercase">{{ title }}</span> Resource from...
 			</div>
 		</div>
-		<!-- ATTACH RESOURCES TITLE -->
-
-		<!-- ATTACH RESOURCES ACTIONS -->
 		<div class="arc-actions">
 			<div class="arc-actions-content">
-				<labeled-ui-button
-					label-text="...node or network saved resources"
+				<ui-button
+					sub-label="...node or network saved resources"
 					@btnClicked="searchForEnvironment"
 				>
 					Search/Browse
-				</labeled-ui-button>
+				</ui-button>
 
-				<labeled-ui-button
-					label-text="...imported or bookmarked resources"
+				<ui-button
+					sub-label="...imported or bookmarked resources"
 					@btnClicked="openMyResources"
 				>
 					My Resources
-				</labeled-ui-button>
+				</ui-button>
 			</div>
 		</div>
-		<!-- ATTACH RESOURCES ACTIONS /-->
 	</div>
 </template>
 

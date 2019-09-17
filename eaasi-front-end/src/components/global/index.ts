@@ -8,7 +8,6 @@ import Checkbox from './forms/Checkbox.vue';
 import EaasiForm from './forms/EaasiForm.vue';
 import FormModal from './forms/FormModal.vue';
 import HoverMenu from './HoverMenu.vue';
-import LabeledUiButton from './LabeledUiButton.vue';
 import Loader from './Loader.vue';
 import Modal from './Modal/Modal.vue';
 import NumberedSteps from './NumberedSteps/NumberedSteps.vue';
@@ -47,7 +46,6 @@ export default {
 		Vue.component('EaasiForm', EaasiForm);
 		Vue.component('FormModal', FormModal);
 		Vue.component('HoverMenu', HoverMenu);
-		Vue.component('LabeledUiButton', LabeledUiButton);
 		Vue.component('Loader', Loader);
 		Vue.component('Modal', Modal);
 		Vue.component('NumberedSteps', NumberedSteps);
@@ -86,7 +84,6 @@ export {
 	EaasiForm,
 	FormModal,
 	HoverMenu,
-	LabeledUiButton,
 	Loader,
 	Modal,
 	NumberedSteps,
