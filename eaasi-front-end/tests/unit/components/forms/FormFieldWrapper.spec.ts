@@ -45,7 +45,7 @@ describe('FormFieldWrapper.vue', () => {
 
 		expect(wrapper.find('.eaasi-label')
 			.text())
-			.toBe('good stuff');
+			.toContain('good stuff');
 	});
 
 	it('Hides a label when label passed as prop and hidden is true', () => {
