@@ -1,11 +1,13 @@
 import { make } from 'vuex-pathify';
 import { Store } from 'vuex';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
-import { IEaasiRole } from 'eaasi-admin';
-import { IEmulator } from '@/types/Emulator';
+import { IEaasiRole, IEmulator, IEmulatorEntry } from 'eaasi-admin';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import User from '@/models/admin/User';
 import _svc from '@/services/AdminService';
+import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
+import { ITaskState } from '@/types/Task';
+import EaasiTask from '@/models/task/EaasiTask';
 
 /*============================================================
  == State
@@ -14,8 +16,7 @@ import _svc from '@/services/AdminService';
 export class AdminState {
 	activeEmulator: IEmulator = null;
 	activeUser: User = null;
-	emulatorsResult: IEaasiSearchResponse<IEmulator> = null;
-	emulatorsQuery: IEaasiSearchQuery = new EaasiSearchQuery();
+	emulators: IEmulator[] = null;
 	usersResult: IEaasiSearchResponse<User> = null;
 	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
@@ -38,10 +39,23 @@ const actions = {
 	/* Emulators
 	============================================*/
 
-	async getEmulators({ commit, state }: Store<AdminState>) {
-		let result = await _svc.getEmulators(state.emulatorsQuery);
+	async getEmulators({ commit }: Store<AdminState>) {
+		let result = await _svc.getEmulators();
 		if (!result) return;
-		commit('SET_EMULATORS_RESULT', result);
+		commit('SET_EMULATORS', result);
+	},
+
+	async importEmulator(store: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
+		let taskState = await _svc.importEmulator(req) as ITaskState;;
+		if(!taskState) return null;
+		let description = req.update ? 'Updating' : 'Importing';
+		let task = new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);
+		store.commit('ADD_OR_UPDATE_TASK', task, { root: true});
+		return task;
+	},
+
+	async setDefaultEmulatorVersion(store: Store<AdminState>, entry: IEmulatorEntry) {
+		return await _svc.setDefaultEmulatorVersion(entry);
 	},
 
 	/* Users

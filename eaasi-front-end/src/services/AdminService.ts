@@ -2,16 +2,30 @@ import BaseHttpService from './BaseHttpService';
 import User from '@/models/admin/User';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
 import { IEaasiRole, IEmulator } from 'eaasi-admin';
+import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
+import { ITaskState } from '@/types/Task';
 
 class AdminService extends BaseHttpService {
 
 	/* Emulators
 	============================================*/
 
-	async getEmulators(query: IEaasiSearchQuery): Promise<IEmulator[]> {
+	async getEmulators(): Promise<IEmulator[]> {
 		let res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
 		return res.result as IEmulator[];
+	}
+
+	async importEmulator(req: EmulatorImportRequest): Promise<ITaskState> {
+		let res = await this.post('/admin/import-emulator', req);
+		if (!res.ok) return null;
+		return res.result as ITaskState;
+	}
+
+	async setDefaultEmulatorVersion(entry: any) {
+		let res = await this.post<any>('/admin/set-default-emulator-version', entry);
+		if (!res.ok) return null;
+		return res.result;
 	}
 
 	/* Users

@@ -22,6 +22,7 @@ import AppContent from './components/layout/AppContent.vue';
 import LeftMenu from './components/layout/LeftMenu.vue';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 import eventBus from '@/utils/event-bus';
+import events from '@/config/events';
 
 @Component({
 	name: 'App',
@@ -37,7 +38,7 @@ export default class App extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('global/loggedIn')
+	@Get('loggedIn')
 	loggedIn: boolean
 
 	/* Methods
@@ -47,11 +48,14 @@ export default class App extends Vue {
 		let self = this;
 
 		// Global error listener
-		eventBus.$on('ajaxError', err => {
-			this.$store.commit('global/SET_APP_ERROR', err);
+		eventBus.$on(events.AJAX_ERROR, err => {
+			this.$store.commit('SET_APP_ERROR', err);
 		});
 
-		// Other global listeners here
+		// Global task listener
+		eventBus.$on(events.TASK_START, err => {
+			this.$store.commit('SET_APP_ERROR', err);
+		});
 
 	}
 

@@ -36,7 +36,6 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
 
 	// render the error page
 	res.status(err.status || HttpResponseCode.SERVER_ERROR);
-	console.log('error', err)
 	res.render('error');
 }
 
