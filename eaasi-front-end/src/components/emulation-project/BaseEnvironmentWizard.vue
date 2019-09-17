@@ -1,8 +1,6 @@
 <template>
 	<div class="base-env-wiz-container">
-		<!-- BASE ENVIRONMENT WIZARD LEFT SIDE -->
 		<div class="base-env-wiz-left">
-			<!-- EXISTING BASE ENVIRONMENT -->
 			<div class="base-env-wiz-opt">
 				<options-box option-name="Find a Base" header="Recommended" style="height: 100%;">
 					Find an existing base environment.
@@ -23,9 +21,7 @@
 					</template>
 				</options-box>
 			</div>
-			<!-- EXISTING BASE ENVIRONMENT /-->
 
-			<!-- CREATE BASE ENVIRONMENT -->
 			<div class="base-env-wiz-opt">
 				<options-box option-name="Start from Scratch" header="Less Common" style="height: 100%;">
 					Use a system template with no configured operating system or software.
@@ -39,11 +35,8 @@
 					</template>
 				</options-box>
 			</div>
-			<!-- CREATE BASE ENVIRONMENT /-->
 		</div>
-		<!-- BASE ENVIRONMENT WIZARD LEFT SIDE /-->
 
-		<!-- BASE ENVIRONMENT WIZARD RIGHT SIDE -->
 		<div class="base-env-wiz-right">
 			<div v-if="showTips">
 				<tips-card>
@@ -51,11 +44,8 @@
 				</tips-card>
 			</div>
 		</div>
-		<!-- BASE ENVIRONMENT WIZARD RIGHT SIDE /-->
 
-		<!-- MODALS -->
 		<create-base-env-modal v-if="isChooseTemplateOpen" @close="closeChooseTemplate" />
-		<!-- MODALS /-->
 	</div>
 </template>
 
