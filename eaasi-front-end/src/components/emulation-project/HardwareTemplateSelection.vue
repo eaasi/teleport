@@ -8,7 +8,7 @@
 		<div class="hw-container">
 			<div class="hw-templates-container">
 				<descriptive-selector
-					v-for="template in hardwareTemplates"
+					v-for="template in templates"
 					:selectable-option="template"
 					:key="template.id"
 					:value="template.id"

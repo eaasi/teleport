@@ -112,12 +112,36 @@ export default class CreateBaseEnvModal extends Vue {
 
 		// TODO
 		getOsTypes() {
-			this.osTypeOptions = [];
+			this.osTypeOptions = [
+				{
+					id:1,
+					name:'Low End',
+				},
+				{
+					id:2,
+					name:'Mid Range',
+				},
+				{
+					id:3,
+					name:'High End $$$',
+				},
+			];
 		}
 
 		// TODO
 		getHardwareTemplates() {
-			this.hardwareTemplates = [];
+			this.hardwareTemplates = [
+				{
+					id: 1,
+					title: 'foo',
+					description: 'baz'
+				},
+				{
+					id: 2,
+					title: 'foo',
+					description: 'baz'
+				}
+			];
 		}
 
 		created() {
