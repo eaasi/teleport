@@ -38,7 +38,7 @@ export default class EmulatorAdminService extends BaseService {
 		// Get full emulators list from the database
 		let query = new CrudQuery()
 		query.limit = 10000;
-		let result = await this._emulatorAdminCrudService.getAll(query);
+		let result = await this._emulatorAdminCrudService.getAll(query, true);
 		if (result.hasError) { throw result.error; }
 
 		// Get named indexes from Emil
@@ -50,8 +50,7 @@ export default class EmulatorAdminService extends BaseService {
 			let emulators = this._createEmulatorViewModels(dbList, indexes);
 			return emulators;
 		} else {
-			// TODO: Handle bad response
-			// return this.handleBadEmilResponse(response);
+			throw 'Could not get named emulator indexes from emil';
 		}
 	}
 
