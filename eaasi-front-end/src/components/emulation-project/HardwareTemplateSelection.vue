@@ -54,7 +54,6 @@ export default class HardwareTemplateSelection extends Vue {
 	 */
 	selectedHardware = null;
 
-	// TODO
 	getTemplateDetails() {
 		this.templateDetails = {} as IHardwareTemplateDetails;
 	}
@@ -64,7 +63,3 @@ export default class HardwareTemplateSelection extends Vue {
 	}
 };
 </script>
-
-<style>
-
-</style>
