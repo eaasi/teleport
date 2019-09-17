@@ -20,7 +20,13 @@ class AdminService extends BaseHttpService {
 		let res = await this.post('/admin/import-emulator', req);
 		if (!res.ok) return null;
 		return res.result as ITaskState;
-	};
+	}
+
+	async setDefaultEmulatorVersion(entry: any) {
+		let res = await this.post<any>('/admin/set-default-emulator-version', entry);
+		if (!res.ok) return null;
+		return res.result;
+	}
 
 	/* Users
 	============================================*/

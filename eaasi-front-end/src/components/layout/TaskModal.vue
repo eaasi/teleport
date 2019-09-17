@@ -2,7 +2,7 @@
 	<modal @close="cancel" size="sm" v-if="task">
 		<div class="text-center tm-content">
 			<div class="tm-loader">
-				<loader v-if="!error" />
+				<loader v-if="!error && !success" />
 			</div>
 			<div class="tm-message" v-if="!error">{{ task.description || 'Please Wait' }}...</div>
 			<alert-card type="error" v-if="error"><strong>Error: </strong> {{ error }}</alert-card>
@@ -48,9 +48,7 @@ export default class TaskModal extends Vue {
 	 * Polls the task state endpoint to keep track of import status
 	 */
 	async pollTask() {
-		console.log('attempting poll');
 		if(!this.task) return;
-		console.log('polling');
 		let self = this;
 		if(self.timer) clearInterval(self.timer);
 		self.timer = setInterval(async () => {

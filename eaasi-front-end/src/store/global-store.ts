@@ -40,6 +40,10 @@ mutations['ADD_OR_UPDATE_TASK'] = function(state: GlobalState, task: ITaskState)
 	state.runningTasks = [ ...otherTasks, newTask ];
 };
 
+mutations['REMOVE_TASK'] = function(state: GlobalState, taskId: string | number) {
+	state.runningTasks = state.runningTasks.filter(x => x.taskId != taskId);
+};
+
 /*============================================================
  == Actions
 /============================================================*/

@@ -1,7 +1,8 @@
 export default class EmulatorImportRequest {
+	readonly imageType: string = 'dockerhub';
+	readonly isEmulator: boolean = true;
+
 	alias: string = null;
-	imageType: string = 'dockerhub';
-	isEmulator: boolean = true;
 	tag: string = null;
 	urlString: string = null;
 	update: boolean = false;

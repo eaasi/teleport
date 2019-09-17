@@ -4,7 +4,7 @@ import CrudService from '../base/CrudService';
 const { Emulator } = require('@/data_access/models');
 import CrudQuery from '../base/CrudQuery';
 import BaseService from '../base/BaseService';
-import { EmulatorNamedIndexes } from '@/types/emil/EmilEnvironmentData';
+import { EmulatorNamedIndexes, AliasEntry, EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 import { IEmulatorViewModel, IEmulator } from '@/types/admin/Emulator';
 import { TaskState } from '@/types/emil/Emil';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
@@ -67,6 +67,19 @@ export default class EmulatorAdminService extends BaseService {
 		return null;
 	}
 
+	/**
+	 * Requests emil to set a specific emulator entry as the default version
+	 * @param {EmulatorEntry} entry The entry (image) to set as the default
+	 */
+	async setDefaultVersion(entry: EmulatorEntry) {
+		let response = await this._emilContService.post('updateLatestEmulator', {
+			emulatorName: entry.name,
+			version: entry.version
+		});
+		if(response.ok) return true;
+		return false;
+	}
+
 	/*============================================================
 	 == Private methods
 	/============================================================*/
@@ -79,15 +92,32 @@ export default class EmulatorAdminService extends BaseService {
 	 */
 	private _createEmulatorViewModels(dbList: IEmulator[], indexes: EmulatorNamedIndexes) {
 		let emulators: IEmulatorViewModel[] = [];
+		let aliases = indexes.aliases.entry.map(x => x.value);
 		dbList.forEach(em => {
+			let latestVersion = this._getLatestVersion(em.name, aliases);
+			let entries = indexes.entries.entry.filter(x => x.key.indexOf(em.name) > -1).map(x => x.value);
 			emulators.push({
 				id: em.id,
 				name: em.name,
-				entries: indexes.entries.entry
-					.filter(x => x.key.indexOf(em.name) > -1)
-					.map(x => x.value)
+				entries,
+				latestVersion
 			});
 		});
 		return emulators;
 	}
+
+	/**
+	 * Given an emulator name and a list of alias entries, attempts to find the version number
+	 * that corresponds to the 'latest' alias
+	 * @param {string} emulatorName - The emulator name
+	 * @param aliasList - The full list of emulator aliases
+	 */
+	private _getLatestVersion(emulatorName: string, aliasList: AliasEntry[]): string | null {
+		console.log(aliasList);
+		console.log(emulatorName);
+		let aliasEntry = aliasList.find(x => x.name.indexOf(emulatorName) > -1 && x.alias === 'latest');
+		if(!aliasEntry) return null;
+		return aliasEntry.version;
+	}
+
 }

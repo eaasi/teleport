@@ -3,6 +3,7 @@ import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
+import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 
 export default class AdminController extends BaseController {
 
@@ -79,6 +80,21 @@ export default class AdminController extends BaseController {
 			let importRequest = req.body as IEmulatorImportRequest;
 			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
 			res.send(taskState);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Sets the default emulator entry
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async setDefaultEmulatorVersion(req: Request, res: Response) {
+		try {
+			let entry = req.body as EmulatorEntry;
+			let response = await this._emulatorAdminSvc.setDefaultVersion(entry);
+			res.send(response);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}

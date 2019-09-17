@@ -1,7 +1,7 @@
 import { make } from 'vuex-pathify';
 import { Store } from 'vuex';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
-import { IEaasiRole, IEmulator } from 'eaasi-admin';
+import { IEaasiRole, IEmulator, IEmulatorEntry } from 'eaasi-admin';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import User from '@/models/admin/User';
 import _svc from '@/services/AdminService';
@@ -52,6 +52,10 @@ const actions = {
 		let task = new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);
 		store.commit('ADD_OR_UPDATE_TASK', task, { root: true});
 		return task;
+	},
+
+	async setDefaultEmulatorVersion(store: Store<AdminState>, entry: IEmulatorEntry) {
+		return await _svc.setDefaultEmulatorVersion(entry);
 	},
 
 	/* Users

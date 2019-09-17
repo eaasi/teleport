@@ -25,10 +25,10 @@
 							<span>{{ e.provenance.versionTag }}</span>
 						</td>
 						<td :class="['btn-cell nb text-right', {'text-center': hasMultipleImages}]">
-							<span v-if="!isLatest(e)" @click="updateImage(e)">Update</span>
+							<span v-if="canUpdate(e)" @click="updateImage(e)">Update</span>
 						</td>
 						<td class="text-center" v-if="hasMultipleImages">
-							<checkbox class="no-mb" />
+							<checkbox class="no-mb" :value="isDefault(e)" @change="makeDefault(e)" />
 						</td>
 					</tr>
 				</tbody>
@@ -68,11 +68,39 @@ export default class EmulatorModal extends Vue {
 	/* Methods
 	============================================*/
 
+	canUpdate(e: IEmulatorEntry) {
+		if(this.isLatest(e)) return false;
+		let otherVersions = this.emulator.entries
+			.filter(x => e.provenance.ociSourceUrl === x.provenance.ociSourceUrl);
+		return !otherVersions.find(x => this.isLatest(x));
+	}
+
 	/**
 	 * Determines if an emulator entry is the latest version
 	 */
 	isLatest(e: IEmulatorEntry) {
 		return e.provenance.versionTag === 'latest';
+	}
+
+	/**
+	 * Determines if an emulator entry is the default version
+	 */
+	isDefault(e: IEmulatorEntry) {
+		return e.version === this.emulator.latestVersion;
+	}
+
+	async makeDefault(entry: IEmulatorEntry) {
+		let previousVersion = this.emulator.latestVersion;
+		// Assume this will succeed and update the checkbox immediately
+		this.emulator.latestVersion = entry.version;
+		let success = await this.$store.dispatch('admin/setDefaultEmulatorVersion', entry);
+		if(success) {
+			// Refresh the latest emulator list
+			this.$store.dispatch('admin/getEmulators');
+		} else {
+			// If first call failed, revert to previous version
+			this.emulator.latestVersion = previousVersion;
+		}
 	}
 
 	async updateImage(entry: IEmulatorEntry) {

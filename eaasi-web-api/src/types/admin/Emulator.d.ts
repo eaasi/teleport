@@ -9,4 +9,5 @@ export interface IEmulatorViewModel {
 	id: number;
 	name: string;
 	entries: EmulatorEntry[];
+	latestVersion: string | null;
 }
