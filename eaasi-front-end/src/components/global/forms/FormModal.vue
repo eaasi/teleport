@@ -38,6 +38,10 @@ import EaasiForm from './EaasiForm.vue';
 })
 export default class FormModal extends Vue {
 
+	$refs!: {
+		_form: EaasiForm
+	}
+
 	/* Props
     ============================================*/
 

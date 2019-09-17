@@ -1,6 +1,7 @@
 import CrudService from '../../../../src/services/base/CrudService';
 import SequelizeModelFake from '../../../helpers/doubles/sequelize-model-fake';
 import CrudServiceResult from '../../../../src/services/base/CrudServiceResult';
+import CrudQuery from '@/services/base/CrudQuery';
 
 describe('API Service', () => {
 	// Constructor Tests
@@ -30,16 +31,19 @@ describe('API Service', () => {
 	it('on getAll calls findAll() with expected pagination object parameters', async () => {
 		let modelFake = new SequelizeModelFake('fakeModel');
 		let sut = new CrudService(modelFake);
-		const page = 3;
-		const limit = 250;
-		const expectedOffset = limit * (page - 1);
+		let query = new CrudQuery();
+		query.page = 3;
+		query.limit = 250;
+		const expectedOffset = query.limit * (query.page - 1);
+		const raw = true;
 
-		await sut.getAll(limit, page);
+		await sut.getAll(query, raw);
 
 		// Use toStrictEqual for deep equality comparison
 		expect(sut.model.findAll_calledWith).toStrictEqual({
-			limit: limit,
-			offset: expectedOffset
+			limit: query.limit,
+			offset: expectedOffset,
+			raw: raw
 		});
 	});
 
@@ -331,7 +335,10 @@ describe('API Service', () => {
 	async ({ limit, page, tableSize, expected }) => {
 		let modelFake = new SequelizeModelFake('fakeModel', tableSize);
 		let sut = new CrudService(modelFake);
-		const response = await sut.getAll(limit, page);
+		let query = new CrudQuery();
+		query.limit = limit;
+		query.page = page;
+		const response = await sut.getAll(query);
 		expect(response.result.count).toBe(expected);
 	}
 );

@@ -52,7 +52,6 @@ export default class FormFieldWrapper extends Vue {
 
 <style lang="scss">
 .eaasi-form-control {
-	margin-bottom: 2rem;
 
 	.eaasi-input-wrapper {
 		border-bottom: solid 3px $light-blue;

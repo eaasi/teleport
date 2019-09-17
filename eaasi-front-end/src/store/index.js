@@ -11,9 +11,9 @@ pathify.options.deep = 2;
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+	...globalStore,
 	modules: {
 		admin: adminStore,
-		global: globalStore,
 		search: searchStore
 	},
 	plugins: [pathify.plugin]

@@ -9,7 +9,9 @@ import Checkbox from './forms/Checkbox.vue';
 import EaasiForm from './forms/EaasiForm.vue';
 import FormModal from './forms/FormModal.vue';
 import HoverMenu from './HoverMenu.vue';
+import InfoModal from './Modal/InfoModal.vue';
 import Loader from './Loader.vue';
+import LoaderOverlay from './LoaderOverlay.vue';
 import Modal from './Modal/Modal.vue';
 import NumberedSteps from './NumberedSteps/NumberedSteps.vue';
 import OptionsBox from './OptionsBox/OptionsBox.vue';
@@ -48,7 +50,9 @@ export default {
 		Vue.component('EaasiForm', EaasiForm);
 		Vue.component('FormModal', FormModal);
 		Vue.component('HoverMenu', HoverMenu);
+		Vue.component('InfoModal', InfoModal);
 		Vue.component('Loader', Loader);
+		Vue.component('LoaderOverlay', LoaderOverlay);
 		Vue.component('Modal', Modal);
 		Vue.component('NumberedSteps', NumberedSteps);
 		Vue.component('OptionsBox', OptionsBox);
@@ -87,7 +91,9 @@ export {
 	EaasiForm,
 	FormModal,
 	HoverMenu,
+	InfoModal,
 	Loader,
+	LoaderOverlay,
 	Modal,
 	NumberedSteps,
 	OptionsBox,

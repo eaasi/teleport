@@ -32,7 +32,7 @@ export default class CrudService extends BaseService implements ICrudService {
 	 * @returns {Promise<{}>}
 	 * @param query CRUD query with pagination parameters
 	 */
-	async getAll(query: CrudQuery): Promise<ICrudServiceResult> {
+	async getAll(query: CrudQuery, raw: boolean = false): Promise<ICrudServiceResult> {
 
 		let totalResults = await this.model.findAndCountAll()
     		.catch((error: string) => {
@@ -44,7 +44,7 @@ export default class CrudService extends BaseService implements ICrudService {
 			return totalResults;
     	}
 
-		let options = this.createFindAllOptions(query);
+		let options = this.createFindAllOptions(query, raw);
 
     	let results = await this.model
 			.findAll(options)
@@ -55,7 +55,7 @@ export default class CrudService extends BaseService implements ICrudService {
 
 		if (results.hasError) {
     		return results;
-    	}
+		}
 
 		return new CrudServiceResult(null, {
     		result: results,
@@ -196,10 +196,14 @@ export default class CrudService extends BaseService implements ICrudService {
     		});
 	}
 
-	private createFindAllOptions(query: CrudQuery) {
+	private createFindAllOptions(query: CrudQuery, raw: boolean = false) {
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1);
-    	let options = { limit, offset } as any;
+    	let options = {
+			limit,
+			offset,
+			raw
+		} as any;
 
     	if (!query.sortCol) return options;
 
