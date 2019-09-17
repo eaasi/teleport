@@ -62,18 +62,6 @@ describe('AlertCard.vue', () => {
 		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
 	});
 
-	it('Cannot be non-isAlertType safe type', () => {
-		const wrapper = mount(AlertCard, {
-			propsData: {
-				color: 'transparent',
-				type: 'info'
-			},
-		});
-		expect(wrapper.find('.fa-info-circle').exists()).toBe(true);
-		expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(false);
-		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
-	});
-
 	it('Renders text in slot', () => {
 		const wrapper = mount(AlertCard, {
 			propsData: {
