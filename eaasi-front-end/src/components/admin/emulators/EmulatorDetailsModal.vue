@@ -138,6 +138,10 @@ export default class EmulatorModal extends Vue {
 	.card-container {
 		width: 100%;
 	}
+
+	.eaasi-form-control {
+		margin-bottom: 0;
+	}
 }
 
 .emulator-images {
