@@ -56,11 +56,15 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
 import { Get } from 'vuex-pathify';
 import DescriptiveSelector from '@/components/global/forms/DescriptiveSelector.vue';
+import FormModal from '@/components/global/forms/FormModal.vue';
+import TextInput from '@/components/global/forms/TextInput.vue';
 
 @Component({
 	name: 'UserModal',
 	components: {
-		DescriptiveSelector
+		DescriptiveSelector,
+		TextInput,
+		FormModal
 	}
 })
 export default class UserModal extends Vue {

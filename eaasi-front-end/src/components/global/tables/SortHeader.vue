@@ -21,10 +21,8 @@ import { jsonCopy } from '@/utils/functions';
 	name: 'SortHeader',
 })
 export default class SortHeader extends Vue {
-
 	/* Props
 	============================================*/
-
 	/**
 	 * The name of the Sequelize model property to sort on
 	 */

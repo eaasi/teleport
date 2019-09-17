@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import adminStore from '@/store/admin-store';
 import globalStore from '@/store/global-store';
-import { generateFakeRole } from '../../generators';
 import { makeAdminStoreState } from '../../store-helpers';
 import DescriptiveSelector from '@/components/global/forms/DescriptiveSelector.vue';
 
@@ -27,27 +26,28 @@ describe('DescriptiveSelector.vue', () => {
 		});
 	});
 
-	it('Displays Role Name passed as Props', () => {
+	it('Displays Selectable Option name passed as Props', () => {
 		const wrapper = shallowMount(DescriptiveSelector, {
 			localVue,
 			propsData: {
-				role: generateFakeRole(),
+				selectableOption: {title: 'foo', description: 'bar'},
 				value: 1
 			},
 			store
 		});
-		expect(wrapper.find('h3').text()).toBe(wrapper.vm.$props.role.roleName);
+		console.log(wrapper.find('h3').text());
+		expect(wrapper.find('h3').text()).toBe('foo');
 	});
 
 	it('Displays Role Description passed as Props', () => {
 		const wrapper = shallowMount(DescriptiveSelector, {
 			localVue,
 			propsData: {
-				role: generateFakeRole(),
+				selectableOption: {title: 'foo', description: 'bar'},
 				value: 1
 			},
 			store
 		});
-		expect(wrapper.find('p').text()).toBe(wrapper.vm.$props.role.roleDescription);
+		expect(wrapper.find('p').text()).toBe('bar');
 	});
 });
