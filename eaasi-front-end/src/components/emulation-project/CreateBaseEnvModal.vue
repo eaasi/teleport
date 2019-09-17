@@ -11,7 +11,6 @@
 			</div>
 
 			<div class="section-os">
-
 				<div class="left">
 					<select-list label="Operating System Type" v-model="selectedOsType">
 						<option
@@ -32,7 +31,6 @@
 							{{ osVersion.name }}
 						</option>
 					</select-list>
-
 				</div>
 
 				<div class="right">
