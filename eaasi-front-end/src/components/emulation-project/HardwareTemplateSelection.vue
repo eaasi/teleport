@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<div class="divider-border"></div>
-		<div class="base-env-heading">
+		<div></div>
+		<div>
 			Select Hardware Template
 		</div>
 
-		<div class="hw-container">
-			<div class="hw-templates-container">
+		<div>
+			<div>
 				<descriptive-selector
 					v-for="template in templates"
 					:selectable-option="template"
@@ -65,6 +65,6 @@ export default class HardwareTemplateSelection extends Vue {
 };
 </script>
 
-<style scoped>
+<style>
 
 </style>

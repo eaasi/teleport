@@ -43,7 +43,7 @@ export default class AlertCard extends Vue {
          * Appends additional class
          */
         @Prop({type: String, required: false})
-        readonly displayModifier: boolean
+        readonly displayModifier: string
 }
 </script>
 
