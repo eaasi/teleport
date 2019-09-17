@@ -5,16 +5,18 @@
 				<loader v-if="!error" />
 			</div>
 			<div class="tm-message" v-if="!error">{{ task.description || 'Please Wait' }}...</div>
-			<alert-card type="error" class="tm-error" v-if="error"> {{ error }}</alert-card>
+			<alert-card type="error" v-if="error"><strong>Error: </strong> {{ error }}</alert-card>
+			<alert-card type="success" v-if="success"> This task was succesfully completed</alert-card>
 		</div>
 	</modal>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import EaasiTask from '@/models/task/EaasiTask';
 import { ITaskState } from '@/types/Task';
+import { jsonEquals } from '@/utils/functions';
 
 @Component({
 	name: 'TaskModal'
@@ -32,26 +34,29 @@ export default class TaskModal extends Vue {
 
 	timer: number = null;
 	error: string = null;
+	success: boolean = false;
 
 	/* Methods
 	============================================*/
 
 	cancel() {
-		if(this.timer) clearInterval(this.timer);
 		this.$emit('close');
+		this.reset();
 	}
 
 	/**
 	 * Polls the task state endpoint to keep track of import status
 	 */
 	async pollTask() {
+		console.log('attempting poll');
+		if(!this.task) return;
+		console.log('polling');
 		let self = this;
 		if(self.timer) clearInterval(self.timer);
 		self.timer = setInterval(async () => {
 			let taskState = await self.$store.dispatch('getTaskState', self.task.taskId) as ITaskState;
 			if(!taskState || taskState.isDone) {
-				clearInterval(self.timer);
-				self.$emit('close');
+				self.success = true;
 			}
 			else if(taskState.message && taskState.status == '1') {
 				clearInterval(self.timer);
@@ -60,11 +65,31 @@ export default class TaskModal extends Vue {
 		}, self.task.pollingInterval);
 	}
 
+	/**
+	 * Reset to default state
+	 */
+	reset() {
+		if(this.timer) clearInterval(this.timer);
+		this.error = null;
+		this.success = false;
+	}
+
 
 	/* Lifecycle Hooks
 	============================================*/
 
 	mounted() {
+		this.pollTask();
+	}
+
+	/* Watchers
+	============================================*/
+
+	@Watch('task')
+	onTaskUpdated(newTask: EaasiTask | null, oldTask: EaasiTask | null) {
+		if(!newTask) this.cancel();
+		if(jsonEquals(newTask, oldTask)) return;
+		this.reset();
 		this.pollTask();
 	}
 

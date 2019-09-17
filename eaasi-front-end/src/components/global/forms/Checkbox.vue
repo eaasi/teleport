@@ -118,6 +118,7 @@ $checkboxSize: 20px;
 
 .eaasi-checkbox.no-label {
 	display: inline-block;
+
 	label {
 		height: $checkboxSize + 2px; // account for border
 		padding-left: $checkboxSize;
