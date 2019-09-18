@@ -36,7 +36,7 @@ function isRadioOption(object: any): object is IRadioOption {
 
 /**
  * A Radio button component
- * @example ../docs/RadioButtons.Example.md
+ * @example ../../docs/RadioButtons.Example.md
  */
 @Component({
 	name: 'RadioButtons',

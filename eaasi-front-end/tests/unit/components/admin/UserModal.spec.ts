@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import adminStore from '@/store/admin-store';
@@ -30,7 +30,7 @@ describe('UserModal.vue', () => {
 
 	it('Renders a FormModal', () => {
 		let fakeUser= generateFakeUsers(1)[0];
-		const wrapper = shallowMount(UserModal, {
+		const wrapper = mount(UserModal, {
 			localVue,
 			propsData: {
 				user: fakeUser

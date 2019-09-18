@@ -51,7 +51,7 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
  * @example ../docs/Pagination.Example.md
  */
 @Component({
-	name: 'Pagination'
+	name: 'Pagination',
 })
 export default class Pagination extends Vue {
 

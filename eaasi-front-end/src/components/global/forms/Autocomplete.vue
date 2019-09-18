@@ -48,7 +48,7 @@ import { sortByQuery } from '@/utils/functions';
 /**
  * An autocomplete search input with a dropdown list of selectable results
  *
- * @example ../docs/Autocomplete.Example.md
+ * @example ../../docs/Autocomplete.Example.md
  *
  */
 @Component({

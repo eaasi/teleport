@@ -1,4 +1,6 @@
-import AlertCard from './AlertCard.vue';
+import Alert from './Alert/Alert.vue';
+import AlertCard from './Alert/AlertCard.vue';
+import AttachResourceCard from '@/components/global/AttachResourceCard.vue';
 import Autocomplete from './forms/Autocomplete.vue';
 import BaseFormField from './forms/BaseFormField.vue';
 import BigButton from './BigButton.vue';
@@ -12,7 +14,7 @@ import Loader from './Loader.vue';
 import LoaderOverlay from './LoaderOverlay.vue';
 import Modal from './Modal/Modal.vue';
 import NumberedSteps from './NumberedSteps/NumberedSteps.vue';
-import OptionsBox from './OptionsBox.vue';
+import OptionsBox from './OptionsBox/OptionsBox.vue';
 import Pagination from './Pagination.vue';
 import TabbedNav from './TabbedNav.vue';
 import RadioButtons from './forms/RadioButtons.vue';
@@ -26,7 +28,9 @@ import Tag from './Tag.vue';
 import TagGroup from './TagGroup.vue';
 import TextAreaInput from './forms/TextAreaInput.vue';
 import TextInput from './forms/TextInput.vue';
+import TipsCard from '@/components/global/TipsCard.vue';
 import UiButton from './UiButton.vue';
+import ViewHeader from './ViewHeader.vue';
 import { VueConstructor } from 'vue';
 
 /*============================================================
@@ -35,7 +39,9 @@ import { VueConstructor } from 'vue';
 
 export default {
 	install(Vue: VueConstructor) {
+		Vue.component('Alert', Alert);
 		Vue.component('AlertCard', AlertCard);
+		Vue.component('AttachResourceCard', AttachResourceCard);
 		Vue.component('Autocomplete', Autocomplete);
 		Vue.component('BaseFormField', BaseFormField);
 		Vue.component('BigButton', BigButton);
@@ -63,7 +69,9 @@ export default {
 		Vue.component('TagGroup', TagGroup);
 		Vue.component('TextAreaInput', TextAreaInput);
 		Vue.component('TextInput', TextInput);
+		Vue.component('TipsCard', TipsCard);
 		Vue.component('UiButton', UiButton);
+		Vue.component('ViewHeader', ViewHeader);
 	}
 };
 
@@ -72,7 +80,9 @@ export default {
 /============================================================*/
 
 export {
+	Alert,
 	AlertCard,
+	AttachResourceCard,
 	Autocomplete,
 	BaseFormField,
 	BigButton,
@@ -100,5 +110,7 @@ export {
 	TagGroup,
 	TextAreaInput,
 	TextInput,
-	UiButton
+	TipsCard,
+	UiButton,
+	ViewHeader
 };
