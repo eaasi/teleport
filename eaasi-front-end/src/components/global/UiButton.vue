@@ -1,6 +1,6 @@
 <template>
 	<span class="ui-btn-container">
-		<button :class="['eaasi-button', {secondary}]" v-on="$listeners" v-bind="$attrs">
+		<button :class="['eaasi-button', {secondary, block}]" v-on="$listeners" v-bind="$attrs">
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>

@@ -83,7 +83,7 @@ export default class AppContent extends Vue {
 <style lang="scss">
 	#contentWrapper {
 		margin-top: $headerHeight;
-		min-height: 1200px;
+		min-height: 80vh;
 		padding-left: $leftSidebarWidth;
 	}
 </style>
