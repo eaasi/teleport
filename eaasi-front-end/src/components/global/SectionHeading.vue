@@ -6,9 +6,6 @@
 		<span class="heading-text">
 			{{ props.title }}
 		</span>
-		<span class="heading-break-line">
-			&nbsp;
-		</span>
 	</div>
 </template>
 
@@ -23,7 +20,7 @@ import { Component, Prop } from 'vue-property-decorator';
 @Component({
 	name: 'SectionHeading'
 })
-export default class Tag extends Vue {
+export default class SectionHeading extends Vue {
 	/* Props
     ============================================*/
 
@@ -53,14 +50,7 @@ export default class Tag extends Vue {
 
 	.heading-text {
 		display: inline-block;
-		font-size: $defaultTextSize;
+		font-size: 1.6rem;
 		padding-right: 1rem;
-	}
-
-	.heading-break-line {
-		border-bottom: 3px solid $grey;
-		box-sizing: border-box;
-		flex: 1;
-		height: 15px;
 	}
 </style>

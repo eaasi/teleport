@@ -1,10 +1,11 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import { AlertCard } from '@/components/global';
 
 describe('AlertCard.vue', () => {
 	it('Error alert card shows triangle warning icon', () => {
-		const wrapper = shallowMount(AlertCard, {
+		const wrapper = mount(AlertCard, {
 			propsData: {
+				color: 'red',
 				type: 'error'
 			},
 		});
@@ -14,8 +15,9 @@ describe('AlertCard.vue', () => {
 	});
 
 	it('Warning alert card shows triangle warning icon', () => {
-		const wrapper = shallowMount(AlertCard, {
+		const wrapper = mount(AlertCard, {
 			propsData: {
+				color: 'orange',
 				type: 'warning'
 			},
 		});
@@ -25,8 +27,9 @@ describe('AlertCard.vue', () => {
 	});
 
 	it('Success alert card shows check circle icon', () => {
-		const wrapper = shallowMount(AlertCard, {
+		const wrapper = mount(AlertCard, {
 			propsData: {
+				color: 'green',
 				type: 'success'
 			},
 		});
@@ -36,8 +39,21 @@ describe('AlertCard.vue', () => {
 	});
 
 	it('Info alert card shows info circle icon', () => {
-		const wrapper = shallowMount(AlertCard, {
+		const wrapper = mount(AlertCard, {
 			propsData: {
+				color: 'blue',
+				type: 'info'
+			},
+		});
+		expect(wrapper.find('.fa-info-circle').exists()).toBe(true);
+		expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(false);
+		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
+	});
+
+	it('Can be transparent', () => {
+		const wrapper = mount(AlertCard, {
+			propsData: {
+				color: 'transparent',
 				type: 'info'
 			},
 		});
@@ -47,8 +63,9 @@ describe('AlertCard.vue', () => {
 	});
 
 	it('Renders text in slot', () => {
-		const wrapper = shallowMount(AlertCard, {
+		const wrapper = mount(AlertCard, {
 			propsData: {
+				color: 'blue',
 				type: 'info'
 			},
 			slots: {

@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import FormFieldWrapper from '@/components/forms/FormFieldWrapper.vue';
+import FormFieldWrapper from '@/components/global/forms/FormFieldWrapper.vue';
 
 describe('FormFieldWrapper.vue', () => {
 
@@ -45,7 +45,7 @@ describe('FormFieldWrapper.vue', () => {
 
 		expect(wrapper.find('.eaasi-label')
 			.text())
-			.toBe('good stuff');
+			.toContain('good stuff');
 	});
 
 	it('Hides a label when label passed as prop and hidden is true', () => {

@@ -25,7 +25,7 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 
 /**
  * A select list form input
- * @example ../docs/SelectList.Example.md
+ * @example ../../docs/SelectList.Example.md
  */
 @Component({
 	name: 'SelectList',

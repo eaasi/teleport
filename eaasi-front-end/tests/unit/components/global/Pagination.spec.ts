@@ -3,7 +3,7 @@ import { Pagination } from '@/components/global';
 
 describe('Pagination.vue', () => {
 
-	it('Is has no content if numPages is not greater than 1', () => {
+	it('Is displays "Records 1-1 of 1" message for single page of results', () => {
 		const wrapper = mount(Pagination, {
 			propsData: {
 				totalResults: 1,
@@ -18,7 +18,7 @@ describe('Pagination.vue', () => {
 			}
 		});
 
-		expect(wrapper.html()).toBe(undefined);
+		expect(wrapper.text()).toContain('Records 1-1 of 1');
 	});
 
 	it('Emits paginate when page arrow is clicked', () => {

@@ -10,7 +10,7 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 /**
  * A template-less base component for all form input fields
  *
- * @example ../docs/BaseFormField.Example.md
+ * @example ../../docs/BaseFormField.Example.md
  *
  */
 @Component({
