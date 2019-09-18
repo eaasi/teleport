@@ -15,7 +15,7 @@ describe('AppFooter.vue', () => {
 	});
 
 	it('Contains a link to the Software Preservation Network', () => {
-		let link = footer.find('#eaasiEmail').attributes('href');
-		expect(mailto).toContain('mailto:eaasi@yale.edu');
+		let link = footer.find('.footer-website a').attributes('href');
+		expect(link).toBe('http://www.softwarepreservationnetwork.org/eaasi');
 	});
 });
