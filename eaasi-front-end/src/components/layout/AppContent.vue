@@ -94,6 +94,7 @@ export default class AppContent extends Vue {
 		margin-top: $headerHeight;
 		min-height: 1400px;
 		position: relative;
+		padding-bottom: $footerHeight;
 	}
 
 	#appFooter {

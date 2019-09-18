@@ -13,20 +13,24 @@
 		<div id="footerLinks">
 			<div class="footer-social">
 				<div class="inline-block">
-					<i class="fas fa-envelope-open eb-icon teal"></i>
-					<span class="footer-email">eaasi@yale.edu</span>
+					<a href="mailto:eaasi@yale.edu">
+						<i class="fas fa-envelope-open eb-icon teal"></i>
+						<span class="footer-email">
+                            eaasi@yale.edu
+					</span>
+					</a>
 				</div>
 
 				<div class="inline-block social-link">
-					<i class="fas fa-instagram eb-icon"></i>
+					<i class="fab fa-instagram eb-icon"></i>
 				</div>
 
 				<div class="inline-block social-link">
-					<i class="fas fa-twitter eb-icon"></i>
+					<i class="fab fa-twitter eb-icon"></i>
 				</div>
 
 				<div class="inline-block social-link">
-					<i class="fas fa-facebook-f eb-icon"></i>
+					<i class="fab fa-facebook-f eb-icon"></i>
 				</div>
 			</div>
 
@@ -45,14 +49,14 @@
                 <img src="../../assets/yale-white.png" />
 			</div>
 			<div class="footer-sponsor-container">
-				<div class="footer-sponsor-label">
+				<div class="footer-sponsor-label block">
 					Made Possible By
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="../../assets/andrew-w-mellon-white.png" />
+					<img src="../../assets/andrew-w-mellon-white.png" class="md"/>
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="../../assets/sloan-logo-white.png" />
+					<img src="../../assets/sloan-logo-primary-white.png" class="lg"/>
 				</div>
 			</div>
 		</div>
@@ -144,8 +148,12 @@ export default class AppFooter extends Vue {
 		font-size: 1.2rem;
 
 		.footer-principal-container {
-			border-right: 2px solid darken($dark-blue, 40%);
+			border-right: 2px solid darken($dark-blue, 42%);
 			padding: 0 1.4rem;
+
+			.footer-principal-label {
+				font-size: 1.1rem;
+			}
 
 			img {
 				height: 7rem;
@@ -153,11 +161,23 @@ export default class AppFooter extends Vue {
 		}
 
 		.footer-sponsor-container {
-			padding: 0 1.4rem 0 2.3rem;
+			padding-left: 2.8rem;
 
-			img {
-				height: 5rem;
-				padding: 1rem;
+			.footer-sponsor-label {
+				font-size: 1.1rem;
+			}
+
+			.footer-sponsor-img {
+				margin-right: 2.4rem;
+				vertical-align: middle;
+
+				.md {
+					height: 5.4rem;
+				}
+
+				.lg {
+					height: 8.4rem;
+				}
 			}
 		}
 	}
