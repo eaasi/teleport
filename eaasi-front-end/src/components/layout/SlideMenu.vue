@@ -9,7 +9,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 /**
- * A sliding menu positoned on the right side of the main UI
+ * A sliding menu positioned on the right side of the main UI
  */
 @Component({
 	name: 'SlideMenu',
