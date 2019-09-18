@@ -1,6 +1,5 @@
 <template>
 	<footer id="footer" class="flex-row">
-
 		<div id="footerLogo" class="flex flex-center">
 			<div class="footer-logo">
 				<img src="../../assets/header-logo.png" alt="Eaasi Logo" />
@@ -13,11 +12,11 @@
 		<div id="footerLinks">
 			<div class="footer-social">
 				<div class="inline-block">
-					<a href="mailto:eaasi@yale.edu">
+					<a href="mailto:eaasi@yale.edu" id="eaasiEmail">
 						<i class="fas fa-envelope-open eb-icon teal"></i>
 						<span class="footer-email">
-                            eaasi@yale.edu
-					</span>
+							eaasi@yale.edu
+						</span>
 					</a>
 				</div>
 
@@ -35,7 +34,10 @@
 			</div>
 
 			<div class="footer-website">
-				<a href="www.softwarepreservationnetwork.org/eaasi">
+				<a
+					href="http://www.softwarepreservationnetwork.org/eaasi"
+					target="_blank"
+				>
 					www.softwarepreservationnetwork.org/eaasi
 				</a>
 			</div>
@@ -46,17 +48,17 @@
 				<div class="footer-principal-label">
 					Principal Partner:
 				</div>
-                <img src="../../assets/yale-white.png" />
+				<img src="../../assets/yale-white.png" />
 			</div>
 			<div class="footer-sponsor-container">
 				<div class="footer-sponsor-label block">
 					Made Possible By
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="../../assets/andrew-w-mellon-white.png" class="md"/>
+					<img src="../../assets/andrew-w-mellon-white.png" class="md" />
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="../../assets/sloan-logo-primary-white.png" class="lg"/>
+					<img src="../../assets/sloan-logo-primary-white.png" class="lg" />
 				</div>
 			</div>
 		</div>
