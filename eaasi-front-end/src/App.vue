@@ -4,13 +4,9 @@
 			<router-view />
 		</template>
 		<template v-else>
-			<div class="app-global-content">
-				<div class="app-menu-left">
-					<left-menu />
-				</div>
-				<div class="app-content-right">
-					<app-header />
-				</div>
+			<left-menu />
+			<app-header />
+			<div id="appContent">
 				<app-content />
 			</div>
 			<!-- Error Modal visibility state managed in global store-->
@@ -23,9 +19,9 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
+import LeftMenu from './components/layout/LeftMenu.vue';
 import AppHeader from './components/layout/header/AppHeader.vue';
 import AppContent from './components/layout/AppContent.vue';
-import LeftMenu from './components/layout/LeftMenu.vue';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 import eventBus from '@/utils/event-bus';
 import events from '@/config/events';
@@ -77,14 +73,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-	.app-global-content {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.app-menu-left {
-	}
-
-	.app-content-right {
+	#appContent {
+		height: 100%;
 	}
 </style>

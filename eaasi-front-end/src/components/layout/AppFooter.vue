@@ -1,0 +1,164 @@
+<template>
+	<footer id="footer" class="flex-row">
+
+		<div id="footerLogo" class="flex flex-center">
+			<div class="footer-logo">
+				<img src="../../assets/header-logo.png" alt="Eaasi Logo" />
+			</div>
+			<div class="footer-logo-label">
+				&copy; EaaSI 2019
+			</div>
+		</div>
+
+		<div id="footerLinks">
+			<div class="footer-social">
+				<div class="inline-block">
+					<i class="fas fa-envelope-open eb-icon teal"></i>
+					<span class="footer-email">eaasi@yale.edu</span>
+				</div>
+
+				<div class="inline-block social-link">
+					<i class="fas fa-instagram eb-icon"></i>
+				</div>
+
+				<div class="inline-block social-link">
+					<i class="fas fa-twitter eb-icon"></i>
+				</div>
+
+				<div class="inline-block social-link">
+					<i class="fas fa-facebook-f eb-icon"></i>
+				</div>
+			</div>
+
+			<div class="footer-website">
+				<a href="www.softwarepreservationnetwork.org/eaasi">
+					www.softwarepreservationnetwork.org/eaasi
+				</a>
+			</div>
+		</div>
+
+		<div id="footerSponsors">
+			<div class="footer-principal-container">
+				<div class="footer-principal-label">
+					Principal Partner:
+				</div>
+                <img src="../../assets/yale-white.png" />
+			</div>
+			<div class="footer-sponsor-container">
+				<div class="footer-sponsor-label">
+					Made Possible By
+				</div>
+				<div class="footer-sponsor-img inline-block">
+					<img src="../../assets/andrew-w-mellon-white.png" />
+				</div>
+				<div class="footer-sponsor-img inline-block">
+					<img src="../../assets/sloan-logo-white.png" />
+				</div>
+			</div>
+		</div>
+	</footer>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+
+@Component({
+	name: 'AppFooter',
+})
+export default class AppFooter extends Vue {
+    /* Data
+    ============================================*/
+    searchBorderColor = '#C7E4F5';
+};
+</script>
+
+<style lang="scss">
+	#footer {
+		background-color: darken($teal, 40%);
+		height: $footerHeight;
+	}
+
+	#footerLogo {
+		display: flex;
+		flex-direction: column;
+		margin-left: 2.5rem;
+		margin-top: -4rem;
+
+		img {
+			width: 8.5rem;
+		}
+
+		.footer-logo {
+			border: 2rem solid darken($teal, 40%);
+			border-radius: 50%;
+			display: block;
+		}
+
+		.footer-logo-label {
+			color: lighten($teal, 60%);
+			display: block;
+			font-size: 1.2rem;
+		}
+	}
+
+	#footerLinks {
+		color: #FFFFFF;
+		display: flex;
+		flex-direction: column;
+		margin-right: 6rem;
+
+		.footer-social a {
+			color: #FFFFFF;
+			text-decoration: none;
+		}
+
+		.teal {
+			color: $teal;
+		}
+
+		.footer-email {
+			display: inline-block;
+			padding-left: 1.4rem;
+		}
+
+		.footer-website {
+			padding: 1.4rem 0;
+		}
+
+		.footer-website a {
+			color: #FFFFFF;
+			text-decoration: none;
+		}
+
+		.social-link {
+			padding-left: 2rem;
+		}
+	}
+
+	#footerSponsors {
+		color: #FFFFFF;
+		display: flex;
+		flex-direction: row;
+		font-size: 1.2rem;
+
+		.footer-principal-container {
+			border-right: 2px solid darken($dark-blue, 40%);
+			padding: 0 1.4rem;
+
+			img {
+				height: 7rem;
+			}
+		}
+
+		.footer-sponsor-container {
+			padding: 0 1.4rem 0 2.3rem;
+
+			img {
+				height: 5rem;
+				padding: 1rem;
+			}
+		}
+	}
+</style>
