@@ -17,24 +17,22 @@
 			</template>
 		</view-header>
 
-		<div class="emu-project-content">
-			<div class="emu-project-content-left">
-				<div>
-					<section-heading title="Base Environment" icon="fa-box" />
-					<base-environment-wizard />
-					<div class="divider-border"></div>
-				</div>
+		<div class="emu-project-content padded">
+			<div>
+				<section-heading title="Base Environment" icon="fa-box" />
+				<base-environment-wizard />
+				<div class="divider-border"></div>
+			</div>
 
-				<div>
-					<section-heading title="Software Resources" icon="fa-box" />
-					<software-resources-wizard />
-					<div class="divider-border"></div>
-				</div>
+			<div class="container-xs">
+				<section-heading title="Software Resources" icon="fa-box" />
+				<software-resources-wizard />
+				<div class="divider-border"></div>
+			</div>
 
-				<div>
-					<section-heading title="Content Resources" icon="fa-box" />
-					<content-resources-wizard />
-				</div>
+			<div class="container-xs">
+				<section-heading title="Content Resources" icon="fa-box" />
+				<content-resources-wizard />
 			</div>
 		</div>
 	</div>
@@ -72,11 +70,5 @@ export default class EmulationProjectScreen extends Vue {
 
 	.emu-project-action {
 		margin: 0 1.2rem;
-	}
-
-	.emu-project-content {
-		display: flex;
-		flex-direction: column;
-		padding: 1.2rem;
 	}
 </style>

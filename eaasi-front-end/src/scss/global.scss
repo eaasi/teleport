@@ -1,6 +1,7 @@
 @import '_reset.scss';
 @import '_mixins.scss';
 @import '_variables.scss';
+@import 'grid.scss';
 
 /*============================================================
  == Global Elements
@@ -354,29 +355,6 @@ strong {
 	flex: 0 0 auto;
 }
 
-/* Flex Grid
-============================================*/
-
-.flex-grid {
-	display: flex;
-	justify-content: space-between;
-}
-
-.col-6 {
-	flex: 0 0 48%;
-	width: 48%;
-}
-
-.col-4 {
-	flex: 0 0 31%;
-	width: 31%;
-}
-
-.col-3 {
-	flex: 0 0 24%;
-	width: 24%;
-}
-
 /*============================================================
  == Margin and spacing
 /============================================================*/
@@ -411,10 +389,6 @@ strong {
 
 .padded-xl {
 	padding: 5rem 5rem;
-}
-
-.container {
-	max-width: 1440px;
 }
 
 .container-sm {

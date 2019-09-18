@@ -10,8 +10,8 @@
 				Select Operating System
 			</div>
 
-			<div class="section-os">
-				<div class="left">
+			<div class="section-os row">
+				<div class="left col-md-7">
 					<select-list label="Operating System Type" v-model="selectedOsType">
 						<option
 							v-for="osType in osTypeOptions"
@@ -33,13 +33,13 @@
 					</select-list>
 				</div>
 
-				<div class="right">
+				<div class="right col-md-5">
 					<div class="alert-container">
-						<alert-card type="warning" color="transparent">
+						<alert type="warning">
 							Operating system will be attached to your emulation project as
 							a software resource. It will need to be installed manually while
 							emulating.
-						</alert-card>
+						</alert>
 					</div>
 				</div>
 			</div>
@@ -132,15 +132,6 @@ export default class CreateBaseEnvModal extends Vue {
 
 		.left {
 			border-right: 2px solid $light-neutral;
-			flex-grow: 1;
-			padding-right: 3.6rem;
-		}
-
-		.right {
-
-			.alert-container {
-				padding: 1.1rem;
-			}
 		}
 	}
 

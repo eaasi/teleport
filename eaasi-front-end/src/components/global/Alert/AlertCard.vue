@@ -1,8 +1,7 @@
 <template>
 	<div :class="['card-container', color]">
-		<alert :alert-type="type">
-			<slot>
-			</slot>
+		<alert :type="type" ref="_alert">
+			<slot></slot>
 		</alert>
 	</div>
 </template>
@@ -22,62 +21,63 @@ import Alert from './Alert.vue';
 	components: { Alert }
 })
 export default class AlertCard extends Vue {
-    /**
-     * The color of the alert card
-     */
-    @Prop({type: String, required: true})
-    readonly color: string
 
 	/**
 	 * The type / level of the alert
 	 */
 	@Prop({validator: isValidAlert, required: true})
 	readonly type: AlertType
+
+	/* Getters
+	============================================*/
+
+	get color() {
+		switch(this.type) {
+		case 'success':
+			return 'green';
+		case 'error':
+			return 'red';
+		case 'info':
+			return 'blue';
+		case 'warning':
+			return 'orange';
+		default:
+			return 'neutral';
+		}
+	}
 }
 </script>
 
 <style lang="scss">
-	.card-container {
-		border-top: 2px solid #DDDDDD;
-		font-size: 0.9em;
-		line-height: 1.5em;
-		padding: 16px;
-		width: 230px;
+.card-container {
+	border-top: 2px solid #DDDDDD;
+	max-width: 230px;
+	padding: 16px;
 
-		&.red {
-			background-color: lighten($red, 85%);
-			color: darken($red, 35%);
-		}
-
-		&.orange {
-			background-color: lighten($orange, 80%);
-			color: darken($orange, 30%);
-		}
-
-		&.neutral {
-			background-color: lighten($light-neutral, 80%);
-			color: darken($light-neutral, 30%);
-		}
-
-		&.blue {
-			background-color: lighten($light-blue, 80%);
-			color: $dark-blue;
-		}
-
-		&.green {
-			background-color: lighten($green, 95%);
-			color: darken($green, 20%);
-		}
-
-		&.transparent {
-			background: transparent;
-			border-top: none;
-			color: darken($light-neutral, 30%);
-		}
-
-		.icon {
-			font-size: 2em;
-			padding: 0 0 12px 0;
-		}
+	&.red {
+		background-color: lighten($red, 85%);
 	}
+
+	&.orange {
+		background-color: lighten($orange, 80%);
+	}
+
+	&.blue {
+		background-color: lighten($light-blue, 80%);
+	}
+
+	&.green {
+		background-color: lighten($green, 95%);
+	}
+
+	&.neutral {
+		background: transparent;
+		border-top: none;
+	}
+
+	.icon {
+		font-size: 2em;
+		padding: 0 0 12px 0;
+	}
+}
 </style>

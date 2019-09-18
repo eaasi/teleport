@@ -1,1 +1,1 @@
-type AlertType = 'success' | 'info' | 'warning' | 'error';
+type AlertType = 'success' | 'info' | 'warning' | 'error' | 'neutral';

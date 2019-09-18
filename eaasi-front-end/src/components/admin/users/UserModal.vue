@@ -7,44 +7,52 @@
 	>
 		<div class="user-info">
 			<h3>User Information</h3>
-			<text-input
-				v-model="user.email"
-				label="Organization Email"
-				rules="required|email"
-				class="col-6"
-			/>
-			<text-input
-				v-model="user.username"
-				label="Username"
-				rules="required"
-				class="col-6"
-			/>
-			<div class="flex-grid name-fields">
+			<div class="row">
+				<text-input
+					v-model="user.email"
+					label="Organization Email"
+					rules="required|email"
+					class="col-md-6"
+				/>
+			</div>
+
+			<div class="row">
+				<text-input
+					v-model="user.username"
+					label="Username"
+					rules="required"
+					class="col-md-6"
+				/>
+			</div>
+			<div class="name-fields row">
 				<text-input
 					v-model="user.firstName"
 					label="First Name"
 					rules="required"
-					class="col-6"
+					class="col-md-6"
 				/>
 				<text-input
 					v-model="user.lastName"
 					label="Last Name"
 					rules="required"
-					class="col-6"
+					class="col-md-6"
 				/>
 			</div>
 		</div>
 
 		<div class="user-roles">
 			<h3>User Roles & Permissions</h3>
-			<div class="flex justify-between">
-				<descriptive-selector
-					:selectable-option="mapToSelectable(role)"
+			<div class="row">
+				<div
+					class="col-xs-4"
 					v-for="role in roles"
 					:key="role.id"
-					v-model="user.roleId"
-					class="col-4"
-				/>
+				>
+					<descriptive-selector
+						:selectable-option="mapToSelectable(role)"
+						v-model="user.roleId"
+					/>
+				</div>
 			</div>
 		</div>
 	</form-modal>
@@ -115,16 +123,16 @@ export default class UserModal extends Vue {
 </script>
 
 <style lang="scss">
-.user-info,
-.user-roles {
-	margin: 2rem;
-}
 
 .eaasi-user-modal {
 
 	h3 {
 		font-weight: 300;
 		margin-bottom: 3rem;
+	}
+
+	.eaasi-form {
+		padding: 0 2rem 2rem;
 	}
 }
 </style>

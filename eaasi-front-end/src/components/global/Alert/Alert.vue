@@ -1,15 +1,7 @@
-<template functional>
-	<div>
+<template>
+	<div :class="`eaasi-alert ${color}`">
 		<div class="icon">
-			<div v-if="props.alertType === 'error' || props.alertType === 'warning'">
-				<i class="fas fa-exclamation-triangle"></i>
-			</div>
-			<div v-else-if="props.alertType === 'success'">
-				<i class="fas fa-check-circle"></i>
-			</div>
-			<div v-else-if="props.alertType === 'info'">
-				<i class="fas fa-info-circle"></i>
-			</div>
+			<i :class="`fas fa-${icon}`"></i>
 		</div>
 		<div class="content">
 			<slot></slot>
@@ -30,6 +22,69 @@ import isValidAlert from '@/types/validators/AlertType.validator';
 })
 export default class Alert extends Vue {
 	@Prop({ validator: isValidAlert, required: false })
-    alertType
+	type: AlertType
+
+	/* Getters
+	============================================*/
+
+	get color() {
+		switch(this.type) {
+		case 'success':
+			return 'green';
+		case 'error':
+			return 'red';
+		case 'info':
+			return 'blue';
+		case 'warning':
+			return 'orange';
+		default:
+			return 'neutral';
+		}
+	}
+
+	get icon() {
+		switch(this.type) {
+		case 'success':
+			return 'check-circle';
+		case 'error':
+		case 'warning':
+			return 'exclamation-triangle';
+		default:
+			return 'info-circle';
+		}
+	}
+
 };
 </script>
+
+<style lang="scss">
+.eaasi-alert {
+	font-size: 0.9em;
+	line-height: 1.5em;
+
+	&.red {
+		color: darken($red, 35%);
+	}
+
+	&.orange {
+		color: darken($orange, 30%);
+	}
+
+	&.neutral {
+		color: darken($light-neutral, 30%);
+	}
+
+	&.blue {
+		color: $dark-blue;
+	}
+
+	&.green {
+		color: darken($green, 20%);
+	}
+
+	.icon {
+		font-size: 2em;
+		padding: 0 0 12px 0;
+	}
+}
+</style>
