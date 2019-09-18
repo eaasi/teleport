@@ -4,9 +4,15 @@
 			<router-view />
 		</template>
 		<template v-else>
-			<app-header />
-			<left-menu />
-			<app-content />
+			<div class="app-global-content">
+				<div class="app-menu-left">
+					<left-menu />
+				</div>
+				<div class="app-content-right">
+					<app-header />
+				</div>
+				<app-content />
+			</div>
 			<!-- Error Modal visibility state managed in global store-->
 			<error-modal />
 		</template>
@@ -70,4 +76,15 @@ export default class App extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+	.app-global-content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.app-menu-left {
+	}
+
+	.app-content-right {
+	}
+</style>

@@ -1,8 +1,5 @@
 <template>
 	<header id="header" class="flex-row">
-		<div id="headerLogo" class="flex flex-center">
-			<img src="../../../assets/header-logo.png" alt="Eaasi Logo" />
-		</div>
 		<div id="headerSearch" class="flex-grow">
 			<form @submit.prevent="search">
 				<search-bar
@@ -82,7 +79,7 @@ export default class AppHeader extends Vue {
 #header {
 	background-color: $teal;
 	height: $headerHeight;
-	left: 0;
+	left: $leftSidebarWidth;
 	outline: solid 2px darken($teal, 59%);
 	position: fixed;
 	right: 0;
@@ -108,12 +105,4 @@ export default class AppHeader extends Vue {
 	}
 }
 
-#headerLogo {
-	height: $headerHeight;
-	width: $leftSidebarWidth;
-
-	img {
-		width: 6rem;
-	}
-}
 </style>
