@@ -4,6 +4,7 @@
 			<form @submit.prevent="search">
 				<search-bar
 					placeholder="Enter a search term..."
+					:border-color="searchBorderColor"
 					v-model="searchKeyword"
 					name="q"
 					role="search"
@@ -13,14 +14,14 @@
 		<div id="headerRight" class="flex flex-end">
 			<!-- TODO: What does the user item do? -->
 			<header-menu-item
-				:label="`${user.firstName} ${user.lastName}`"
-				icon="user"
-				@click="logout"
-			/>
-			<header-menu-item
 				:label="nodeName"
 				icon="cog"
 				@click="$router.push('/admin')"
+			/>
+			<header-menu-item
+				:label="`${user.firstName} ${user.lastName}`"
+				icon="user"
+				@click="logout"
 			/>
 		</div>
 	</header>
@@ -42,6 +43,10 @@ import authService from '@/services/AuthService';
 	}
 })
 export default class AppHeader extends Vue {
+
+	/* Data
+	============================================*/
+	searchBorderColor = '#C7E4F5';
 
 	/* Computed
 	============================================*/
@@ -77,10 +82,10 @@ export default class AppHeader extends Vue {
 
 <style lang="scss">
 #header {
-	background-color: $teal;
+	background-color: lighten($light-neutral, 80%);
+	border-bottom: 1px solid $light-neutral;
 	height: $headerHeight;
 	left: $leftSidebarWidth;
-	outline: solid 2px darken($teal, 59%);
 	position: fixed;
 	right: 0;
 	top: 0;
