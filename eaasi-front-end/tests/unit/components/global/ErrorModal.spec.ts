@@ -1,4 +1,4 @@
-import {createLocalVue, shallowMount} from '@vue/test-utils';
+import {createLocalVue, mount, shallowMount} from '@vue/test-utils';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 
 import Vuex from 'vuex';
@@ -44,22 +44,16 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 		expect(wrapper.find('.error-modal-container').exists()).toBe(true);
 	});
 
-	it('Displays error message', () => {
-		const wrapper = shallowMount(ErrorModal, { localVue, store, });
-		let errorText = wrapper.find('.error-section').text();
-		expect(errorText
-			.replace(/(\r\n|\n|\r)/gm, '')
-			.replace(/\s\s+/g, ' '))
-			.toBe('Error Message: Abort, Retry, Fail?');
+	it('Displays error heading', () => {
+		const wrapper = mount(ErrorModal, { localVue, store, });
+		let errorText = wrapper.find('.eaasi-info-modal-title > h2');
+		expect(errorText.text()).toContain('An Error Has Occurred');
 	});
 
-	it('Displays error info', () => {
-		const wrapper = shallowMount(ErrorModal, { localVue, store, });
-		let errorText = wrapper.find('#debugErrorInfo').text();
-		expect(errorText
-			.replace(/(\r\n|\n|\r)/gm, '')
-			.replace(/\s\s+/g, ' '))
-			.toBe('Error Info: Critical Error');
+	it('Displays message that developers have been notified', () => {
+		const wrapper = mount(ErrorModal, { localVue, store, });
+		let errorText = wrapper.find('#defaultErrorMessage > p');
+		expect(errorText.text()).toContain('Our developers have been automatically notified');
 	});
 
 	it('Does not show default error message', () => {
@@ -75,8 +69,6 @@ describe('ErrorModal.vue when showDebugErrors is false', () => {
 
 	beforeEach(() => {
 		// Show the modal
-		// @ts-ignore
-		globalStore.state.isErrorModalOpen = true;
 		globalStore.state.appError = {
 			message: 'Abort, Retry, Fail?',
 			info: 'Critical Error'

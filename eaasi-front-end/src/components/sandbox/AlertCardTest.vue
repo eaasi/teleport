@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AlertCard from '../global/AlertCard.vue';
+import AlertCard from '../global/Alert/AlertCard.vue';
 	@Component({
 		components: {AlertCard}
 	})

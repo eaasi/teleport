@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import adminStore from '@/store/admin-store';
@@ -36,7 +36,7 @@ describe('UserManagement.vue', () => {
 	});
 
 	it('Provides Pagination', () => {
-		const wrapper = shallowMount(UserManagement, {
+		const wrapper = mount(UserManagement, {
 			mocks: {$colors},
 			localVue,
 			propsData: {
@@ -49,7 +49,7 @@ describe('UserManagement.vue', () => {
 	});
 
 	it('Renders a List of Users', () => {
-		const wrapper = shallowMount(UserManagement, {
+		const wrapper = mount(UserManagement, {
 			mocks: {$colors},
 			localVue,
 			propsData: {
