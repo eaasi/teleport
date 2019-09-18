@@ -1,14 +1,14 @@
 <template>
-	<div class="ui-btn-container">
-		<button :class="['eaasi-button', {block, secondary}]" v-on="$listeners" v-bind="$attrs">
+	<span class="ui-btn-container">
+		<button :class="['eaasi-button', {secondary}]" v-on="$listeners" v-bind="$attrs">
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
 		</button>
-		<div class="labeled-btn-label" v-if="subLabel">
+		<span class="labeled-btn-label" v-if="subLabel">
 			{{ subLabel }}
-		</div>
-	</div>
+		</span>
+	</span>
 </template>
 
 <script lang="ts">
@@ -62,10 +62,9 @@ export default class UiButton extends Vue {
 <style lang="scss">
 
 .ui-btn-container {
-	align-content: center;
-	text-align: center;
 
 	.labeled-btn-label {
+		display: block;
 		font-size: 1.2rem;
 		font-style: italic;
 		margin: auto;
