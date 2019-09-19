@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<pagination :total-results="result.totalResults" />
-				<br/><br/>
+				<br /><br />
 			</div>
 		</div>
 		<div class="row">

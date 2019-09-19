@@ -43,8 +43,8 @@ export default class SelectableCardContent extends Vue {
 		color: #666666;
 		display: inline-block;
 		line-height: $defaultLineHeight;
-		text-transform: uppercase;
 		margin: 0 0.5rem 0.5rem 0;
+		text-transform: uppercase;
 	}
 
 	.value {

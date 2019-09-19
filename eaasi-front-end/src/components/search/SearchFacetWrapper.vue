@@ -66,6 +66,7 @@ export default class SearchFacetWrapper extends Vue {
 .sfw-header {
 	cursor: pointer;
 	user-select: none;
+
 	&:hover {
 		background-color: lighten($light-neutral, 90%);
 	}
