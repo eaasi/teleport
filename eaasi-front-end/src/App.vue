@@ -6,9 +6,7 @@
 		<template v-else>
 			<left-menu />
 			<app-header />
-			<div id="appContent">
-				<app-content />
-			</div>
+            <app-content />
 			<!-- Error Modal visibility state managed in global store-->
 			<error-modal />
 		</template>
@@ -73,7 +71,4 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-	#appContent {
-		height: 100%;
-	}
 </style>
