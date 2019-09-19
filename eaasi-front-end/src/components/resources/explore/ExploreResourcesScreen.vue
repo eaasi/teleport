@@ -1,28 +1,25 @@
 <template>
-	<div id="exploreResources">
+	<div id="exploreResources" class="container-lg">
 		<div class="resource-results">
 			<resource-facets />
 			<div class="resource-bento">
-				<div class="row" v-if="result">
+				<div class="row" v-if="bentoResult">
 					<div class="col-md-6">
 						<resource-list
 							:query="query"
-							:result="result.environments"
-							v-if="result"
+							:result="bentoResult.environments"
 							type="Environment"
 						/>
 					</div>
 					<div class="col-md-6">
 						<resource-list
 							:query="query"
-							:result="result.software"
-							v-if="result"
+							:result="bentoResult.software"
 							type="Software"
 						/>
 						<resource-list
 							:query="query"
-							:result="result.content"
-							v-if="result"
+							:result="bentoResult.content"
 							type="Content"
 						/>
 					</div>
@@ -69,7 +66,7 @@ export default class MyResourcesScreen extends Vue {
 	query: ResourceSearchQuery;
 
 	@Get('resource/result')
-	result: IResourceSearchResponse
+	bentoResult: IResourceSearchResponse
 
 	/* Data
 	============================================*/

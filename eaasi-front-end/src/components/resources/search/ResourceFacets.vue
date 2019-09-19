@@ -2,7 +2,9 @@
 	<div class="resource-facets">
 		<h2>Refine Your Results</h2>
 		<checkbox-facet
-			:facet="facets[0]"
+			v-for="(f, i) in facets"
+			:key="i"
+			:facet="facets[i]"
 		/>
 	</div>
 </template>
@@ -21,23 +23,17 @@ import { IResourceSearchFacet } from '@/types/Search.d.ts';
 })
 export default class ResourceFacets extends Vue {
 
-	/* Props
-	============================================*/
-
 	/* Data
 	============================================*/
+
+	// TODO: These should come from ResourceSearchResult
 	facets: IResourceSearchFacet[] = [
 		{
 			name: 'Resource Types',
 			values: [
 				{
-					label: 'All Resource Types',
-					total: 120,
-					isSelected: true
-				},
-				{
 					label: 'Environments',
-					total: 120,
+					total: 75,
 					isSelected: false
 				},
 				{
@@ -51,21 +47,38 @@ export default class ResourceFacets extends Vue {
 					isSelected: false
 				},
 			]
+		},
+		{
+			name: 'Network Status',
+			values: [
+				{
+					label: 'Private',
+					total: 2,
+					isSelected: false
+				},
+				{
+					label: 'Public',
+					total: 0,
+					isSelected: false
+				},
+				{
+					label: 'Remote',
+					total: 73,
+					isSelected: false
+				}
+			]
+		},
+		{
+			name: 'Source Organization',
+			values: [
+				{
+					label: 'Yale',
+					total: 73,
+					isSelected: false
+				}
+			]
 		}
 	]
-
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
 
 }
 

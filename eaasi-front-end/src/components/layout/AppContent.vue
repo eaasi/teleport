@@ -1,6 +1,6 @@
 <template>
 	<div id="contentWrapper">
-		<div id="mainContent">
+		<div id="mainContent" class="flex">
 			<admin-menu v-if="adminMenuOpen" />
 			<section id="appContent" class="flex-adapt">
 				<router-view />

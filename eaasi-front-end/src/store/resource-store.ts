@@ -31,7 +31,6 @@ const actions = {
 	async searchResources({ state, commit }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;
-		commit('SET_RESULT', null);
 		commit('SET_RESULT', result);
 		return result;
 	}

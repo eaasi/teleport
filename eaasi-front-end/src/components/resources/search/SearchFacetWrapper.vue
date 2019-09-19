@@ -63,6 +63,10 @@ export default class SearchFacetWrapper extends Vue {
 	padding: 1rem;
 }
 
+.sfw-content {
+	padding-top: 0;
+}
+
 .sfw-header {
 	cursor: pointer;
 	user-select: none;

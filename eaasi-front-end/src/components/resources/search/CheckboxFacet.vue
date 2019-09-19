@@ -38,21 +38,6 @@ export default class CheckboxFacet extends Vue {
 	@Prop({type: Object as () => IResourceSearchFacet, required: true})
 	readonly facet: IResourceSearchFacet
 
-	/* Data
-	============================================*/
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
-
 }
 
 </script>
