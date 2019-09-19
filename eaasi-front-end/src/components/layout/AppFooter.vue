@@ -74,9 +74,6 @@ import Component from 'vue-class-component';
 	name: 'AppFooter',
 })
 export default class AppFooter extends Vue {
-    /* Data
-    ============================================*/
-    searchBorderColor = '#C7E4F5';
 };
 </script>
 
