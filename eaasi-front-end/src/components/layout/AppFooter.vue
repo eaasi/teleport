@@ -1,9 +1,8 @@
 <template functional>
 	<footer id="footer" class="flex-row">
-
 		<div id="footerLogo">
 			<div class="footer-logo">
-				<img src="../../assets/header-logo.png" alt="Eaasi Logo" />
+				<img src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 			<div class="footer-logo-label">
 				&copy; EaaSI 2019
@@ -49,17 +48,17 @@
 				<div class="footer-principal-label">
 					Principal Partner:
 				</div>
-				<img src="../../assets/yale-white.png" />
+				<img src="@/assets/yale-white.png" />
 			</div>
 			<div class="footer-sponsor-container">
 				<div class="footer-sponsor-label block">
 					Made Possible By
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="../../assets/andrew-w-mellon-white.png" class="md" />
+					<img src="@/assets/andrew-w-mellon-white.png" class="md" />
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="../../assets/sloan-logo-primary-white.png" class="lg" />
+					<img src="@/assets/sloan-logo-primary-white.png" class="lg" />
 				</div>
 			</div>
 		</div>
