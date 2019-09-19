@@ -1,8 +1,8 @@
 import { make, commit } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
 import { IEaasiSearchResponse } from 'eaasi-http';
-import { IResourceSearchQuery } from 'eaasi-search';
-import { IEaasiResource, IEaasiResource } from '@/types/Resource';
+import { IResourceSearchQuery } from '@/types/Search.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 
@@ -29,9 +29,8 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-	async searchResources(store: Store<ResourceState>, query: IResourceSearchQuery) {
-		let searchQuery = query || state.query;
-		let result = await _svc.searchResources(searchQuery);
+	async searchResources({ state, commit }: Store<ResourceState>) {
+		let result = await _svc.searchResources(state.query);
 		if(!result) return;
 		commit('SET_RESULT', result);
 		return result;

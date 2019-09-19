@@ -1,7 +1,7 @@
 <template>
 	<div id="contentWrapper" class="flex">
 		<admin-menu v-if="adminMenuOpen" />
-		<section id="appContent" class="flex-grow">
+		<section id="appContent" class="flex-adapt">
 			<router-view />
 			<loader-overlay v-if="showLoader" />
 		</section>

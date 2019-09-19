@@ -1,7 +1,9 @@
-import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironment, IEnvironmentRevision } from '@/types/emil/EmilEnvironmentData';
+import { ResourceType } from '@/types/resource/Resource';
 
 export default class Environment implements IEnvironment {
-	parentEnvId: string;	envId: string;
+	parentEnvId: string;
+	envId: string;
 	title: string;
 	description: string;
 	version?: string | undefined;

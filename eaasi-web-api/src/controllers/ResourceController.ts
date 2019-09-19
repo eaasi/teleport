@@ -1,21 +1,22 @@
 import BaseController from './base/BaseController';
 import { Request, Response } from 'express';
-import EmilContainerService from '@/services/emil/EmilContainerService';
+import { IResourceSearchQuery } from '@/types/resource/Resource';
+import ResourceAdminService from '@/services/resource/ResourceAdminService';
 
 export default class ResourceController extends BaseController {
 
-	private readonly _emilSvc: EmilContainerService;
+	private readonly _svc: ResourceAdminService;
 
-	constructor(emilContainerService = new EmilContainerService()) {
+	constructor(resourceService: ResourceAdminService = new ResourceAdminService()) {
 		super();
-		this._emilSvc = emilContainerService;
+		this._svc = resourceService;
 	}
 
 	async search(req: Request, res: Response) {
 		try {
-			let taskID = req.query.id;
-			let taskState = await this._emilSvc.getTaskState(taskID);
-			res.send(taskState);
+			let query = req.body as IResourceSearchQuery;
+			let result = await this._svc.searchResources(query);
+			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
 		}

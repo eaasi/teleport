@@ -1,14 +1,13 @@
 <template>
 	<div
-		:class="['resource-object-container', selectStyle]"
-		@input="toggleSelected"
+		:class="['resource-object-container flex', selectStyle]"
 	>
 		<div v-if="bookmark">
 			<bookmark class="bookmark" />
 		</div>
 
 		<div :class="['panel-left', selectStyle]">
-			<checkbox :value="false" />
+			<checkbox :value="isSelected" @input="toggleSelected" />
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
@@ -54,6 +53,7 @@ import SelectableCardContent from './SelectableCardContent.vue';
 	}
 })
 export default class SelectableCard extends Vue {
+
 		/* Props
         ============================================*/
 		@Prop({type: Object as () => IEaasiResourceSummary, required: true})
@@ -63,13 +63,12 @@ export default class SelectableCard extends Vue {
 		bookmark: boolean
 
         @Prop({type: Boolean, required: false, default: false})
-        footer: boolean
+		footer: boolean
 
 		/* Data
         ============================================*/
 		title: string = ''
 		isSelected: boolean = false
-
 		contentData: object = {}
 		subContentData: object = {}
 
@@ -84,9 +83,11 @@ export default class SelectableCard extends Vue {
 		}
 
 		/* Methods
-        ============================================*/
-		toggleSelected(event: boolean) : void {
-			this.isSelected = event['srcElement'].checked;
+		============================================*/
+
+		toggleSelected(isSelected) : void {
+			this.isSelected = isSelected;
+			this.$emit('change', isSelected);
 		}
 
 		buildResourceData() {
@@ -96,10 +97,12 @@ export default class SelectableCard extends Vue {
 		}
 
 		/* Lifecycle Hooks
-        ============================================*/
+		============================================*/
+
 		created() {
 			this.buildResourceData();
 		}
+
 }
 </script>
 
@@ -110,13 +113,10 @@ export default class SelectableCard extends Vue {
 	}
 
 	.resource-object-container {
-		border: 2px solid lighten($light-blue, 70%);
-		display: flex;
-		flex-direction: row;
-		margin-top: 12px;
-		min-height: 80px;
+		border: solid 2px #FFFFFF;
+		margin-bottom: 1.5rem;
+		min-height: 8rem;
 		position: relative;
-		width: 420px;
 
 		&.selected {
 			background-color: lighten($light-blue, 90%);
@@ -132,7 +132,7 @@ export default class SelectableCard extends Vue {
 
 	.panel-left {
 		background-color: lighten($light-blue, 70%);
-		width: 32px;
+		padding: 0.3rem;
 
 		&.selected {
 			background-color: lighten($light-blue, 50%);
@@ -140,9 +140,8 @@ export default class SelectableCard extends Vue {
 	}
 
 	.panel-right {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+		border: 2px solid lighten($light-blue, 70%);
+		border-left: none;
 		padding: 10px;
 		width: 100%;
 

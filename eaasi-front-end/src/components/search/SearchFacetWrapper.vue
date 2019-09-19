@@ -1,12 +1,13 @@
 <template>
 	<div class="search-facet-wrapper">
-		<div class="sfw-header flex-row justify-between">
+		<div class="sfw-header flex-row justify-between" @click="isCollapsed = !isCollapsed">
 			<div class="sfw-label">{{ label }}</div>
 			<div class="sfw-collapse flex flex-center" v-if="collapsable">
-				<i class="fal fa-chevron-up"></i>
+				<i class="fal fa-chevron-up" v-show="!isCollapsed"></i>
+				<i class="fal fa-chevron-down" v-show="isCollapsed"></i>
 			</div>
 		</div>
-		<div class="sfw-content">
+		<div class="sfw-content" v-show="!isCollapsed">
 			<slot></slot>
 		</div>
 	</div>
@@ -32,6 +33,8 @@ export default class SearchFacetWrapper extends Vue {
 	/* Data
 	============================================*/
 
+	isCollapsed: boolean = false;
+
 	/* Computed
 	============================================*/
 
@@ -49,6 +52,25 @@ export default class SearchFacetWrapper extends Vue {
 </script>
 
 <style lang="scss">
+.search-facet-wrapper {
+	background-color: #FFFFFF;
+	border: solid 1px lighten($light-neutral, 20%);
+	margin-bottom: 2rem;
+}
+
+.sfw-header,
+.sfw-content {
+	padding: 1rem;
+}
+
+.sfw-header {
+	cursor: pointer;
+	user-select: none;
+	&:hover {
+		background-color: lighten($light-neutral, 90%);
+	}
+}
+
 .sfw-collapse {
 	background-color: lighten($light-blue, 80%);
 	border-radius: 50%;

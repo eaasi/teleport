@@ -22,7 +22,7 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	async searchResources(query: IResourceSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
-		// TODO: Actually search resources
+		// TODO: Actually search all resources
 		let environments = await this.getEnvironments();
 		return {
 			totalResults: environments.length,
