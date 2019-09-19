@@ -1,6 +1,7 @@
 <template functional>
 	<footer id="footer" class="flex-row">
-		<div id="footerLogo" class="flex flex-center">
+
+		<div id="footerLogo">
 			<div class="footer-logo">
 				<img src="../../assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
@@ -84,8 +85,6 @@ export default class AppFooter extends Vue {
 	}
 
 	#footerLogo {
-		display: flex;
-		flex-direction: column;
 		margin-left: 2.5rem;
 		margin-top: -4rem;
 
@@ -103,13 +102,12 @@ export default class AppFooter extends Vue {
 			color: lighten($teal, 60%);
 			display: block;
 			font-size: 1.2rem;
+			text-align: center;
 		}
 	}
 
 	#footerLinks {
 		color: #FFFFFF;
-		display: flex;
-		flex-direction: column;
 		margin-right: 6rem;
 
 		.footer-social a {
