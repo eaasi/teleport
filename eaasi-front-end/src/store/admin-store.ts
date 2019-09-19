@@ -67,13 +67,8 @@ const actions = {
 		commit('SET_USERS_RESULT', usersResult);
 	},
 
-	async getUser(_store: Store<AdminState>, userID: number) {
-		return await _svc.getUser(userID);
-	},
-
 	async saveUser(_store: Store<AdminState>, user: User) {
-		if (user.id) return await _svc.updateUser(user);
-		return await _svc.addUser(user);
+		return await _svc.saveUser(user);
 	},
 
 	async getRoles({ commit }: Store<AdminState>) {

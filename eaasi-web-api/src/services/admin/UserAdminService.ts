@@ -4,6 +4,7 @@ const { EaasiUser } = require('@/data_access/models');
 const { EaasiRole } = require('@/data_access/models');
 import CrudQuery from '../base/CrudQuery';
 import BaseService from '../base/BaseService';
+import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 
 
 /**
@@ -65,7 +66,12 @@ export default class UserAdminService extends BaseService {
 	}
 
 	async saveUser(id: number, user: object) {
-		let result = await this._userCrudService.update(id, user);
+		let result: ICrudServiceResult;
+		if(id) {
+			result = await this._userCrudService.update(id, user);
+		} else {
+			result = await this._userCrudService.create(user);
+		}
 
 		if (result.hasError) {
 			throw result.error;
