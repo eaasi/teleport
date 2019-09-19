@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import adminStore from './admin-store';
 import globalStore from './global-store';
-import searchStore from './search-store';
 import resourceStore from './resource-store';
 
 pathify.options.mapping = 'simple';
@@ -15,7 +14,6 @@ export default new Vuex.Store({
 	...globalStore,
 	modules: {
 		admin: adminStore,
-		search: searchStore,
 		resource: resourceStore
 	},
 	plugins: [pathify.plugin]

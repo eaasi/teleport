@@ -5,16 +5,20 @@
 			<span>{{ label }}</span>
 		</div>
 		<div class="bh-description">
-			<slot></slot>
+			<p>{{ description }}</p>
 		</div>
 		<div class="bh-footer flex-row justify-between">
-			<span>{{ length }} of {{ total }} results</span>
+			<span v-if="result.totalResults > 0">
+				{{ result.result.length }} of {{ result.totalResults }} results
+			</span>
+			<span v-else>No {{ label }} Found</span>
 			<ui-button
 				@click="$emit('click:all')"
 				icon="chevron-right"
 				icon-right
 				secondary
 				size="sm"
+				v-if="result.result.length < result.totalResults"
 			>
 				See all {{ label }}
 			</ui-button>
@@ -25,6 +29,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { ResourceType } from '@/types/Resource';
+import { IEaasiResource } from '@/types/Resource';
+import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 
 @Component({
 	name: 'BentoHeader',
@@ -35,22 +42,39 @@ export default class BentoHeader extends Vue {
 	============================================*/
 
 	@Prop({type: String, required: true})
-	readonly icon: string
+	readonly type: ResourceType
 
-	@Prop({type: String, required: true})
-	readonly label: string
-
-	@Prop({type: Number, required: true})
-	readonly total: number
-
-	@Prop({type: Number, required: true})
-	readonly length: number
+	@Prop({type: Object as () => IEaasiSearchResponse<IEaasiResource>, required: true})
+	readonly result: IEaasiSearchResponse<IEaasiResource>
 
 	/* Data
 	============================================*/
 
 	/* Computed
 	============================================*/
+
+	get label(): string {
+		return this.type + ' Results';
+	}
+
+	get icon(): string {
+		if(this.type === 'Software') return 'browser';
+		if(this.type === 'Content') return 'file';
+		return 'cube';
+	}
+
+	get description(): string {
+		if(this.type === 'Software') {
+			return 'Results for software install media that can be attached to environments so you can install the software.';
+		}
+		if(this.type === 'Content') {
+			return 'Environments designed to support specific, included content files.';
+		}
+		if(this.type === 'Environment') {
+			return 'Ready-to-emulate results that include an operating system and hardware settings.';
+		}
+		return '';
+	}
 
 	/* Methods
 	============================================*/

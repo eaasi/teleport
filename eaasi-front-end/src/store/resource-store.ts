@@ -1,6 +1,6 @@
 import { make, commit } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { IEaasiResource } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
@@ -12,7 +12,7 @@ import { Store } from 'vuex';
 class ResourceState {
 	activeResource: IEaasiResource = null;
 	query: IResourceSearchQuery = new ResourceSearchQuery();
-	result: IEaasiSearchResponse<IEaasiResource> = null;
+	result: IResourceSearchResponse = null;
 }
 
 const state = new ResourceState();

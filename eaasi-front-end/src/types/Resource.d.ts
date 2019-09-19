@@ -3,6 +3,8 @@
  */
 import { ITag } from './Tag';
 
+export type ResourceType = 'Environment' | 'Software' | 'Content';
+
 export interface IEaasiResource {
 	/**
 	 * A unique identifier for the Resource object

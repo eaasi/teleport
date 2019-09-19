@@ -1,10 +1,9 @@
 <template>
-	<div id="contentWrapper" class="flex">
-		<div id="mainContent" class="flex">
+	<div id="contentWrapper">
+		<div id="mainContent">
 			<admin-menu v-if="adminMenuOpen" />
 			<section id="appContent" class="flex-adapt">
 				<router-view />
-				<loader-overlay v-if="showLoader" />
 			</section>
 		</div>
 		<div id="appFooter">
@@ -14,6 +13,9 @@
 			:task="activeTask"
 			@close="activeTask = null"
 		/>
+		<div id="globalLoader" v-if="showLoader">
+			<loader-overlay />
+		</div>
 	</div>
 </template>
 
@@ -89,12 +91,10 @@ export default class AppContent extends Vue {
 
 <style lang="scss">
 	#contentWrapper {
-		flex-direction: column;
 		margin-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
 		min-height: calc(100vh - #{$headerHeight});
 		padding-bottom: $footerHeight;
-		padding-left: $leftSidebarWidth;
 		position: relative;
 	}
 
@@ -103,5 +103,14 @@ export default class AppContent extends Vue {
 		left: $leftSidebarWidth * -1;
 		position: absolute;
 		right: 0;
+	}
+
+	#globalLoader {
+		bottom: 0;
+		left: $leftSidebarWidth;
+		position: fixed;
+		right: 0;
+		top: $headerHeight;
+		z-index: 99;
 	}
 </style>

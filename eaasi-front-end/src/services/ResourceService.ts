@@ -1,11 +1,12 @@
 import BaseHttpService from './BaseHttpService';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiResource } from '@/types/Resource';
+import { IResourceSearchResponse } from '@/types/Search';
 
 class ResourceService extends BaseHttpService {
 
-	async searchResources(query: IResourceSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
-		let res = await this.post<IEaasiSearchResponse<IEaasiResource>>('/resource/search', query);
+	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
+		let res = await this.post<IResourceSearchResponse>('/resource/search', query);
 		if (!res.ok) return null;
 		return res.result;
 	}

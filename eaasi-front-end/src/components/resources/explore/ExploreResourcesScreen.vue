@@ -2,13 +2,32 @@
 	<div id="exploreResources">
 		<div class="resource-results">
 			<resource-facets />
-			<resource-list
-				:query="query"
-				:result="result"
-				v-if="result"
-				class="padded"
-				@paginate="paginate"
-			/>
+			<div class="resource-bento">
+				<div class="row" v-if="result">
+					<div class="col-md-6">
+						<resource-list
+							:query="query"
+							:result="result.environments"
+							v-if="result"
+							type="Environment"
+						/>
+					</div>
+					<div class="col-md-6">
+						<resource-list
+							:query="query"
+							:result="result.software"
+							v-if="result"
+							type="Software"
+						/>
+						<resource-list
+							:query="query"
+							:result="result.content"
+							v-if="result"
+							type="Content"
+						/>
+					</div>
+				</div>
+			</div>
 		</div>
 		<resource-slide-menu
 			:open="!!activeResource"
@@ -27,7 +46,7 @@ import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiSearchResponse } from '@/types/Search';
+import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -50,7 +69,7 @@ export default class MyResourcesScreen extends Vue {
 	query: ResourceSearchQuery;
 
 	@Get('resource/result')
-	result: IEaasiSearchResponse<IEaasiResource>
+	result: IResourceSearchResponse
 
 	/* Data
 	============================================*/
@@ -60,11 +79,6 @@ export default class MyResourcesScreen extends Vue {
 	/* Methods
 	============================================*/
 
-	paginate(pageNum) {
-		this.query.page = pageNum;
-		this.search();
-	}
-
 	search() {
 		this.$store.dispatch('resource/searchResources');
 	}
@@ -73,7 +87,18 @@ export default class MyResourcesScreen extends Vue {
 	============================================*/
 
 	mounted() {
+		let keyword = this.$route.query && this.$route.query.q;
+		this.query.keyword = keyword as string;
 		this.search();
+	}
+
+	@Watch('$route.query')
+	onRouteChanged(newQuery, oldQuery) {
+		console.log(newQuery.q !== oldQuery.q, newQuery.q);
+		if(newQuery.q !== oldQuery.q) {
+			this.query.keyword = newQuery.q as string;
+			this.search();
+		}
 	}
 
 }
@@ -103,8 +128,9 @@ export default class MyResourcesScreen extends Vue {
 		top: 0;
 	}
 
-	.resource-list {
+	.resource-bento {
 		margin-left: 28rem;
+		padding: 1.5rem;
 	}
 }
 </style>

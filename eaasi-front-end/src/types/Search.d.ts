@@ -1,3 +1,5 @@
+import { ResourceType, IEnvironment, IEaasiResource } from './Resource';
+
 export interface IEaasiSearchResponse<T> {
 	result: T[],
 	totalResults: number
@@ -11,8 +13,21 @@ export interface IEaasiSearchQuery {
 	descending: boolean;
 }
 
-export interface IResourceSearchQuery extends IEaasiSearchQuery {
+/*============================================================
+ == Resource Search
+/============================================================*/
+
+export interface IResourceSearchQuery {
 	selectedFacets: IResourceSearchFacet[];
+	types: ResourceType[];
+	keyword: string;
+}
+
+export interface IResourceSearchResponse {
+	environments: IEaasiSearchResponse<IEnvironment>;
+	software: IEaasiSearchResponse<IEaasiResource>;
+	content: IEaasiSearchResponse<IEaasiResource>;
+	facets: IResourceSearchFacet[];
 }
 
 export interface IResourceSearchFacet {

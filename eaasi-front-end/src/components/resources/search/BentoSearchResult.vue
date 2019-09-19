@@ -1,6 +1,5 @@
 <template>
 	<div class="bento-search-results">
-
 	</div>
 </template>
 

@@ -151,7 +151,8 @@ export default class SelectableCard extends Vue {
 
 		.header {
 			color: $dark-blue;
-			font-size: 1.06em;
+			font-size: 1.6rem;
+			line-height: 2rem;
 		}
 
 		.content {

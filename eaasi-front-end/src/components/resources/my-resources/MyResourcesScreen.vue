@@ -30,7 +30,7 @@ import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiSearchResponse } from '@/types/Search';
+import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -53,7 +53,7 @@ export default class MyResourcesScreen extends Vue {
 	query: ResourceSearchQuery;
 
 	@Get('resource/result')
-	result: IEaasiSearchResponse<IEaasiResource>
+	result: IResourceSearchResponse
 
 	/* Data
 	============================================*/
@@ -74,11 +74,6 @@ export default class MyResourcesScreen extends Vue {
 
 	/* Methods
 	============================================*/
-
-	paginate(pageNum) {
-		this.query.page = pageNum;
-		this.search();
-	}
 
 	search() {
 		this.$store.dispatch('resource/searchResources');
@@ -105,21 +100,6 @@ export default class MyResourcesScreen extends Vue {
 		font-weight: 300;
 		margin-bottom: 0;
 		padding: 3rem 3rem 1rem;
-	}
-}
-
-.resource-results {
-	min-height: 80vh;
-	position: relative;
-
-	.resource-facets {
-		bottom: 0;
-		position: absolute;
-		top: 0;
-	}
-
-	.resource-list {
-		margin-left: 28rem;
 	}
 }
 </style>

@@ -1,11 +1,6 @@
-export interface IResourceSearchQuery extends IEaasiSearchQuery {
-	selectedFacets: IResourceSearchFacet[];
-}
+import { IEnvironment } from '../emil/EmilEnvironmentData';
 
-export interface IResourceSearchFacet {
-	name: string;
-	values: string[];
-}
+export type ResourceType = 'Environment' | 'Software' | 'Content';
 
 export interface IEaasiResource {
 	id: number | string;
@@ -13,7 +8,37 @@ export interface IEaasiResource {
 	resourceType: ResourceType;
 }
 
-export type ResourceType = 'Environment' | 'Software' | 'Content';
+/*============================================================
+ == Resource Search
+/============================================================*/
+
+export interface IResourceSearchQuery extends IEaasiSearchQuery {
+	selectedFacets: IResourceSearchFacet[];
+	types: ResourceType[];
+	keyword: string;
+}
+
+export interface IResourceSearchResponse {
+	environments: IEaasiSearchResponse<IEnvironment>;
+	software: IEaasiSearchResponse<IEaasiResource>;
+	content: IEaasiSearchResponse<IEaasiResource>;
+	facets: IResourceSearchFacet[];
+}
+
+export interface IResourceSearchFacet {
+	name: string;
+	values: IResourceSearchFacetValue[];
+}
+
+export interface IResourceSearchFacetValue {
+	label: string;
+	total: number;
+	isSelected: boolean;
+}
+
+/*============================================================
+ == General Search
+/============================================================*/
 
 export interface IEaasiSearchQuery {
 	page: number;

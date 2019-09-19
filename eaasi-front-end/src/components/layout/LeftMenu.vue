@@ -31,7 +31,7 @@ export default class LeftMenu extends Vue {
 			route: '/dashboard'
 		},
 		{
-			icon: 'clipboard-list',
+			icon: 'file-search',
 			label: 'Explore Resources',
 			route: '/resources/explore'
 		},
@@ -49,11 +49,6 @@ export default class LeftMenu extends Vue {
 			icon: 'upload',
 			label: 'Import Resource',
 			route: '/import-resource'
-		},
-		{
-			icon: 'file-search',
-			label: 'Explore Resources',
-			route: '/explore'
 		},
 		{
 			icon: 'cog',

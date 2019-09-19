@@ -48,7 +48,7 @@ export default [
 	},
 	{
 		path: '/resources/explore',
-		name: 'My Resources',
+		name: 'Explore Resources',
 		component: ExploreResourcesScreen
 	}
 ];
