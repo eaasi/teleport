@@ -92,7 +92,7 @@ export default class AppContent extends Vue {
 		flex-direction: column;
 		margin-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
-		min-height: 1400px;
+		min-height: calc(100vh - #{$headerHeight});
 		padding-bottom: $footerHeight;
 		position: relative;
 	}
