@@ -1,8 +1,8 @@
 <template>
-	<div id="exploreResources" class="container-lg">
+	<div id="exploreResources">
 		<div class="resource-results">
 			<resource-facets />
-			<div class="resource-bento">
+			<div class="resource-bento width-md">
 				<div class="row" v-if="bentoResult">
 					<div class="col-md-6">
 						<resource-list
