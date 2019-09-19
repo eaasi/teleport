@@ -1,4 +1,4 @@
-<template>
+<template functional>
 	<footer id="footer" class="flex-row">
 		<div id="footerLogo" class="flex flex-center">
 			<div class="footer-logo">
