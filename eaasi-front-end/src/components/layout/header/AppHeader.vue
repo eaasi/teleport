@@ -1,12 +1,10 @@
 <template>
 	<header id="header" class="flex-row">
-		<div id="headerLogo" class="flex flex-center">
-			<img src="../../../assets/header-logo.png" alt="Eaasi Logo" />
-		</div>
 		<div id="headerSearch" class="flex-grow">
 			<form @submit.prevent="search">
 				<search-bar
 					placeholder="Enter a search term..."
+					:border-color="searchBorderColor"
 					v-model="searchKeyword"
 					name="q"
 					role="search"
@@ -16,14 +14,14 @@
 		<div id="headerRight" class="flex flex-end">
 			<!-- TODO: What does the user item do? -->
 			<header-menu-item
-				:label="`${user.firstName} ${user.lastName}`"
-				icon="user"
-				@click="logout"
-			/>
-			<header-menu-item
 				:label="nodeName"
 				icon="cog"
 				@click="$router.push('/admin')"
+			/>
+			<header-menu-item
+				:label="`${user.firstName} ${user.lastName}`"
+				icon="user"
+				@click="logout"
 			/>
 		</div>
 	</header>
@@ -45,6 +43,10 @@ import authService from '@/services/AuthService';
 	}
 })
 export default class AppHeader extends Vue {
+
+	/* Data
+	============================================*/
+	searchBorderColor = '#C7E4F5';
 
 	/* Computed
 	============================================*/
@@ -80,10 +82,10 @@ export default class AppHeader extends Vue {
 
 <style lang="scss">
 #header {
-	background-color: $teal;
+	background-color: lighten($light-neutral, 80%);
+	border-bottom: 1px solid $light-neutral;
 	height: $headerHeight;
-	left: 0;
-	outline: solid 2px darken($teal, 59%);
+	left: $leftSidebarWidth;
 	position: fixed;
 	right: 0;
 	top: 0;
@@ -108,12 +110,4 @@ export default class AppHeader extends Vue {
 	}
 }
 
-#headerLogo {
-	height: $headerHeight;
-	width: $leftSidebarWidth;
-
-	img {
-		width: 6rem;
-	}
-}
 </style>
