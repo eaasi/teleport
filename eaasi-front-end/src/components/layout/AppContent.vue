@@ -1,10 +1,15 @@
 <template>
 	<div id="contentWrapper" class="flex">
-		<admin-menu v-if="adminMenuOpen" />
-		<section id="appContent" class="flex-adapt">
-			<router-view />
-			<loader-overlay v-if="showLoader" />
-		</section>
+		<div id="mainContent" class="flex">
+			<admin-menu v-if="adminMenuOpen" />
+			<section id="appContent" class="flex-adapt">
+				<router-view />
+				<loader-overlay v-if="showLoader" />
+			</section>
+		</div>
+		<div id="appFooter">
+			<app-footer />
+		</div>
 		<task-modal
 			:task="activeTask"
 			@close="activeTask = null"
@@ -21,13 +26,15 @@ import SlideMenu from '@/components/layout/SlideMenu.vue';
 import TaskModal from '@/components/layout/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { Sync } from 'vuex-pathify';
+import AppFooter from '@/components/layout/AppFooter.vue';
 
 @Component({
 	name: 'AppContent',
 	components: {
 		AdminMenu,
 		SlideMenu,
-		TaskModal
+		TaskModal,
+		AppFooter
 	}
 })
 export default class AppContent extends Vue {
@@ -82,8 +89,19 @@ export default class AppContent extends Vue {
 
 <style lang="scss">
 	#contentWrapper {
+		flex-direction: column;
+		margin-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
-		min-height: 80vh;
+		min-height: calc(100vh - #{$headerHeight});
+		padding-bottom: $footerHeight;
 		padding-left: $leftSidebarWidth;
+		position: relative;
+	}
+
+	#appFooter {
+		bottom: 0;
+		left: $leftSidebarWidth * -1;
+		position: absolute;
+		right: 0;
 	}
 </style>
