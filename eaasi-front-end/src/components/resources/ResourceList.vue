@@ -4,10 +4,16 @@
 			:result="result"
 			:type="type"
 		/>
-		<div v-for="(env, index) in result.result" :key="env.title + index">
+		<div v-for="(resource, index) in result.result" :key="resource.title + index">
 			<environment-resource-card
-				:environment="env"
-				@change="setActiveResource(env, $event)"
+				:environment="resource"
+				@change="setActiveResource(resource, $event)"
+				v-if="type === 'Environment'"
+			/>
+			<software-resource-card
+				:software="resource"
+				@change="setActiveResource(resource, $event)"
+				v-if="type === 'Software'"
 			/>
 		</div>
 	</div>
@@ -19,13 +25,15 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import { IEaasiResource, ResourceType } from '@/types/Resource';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import EnvironmentResourceCard from './EnvironmentResourceCard.vue';
+import SoftwareResourceCard from './SoftwareResourceCard.vue';
 import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceList',
 	components: {
 		BentoHeader,
-		EnvironmentResourceCard
+		EnvironmentResourceCard,
+		SoftwareResourceCard
 	}
 })
 export default class ResourceList extends Vue {

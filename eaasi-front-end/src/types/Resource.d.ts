@@ -97,3 +97,13 @@ export interface IEnvironmentRevision {
 	text: string;
 	archive: string;
 }
+
+/*============================================================
+ == Software
+/============================================================*/
+
+export interface ISoftwarePackage extends IEaasiResource {
+	id: string;
+	isOperatingSystem: boolean;
+	label: string;
+}

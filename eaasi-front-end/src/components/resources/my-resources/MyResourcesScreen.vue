@@ -10,7 +10,6 @@
 				:result="result"
 				v-if="result"
 				class="padded"
-				@paginate="paginate"
 			/>
 		</div>
 		<resource-slide-menu

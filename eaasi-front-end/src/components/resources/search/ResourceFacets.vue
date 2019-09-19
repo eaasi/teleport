@@ -38,7 +38,7 @@ export default class ResourceFacets extends Vue {
 				},
 				{
 					label: 'Software',
-					total: 0,
+					total: 2,
 					isSelected: false
 				},
 				{
@@ -53,7 +53,7 @@ export default class ResourceFacets extends Vue {
 			values: [
 				{
 					label: 'Private',
-					total: 2,
+					total: 4,
 					isSelected: false
 				},
 				{

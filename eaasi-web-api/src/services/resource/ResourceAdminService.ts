@@ -1,17 +1,23 @@
 import BaseService from '../base/BaseService';
-import { IResourceSearchQuery, IResourceSearchResponse, IEaasiSearchResponse, IEaasiSearchQuery, IEaasiResource } from '@/types/resource/Resource';
+import { IResourceSearchQuery, IResourceSearchResponse, IEaasiSearchResponse, IEaasiSearchQuery, IEaasiResource, IResourceSearchFacet } from '@/types/resource/Resource';
 import EmilBaseService from '../emil/EmilBaseService';
 import { IEnvironmentList, IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
+import { ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 
 export default class ResourceAdminService extends BaseService {
 
-	private readonly _emilService: EmilBaseService;
+	private readonly _emilEnvSvc: EmilBaseService;
+	private readonly _emilSofSvc: EmilBaseService;
 
-	constructor(emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData')) {
+	constructor(
+		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
+		emilSofService: EmilBaseService = new EmilBaseService('EmilSoftwareData')
+	) {
 		super();
-		this._emilService = emilEnvService;
+		this._emilEnvSvc = emilEnvService;
+		this._emilSofSvc = emilSofService;
 	}
 
 	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
@@ -27,15 +33,19 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let res = await this._emilService.get('list');
+		let res = await this._emilEnvSvc.get('list');
 		let list = await res.json() as IEnvironmentList;
 		let environments = list.environments;
 		return this._filterResults<IEnvironment>(query, environments);
 	}
 
-	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
-		let software = []; // TODO
-		return this._filterResults<IEnvironment>(query, software);
+	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
+		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
+		let list = await res.json() as ISoftwarePackageDescriptionsList;
+		let software = list.descriptions;
+		// TODO: we need to esnure all responses adhere to IEaasiResource
+		software.forEach(x => x.title = x.label);
+		return this._filterResults<ISoftwarePackageDescription>(query, software);
 	}
 
 	private async _searchContent(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
@@ -48,7 +58,7 @@ export default class ResourceAdminService extends BaseService {
 		if(query.keyword) {
 			let q = query.keyword.toLowerCase();
 			results = results.filter((r) => {
-				return r.title.toLowerCase().indexOf(q) > -1;
+				return r.title && r.title.toLowerCase().indexOf(q) > -1;
 			});
 		}
 
