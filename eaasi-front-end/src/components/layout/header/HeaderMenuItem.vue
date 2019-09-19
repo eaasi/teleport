@@ -38,20 +38,20 @@ export default class HeaderMenuItem extends Vue {
 
 <style lang="scss">
 .header-menu-item {
-	color: #FFFFFF;
+	color: darken($grey, 30%);
 	cursor: pointer;
 	height: $headerHeight;
 	padding: 0 2rem;
 	position: relative;
 
 	.icon {
-		color: lighten($light-blue, 60%);
+		color: darken($teal, 20%);
 		font-size: 2rem;
 		margin-left: 5px;
 	}
 
 	.down-arrow {
-		color: lighten($light-blue, 60%);
+		color: darken($teal, 20%);
 		font-size: 1.2rem;
 		margin-left: 5px;
 	}
