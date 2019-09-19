@@ -6,7 +6,7 @@
 		<template v-else>
 			<left-menu />
 			<app-header />
-            <app-content />
+			<app-content />
 			<!-- Error Modal visibility state managed in global store-->
 			<error-modal />
 		</template>
