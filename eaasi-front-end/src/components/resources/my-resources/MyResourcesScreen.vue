@@ -10,6 +10,7 @@
 				:result="result"
 				v-if="result"
 				class="padded"
+				@paginate="paginate"
 			/>
 		</div>
 		<resource-slide-menu
@@ -22,14 +23,14 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import ResourceSlideMenu from './ResourceSlideMenu.vue';
-import ResourceFacets from './ResourceFacets.vue';
-import ResourceList from './ResourceList.vue';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+import ResourceSlideMenu from '../ResourceSlideMenu.vue';
+import ResourceFacets from '../search/ResourceFacets.vue';
+import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiSearchResponse } from 'eaasi-http';
+import { IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -59,10 +60,6 @@ export default class MyResourcesScreen extends Vue {
 
 	activeTab: string = 'Imported Resources';
 	menuOpen: boolean = false;
-	resource: IEaasiResource = {
-		id: 1,
-		title: 'Adobe Acrobat'
-	}
 	tabs: IEaasiTab[] = [
 		{
 			label: 'Imported Resources'
@@ -75,11 +72,23 @@ export default class MyResourcesScreen extends Vue {
 		}
 	]
 
+	/* Methods
+	============================================*/
+
+	paginate(pageNum) {
+		this.query.page = pageNum;
+		this.search();
+	}
+
+	search() {
+		this.$store.dispatch('resource/searchResources');
+	}
+
 	/* Lifecycle Hooks
 	============================================*/
 
 	mounted() {
-		this.$store.dispatch('resource/searchResources');
+		this.search();
 	}
 
 }

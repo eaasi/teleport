@@ -23,11 +23,23 @@ export default class ResourceAdminService extends BaseService {
 
 	async searchResources(query: IResourceSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
 		// TODO: Actually search all resources
-		let environments = await this.getEnvironments();
-		return {
-			totalResults: environments.length,
-			result: environments
-		};
+		let result = await this.getEnvironments();
+		let totalResults = result.length;
+
+		// TODO: Search and pagination here is temporary for MVP demo purposes
+
+		// Do keyword search
+		if(query.keyword) {
+			let q = query.keyword.toLowerCase();
+			result = result.filter((env) => {
+				return env.title.toLowerCase().indexOf(q) > -1;
+			});
+		}
+
+		// Paginate
+		result = result.slice((query.page - 1) * query.limit, query.page * query.limit);
+
+		return { totalResults, result };
 	}
 
 }

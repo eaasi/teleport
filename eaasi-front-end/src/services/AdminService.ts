@@ -1,6 +1,6 @@
 import BaseHttpService from './BaseHttpService';
 import User from '@/models/admin/User';
-import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
+import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiRole, IEmulator } from 'eaasi-admin';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import { ITaskState } from '@/types/Task';

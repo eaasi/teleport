@@ -29,8 +29,13 @@ export default class LeftMenu extends Vue {
 		},
 		{
 			icon: 'clipboard-list',
+			label: 'Explore Resources',
+			route: '/resources/explore'
+		},
+		{
+			icon: 'clipboard-list',
 			label: 'My Resources',
-			route: '/my-resources'
+			route: '/resources/my-resources'
 		},
 		{
 			icon: 'atom',

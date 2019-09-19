@@ -3,13 +3,18 @@
 		:label="facet.name"
 		collapsable
 	>
-		<checkbox
+		<div
 			v-for="v in facet.values"
 			:key="v.label"
-			:label="v.label"
-			v-model="v.isSelected"
-			style="margin-bottom: 1rem;"
-		/>
+			class="flex-row checkbox-facet"
+		>
+			<checkbox
+				:label="v.label"
+				v-model="v.isSelected"
+				style="margin-bottom: 1rem;"
+			/>
+			<span class="facet-total">({{ v.total }})</span>
+		</div>
 	</search-facet-wrapper>
 </template>
 
@@ -52,4 +57,13 @@ export default class CheckboxFacet extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.checkbox-facet {
+
+	.facet-total {
+		color: lighten($grey, 10%);
+		font-size: 1.2rem;
+		margin-left: 0.4rem;
+	}
+}
+</style>

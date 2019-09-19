@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import CheckboxFacet from '@/components/search/CheckboxFacet.vue';
+import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
 import { IResourceSearchFacet } from '@/types/Search.d.ts';
 
 @Component({

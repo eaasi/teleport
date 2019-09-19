@@ -1,6 +1,5 @@
 import BaseHttpService from './BaseHttpService';
-import { IEaasiSearchResponse } from 'eaasi-http';
-import { IResourceSearchQuery } from '@/types/Search.d.ts';
+import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiResource } from '@/types/Resource';
 
 class ResourceService extends BaseHttpService {

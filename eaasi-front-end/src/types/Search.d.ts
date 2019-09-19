@@ -1,5 +1,15 @@
-import { IEaasiSearchQuery } from 'eaasi-http';
+export interface IEaasiSearchResponse<T> {
+	result: T[],
+	totalResults: number
+}
 
+export interface IEaasiSearchQuery {
+	page: number;
+	limit: number;
+	keyword?: string;
+	sortCol?: string;
+	descending: boolean;
+}
 
 export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	selectedFacets: IResourceSearchFacet[];
