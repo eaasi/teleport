@@ -32,7 +32,7 @@ import SearchBar from '@/components/global/forms/SearchBar.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
 import { jsonCopy } from '@/utils/functions';
-import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
+import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiUser } from 'eaasi-admin';
 
 @Component({

@@ -21,12 +21,19 @@ import isValidAlert from '@/types/validators/AlertType.validator';
 	name: 'Alert'
 })
 export default class Alert extends Vue {
+
+	/**
+	 * Determines the icon and font color
+	 */
 	@Prop({ validator: isValidAlert, required: false })
 	type: AlertType
 
 	/* Getters
 	============================================*/
 
+	/**
+	 * Color based on AlertType
+	 */
 	get color() {
 		switch(this.type) {
 		case 'success':
@@ -42,6 +49,9 @@ export default class Alert extends Vue {
 		}
 	}
 
+	/**
+	 * Icon based on AlertType
+	 */
 	get icon() {
 		switch(this.type) {
 		case 'success':

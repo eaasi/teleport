@@ -1,15 +1,21 @@
-import { make } from 'vuex-pathify';
-import _svc from '@/services/AdminService';
+import { make, commit } from 'vuex-pathify';
+import _svc from '@/services/ResourceService';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
+import { IEaasiResource } from '@/types/Resource';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import { Store } from 'vuex';
 
 /*============================================================
  == State
 /============================================================*/
 
-class SearchState {
-	keyword: string = ''
+class ResourceState {
+	activeResource: IEaasiResource = null;
+	query: IResourceSearchQuery = new ResourceSearchQuery();
+	result: IResourceSearchResponse = null;
 }
 
-const state = new SearchState();
+const state = new ResourceState();
 
 /*============================================================
  == Mutations
@@ -22,7 +28,12 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
-
+	async searchResources({ state, commit }: Store<ResourceState>) {
+		let result = await _svc.searchResources(state.query);
+		if(!result) return;
+		commit('SET_RESULT', result);
+		return result;
+	}
 };
 
 /*============================================================

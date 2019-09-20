@@ -5,7 +5,7 @@
 				<search-bar
 					placeholder="Enter a search term..."
 					:border-color="searchBorderColor"
-					v-model="searchKeyword"
+					v-model="query.keyword"
 					name="q"
 					role="search"
 				/>
@@ -33,6 +33,7 @@ import Component from 'vue-class-component';
 import HeaderMenuItem from './HeaderMenuItem.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
+import { IResourceSearchQuery } from '@/types/Search';
 import authService from '@/services/AuthService';
 
 
@@ -54,11 +55,11 @@ export default class AppHeader extends Vue {
 	@Get('nodeName')
 	nodeName: string
 
-	@Sync('search/keyword')
-	searchKeyword: string
-
 	@Get('loggedInUser')
 	user: IEaasiUser
+
+	@Sync('resource/query')
+	query: IResourceSearchQuery
 
 	/* Methods
 	============================================*/
@@ -67,7 +68,7 @@ export default class AppHeader extends Vue {
 	 * Route to search page with query string
 	 */
 	search(): void {
-		this.$router.push(`/search?q=${this.searchKeyword}`);
+		this.$router.push(`/resources/explore?q=${this.query.keyword}`);
 	}
 
 	/**
@@ -82,8 +83,8 @@ export default class AppHeader extends Vue {
 
 <style lang="scss">
 #header {
-	background-color: lighten($light-neutral, 80%);
-	border-bottom: 1px solid $light-neutral;
+	background-color: #FFFFFF;
+	border-bottom: 1px solid darken($light-neutral, 10%);
 	height: $headerHeight;
 	left: $leftSidebarWidth;
 	position: fixed;

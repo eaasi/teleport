@@ -2,7 +2,8 @@ import Home from '@/components/Home.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
-import MyResourcesScreen from '@/components/resources/MyResourcesScreen.vue';
+import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesScreen.vue';
+import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 
 export default [
@@ -41,8 +42,13 @@ export default [
 		}
 	},
 	{
-		path: '/my-resources',
+		path: '/resources/my-resources',
 		name: 'My Resources',
 		component: MyResourcesScreen
+	},
+	{
+		path: '/resources/explore',
+		name: 'Explore Resources',
+		component: ExploreResourcesScreen
 	}
 ];
