@@ -4,10 +4,10 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('objectEnvironment', {
+		return queryInterface.createTable('contentEnvironment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			objectEnvironment_objectEnvironment_computingEnvironmentID: {
+			contentEnvironment_contentEnvironment_computingEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,34 +15,34 @@ module.exports = {
 					key: 'computingEnvironmentID'
 				}
 			},
-			objectEnvironment_objectEnvironment_digitalObjectID: {
+			contentEnvironment_contentEnvironment_digitalContentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'digitalObject',
-					key: 'digitalObjectID'
+					model: 'digitalContent',
+					key: 'digitalContentID'
 				}
 			},
-			objectEnvironment_concurrentInstances: {
+			contentEnvironment_concurrentInstances: {
 				type: Sq.INTEGER,
 				allowNull: false
 			},
-			objectEnvironmentName: {
+			contentEnvironmentName: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			objectEnvironmentDescription: {
+			contentEnvironmentDescription: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			objectEnvironmentHelpText: {
+			contentEnvironmentHelpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('objectEnvironment');
+		return queryInterface.dropTable('contentEnvironment');
 	}
 };
 
