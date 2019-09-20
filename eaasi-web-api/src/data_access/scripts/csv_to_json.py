@@ -24,7 +24,7 @@ class CsvToJsonConverter:
 
     def get_csvs_in_subdirs(self, path):
         """
-        Recursivley finds all files ending with 'csv' in a parent directory
+        Recursively finds all files ending with 'csv' in a parent directory
         """
         files = os.listdir(path)
         all_files = []
@@ -58,10 +58,10 @@ class CsvToJsonConverter:
                     self.save_json(f, file)
                     self.ok_files.append(file)
 
-            # except Exception as e:
-            #     print(f"Could not convert {file} to JSON; skipping.")
-            #     self.er_files.append(file)
-            #     continue
+            except Exception as e:
+                print(f"Could not convert {file} to JSON; skipping.")
+                self.er_files.append(file)
+                continue
 
 
     def save_json(self, f, file):
