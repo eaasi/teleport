@@ -25,10 +25,5 @@ module.exports = (sequelize) => {
 			}
 		}
 	}, { sequelize, tableName: 'fileFormat_has_fileExtension' });
-	FileFormatHasFileExtension.associate = models => {
-
-		models.FileFormatHasFileExtension.hasOne(models.FileFormat, {foreignKey: 'fileFormatID'});
-		models.FileFormatHasFileExtension.hasOne(models.FileExtension, {foreignKey: 'fileExtensionID'});
-	};
 	return FileFormatHasFileExtension;
 };
