@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class SystemRequirementsIncludesOsVersion extends Sequelize.Model {}
+class SystemRequirementsRequiresOsVersion extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	SystemRequirementsIncludesOsVersion.init({
+	SystemRequirementsRequiresOsVersion.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		systemRequirements_systemRequirementsID: {
@@ -23,13 +23,13 @@ module.exports = (sequelize) => {
 				key: 'osVersionID'
 			}
 		}
-	}, { sequelize, tableName: 'systemRequirements_includes_osVersion' });
-	SystemRequirementsIncludesOsVersion.associate = models => {
-		models.SystemRequirementsIncludesOsVersion.hasOne(
+	}, { sequelize, tableName: 'systemRequirements_requires_osVersion' });
+	SystemRequirementsRequiresOsVersion.associate = models => {
+		models.SystemRequirementsRequiresOsVersion.hasOne(
 			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsIncludesOsVersion.hasOne(
+		models.SystemRequirementsRequiresOsVersion.hasOne(
 			models.OsVersion, {foreignKey: 'osVersionID'});
 	};
 
-	return SystemRequirementsIncludesOsVersion;
+	return SystemRequirementsRequiresOsVersion;
 };

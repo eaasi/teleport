@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class SystemRequirementsIncludesStorageDeviceType extends Sequelize.Model {}
+class SystemRequirementsRequiresStorageDeviceType extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	SystemRequirementsIncludesStorageDeviceType.init({
+	SystemRequirementsRequiresStorageDeviceType.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		systemRequirements_systemRequirementsID: {
@@ -24,12 +24,12 @@ module.exports = (sequelize) => {
 			}
 		}
 	}, { sequelize, tableName: 'pointerDevice' });
-	SystemRequirementsIncludesStorageDeviceType.associate = models => {
-		models.SystemRequirementsIncludesStorageDeviceType.hasOne(
+	SystemRequirementsRequiresStorageDeviceType.associate = models => {
+		models.SystemRequirementsRequiresStorageDeviceType.hasOne(
 			models.StorageDeviceType, {foreignKey: 'storageDeviceTypeID'});
-		models.SystemRequirementsIncludesStorageDeviceType.hasOne(
+		models.SystemRequirementsRequiresStorageDeviceType.hasOne(
 			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 	};
 
-	return SystemRequirementsIncludesStorageDeviceType;
+	return SystemRequirementsRequiresStorageDeviceType;
 };
