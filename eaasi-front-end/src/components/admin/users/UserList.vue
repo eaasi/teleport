@@ -42,7 +42,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiRole, IEaasiUser } from 'eaasi-admin';
-import { IEaasiSearchQuery } from 'eaasi-http';
+import { IEaasiSearchQuery } from '@/types/Search';
 import User from '@/models/admin/User';
 import SortHeader from '@/components/global/tables/SortHeader.vue';
 

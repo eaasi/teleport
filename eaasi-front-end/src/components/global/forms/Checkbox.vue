@@ -76,7 +76,7 @@ $checkboxSize: 20px;
 		span {
 			height: $checkboxSize;
 			position: relative;
-			top: 2px;
+			top: 6px;
 		}
 	}
 
@@ -121,7 +121,7 @@ $checkboxSize: 20px;
 
 	label {
 		height: $checkboxSize + 2px; // account for border
-		padding-left: $checkboxSize;
+		padding-left: $checkboxSize + 2px;
 	}
 
 	.checkmark {

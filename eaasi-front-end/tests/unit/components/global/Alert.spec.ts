@@ -2,10 +2,10 @@ import { shallowMount } from '@vue/test-utils';
 import Alert from '@/components/global/Alert/Alert.vue';
 
 describe('Alert.vue', () => {
-	it('Displays error icon when alertType is error', () => {
+	it('Displays error icon when type is error', () => {
 		const wrapper = shallowMount(Alert, {
 			propsData: {
-				alertType: 'error'
+				type: 'error'
 			},
 		});
 		expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(true);
@@ -13,10 +13,10 @@ describe('Alert.vue', () => {
 		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
 	});
 
-	it('Displays info icon when alertType is info', () => {
+	it('Displays info icon when type is info', () => {
 		const wrapper = shallowMount(Alert, {
 			propsData: {
-				alertType: 'info'
+				type: 'info'
 			},
 		});
 		expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(false);
@@ -24,10 +24,10 @@ describe('Alert.vue', () => {
 		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
 	});
 
-	it('Displays success icon when alertType is success', () => {
+	it('Displays success icon when type is success', () => {
 		const wrapper = shallowMount(Alert, {
 			propsData: {
-				alertType: 'success'
+				type: 'success'
 			},
 		});
 		expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(false);
@@ -35,10 +35,10 @@ describe('Alert.vue', () => {
 		expect(wrapper.find('.fa-check-circle').exists()).toBe(true);
 	});
 
-	it('Displays warning icon when alertType is warning', () => {
+	it('Displays warning icon when type is warning', () => {
 		const wrapper = shallowMount(Alert, {
 			propsData: {
-				alertType: 'error'
+				type: 'warning'
 			},
 		});
 		expect(wrapper.find('.fa-exclamation-triangle').exists()).toBe(true);
@@ -46,10 +46,31 @@ describe('Alert.vue', () => {
 		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
 	});
 
+	it('Sets the correct color class based on the type prop', () => {
+		const wrapper = shallowMount(Alert, {
+			propsData: {
+				type: 'error'
+			},
+		});
+		expect(wrapper.classes().indexOf('red') > -1).toBe(true);
+
+		wrapper.setProps({type: 'info'});
+		expect(wrapper.classes().indexOf('blue') > -1).toBe(true);
+
+		wrapper.setProps({type: 'warning'});
+		expect(wrapper.classes().indexOf('orange') > -1).toBe(true);
+
+		wrapper.setProps({type: 'success'});
+		expect(wrapper.classes().indexOf('green') > -1).toBe(true);
+
+		wrapper.setProps({type: 'neutral'});
+		expect(wrapper.classes().indexOf('neutral') > -1).toBe(true);
+	});
+
 	it('Renders alert text passed into slot', () => {
 		const wrapper = shallowMount(Alert, {
 			propsData: {
-				alertType: 'error'
+				type: 'error'
 			},
 			slots: {
 				default: 'wherever you go'

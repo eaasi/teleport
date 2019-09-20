@@ -15,6 +15,7 @@ export default {
 		Vue.config.productionTip = false;
 
 		// Configure a custom error handler
+		/*
 		Vue.config.errorHandler = (err, _vm, info) => {
 			store.set('appError', {
 				message: err.toString(),
@@ -22,6 +23,7 @@ export default {
 				stack: err.stack
 			});
 		};
+		*/
 	}
 
 };

@@ -28,7 +28,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
+import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { Get, Sync } from 'vuex-pathify';
 import { IEmulator } from 'eaasi-admin';
 

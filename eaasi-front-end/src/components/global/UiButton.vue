@@ -1,6 +1,6 @@
 <template>
 	<span class="ui-btn-container">
-		<button :class="['eaasi-button', {secondary}]" v-on="$listeners" v-bind="$attrs">
+		<button :class="['eaasi-button', size, {secondary, block}]" v-on="$listeners" v-bind="$attrs">
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
@@ -56,6 +56,12 @@ export default class UiButton extends Vue {
 	 */
 	@Prop({type: String, required: false})
 	readonly subLabel: string;
+
+	/**
+	 * Adds a size class
+	 */
+	@Prop({type: String, required: false})
+	readonly size: string;
 }
 </script>
 
@@ -86,6 +92,12 @@ export default class UiButton extends Vue {
 	outline: none;
 	padding: 0.8rem 1.6rem;
 	transition: background-color 0.3s;
+
+	&.sm,
+	&.small {
+		font-size: 1.4rem;
+		padding: 0.6rem 1rem;
+	}
 
 	&.block {
 		display: block;
