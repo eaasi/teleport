@@ -7,12 +7,12 @@ module.exports = {
 		return queryInterface.createTable('fileFormat_has_fileExtension', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileFormat_fileFormatQID: {
+			fileFormat_fileFormatID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'fileFormat',
-					key: 'fileFormatQID'
+					key: 'fileFormatID'
 				}
 			},
 			fileExtension_fileExtensionID: {
