@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
 				key: 'developerID'
 			}
 		}
-	}, { sequelize, tableName: 'pointerDevice' });
+	}, { sequelize, tableName: 'softwareVersion_has_developer' });
 	SoftwareVersionHasDeveloper.associate = models => {
 		models.SoftwareVersionHasDeveloper.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 		models.SoftwareVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerID'});
