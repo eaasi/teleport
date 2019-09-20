@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			autoIncrement: true
 		},
-		displayResolutionName: {
+		displayResolutionLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}
