@@ -7,19 +7,19 @@ module.exports = (sequelize) => {
 	FileFormat.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
+		fileFormatID: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
 		fileFormatQID: {
 			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true
 		},
-		fileFormatName: {
+		fileFormatLabel: {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		pronomID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
 	}, { sequelize, tableName: 'fileFormat' });
 	return FileFormat;
 };

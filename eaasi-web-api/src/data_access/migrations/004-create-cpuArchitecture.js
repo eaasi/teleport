@@ -15,7 +15,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false,
 			},
-			cpuArchitectureName: {
+			cpuArchitectureLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			}

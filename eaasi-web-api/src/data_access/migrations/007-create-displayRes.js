@@ -16,6 +16,14 @@ module.exports = {
 			displayResolutionLabel: {
 				type: Sq.STRING,
 				allowNull: false
+			},
+			displayResolutionWidth: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			displayResolutionHeight: {
+				type: Sq.INTEGER,
+				allowNull: false
 			}
 		});
 	},

@@ -13,8 +13,8 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			extension: {
-				type: Sq.STRING,
+			fileExtensionLabel: {
+				type: Sequelize.STRING,
 				allowNull: false
 			}
 		});

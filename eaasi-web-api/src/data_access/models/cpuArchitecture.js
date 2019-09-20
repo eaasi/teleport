@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false,
 		},
-		cpuArchitectureName: {
+		cpuArchitectureLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}
