@@ -3,7 +3,7 @@ import samlConfig from '@/config/saml-config';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import fs from 'fs';
 import path from 'path';
-import { MAX_AGE } from '@/config/jwt-config';
+import { DOMAIN, MAX_AGE } from '@/config/jwt-config';
 import BaseController from './base/BaseController';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
@@ -34,7 +34,8 @@ export default class EaasiAuthController extends BaseController {
 		let expires = new Date();
 		expires.setSeconds(expires.getSeconds() + MAX_AGE);
 		res.cookie('EAASI_TOKEN', req.user.token, {
-			expires
+			expires,
+			domain: DOMAIN
 		});
 		res.redirect(CLIENT_URL);
 	}
