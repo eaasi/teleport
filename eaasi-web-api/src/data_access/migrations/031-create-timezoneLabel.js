@@ -4,21 +4,20 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('timezoneName', {
+		return queryInterface.createTable('timezoneLabel', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			timezoneNameID: {
-				type: Sq.INTEGER,
+			timezoneQID: {
+				type: Sq.STRING(45),
 				allowNull: false,
-				primaryKey: true
 			},
-			timeZoneName: {
+			timezone_timezoneLabel: {
 				type: Sq.STRING,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('timezoneName');
+		return queryInterface.dropTable('timezoneLabel');
 	}
 };

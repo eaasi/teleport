@@ -2,22 +2,21 @@
 
 const Sequelize = require('sequelize');
 
-class TimezoneName extends Sequelize.Model {}
+class TimezoneLabel extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	TimezoneName.init({
+	TimezoneLabel.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		timezoneNameID: {
-			type: Sequelize.INTEGER,
+		timezoneQID: {
+			type: Sequelize.STRING(45),
 			allowNull: false,
-			primaryKey: true
 		},
-		timeZoneName: {
+		timezone_timezoneLabel: {
 			type: Sequelize.STRING,
 			allowNull: true
 		}
-	}, { sequelize, tableName: 'timezoneName' });
+	}, { sequelize, tableName: 'timezoneLabel' });
 
-	return TimezoneName;
+	return TimezoneLabel;
 };
 
