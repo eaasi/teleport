@@ -7,12 +7,12 @@ module.exports = {
 		return queryInterface.createTable('contentObject_has_objectFile', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentObject_contentObjectID: {
-				type: Sq.INTEGER,
+			contentObject_contentObjectLocalID: {
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'contentObject',
-					key: 'contentObjectID'
+					key: 'contentObjectLocalID'
 				}
 			},
 			contentObjectFileID: {

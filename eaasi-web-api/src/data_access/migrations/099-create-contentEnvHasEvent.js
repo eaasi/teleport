@@ -15,12 +15,12 @@ module.exports = {
 					key: 'contentEnvironment_computingEnvironmentID'
 				}
 			},
-			contentEnvironment_contentObjectID: {
-				type: Sq.TEXT,
+			contentEnvironment_contentObjectLocalID: {
+				type: Sq.STRING,
 				allowNull: true
 			},
 			contentEnvironment_eventID: {
-				type: Sq.TEXT,
+				type: Sq.INTEGER,
 				allowNull: true
 			}
 		});
