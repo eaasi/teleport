@@ -1,6 +1,6 @@
 import { make } from 'vuex-pathify';
 import { Store } from 'vuex';
-import { IEaasiSearchQuery, IEaasiSearchResponse } from 'eaasi-http';
+import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiRole, IEmulator, IEmulatorEntry } from 'eaasi-admin';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import User from '@/models/admin/User';

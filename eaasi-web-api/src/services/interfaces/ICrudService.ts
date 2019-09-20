@@ -7,7 +7,7 @@ import ICrudServiceResult from './ICrudServiceResult';
  */
 export default interface ICrudService {
 	setMaxPaginationValue(maxVal: number): void;
-	getAll(query: CrudQuery, raw: boolean): Promise<ICrudServiceResult>;
+	getAll(query: CrudQuery, raw?: boolean): Promise<ICrudServiceResult>;
 	getByPk(pk: number): Promise<ICrudServiceResult>;
 	getAllWhere(where: WhereOptions): Promise<ICrudServiceResult>;
 	getOneWhere(where: WhereOptions): Promise<ICrudServiceResult>;

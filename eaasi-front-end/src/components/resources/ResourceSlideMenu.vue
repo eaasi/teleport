@@ -1,38 +1,40 @@
 <template>
 	<slide-menu class="resource-slide-menu" :open="open">
-		<div class="rsm-header">
-			<div class="rsm-resource-title flex-row">
-				<span class="flex-adapt">{{ resource.title }}</span>
-				<i class="fas fa-times" @click="$emit('close')"></i>
+		<div v-if="resource">
+			<div class="rsm-header">
+				<div class="rsm-resource-title flex-row">
+					<span class="flex-adapt">{{ resource.title }}</span>
+					<i class="fas fa-times" @click="$emit('close')"></i>
+				</div>
+				<tabbed-nav
+					v-if="hasDetails"
+					v-model="tab"
+					:tabs="tabs"
+				/>
 			</div>
-			<tabbed-nav
-				v-if="hasDetails"
-				v-model="tab"
-				:tabs="tabs"
+			<resource-details
+				v-if="tab === 'Details'"
+				class="rsm-details"
+				:resource="resource"
 			/>
-		</div>
-		<resource-details
-			v-if="tab === 'Details'"
-			class="rsm-details"
-			:resource="resource"
-		/>
-		<div v-if="tab === 'Actions'">
-			<div class="rsm-local-actions">
-				<resource-action
-					v-for="a in localActions"
-					:action="a"
-					:key="a.label"
-					@click="doAction(a)"
-				/>
-			</div>
+			<div v-if="tab === 'Actions'">
+				<div class="rsm-local-actions">
+					<resource-action
+						v-for="a in localActions"
+						:action="a"
+						:key="a.label"
+						@click="doAction(a)"
+					/>
+				</div>
 
-			<div class="rsm-node-actions">
-				<resource-action
-					v-for="a in nodeActions"
-					:action="a"
-					:key="a.label"
-					@click="doAction(a)"
-				/>
+				<div class="rsm-node-actions">
+					<resource-action
+						v-for="a in nodeActions"
+						:action="a"
+						:key="a.label"
+						@click="doAction(a)"
+					/>
+				</div>
 			</div>
 		</div>
 	</slide-menu>
@@ -63,7 +65,7 @@ export default class ResourceSlideMenu extends Vue {
 	@Prop({type: Boolean, required: true})
 	readonly open: boolean
 
-	@Prop({type: Object as () => IEaasiResource, required: true})
+	@Prop({type: Object as () => IEaasiResource})
 	readonly resource: IEaasiResource
 
 	/* Data
@@ -142,8 +144,10 @@ export default class ResourceSlideMenu extends Vue {
 	============================================*/
 
 	doAction(action: IAction) {
-		// TODO
 		console.log(`Action clicked: ${action.label}`);
+		if(action.label === 'Run in Emulator') {
+			// TODO
+		}
 	}
 
 }
