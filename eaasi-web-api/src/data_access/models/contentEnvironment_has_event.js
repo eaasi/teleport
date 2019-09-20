@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		contentEnvironment_computingEnvironmentID: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
 				model: 'contentEnvironment',

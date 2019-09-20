@@ -11,7 +11,6 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			fileOperationText: {
 				type: Sq.STRING,

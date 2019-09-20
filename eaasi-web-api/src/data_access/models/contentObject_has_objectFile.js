@@ -32,13 +32,9 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		contentObjectFile_order: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
 			allowNull: true
 		},
 	}, { sequelize, tableName: 'contentObject_has_objectFile' });
-	ContentObjectHasObjectFile.associate = models => {
-		models.ContentObjectHasObjectFile.hasOne(models.ContentObject, {foreignKey: 'contentObjectID'});
-		models.ContentObjectHasObjectFile.hasOne(models.File, {foreignKey: 'fileID'});
-	};
 	return ContentObjectHasObjectFile;
 };

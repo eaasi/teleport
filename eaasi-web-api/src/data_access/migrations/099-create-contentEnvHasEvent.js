@@ -8,12 +8,8 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			contentEnvironment_computingEnvironmentID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
-				references: {
-					model: 'contentEnvironment',
-					key: 'contentEnvironment_computingEnvironmentID'
-				}
 			},
 			contentEnvironment_contentObjectLocalID: {
 				type: Sq.STRING,

@@ -27,14 +27,14 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			contentObjectFile_usesMountFormat: {
+			contentObjectFile_mediaTypeName: {
 				type: Sq.STRING,
-				allowNull: true,
-				references: {
-					model: 'mountFormat',
-					key: 'mountFormatQID'
-				}
-			}
+				allowNull: true
+			},
+			contentObjectFile_order: {
+				type: Sq.INTEGER,
+				allowNull: true
+			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {

@@ -11,7 +11,6 @@ module.exports = {
 				type: Sq.STRING(45),
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			processorDeviceQID: {
 				type: Sq.STRING,

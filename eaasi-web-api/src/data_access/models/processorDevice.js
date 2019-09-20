@@ -11,7 +11,6 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING(45),
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
 		processorDeviceQID: {
 			type: Sequelize.STRING,

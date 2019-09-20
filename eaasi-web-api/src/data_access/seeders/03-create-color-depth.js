@@ -1,12 +1,11 @@
-const emulators = require('../data/emulators');
+const colorDepth = require('../data/colorDepth');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('emulator', emulators);
+		return queryInterface.bulkInsert('colorDepth', colorDepth);
 	},
 
 	down: (queryInterface) => {
-		queryInterface.sequelize.query('ALTER SEQUENCE "emulator_id_seq" RESTART WITH 1;');
-		return queryInterface.bulkDelete('emulator', {}, {});
+		return queryInterface.bulkDelete('colorDepth', {}, {});
 	}
 };
