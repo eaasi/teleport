@@ -40,12 +40,12 @@ module.exports = {
 					key: 'softwareObjectID'
 				}
 			},
-			hasSource_digitalObjectID: {
-				type: Sq.INTEGER,
+			hasSource_contentObjectLocalID: {
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'digitalObject',
-					key: 'digitalObjectID'
+					model: 'contentObject',
+					key: 'contentObjectLocalID'
 				}
 			},
 			manifestationOf_softwareVersion: {

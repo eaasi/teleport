@@ -27,14 +27,6 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			softwareObjectFile_usesMountFormat: {
-				type: Sq.STRING,
-				allowNull: true,
-				references: {
-					model: 'mountFormat',
-					key: 'mountFormatQID'
-				}
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
