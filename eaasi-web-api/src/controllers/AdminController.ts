@@ -52,6 +52,36 @@ export default class AdminController extends BaseController {
 		}
 	}
 
+	/**
+	 * Adds or updates user record
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async saveUser(req: Request, res: Response) {
+		try {
+			let user = req.body;
+			let success = await this._userSvc.saveUser(user.id, user);
+			res.send(success);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Deletes User
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async deleteUser(req: Request, res: Response) {
+		try {
+			let id = req.query.id as number;
+			let roles = await this._userSvc.deleteUser(id);
+			res.send(roles);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
 	/*============================================================
 	 == Emulators
 	/============================================================*/
