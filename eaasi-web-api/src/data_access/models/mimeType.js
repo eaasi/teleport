@@ -7,12 +7,9 @@ module.exports = (sequelize) => {
 	MimeType.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		mimeTypeLabel_pk: {
-			type: Sequelize.INTEGER,
-			primaryKey: true
-		},
 		mimeTypeLabel: {
 			type: Sequelize.STRING,
+			primaryKey: true
 		},
 	}, { sequelize, tableName: 'mimeType' });
 	return MimeType;
