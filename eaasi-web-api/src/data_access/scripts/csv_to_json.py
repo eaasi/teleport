@@ -6,6 +6,8 @@ import json
 import os
 import sys
 
+from pathlib import Path
+
 # SAMPLE_ROOT = '/Users/wes/Desktop/eaasi-sample-data/'
 # SAVE_LOCATION = '/Users/wes/Desktop/eaasi-sample-data-json/'
 
@@ -17,6 +19,8 @@ class CsvToJsonConverter:
     def __init__(self, sample_root, save_loc):
         self.sample_root = sample_root
         self.save_loc = save_loc
+        self.ok_files = []
+        self.er_files = []
 
     def get_csvs_in_subdirs(self, path):
         """
@@ -36,6 +40,7 @@ class CsvToJsonConverter:
 
         return all_files
 
+
     def run(self):
         """
         Iterates through subdirectories to convert CSV files to JSON
@@ -44,35 +49,51 @@ class CsvToJsonConverter:
             try:
                 # try open csv file using utf-8
                 with open(file, mode='r', encoding='utf8') as f:
-                    content = f.readline()
-                    item_keys = content.strip().split(",")
-                    reader = csv.DictReader(f, fieldnames=item_keys)
-                    out = json.dumps([row for row in reader])
-
-                    with open(file.split('.csv')[0] + ".json", 'w') as res:
-                        res.write(out)
+                    self.save_json(f, file)
+                    self.ok_files.append(file)
 
             except UnicodeDecodeError:
-                # failover to latin-1 encoding
-                # add other failover encodings as required
+                # failover to latin-1 encoding - add other encs as required
                 with open(file, encoding='latin-1') as f:
-                    content = f.readline()
-                    item_keys = content.strip().split(",")
-                    reader = csv.DictReader(f, fieldnames=item_keys)
-                    out = json.dumps([row for row in reader])
+                    self.save_json(f, file)
+                    self.ok_files.append(file)
 
-                    with open(file.split('.csv')[0] + ".json", 'w') as res:
-                        res.write(out)
+            # except Exception as e:
+            #     print(f"Could not convert {file} to JSON; skipping.")
+            #     self.er_files.append(file)
+            #     continue
 
-            except Exception as e:
-                print(f"Could not convert {file} to JSON; skipping.")
-                continue
+
+    def save_json(self, f, file):
+        """
+        Writes lines of CSV to JSON
+        """
+        content = f.readline()
+        item_keys = content.strip().split(",")
+        reader = csv.DictReader(f, fieldnames=item_keys)
+        out = json.dumps([row for row in reader])
+
+        filename = Path(file).stem
+        save_path = os.path.join(self.save_loc, filename + '.json')
+
+        print(f"Saved JSON file to: {save_path}")
+
+        with open(save_path, 'w') as res:
+            res.write(out)
 
 
 if __name__ == "__main__":
     root_dir = sys.argv[1]
     save_dir = sys.argv[2]
-    converter = CsvToJsonConverter(sys.argv[1], sys.argv[2])
+
     print(f"Root directory is: {root_dir}")
     print(f"Save directory is: {save_dir}")
+
+    converter = CsvToJsonConverter(sys.argv[1], sys.argv[2])
     converter.run()
+
+    if converter.ok_files:
+        print(f"Converted {len(converter.ok_files)} files to JSON")
+
+    if converter.er_files:
+        print(f"Could Not Convert to JSON: \n{converter.ok_files}")
