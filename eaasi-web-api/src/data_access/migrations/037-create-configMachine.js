@@ -47,15 +47,6 @@ module.exports = {
 				type: Sq.STRING,
 			},
 
-			configuredMachineArchitecture: {
-				type: Sq.STRING,
-				allowNull: true,
-				references: {
-					model: 'cpuArchitecture',
-					key: 'cpuArchitectureQID'
-				}
-			},
-
 			configuredMachineCpuCores: {
 				type: Sq.STRING,
 				allowNull: true

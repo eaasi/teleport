@@ -52,15 +52,6 @@ module.exports = (sequelize) => {
 			}
 		},
 
-		configuredMachineArchitecture: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'cpuArchitecture',
-				key: 'cpuArchitectureQID'
-			}
-		},
-
 		configuredMachineCpuCores: {
 			type: Sequelize.STRING,
 			allowNull: true
