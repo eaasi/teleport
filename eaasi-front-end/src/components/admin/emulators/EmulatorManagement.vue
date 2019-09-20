@@ -51,7 +51,7 @@ import EmulatorDetailsModal from './EmulatorDetailsModal.vue';
 import EmulatorImportModal from './EmulatorImportModal.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEmulator } from 'eaasi-admin';
-import { IEaasiSearchResponse, IEaasiSearchQuery } from 'eaasi-http';
+import { IEaasiSearchResponse, IEaasiSearchQuery } from '@/types/Search';
 
 @Component({
 	name: 'EmulatorManagement',
