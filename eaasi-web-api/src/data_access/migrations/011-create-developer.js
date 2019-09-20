@@ -15,7 +15,7 @@ module.exports = {
 			developerQID: {
 				type: Sq.STRING,
 			},
-			developerName: {
+			developerLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			}

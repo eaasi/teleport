@@ -9,7 +9,6 @@ module.exports = (sequelize) => {
 		updatedAt: Sequelize.DATE,
 		softwareVersion_softwareVersionID: {
 			type: Sequelize.INTEGER,
-			allowNull: true,
 			references: {
 				model: 'softwareVersion',
 				key: 'softwareVersionID'
@@ -17,7 +16,6 @@ module.exports = (sequelize) => {
 		},
 		softwareVersion_softwareDeveloperID: {
 			type: Sequelize.INTEGER,
-			allowNull: true,
 			references: {
 				model: 'developer',
 				key: 'developerID'
@@ -26,7 +24,7 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'pointerDevice' });
 	SoftwareVersionHasDeveloper.associate = models => {
 		models.SoftwareVersionHasDeveloper.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.SoftwareVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerQID'});
+		models.SoftwareVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerID'});
 	};
 
 	return SoftwareVersionHasDeveloper;

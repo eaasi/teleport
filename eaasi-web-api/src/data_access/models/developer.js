@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 		developerQID: {
 			type: Sequelize.STRING,
 		},
-		developerName: {
+		developerLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}
