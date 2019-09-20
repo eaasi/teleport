@@ -44,10 +44,11 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceAction from './ResourceAction.vue';
 import ResourceDetails from './ResourceDetails.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -67,6 +68,12 @@ export default class ResourceSlideMenu extends Vue {
 
 	@Prop({type: Object as () => IEaasiResource})
 	readonly resource: IEaasiResource
+
+	/* Computed
+	============================================*/
+
+	@Get('resource/activeEnvironment')
+	readonly environment: IEnvironment
 
 	/* Data
 	============================================*/
@@ -146,7 +153,9 @@ export default class ResourceSlideMenu extends Vue {
 	doAction(action: IAction) {
 		console.log(`Action clicked: ${action.label}`);
 		if(action.label === 'Run in Emulator') {
-			// TODO
+			if(this.environment) {
+				this.$router.push('/access-interface');
+			}
 		}
 	}
 

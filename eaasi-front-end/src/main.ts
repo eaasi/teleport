@@ -5,7 +5,12 @@ import './scss/global.scss';
 import store from './store';
 import EaasiVueConfig from '@/plugins/EaasiVueConfig';
 import GlobalComponents from '@/components/global';
-// import 'flexboxgrid';
+import guacamolejs from '!!raw-loader!../../eaas-client/guacamole/guacamole.js';
+import eaasclientjs from '!!raw-loader!../../eaas-client/eaas-client.js';
+import { appendScript } from '@/utils/functions';
+
+appendScript(guacamolejs);
+appendScript(eaasclientjs);
 
 Vue.use(EaasiVueConfig);
 Vue.use(GlobalComponents);

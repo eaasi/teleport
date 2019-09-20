@@ -23,6 +23,7 @@ class GlobalState {
 	userToken: string = null;
 	appError: IAppError = null;
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
+	showLoader: boolean = false;
 }
 
 const state = new GlobalState();

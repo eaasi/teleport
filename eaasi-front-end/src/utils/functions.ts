@@ -136,3 +136,14 @@ export function getParameterByName(name) {
 	let match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 	return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 };
+
+/*============================================================
+ == Scripts
+/============================================================*/
+
+export function appendScript(scriptText: string) {
+	let script   = document.createElement('script');
+	script.type  = 'text/javascript';
+	script.text  = scriptText;
+	document.body.appendChild(script);
+};

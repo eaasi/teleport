@@ -49,13 +49,8 @@ export default class AppContent extends Vue {
 	@Sync('activeTask')
 	activeTask: EaasiTask
 
-	/* Data
-	============================================*/
-
-	/**
-	 * Hides or shows global loading animation
-	 */
-	showLoader: boolean = false;
+	@Sync('showLoader')
+	showLoader: boolean;
 
 	/* Methods
 	============================================*/
@@ -65,7 +60,7 @@ export default class AppContent extends Vue {
 	 */
 	initBusListeners() {
 		eventBus.$on('ajaxStart', (showLoader) => this.showLoader = showLoader);
-		eventBus.$on('ajaxEnd', () => this.showLoader = false );
+		eventBus.$on('ajaxEnd', () => this.showLoader = false);
 	}
 
 	/**
