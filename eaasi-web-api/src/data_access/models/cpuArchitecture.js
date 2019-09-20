@@ -7,10 +7,13 @@ module.exports = (sequelize) => {
 	CpuArchitecture.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
+		cpuArchitectureID: {
+			type: Sequelize.INTEGER,
+			primaryKey: true
+		},
 		cpuArchitectureQID: {
 			type: Sequelize.STRING,
 			allowNull: false,
-			primaryKey: true
 		},
 		cpuArchitectureName: {
 			type: Sequelize.STRING,
