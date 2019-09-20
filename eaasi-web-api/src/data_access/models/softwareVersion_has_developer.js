@@ -15,12 +15,12 @@ module.exports = (sequelize) => {
 				key: 'softwareVersionID'
 			}
 		},
-		softwareVersion_softwareDeveloperQID: {
-			type: Sequelize.STRING,
+		softwareVersion_softwareDeveloperID: {
+			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
 				model: 'developer',
-				key: 'developerQID'
+				key: 'developerID'
 			}
 		}
 	}, { sequelize, tableName: 'pointerDevice' });
