@@ -15,21 +15,21 @@ class CsvToJsonConverter:
     map to column names, value map to names in a CSV 'cell'
     """
     def __init__(self, sample_root, save_loc):
-        self.sample_root = seample_root
+        self.sample_root = sample_root
         self.save_loc = save_loc
 
-    def get_csvs_in_subdirs(self):
+    def get_csvs_in_subdirs(self, path):
         """
         Recursivley finds all files ending with 'csv' in a parent directory
         """
-        files = os.listdir(self.sample_root)
-        all_files  = []
+        files = os.listdir(path)
+        all_files = []
 
         for entry in files:
-            full_path = os.path.join(self.sample_root, entry)
+            full_path = os.path.join(path, entry)
 
             if os.path.isdir(full_path):
-                all_files += get_csvs_in_subdirs(full_path)
+                all_files += self.get_csvs_in_subdirs(full_path)
 
             elif full_path.endswith('csv'):
                 all_files.append(full_path)
@@ -40,7 +40,7 @@ class CsvToJsonConverter:
         """
         Iterates through subdirectories to convert CSV files to JSON
         """
-        for file in get_csvs_in_subdirs(SAMPLE_ROOT):
+        for file in self.get_csvs_in_subdirs(self.sample_root):
             try:
                 # try open csv file using utf-8
                 with open(file, mode='r', encoding='utf8') as f:
