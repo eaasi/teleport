@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_includes_pointerDeviceType', {
+		return queryInterface.createTable('systemRequirements_requires_pointerDeviceType', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirements_systemRequirementsID: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_pointerDeviceTypeID: {
+			systemRequirements_requires_pointerDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -26,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_includes_pointerDeviceType');
+		return queryInterface.dropTable('systemRequirements_requires_pointerDeviceType');
 	}
 };

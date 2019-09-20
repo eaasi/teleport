@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_includes_audioDevice', {
+		return queryInterface.createTable('systemRequirements_requires_audioDevice', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirements_systemRequirementsID: {
@@ -26,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_includes_audioDevice');
+		return queryInterface.dropTable('systemRequirements_requires_audioDevice');
 	}
 };

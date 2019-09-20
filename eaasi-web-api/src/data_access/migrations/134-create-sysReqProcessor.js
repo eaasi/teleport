@@ -15,12 +15,12 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_processorID: {
-				type: Sq.INTEGER,
+			systemRequirements_requires_processorID: {
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'processor',
-					key: 'processorID'
+					model: 'processorDevice',
+					key: 'processorDeviceID'
 				}
 			},
 			systemRequirements_minimumFrequency: {
@@ -37,3 +37,4 @@ module.exports = {
 		return queryInterface.dropTable('systemRequirements_requires_processor');
 	}
 };
+

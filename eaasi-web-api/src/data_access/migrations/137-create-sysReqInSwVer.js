@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_includes_softwareVersion', {
+		return queryInterface.createTable('systemRequirements_requires_softwareVersion', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirements_systemRequirementsID: {
@@ -26,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_includes_softwareVersion');
+		return queryInterface.dropTable('systemRequirements_requires_softwareVersion');
 	}
 };
