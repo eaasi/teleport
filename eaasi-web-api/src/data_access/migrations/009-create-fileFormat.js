@@ -9,12 +9,13 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			fileFormatID: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: true,
+				primaryKey: true
+
 			},
 			fileFormatQID: {
 				type: Sq.STRING,
-				allowNull: false,
-				primaryKey: true
+				allowNull: false
 			},
 			fileFormatLabel: {
 				type: Sq.STRING,

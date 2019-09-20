@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
 			allowNull: true,
 			references: {
 				model: 'fileFormat',
-				key: 'fileFormatQID'
+				key: 'fileFormatID'
 			}
 		},
 		fileSize: {

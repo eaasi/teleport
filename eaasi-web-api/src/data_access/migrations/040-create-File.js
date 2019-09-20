@@ -30,7 +30,7 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'fileFormat',
-					key: 'fileFormatQID'
+					key: 'fileFormatID'
 				}
 			},
 			fileSize: {

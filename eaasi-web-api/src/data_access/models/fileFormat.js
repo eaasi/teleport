@@ -9,12 +9,12 @@ module.exports = (sequelize) => {
 		updatedAt: Sequelize.DATE,
 		fileFormatID: {
 			type: Sequelize.STRING,
-			allowNull: true
+			allowNull: true,
+			primaryKey: true
 		},
 		fileFormatQID: {
 			type: Sequelize.STRING,
 			allowNull: false,
-			primaryKey: true
 		},
 		fileFormatLabel: {
 			type: Sequelize.STRING,
