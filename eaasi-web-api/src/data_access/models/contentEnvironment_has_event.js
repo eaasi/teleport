@@ -7,27 +7,22 @@ module.exports = (sequelize) => {
 	ContentEnvironmentHasEvent.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		contentEnvironment_contentEnvironment_computingEnvironmentID: {
-			type: Sequelize.INTEGER,
+		contentEnvironment_computingEnvironmentID: {
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'contentEnvironment',
-				key: 'contentEnvironment_contentEnvironment_computingEnvironmentID'
+				key: 'contentEnvironment_computingEnvironmentID'
 			}
 		},
-		contentEnvironment_contentEnvironment_digitalContentID: {
-			type: Sequelize.INTEGER,
+		contentEnvironment_contentObjectID: {
+			type: Sequelize.TEXT,
 			allowNull: true
 		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
+		contentEnvironment_eventID: {
+			type: Sequelize.TEXT,
 			allowNull: true
 		}
 	}, { sequelize, tableName: 'contentEnvironment_has_event' });
-	ContentEnvironmentHasEvent.associate = models => {
-		models.ContentEnvironmentHasEvent.hasOne(models.ContentEnvironment,
-			{foreignKey: 'contentEnvironment_contentEnvironment_computingEnvironmentID'}
-		);
-	};
 	return ContentEnvironmentHasEvent;
 };

@@ -7,16 +7,20 @@ module.exports = {
 		return queryInterface.createTable('contentEnvironment_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentEnvironment_contentEnvironment_computingEnvironmentID: {
-				type: Sq.INTEGER,
-				allowNull: false,
+			contentEnvironment_computingEnvironmentID: {
+				type: Sq.STRING,
+				allowNull: true,
+				references: {
+					model: 'contentEnvironment',
+					key: 'contentEnvironment_computingEnvironmentID'
+				}
 			},
-			contentEnvironment_contentEnvironment_digitalContentID: {
-				type: Sq.INTEGER,
+			contentEnvironment_contentObjectID: {
+				type: Sq.TEXT,
 				allowNull: true
 			},
-			event_eventID: {
-				type: Sq.INTEGER,
+			contentEnvironment_eventID: {
+				type: Sq.TEXT,
 				allowNull: true
 			}
 		});
