@@ -83,7 +83,6 @@ export default class AppHeader extends Vue {
 
 <style lang="scss">
 #header {
-	// background-color: lighten($light-neutral, 80%);
 	background-color: #FFFFFF;
 	border-bottom: 1px solid darken($light-neutral, 10%);
 	height: $headerHeight;

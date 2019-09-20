@@ -31,7 +31,9 @@ export default class Alert extends Vue {
 	/* Getters
 	============================================*/
 
-	// Color based on AlertType
+	/**
+	 * Color based on AlertType
+	 */
 	get color() {
 		switch(this.type) {
 		case 'success':
@@ -47,7 +49,9 @@ export default class Alert extends Vue {
 		}
 	}
 
-	// Icon based on AlertType
+	/**
+	 * Icon based on AlertType
+	 */
 	get icon() {
 		switch(this.type) {
 		case 'success':
