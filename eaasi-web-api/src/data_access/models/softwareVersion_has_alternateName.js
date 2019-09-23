@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
 		},
 		softwareVersion_alternateName: {
 			type: Sequelize.STRING,
-			allowNull: false
+			allowNull: false,
 		}
 	}, { sequelize, tableName: 'softwareVersion_has_alternateName' });
 	SoftwareVersionHasAlternateName.associate = models => {

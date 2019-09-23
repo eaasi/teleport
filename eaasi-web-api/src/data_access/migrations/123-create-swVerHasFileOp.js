@@ -22,7 +22,7 @@ module.exports = {
 				}
 			},
 			softwareVersion_operationType: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 			},
 			defaultOperation: {
 				type: Sq.BOOLEAN,

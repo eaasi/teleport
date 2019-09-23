@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareVersion_operationType: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 		},
 		defaultOperation: {
 			type: Sequelize.BOOLEAN,

@@ -10,14 +10,13 @@ module.exports = (sequelize) => {
 		softwareProduct_softwareProductID: {
 			type: Sequelize.STRING,
 			allowNull: false,
-			primaryKey: true,
 			references: {
 				model: 'softwareProduct',
 				key: 'softwareProductID'
 			}
 		},
-		softwareProduct_alternateNameID: {
-			type: Sequelize.INTEGER,
+		softwareProduct_alternateName: {
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'alternateName',

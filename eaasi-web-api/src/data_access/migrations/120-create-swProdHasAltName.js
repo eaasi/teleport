@@ -10,19 +10,14 @@ module.exports = {
 			softwareProduct_softwareProductID: {
 				type: Sq.STRING,
 				allowNull: false,
-				primaryKey: true,
 				references: {
 					model: 'softwareProduct',
 					key: 'softwareProductID'
 				}
 			},
-			softwareProduct_alternateNameID: {
-				type: Sq.INTEGER,
+			softwareProduct_alternateName: {
+				type: Sq.STRING,
 				allowNull: false,
-				references: {
-					model: 'alternateName',
-					key: 'alternateNameID'
-				}
 			}
 		});
 	},
