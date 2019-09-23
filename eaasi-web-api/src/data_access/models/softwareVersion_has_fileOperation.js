@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareVersion_fileOperationID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			references: {
 				model: 'fileOperation',
 				key: 'fileOperationID'

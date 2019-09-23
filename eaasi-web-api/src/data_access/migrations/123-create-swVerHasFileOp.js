@@ -15,7 +15,7 @@ module.exports = {
 				}
 			},
 			softwareVersion_fileOperationID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				references: {
 					model: 'fileOperation',
 					key: 'fileOperationID'

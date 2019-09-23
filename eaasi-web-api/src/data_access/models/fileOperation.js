@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
 		fileOperationText: {
 			type: Sequelize.STRING,
@@ -22,6 +21,6 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-	}, { sequelize, tableName: 'file' });
+	}, { sequelize, tableName: 'fileOperation' });
 	return FileOperation;
 };
