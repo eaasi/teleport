@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class SoftwareFamilyVersionHasPartSoftwareVersion extends Sequelize.Model {}
+class SoftwareFamilyVersionHasSoftwareVersion extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	SoftwareFamilyVersionHasPartSoftwareVersion.init({
+	SoftwareFamilyVersionHasSoftwareVersion.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareFamilyVersionID: {
@@ -23,12 +23,12 @@ module.exports = (sequelize) => {
 				key: 'softwareVersionID'
 			}
 		}
-	}, { sequelize, tableName: 'softwareFamilyVersion_hasPart_softwareVersion' });
-	SoftwareFamilyVersionHasPartSoftwareVersion.associate = models => {
+	}, { sequelize, tableName: 'softwareFamilyVersion_has_softwareVersion' });
+	SoftwareFamilyVersionHasSoftwareVersion.associate = models => {
 		models.SoftwareFamilyVersionHasPartSoftwareVersion.hasOne(
 			models.SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'familyVersionID'});
 		models.SoftwareFamilyVersionHasPartSoftwareVersion.hasOne(
 			models.SoftwareVersion, {foreignKey: 'softwareVersionID', as: 'hasPartSoftwareVersion'});
 	};
-	return SoftwareFamilyVersionHasPartSoftwareVersion;
+	return SoftwareFamilyVersionHasSoftwareVersion;
 };

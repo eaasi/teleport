@@ -2,9 +2,9 @@
 
 const Sequelize = require('sequelize');
 
-class SoftwareFamilyHasPartSoftwareProduct extends Sequelize.Model {}
+class SoftwareFamilyVersionHasSoftwareProduct extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	SoftwareFamilyHasPartSoftwareProduct.init({
+	SoftwareFamilyVersionHasSoftwareProduct.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareFamilyID: {
@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'softwareProductID'
 			}
 		},
-		hasPart_softwareProduct: {
+		hasPart_softwareProductID: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 			references: {
@@ -23,12 +23,12 @@ module.exports = (sequelize) => {
 				key: 'softwareProductID'
 			}
 		}
-	}, { sequelize, tableName: 'softwareFamily_hasPart_softwareProduct' });
-	SoftwareFamilyHasPartSoftwareProduct.associate = models => {
+	}, { sequelize, tableName: 'softwareFamilyVersion_has_softwareProduct' });
+	SoftwareFamilyVersionHasSoftwareProduct.associate = models => {
 		models.SoftwareFamilyHasPartSoftwareProduct.hasOne(
 			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'softwareFamilyProduct'});
 		models.SoftwareFamilyHasPartSoftwareProduct.hasOne(
-			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'hasPartSoftwareProduct'});
+			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'hasSoftwareProduct'});
 	};
-	return SoftwareFamilyHasPartSoftwareProduct;
+	return SoftwareFamilyVersionHasSoftwareProduct;
 };
