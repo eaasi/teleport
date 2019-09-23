@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		hasPart_softwareProductID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareProduct',

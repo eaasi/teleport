@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		contentObjectFileID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'file',

@@ -17,13 +17,14 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
-		softwareProductDescription: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
 		softwareProductName: {
 			type: Sequelize.STRING,
 			allowNull: false
+		},
+		isOperatingSystem: {
+			type: Sequelize.BOOLEAN,
+			allowNull: false,
+			defaultValue: false
 		}
 	}, { sequelize, tableName: 'softwareProduct' });
 

@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareObject_softwareObjectID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareObject',
@@ -17,6 +17,14 @@ module.exports = {
 			},
 			softwareObject_alternateID: {
 				type: Sq.STRING,
+				allowNull: true
+			},
+			softwareObject_alternateIDSource: {
+				type: Sq.STRING,
+				allowNull: true
+			},
+			softwareObject_localID: {
+				type: Sq.BOOLEAN,
 				allowNull: true
 			}
 		});

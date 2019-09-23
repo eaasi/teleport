@@ -33,7 +33,7 @@ module.exports = {
 				allowNull: true
 			},
 			isVersionOf_softwareProduct: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareProduct',

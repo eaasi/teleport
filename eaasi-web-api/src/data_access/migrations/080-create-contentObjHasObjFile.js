@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			contentObjectFileID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'file',

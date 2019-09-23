@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareObject_softwareObjectID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareObject',
@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareObjectFileID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'file',
@@ -25,6 +25,14 @@ module.exports = (sequelize) => {
 		},
 		softwareObjectFileLabel: {
 			type: Sequelize.STRING,
+			allowNull: true
+		},
+		softwareObjectFile_mediaTypeName: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
+		softwareObjectFile_order: {
+			type: Sequelize.INTEGER,
 			allowNull: true
 		},
 	}, { sequelize, tableName: 'softwareObject_has_objectFile' });

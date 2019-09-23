@@ -11,19 +11,19 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			softwareProductQID: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			softwareProductDescription: {
-				type: Sq.STRING,
-				allowNull: true
-			},
 			softwareProductName: {
 				type: Sq.STRING,
 				allowNull: false
+			},
+			isOperatingSystem: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},

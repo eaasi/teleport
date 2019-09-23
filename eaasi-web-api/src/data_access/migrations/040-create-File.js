@@ -8,10 +8,9 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			fileID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			fileLocation: {
 				type: Sq.STRING,

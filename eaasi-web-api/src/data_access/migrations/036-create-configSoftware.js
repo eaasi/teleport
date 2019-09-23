@@ -33,7 +33,7 @@ module.exports = {
 				allowNull: true
 			},
 			hasSource_softwareObjectID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareObject',
