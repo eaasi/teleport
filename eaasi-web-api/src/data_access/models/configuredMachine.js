@@ -58,7 +58,7 @@ module.exports = (sequelize) => {
 		},
 
 		configuredMachine_emulatorSoftwareID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareVersion',

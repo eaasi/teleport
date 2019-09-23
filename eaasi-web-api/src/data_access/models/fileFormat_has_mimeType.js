@@ -19,10 +19,6 @@ module.exports = (sequelize) => {
 		fileFormat_mimeTypeLabel: {
 			type: Sequelize.STRING,
 			allowNull: false,
-			references: {
-				model: 'mimeType',
-				key: 'mimeTypeID'
-			}
 		}
 	}, { sequelize, tableName: 'fileFormat_has_mimeType' });
 	return FileFormatHasMimeType;

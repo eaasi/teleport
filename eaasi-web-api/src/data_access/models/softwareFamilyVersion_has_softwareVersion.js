@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareFamilyVersionID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',

@@ -15,12 +15,12 @@ module.exports = {
 					key: 'osVersionID'
 				}
 			},
-			osVersion_programmingLanguageQID: {
-				type: Sq.STRING,
+			osVersion_programmingLanguageID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'programmingLanguage',
-					key: 'programmingLanguageQID'
+					key: 'programmingLanguageID'
 				}
 			}
 		});

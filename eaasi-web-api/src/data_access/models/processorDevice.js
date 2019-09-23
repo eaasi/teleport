@@ -22,15 +22,15 @@ module.exports = (sequelize) => {
 		},
 		processorDeviceFrequency: {
 			type: Sequelize.INTEGER,
-			allowNull: false
+			allowNull: true
 		},
 		processorDeviceFrequencyUnit: {
 			type: Sequelize.STRING,
-			allowNull: false
+			allowNull: true
 		},
 		processorDeviceCpuArchitecture: {
 			type: Sequelize.STRING,
-			allowNull: false
+			allowNull: true
 		},
 	}, { sequelize, tableName: 'processorDevice' });
 	return ProcessorDevice;

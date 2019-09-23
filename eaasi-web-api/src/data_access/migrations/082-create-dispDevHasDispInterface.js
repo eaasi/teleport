@@ -7,7 +7,6 @@ module.exports = {
 		return queryInterface.createTable('displayDevice_has_displayInterface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-
 		});
 	},
 	down: (queryInterface, Sequelize) => {

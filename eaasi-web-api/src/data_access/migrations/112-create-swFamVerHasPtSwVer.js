@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareFamilyVersionID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareVersion',

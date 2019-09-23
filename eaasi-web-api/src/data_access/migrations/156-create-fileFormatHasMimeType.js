@@ -18,10 +18,6 @@ module.exports = {
 			fileFormat_mimeTypeLabel: {
 				type: Sq.STRING,
 				allowNull: false,
-				references: {
-					model: 'mimeType',
-					key: 'mimeTypeID'
-				}
 			}
 		});
 	},

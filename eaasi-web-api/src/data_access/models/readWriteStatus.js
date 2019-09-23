@@ -8,10 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		readWriteStatusID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
+			type: Sequelize.STRING,
 		},
 		readWriteStatusName: {
 			type: Sequelize.STRING,

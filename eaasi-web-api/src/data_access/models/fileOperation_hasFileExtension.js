@@ -16,6 +16,6 @@ module.exports = (sequelize) => {
 			type: Sequelize.INTEGER,
 			allowNull: true
 		},
-	}, { sequelize, tableName: 'fileOperationHasFileExtension' });
+	}, { sequelize, tableName: 'fileOperation_has_fileExtension' });
 	return FileOperationHasFileExtension;
 };

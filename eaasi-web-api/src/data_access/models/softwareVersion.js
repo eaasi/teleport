@@ -11,10 +11,9 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareVersionID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
 		softwareVersionQID: {
 			type: Sequelize.STRING,

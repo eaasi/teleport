@@ -1,1 +1,1 @@
-[{"operationName": "open"}, {"operationName": "save"}, {"operationName": "export"}, {"operationName": "import"}, {"operationName": "print"}, {"operationName": "edit"}]
+[{"operationTypeLabel": "open"}, {"operationTypeLabel": "save"}, {"operationTypeLabel": "export"}, {"operationTypeLabel": "import"}, {"operationTypeLabel": "print"}, {"operationTypeLabel": "edit"}]

@@ -22,15 +22,15 @@ module.exports = {
 			},
 			processorDeviceFrequency: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: true
 			},
 			processorDeviceFrequencyUnit: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: true
 			},
 			processorDeviceCpuArchitecture: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: true
 			},
 		});
 	},

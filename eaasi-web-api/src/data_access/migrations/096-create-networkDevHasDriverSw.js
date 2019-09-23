@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			driverSoftware_driverSoftware: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareVersion',

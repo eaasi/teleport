@@ -53,7 +53,7 @@ module.exports = {
 			},
 
 			configuredMachine_emulatorSoftwareID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareVersion',
