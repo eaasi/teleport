@@ -19,8 +19,8 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'softwareLicense',
-					key: 'softwareLicenseQID'
+					model: 'softwareVersion',
+					key: 'softwareVersionID'
 				}
 			}
 		});
