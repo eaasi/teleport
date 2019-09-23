@@ -20,7 +20,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			softwareVersionDescription: {
+			softwareVersionHelpText: {
 				type: Sq.STRING,
 				allowNull: false
 			},
@@ -29,16 +29,8 @@ module.exports = {
 				allowNull: true
 			},
 			softwareVersionPublicationDate: {
-				type: Sq.DATE,
+				type: Sq.STRING,
 				allowNull: true
-			},
-			softwareVersionSystemRequirements: {
-				type: Sq.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'systemRequirements',
-					key: 'systemRequirementsID'
-				}
 			},
 			isVersionOf_softwareProduct: {
 				type: Sq.INTEGER,

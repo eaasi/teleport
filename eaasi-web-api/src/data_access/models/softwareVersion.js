@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
-		softwareVersionDescription: {
+		softwareVersionHelpText: {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
@@ -32,19 +32,11 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		softwareVersionPublicationDate: {
-			type: Sequelize.DATE,
+			type: Sequelize.STRING,
 			allowNull: true
 		},
-		softwareVersionSystemRequirements: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
 		isVersionOf_softwareProduct: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareProduct',

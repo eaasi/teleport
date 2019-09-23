@@ -5,10 +5,10 @@ const Sequelize = require('sequelize');
 class SoftwareVersionHasLanguageSettings extends Sequelize.Model {}
 module.exports = (sequelize) => {
 	SoftwareVersionHasLanguageSettings.init({
-		createdAt: Sq.DATE,
-		updatedAt: Sq.DATE,
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
 		softwareVersion_softwareVersionID: {
-			type: Sq.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',
@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareVersion_languageQID: {
-			type: Sq.STRING,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'language',
@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareVersion_defaultLanguage: {
-			type: Sq.BOOLEAN,
+			type: Sequelize.BOOLEAN,
 			allowNull: true,
 		}
 	}, { sequelize, tableName: 'pointerDevice' });

@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareProduct_softwareProductID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
 				references: {

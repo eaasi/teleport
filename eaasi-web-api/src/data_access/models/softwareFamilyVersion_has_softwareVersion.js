@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		hasPart_softwareVersion: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',

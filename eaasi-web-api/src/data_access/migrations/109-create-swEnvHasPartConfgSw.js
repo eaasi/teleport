@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			hasConfiguredSoftware: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'configuredSoftware',

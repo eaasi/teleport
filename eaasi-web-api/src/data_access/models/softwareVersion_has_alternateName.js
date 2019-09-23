@@ -4,11 +4,11 @@ const Sequelize = require('sequelize');
 
 class SoftwareVersionHasAlternateName extends Sequelize.Model {}
 module.exports = (sequelize) => {
-	SoftwareVersionHasAlternateID.init({
+	SoftwareVersionHasAlternateName.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareVersion_softwareVersionID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',
