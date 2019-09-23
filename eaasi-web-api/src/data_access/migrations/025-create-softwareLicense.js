@@ -16,7 +16,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 			},
-			softwareLicenseName: {
+			softwareLicenseLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			}

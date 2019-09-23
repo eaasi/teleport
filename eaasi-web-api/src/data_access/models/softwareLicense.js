@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true,
 		},
-		softwareLicenseName: {
+		softwareLicenseLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

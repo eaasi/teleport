@@ -5,10 +5,10 @@ const Sequelize = require('sequelize');
 class SystemRequirementsRequiresProcessor extends Sequelize.Model {}
 module.exports = (sequelize) => {
 	SystemRequirementsRequiresProcessor.init({
-		createdAt: Sq.DATE,
-		updatedAt: Sq.DATE,
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
 		systemRequirements_systemRequirementsID: {
-			type: Sq.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'systemRequirements',
@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		systemRequirements_requires_processorID: {
-			type: Sq.STRING,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'processorDevice',
@@ -24,11 +24,11 @@ module.exports = (sequelize) => {
 			}
 		},
 		systemRequirements_minimumFrequency: {
-			type: Sq.INTEGER,
+			type: Sequelize.INTEGER,
 			allowNull: false,
 		},
 		systemRequirements_minimumFrequencyUnit: {
-			type: Sq.STRING,
+			type: Sequelize.STRING,
 			allowNull: false,
 		}
 	}, { sequelize, tableName: 'systemRequirements_requires_processor' });
