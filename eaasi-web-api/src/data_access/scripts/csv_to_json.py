@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+"""
+
+Creates JSON files for a collection of CSVs
+
+Use:  python3 csv_to_json.py [root_dir] [save_dir]
+
+where root_dir is a parent directory containing CSVs in subdirectories
+
+"""
+
 import csv
 import json
 import os
@@ -8,8 +18,6 @@ import sys
 
 from pathlib import Path
 
-# SAMPLE_ROOT = '/Users/wes/Desktop/eaasi-sample-data/'
-# SAVE_LOCATION = '/Users/wes/Desktop/eaasi-sample-data-json/'
 
 class CsvToJsonConverter:
     """
@@ -96,4 +104,4 @@ if __name__ == "__main__":
         print(f"Converted {len(converter.ok_files)} files to JSON")
 
     if converter.er_files:
-        print(f"Could Not Convert to JSON: \n{converter.ok_files}")
+        print(f"Could Not Convert to JSON: \n{converter.err_files}")
