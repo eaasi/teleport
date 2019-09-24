@@ -5,6 +5,7 @@ import LoginScreen from '@/components/login/LoginScreen.vue';
 import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesScreen.vue';
 import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
+import ViewResourceDetailsScreen from '@/components/resources/view-details/ViewResourceDetailsScreen.vue';
 
 export default [
 	{
@@ -50,5 +51,11 @@ export default [
 		path: '/resources/explore',
 		name: 'Explore Resources',
 		component: ExploreResourcesScreen
+	},
+	{
+		path: '/resources/explore/:resourceId',
+		name: 'Resource Detail',
+		component: ViewResourceDetailsScreen,
+		props: true
 	}
 ];

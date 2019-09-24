@@ -145,8 +145,19 @@ export default class ResourceSlideMenu extends Vue {
 
 	doAction(action: IAction) {
 		console.log(`Action clicked: ${action.label}`);
-		if(action.label === 'Run in Emulator') {
-			// TODO
+		switch (action.label) {
+		case 'Run in Emulator': // TODO
+			break;
+		case 'View Details': {
+			console.log(this.resource['envId'])
+			this.$router.push({
+				name: 'Resource Detail',
+				params: { resourceEnvId: this.resource['envId'] }
+			});
+		}
+			break;
+		default:
+			break;
 		}
 	}
 
