@@ -49,7 +49,7 @@ module.exports = {
 				allowNull: true
 			},
 			minimumNetworkBitRate: {
-				type: Sq.INTEGER,
+				type: Sq.DECIMAL,
 				allowNull: true
 			},
 			minimumNetworkBitRate_unitName: {

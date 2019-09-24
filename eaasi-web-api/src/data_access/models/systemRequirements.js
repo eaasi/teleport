@@ -49,7 +49,7 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		minimumNetworkBitRate: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.DECIMAL,
 			allowNull: true
 		},
 		minimumNetworkBitRate_unitName: {
