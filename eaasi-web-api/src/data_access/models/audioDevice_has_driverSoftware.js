@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		audioDevice_driverSoftwareID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',

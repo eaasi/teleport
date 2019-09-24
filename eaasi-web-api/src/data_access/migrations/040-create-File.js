@@ -8,10 +8,9 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			fileID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			fileLocation: {
 				type: Sq.STRING,
@@ -30,7 +29,7 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'fileFormat',
-					key: 'fileFormatQID'
+					key: 'fileFormatID'
 				}
 			},
 			fileSize: {

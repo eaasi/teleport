@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		storageDeviceName: {
+		storageDeviceLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
@@ -29,22 +29,17 @@ module.exports = (sequelize) => {
 				key: 'storageDeviceTypeID'
 			}
 		},
-		storageVolumeBytes: {
-			type: Sequelize.INTEGER,
+		storageDeviceReadable: {
+			type: Sequelize.BOOLEAN,
 			allowNull: true
 		},
-		storageDevice_readWriteStatusID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'readWriteStatus',
-				key: 'readWriteStatusID'
-			}
-		}
+		storageDeviceWritable: {
+			type: Sequelize.BOOLEAN,
+			allowNull: true
+		},
 	}, { sequelize, tableName: 'storageDevice' });
 	StorageDevice.associate = models => {
 		models.StorageDevice.hasOne(models.StorageDeviceType, {foreignKey: 'storageDeviceTypeID'});
-		models.StorageDevice.hasOne(models.ReadWriteStatus, {foreignKey: 'readWriteStatusID'});
 	};
 
 	return StorageDevice;

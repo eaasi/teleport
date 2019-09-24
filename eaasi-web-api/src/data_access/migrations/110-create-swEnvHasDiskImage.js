@@ -24,11 +24,11 @@ module.exports = {
 				allowNull: true
 			},
 			fileSystem: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'fileSystem',
-					key: 'fileSystemQID'
+					key: 'fileSystemID'
 				}
 			},
 			storageCapacityBytes: {

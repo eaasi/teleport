@@ -22,11 +22,19 @@ module.exports = {
 				allowNull: false
 			},
 			keyboardDevice_keyboardLayout: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'keyboardLayout',
-					key: 'keyboardLayoutQID'
+					key: 'keyboardLayoutID'
+				}
+			},
+			keyboardDevice_keyboardLanguage: {
+				type: Sq.STRING,
+				allowNull: true,
+				references: {
+					model: 'language',
+					key: 'languageQID'
 				}
 			}
 		});

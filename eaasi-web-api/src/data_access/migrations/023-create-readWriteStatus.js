@@ -8,10 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			readWriteStatusID: {
-				type: Sq.INTEGER,
-				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
+				type: Sq.STRING,
 			},
 			readWriteStatusName: {
 				type: Sq.STRING,

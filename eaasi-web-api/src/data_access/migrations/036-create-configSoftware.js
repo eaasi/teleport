@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredSoftwareVersionID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
 				references: {
@@ -33,19 +33,19 @@ module.exports = {
 				allowNull: true
 			},
 			hasSource_softwareObjectID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareObject',
 					key: 'softwareObjectID'
 				}
 			},
-			hasSource_digitalObjectID: {
-				type: Sq.INTEGER,
+			hasSource_contentObjectLocalID: {
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'digitalObject',
-					key: 'digitalObjectID'
+					model: 'contentObject',
+					key: 'contentObjectLocalID'
 				}
 			},
 			manifestationOf_softwareVersion: {

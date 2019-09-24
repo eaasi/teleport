@@ -16,11 +16,11 @@ module.exports = {
 				}
 			},
 			osVersion_keyboardLayoutQID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'keyboardLayout',
-					key: 'keyboardLayoutQID'
+					key: 'keyboardLayoutID'
 				}
 			},
 			osVersion_keyboardLayoutName: {

@@ -14,18 +14,22 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
+
 			configuredMachineName: {
 				type: Sq.STRING,
 				allowNull: false
 			},
+
 			configuredMachineDescription: {
 				type: Sq.STRING,
 				allowNull: false
 			},
+
 			configuredMachineDateTime: {
 				type: Sq.DATE,
 				allowNull: false
 			},
+
 			configuredMachineType: {
 				type: Sq.INTEGER,
 				allowNull: true,
@@ -34,29 +38,50 @@ module.exports = {
 					key: 'machineTypeID'
 				}
 			},
-			configuredMachineRamBytes: {
-				type: Sq.STRING,
-				allowNull: false
+
+			configuredMachineRAM: {
+				type: Sq.INTEGER,
 			},
-			configuredMachineArchitecture: {
+
+			configuredMachineRAMUnit: {
 				type: Sq.STRING,
-				allowNull: true,
-				references: {
-					model: 'cpuArchitecture',
-					key: 'cpuArchitectureQID'
-				}
 			},
+
 			configuredMachineCpuCores: {
 				type: Sq.STRING,
 				allowNull: true
 			},
+
 			configuredMachine_emulatorSoftwareID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareVersion',
 					key: 'softwareVersionID'
 				}
+			},
+
+			configuredMachineProcessor: {
+				type: Sq.STRING,
+				allowNull: true,
+				references: {
+					model: 'processorDevice',
+					key: 'processorDeviceID'
+				}
+			},
+
+			configuredMachineChipset: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'chipset',
+					key: 'chipsetID'
+				}
+			},
+
+			configuredMachine_romFileID: {
+				type: Sq.STRING,
+				allowNull: true,
 			}
 		});
 	},

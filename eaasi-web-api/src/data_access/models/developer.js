@@ -7,12 +7,15 @@ module.exports = (sequelize) => {
 	Developer.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		developerQID: {
-			type: Sequelize.STRING,
+		developerID: {
+			type: Sequelize.INTEGER,
 			allowNull: false,
 			primaryKey: true
 		},
-		developerName: {
+		developerQID: {
+			type: Sequelize.STRING,
+		},
+		developerLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

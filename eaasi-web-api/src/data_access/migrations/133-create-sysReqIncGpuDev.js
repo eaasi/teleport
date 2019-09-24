@@ -4,14 +4,14 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_includes_gpuDevice', {
+		return queryInterface.createTable('systemRequirements_requires_gpuDevice', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirements_systemRequirementsID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false
 			},
-			systemRequirements_gpuDeviceID: {
+			systemRequirements_requiresGpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -20,12 +20,16 @@ module.exports = {
 				}
 			},
 			systemRequirements_minimumGpuRAM: {
+				type: Sq.DECIMAL,
+				allowNull: true
+			},
+			systemRequirements_minimumGpuRAMUnit: {
 				type: Sq.STRING,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_includes_gpuDevice');
+		return queryInterface.dropTable('systemRequirements_requires_gpuDevice');
 	}
 };

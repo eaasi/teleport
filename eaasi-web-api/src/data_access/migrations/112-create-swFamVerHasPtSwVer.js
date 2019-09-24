@@ -4,11 +4,11 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareFamilyVersion_hasPart_softwareVersion', {
+		return queryInterface.createTable('softwareFamilyVersion_has_softwareVersion', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareFamilyVersionID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareVersion',
@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			hasPart_softwareVersion: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareVersion',
@@ -26,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareFamilyVersion_hasPart_softwareVersion');
+		return queryInterface.dropTable('softwareFamilyVersion_has_softwareVersion');
 	}
 };

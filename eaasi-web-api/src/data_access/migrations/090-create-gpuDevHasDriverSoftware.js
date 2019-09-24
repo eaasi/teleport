@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			gpuDevice_driverSoftwareID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareVersion',

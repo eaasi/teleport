@@ -15,12 +15,12 @@ module.exports = (sequelize) => {
 				key: 'osVersionID'
 			}
 		},
-		osVersion_programmingLanguageQID: {
-			type: Sequelize.STRING,
+		osVersion_programmingLanguageID: {
+			type: Sequelize.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'programmingLanguage',
-				key: 'programmingLanguageQID'
+				key: 'programmingLanguageID'
 			}
 		}
 	}, { sequelize, tableName: 'osVersion_has_programmingLanguage' });
@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
 		models.OsVersionHasProgrammingLanguage.hasOne(models.OsVersion,
 			{foreignKey: 'osVersionID'});
 		models.OsVersionHasProgrammingLanguage.hasOne(models.ProgrammingLanguage,
-			{foreignKey: 'programmingLanguageQID'});
+			{foreignKey: 'programmingLanguageID'});
 	};
 
 	return OsVersionHasProgrammingLanguage;

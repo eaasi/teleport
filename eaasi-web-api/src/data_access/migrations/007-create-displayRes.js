@@ -13,8 +13,16 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			displayResolutionName: {
+			displayResolutionLabel: {
 				type: Sq.STRING,
+				allowNull: false
+			},
+			displayResolutionWidth: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			displayResolutionHeight: {
+				type: Sq.INTEGER,
 				allowNull: false
 			}
 		});

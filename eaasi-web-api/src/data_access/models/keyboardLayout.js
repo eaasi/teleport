@@ -7,12 +7,17 @@ module.exports = (sequelize) => {
 	KeyboardLayout.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
+		keyboardLayoutID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			autoIncrement: true,
+			primaryKey: true
+		},
 		keyboardLayoutQID: {
 			type: Sequelize.STRING,
 			allowNull: false,
-			primaryKey: true
 		},
-		keyboardLayoutName: {
+		keyboardLayoutLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

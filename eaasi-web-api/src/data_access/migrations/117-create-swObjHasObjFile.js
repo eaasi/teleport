@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareObject_softwareObjectID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareObject',
@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			softwareObjectFileID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'file',
@@ -27,14 +27,14 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			softwareObjectFile_usesMountFormat: {
+			softwareObjectFile_mediaTypeName: {
 				type: Sq.STRING,
-				allowNull: true,
-				references: {
-					model: 'mountFormat',
-					key: 'mountFormatQID'
-				}
-			}
+				allowNull: true
+			},
+			softwareObjectFile_order: {
+				type: Sq.INTEGER,
+				allowNull: true
+			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {

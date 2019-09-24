@@ -24,11 +24,11 @@ module.exports = (sequelize) => {
 			}
 		},
 		osVersion_keyboardSettingLayout: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
 				model: 'keyboardLayout',
-				key: 'keyboardLayoutQID'
+				key: 'keyboardLayoutID'
 			}
 		}
 	}, { sequelize, tableName: 'osVersion_keyboardSetting' });

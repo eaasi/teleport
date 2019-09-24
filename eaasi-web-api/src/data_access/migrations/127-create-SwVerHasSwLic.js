@@ -8,19 +8,19 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersion_softwareVersionID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareVersion',
 					key: 'softwareVersionID'
 				}
 			},
-			softwareVersion_softwareLicenseQID: {
-				type: Sq.STRING,
+			softwareVersion_softwareLicenseID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'softwareLicense',
-					key: 'softwareLicenseQID'
+					key: 'softwareLicenseID'
 				}
 			}
 		});
