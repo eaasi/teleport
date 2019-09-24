@@ -1,0 +1,19 @@
+[{"softwareProductID": "f9d4289e-ad92-4e98-9a7f-6097f6783aa0", "softwareProductQID": "Q934452", "softwareProductName": "Corel WordPerfect Office", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "01794000-7421-48aa-94e2-2a3ec03655dd", "softwareProductQID": "Q174757", "softwareProductName": "WordPerfect", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "ea43f9da-1603-4ce2-8bd3-80888d5b2fb6", "softwareProductQID": "Q970734", "softwareProductName": "Quattro Pro", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "b8885d70-ff42-404e-bb21-6451453833ed", "softwareProductQID": "Q1132534", "softwareProductName": "Corel Presentations", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "2dc22e99-34c5-415e-89b9-753fe011e40e", "softwareProductQID": "", "softwareProductName": "Corel Flow", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "8fc861fc-da0d-4b2b-a47a-fe2e54994b9c", "softwareProductQID": "Q11261", "softwareProductName": "Microsoft Word", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "29a66620-83b7-4ecb-a0fd-b782e3a4f235", "softwareProductQID": "Q11272", "softwareProductName": "Microsoft Excel", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "a826186d-18c9-4445-a05d-5d60ec28093f", "softwareProductQID": "Q80911", "softwareProductName": "Microsoft Outlook", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "f852daab-80ca-46e8-af4e-e2dada9cc00b", "softwareProductQID": "Q11266", "softwareProductName": "Microsoft PowerPoint", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "c85abdc7-54f3-478d-8b34-9bc8c249ae49", "softwareProductQID": "Q80689", "softwareProductName": "Microsoft Access", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "7d0aa659-a3f1-4cba-b800-64ee8a1f2108", "softwareProductQID": "Q368338", "softwareProductName": "Microsoft Publisher", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "ef83f512-f291-4ab4-b39f-b1f54f19dcf5", "softwareProductQID": "Q335162", "softwareProductName": "Microsoft FrontPage", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "f2edd5f8-ead8-429c-84cf-ce878ce5fea8", "softwareProductQID": "Q943263", "softwareProductName": "Microsoft PhotoDraw", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "f7003ead-2888-416f-8e39-59715bc67148", "softwareProductQID": "Q11255", "softwareProductName": "Microsoft Office", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "f5b8d8c8-0030-46bc-8400-b474b8d19e5d", "softwareProductQID": "Q83570", "softwareProductName": "AutoCAD", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "57e7d582-daf2-47b9-bbfa-92eabe4993a3", "softwareProductQID": "Q1406", "softwareProductName": "Microsoft Windows", "isOperatingSystem": "TRUE"}
+, {"softwareProductID": "bf25480c-aedc-4ae2-9494-d202d7a4301e", "softwareProductQID": "Q1575", "softwareProductName": "Internet Explorer", "isOperatingSystem": "FALSE"}
+, {"softwareProductID": "2a9f4d14-e394-405d-9d3a-1541485cd89e", "softwareProductQID": "Q192527", "softwareProductName": "Windows Media Player", "isOperatingSystem": "FALSE"}
+]

@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		audioDeviceName: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false
 		},
 	}, {sequelize, tableName:'audioDevice'});

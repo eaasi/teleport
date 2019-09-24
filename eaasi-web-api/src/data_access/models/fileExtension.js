@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			autoIncrement: true
 		},
-		extension: {
+		fileExtensionLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

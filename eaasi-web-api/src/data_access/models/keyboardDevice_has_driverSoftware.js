@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		keyboardDevice_driverSoftware: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',

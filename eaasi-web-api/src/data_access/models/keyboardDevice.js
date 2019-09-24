@@ -22,11 +22,19 @@ module.exports = (sequelize) => {
 			allowNull: false
 		},
 		keyboardDevice_keyboardLayout: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
 				model: 'keyboardLayout',
-				key: 'keyboardLayoutQID'
+				key: 'keyboardLayoutID'
+			}
+		},
+		keyboardDevice_keyboardLanguage: {
+			type: Sequelize.STRING,
+			allowNull: true,
+			references: {
+				model: 'language',
+				key: 'languageQID'
 			}
 		}
 	}, { sequelize, tableName: 'keyboardDevice' });

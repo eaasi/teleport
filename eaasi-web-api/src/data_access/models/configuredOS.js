@@ -50,7 +50,7 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		hasSource_softwareObjectID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareObject',

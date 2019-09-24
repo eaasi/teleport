@@ -13,8 +13,8 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			colorDepthName: {
-				type: Sq.INTEGER,
+			colorDepthLabel: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
 			bitDepth: {

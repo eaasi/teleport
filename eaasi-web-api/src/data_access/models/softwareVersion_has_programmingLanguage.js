@@ -8,19 +8,19 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareVersion_softwareVersionID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',
 				key: 'softwareVersionID'
 			}
 		},
-		softwareVersion_programmingLanguageQID: {
-			type: Sequelize.STRING,
+		softwareVersion_programmingLanguageID: {
+			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
 				model: 'programmingLanguage',
-				key: 'programmingLanguageQID'
+				key: 'programmingLanguageID'
 			}
 		}
 	}, { sequelize, tableName: 'pointerDevice' });

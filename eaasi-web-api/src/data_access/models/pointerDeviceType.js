@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			autoIncrement: true
 		},
-		pointerDeviceTypeName: {
+		pointerDeviceTypeLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		},

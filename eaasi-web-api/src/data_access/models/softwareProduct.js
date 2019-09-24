@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareProductID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
@@ -17,13 +17,14 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
-		softwareProductDescription: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
 		softwareProductName: {
 			type: Sequelize.STRING,
 			allowNull: false
+		},
+		isOperatingSystem: {
+			type: Sequelize.BOOLEAN,
+			allowNull: false,
+			defaultValue: false
 		}
 	}, { sequelize, tableName: 'softwareProduct' });
 

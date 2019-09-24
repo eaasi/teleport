@@ -7,19 +7,20 @@ module.exports = {
 		return queryInterface.createTable('fileFormat', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
+			fileFormatID: {
+				type: Sq.STRING,
+				allowNull: true,
+				primaryKey: true
+
+			},
 			fileFormatQID: {
 				type: Sq.STRING,
-				allowNull: false,
-				primaryKey: true
+				allowNull: false
 			},
-			fileFormatName: {
+			fileFormatLabel: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			pronomID: {
-				type: Sq.STRING,
-				allowNull: true
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {

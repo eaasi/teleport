@@ -15,12 +15,12 @@ module.exports = {
 					key: 'osVersionID'
 				}
 			},
-			osVersion_softwareLicenseQID: {
-				type: Sq.STRING,
+			osVersion_softwareLicenseID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'softwareLicense',
-					key: 'softwareLicenseQID'
+					key: 'softwareLicenseID'
 				}
 			}
 		});

@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareObject_softwareObjectID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareObject',
@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareObjectFileID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'file',
@@ -27,20 +27,19 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		softwareObjectFile_usesMountFormat: {
+		softwareObjectFile_mediaTypeName: {
 			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'mountFormat',
-				key: 'mountFormatQID'
-			}
-		}
+			allowNull: true
+		},
+		softwareObjectFile_order: {
+			type: Sequelize.INTEGER,
+			allowNull: true
+		},
 	}, { sequelize, tableName: 'softwareObject_has_objectFile' });
 	SoftwareObjectHasObjectFile.associate = models => {
 
 		models.SoftwareObjectHasObjectFile.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 		models.SoftwareObjectHasObjectFile.hasOne(models.File, {foreignKey: 'fileID'});
-		models.SoftwareObjectHasObjectFile.hasOne(models.MountFormat, {foreignKey: 'mountFormatQID'});
 	};
 	return SoftwareObjectHasObjectFile;
 };
