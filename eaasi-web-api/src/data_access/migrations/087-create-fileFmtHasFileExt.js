@@ -5,14 +5,14 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('fileFormat_has_fileExtension', {
-			createdAt: Sq.DATE,
-			updatedAt: Sq.DATE,
-			fileFormat_fileFormatQID: {
+			createdAt: Sequelize.DATE,
+			updatedAt: Sequelize.DATE,
+			fileFormat_fileFormatID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'fileFormat',
-					key: 'fileFormatQID'
+					key: 'fileFormatID'
 				}
 			},
 			fileExtension_fileExtensionID: {

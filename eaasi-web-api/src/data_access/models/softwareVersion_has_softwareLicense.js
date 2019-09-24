@@ -15,18 +15,18 @@ module.exports = (sequelize) => {
 				key: 'softwareVersionID'
 			}
 		},
-		softwareVersion_softwareLicenseQID: {
+		softwareVersion_softwareLicenseID: {
 			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareLicense',
-				key: 'softwareLicenseQID'
+				key: 'softwareLicenseID'
 			}
 		}
 	}, { sequelize, tableName: 'softwareVersion_has_softwareLicense' });
 	SoftwareVersionHasSoftwareLicense.associate = models => {
 		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareLicense, {foreignKey: 'softwareLicenseQID'});
+		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareLicense, {foreignKey: 'softwareLicenseID'});
 	};
 
 	return SoftwareVersionHasSoftwareLicense;

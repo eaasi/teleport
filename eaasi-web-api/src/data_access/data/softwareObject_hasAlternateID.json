@@ -1,0 +1,5 @@
+[{"softwareObject_softwareObjectID": "9ec72300-cb15-421e-971f-91db9aa7d907", "softwareObject_alternateID": "12726", "softwareObject_alternateIDSource": "NSRL", "softwareObject_localID": "TRUE"}
+, {"softwareObject_softwareObjectID": "71650a32-b0fc-458c-ae99-14f30bce306b", "softwareObject_alternateID": "13167", "softwareObject_alternateIDSource": "NSRL", "softwareObject_localID": "TRUE"}
+, {"softwareObject_softwareObjectID": "1db47e0c-e989-4cde-ad46-9ce4bd074f84", "softwareObject_alternateID": "13086", "softwareObject_alternateIDSource": "NSRL", "softwareObject_localID": "TRUE"}
+, {"softwareObject_softwareObjectID": "1db47e0c-e989-4cde-ad46-9ce4bd074f84", "softwareObject_alternateID": "1234ABCD", "softwareObject_alternateIDSource": "TEST", "softwareObject_localID": "FALSE"}
+]

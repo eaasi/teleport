@@ -24,11 +24,11 @@ module.exports = {
 				}
 			},
 			osVersion_keyboardSettingLayout: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'keyboardLayout',
-					key: 'keyboardLayoutQID'
+					key: 'keyboardLayoutID'
 				}
 			}
 		});

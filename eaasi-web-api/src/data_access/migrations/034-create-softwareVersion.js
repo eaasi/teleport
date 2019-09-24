@@ -8,10 +8,9 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersionID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			softwareVersionQID: {
 				type: Sq.STRING,
@@ -21,7 +20,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			softwareVersionDescription: {
+			softwareVersionHelpText: {
 				type: Sq.STRING,
 				allowNull: false
 			},
@@ -30,19 +29,11 @@ module.exports = {
 				allowNull: true
 			},
 			softwareVersionPublicationDate: {
-				type: Sq.DATE,
+				type: Sq.STRING,
 				allowNull: true
 			},
-			softwareVersionSystemRequirements: {
-				type: Sq.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'systemRequirements',
-					key: 'systemRequirementsID'
-				}
-			},
 			isVersionOf_softwareProduct: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
 				references: {
 					model: 'softwareProduct',

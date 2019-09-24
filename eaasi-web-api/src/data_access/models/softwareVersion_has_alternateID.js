@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareVersion_softwareVersionID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',
@@ -17,9 +17,18 @@ module.exports = (sequelize) => {
 		},
 		softwareVersion_alternateID: {
 			type: Sequelize.STRING,
+			allowNull: false,
+			unique: true
+		},
+		softwareVersion_idSource: {
+			type: Sequelize.STRING,
+			allowNull: false
+		},
+		softwareVersion_localID: {
+			type: Sequelize.BOOLEAN,
 			allowNull: false
 		}
-	}, { sequelize, tableName: 'softwareVersion_has_alternateID' });
+	}, { sequelize, tableName: 'softwareVersion_has_alternateName' });
 	SoftwareVersionHasAlternateID.associate = models => {
 		models.SoftwareVersionHasAlternateID.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	};

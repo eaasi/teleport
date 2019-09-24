@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_includes_pointerDeviceType', {
+		return queryInterface.createTable('systemRequirements_requires_pointerDeviceType', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirements_systemRequirementsID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'systemRequirements',
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_pointerDeviceTypeID: {
+			systemRequirements_requiresPointerDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'pointerDevice',
-					key: 'pointerDeviceID'
+					model: 'pointerDeviceType',
+					key: 'pointerDeviceTypeID'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_includes_pointerDeviceType');
+		return queryInterface.dropTable('systemRequirements_requires_pointerDeviceType');
 	}
 };

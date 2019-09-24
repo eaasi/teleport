@@ -7,12 +7,16 @@ module.exports = (sequelize) => {
 	ProgrammingLanguage.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		programmingLanguageQID: {
-			type: Sequelize.STRING,
+		programmingLanguageID: {
+			type: Sequelize.INTEGER,
 			allowNull: false,
 			primaryKey: true
 		},
-		programmingLanguageName: {
+		programmingLanguageQID: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
+		programmingLanguageLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

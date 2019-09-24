@@ -8,24 +8,29 @@ module.exports = (sequelize) => {
 	ConfiguredMachine.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
+
 		configuredMachineID: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
 		},
+
 		configuredMachineName: {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
+
 		configuredMachineDescription: {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
+
 		configuredMachineDateTime: {
 			type: Sequelize.DATE,
 			allowNull: false
 		},
+
 		configuredMachineType: {
 			type: Sequelize.INTEGER,
 			allowNull: true,
@@ -34,29 +39,54 @@ module.exports = (sequelize) => {
 				key: 'machineTypeID'
 			}
 		},
-		configuredMachineRamBytes: {
-			type: Sequelize.STRING,
-			allowNull: false
+
+		configuredMachineRAM: {
+			type: Sequelize.INTEGER,
 		},
-		configuredMachineArchitecture: {
+
+		configuredMachineRAMUnit: {
 			type: Sequelize.STRING,
-			allowNull: true,
 			references: {
-				model: 'cpuArchitecture',
-				key: 'cpuArchitectureQID'
+				model: 'frequencyUnit',
+				key: 'frequencyUnitLabel'
 			}
 		},
+
 		configuredMachineCpuCores: {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
+
 		configuredMachine_emulatorSoftwareID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareVersion',
 				key: 'softwareVersionID'
 			}
+		},
+
+		configuredMachineProcessor: {
+			type: Sequelize.STRING,
+			allowNull: true,
+			references: {
+				model: 'processorDevice',
+				key: 'processorDeviceID'
+			}
+		},
+
+		configuredMachineChipset: {
+			type: Sequelize.INTEGER,
+			allowNull: true,
+			references: {
+				model: 'chipset',
+				key: 'chipsetID'
+			}
+		},
+
+		configuredMachine_romFileID: {
+			type: Sequelize.STRING,
+			allowNull: true,
 		}
 	}, { sequelize, tableName: 'configuredMachine' });
 	ConfiguredMachine.associate = models  => {

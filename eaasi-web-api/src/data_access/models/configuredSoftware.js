@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		configuredSoftwareVersionID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
 			references: {
@@ -33,19 +33,19 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		hasSource_softwareObjectID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareObject',
 				key: 'softwareObjectID'
 			}
 		},
-		hasSource_digitalObjectID: {
-			type: Sequelize.INTEGER,
+		hasSource_contentObjectLocalID: {
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
-				model: 'digitalObject',
-				key: 'digitalObjectID'
+				model: 'contentObject',
+				key: 'contentObjectLocalID'
 			}
 		},
 		manifestationOf_softwareVersion: {
@@ -54,7 +54,7 @@ module.exports = (sequelize) => {
 		}
 	}, { sequelize, tableName: 'configuredSoftware' });
 	ConfiguredSoftware.associate = models => {
-		models.ConfiguredSoftware.hasOne(models.DigitalObject, {foreignKey: 'digitalObjectID'});
+		models.ConfiguredSoftware.hasOne(models.ContentObject, {foreignKey: 'contentObjectLocalID'});
 		models.ConfiguredSoftware.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
 		models.ConfiguredSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
 	};

@@ -7,12 +7,16 @@ module.exports = (sequelize) => {
 	SoftwareLicense.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		softwareLicenseQID: {
-			type: Sequelize.STRING,
+		softwareLicenseID: {
+			type: Sequelize.INTEGER,
 			allowNull: false,
 			primaryKey: true,
 		},
-		softwareLicenseName: {
+		softwareLicenseQID: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
+		softwareLicenseLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

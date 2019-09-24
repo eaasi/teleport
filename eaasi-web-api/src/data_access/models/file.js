@@ -9,10 +9,9 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		fileID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
 		fileLocation: {
 			type: Sequelize.STRING,
@@ -31,7 +30,7 @@ module.exports = (sequelize) => {
 			allowNull: true,
 			references: {
 				model: 'fileFormat',
-				key: 'fileFormatQID'
+				key: 'fileFormatID'
 			}
 		},
 		fileSize: {

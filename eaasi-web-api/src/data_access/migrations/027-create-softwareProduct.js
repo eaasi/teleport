@@ -8,22 +8,22 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareProductID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			softwareProductQID: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			softwareProductDescription: {
-				type: Sq.STRING,
-				allowNull: true
-			},
 			softwareProductName: {
 				type: Sq.STRING,
 				allowNull: false
+			},
+			isOperatingSystem: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},
