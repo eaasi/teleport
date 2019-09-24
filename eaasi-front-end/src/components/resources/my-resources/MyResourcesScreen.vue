@@ -2,16 +2,7 @@
 	<div id="myResources">
 		<h1>My Resources</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
-
-		<div class="resource-results">
-			<resource-facets />
-			<resource-list
-				:query="query"
-				:result="result"
-				v-if="result"
-				class="padded"
-			/>
-		</div>
+		<!-- TODO -->
 		<resource-slide-menu
 			:open="!!activeResource"
 			:resource="activeResource"

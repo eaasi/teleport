@@ -32,12 +32,26 @@ export default class ResourceAdminService extends BaseService {
 		return result;
 	}
 
+	/*============================================================
+	 == Environments
+	/============================================================*/
+
+	async getEnvironment(id: string): Promise<IEnvironment> {
+		let res = await this._emilEnvSvc.get('list');
+		let list = await res.json() as IEnvironmentList;
+		return list.environments.find(x => x.envId == id);
+	}
+
 	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
 		let res = await this._emilEnvSvc.get('list');
 		let list = await res.json() as IEnvironmentList;
 		let environments = list.environments;
 		return this._filterResults<IEnvironment>(query, environments);
 	}
+
+	/*============================================================
+	 == Software
+	/============================================================*/
 
 	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
 		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
@@ -48,10 +62,18 @@ export default class ResourceAdminService extends BaseService {
 		return this._filterResults<ISoftwarePackageDescription>(query, software);
 	}
 
+	/*============================================================
+	 == Content
+	/============================================================*/
+
 	private async _searchContent(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
 		let content = []; // TODO
 		return this._filterResults<IEnvironment>(query, content);
 	}
+
+	/*============================================================
+	 == Helpers
+	/============================================================*/
 
 	private _filterResults<T extends IEaasiResource>(query: IEaasiSearchQuery, results: IEaasiResource[]): IEaasiSearchResponse<T> {
 		let totalResults = results.length;

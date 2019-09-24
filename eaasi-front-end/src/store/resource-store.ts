@@ -29,6 +29,11 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
+
+	async getEnvironment(_store: Store<ResourceState>, envId: string) {
+		return await _svc.getEnvironment(envId);
+	},
+
 	async searchResources({ state, commit }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;

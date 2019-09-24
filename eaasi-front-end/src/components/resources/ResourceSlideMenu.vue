@@ -154,7 +154,7 @@ export default class ResourceSlideMenu extends Vue {
 		console.log(`Action clicked: ${action.label}`);
 		if(action.label === 'Run in Emulator') {
 			if(this.environment) {
-				this.$router.push('/access-interface');
+				this.$router.push(`/access-interface/${this.environment.envId}`);
 			}
 		}
 	}

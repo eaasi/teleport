@@ -1,7 +1,32 @@
 <template>
-	<section id="emulatorWrapper" class="padded">
-		<h2>{{ environment && environment.title || 'Access Interface' }}</h2>
-		<div ref="_emulatorContainer"></div>
+	<section id="emulatorWrapper">
+		<div ref="_emulatorContainer" id="emulator-container"></div>
+		<div class="emulator-actions">
+			<p>Emulator Actions</p>
+			<div class="flex-row justify-between">
+				<ui-button
+					icon="camera"
+					collapse
+					size="sm"
+				>
+					Take Screenshot
+				</ui-button>
+				<ui-button
+					icon="keyboard"
+					collapse
+					size="sm"
+				>
+					Esc
+				</ui-button>
+				<ui-button
+					icon="keyboard"
+					collapse
+					size="sm"
+				>
+					Ctrl/Alt/Dele
+				</ui-button>
+			</div>
+		</div>
 	</section>
 </template>
 
@@ -18,11 +43,24 @@ import { Get, Sync } from 'vuex-pathify';
 })
 export default class Emulator extends Vue {
 
+	/* Props
+	============================================*/
+
+	@Prop({type: Object as () => IEnvironment, required: true})
+	readonly environment: IEnvironment
+
 	/* Computed
 	============================================*/
 
-	@Get('resource/activeEnvironment')
-	readonly environment: IEnvironment
+	get environmentParams() {
+		// TODO: this should not be static
+		return {
+			archive: this.environment.archive,
+			keyboardLayout: 'us',
+			keyboardModel: 'pc105',
+			type: 'machine'
+		};
+	}
 
 	@Sync('showLoader')
 	loading: boolean;
@@ -32,6 +70,7 @@ export default class Emulator extends Vue {
 
 	/* Data
 	============================================*/
+
 	bwfla: IbwflaController = null;
 	client: IEaasClient = null;
 	controller: IbwflaController = null;
@@ -42,15 +81,15 @@ export default class Emulator extends Vue {
 
 	attachUserControls() {
 		let vm = this;
-		vm.bwfla = (window as any).BWFLA as IbwflaController;
+		if(!vm.bwfla) return;
 		if (vm.client.params.pointerLock === 'true') {
 			vm.bwfla.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
 		}
 	}
 
 	confirmStop() {
-		// TODO;
-		this.stopClient();
+		// TODO: Have user confirm that they want to stop environment before leaving
+		this.stopEnvironment();
 	}
 
 	handleError(message: string) {
@@ -58,58 +97,84 @@ export default class Emulator extends Vue {
 	}
 
 	async init() {
-		let vm = this;
-		let container = vm.$refs._emulatorContainer;
-		let EaasClient = (window as any).EaasClient || null;
-		if(!EaasClient) return;
-		await fetch(config.EAASI_HOST + '/EmilEnvironmentData/init');
-		vm.client = new EaasClient.Client(config.EAASI_HOST, container);
-		vm.setupListeners();
-		vm.startClient();
+		try {
+			let vm = this;
+			let container = vm.$refs._emulatorContainer;
+			let EaasClient = (window as any).EaasClient || null;
+			if(!EaasClient) return;
+			if(!vm.client) {
+				await fetch(config.EAASI_HOST + '/EmilEnvironmentData/init');
+				vm.client = new EaasClient.Client(config.EAASI_HOST, container);
+			}
+			if(!vm.bwfla) {
+				vm.bwfla = (window as any).BWFLA as IbwflaController;
+			}
+			vm.setupListeners();
+			// return; // TODO;
+			vm.startEnvironment();
+		} catch(e) {
+			this.handleError(e.message);
+		}
 	}
 
-	async startClient() {
-		let vm = this;
-		vm.loading = true;
-		if(!vm.client || !vm.environment) return;
-		await vm.client.startEnvironment(vm.environment.envId, {
-			archive: vm.environment.archive,
-			keyboardLayout: 'us',
-			keyboardModel: 'pc105',
-			type: 'machine'
-		});
-		await vm.client.connect();
-		vm.attachUserControls();
-		setTimeout(() => vm.loading = false, 1000);
+	async startEnvironment() {
+		try {
+			let vm = this;
+			vm.loading = true;
+			await vm.client.startEnvironment(vm.environment.envId, vm.environmentParams);
+			vm.isStarted = true;
+			await vm.client.connect();
+			vm.attachUserControls();
+			setTimeout(() => vm.loading = false, 1000);
+		} catch(e) {
+			this.handleError(e.message);
+		}
 	}
 
-	async stopClient() {
-		console.log('STOPPING CLIENT');
+	async stopEnvironment() {
 		let vm = this;
-		if(!vm.client) return;
-		vm.loading = true;
+		if(!vm.client || !vm.isStarted) return;
 		window.onbeforeunload = null;
-		vm.client.disconnect();
 		await vm.client.release();
-		vm.loading = false;
+		vm.isStarted = false;
 	}
 
 	setupListeners() {
 		let vm = this;
-
 		vm.client.onError = (err) => vm.handleError(err);
-		window.onbeforeunload = () => vm.confirmStop();
+		window.onbeforeunload = () => vm.stopEnvironment();
 	}
 
-	/* Hooks
+	/* Lifecycle Hooks
 	============================================*/
 
 	mounted() {
 		this.init();
 	}
 
-	beforeDestroy() {
-		this.stopClient();
-	}
 }
 </script>
+
+<style lang="scss">
+#emulatorWrapper {
+	display: inline-block;
+
+	#emulator-container {
+		display: inline-block;
+	}
+
+	canvas {
+		/* stylelint-disable declaration-no-important */
+		z-index: 1 !important; // Override z-index: -1 given by eaas-client
+	}
+}
+
+.emulator-actions {
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #AAAAAA;
+	margin: 2rem auto 0;
+	padding: 1rem 2rem 2rem;
+	width: 46rem;
+}
+
+</style>
