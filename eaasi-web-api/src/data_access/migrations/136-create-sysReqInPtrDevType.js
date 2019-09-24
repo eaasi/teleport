@@ -19,8 +19,8 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'pointerDevice',
-					key: 'pointerDeviceID'
+					model: 'pointerDeviceType',
+					key: 'pointerDeviceTypeID'
 				}
 			}
 		});

@@ -25,11 +25,11 @@ module.exports = {
 			},
 			systemRequirements_minimumFrequency: {
 				type: Sq.INTEGER,
-				allowNull: false,
+				allowNull: true,
 			},
 			systemRequirements_minimumFrequencyUnit: {
 				type: Sq.STRING,
-				allowNull: false,
+				allowNull: true,
 			}
 		});
 	},

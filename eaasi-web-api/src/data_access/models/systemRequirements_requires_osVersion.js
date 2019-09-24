@@ -15,20 +15,14 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_requiresOsVersionID: {
-			type: Sequelize.INTEGER,
+		systemRequirements_requiresOSVersionID: {
+			type: Sequelize.STRING,
 			allowNull: true,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
 		}
 	}, { sequelize, tableName: 'systemRequirements_requires_osVersion' });
 	SystemRequirementsRequiresOsVersion.associate = models => {
 		models.SystemRequirementsRequiresOsVersion.hasOne(
 			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsRequiresOsVersion.hasOne(
-			models.OsVersion, {foreignKey: 'osVersionID'});
 	};
 
 	return SystemRequirementsRequiresOsVersion;

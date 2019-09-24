@@ -9,10 +9,9 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		unitLabel: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
 		unitAbbreviation: {
 			type: Sequelize.STRING,

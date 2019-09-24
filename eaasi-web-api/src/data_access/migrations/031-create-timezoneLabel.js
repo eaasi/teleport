@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('timezoneLabel', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			timezoneQID: {
+			timezone_timezoneQID: {
 				type: Sq.STRING(45),
 				allowNull: false,
 			},

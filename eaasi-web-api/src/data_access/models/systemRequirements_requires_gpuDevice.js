@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		systemRequirements_minimumGpuRAM: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.DECIMAL,
 			allowNull: true
 		},
 		systemRequirements_minimumGpuRAMUnit: {

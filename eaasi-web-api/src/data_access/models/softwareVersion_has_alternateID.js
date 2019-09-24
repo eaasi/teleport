@@ -5,10 +5,10 @@ const Sequelize = require('sequelize');
 class SoftwareVersionHasAlternateID extends Sequelize.Model {}
 module.exports = (sequelize) => {
 	SoftwareVersionHasAlternateID.init({
-		createdAt: Sq.DATE,
-		updatedAt: Sq.DATE,
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE,
 		softwareVersion_softwareVersionID: {
-			type: Sq.STRING,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',
@@ -16,16 +16,16 @@ module.exports = (sequelize) => {
 			}
 		},
 		softwareVersion_alternateID: {
-			type: Sq.STRING,
+			type: Sequelize.STRING,
 			allowNull: false,
 			unique: true
 		},
 		softwareVersion_idSource: {
-			type: Sq.STRING,
+			type: Sequelize.STRING,
 			allowNull: false
 		},
 		softwareVersion_localID: {
-			type: Sq.BOOLEAN,
+			type: Sequelize.BOOLEAN,
 			allowNull: false
 		}
 	}, { sequelize, tableName: 'softwareVersion_has_alternateName' });

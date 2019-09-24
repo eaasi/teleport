@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_requiresStorageDeviceTypeID: {
+		systemRequirements_storageDeviceTypeID: {
 			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {

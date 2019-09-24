@@ -15,13 +15,9 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_requiresOsVersionID: {
-				type: Sq.INTEGER,
+			systemRequirements_requiresOSVersionID: {
+				type: Sq.STRING,
 				allowNull: true,
-				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
-				}
 			}
 		});
 	},

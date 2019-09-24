@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_requiresNetworkDeviceID: {
+			systemRequirements_networkDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

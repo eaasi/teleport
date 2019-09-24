@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_requiresNetworkDeviceID: {
+		systemRequirements_networkDeviceID: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 			references: {

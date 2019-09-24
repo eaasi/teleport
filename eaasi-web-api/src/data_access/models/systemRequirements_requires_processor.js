@@ -25,11 +25,11 @@ module.exports = (sequelize) => {
 		},
 		systemRequirements_minimumFrequency: {
 			type: Sequelize.INTEGER,
-			allowNull: false,
+			allowNull: true,
 		},
 		systemRequirements_minimumFrequencyUnit: {
 			type: Sequelize.STRING,
-			allowNull: false,
+			allowNull: true,
 		}
 	}, { sequelize, tableName: 'systemRequirements_requires_processor' });
 	SystemRequirementsRequiresProcessor.associate = models => {

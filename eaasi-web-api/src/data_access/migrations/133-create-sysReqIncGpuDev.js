@@ -20,6 +20,10 @@ module.exports = {
 				}
 			},
 			systemRequirements_minimumGpuRAM: {
+				type: Sq.DECIMAL,
+				allowNull: true
+			},
+			systemRequirements_minimumGpuRAMUnit: {
 				type: Sq.STRING,
 				allowNull: true
 			}

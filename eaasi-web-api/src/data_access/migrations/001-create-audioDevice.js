@@ -18,8 +18,12 @@ module.exports = {
 			},
 			audioDevice_machineInterfaceID: {
 				type: Sq.INTEGER,
+				allowNull: true
+			},
+			audioDeviceName: {
+				type: Sequelize.STRING,
 				allowNull: false
-			}
+			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {

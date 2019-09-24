@@ -8,10 +8,9 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			unitLabel: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			unitAbbreviation: {
 				type: Sq.STRING,

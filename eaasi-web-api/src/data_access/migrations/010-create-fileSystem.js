@@ -14,7 +14,7 @@ module.exports = {
 			},
 			fileSystemQID: {
 				type: Sq.STRING,
-				allowNull: false,
+				allowNull: true,
 			},
 			fileSystemLabel: {
 				type: Sq.STRING,

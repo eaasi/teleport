@@ -14,7 +14,8 @@ module.exports = (sequelize) => {
 			primaryKey: true
 		},
 		fileSystemQID: {
-			allowNull: false,
+			type: Sequelize.STRING,
+			allowNull: true,
 			primaryKey: true
 		},
 		fileSystemLabel: {

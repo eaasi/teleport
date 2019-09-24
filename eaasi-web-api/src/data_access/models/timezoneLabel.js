@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
 	TimezoneLabel.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		timezoneQID: {
+		timezone_timezoneQID: {
 			type: Sequelize.STRING(45),
 			allowNull: false,
 		},

@@ -19,8 +19,8 @@ module.exports = (sequelize) => {
 			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
-				model: 'pointerDevice',
-				key: 'pointerDeviceID'
+				model: 'pointerDeviceType',
+				key: 'pointerDeviceTypeID'
 			}
 		}
 	}, { sequelize, tableName: 'systemRequirements_requires_pointerDeviceType' });
@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
 		models.SystemRequirementsRequiresPointerDeviceType.hasOne(
 			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
 		models.SystemRequirementsRequiresPointerDeviceType.hasOne(
-			models.PointerDeviceType, {foreignKey: 'pointerDeviceID'});
+			models.PointerDeviceType, {foreignKey: 'pointerDeviceTypeID'});
 	};
 
 	return SystemRequirementsRequiresPointerDeviceType;
