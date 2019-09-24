@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_osVersionID: {
+			systemRequirements_requiresOsVersionID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

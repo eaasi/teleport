@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_requires_processorID: {
+			systemRequirements_requiresProcessorID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {

@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false
 		},
-		systemRequirements_gpuDeviceID: {
+		systemRequirements_requiresGpuDeviceID: {
 			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {

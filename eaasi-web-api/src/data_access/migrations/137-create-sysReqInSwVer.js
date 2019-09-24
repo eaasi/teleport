@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_softwareVersionID: {
+			systemRequirements_requiresSoftwareVersionID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {

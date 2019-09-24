@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_requires_storageDeviceTypeID: {
+			systemRequirements_requiresStorageDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

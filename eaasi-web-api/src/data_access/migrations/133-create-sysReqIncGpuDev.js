@@ -11,7 +11,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			systemRequirements_gpuDeviceID: {
+			systemRequirements_requiresGpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

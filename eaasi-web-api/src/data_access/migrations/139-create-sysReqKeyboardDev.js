@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_keyboardDeviceID: {
+			systemRequirements_requiresKeyboardDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_keyboardDeviceID: {
+		systemRequirements_requiresKeyboardDeviceID: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 			references: {

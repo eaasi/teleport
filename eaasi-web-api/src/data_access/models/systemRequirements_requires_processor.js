@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_requires_processorID: {
+		systemRequirements_requiresProcessorID: {
 			type: Sequelize.STRING,
 			allowNull: false,
 			references: {

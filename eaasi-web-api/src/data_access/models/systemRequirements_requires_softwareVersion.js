@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_softwareVersionID: {
+		systemRequirements_requiresSoftwareVersionID: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 			references: {

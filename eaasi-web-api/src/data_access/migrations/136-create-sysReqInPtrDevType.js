@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_requires_pointerDeviceTypeID: {
+			systemRequirements_requiresPointerDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

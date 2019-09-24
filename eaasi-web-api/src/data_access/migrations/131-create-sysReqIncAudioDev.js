@@ -15,7 +15,7 @@ module.exports = {
 					key: 'systemRequirementsID'
 				}
 			},
-			systemRequirements_audioDeviceID: {
+			systemRequirements_requiresAudioDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

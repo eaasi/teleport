@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 				key: 'systemRequirementsID'
 			}
 		},
-		systemRequirements_audioDeviceID: {
+		systemRequirements_requiresAudioDeviceID: {
 			type: Sequelize.INTEGER,
 			allowNull: false,
 			references: {
