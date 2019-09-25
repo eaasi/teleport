@@ -1,7 +1,7 @@
 import BaseService from '../base/BaseService';
 import { IResourceSearchQuery, IResourceSearchResponse, IEaasiSearchResponse, IEaasiSearchQuery, IEaasiResource, IResourceSearchFacet } from '@/types/resource/Resource';
 import EmilBaseService from '../emil/EmilBaseService';
-import { IEnvironmentList, IEnvironment } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
 import { ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
@@ -33,10 +33,9 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let res = await this._emilEnvSvc.get('list');
-		let list = await res.json() as IEnvironmentList;
-		let environments = list.environments;
-		return this._filterResults<IEnvironment>(query, environments);
+		let res = await this._emilEnvSvc.get('');
+		let list = await res.json() as IEnvironment[];
+		return this._filterResults<IEnvironment>(query, list);
 	}
 
 	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {

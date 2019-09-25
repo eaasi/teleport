@@ -1,6 +1,9 @@
 <template>
 	<div class="mtb-container">
-		<toggle-pill :options="editModeOptions"/>
+		<toggle-pill @check="toggleSelect"/>
+		<div class="mtb-mode">
+			{{ message }}
+		</div>
 	</div>
 </template>
 
@@ -14,23 +17,29 @@ import TogglePill from '@/components/global/TogglePill.vue';
 	components: {TogglePill}
 })
 export default class ModeToggleBar extends Vue {
-	editModeOptions: EditModeOption[] = [
-		{
-			displayName: 'Review Mode',
-			value: 'reviewMode',
-			icon: 'lock'
-		},
-		{
-			displayName: 'Edit Mode',
-			value: 'editMode',
-			icon: 'unlock'
+	message: string = 'Review Mode'
+
+	toggleSelect(e) {
+		if (e) {
+			this.message = 'Edit Mode';
+		} else {
+			this.message = 'Review Mode';
 		}
-	]
+	}
 };
 </script>
 
 <style lang="scss">
 	.mtb-container {
-		padding: 64px;
+		align-items: center;
+		background-color: lighten($light-neutral, 40%);
+		border-bottom: 2px solid darken($light-neutral, 20%);
+		display: flex;
+		height: 64px;
+		padding-left: 24px;
+
+		.mtb-mode {
+			margin-left: 12px;
+		}
 	}
 </style>
