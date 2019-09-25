@@ -101,7 +101,7 @@ export default class UiButton extends Vue {
 
 	&[disabled] {
 		cursor: not-allowed;
-		opacity: 0.7;
+		opacity: 0.6;
 	}
 
 	&.sm,

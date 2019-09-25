@@ -147,3 +147,23 @@ export function appendScript(scriptText: string) {
 	script.text  = scriptText;
 	document.body.appendChild(script);
 };
+
+/*============================================================
+ == String Manipulation
+/============================================================*/
+
+export function slugify(string: string, delimeter: string = '-') {
+	let a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;';
+	let b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnooooooooprrsssssttuuuuuuuuuwxyyzzz------';
+	if(delimeter !== '-') b = b.replace('-', delimeter);
+	let p = new RegExp(a.split('').join('|'), 'g');
+
+	return string.toString().toLowerCase()
+	  .replace(/\s+/g, delimeter) // Replace spaces with -
+	  .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+	  .replace(/&/g, '-and-') // Replace & with 'and'
+	  .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+	  .replace(/\-\-+/g, delimeter) // Replace multiple - with single -
+	  .replace(/^-+/, '') // Trim - from start of text
+	  .replace(/-+$/, ''); // Trim - from end of text
+}

@@ -1,13 +1,15 @@
 <template>
-	<section id="emulatorWrapper">
-		<div ref="_emulatorContainer" id="emulator-container"></div>
-		<div class="emulator-actions">
+	<section id="emulatorWrapper" ref="_wrapper">
+		<!-- Do not change this div's ID, eeas-client looks for '#emulator-container' -->
+		<div ref="_container" id="emulator-container"></div>
+		<div class="emulator-actions" v-show="isStarted">
 			<p>Emulator Actions</p>
 			<div class="flex-row justify-between">
 				<ui-button
 					icon="camera"
 					collapse
 					size="sm"
+					@click="takeScreenShot()"
 				>
 					Take Screenshot
 				</ui-button>
@@ -15,6 +17,7 @@
 					icon="keyboard"
 					collapse
 					size="sm"
+					@click="sendEscape()"
 				>
 					Esc
 				</ui-button>
@@ -22,8 +25,9 @@
 					icon="keyboard"
 					collapse
 					size="sm"
+					@click="sendCtrlAltDelete()"
 				>
-					Ctrl/Alt/Dele
+					Ctrl/Alt/Del
 				</ui-button>
 			</div>
 		</div>
@@ -38,10 +42,18 @@ import { IAppError } from '@/types/AppError';
 import { IEaasClient, IbwflaController } from '@/types/Eaas';
 import { IEnvironment } from '@/types/Resource';
 import { Get, Sync } from 'vuex-pathify';
+import { saveAs } from 'file-saver';
+import { slugify } from '@/utils/functions';
+
 @Component({
 	name: 'Emulator'
 })
 export default class Emulator extends Vue {
+
+	$refs!: {
+		_wrapper: HTMLElement,
+		_container: HTMLElement
+	}
 
 	/* Props
 	============================================*/
@@ -68,13 +80,15 @@ export default class Emulator extends Vue {
 	@Sync('appError')
 	error: IAppError
 
+	@Sync('emulatorIsRunning')
+	isStarted: boolean;
+
 	/* Data
 	============================================*/
 
 	bwfla: IbwflaController = null;
 	client: IEaasClient = null;
-	controller: IbwflaController = null;
-	isStarted: boolean = false;
+	isStopping: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -97,9 +111,10 @@ export default class Emulator extends Vue {
 	}
 
 	async init() {
+		return;
 		try {
 			let vm = this;
-			let container = vm.$refs._emulatorContainer;
+			let container = vm.$refs._container;
 			let EaasClient = (window as any).EaasClient || null;
 			if(!EaasClient) return;
 			if(!vm.client) {
@@ -110,7 +125,6 @@ export default class Emulator extends Vue {
 				vm.bwfla = (window as any).BWFLA as IbwflaController;
 			}
 			vm.setupListeners();
-			// return; // TODO;
 			vm.startEnvironment();
 		} catch(e) {
 			this.handleError(e.message);
@@ -133,16 +147,39 @@ export default class Emulator extends Vue {
 
 	async stopEnvironment() {
 		let vm = this;
-		if(!vm.client || !vm.isStarted) return;
+		if(!vm.client || vm.isStopping) return;
+		vm.isStopping = true;
 		window.onbeforeunload = null;
 		await vm.client.release();
+		vm.isStopping = false;
 		vm.isStarted = false;
+	}
+
+	sendCtrlAltDelete() {
+		if(!this.client) return;
+		this.client.sendCtrlAltDel();
+	}
+
+	sendEscape() {
+		if(!this.client) return;
+		this.client.sendEsc();
 	}
 
 	setupListeners() {
 		let vm = this;
 		vm.client.onError = (err) => vm.handleError(err);
-		window.onbeforeunload = () => vm.stopEnvironment();
+		window.onbeforeunload = () => {
+			vm.stopEnvironment();
+			return ''; // Chrome
+		};
+	}
+
+	takeScreenShot() {
+		let canvas = document.querySelector('#emulatorWrapper canvas') as HTMLCanvasElement;
+		if(!canvas) return;
+		let envTitle = this.environment.title;
+		let filename = slugify(envTitle + '-screenshot-' + new Date().toLocaleString());
+		canvas.toBlob(blob => saveAs(blob, filename));
 	}
 
 	/* Lifecycle Hooks
@@ -150,6 +187,11 @@ export default class Emulator extends Vue {
 
 	mounted() {
 		this.init();
+	}
+
+	beforeDestroy() {
+		this.stopEnvironment();
+		this.isStarted = false;
 	}
 
 }
@@ -174,7 +216,7 @@ export default class Emulator extends Vue {
 	color: #AAAAAA;
 	margin: 2rem auto 0;
 	padding: 1rem 2rem 2rem;
-	width: 46rem;
+	width: 45rem;
 }
 
 </style>

@@ -1,21 +1,46 @@
 <template>
 	<div id="accessInterface" class="flex">
 		<access-interface-header
-			@click:exit="exit"
-			@click:restart="restart"
+			@click:exit="showConfirmExitModal = true"
+			@click:restart="showConfirmRestartModal = true"
 			@click:save="save"
 		/>
 		<environment-menu
 			v-if="environment"
 			:environment="environment"
 		/>
-		<div class="ai-emulator flex-adapt">
-			<emulator
-				v-if="environment"
-				:environment="environment"
-				ref="_emulator"
-			/>
+		<div class="flex-adapt padded ai-content">
+			<div class="ai-emulator">
+				<emulator
+					v-if="environment"
+					:environment="environment"
+					ref="_emulator"
+				/>
+			</div>
 		</div>
+		<confirm-modal
+			title="Exit Emulation?"
+			confirm-label="Exit"
+			@click:cancel="showConfirmExitModal = false"
+			@click:confirm="exit"
+			v-if="showConfirmExitModal"
+		>
+			<alert type="warning">
+				If you exit, all unsaved changes made during this session will be lost.
+			</alert>
+		</confirm-modal>
+
+		<confirm-modal
+			title="Restart Emulation?"
+			confirm-label="Exit"
+			@click:cancel="showConfirmRestartModal = false"
+			@click:confirm="exit"
+			v-if="showConfirmRestartModal"
+		>
+			<alert type="warning">
+				If you restart, all unsaved changes made during this session will be lost.
+			</alert>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -49,11 +74,20 @@ export default class AccessInterfaceScreen extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment
 
+	@Get('emulatorIsRunning')
+	readonly emulatorIsRunning: boolean;
+
 	@Sync('hideLeftMenu')
 	hideLeftMenu: boolean
 
 	@Sync('hideAppHeader')
 	hideAppHeader: boolean
+
+	/* Data
+	============================================*/
+
+	showConfirmExitModal: boolean = false;
+	showConfirmRestartModal: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -65,11 +99,13 @@ export default class AccessInterfaceScreen extends Vue {
 	}
 
 	async exit() {
+		this.showConfirmExitModal = false;
 		await this.stop();
 		this.$router.go(-1);
 	}
 
 	restart() {
+		this.showConfirmRestartModal = false;
 		// TODO
 	}
 
@@ -80,6 +116,7 @@ export default class AccessInterfaceScreen extends Vue {
 	async stop() {
 		if(!this.$refs._emulator) return;
 		await this.$refs._emulator.stopEnvironment();
+		return true;
 	}
 
 	/* Lifecycle Hooks
@@ -111,8 +148,13 @@ export default class AccessInterfaceScreen extends Vue {
 	min-height: 100vh;
 }
 
-.ai-emulator {
+.ai-content {
 	margin-top: $accessHeaderHeight;
-	padding: 2rem 3rem;
+	text-align: center;
+}
+
+.ai-emulator {
+	display: inline-block;
+	margin: 0 auto;
 }
 </style>

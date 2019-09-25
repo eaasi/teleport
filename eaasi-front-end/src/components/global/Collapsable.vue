@@ -107,6 +107,5 @@ export default class Collapsable extends Vue {
 			background-color: transparent;
 		}
 	}
-
 }
 </style>

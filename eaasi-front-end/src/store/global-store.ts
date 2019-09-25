@@ -16,6 +16,7 @@ import { Store } from 'vuex';
 class GlobalState {
 	activeTask: EaasiTask = null;
 	adminMenuOpen: boolean = false;
+	emulatorIsRunning: boolean = false;
 	hideAppHeader: boolean = false;
 	hideLeftMenu: boolean = false;
 	loggedInUser: IEaasiUser = null;

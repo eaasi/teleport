@@ -15,9 +15,12 @@
 					Save Environment
 				</ui-button>
 			</div>
+			<div class="ah-alert flex-row" v-if="emulatorIsRunning">
+				<i class="far fa-exclamation-triangle"></i>
+				<span>Emulated computer must be shut down before saving.</span>
+			</div>
 		</div>
 		<div class="ai-options">
-
 		</div>
 	</div>
 </template>
@@ -25,29 +28,18 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'AccessInterfaceHeader',
 })
 export default class AccessInterfaceHeader extends Vue {
 
-	/* Props
-	============================================*/
-
-	/* Data
-	============================================*/
-
 	/* Computed
 	============================================*/
 
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
+	@Get('emulatorIsRunning')
+	readonly emulatorIsRunning: boolean;
 
 }
 
@@ -89,5 +81,13 @@ export default class AccessInterfaceHeader extends Vue {
 	left: 1rem;
 	position: absolute;
 	top: 0.3rem;
+}
+
+.ah-alert {
+	i {
+		color: $orange;
+		font-size: 2.5rem;
+		margin-right: 1rem;
+	}
 }
 </style>

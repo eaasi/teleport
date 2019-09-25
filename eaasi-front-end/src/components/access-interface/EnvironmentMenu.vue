@@ -32,6 +32,17 @@
 					<ui-button block>Add To Environment Metadata</ui-button>
 				</eaasi-form>
 			</collapsable>
+
+			<collapsable
+				title="Did you make software changes?"
+				open-title="I made these softare changes.."
+			>
+				<eaasi-form>
+					<text-input label="Applied Change" rules="required" />
+					<text-area-input label="Applied Change Details" rules="required" />
+					<ui-button block>Add To Environment Metadata</ui-button>
+				</eaasi-form>
+			</collapsable>
 		</div>
 	</div>
 </template>
