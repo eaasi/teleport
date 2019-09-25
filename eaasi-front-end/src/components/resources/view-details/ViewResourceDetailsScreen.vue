@@ -2,32 +2,20 @@
 	<div id="myResources">
 		<h1>Resource Details</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
-
-		<div class="resource-results">
-			<resource-facets />
-			<resource-list
-				:query="query"
-				:result="result"
-				v-if="result"
-				class="padded"
-			/>
-		</div>
-		<resource-slide-menu
-			:open="!!activeResource"
-			:resource="activeResource"
-			@close="activeResource = null"
-		/>
+		<mode-toggle-bar />
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {IEaasiTab} from "eaasi-nav";
+import { IEaasiTab } from 'eaasi-nav';
+import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
 
 @Component({
 	name: 'ViewResourceDetailsScreen',
 	components: {
+		ModeToggleBar,
 	}
 })
 export default class ViewResourceDetailsScreen extends Vue {
@@ -40,8 +28,9 @@ export default class ViewResourceDetailsScreen extends Vue {
 	/* Data
 	============================================*/
 
-	activeTab: string = 'Imported Resources';
+	activeTab: string = 'History';
 	menuOpen: boolean = false;
+
 	tabs: IEaasiTab[] = [
 		{
 			label: 'History'

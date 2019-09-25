@@ -149,7 +149,7 @@ export default class ResourceSlideMenu extends Vue {
 		case 'Run in Emulator': // TODO
 			break;
 		case 'View Details': {
-			console.log(this.resource['envId'])
+			console.log(this.resource['envId']);
 			this.$router.push({
 				name: 'Resource Detail',
 				params: { resourceEnvId: this.resource['envId'] }
