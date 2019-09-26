@@ -12,10 +12,10 @@
 					:tabs="tabs"
 				/>
 			</div>
-			<resource-details
+			<labeled-item-list
 				v-if="tab === 'Details'"
 				class="rsm-details"
-				:resource="resource"
+				:labeled-items="labeledItems"
 			/>
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
@@ -46,14 +46,15 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import ResourceAction from './ResourceAction.vue';
-import ResourceDetails from './ResourceDetails.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
+import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+import {ILabeledItem} from '@/types/ILabeledItem';
 
 @Component({
 	name: 'ResourceSlideMenu',
 	components: {
+		LabeledItemList,
 		ResourceAction,
-		ResourceDetails,
 		SlideMenu
 	}
 })
@@ -70,6 +71,9 @@ export default class ResourceSlideMenu extends Vue {
 
 	/* Data
 	============================================*/
+
+	// TODO: Labeled Items should be derived from the resource
+	labeledItems: ILabeledItem[];
 
 	// TODO: Actions should become dynamic based on resource type and user role
 	localActions: IAction[] = [

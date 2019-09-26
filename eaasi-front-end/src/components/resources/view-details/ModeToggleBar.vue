@@ -1,15 +1,15 @@
 <template>
 	<div class="mtb-container">
-		<toggle-pill @check="toggleSelect"/>
+		<toggle-pill @check="toggleSelect" />
 		<div class="mtb-mode">
-			{{ message }}
+			{{ toggleMode }}
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import TogglePill from '@/components/global/TogglePill.vue';
 
 @Component({
@@ -17,13 +17,13 @@ import TogglePill from '@/components/global/TogglePill.vue';
 	components: {TogglePill}
 })
 export default class ModeToggleBar extends Vue {
-	message: string = 'Review Mode'
+	toggleMode: string = 'Review Mode'
 
 	toggleSelect(e) {
 		if (e) {
-			this.message = 'Edit Mode';
+			this.toggleMode = 'Edit Mode';
 		} else {
-			this.message = 'Review Mode';
+			this.toggleMode = 'Review Mode';
 		}
 	}
 };
