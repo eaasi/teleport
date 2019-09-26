@@ -5,6 +5,7 @@
 		<mode-toggle-bar />
 		<div class="vrd-content">
 			<tag icon="fa-box" text="Environment" />
+
 			<div class="row">
 				<div class="col-md-4">
 					<section-heading title="Operating System" size="large" />
@@ -24,6 +25,16 @@
 						:labeled-items="emulatorLabeledItems"
 					/>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section-heading title="Software Included In This Resource" size="large" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<section-heading title="This Resource Is Included In" size="large" />
 			</div>
 		</div>
 	</div>
