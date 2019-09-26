@@ -5,6 +5,7 @@ import { IEnvironmentList, IEnvironment } from '@/types/emil/EmilEnvironmentData
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
 import { ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
+import { ENFILE } from 'constants';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -32,12 +33,25 @@ export default class ResourceAdminService extends BaseService {
 		return result;
 	}
 
-	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let res = await this._emilEnvSvc.get('list');
-		let list = await res.json() as IEnvironmentList;
-		let environments = list.environments;
-		return this._filterResults<IEnvironment>(query, environments);
+	/*============================================================
+	 == Environments
+	/============================================================*/
+
+	async getEnvironment(id: string): Promise<IEnvironment> {
+		let res = await this._emilEnvSvc.get(id);
+		let env = await res.json() as IEnvironment;
+		return env;
 	}
+
+	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
+		let res = await this._emilEnvSvc.get('');
+		let list = await res.json() as IEnvironment[];
+		return this._filterResults<IEnvironment>(query, list);
+	}
+
+	/*============================================================
+	 == Software
+	/============================================================*/
 
 	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
 		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
@@ -48,10 +62,18 @@ export default class ResourceAdminService extends BaseService {
 		return this._filterResults<ISoftwarePackageDescription>(query, software);
 	}
 
+	/*============================================================
+	 == Content
+	/============================================================*/
+
 	private async _searchContent(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
 		let content = []; // TODO
 		return this._filterResults<IEnvironment>(query, content);
 	}
+
+	/*============================================================
+	 == Helpers
+	/============================================================*/
 
 	private _filterResults<T extends IEaasiResource>(query: IEaasiSearchQuery, results: IEaasiResource[]): IEaasiSearchResponse<T> {
 		let totalResults = results.length;

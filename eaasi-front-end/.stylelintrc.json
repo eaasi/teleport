@@ -37,7 +37,7 @@
         "number-leading-zero": "always",
         "function-url-quotes": "always",
         "at-rule-no-vendor-prefix": true,
-        "rule-empty-line-before": "always-multi-line",
+        "rule-empty-line-before": null,
         "selector-pseudo-element-colon-notation": "double",
         "selector-pseudo-class-parentheses-space-inside": "never",
         "selector-no-vendor-prefix": true,

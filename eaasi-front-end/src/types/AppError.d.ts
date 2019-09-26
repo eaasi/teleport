@@ -3,5 +3,5 @@
  */
 export interface IAppError {
 	message: string,
-	info: string
+	info?: string
 }

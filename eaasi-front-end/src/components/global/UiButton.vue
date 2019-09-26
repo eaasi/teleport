@@ -1,6 +1,6 @@
 <template>
 	<span class="ui-btn-container">
-		<button :class="['eaasi-button', size, {secondary, block}]" v-on="$listeners" v-bind="$attrs">
+		<button :class="['eaasi-button', size, {collapse, secondary, block}]" v-on="$listeners" v-bind="$attrs">
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
@@ -32,6 +32,12 @@ export default class UiButton extends Vue {
 	 */
 	@Prop({type: Boolean, required: false})
 	readonly block: boolean;
+
+	/**
+	 * Disables minimum width
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly collapse: boolean;
 
 	/**
 	 * Use secondary styles
@@ -93,16 +99,22 @@ export default class UiButton extends Vue {
 	padding: 0.8rem 1.6rem;
 	transition: background-color 0.3s;
 
+	&[disabled] {
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
 	&.sm,
 	&.small {
 		font-size: 1.4rem;
-		padding: 0.6rem 1rem;
+		min-width: 12rem;
+		padding: 0.6rem 1.6rem;
 	}
 
 	&.block {
 		display: block;
 		margin: 0 auto;
-		max-width: 2.6rem;
+		max-width: 26rem;
 	}
 
 	&:hover {
@@ -119,11 +131,15 @@ export default class UiButton extends Vue {
 		}
 	}
 
-	.icon {
+	&.collapse {
+		min-width: 0;
+	}
+
+	.eb-icon {
 		margin-right: 0.4em;
 	}
 
-	.icon-right {
+	.eb-icon-right {
 		margin-left: 0.4rem;
 	}
 }
