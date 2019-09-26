@@ -49,11 +49,6 @@ export interface EmulatorNamedIndexes {
  == Environments
 /============================================================*/
 
-export interface IEnvironmentList {
-	environments: IEnvironment[];
-	status: string | number;
-}
-
 export interface IEnvironment extends IEaasiResource {
 	parentEnvId: string;
 	envId: string;

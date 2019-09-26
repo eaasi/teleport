@@ -6,6 +6,8 @@ import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesSc
 import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 import ViewResourceDetailsScreen from '@/components/resources/view-details/ViewResourceDetailsScreen.vue';
+import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
+import { RouteConfig, Route } from 'vue-router';
 
 export default [
 	{
@@ -57,5 +59,10 @@ export default [
 		name: 'Resource Detail',
 		component: ViewResourceDetailsScreen,
 		props: true
+	},
+	{
+		path: '/access-interface/:envId',
+		name: 'Access Interface',
+		component: AccessInterfaceScreen
 	}
-];
+] as RouteConfig[];
