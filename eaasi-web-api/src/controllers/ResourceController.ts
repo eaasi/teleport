@@ -22,10 +22,10 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
-	async getSoftware(req: Request, res: Response) {
+	async getSoftwarePackageDescription(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
-			let result = await this._svc.getSoftware(id);
+			let result = await this._svc.getSoftwarePackageDescription(id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);

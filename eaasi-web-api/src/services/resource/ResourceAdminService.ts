@@ -58,8 +58,8 @@ export default class ResourceAdminService extends BaseService {
 	 == Software
 	/============================================================*/
 
-	async getSoftware(id: string): Promise<IEnvironment> {
-		let res = await this._emilSofSvc.get(id);
+	async getSoftwarePackageDescription(id: string): Promise<IEnvironment> {
+		let res = await this._emilSofSvc.get('getSoftwarePackageDescription?softwareId=' + id);
 		return await res.json();
 	}
 

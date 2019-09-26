@@ -4,7 +4,7 @@
 
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
-		<mode-toggle-bar v-if="activeTab === 'Metadata'"/>
+		<mode-toggle-bar v-if="activeTab === 'Metadata'" />
 
 		<div class="vrd-content" v-if="activeTab === 'Metadata'">
 			<tag icon="fa-box" text="Environment" />

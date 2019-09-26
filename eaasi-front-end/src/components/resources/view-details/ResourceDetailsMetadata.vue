@@ -26,7 +26,9 @@
 		<div class="row">
 			<div id="softwareIncluded" class="col-md-12 vrd-subsection">
 				<section-heading title="Software Included In This Resource" size="large" />
-				{{ softwareItems }}
+				<div class="active-software-items" v-if="activeSoftware">
+					<selectable-card :data="activeSoftware"/>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -74,13 +76,19 @@ export default class ResourceDetailsMetadata extends Vue {
 	@Sync('software/activeSoftware')
 	software: any
 
-	get softwareItems() {
+	// TODO: This temporarily just returns the first active software for proof of concept integration
+	get activeSoftware() : IEaasiResourceSummary {
 		if (this.software == null) {
-			return [];
+			return null;
 		}
-		return [
-			// { label: 'Name', value: this.environment.emulator || ''},
-		];
+
+		return {
+			content: undefined,
+			subContent: undefined,
+			tagGroup: [],
+			title: this.software.label,
+			id: this.software.id
+		};
 	}
 
 	get emulatorLabeledItems() {
@@ -136,5 +144,11 @@ export default class ResourceDetailsMetadata extends Vue {
 				text-transform: uppercase;
 			}
 		}
+	}
+
+	.active-software-items {
+		display: flex;
+		flex-direction: row;
+		padding: 16px;
 	}
 </style>
