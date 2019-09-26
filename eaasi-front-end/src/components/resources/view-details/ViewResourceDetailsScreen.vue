@@ -86,7 +86,6 @@ export default class ViewResourceDetailsScreen extends Vue {
 					return this.getSoftware();
 				});
 		}
-
 }
 
 </script>

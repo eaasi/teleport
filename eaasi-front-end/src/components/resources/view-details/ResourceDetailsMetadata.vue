@@ -27,7 +27,7 @@
 			<div id="softwareIncluded" class="col-md-12 vrd-subsection">
 				<section-heading title="Software Included In This Resource" size="large" />
 				<div class="active-software-items" v-if="activeSoftware">
-					<selectable-card :data="activeSoftware"/>
+					<selectable-card :data="activeSoftware" />
 				</div>
 			</div>
 		</div>
