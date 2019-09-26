@@ -16,7 +16,7 @@ import {ILabeledItem} from '@/types/ILabeledItem';
 @Component({
 	name: 'LabeledItem.vue'
 })
-export default class LabeledDetails extends Vue {
+export default class LabeledItem extends Vue {
 	/**
 	 * Labeled item display data
 	 */
