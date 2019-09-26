@@ -80,7 +80,7 @@ export default class ResourceSlideMenu extends Vue {
 	============================================*/
 
 	// TODO: Labeled Items should be derived from the resource
-	labeledItems: ILabeledItem[];
+	labeledItems: ILabeledItem[] = [];
 
 	// TODO: Actions should become dynamic based on resource type and user role
 	localActions: IAction[] = [

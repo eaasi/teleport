@@ -4,36 +4,40 @@
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<mode-toggle-bar />
 		<div class="vrd-content">
+
 			<tag icon="fa-box" text="Environment" />
 
-			<div class="row">
-				<div class="col-md-4">
-					<section-heading title="Operating System" size="large" />
-					<labeled-item-list
-						:labeled-items="osLabeledItems"
-					/>
+			<div v-if="activeTab=='History'">
+
+				<div class="row">
+					<div class="col-md-4">
+						<section-heading title="Operating System" size="large" />
+						<labeled-item-list
+							:labeled-items="osLabeledItems"
+						/>
+					</div>
+					<div class="col-md-4">
+						<section-heading title="Configured Machine" size="large" />
+						<labeled-item-list
+							:labeled-items="configuredMachineLabeledItems"
+						/>
+					</div>
+					<div class="col-md-4">
+						<section-heading title="Emulator" size="large" />
+						<labeled-item-list
+							:labeled-items="emulatorLabeledItems"
+						/>
+					</div>
 				</div>
-				<div class="col-md-4">
-					<section-heading title="Configured Machine" size="large" />
-					<labeled-item-list
-						:labeled-items="configuredMachineLabeledItems"
-					/>
+				<div class="row">
+					<div id="softwareIncluded" class="col-md-12 vrd-subsection">
+						<section-heading title="Software Included In This Resource" size="large" />
+					</div>
 				</div>
-				<div class="col-md-4">
-					<section-heading title="Emulator" size="large" />
-					<labeled-item-list
-						:labeled-items="emulatorLabeledItems"
-					/>
-				</div>
-			</div>
-			<div class="row">
-				<div id="softwareIncluded" class="col-md-12 vrd-subsection">
-					<section-heading title="Software Included In This Resource" size="large" />
-				</div>
-			</div>
-			<div class="row">
-				<div id="thisIncludedIn" class="col-md-12 vrd-subsection">
-					<section-heading title="This Resource Is Included In" size="large" />
+				<div class="row">
+					<div id="thisIncludedIn" class="col-md-12 vrd-subsection">
+						<section-heading title="This Resource Is Included In" size="large" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -41,108 +45,108 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiTab } from 'eaasi-nav';
-import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
-import ResourceDetails from '@/components/resources/ResourceDetails.vue';
-import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import {ILabeledItem} from '@/types/ILabeledItem';
+	import Vue from 'vue';
+	import { Component, Prop } from 'vue-property-decorator';
+	import { IEaasiTab } from 'eaasi-nav';
+	import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
+	import ResourceDetails from '@/components/resources/ResourceDetails.vue';
+	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+	import {ILabeledItem} from '@/types/ILabeledItem';
 
-@Component({
-	name: 'ViewResourceDetailsScreen',
-	components: {
-		LabeledItemList,
-		ModeToggleBar,
-		ResourceDetails
+	@Component({
+		name: 'ViewResourceDetailsScreen',
+		components: {
+			LabeledItemList,
+			ModeToggleBar,
+			ResourceDetails
+		}
+	})
+	export default class ViewResourceDetailsScreen extends Vue {
+
+		/* Props
+        ============================================*/
+		@Prop({ type: String })
+		resourceEnvId: string;
+
+		/* Data
+        ============================================*/
+		emulatorLabeledItems: ILabeledItem[] = [];
+		configuredMachineLabeledItems: ILabeledItem[] = [];
+		osLabeledItems: ILabeledItem[] = [];
+
+		activeTab: string = 'History';
+
+		menuOpen: boolean = false;
+
+		tabs: IEaasiTab[] = [
+			{
+				label: 'History'
+			},
+			{
+				label: 'Metadata'
+			},
+		]
+
+		/* Computed
+        ============================================*/
+
+		/* Methods
+        ============================================*/
+
+		/* Lifecycle Hooks
+        ============================================*/
+
+		created() {
+			this.emulatorLabeledItems = [
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+			];
+
+			this.configuredMachineLabeledItems = [
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+			];
+
+			this.osLabeledItems = [
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+				{
+					label: 'File Format',
+					value: '.iso'
+				},
+			];
+		}
 	}
-})
-export default class ViewResourceDetailsScreen extends Vue {
-
-	/* Props
-	============================================*/
-	@Prop({ type: String })
-	resourceEnvId: string;
-
-	/* Data
-	============================================*/
-	emulatorLabeledItems: ILabeledItem[] = [];
-	configuredMachineLabeledItems: ILabeledItem[] = [];
-	osLabeledItems: ILabeledItem[] = [];
-
-	activeTab: string = 'History';
-
-	menuOpen: boolean = false;
-
-	tabs: IEaasiTab[] = [
-		{
-			label: 'History'
-		},
-		{
-			label: 'Metadata'
-		},
-	]
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	created() {
-		this.emulatorLabeledItems = [
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-		];
-
-		this.configuredMachineLabeledItems = [
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-		];
-
-		this.osLabeledItems = [
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-			{
-				label: 'File Format',
-				value: '.iso'
-			},
-		];
-	}
-}
 
 </script>
 
@@ -153,7 +157,6 @@ export default class ViewResourceDetailsScreen extends Vue {
 		.vrd-subsection {
 			padding: 18px 0;
 		}
-
 	}
 
 	#thisIncludedIn {
