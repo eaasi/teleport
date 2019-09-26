@@ -32,9 +32,9 @@
 
 		<confirm-modal
 			title="Restart Emulation?"
-			confirm-label="Exit"
+			confirm-label="Restart"
 			@click:cancel="showConfirmRestartModal = false"
-			@click:confirm="exit"
+			@click:confirm="restart"
 			v-if="showConfirmRestartModal"
 		>
 			<alert type="warning">
@@ -53,6 +53,7 @@ import { IEnvironment } from '../../types/Resource';
 import { Route } from 'vue-router';
 import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 import EnvironmentMenu from './EnvironmentMenu.vue';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'AccessInterfaceScreen',
@@ -71,8 +72,8 @@ export default class AccessInterfaceScreen extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('resource/activeEnvironment')
-	readonly environment: IEnvironment
+	@Sync('resource/activeEnvironment')
+	environment: IEnvironment
 
 	@Get('emulatorIsRunning')
 	readonly emulatorIsRunning: boolean;
@@ -104,13 +105,20 @@ export default class AccessInterfaceScreen extends Vue {
 		this.$router.go(-1);
 	}
 
-	restart() {
-		this.showConfirmRestartModal = false;
-		// TODO
+	async restart() {
+		let vm = this;
+		vm.showConfirmRestartModal = false;
+		if(!vm.$refs._emulator) return;
+		let environment = jsonCopy(vm.environment) as IEnvironment;
+		await vm.$refs._emulator.stopEnvironment();
+		vm.environment = null;
+		vm.$nextTick(() => {
+			vm.environment = environment;
+		});
 	}
 
 	save() {
-		// TODO
+		// TODO:
 	}
 
 	async stop() {

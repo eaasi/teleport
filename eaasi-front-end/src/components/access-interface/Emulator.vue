@@ -94,8 +94,17 @@ export default class Emulator extends Vue {
 		}
 	}
 
-	handleError(message: string) {
-		this.error = { message };
+	handleError(error: string | Error) {
+		if(typeof error === 'string') {
+			this.error = { message: error };
+		} else if(typeof error === 'object') {
+			this.error = error;
+		} else {
+			console.warn('handleError received:', error);
+			this.error = {
+				message: 'An unknown error has occurred. We apologize for the inconvenience.'
+			};
+		}
 	}
 
 	getKeyboardPreferences() {
@@ -119,8 +128,8 @@ export default class Emulator extends Vue {
 	};
 
 	async init() {
+		let vm = this;
 		try {
-			let vm = this;
 			let container = vm.$refs._container;
 			let EaasClient = (window as any).EaasClient || null;
 			if(!EaasClient) return;
@@ -134,14 +143,14 @@ export default class Emulator extends Vue {
 			vm.setupListeners();
 			vm.startEnvironment();
 		} catch(e) {
-			this.handleError(e.message);
+			this.handleError(e);
 		}
 	}
 
 	async startEnvironment() {
+		let vm = this;
+		vm.loading = true;
 		try {
-			let vm = this;
-			vm.loading = true;
 			let data = new MachineComponentRequest(vm.environment);
 			let params = new StartEnvironmentParams(vm.environment);
 			let keyboardPrefs = vm.getKeyboardPreferences();
@@ -150,10 +159,10 @@ export default class Emulator extends Vue {
 			vm.isStarted = true;
 			await vm.client.connect();
 			vm.attachUserControls();
-			setTimeout(() => vm.loading = false, 1000);
 		} catch(e) {
-			this.handleError(e.message);
+			vm.handleError(e);
 		}
+		vm.loading = false;
 	}
 
 	async stopEnvironment() {
