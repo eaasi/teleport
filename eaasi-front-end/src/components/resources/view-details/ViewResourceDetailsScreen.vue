@@ -4,12 +4,11 @@
 
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
-		<mode-toggle-bar />
+		<mode-toggle-bar v-if="activeTab === 'Metadata'"/>
 
-		<div class="vrd-content">
+		<div class="vrd-content" v-if="activeTab === 'Metadata'">
 			<tag icon="fa-box" text="Environment" />
-
-			<div v-if="activeTab === 'Metadata'">
+			<div>
 				<resource-details-metadata
 					:resource-detail-summary="resourceData"
 				/>
@@ -72,10 +71,20 @@ export default class ViewResourceDetailsScreen extends Vue {
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
 		}
 
+		async getSoftware() {
+			let softwareId = this.environment.installedSoftwareIds[0];
+			let software = await this.$store.dispatch('software/getSoftware', softwareId);
+			if(!software) return;
+			this.$store.commit('software/SET_ACTIVE_SOFTWARE', software);
+		}
+
 		/* Lifecycle Hooks
         ============================================*/
 		created() {
-			this.getEnvironment(this.resourceData.envId);
+			this.getEnvironment(this.resourceData.envId)
+				.then(() => {
+					return this.getSoftware();
+				});
 		}
 
 }

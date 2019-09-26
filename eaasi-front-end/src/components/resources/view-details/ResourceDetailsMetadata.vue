@@ -26,6 +26,7 @@
 		<div class="row">
 			<div id="softwareIncluded" class="col-md-12 vrd-subsection">
 				<section-heading title="Software Included In This Resource" size="large" />
+				{{ softwareItems }}
 			</div>
 		</div>
 		<div class="row">
@@ -70,8 +71,18 @@ export default class ResourceDetailsMetadata extends Vue {
 	@Sync('resource/activeEnvironment')
 	environment: IEnvironment
 
-	/* Methods
-	============================================*/
+	@Sync('software/activeSoftware')
+	software: any
+
+	get softwareItems() {
+		if (this.software == null) {
+			return [];
+		}
+		return [
+			// { label: 'Name', value: this.environment.emulator || ''},
+		];
+	}
+
 	get emulatorLabeledItems() {
 		if (this.environment == null) {
 			return [];
@@ -81,6 +92,8 @@ export default class ResourceDetailsMetadata extends Vue {
 		];
 	}
 
+	/* Methods
+	============================================*/
 	populateCfgMachineLabeledItems() {
 		return [
 			{ label: 'File Format', value: '.iso' },

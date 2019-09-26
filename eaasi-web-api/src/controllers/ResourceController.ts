@@ -22,6 +22,16 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	async getSoftware(req: Request, res: Response) {
+		try {
+			let id = req.query.id;
+			let result = await this._svc.getSoftware(id);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
 	async search(req: Request, res: Response) {
 		try {
 			let query = req.body as IResourceSearchQuery;

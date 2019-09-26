@@ -1,11 +1,16 @@
+import {ResourceSearchResponse} from '@/models/resource/ResourceSearchResponse';
+import {EaasiSearchQuery} from '@/models/search/EaasiSearchQuery.';
+import {IEnvironment} from '@/types/emil/EmilEnvironmentData';
+import {ISoftwarePackageDescription, ISoftwarePackageDescriptionsList} from '@/types/emil/EmilSoftwareData';
+import {
+	IEaasiResource,
+	IEaasiSearchQuery,
+	IEaasiSearchResponse,
+	IResourceSearchQuery,
+	IResourceSearchResponse
+} from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
-import { IResourceSearchQuery, IResourceSearchResponse, IEaasiSearchResponse, IEaasiSearchQuery, IEaasiResource, IResourceSearchFacet } from '@/types/resource/Resource';
 import EmilBaseService from '../emil/EmilBaseService';
-import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
-import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
-import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
-import { ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
-import { ENFILE } from 'constants';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -53,11 +58,16 @@ export default class ResourceAdminService extends BaseService {
 	 == Software
 	/============================================================*/
 
+	async getSoftware(id: string): Promise<IEnvironment> {
+		let res = await this._emilSofSvc.get(id);
+		return await res.json();
+	}
+
 	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
 		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
 		let list = await res.json() as ISoftwarePackageDescriptionsList;
 		let software = list.descriptions;
-		// TODO: we need to esnure all responses adhere to IEaasiResource
+		// TODO: we need to ensure all responses adhere to IEaasiResource
 		software.forEach(x => x.title = x.label);
 		return this._filterResults<ISoftwarePackageDescription>(query, software);
 	}
