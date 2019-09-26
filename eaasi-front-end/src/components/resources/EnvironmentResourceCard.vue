@@ -1,7 +1,7 @@
 <template>
 	<selectable-card
 		:data="summary"
-		@change="$emit('change', $event)"
+		@change="setActiveEnvironment"
 	/>
 </template>
 
@@ -46,6 +46,15 @@ export default class EnvironmentResourceCard extends Vue {
 
 	/* Methods
 	============================================*/
+
+	setActiveEnvironment(isChecked) {
+		if(isChecked) {
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', this.environment);
+		} else {
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', null);
+		}
+		this.$emit('change', isChecked);
+	}
 
 	/* Lifecycle Hooks
 	============================================*/

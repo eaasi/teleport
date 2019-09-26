@@ -4,8 +4,8 @@
 			<router-view />
 		</template>
 		<template v-else>
-			<left-menu />
-			<app-header />
+			<left-menu v-show="!hideLeftMenu" />
+			<app-header v-show="!hideAppHeader" />
 			<app-content />
 			<!-- Error Modal visibility state managed in global store-->
 			<error-modal />
@@ -37,6 +37,12 @@ export default class App extends Vue {
 
 	/* Computed
 	============================================*/
+
+	@Get('hideLeftMenu')
+	hideLeftMenu: boolean
+
+	@Get('hideAppHeader')
+	hideAppHeader: boolean
 
 	@Get('loggedIn')
 	loggedIn: boolean

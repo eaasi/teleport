@@ -1,5 +1,5 @@
 <template>
-	<div id="contentWrapper">
+	<div id="contentWrapper" :class="{'no-header': hideAppHeader, 'no-menu': hideLeftMenu}">
 		<div id="mainContent" class="flex">
 			<admin-menu v-if="adminMenuOpen" />
 			<section id="appContent" class="flex-adapt">
@@ -27,7 +27,7 @@ import AdminMenu from '@/components/admin/AdminMenu.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import TaskModal from '@/components/layout/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
-import { Sync } from 'vuex-pathify';
+import { Get, Sync } from 'vuex-pathify';
 import AppFooter from '@/components/layout/AppFooter.vue';
 
 @Component({
@@ -49,13 +49,14 @@ export default class AppContent extends Vue {
 	@Sync('activeTask')
 	activeTask: EaasiTask
 
-	/* Data
-	============================================*/
+	@Get('hideLeftMenu')
+	hideLeftMenu: boolean
 
-	/**
-	 * Hides or shows global loading animation
-	 */
-	showLoader: boolean = false;
+	@Get('hideAppHeader')
+	hideAppHeader: boolean
+
+	@Sync('showLoader')
+	showLoader: boolean;
 
 	/* Methods
 	============================================*/
@@ -65,7 +66,7 @@ export default class AppContent extends Vue {
 	 */
 	initBusListeners() {
 		eventBus.$on('ajaxStart', (showLoader) => this.showLoader = showLoader);
-		eventBus.$on('ajaxEnd', () => this.showLoader = false );
+		eventBus.$on('ajaxEnd', () => this.showLoader = false);
 	}
 
 	/**
@@ -95,6 +96,23 @@ export default class AppContent extends Vue {
 		margin-top: $headerHeight;
 		padding-bottom: $footerHeight;
 		position: relative;
+
+		&.no-header {
+			margin-top: 0;
+		}
+
+		&.no-menu {
+			margin-left: 0;
+
+			#appFooter {
+				left: 0;
+			}
+
+			#globalLoader {
+				left: 0;
+				top: 0;
+			}
+		}
 	}
 
 	#mainContent {
