@@ -63,23 +63,23 @@ export interface IContainerComponentRequest extends IComponentRequest {
 export interface IMachineComponentRequest extends IComponentRequest {
 	archive: string;
 	input_data: IComponentInputMedium[];
-    environment: string;
-    keyboardLayout: string;
-    keyboardModel: string;
-    object?: null;
-    objectArchive?: string;
-    software?: string;
-    lockEnvironment: boolean;
-    emulatorVersion?: string;
+	environment: string;
+	keyboardLayout: string;
+	keyboardModel: string;
+	object?: null;
+	objectArchive?: string;
+	software?: string;
+	lockEnvironment: boolean;
+	emulatorVersion?: string;
 }
 
 // This maps to the second argument of IEaasClient.start()
 export interface IStartEnvironmentParams {
 	enableNetwork: boolean;
-    hasTcpGateway: boolean;
-    hasInternet: boolean;
-    tcpGatewayConfig: ITCPGatewayConfig
-    xpraEncoding: string;
+	hasTcpGateway: boolean;
+	hasInternet: boolean;
+	tcpGatewayConfig: ITCPGatewayConfig
+	xpraEncoding: string;
 }
 
 export interface ITCPGatewayConfig {
