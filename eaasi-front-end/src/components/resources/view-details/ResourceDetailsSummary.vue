@@ -15,9 +15,9 @@ import { Component, Prop } from 'vue-property-decorator';
 import {IEaasiResourceSummary} from '@/types/Resource';
 
 @Component({
-	name: 'ViewResourceDetailsSummary',
+	name: 'ResourceDetailsSummary',
 })
-export default class ViewResourceDetailsScreen extends Vue {
+export default class ResourceDetailsScreen extends Vue {
 
 	/* Props
 	============================================*/

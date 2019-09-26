@@ -1,42 +1,18 @@
 <template>
 	<div id="myResources">
 		<h1>Resource Details</h1>
+
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
+
 		<mode-toggle-bar />
+
 		<div class="vrd-content">
 			<tag icon="fa-box" text="Environment" />
 
-			<div v-if="activeTab=='History'">
-				<div class="row">
-					<div class="col-md-4">
-						<section-heading title="Operating System" size="large" />
-						<labeled-item-list
-							:labeled-items="osLabeledItems"
-						/>
-					</div>
-					<div class="col-md-4">
-						<section-heading title="Configured Machine" size="large" />
-						<labeled-item-list
-							:labeled-items="configuredMachineLabeledItems"
-						/>
-					</div>
-					<div class="col-md-4">
-						<section-heading title="Emulator" size="large" />
-						<labeled-item-list
-							:labeled-items="emulatorLabeledItems"
-						/>
-					</div>
-				</div>
-				<div class="row">
-					<div id="softwareIncluded" class="col-md-12 vrd-subsection">
-						<section-heading title="Software Included In This Resource" size="large" />
-					</div>
-				</div>
-				<div class="row">
-					<div id="thisIncludedIn" class="col-md-12 vrd-subsection">
-						<section-heading title="This Resource Is Included In" size="large" />
-					</div>
-				</div>
+			<div v-if="activeTab === 'Metadata'">
+				<resource-details-metadata
+					:resource-detail-summary="resourceData"
+				/>
 			</div>
 		</div>
 	</div>
@@ -48,15 +24,14 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
 import ResourceDetails from '@/components/resources/ResourceDetails.vue';
-import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import {ILabeledItem} from '@/types/ILabeledItem';
+import ResourceDetailsMetadata from '@/components/resources/view-details/ResourceDetailsMetadata.vue';
 
 	@Component({
 		name: 'ViewResourceDetailsScreen',
 		components: {
-			LabeledItemList,
 			ModeToggleBar,
-			ResourceDetails
+			ResourceDetails,
+			ResourceDetailsMetadata
 		}
 	})
 export default class ViewResourceDetailsScreen extends Vue {
@@ -70,61 +45,24 @@ export default class ViewResourceDetailsScreen extends Vue {
         ============================================*/
 		resourceData = JSON.parse(this.resource);
 
-		emulatorLabeledItems: ILabeledItem[] = [];
-		configuredMachineLabeledItems: ILabeledItem[] = [];
-		osLabeledItems: ILabeledItem[] = [];
-
-		activeTab: string = 'History';
+		activeTab: string = 'Metadata';
 
 		menuOpen: boolean = false;
 
 		tabs: IEaasiTab[] = [
-			{
-				label: 'History'
-			},
-			{
-				label: 'Metadata'
-			},
+			{ label: 'Metadata' },
+			{ label: 'History' },
 		]
 
-		/* Computed
-        ============================================*/
+	/* Computed
+    ============================================*/
 
-		/* Methods
-        ============================================*/
-		populateEmulatorLabeledItems() {
-			return [
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-			];
-		}
+	/* Methods
+    ============================================*/
 
-		populateCfgMachineLabeledItems() {
-			return [
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-			];
-		}
+	/* Lifecycle Hooks
+    ============================================*/
 
-		populateOsLabeledItems() {
-			return [
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-				{ label: 'File Format', value: '.iso' },
-			];
-		}
-
-		/* Lifecycle Hooks
-        ============================================*/
-
-		created() {
-			this.emulatorLabeledItems = this.populateEmulatorLabeledItems();
-			this.configuredMachineLabeledItems = this.populateCfgMachineLabeledItems();
-			this.osLabeledItems = this.populateOsLabeledItems();
-		}
 }
 
 </script>
