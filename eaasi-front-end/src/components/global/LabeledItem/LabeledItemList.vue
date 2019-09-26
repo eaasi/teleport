@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<div v-for="labeledItem in labeledItems" :key="labeledItem.label">
+	<div class="lil-container">
+		<div v-for="(labeledItem, index) in labeledItems" :key="index">
 			<labeled-item :labeled-item="labeledItem" />
 		</div>
 	</div>
@@ -24,13 +24,13 @@ import LabeledItem from './LabeledItem.vue';
 export default class LabeledDetailsList extends Vue {
 	@Prop({type: Array as () => ILabeledItem[], required: true })
 	labeledItems: ILabeledItem[]
-
-	created() {
-		console.log("Hey");
-		console.log(this.labeledItems);
-	}
 }
 </script>
 
 <style lang="scss">
+	.lil-container {
+		background-color: lighten($light-neutral, 75%);
+		margin: 12px;
+		padding: 24px;
+	}
 </style>
