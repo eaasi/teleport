@@ -5,6 +5,7 @@ import { IEnvironmentList, IEnvironment } from '@/types/emil/EmilEnvironmentData
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
 import { ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
+import { ENFILE } from 'constants';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -37,16 +38,15 @@ export default class ResourceAdminService extends BaseService {
 	/============================================================*/
 
 	async getEnvironment(id: string): Promise<IEnvironment> {
-		let res = await this._emilEnvSvc.get('list');
-		let list = await res.json() as IEnvironmentList;
-		return list.environments.find(x => x.envId == id);
+		let res = await this._emilEnvSvc.get(id);
+		let env = await res.json() as IEnvironment;
+		return env;
 	}
 
 	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let res = await this._emilEnvSvc.get('list');
-		let list = await res.json() as IEnvironmentList;
-		let environments = list.environments;
-		return this._filterResults<IEnvironment>(query, environments);
+		let res = await this._emilEnvSvc.get('');
+		let list = await res.json() as IEnvironment[];
+		return this._filterResults<IEnvironment>(query, list);
 	}
 
 	/*============================================================
@@ -56,6 +56,7 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
 		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
 		let list = await res.json() as ISoftwarePackageDescriptionsList;
+		// console.log(list);
 		let software = list.descriptions;
 		// TODO: we need to esnure all responses adhere to IEaasiResource
 		software.forEach(x => x.title = x.label);

@@ -90,6 +90,17 @@ export interface IEnvironment extends IEaasiResource {
 	nativeConfig: string;
 	useXpra: boolean;
 	envType: string;
+	type: string;
+	childrenEnvIds: any[];
+	branches: any[];
+	visible: boolean;
+	permissions: IEaasPermissions;
+	timestamp: Date;
+	networking: any;
+}
+
+export interface IEaasPermissions {
+	user: string;
 }
 
 export interface IEnvironmentRevision {

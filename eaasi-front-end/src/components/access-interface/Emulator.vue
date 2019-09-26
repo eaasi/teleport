@@ -39,11 +39,14 @@ import Vue from 'vue';
 import config from '@/config';
 import { Component, Prop } from 'vue-property-decorator';
 import { IAppError } from '@/types/AppError';
-import { IEaasClient, IbwflaController } from '@/types/Eaas';
+import { IEaasClient, IbwflaController, IMachineComponentRequest } from '@/types/Eaas';
 import { IEnvironment } from '@/types/Resource';
 import { Get, Sync } from 'vuex-pathify';
 import { saveAs } from 'file-saver';
 import { slugify } from '@/utils/functions';
+import MachineComponentRequest from '@/models/eaas/emil/MachineComponentRequest';
+import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
+import cookies from 'js-cookie';
 
 @Component({
 	name: 'Emulator'
@@ -63,16 +66,6 @@ export default class Emulator extends Vue {
 
 	/* Computed
 	============================================*/
-
-	get environmentParams() {
-		// TODO: this should not be static
-		return {
-			archive: this.environment.archive,
-			keyboardLayout: 'us',
-			keyboardModel: 'pc105',
-			type: 'machine'
-		};
-	}
 
 	@Sync('showLoader')
 	loading: boolean;
@@ -110,8 +103,27 @@ export default class Emulator extends Vue {
 		this.error = { message };
 	}
 
+	getKeyboardPreferences() {
+		let prefs = cookies.getJSON('kbLayoutPrefs');
+		if(!prefs) return null;
+		return {
+			keyboardLayout: prefs.language.name,
+			keyboardModel: prefs.layout.name
+		};
+	}
+
+	async getContainerOutput() {
+		let containerOutput = await fetch(this.client.getContainerResultUrl());
+		let containerOutputBlob = await containerOutput.blob();
+		let downloadLink = document.createElement('a');
+		downloadLink.href = URL.createObjectURL(containerOutputBlob);
+		downloadLink.download = 'output-data.zip';
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
+	};
+
 	async init() {
-		return;
 		try {
 			let vm = this;
 			let container = vm.$refs._container;
@@ -135,7 +147,11 @@ export default class Emulator extends Vue {
 		try {
 			let vm = this;
 			vm.loading = true;
-			await vm.client.startEnvironment(vm.environment.envId, vm.environmentParams);
+			let data = new MachineComponentRequest(vm.environment);
+			let params = new StartEnvironmentParams(vm.environment);
+			let keyboardPrefs = vm.getKeyboardPreferences();
+			if(keyboardPrefs) data = { ...data, ...keyboardPrefs };
+			await vm.client.start([{data, vizualize: true}], params);
 			vm.isStarted = true;
 			await vm.client.connect();
 			vm.attachUserControls();
@@ -168,10 +184,8 @@ export default class Emulator extends Vue {
 	setupListeners() {
 		let vm = this;
 		vm.client.onError = (err) => vm.handleError(err);
-		window.onbeforeunload = () => {
-			vm.stopEnvironment();
-			return ''; // Chrome
-		};
+		window.onbeforeunload = () => ''; // Show generic browser warning
+		window.onunload = () => vm.stopEnvironment();
 	}
 
 	takeScreenShot() {
