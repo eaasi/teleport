@@ -26,15 +26,15 @@
 					/>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<section-heading title="Software Included In This Resource" size="large" />
+			<div class="row">
+				<div id="softwareIncluded" class="col-md-12 vrd-subsection">
+					<section-heading title="Software Included In This Resource" size="large" />
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<section-heading title="This Resource Is Included In" size="large" />
+			<div class="row">
+				<div id="thisIncludedIn" class="col-md-12 vrd-subsection">
+					<section-heading title="This Resource Is Included In" size="large" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -149,5 +149,17 @@ export default class ViewResourceDetailsScreen extends Vue {
 <style lang="scss">
 	.vrd-content {
 		padding: 24px;
+
+		.vrd-subsection {
+			padding: 18px 0;
+		}
+
+	}
+
+	#thisIncludedIn {
+		background-color: lighten($light-neutral, 75%);
+	}
+
+	#softwareIncluded {
 	}
 </style>
