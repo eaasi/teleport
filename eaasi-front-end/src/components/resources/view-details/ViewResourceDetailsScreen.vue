@@ -25,10 +25,14 @@ import { IEaasiTab } from 'eaasi-nav';
 import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
 import ResourceDetails from '@/components/resources/ResourceDetails.vue';
 import ResourceDetailsMetadata from '@/components/resources/view-details/ResourceDetailsMetadata.vue';
+import ResourceDetailsSummary from '@/components/resources/view-details/ResourceDetailsSummary.vue';
+import {Sync} from 'vuex-pathify';
+import {IEnvironment} from '@/types/Resource';
 
 	@Component({
 		name: 'ViewResourceDetailsScreen',
 		components: {
+			ResourceDetailsSummary,
 			ModeToggleBar,
 			ResourceDetails,
 			ResourceDetailsMetadata
@@ -54,14 +58,25 @@ export default class ViewResourceDetailsScreen extends Vue {
 			{ label: 'History' },
 		]
 
-	/* Computed
-    ============================================*/
+		/* Computed
+        ============================================*/
+		@Sync('resource/activeEnvironment')
+		environment: IEnvironment
 
-	/* Methods
-    ============================================*/
+		/* Methods
+        ============================================*/
+		// TODO: This page shows more than environments, however, this method just gets envs only.
+		async getEnvironment(envId: string) {
+			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
+			if(!environment) return;
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
+		}
 
-	/* Lifecycle Hooks
-    ============================================*/
+		/* Lifecycle Hooks
+        ============================================*/
+		created() {
+			this.getEnvironment(this.resourceData.envId);
+		}
 
 }
 

@@ -1,8 +1,7 @@
 <template>
 	<div class="vds-container">
-		<section-heading :title="title" size="large" />
+		<section-heading :title="summaryData.title" size="large" />
 		<div class="vds-description">
-			{{ resourceDetailSummary.content }}
 		</div>
 		<div class="vds-footer">
 		</div>
@@ -22,11 +21,11 @@ export default class ResourceDetailsScreen extends Vue {
 	/* Props
 	============================================*/
 	@Prop({ type: Object as () => IEaasiResourceSummary, required: true})
-	resourceDetailSummary: IEaasiResourceSummary;
+	summaryData: IEaasiResourceSummary;
 
 	/* Data
 	============================================*/
-	title: string = this.resourceDetailSummary.title;
+	title: string = this.summaryData.title;
 
 	/* Computed
 	============================================*/

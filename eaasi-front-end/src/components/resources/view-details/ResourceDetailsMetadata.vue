@@ -1,6 +1,9 @@
 <template>
 	<div class="rdm-container">
 		<div class="row">
+			<resource-details-summary :summary-data="resourceDetailSummary" />
+		</div>
+		<div class="row">
 			<div class="col-md-4">
 				<section-heading title="Operating System" size="large" />
 				<labeled-item-list
@@ -36,14 +39,17 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {IEaasiResourceSummary} from '@/types/Resource';
+import {IEaasiResourceSummary, IEnvironment} from '@/types/Resource';
 import {ILabeledItem} from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+import ResourceDetailsSummary from './ResourceDetailsSummary.vue';
+import {Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceDetailsMetadata',
 	components: {
-		LabeledItemList
+		LabeledItemList,
+		ResourceDetailsSummary
 	}
 })
 export default class ResourceDetailsMetadata extends Vue {
@@ -63,14 +69,14 @@ export default class ResourceDetailsMetadata extends Vue {
 
 	/* Computed
 	============================================*/
+	@Sync('resource/activeEnvironment')
+	environment: IEnvironment
 
 	/* Methods
 	============================================*/
 	populateEmulatorLabeledItems() {
 		return [
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
+			{ label: 'Name', value: this.environment.emulator || ''},
 		];
 	}
 
