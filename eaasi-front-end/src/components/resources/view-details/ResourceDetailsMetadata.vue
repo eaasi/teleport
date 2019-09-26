@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import {IEaasiResourceSummary, IEnvironment} from '@/types/Resource';
 import {ILabeledItem} from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
@@ -62,8 +62,6 @@ export default class ResourceDetailsMetadata extends Vue {
 	/* Data
 	============================================*/
 	title: string = this.resourceDetailSummary.title;
-
-	emulatorLabeledItems: ILabeledItem[] = [];
 	configuredMachineLabeledItems: ILabeledItem[] = [];
 	osLabeledItems: ILabeledItem[] = [];
 
@@ -74,7 +72,10 @@ export default class ResourceDetailsMetadata extends Vue {
 
 	/* Methods
 	============================================*/
-	populateEmulatorLabeledItems() {
+	get emulatorLabeledItems() {
+		if (this.environment == null) {
+			return [];
+		}
 		return [
 			{ label: 'Name', value: this.environment.emulator || ''},
 		];
@@ -101,7 +102,6 @@ export default class ResourceDetailsMetadata extends Vue {
 	============================================*/
 
 	created() {
-		this.emulatorLabeledItems = this.populateEmulatorLabeledItems();
 		this.configuredMachineLabeledItems = this.populateCfgMachineLabeledItems();
 		this.osLabeledItems = this.populateOsLabeledItems();
 	}

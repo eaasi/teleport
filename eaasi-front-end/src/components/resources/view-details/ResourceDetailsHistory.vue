@@ -13,24 +13,24 @@
 		</div>
 		<table class="eaasi-table clickable">
 			<thead>
-			<tr>
-				<sort-header sort-col="date" @sort="sort">
-					Date
-				</sort-header>
-				<sort-header sort-col="email" :query="query" @sort="sort">
-					Changes
-				</sort-header>
-				<sort-header sort-col="firstName" :query="query" @sort="sort">
-					Details
-				</sort-header>
-			</tr>
+				<tr>
+					<sort-header sort-col="date" @sort="sort">
+						Date
+					</sort-header>
+					<sort-header sort-col="email" :query="query" @sort="sort">
+						Changes
+					</sort-header>
+					<sort-header sort-col="firstName" :query="query" @sort="sort">
+						Details
+					</sort-header>
+				</tr>
 			</thead>
 			<tbody>
-			<tr v-for="u in users" :key="u.id" @click="$emit('rowClick', u)">
-				<td>{{ u.date }}</td>
-				<td>{{ u.changes }}</td>
-				<td>DETAILS</td>
-			</tr>
+				<tr v-for="u in users" :key="u.id" @click="$emit('rowClick', u)">
+					<td>{{ u.date }}</td>
+					<td>{{ u.changes }}</td>
+					<td>DETAILS</td>
+				</tr>
 			</tbody>
 		</table>
 	</section>
@@ -52,17 +52,17 @@ export default class ResourceDetailsHistory extends Vue {
 	/* Props
     ============================================*/
 
-    /* Computed
+	/* Computed
     ============================================*/
 
-    /* Methods
+	/* Methods
     ============================================*/
 
-    /* Lifecycle Hooks
+	/* Lifecycle Hooks
     ============================================*/
 
-    mounted() {
-    }
+	mounted() {
+	}
 }
 </script>
 
