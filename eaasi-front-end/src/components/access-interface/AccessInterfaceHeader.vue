@@ -1,6 +1,6 @@
 <template>
 	<div id="accessHeader">
-		<div class="ai-top flex align-center">
+		<div class="ah-top flex align-center">
 			<div class="ah-logo">
 				<img src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
@@ -20,7 +20,8 @@
 				<span>Emulated computer must be shut down before saving.</span>
 			</div>
 		</div>
-		<div class="ai-options">
+		<div class="ah-options">
+			<!-- TODO -->
 		</div>
 	</div>
 </template>
@@ -59,17 +60,17 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 }
 
-.ai-top,
-.ai-options {
+.ah-top,
+.ah-options {
 	padding-left: 14rem;
 }
 
-.ai-top {
+.ah-top {
 	height: $accessHeaderHeight - 4rem;
 	position: relative;
 }
 
-.ai-options {
+.ah-options {
 	background-color: $teal;
 	height: 4rem;
 }
