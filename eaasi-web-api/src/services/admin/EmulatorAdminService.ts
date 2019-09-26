@@ -112,8 +112,6 @@ export default class EmulatorAdminService extends BaseService {
 	 * @param aliasList - The full list of emulator aliases
 	 */
 	private _getLatestVersion(emulatorName: string, aliasList: AliasEntry[]): string | null {
-		console.log(aliasList);
-		console.log(emulatorName);
 		let aliasEntry = aliasList.find(x => x.name.indexOf(emulatorName) > -1 && x.alias === 'latest');
 		if(!aliasEntry) return null;
 		return aliasEntry.version;

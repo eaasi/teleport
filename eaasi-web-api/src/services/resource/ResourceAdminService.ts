@@ -56,7 +56,6 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
 		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
 		let list = await res.json() as ISoftwarePackageDescriptionsList;
-		// console.log(list);
 		let software = list.descriptions;
 		// TODO: we need to esnure all responses adhere to IEaasiResource
 		software.forEach(x => x.title = x.label);
