@@ -63,11 +63,13 @@ export default class ViewResourceDetailsScreen extends Vue {
 
 		/* Props
         ============================================*/
-		@Prop({ type: String })
-		resourceEnvId: string;
+		@Prop({ type: String, required: true })
+		resource: string;
 
 		/* Data
         ============================================*/
+		resourceData = JSON.parse(this.resource);
+
 		emulatorLabeledItems: ILabeledItem[] = [];
 		configuredMachineLabeledItems: ILabeledItem[] = [];
 		osLabeledItems: ILabeledItem[] = [];
@@ -90,59 +92,38 @@ export default class ViewResourceDetailsScreen extends Vue {
 
 		/* Methods
         ============================================*/
+		populateEmulatorLabeledItems() {
+			return [
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+			];
+		}
+
+		populateCfgMachineLabeledItems() {
+			return [
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+			];
+		}
+
+		populateOsLabeledItems() {
+			return [
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+				{ label: 'File Format', value: '.iso' },
+			];
+		}
 
 		/* Lifecycle Hooks
         ============================================*/
 
 		created() {
-			this.emulatorLabeledItems = [
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-			];
-
-			this.configuredMachineLabeledItems = [
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-			];
-
-			this.osLabeledItems = [
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-				{
-					label: 'File Format',
-					value: '.iso'
-				},
-			];
+			this.emulatorLabeledItems = this.populateEmulatorLabeledItems();
+			this.configuredMachineLabeledItems = this.populateCfgMachineLabeledItems();
+			this.osLabeledItems = this.populateOsLabeledItems();
 		}
 }
 

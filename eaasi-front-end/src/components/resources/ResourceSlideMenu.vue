@@ -165,10 +165,9 @@ export default class ResourceSlideMenu extends Vue {
 			break;
 
 		case 'View Details': {
-			console.log(this.resource['envId']);
 			this.$router.push({
 				name: 'Resource Detail',
-				params: {resourceEnvId: this.resource['envId']}
+				params: {resource: JSON.stringify(this.resource)}
 			});
 		}
 			break;
