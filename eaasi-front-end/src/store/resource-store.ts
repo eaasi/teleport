@@ -1,7 +1,7 @@
 import { make, commit } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import { IEaasiResource } from '@/types/Resource';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 
@@ -10,6 +10,7 @@ import { Store } from 'vuex';
 /============================================================*/
 
 class ResourceState {
+	activeEnvironment: IEnvironment = null;
 	activeResource: IEaasiResource = null;
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
@@ -28,6 +29,11 @@ const mutations = make.mutations(state);
 /============================================================*/
 
 const actions = {
+
+	async getEnvironment(_store: Store<ResourceState>, envId: string) {
+		return await _svc.getEnvironment(envId);
+	},
+
 	async searchResources({ state, commit }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;

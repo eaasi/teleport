@@ -16,6 +16,9 @@ import { Store } from 'vuex';
 class GlobalState {
 	activeTask: EaasiTask = null;
 	adminMenuOpen: boolean = false;
+	emulatorIsRunning: boolean = false;
+	hideAppHeader: boolean = false;
+	hideLeftMenu: boolean = false;
 	loggedInUser: IEaasiUser = null;
 	loginError: string = null;
 	nodeName: string = 'PortalMedia Inc';
@@ -23,6 +26,7 @@ class GlobalState {
 	userToken: string = null;
 	appError: IAppError = null;
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
+	showLoader: boolean = false;
 }
 
 const state = new GlobalState();

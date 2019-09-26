@@ -43,7 +43,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getRoles(req: Request, res: Response) {
+	async getRoles(_req: Request, res: Response) {
 		try {
 			let roles = await this._userSvc.getRoles();
 			res.send(roles);
@@ -91,7 +91,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getEmulators(req: Request, res: Response) {
+	async getEmulators(_req: Request, res: Response) {
 		try {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
 			res.send(emulators);
@@ -116,7 +116,7 @@ export default class AdminController extends BaseController {
 	}
 
 	/**
-	 * Sets the default emulator entry
+	 * Sets the default emulator image version
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
