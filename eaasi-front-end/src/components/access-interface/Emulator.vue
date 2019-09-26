@@ -94,11 +94,6 @@ export default class Emulator extends Vue {
 		}
 	}
 
-	confirmStop() {
-		// TODO: Have user confirm that they want to stop environment before leaving
-		this.stopEnvironment();
-	}
-
 	handleError(message: string) {
 		this.error = { message };
 	}
