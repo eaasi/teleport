@@ -4,11 +4,9 @@
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<mode-toggle-bar />
 		<div class="vrd-content">
-
 			<tag icon="fa-box" text="Environment" />
 
 			<div v-if="activeTab=='History'">
-
 				<div class="row">
 					<div class="col-md-4">
 						<section-heading title="Operating System" size="large" />
@@ -45,13 +43,13 @@
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
-	import { Component, Prop } from 'vue-property-decorator';
-	import { IEaasiTab } from 'eaasi-nav';
-	import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
-	import ResourceDetails from '@/components/resources/ResourceDetails.vue';
-	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-	import {ILabeledItem} from '@/types/ILabeledItem';
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
+import { IEaasiTab } from 'eaasi-nav';
+import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
+import ResourceDetails from '@/components/resources/ResourceDetails.vue';
+import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+import {ILabeledItem} from '@/types/ILabeledItem';
 
 	@Component({
 		name: 'ViewResourceDetailsScreen',
@@ -61,7 +59,7 @@
 			ResourceDetails
 		}
 	})
-	export default class ViewResourceDetailsScreen extends Vue {
+export default class ViewResourceDetailsScreen extends Vue {
 
 		/* Props
         ============================================*/
@@ -146,7 +144,7 @@
 				},
 			];
 		}
-	}
+}
 
 </script>
 
@@ -161,8 +159,5 @@
 
 	#thisIncludedIn {
 		background-color: lighten($light-neutral, 75%);
-	}
-
-	#softwareIncluded {
 	}
 </style>
