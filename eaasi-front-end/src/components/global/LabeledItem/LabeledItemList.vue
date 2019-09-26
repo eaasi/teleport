@@ -1,4 +1,4 @@
-<template functional>
+<template>
 	<div>
 		<div v-for="labeledItem in labeledItems" :key="labeledItem.label">
 			<labeled-item :labeled-item="labeledItem" />
@@ -24,6 +24,11 @@ import LabeledItem from './LabeledItem.vue';
 export default class LabeledDetailsList extends Vue {
 	@Prop({type: Array as () => ILabeledItem[], required: true })
 	labeledItems: ILabeledItem[]
+
+	created() {
+		console.log("Hey");
+		console.log(this.labeledItems);
+	}
 }
 </script>
 

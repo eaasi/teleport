@@ -7,16 +7,22 @@
 			<tag icon="fa-box" text="Environment" />
 			<div class="row">
 				<div class="col-md-4">
-					<section-heading title="Operating System" size="large"/>
-					<labeled-item-list :labeled-items="osLabeledItems"/>
+					<section-heading title="Operating System" size="large" />
+					<labeled-item-list
+						:labeled-items="osLabeledItems"
+					/>
 				</div>
 				<div class="col-md-4">
-					<section-heading title="Configured Machine" size="large"/>
-					<labeled-item-list :labeled-items="configuredMachineLabeledItems"/>
+					<section-heading title="Configured Machine" size="large" />
+					<labeled-item-list
+						:labeled-items="configuredMachineLabeledItems"
+					/>
 				</div>
 				<div class="col-md-4">
-					<section-heading title="Emulator" size="large"/>
-					<labeled-item-list :labeled-items="emulatorLabeledItems"/>
+					<section-heading title="Emulator" size="large" />
+					<labeled-item-list
+						:labeled-items="emulatorLabeledItems"
+					/>
 				</div>
 			</div>
 		</div>
@@ -49,9 +55,9 @@ export default class ViewResourceDetailsScreen extends Vue {
 
 	/* Data
 	============================================*/
-	emulatorLabeledItems: ILabeledItem[];
-	configuredMachineLabeledItems: ILabeledItem[];
-	osLabeledItems: ILabeledItem[];
+	emulatorLabeledItems: ILabeledItem[] = [];
+	configuredMachineLabeledItems: ILabeledItem[] = [];
+	osLabeledItems: ILabeledItem[] = [];
 
 	activeTab: string = 'History';
 
@@ -76,6 +82,54 @@ export default class ViewResourceDetailsScreen extends Vue {
 	============================================*/
 
 	created() {
+		this.emulatorLabeledItems = [
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+		];
+
+		this.configuredMachineLabeledItems = [
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+		];
+
+		this.osLabeledItems = [
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+			{
+				label: 'File Format',
+				value: '.iso'
+			},
+		];
 	}
 }
 
