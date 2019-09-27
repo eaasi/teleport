@@ -44,8 +44,7 @@ export default class ResourceAdminService extends BaseService {
 
 	async getEnvironment(id: string): Promise<IEnvironment> {
 		let res = await this._emilEnvSvc.get(id);
-		let env = await res.json() as IEnvironment;
-		return env;
+		return await res.json() as IEnvironment;
 	}
 
 	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
@@ -58,8 +57,13 @@ export default class ResourceAdminService extends BaseService {
 	 == Software
 	/============================================================*/
 
+	async getSoftwareObject(id: string): Promise<any> {
+		let res = await this._emilSofSvc.get(`getSoftwareObject?softwareId=${id}`);
+		return await res.json();
+	}
+
 	async getSoftwarePackageDescription(id: string): Promise<IEnvironment> {
-		let res = await this._emilSofSvc.get('getSoftwarePackageDescription?softwareId=' + id);
+		let res = await this._emilSofSvc.get(`getSoftwarePackageDescription?softwareId=${id}`);
 		return await res.json();
 	}
 
@@ -87,19 +91,30 @@ export default class ResourceAdminService extends BaseService {
 
 	private _filterResults<T extends IEaasiResource>(query: IEaasiSearchQuery, results: IEaasiResource[]): IEaasiSearchResponse<T> {
 		let totalResults = results.length;
-		if(query.keyword) {
+
+		if (query.keyword) {
 			let q = query.keyword.toLowerCase();
 			results = results.filter((r) => {
 				return r.title && r.title.toLowerCase().indexOf(q) > -1;
 			});
 		}
 
-		// Paginate
-		results = results.slice((query.page - 1) * query.limit, query.page * query.limit);
+		results = this._paginate(query, results);
+
 		return {
 			totalResults,
 			result: results as T[]
 		};
+	}
+
+	/**
+	 * Paginates a list of results according to parameters set on a `query` object
+	 * @param query IEaasiSearchQuery
+	 * @param results IEaasiResource the initial list of results to paginate
+	 * @private
+	 */
+	private _paginate(query: IEaasiSearchQuery, results: IEaasiResource[]) {
+		return results.slice((query.page - 1) * query.limit, query.page * query.limit);
 	}
 
 }
