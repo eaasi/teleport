@@ -78,9 +78,7 @@ export default class ResourceDetailsMetadata extends Vue {
 
 	// TODO: This temporarily just returns the first active software for proof of concept integration
 	get activeSoftware() : IEaasiResourceSummary {
-		if (this.software == null) {
-			return null;
-		}
+		if (this.software == null) return null;
 
 		return {
 			content: undefined,
@@ -92,9 +90,7 @@ export default class ResourceDetailsMetadata extends Vue {
 	}
 
 	get emulatorLabeledItems() {
-		if (this.environment == null) {
-			return [];
-		}
+		if (this.environment == null) return [];
 		return [
 			{ label: 'Name', value: this.environment.emulator || ''},
 		];
