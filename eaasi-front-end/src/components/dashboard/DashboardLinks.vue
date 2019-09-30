@@ -1,6 +1,5 @@
 <template>
-	<div class="home padded">
-		<h1>My Dashboard</h1>
+	<div>
 	</div>
 </template>
 
@@ -8,14 +7,11 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-	name: 'Home'
+	name: 'DashboardLinks'
 })
-export default class Home extends Vue {
+export default class DashboardLinks extends Vue {
 }
 </script>
 
 <style>
-.home {
-	padding: 2rem;
-}
 </style>

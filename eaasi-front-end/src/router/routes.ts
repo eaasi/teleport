@@ -1,4 +1,4 @@
-import Home from '@/components/Home.vue';
+import Dashboard from '@/components/dashboard/Dashboard.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
@@ -18,7 +18,7 @@ export default [
 	{
 		path: '/dashboard',
 		name: 'Dashboard',
-		component: Home,
+		component: Dashboard,
 	},
 	{
 		path: '/admin/users',
