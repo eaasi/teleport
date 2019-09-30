@@ -1,6 +1,9 @@
 <template>
 	<span class="ui-btn-container">
-		<button :class="['eaasi-button', size, {collapse, secondary, block}]" v-on="$listeners" v-bind="$attrs">
+		<button
+			:class="['eaasi-button', size, stretch ? 'stretch' : '', {collapse, secondary, block}]"
+			v-on="$listeners"
+			v-bind="$attrs">
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
@@ -68,6 +71,12 @@ export default class UiButton extends Vue {
 	 */
 	@Prop({type: String, required: false})
 	readonly size: string;
+
+	/**
+	 * Stretches to 100% width
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly stretch: boolean;
 }
 </script>
 
@@ -109,6 +118,18 @@ export default class UiButton extends Vue {
 		font-size: 1.4rem;
 		min-width: 12rem;
 		padding: 0.6rem 1.6rem;
+	}
+
+	&.md,
+	&.medium {
+		font-size: 1.6rem;
+		min-width: 12rem;
+		padding: 1rem 1.6rem;
+	}
+
+	&.stretch,
+	&.stretch {
+		min-width: 100%;
 	}
 
 	&.block {
