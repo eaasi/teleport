@@ -1,17 +1,14 @@
 import { Route } from 'vue-router';
-import { getParameterByName } from '@/utils/functions';
 import store from '@/store';
 
-const JWT_NAME = process.env.VUE_APP_JWT_NAME;
-
 /**
- * Ensures a user is logged in with a valid token befor allowing them to access protecteed routes
+ * Ensures a user is logged in with a valid token before allowing them to access protected routes
  * @param to The route to go to
  * @param _from The current route (unused)
  * @param next Callback method
  */
 export function loggedInGuard(to: Route, _from: Route, next: any) {
-	store.dispatch('global/initSession').then((success) => {
+	store.dispatch('initSession').then((success) => {
 		// Redirect to login if no token and the route does not allow guests
 		if(!success && !to.matched.some(x => x.meta.allowGuest)) {
 			next({

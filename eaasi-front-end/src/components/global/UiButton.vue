@@ -1,9 +1,14 @@
 <template>
-	<button :class="['eaasi-button', {block, secondary}]" v-on="$listeners" v-bind="$attrs">
-		<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
-		<slot></slot>
-		<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
-	</button>
+	<span class="ui-btn-container">
+		<button :class="['eaasi-button', size, {collapse, secondary, block}]" v-on="$listeners" v-bind="$attrs">
+			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
+			<slot></slot>
+			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
+		</button>
+		<span class="labeled-btn-label" v-if="subLabel">
+			{{ subLabel }}
+		</span>
+	</span>
 </template>
 
 <script lang="ts">
@@ -22,26 +27,65 @@ export default class UiButton extends Vue {
 	/* Props
 	============================================*/
 
-	// Make display type: block
+	/**
+	 * Make display type: block
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly block: boolean;
 
- 	// Use secondary styles
+	/**
+	 * Disables minimum width
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly collapse: boolean;
+
+	/**
+	 * Use secondary styles
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly secondary: boolean;
 
-	// Font icon name
+	/**
+	 * Font icon name
+	 */
 	@Prop({type: String, required: false})
 	readonly icon: string;
 
-	// Show icon on right side of slot (instead of left)
+	/**
+	 * Show icon on right side of slot (instead of left)
+	 */
 	@Prop({type: Boolean, required: false})
 	readonly iconRight: boolean;
 
+	/**
+	 * Shows a sublabel on the button
+	 */
+	@Prop({type: String, required: false})
+	readonly subLabel: string;
+
+	/**
+	 * Adds a size class
+	 */
+	@Prop({type: String, required: false})
+	readonly size: string;
 }
 </script>
 
 <style lang="scss">
+
+.ui-btn-container {
+
+	.labeled-btn-label {
+		display: block;
+		font-size: 1.2rem;
+		font-style: italic;
+		margin: auto;
+		max-width: 80%;
+		padding: 1rem 0;
+		text-align: center;
+	}
+}
+
 .eaasi-button {
 	appearance: none;
 	background-color: $dark-blue;
@@ -55,10 +99,22 @@ export default class UiButton extends Vue {
 	padding: 0.8rem 1.6rem;
 	transition: background-color 0.3s;
 
+	&[disabled] {
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
+	&.sm,
+	&.small {
+		font-size: 1.4rem;
+		min-width: 12rem;
+		padding: 0.6rem 1.6rem;
+	}
+
 	&.block {
 		display: block;
 		margin: 0 auto;
-		max-width: 2.6rem;
+		max-width: 26rem;
 	}
 
 	&:disabled {
@@ -80,11 +136,15 @@ export default class UiButton extends Vue {
 		}
 	}
 
-	.icon {
+	&.collapse {
+		min-width: 0;
+	}
+
+	.eb-icon {
 		margin-right: 0.4em;
 	}
 
-	.icon-right {
+	.eb-icon-right {
 		margin-left: 0.4rem;
 	}
 }

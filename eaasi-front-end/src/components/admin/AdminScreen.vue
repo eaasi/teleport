@@ -17,11 +17,11 @@ export default class AdminScreen extends Vue {
 	============================================*/
 
 	mounted() {
-		this.$store.commit('global/SET_ADMIN_MENU_OPEN', true);
+		this.$store.commit('SET_ADMIN_MENU_OPEN', true);
 	}
 
 	beforeDestroy() {
-		this.$store.commit('global/SET_ADMIN_MENU_OPEN', false);
+		this.$store.commit('SET_ADMIN_MENU_OPEN', false);
 	}
 
 }

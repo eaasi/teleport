@@ -19,7 +19,7 @@ import { Component, Prop } from 'vue-property-decorator';
 /**
  * Wrapper for form fields.  Provides a label and error alert for a slotted field.
  * Provides two slots, a default and a named slot `below-field`
- * @example ../docs/FormFieldWrapper.Example.md
+ * @example ../../docs/FormFieldWrapper.Example.md
  */
 @Component({
 	name: 'FormFieldWrapper',
@@ -52,7 +52,6 @@ export default class FormFieldWrapper extends Vue {
 
 <style lang="scss">
 .eaasi-form-control {
-	margin-bottom: 2rem;
 
 	.eaasi-input-wrapper {
 		border-bottom: solid 3px $light-blue;

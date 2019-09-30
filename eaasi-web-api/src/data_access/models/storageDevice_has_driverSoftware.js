@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		storageDevice_driverSoftwareID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
 				model: 'softwareVersion',

@@ -1,3 +1,4 @@
+import './register-hooks'; // Keep this import first
 import Vue from 'vue';
 import Router from 'vue-router';
 import routes from './routes';

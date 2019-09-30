@@ -1,5 +1,5 @@
 import BaseHttpService from './BaseHttpService';
-import { IEaasiAuthResponse, IEaasiUser } from 'eaasi-admin';
+import { IEaasiUser } from 'eaasi-admin';
 
 class AuthService extends BaseHttpService {
 

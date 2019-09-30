@@ -17,7 +17,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			storageDeviceName: {
+			storageDeviceLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			},
@@ -29,18 +29,14 @@ module.exports = {
 					key: 'storageDeviceTypeID'
 				}
 			},
-			storageVolumeBytes: {
-				type: Sq.INTEGER,
+			storageDeviceReadable: {
+				type: Sq.BOOLEAN,
 				allowNull: true
 			},
-			storageDevice_readWriteStatusID: {
-				type: Sq.INTEGER,
-				allowNull: false,
-				references: {
-					model: 'readWriteStatus',
-					key: 'readWriteStatusID'
-				}
-			}
+			storageDeviceWritable: {
+				type: Sq.BOOLEAN,
+				allowNull: true
+			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {

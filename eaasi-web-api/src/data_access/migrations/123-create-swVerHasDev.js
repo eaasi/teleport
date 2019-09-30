@@ -8,19 +8,17 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersion_softwareVersionID: {
-				type: Sq.INTEGER,
-				allowNull: true,
+				type: Sq.STRING,
 				references: {
 					model: 'softwareVersion',
 					key: 'softwareVersionID'
 				}
 			},
-			softwareVersion_softwareDeveloperQID: {
-				type: Sq.STRING,
-				allowNull: true,
+			softwareVersion_softwareDeveloperID: {
+				type: Sq.INTEGER,
 				references: {
 					model: 'developer',
-					key: 'developerQID'
+					key: 'developerID'
 				}
 			}
 		});

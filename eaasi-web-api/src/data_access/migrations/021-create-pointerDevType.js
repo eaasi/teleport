@@ -13,7 +13,7 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			pointerDeviceTypeName: {
+			pointerDeviceTypeLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			},

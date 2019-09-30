@@ -2,6 +2,8 @@ import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
+import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 
 export default class AdminController extends BaseController {
 
@@ -14,6 +16,15 @@ export default class AdminController extends BaseController {
 		this._emulatorAdminSvc = new EmulatorAdminService();
 	}
 
+	/*============================================================
+	 == Users
+	/============================================================*/
+
+	/**
+	 * Gets a paginated user list
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
 	async getUsers(req: Request, res: Response) {
 
 		// Parse request object to unpack limit, page, etc.
@@ -27,7 +38,12 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async getRoles(req: Request, res: Response) {
+	/**
+	 * Gets all user roles
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async getRoles(_req: Request, res: Response) {
 		try {
 			let roles = await this._userSvc.getRoles();
 			res.send(roles);
@@ -36,10 +52,79 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async getEmulators(req: Request, res: Response) {
+	/**
+	 * Adds or updates user record
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async saveUser(req: Request, res: Response) {
+		try {
+			let user = req.body;
+			let success = await this._userSvc.saveUser(user.id, user);
+			res.send(success);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Deletes User
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async deleteUser(req: Request, res: Response) {
+		try {
+			let id = req.query.id as number;
+			let roles = await this._userSvc.deleteUser(id);
+			res.send(roles);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/*============================================================
+	 == Emulators
+	/============================================================*/
+
+	/**
+	 * Gets the list of emulators
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async getEmulators(_req: Request, res: Response) {
 		try {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
 			res.send(emulators);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Gets the list of emulators
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async importEmulator(req: Request, res: Response) {
+		try {
+			let importRequest = req.body as IEmulatorImportRequest;
+			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
+			res.send(taskState);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Sets the default emulator image version
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async setDefaultEmulatorVersion(req: Request, res: Response) {
+		try {
+			let entry = req.body as EmulatorEntry;
+			let response = await this._emulatorAdminSvc.setDefaultVersion(entry);
+			res.send(response);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}

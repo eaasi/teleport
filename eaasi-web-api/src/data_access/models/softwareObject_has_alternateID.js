@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		softwareObject_softwareObjectID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareObject',
@@ -17,6 +17,14 @@ module.exports = (sequelize) => {
 		},
 		softwareObject_alternateID: {
 			type: Sequelize.STRING,
+			allowNull: true
+		},
+		softwareObject_alternateIDSource: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
+		softwareObject_localID: {
+			type: Sequelize.BOOLEAN,
 			allowNull: true
 		}
 	}, { sequelize, tableName: 'softwareObjectHasAlternateID' });

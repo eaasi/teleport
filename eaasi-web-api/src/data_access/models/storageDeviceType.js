@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		storageDeviceTypeName: {
+		storageDeviceTypeLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

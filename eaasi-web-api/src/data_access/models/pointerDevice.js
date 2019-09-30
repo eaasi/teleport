@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		pointerDeviceName: {
+		pointerDeviceLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		},

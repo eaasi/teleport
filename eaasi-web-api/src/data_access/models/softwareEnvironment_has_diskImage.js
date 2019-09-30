@@ -24,11 +24,11 @@ module.exports = (sequelize) => {
 			allowNull: true
 		},
 		fileSystem: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
 			allowNull: true,
 			references: {
 				model: 'fileSystem',
-				key: 'fileSystemQID'
+				key: 'fileSystemID'
 			}
 		},
 		storageCapacityBytes: {
@@ -46,7 +46,7 @@ module.exports = (sequelize) => {
 	}, { sequelize, tableName: 'softwareEnvironment_has_diskImage' });
 	SoftwareEnvironmentHasDiskImage.associate = models => {
 		models.SoftwareEnvironmentHasDiskImage.hasOne(models.SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
-		models.SoftwareEnvironmentHasDiskImage.hasOne(models.FileSystem, {foreignKey: 'fileSystemQID'});
+		models.SoftwareEnvironmentHasDiskImage.hasOne(models.FileSystem, {foreignKey: 'fileSystemID'});
 	};
 	return SoftwareEnvironmentHasDiskImage;
 };

@@ -19,10 +19,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import Modal from '@/components/global/Modal/Modal.vue';
+import UiButton from '@/components/global/UiButton.vue';
 
-	@Component({
-		name: 'InfoModal'
-	})
+@Component({
+	name: 'InfoModal',
+	components: {
+		Modal,
+		UiButton
+	}
+})
 export default class InfoModal extends Vue {
 
 	/* Props

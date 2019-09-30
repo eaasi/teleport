@@ -51,7 +51,7 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
  * @example ../docs/Pagination.Example.md
  */
 @Component({
-	name: 'Pagination'
+	name: 'Pagination',
 })
 export default class Pagination extends Vue {
 
@@ -88,6 +88,7 @@ export default class Pagination extends Vue {
 
 	get totalText(): string {
 		let total = this.totalResults;
+		if(total <= 0) return 'Records 0 of 0';
 		let start = this.currentPage > 1
 			? (this.currentPage - 1) * this.resultsPerPage
 			: 1;

@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiSearchQuery } from 'eaasi-http';
+import { IEaasiSearchQuery } from '@/types/Search';
 import { jsonCopy } from '@/utils/functions';
 
 /**
@@ -21,10 +21,8 @@ import { jsonCopy } from '@/utils/functions';
 	name: 'SortHeader',
 })
 export default class SortHeader extends Vue {
-
 	/* Props
 	============================================*/
-
 	/**
 	 * The name of the Sequelize model property to sort on
 	 */

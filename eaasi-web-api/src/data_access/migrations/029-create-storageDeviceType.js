@@ -17,7 +17,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			storageDeviceTypeName: {
+			storageDeviceTypeLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			}

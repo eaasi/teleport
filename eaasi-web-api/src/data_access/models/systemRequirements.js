@@ -8,10 +8,9 @@ module.exports = (sequelize) => {
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		systemRequirementsID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
 		},
 		requirementsSummary: {
 			type: Sequelize.TEXT,
@@ -21,17 +20,21 @@ module.exports = (sequelize) => {
 			type: Sequelize.INTEGER,
 			allowNull: true
 		},
-		minimumDiskSpace: {
+		minimumRAM_unitName: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
+		minimumDiskVolume: {
 			type: Sequelize.INTEGER,
 			allowNull: true
 		},
+		minimumDiskVolume_unitName: {
+			type: Sequelize.STRING,
+			allowNull: true
+		},
 		minimumColorDepth: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
-			references: {
-				model: 'colorDepth',
-				key: 'colorDepthID'
-			}
 		},
 		minimumDisplayResolution: {
 			type: Sequelize.INTEGER,
@@ -45,8 +48,12 @@ module.exports = (sequelize) => {
 			type: Sequelize.BOOLEAN,
 			allowNull: true
 		},
-		minimumMbps: {
-			type: Sequelize.INTEGER,
+		minimumNetworkBitRate: {
+			type: Sequelize.DECIMAL,
+			allowNull: true
+		},
+		minimumNetworkBitRate_unitName: {
+			type: Sequelize.STRING,
 			allowNull: true
 		}
 	}, { sequelize, tableName: 'systemRequirements' });

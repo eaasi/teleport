@@ -8,10 +8,9 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirementsID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
-				autoIncrement: true
 			},
 			requirementsSummary: {
 				type: Sq.TEXT,
@@ -21,17 +20,21 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			minimumDiskSpace: {
+			minimumRAM_unitName: {
+				type: Sq.STRING,
+				allowNull: true
+			},
+			minimumDiskVolume: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
+			minimumDiskVolume_unitName: {
+				type: Sq.STRING,
+				allowNull: true
+			},
 			minimumColorDepth: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: true,
-				references: {
-					model: 'colorDepth',
-					key: 'colorDepthID'
-				}
 			},
 			minimumDisplayResolution: {
 				type: Sq.INTEGER,
@@ -45,8 +48,12 @@ module.exports = {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			},
-			minimumMbps: {
-				type: Sq.INTEGER,
+			minimumNetworkBitRate: {
+				type: Sq.DECIMAL,
+				allowNull: true
+			},
+			minimumNetworkBitRate_unitName: {
+				type: Sq.STRING,
 				allowNull: true
 			}
 		});

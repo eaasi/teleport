@@ -38,6 +38,10 @@ import EaasiForm from './EaasiForm.vue';
 })
 export default class FormModal extends Vue {
 
+	$refs!: {
+		_form: EaasiForm
+	}
+
 	/* Props
     ============================================*/
 
@@ -83,7 +87,11 @@ export default class FormModal extends Vue {
 	.eaasi-form-modal-subtitle {
 		background-color: lighten($light-neutral, 60%);
 		border-top: solid 4px darken($light-neutral, 10%);
-		padding: 1.6rem 2rem;
+
+		& > span {
+			display: block;
+			padding: 1.6rem 2rem;
+		}
 	}
 
 	.eaasi-form-modal-buttons {

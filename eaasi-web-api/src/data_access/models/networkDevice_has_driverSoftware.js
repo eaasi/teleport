@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 			}
 		},
 		driverSoftware_driverSoftware: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.STRING,
 			allowNull: true,
 			references: {
 				model: 'softwareVersion',

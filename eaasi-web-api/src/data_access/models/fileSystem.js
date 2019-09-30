@@ -8,13 +8,18 @@ module.exports = (sequelize) => {
 	FileSystem.init({
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
-		fileSystemQID: {
-			type: Sequelize.STRING,
+		fileSystemID: {
+			type: Sequelize.INTEGER,
 			allowNull: false,
 			primaryKey: true
 		},
-		fileSystemName: {
-			type: Sequelize.INTEGER,
+		fileSystemQID: {
+			type: Sequelize.STRING,
+			allowNull: true,
+			primaryKey: true
+		},
+		fileSystemLabel: {
+			type: Sequelize.STRING,
 			allowNull: false
 		}
 	}, { sequelize, tableName: 'fileSystem' });

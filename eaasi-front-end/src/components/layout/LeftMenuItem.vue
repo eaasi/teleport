@@ -28,7 +28,7 @@ export default class LeftMenuItem extends Vue {
 
 <style lang="scss">
 a.left-menu-item {
-	color: $dark-neutral;
+	color: #FFFFFF;
 	cursor: pointer;
 	display: block;
 	padding: 1.5rem 1rem;
@@ -60,6 +60,7 @@ a.left-menu-item {
 
 	&.active {
 		background-color: #ffffff;
+		color: darken($teal, 60%);
 
 		&::before {
 			border-left: 4px solid $teal;

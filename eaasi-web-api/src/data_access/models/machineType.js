@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			autoIncrement: true
 		},
-		machineTypeName: {
+		machineTypeLabel: {
 			type: Sequelize.STRING,
 			allowNull: false
 		}

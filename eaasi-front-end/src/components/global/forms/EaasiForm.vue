@@ -11,7 +11,7 @@ import BaseFormField from './BaseFormField.vue';
 
 /**
  * A form wrapper for BaseFormField components
- * @example ../docs/EaasiForm.Example.md
+ * @example ../../docs/EaasiForm.Example.md
  */
 @Component({
 	name: 'EaasiForm',
@@ -84,4 +84,11 @@ export default class EaasiForm extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.eaasi-form {
+
+	.eaasi-form-control {
+		margin-bottom: 2rem;
+	}
+}
+</style>

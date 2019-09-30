@@ -17,7 +17,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			pointerDeviceName: {
+			pointerDeviceLabel: {
 				type: Sq.STRING,
 				allowNull: false
 			},

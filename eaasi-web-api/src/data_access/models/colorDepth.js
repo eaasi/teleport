@@ -14,8 +14,8 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			autoIncrement: true
 		},
-		colorDepthName: {
-			type: Sequelize.STRING,
+		colorDepthLabel: {
+			type: Sequelize.STRING(64),
 			allowNull: false
 		},
 		bitDepth: {

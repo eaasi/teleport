@@ -1,5 +1,5 @@
 <template>
-	<form-field-wrapper class="eaasi-checkbox" v-bind="wrapperPropsExtended">
+	<form-field-wrapper :class="['eaasi-checkbox', {'no-label': !label}]" v-bind="wrapperPropsExtended">
 		<label>
 			<span>{{ label }}</span>
 			<input
@@ -21,7 +21,7 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 /**
  * A Checkbox form element
  *
- * @example ../docs/Checkbox.Example.md
+ * @example ../../docs/Checkbox.Example.md
  *
  */
 @Component({
@@ -60,7 +60,7 @@ $checkboxSize: 20px;
 	label {
 		cursor: pointer;
 		font-size: 1.3rem;
-		height: $checkboxSize;
+		height: $checkboxSize + 2px; // account for border
 		padding-left: $checkboxSize + 8px;
 		position: relative;
 		user-select: none;
@@ -76,13 +76,13 @@ $checkboxSize: 20px;
 		span {
 			height: $checkboxSize;
 			position: relative;
-			top: 2px;
+			top: 6px;
 		}
 	}
 
 	.checkmark {
 		background-color: #ffffff;
-		border: 1px solid lighten($light-blue, 90%);
+		border: 1px solid $light-blue;
 		border-radius: 0.5em;
 		height: $checkboxSize;
 		left: 3px;
@@ -113,6 +113,20 @@ $checkboxSize: 20px;
 
 	label input:checked ~ .checkmark::after {
 		display: block;
+	}
+}
+
+.eaasi-checkbox.no-label {
+	display: inline-block;
+
+	label {
+		height: $checkboxSize + 2px; // account for border
+		padding-left: $checkboxSize + 2px;
+	}
+
+	.checkmark {
+		left: 0;
+		top: 0;
 	}
 }
 </style>

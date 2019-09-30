@@ -62,10 +62,10 @@ export default class ErrorModal extends Vue {
 		return this.showDebugErrors ? 'md' : 'sm';
 	}
 
-	@Sync('global/appError')
+	@Sync('appError')
 	error: string
 
-	@Get('global/showDebugErrors')
+	@Get('showDebugErrors')
 	showDebugErrors: boolean
 
 	/* Methods

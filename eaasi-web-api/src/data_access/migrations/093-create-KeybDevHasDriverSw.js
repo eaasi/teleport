@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			keyboardDevice_driverSoftware: {
-				type: Sq.INTEGER,
+				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'softwareVersion',
