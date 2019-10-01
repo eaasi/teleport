@@ -3,7 +3,8 @@
 		<button
 			:class="['eaasi-button', size, stretch ? 'stretch' : '', {collapse, secondary, block}]"
 			v-on="$listeners"
-			v-bind="$attrs">
+			v-bind="$attrs"
+		>
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
