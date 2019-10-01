@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import RssService from "@/services/RssService";
+import RssService from '@/services/RssService';
 
 let rssService = RssService;
 
