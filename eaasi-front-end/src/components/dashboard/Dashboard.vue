@@ -1,5 +1,5 @@
 <template>
-	<div class="dashboard-container padded-lg">
+	<div class="dashboard-container">
 		<dashboard-header />
 		<dashboard-links />
 		<dashboard-blog-feed />
@@ -24,5 +24,5 @@ export default class Dashboard extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
 </style>
