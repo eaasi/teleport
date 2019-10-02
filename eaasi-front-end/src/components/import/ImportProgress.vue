@@ -9,8 +9,10 @@
 			<numbered-steps v-if="step > 0" :steps="steps" v-model="step" />
 		</div>
 		<div class="ip-actions flex flex-center">
-			<div>
-				<ui-button disabled style="margin-right: 2rem;">Finish Import</ui-button>
+			<div class="flex-center">
+				<ui-button disabled style="margin-right: 2rem;">
+					{{ nextButtonLabel }}
+				</ui-button>
 				<ui-button secondary @click="reset">Cancel</ui-button>
 			</div>
 		</div>
@@ -60,6 +62,11 @@ export default class ImportProgress extends Vue {
 	@Sync('import/importStep')
 	step: number
 
+	get nextButtonLabel() {
+		if(this.step == this.steps.length) return 'Finish Import';
+		return 'Next';
+	}
+
 	/* Methods
 	============================================*/
 
@@ -90,7 +97,9 @@ export default class ImportProgress extends Vue {
 	.ip-actions {
 		background-color: lighten($light-neutral, 90%);
 		flex: 0 0 $tipLaneWidth;
-		padding: $defaultScreenPadding;
+		> div {
+			padding: $defaultScreenPadding;
+		}
 	}
 
 	.ip-content {

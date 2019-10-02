@@ -142,6 +142,7 @@ export function getParameterByName(name) {
 /============================================================*/
 
 export function appendScript(scriptText: string) {
+	if(!scriptText) throw 'script string is required';
 	let script   = document.createElement('script');
 	script.type  = 'text/javascript';
 	script.text  = scriptText;

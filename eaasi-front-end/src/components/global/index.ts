@@ -8,6 +8,7 @@ import BigSectionHeading from './BigSectionHeading.vue';
 import Collapsable from './Collapsable.vue';
 import ConfirmModal from './Modal/ConfirmModal.vue';
 import Checkbox from './forms/Checkbox.vue';
+import DualToggle from './DualToggle.vue';
 import EaasiForm from './forms/EaasiForm.vue';
 import FormModal from './forms/FormModal.vue';
 import HoverMenu from './HoverMenu.vue';
@@ -51,6 +52,7 @@ export default {
 		Vue.component('Checkbox', Checkbox);
 		Vue.component('Collapsable', Collapsable);
 		Vue.component('ConfirmModal', ConfirmModal);
+		Vue.component('DualToggle', DualToggle);
 		Vue.component('EaasiForm', EaasiForm);
 		Vue.component('FormModal', FormModal);
 		Vue.component('HoverMenu', HoverMenu);
@@ -94,6 +96,7 @@ export {
 	Checkbox,
 	Collapsable,
 	ConfirmModal,
+	DualToggle,
 	EaasiForm,
 	FormModal,
 	HoverMenu,

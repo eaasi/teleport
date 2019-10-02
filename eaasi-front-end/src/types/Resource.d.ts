@@ -118,3 +118,5 @@ export interface ISoftwarePackage extends IEaasiResource {
 	isOperatingSystem: boolean;
 	label: string;
 }
+
+export type ResourceImportPath = 'Fast' | 'Detailed' | 'Unselected';

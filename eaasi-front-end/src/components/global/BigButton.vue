@@ -1,16 +1,16 @@
 <template>
-	<div :class="['eb-wrapper', 'size-' + size]">
+	<div :class="['eb-wrapper', 'size-' + size, { block }]">
 		<div
 			class="eaasi-big-button"
 			role="button"
 			@click="$emit('click')"
 		>
 			<div class="eb-icon" v-if="icon">
-				<i :class="`fal fa-${icon}`"></i>
+				<i :class="`fas fa-${icon}`"></i>
 			</div>
 			<label>{{ label }}</label>
-			<div v-if="sublabel" class="eb-sublabel">
-				{{ sublabel }}
+			<div v-if="subLabel" class="eb-sublabel">
+				{{ subLabel }}
 			</div>
 		</div>
 		<div class="eb-info" v-if="info">
@@ -38,6 +38,12 @@ export default class BigButton extends Vue {
 	/* Props
 	============================================*/
 
+	/**
+	 * Make display type: block
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly block: boolean;
+
 	// Font icon name
 	@Prop({type: String, required: false})
 	readonly icon: string;
@@ -48,7 +54,7 @@ export default class BigButton extends Vue {
 
 	// Text below the primary label
 	@Prop({type: String, required: false})
-	readonly sublabel: string;
+	readonly subLabel: string;
 
 	// Alternative size of the modal. Accepts 'sm, small, lg, or large'
 	@Prop({type: String, required: false, default: ''})
@@ -79,6 +85,11 @@ export default class BigButton extends Vue {
 	&.size-large {
 		max-width: 40rem;
 	}
+
+	&.block {
+		max-width: none;
+		width: 100%;
+	}
 }
 
 .eaasi-big-button {
@@ -87,7 +98,6 @@ export default class BigButton extends Vue {
 	border-radius: 10px;
 	color: $dark-blue;
 	cursor: pointer;
-	max-width: 32rem;
 	padding: 1.5rem 1.5rem 3.5rem;
 	text-align: center;
 	transition: background-color 0.3s;
@@ -119,17 +129,11 @@ export default class BigButton extends Vue {
 
 	.eb-sublabel {
 		color: $dark-neutral;
+		line-height: 1.3em;
 		margin-top: 6px;
 	}
 }
 
-.eb-subtext {
-	color: $dark-neutral;
-	font-size: 1.4rem;
-	line-height: 1.6em;
-	margin: 1rem 1.6rem;
-	text-align: center;
-}
 
 .eb-info {
 	background-color: lighten($light-neutral, 60%);
@@ -137,7 +141,8 @@ export default class BigButton extends Vue {
 	border-radius: 0 0 10px 10px;
 	color: $dark-neutral;
 	font-size: 1.4rem;
-	padding: 1.5rem 1.5rem 2rem;
+	line-height: 1.3em;
+	padding: 1.5rem;
 	position: relative;
 	text-align: center;
 	top: -1.5rem;

@@ -7,8 +7,8 @@ import { ImportType } from 'eaasi-import';
 /============================================================*/
 
 class ImportState {
-	importStep: number = 0;
-	importType: ImportType = null;
+	importStep: number = 1;
+	importType: ImportType = 'software';
 }
 
 const state = new ImportState();

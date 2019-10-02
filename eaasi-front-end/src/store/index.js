@@ -15,7 +15,6 @@ export default new Vuex.Store({
 	...globalStore,
 	modules: {
 		admin: adminStore,
-		global: globalStore,
 		import: importStore,
 		resource: resourceStore
 	},

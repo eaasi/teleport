@@ -63,6 +63,10 @@ export default class ImportResourceScreen extends Vue {
 
 <style lang="scss">
 
+#importResource {
+	background-color: #FFFFFF;
+}
+
 .import-content {
 	flex: 1 1 auto;
 }
