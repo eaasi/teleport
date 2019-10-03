@@ -713,4 +713,18 @@ module.exports = [
 		'roleId': 1,
 		'username': 'brandon'
 	},
+	{
+		'firstName': 'Andrii',
+		'lastName': 'Kost',
+		'email': 'andrii@portalmedia.com',
+		'roleId': 1,
+		'username': 'andrii'
+	},
+	{
+		'firstName': 'Casey',
+		'lastName': 'Arendt',
+		'email': 'casey@portalmedia.com',
+		'roleId': 1,
+		'username': 'casey'
+	},
 ]
