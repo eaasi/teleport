@@ -45,7 +45,7 @@ export default class DashboardBlogFeed extends Vue {
 <style lang="scss">
 	.bf-container {
 		background-color: lighten($teal, 90%);
-		min-height: 45vh;
+		min-height: 50vh;
 		padding: 1.5rem;
 
 		#bf-header {
