@@ -1,13 +1,14 @@
 import BaseHttpService from './BaseHttpService';
+import {IRssFeed} from '@/types/RssFeed';
 
+/**
+ * Makes requests to internal API related to EaaSI blog syndication
+ */
 class RssService extends BaseHttpService {
-
-	async getBlogFeed(): Promise<any> {
+	async getBlogFeed(): Promise<IRssFeed> {
 		let res = await this.get<any>('/blog/feed');
-		console.log(res.body);
-		console.log(res.result);
-		// if(!res.ok) return null;
-		// return res.result;
+		if(!res.ok) return null;
+		return res.result;
 	}
 }
 

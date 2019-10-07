@@ -27,8 +27,14 @@ let rssService = RssService;
 })
 export default class DashboardBlogFeed extends Vue {
 
+	buildBlogFeed() {
+		rssService.getBlogFeed().then(res => {
+			console.log(res)
+		});
+	}
+
 	created() {
-		rssService.getBlogFeed();
+		this.buildBlogFeed();
 	}
 
 	placeholderEntries: IBlogEntry[] = [

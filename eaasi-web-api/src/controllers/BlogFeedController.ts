@@ -12,12 +12,10 @@ export default class BlogFeedController extends BaseController {
 	}
 
 	async getFeed(req: Request, res: Response) {
-		console.log('in blog feed')
 		try {
-			let blogFeed = await this._blogService.getFeed();
-			res.send(blogFeed);
+			return await this._blogService.getFeed().then(feed => res.send(feed));
 		} catch(e) {
-			this.sendError(e.message, res);
+			return await this.sendError(e.message, res);
 		}
 	}
 }

@@ -15,20 +15,26 @@ export default class BlogFeedService {
 	}
 
 	public async getFeed() {
+		let feedResult = await fetch(BASE_URL);
+		return await feedResult.text().then(xml => {
+			let jsonResult = this._parseRssResult(xml);
+			console.log(jsonResult)
+			return jsonResult;
+		});
+	}
 
-		fetch(BASE_URL).then((res) => {
-			res.text().then((xml) => {
-				xml2js.parseString(xml, function (err, result) {
-					let blogDescription = result.rss.channel[0].description[0]
+	private async _parseRssResult(xml) {
+	    let rssFeed;
 
-					let articles = result.rss.channel[0].item
-						.slice(0, NUMBER_BLOG_LINKS_DISPLAYED)
-						.map(entry => new BlogArticleLink(entry))
+		await xml2js.parseString(xml, (err, result) => {
+			let blogDescription = result.rss.channel[0].description[0]
+			let blogTitle = result.rss.channel[0].title[0]
+			let articles = result.rss.channel[0].item
+				.slice(0, NUMBER_BLOG_LINKS_DISPLAYED)
+				.map(entry => new BlogArticleLink(entry))
+			rssFeed = new RssFeed(articles, blogDescription, blogTitle);
+		});
 
-					console.log(articles)
-
-				});
-			})
-		})
+		return rssFeed;
 	}
 }
