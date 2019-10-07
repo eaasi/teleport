@@ -1,8 +1,16 @@
-import {BlogArticleLink, RssFeed} from '@/types/rss/RssFeed.ts';
+import EaasiRssParser from '@/services/blog/EaasiRssParser';
+import RssParser from '@/types/blog/RssParser';
+import {RssFeed} from '@/types/rss/RssFeed.ts';
 import fetch from 'node-fetch';
 import xml2js from 'xml2js';
 
 export default class BlogFeedService {
+
+	private rssParser: RssParser;
+
+	constructor(rssParser: any = new EaasiRssParser()) {
+		this.rssParser = rssParser;
+	}
 
 	/**
 	 * Returns an RSS Feed given a valid XML-based RSS feed URL
@@ -24,12 +32,15 @@ export default class BlogFeedService {
 	    let rssFeed;
 
 		await xml2js.parseString(xml, (err, result) => {
-			let blogDescription = result.rss.channel[0].description[0]
-			let blogTitle = result.rss.channel[0].title[0]
-			let articles = result.rss.channel[0].item
-				.slice(0, numberOfArticles)
-				.map(entry => new BlogArticleLink(entry))
-			rssFeed = new RssFeed(articles, blogDescription, blogTitle);
+			if (!err) {
+				this.rssParser.setRssToParse(result);
+				let blogDescription = this.rssParser.getBlogDescription();
+				let blogTitle = this.rssParser.getBlogTitle();
+				let articles = this.rssParser.getBlogArticles(numberOfArticles);
+				rssFeed = new RssFeed(articles, blogDescription, blogTitle);
+			} else {
+				console.error('Error reading Blog RSS Feed')
+			}
 		});
 
 		return rssFeed ? rssFeed : RssFeed.empty();
