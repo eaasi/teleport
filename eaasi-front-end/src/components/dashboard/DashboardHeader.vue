@@ -86,7 +86,7 @@ export default class DashboardHeader extends Vue { }
 	.dh-quick-links {
 		display: flex;
 		flex-direction: row;
-		padding-top: 2rem;
+		padding: 2rem 0 4rem 0;
 
 		a {
 			text-decoration: none;

@@ -2,13 +2,12 @@ import BaseHttpService from './BaseHttpService';
 
 class RssService extends BaseHttpService {
 
-	async getLatestBlogArticles(): Promise<any> {
-
-		console.log('getting blog articles');
-
-		let request = new Request('cors-anywhere.herokuapp.com/https://www.softwarepreservationnetwork.org/blog/feed/');
-
-		let response: any;
+	async getBlogFeed(): Promise<any> {
+		let res = await this.get<any>('/blog/feed');
+		console.log(res.body);
+		console.log(res.result);
+		// if(!res.ok) return null;
+		// return res.result;
 	}
 }
 

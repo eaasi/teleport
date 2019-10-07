@@ -33,7 +33,7 @@ import OptionsBoxFooter from '@/components/global/OptionsBox/OptionsBoxFooter.vu
 
 /**
  * A reusable styled content wrapper
- * @example ../docs/OptionsBox.Example.md
+ * @example ../../docs/OptionsBox.Example.md
  */
 @Component({
 	name: 'OptionsBox',

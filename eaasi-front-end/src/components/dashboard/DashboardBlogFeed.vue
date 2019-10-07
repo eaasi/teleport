@@ -27,7 +27,7 @@ let rssService = RssService;
 })
 export default class DashboardBlogFeed extends Vue {
 	getArticles() {
-		rssService.getLatestBlogArticles();
+		rssService.getBlogFeed();
 	}
 
 	created() {
