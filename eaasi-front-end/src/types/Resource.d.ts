@@ -119,4 +119,8 @@ export interface ISoftwarePackage extends IEaasiResource {
 	label: string;
 }
 
-export type ResourceImportPath = 'Fast' | 'Detailed' | 'Unselected';
+export interface ISoftwareResource extends IEaasiResource {
+	//TODO:
+}
+
+export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'Disk';

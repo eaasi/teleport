@@ -67,7 +67,7 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
-import { ImportType } from 'eaasi-import';
+import { ImportType } from '@/types/Import';
 
 @Component({
 	name: 'ImportSelect'

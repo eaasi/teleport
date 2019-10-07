@@ -10,7 +10,11 @@
 		</div>
 		<div class="ip-actions flex flex-center">
 			<div class="flex-center">
-				<ui-button disabled style="margin-right: 2rem;">
+				<ui-button
+					@click="doImport()"
+					:disabled="step < 3"
+					style="margin-right: 2rem;"
+				>
 					{{ nextButtonLabel }}
 				</ui-button>
 				<ui-button secondary @click="reset">Cancel</ui-button>
@@ -34,9 +38,6 @@ import { INumberedStep } from '../../types/NumberedStep';
 	}
 })
 export default class ImportProgress extends Vue {
-
-	/* Props
-	============================================*/
 
 	/* Data
 	============================================*/
@@ -70,15 +71,13 @@ export default class ImportProgress extends Vue {
 	/* Methods
 	============================================*/
 
-	reset() {
-		this.$store.commit('import/RESET_STATE');
+	doImport() {
+		this.$store.dispatch('import/import');
 	}
 
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
+	reset() {
+		this.$store.commit('import/RESET_IMPORT');
+	}
 
 }
 

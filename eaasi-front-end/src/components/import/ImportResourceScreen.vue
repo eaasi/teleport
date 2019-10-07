@@ -1,15 +1,15 @@
 <template>
-	<div id="importResource">
+	<div id="importResource" class="width-lg">
 		<h1 class="padded no-mb">Import Resource</h1>
 		<import-progress />
 		<section class="import-wrapper flex">
 			<div class="import-content">
 				<import-select v-if="step >= 0" />
-				<import-metadata v-if="step === 1" />
-				<import-files v-if="step === 2" />
-				<import-finished v-if="step === 3" />
+				<import-metadata v-if="step >= 1" />
+				<import-files v-if="step >= 2" />
+				<import-finished v-if="step >= 3" />
 			</div>
-			<div class="import-tip-lane padded"></div>
+			<div class="import-tip-lane"></div>
 		</section>
 	</div>
 </template>

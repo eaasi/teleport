@@ -1,7 +1,16 @@
 <template>
 	<div class="numbered-steps-container flex justify-between">
-		<span class="step" v-for="step in this.steps" :key="step.stepNumber">
-			<numbered-step :step="step" :complete="value > step.stepNumber" />
+		<span class="step flex-adapt" v-for="step in this.steps" :key="step.stepNumber">
+			<div class="flex">
+				<div class="step-wrapper">
+					<numbered-step
+						:step="step"
+						:active="value == step.stepNumber"
+						:complete="value > step.stepNumber"
+					/>
+				</div>
+				<div class="step-elipses flex-adapt"></div>
+			</div>
 		</span>
 	</div>
 </template>
@@ -43,5 +52,10 @@ export default class NumberSteps extends Vue {
 <style lang="scss">
 	.numbered-steps-container {
 		width: 100%;
+	}
+	.step-elipses {
+		border-bottom: dotted 2px #000000;
+		height: 2.4rem;
+		margin: 0 2.5rem 0 2px;
 	}
 </style>

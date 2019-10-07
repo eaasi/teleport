@@ -7,7 +7,7 @@ import importStore from './import-store';
 import resourceStore from './resource-store';
 
 pathify.options.mapping = 'simple';
-pathify.options.deep = 2;
+pathify.options.deep = true;
 
 Vue.use(Vuex);
 

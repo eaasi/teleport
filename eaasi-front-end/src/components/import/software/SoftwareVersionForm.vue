@@ -29,8 +29,7 @@
 			<div class="col-md-6">
 				<select-list
 					label="Date Published"
-				>
-				</select-list>
+				/>
 			</div>
 		</div>
 		<div class="row">
@@ -61,6 +60,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+
 
 @Component({
 	name: 'SoftwareVersionForm',

@@ -6,6 +6,7 @@
 					label="Software Name"
 					placeholder="Enter a name or title for this resource..."
 					rules="required"
+					v-model="title"
 				/>
 			</div>
 		</div>
@@ -14,18 +15,21 @@
 				<text-input
 					label="Local Identifier"
 					placeholder="Entar an identifier..."
+					v-model="localIdentifier"
 				/>
 			</div>
 			<div class="col-md-6">
 				<text-input
 					label="Local Identifier Source"
 					placeholder="Entar source..."
+					v-model="localIdentifierSource"
 				/>
 			</div>
 			<div class="col-md-6">
 				<text-input
 					label="Version"
 					placeholder="Entar the software version..."
+					v-model="version"
 				/>
 			</div>
 		</div>
@@ -34,30 +38,29 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+
+import { Sync } from 'vuex-pathify';
 
 @Component({
-	name: 'SoftwareForm',
+	name: 'SoftwareGeneralInfoForm',
 })
-export default class SoftwareForm extends Vue {
-
-	/* Props
-	============================================*/
-
-	/* Data
-	============================================*/
+export default class SoftwareGeneralInfoForm extends Vue {
 
 	/* Computed
 	============================================*/
 
-	/* Methods
-	============================================*/
+	@Sync('import/software@title')
+	title: string
 
-	/* Lifecycle Hooks
-	============================================*/
+	@Sync('import/software@localIdentifier')
+	localIdentifier: string
 
-	/* Watchers
-	============================================*/
+	@Sync('import/software@localIdentifierSource')
+	localIdentifierSource: string
+
+	@Sync('import/software@version')
+	version: string
 
 }
 

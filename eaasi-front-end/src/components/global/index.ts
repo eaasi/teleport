@@ -8,8 +8,10 @@ import BigSectionHeading from './BigSectionHeading.vue';
 import Collapsable from './Collapsable.vue';
 import ConfirmModal from './Modal/ConfirmModal.vue';
 import Checkbox from './forms/Checkbox.vue';
+import FileDropzone from './FileDropzone.vue';
 import DualToggle from './DualToggle.vue';
 import EaasiForm from './forms/EaasiForm.vue';
+import FileUploadButton from './FileUploadButton.vue';
 import FormModal from './forms/FormModal.vue';
 import HoverMenu from './HoverMenu.vue';
 import InfoModal from './Modal/InfoModal.vue';
@@ -52,8 +54,10 @@ export default {
 		Vue.component('Checkbox', Checkbox);
 		Vue.component('Collapsable', Collapsable);
 		Vue.component('ConfirmModal', ConfirmModal);
+		Vue.component('FileDropzone', FileDropzone);
 		Vue.component('DualToggle', DualToggle);
 		Vue.component('EaasiForm', EaasiForm);
+		Vue.component('FileUploadButton', FileUploadButton);
 		Vue.component('FormModal', FormModal);
 		Vue.component('HoverMenu', HoverMenu);
 		Vue.component('InfoModal', InfoModal);
@@ -96,8 +100,10 @@ export {
 	Checkbox,
 	Collapsable,
 	ConfirmModal,
+	FileDropzone,
 	DualToggle,
 	EaasiForm,
+	FileUploadButton,
 	FormModal,
 	HoverMenu,
 	InfoModal,

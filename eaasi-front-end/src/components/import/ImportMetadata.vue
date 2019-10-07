@@ -9,7 +9,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import SoftwareMetadata from '@/components/import/software/SoftwareMetadata.vue';
 import { Get } from 'vuex-pathify';
-import { ImportType } from 'eaasi-import';
+import { ImportType } from '@/types/Import';
 
 @Component({
 	name: 'ImportMetadata',
@@ -24,7 +24,6 @@ export default class ImportMetadata extends Vue {
 
 	@Get('import/importType')
 	readonly type: ImportType
-
 
 }
 

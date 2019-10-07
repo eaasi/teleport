@@ -43,7 +43,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { ResourceImportPath } from '@/types/Resource';
+import { ResourceImportPath } from '@/types/Import';
 
 @Component({
 	name: 'ImportPathSelect',
