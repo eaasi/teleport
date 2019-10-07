@@ -2,7 +2,9 @@
 	<div class="entry-bg-trim">
 		<div class="entry-container">
 			<div class="entry-header">
-				{{ props.entry.categories.join(', ') }} | {{ props.entry.pubDate }}
+				<span id="categories">{{ props.entry.categories.join(', ') }}</span>
+				|
+				<span id="date">{{ props.entry.pubDate }}</span>
 			</div>
 			<div class="entry-title">
 				<a :href="props.entry.link" target="_blank">
@@ -33,18 +35,26 @@ export default class DashboardBlogEntry extends Vue {
 
 	.entry-container {
 		background-color: #FFFFFF;
-		border-top-right-radius: 8px;
+		border-top-right-radius: 1.2rem;
 		line-height: 2.4rem;
 		position: relative;
-		top: 48px;
+		top: 4.8rem;
 		width: 350px;
 
 		.entry-header {
 			background-color: lighten($light-neutral, 50%);
-			border-left: 6px solid $teal;
-			border-top-right-radius: 8px;
+			border-left: 0.4rem solid $teal;
+			border-top-right-radius: 4rem;
 			font-size: 1.5rem;
 			padding: 1.1rem;
+
+			#date {
+				font-size: 1.2rem;
+			}
+
+			#categories {
+				font-size: 1.4rem;
+			}
 		}
 
 		.entry-title {

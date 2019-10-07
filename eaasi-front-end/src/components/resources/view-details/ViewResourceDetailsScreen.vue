@@ -43,8 +43,6 @@ export default class ViewResourceDetailsScreen extends Vue {
 
 		activeTab: string = 'Metadata';
 
-		menuOpen: boolean = false;
-
 		tabs: IEaasiTab[] = [
 			{ label: 'Metadata' },
 			{ label: 'History' },
@@ -66,7 +64,7 @@ export default class ViewResourceDetailsScreen extends Vue {
 
 		// TODO: Should update to search all software for a given environmentId
 		async getSoftware() {
-			let softwareId = this.environment.installedSoftwareIds[0];
+			let softwareId = this.environment.installedSoftwareIds[0]; // TODO <---
 			let software = await this.$store.dispatch('software/getSoftware', softwareId);
 			if(!software) return;
 			this.$store.commit('software/SET_ACTIVE_SOFTWARE', software);
