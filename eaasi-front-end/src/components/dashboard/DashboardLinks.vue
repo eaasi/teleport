@@ -18,7 +18,7 @@
 						>
 							See ALL Node Resources
 						</ui-button>
-						<selectable-card :data="exampleResource"/>
+						<selectable-card :data="exampleResource" />
 					</div>
 				</div>
 			</div>

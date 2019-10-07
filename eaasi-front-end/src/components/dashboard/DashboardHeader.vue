@@ -8,12 +8,8 @@
 					</div>
 					<div id="dh-eaasi-welcome-text">
 						<h3>Welcome to EaaSI</h3>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							In lobortis placerat quam, nec sodales metus pellentesque vitae.
-							Proin lacinia congue est, nec blandit tortor convallis sed. Praesent semper
-							non urna id dapibus. In lobortis placerat quam, nec sodales pellentesque vitae.
-						</p>
+						<div class="dh-welcome-content">
+						</div>
 					</div>
 				</div>
 			</div>
