@@ -15,6 +15,7 @@
 			<collapsable
 				title="Did you change OS settings?"
 				open-title="I made these changes to OS settings..."
+				secondary
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -25,6 +26,7 @@
 			<collapsable
 				title="Did you install new software?"
 				open-title="I installed the following software.."
+				secondary
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -36,6 +38,7 @@
 			<collapsable
 				title="Did you make software changes?"
 				open-title="I made these softare changes.."
+				secondary
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />

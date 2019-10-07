@@ -6,9 +6,11 @@
 				<router-view />
 			</section>
 		</div>
+		<!--
 		<div id="appFooter">
 			<app-footer />
 		</div>
+		-->
 		<task-modal
 			:task="activeTask"
 			@close="activeTask = null"

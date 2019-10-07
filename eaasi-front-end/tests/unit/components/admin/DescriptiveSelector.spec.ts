@@ -35,7 +35,6 @@ describe('DescriptiveSelector.vue', () => {
 			},
 			store
 		});
-		console.log(wrapper.find('h3').text());
 		expect(wrapper.find('h3').text()).toBe('foo');
 	});
 

@@ -98,6 +98,16 @@ export default class FormFieldWrapper extends Vue {
 		}
 	}
 
+	&.readonly {
+		background-color: transparent;
+
+		input,
+		select,
+		textarea {
+			color: $dark-blue;
+		}
+	}
+
 	&.error {
 		background-color: lighten($red, 80%);
 

@@ -5,22 +5,20 @@
 		</div>
 
 		<div class="ob-content">
-			<div class="ob-name text-center" v-if="optionName">
-				<span>{{ optionName }}</span>
+			<div class="ob-name text-center">
+				<i :class="`fal fa-${icon}`" v-if="icon"></i>
+				<span v-if="title">{{ title }}</span>
 			</div>
 
 			<div class="ob-desc text-center">
 				<slot></slot>
 			</div>
+		</div>
 
-			<div class="ob-footer-container" v-if="hasFooter()">
-				<div class="ob-footer-break">
-					<hr />
-				</div>
-				<div class="ob-footer-content">
-					<slot name="footer">
-					</slot>
-				</div>
+		<div class="ob-footer" v-if="hasFooter()">
+			<div class="ob-footer-break"></div>
+			<div class="ob-footer-content">
+				<slot name="footer"></slot>
 			</div>
 		</div>
 	</div>
@@ -49,7 +47,11 @@ export default class OptionsBox extends Vue {
 
 	// Optional name text
 	@Prop({type: String, required: false})
-	readonly optionName: String
+	readonly title: String
+
+	// Optional icon name
+	@Prop({type: String, required: false})
+	readonly icon: String
 
 	hasFooter() {
 		return this.$slots.footer;
@@ -62,36 +64,26 @@ export default class OptionsBox extends Vue {
 .options-box {
 	background-color: lighten($light-neutral, 80%);
 	border-radius: 1rem;
-	display: flex;
-	flex-direction: column;
-	min-width: 32rem;
 	overflow: hidden;
 	position: relative;
 
-	.ob-content {
-		display: flex;
-		flex-direction: column;
-		margin-top: auto;
-		padding: 2.8rem 1.2rem;
+	.ob-name {
+		color: $dark-blue;
+		font-size: 1.6rem;
+		font-weight: bold;
+		margin-bottom: 1rem;
 
-		.ob-name {
-			color: $dark-blue;
-			font-size: 1.6rem;
-			font-weight: bold;
-			padding: 0.4rem 0 1.4rem 0;
+		i {
+			display: block;
+			font-size: 2.4rem;
+			margin-bottom: 0.5rem;
 		}
+	}
 
-		.ob-desc {
-			font-size: 1.5rem;
-			margin: auto;
-			width: 75%;
-		}
-
-		.ob-footer {
-			display: flex;
-			flex-direction: column;
-			text-align: center;
-		}
+	.ob-desc {
+		font-size: 1.5rem;
+		height: 5rem;
+		line-height: 1.5em;
 	}
 
 	.ob-header {
@@ -99,24 +91,25 @@ export default class OptionsBox extends Vue {
 		color: #FFFFFF;
 		font-size: 1.1rem;
 		padding: 0.4rem 1rem;
+		position: absolute;
 		text-align: center;
 		text-transform: uppercase;
+		top: 0;
 		width: 100%;
 	}
 
-	.ob-footer-container {
-		display: flex;
-		flex-direction: column;
-		padding: 1.2rem 0;
-	}
-
-	.ob-footer-break {
-		margin: 0.9rem 0;
+	.ob-content {
+		padding: 4rem 4em 1rem;
 	}
 
 	.ob-footer-content {
-		display: flex;
-		justify-content: center;
+		padding: 2rem 2rem 3rem;
+	}
+
+	.ob-footer-break {
+		background-color: #E2EBF0;
+		height: 2px;
+		margin: 0 1rem;
 	}
 }
 </style>

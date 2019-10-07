@@ -1,3 +1,4 @@
+// TODO: Should routes be split into their own files?
 import Dashboard from '@/components/dashboard/Dashboard.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
@@ -7,7 +8,8 @@ import ExploreResourcesScreen from '@/components/resources/explore/ExploreResour
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 import ViewResourceDetailsScreen from '@/components/resources/view-details/ViewResourceDetailsScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
-import { RouteConfig, Route } from 'vue-router';
+import ImportScreen from '@/components/import/ImportResourceScreen.vue';
+import { RouteConfig } from 'vue-router';
 
 export default [
 	{
@@ -43,6 +45,15 @@ export default [
 		meta: {
 			allowGuest: true
 		}
+	},
+
+	/* Import Resource
+	============================================*/
+
+	{
+		path: '/import-resource',
+		name: 'Import Resource',
+		component: ImportScreen,
 	},
 	{
 		path: '/resources/my-resources',

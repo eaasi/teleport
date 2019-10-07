@@ -1,20 +1,23 @@
 <template>
-	<div :class="['eb-wrapper', 'size-' + size]">
+	<div :class="['eb-wrapper', 'size-' + size, { block }]">
 		<div
 			class="eaasi-big-button"
 			role="button"
 			@click="$emit('click')"
 		>
 			<div class="eb-icon" v-if="icon">
-				<i :class="`fal fa-${icon}`"></i>
+				<i :class="`fas fa-${icon}`"></i>
 			</div>
 			<label>{{ label }}</label>
-			<div v-if="sublabel" class="eb-sublabel">
-				{{ sublabel }}
+			<div v-if="subLabel" class="eb-sublabel">
+				{{ subLabel }}
 			</div>
 		</div>
 		<div class="eb-info" v-if="info">
 			<span>{{ info }}</span>
+		</div>
+		<div class="eb-subtext" v-if="subtext">
+			<span>{{ subtext }}</span>
 		</div>
 	</div>
 </template>
@@ -35,6 +38,12 @@ export default class BigButton extends Vue {
 	/* Props
 	============================================*/
 
+	/**
+	 * Make display type: block
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly block: boolean;
+
 	// Font icon name
 	@Prop({type: String, required: false})
 	readonly icon: string;
@@ -45,15 +54,19 @@ export default class BigButton extends Vue {
 
 	// Text below the primary label
 	@Prop({type: String, required: false})
-	readonly sublabel: string;
+	readonly subLabel: string;
 
 	// Alternative size of the modal. Accepts 'sm, small, lg, or large'
 	@Prop({type: String, required: false, default: ''})
 	readonly size: string;
 
-	// Additional text that will appear below the button
+	// Additional text that will appear below the button in a colored wrapper
 	@Prop({type: String, required: false})
 	readonly info: string
+
+	// Additional text that will appear below the button
+	@Prop({type: String, required: false})
+	readonly subtext: string
 
 }
 
@@ -72,6 +85,11 @@ export default class BigButton extends Vue {
 	&.size-large {
 		max-width: 40rem;
 	}
+
+	&.block {
+		max-width: none;
+		width: 100%;
+	}
 }
 
 .eaasi-big-button {
@@ -83,6 +101,16 @@ export default class BigButton extends Vue {
 	padding: 1.5rem 1.5rem 3.5rem;
 	text-align: center;
 	transition: background-color 0.3s;
+
+	&.size-sm,
+	&.size-small {
+		max-width: 24rem;
+	}
+
+	&.size-lg,
+	&.size-large {
+		max-width: 40rem;
+	}
 
 	&:hover {
 		background-color: lighten($light-blue, 70%);
@@ -101,6 +129,7 @@ export default class BigButton extends Vue {
 
 	.eb-sublabel {
 		color: $dark-neutral;
+		line-height: 1.3em;
 		margin-top: 6px;
 	}
 }
@@ -111,7 +140,8 @@ export default class BigButton extends Vue {
 	border-radius: 0 0 10px 10px;
 	color: $dark-neutral;
 	font-size: 1.4rem;
-	padding: 1.5rem 1.5rem 2rem;
+	line-height: 1.3em;
+	padding: 1.5rem;
 	position: relative;
 	text-align: center;
 	top: -1.5rem;

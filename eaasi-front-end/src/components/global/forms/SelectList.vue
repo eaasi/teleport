@@ -1,7 +1,7 @@
 <template>
 	<form-field-wrapper class="eaasi-select" v-bind="wrapperProps">
 		<div class="eaasi-input-wrapper">
-			<div :class="['eaasi-input flex-row', fieldStatus]">
+			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<select
 					v-bind="$attrs"
 					v-on="inputListeners"

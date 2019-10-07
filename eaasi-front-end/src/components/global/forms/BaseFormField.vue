@@ -93,6 +93,10 @@ export default class BaseFormField extends Vue {
 		return this.canValidate && this.error === null;
 	}
 
+	get readonly(): boolean {
+		return this.$attrs.hasOwnProperty('readonly');
+	}
+
 	get wrapperProps() {
 		return {
 			hideLabel: this.hideLabel,
