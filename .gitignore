@@ -1,8 +1,4 @@
 .scannerwork/
 .DS_Store
 .idea/
-<<<<<<< HEAD
-node_modules
-=======
 node_modules/
->>>>>>> master
