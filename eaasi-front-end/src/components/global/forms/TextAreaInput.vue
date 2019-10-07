@@ -1,7 +1,7 @@
 <template>
 	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-area">
 		<div class="eaasi-input-wrapper">
-			<div :class="['eaasi-input flex-row', fieldStatus]">
+			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<textarea
 					:id="id"
 					:value="value"

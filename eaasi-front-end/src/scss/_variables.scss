@@ -38,15 +38,18 @@ $red: #F26362;
 }
 
 /*============================================================
- == Sizes
+ == Sizes / Spacing
 /============================================================*/
 
+$defaultScreenPadding: 2rem;
+$headerHeight: 8rem;
 $accessHeaderHeight: 9rem;
 $headerHeight: 80px;
 $footerHeight: 14rem;
 $leftSidebarWidth: 9rem;
 $minAppWidth: 1024px;
 $remBase: 10px;
+$tipLaneWidth: 40rem;
 $slideMenuWidth: 43rem;
 $actionViewLeftWidth: 90rem;
 

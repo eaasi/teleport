@@ -28,7 +28,7 @@ export default class Collapsable extends Vue {
 	/* Props
 	============================================*/
 
-	/**npm run
+	/**
 	 * The icon to display as the dropdown trigger
 	 */
 	@Prop({type: String, required: false, default: 'chevron-down'})
@@ -41,6 +41,18 @@ export default class Collapsable extends Vue {
 	readonly openTitle: string
 
 	/**
+	 * Content will mount collapsed when true
+	 */
+	@Prop({type: Boolean, required: false, default: false})
+	readonly collapsed: boolean
+
+	/**
+	 * Use secondary styles
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly secondary: boolean
+
+	/**
 	 * The default title to display
 	 */
 	@Prop({type: String, required: true})
@@ -49,19 +61,26 @@ export default class Collapsable extends Vue {
 	/* Data
 	============================================*/
 
-	open: boolean = false;
+	open: boolean = true;
 
 	/* Computed
 	============================================*/
 
 	get activeIcon() {
-		if(this.open) return 'times';
+		if(this.open) return 'chevron-up';
 		return this.icon;
 	}
 
 	get activeTitle() {
 		if(this.open && this.openTitle) return this.openTitle;
 		return this.title;
+	}
+
+	/* Lifecycle hooks
+	============================================*/
+
+	beforeMount() {
+		if(this.collapsed) this.open = false;
 	}
 
 }
@@ -71,10 +90,17 @@ export default class Collapsable extends Vue {
 <style lang="scss">
 
 .collapsable {
-	background-color: lighten($light-blue, 90%);
-	border: solid 2px $light-blue;
-	border-radius: 1rem;
+	background-color: lighten($light-neutral, 80%);
+	border: solid 1px $light-neutral;
 	padding: 2rem;
+
+	.collapse-icon {
+		background-color: lighten($light-blue, 80%);
+		border-radius: 50%;
+		color: $light-blue;
+		height: 3rem;
+		width: 3rem;
+	}
 
 	.collapse-title {
 		color: $dark-blue;
@@ -88,22 +114,24 @@ export default class Collapsable extends Vue {
 		}
 	}
 
-	.collapse-icon {
-		background-color: #FFFFFF;
-		border-radius: 50%;
-		color: $light-blue;
-		height: 3rem;
-		width: 3rem;
-	}
-
 	.collapse-content {
 		margin-top: 2rem;
 	}
 
-	&.open {
-		background-color: #FFFFFF;
+	&.secondary {
+		background-color: lighten($light-blue, 90%);
+		border: solid 2px $light-blue;
+		border-radius: 1rem;
 
 		.collapse-icon {
+			background-color: #FFFFFF;
+		}
+
+		&.open {
+			background-color: #FFFFFF;
+		}
+
+		&.open .collapse-icon {
 			background-color: transparent;
 		}
 	}
