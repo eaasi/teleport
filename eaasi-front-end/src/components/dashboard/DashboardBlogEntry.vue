@@ -1,12 +1,12 @@
-<template>
+<template functional>
 	<div class="entry-bg-trim">
 		<div class="entry-container">
 			<div class="entry-header">
-				[ Topics ] | [ Date ]
+				{{ props.entry.categories.join(', ') }} | {{ props.entry.pubDate }}
 			</div>
 			<div class="entry-title">
-				<a href="" target="_blank">
-					{{ entry.title }}
+				<a :href="props.entry.link" target="_blank">
+					{{ props.entry.title }}
 				</a>
 			</div>
 		</div>
@@ -16,15 +16,16 @@
 <script lang="ts">
 
 import {Component, Prop, Vue} from 'vue-property-decorator';
-import {IBlogEntry} from '@/types/IBlogEntry';
+import {IBlogArticleLink} from '@/types/RssFeed';
 
 
 @Component({
 	name: 'DashboardBlogEntry'
 })
 export default class DashboardBlogEntry extends Vue {
-	@Prop({ type: Object as () => IBlogEntry})
-	entry: IBlogEntry;
+
+	@Prop({ type: Object as () => IBlogArticleLink})
+	entry: IBlogArticleLink;
 }
 </script>
 

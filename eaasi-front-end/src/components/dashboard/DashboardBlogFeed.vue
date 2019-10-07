@@ -1,11 +1,11 @@
 <template>
 	<div class="bf-container">
 		<div id="bf-header">
-			EaaSI Blog
+			{{ blogTitle }}
 		</div>
-		<div class="bf-articles">
+		<div class="row">
 			<dashboard-blog-entry
-				v-for="entry in placeholderEntries"
+				v-for="entry in blogArticles"
 				:entry="entry"
 				:key="entry.title"
 			/>
@@ -16,8 +16,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import RssService from '@/services/RssService';
-import {IBlogEntry} from '@/types/IBlogEntry';
 import DashboardBlogEntry from '@/components/dashboard/DashboardBlogEntry.vue';
+import {IBlogArticleLink} from '@/types/RssFeed';
 
 let rssService = RssService;
 
@@ -26,37 +26,19 @@ let rssService = RssService;
 	components: {DashboardBlogEntry}
 })
 export default class DashboardBlogFeed extends Vue {
+	blogTitle: string = '';
+	blogArticles: IBlogArticleLink[] = []
 
 	buildBlogFeed() {
 		rssService.getBlogFeed().then(res => {
-			console.log(res);
+			this.blogTitle = res.blogTitle;
+			this.blogArticles = res.articleLinks;
 		});
 	}
 
 	created() {
 		this.buildBlogFeed();
 	}
-
-	placeholderEntries: IBlogEntry[] = [
-		{
-			title: 'Who Preserves EaaSI?: In Pursuit of an EaaSI Preservation Package',
-			date: Date.now(),
-			link: '',
-			topics: []
-		},
-		{
-			title: 'Who Preserves EaaSI?: In Pursuit of an EaaSI Preservation Package Lorem Ipsum Dolor Sit Amet, Consectetur, Lorem Ipsum Dolor',
-			date: Date.now(),
-			link: '',
-			topics: []
-		},
-		{
-			title: 'Who Preserves EaaSI?: In Pursuit of an EaaSI Preservation Package.  Lorem Ipsum',
-			date: Date.now(),
-			link: '',
-			topics: []
-		},
-	]
 }
 </script>
 
@@ -71,10 +53,11 @@ export default class DashboardBlogFeed extends Vue {
 			font-size: 2.2rem;
 			padding: 2.4rem 0;
 			width: 100%;
-		}
 
-		.bf-articles {
-			display: flex;
+			.bf-description {
+				font-size: 1.8rem;
+				margin-top: 1.2rem;
+			}
 		}
 	}
 
