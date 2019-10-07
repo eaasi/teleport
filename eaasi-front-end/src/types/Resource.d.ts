@@ -118,3 +118,9 @@ export interface ISoftwarePackage extends IEaasiResource {
 	isOperatingSystem: boolean;
 	label: string;
 }
+
+export interface ISoftwareResource extends IEaasiResource {
+	//TODO:
+}
+
+export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'Disk';

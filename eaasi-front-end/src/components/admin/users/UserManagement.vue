@@ -27,8 +27,6 @@ import AdminScreen from '../AdminScreen.vue';
 import User from '@/models/admin/User';
 import UserList from './UserList.vue';
 import UserModal from './UserModal.vue';
-import Pagination from '@/components/global/Pagination.vue';
-import SearchBar from '@/components/global/forms/SearchBar.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
 import { jsonCopy } from '@/utils/functions';
@@ -39,9 +37,7 @@ import { IEaasiUser } from 'eaasi-admin';
 	name: 'UserManagement',
 	components: {
 		UserList,
-		UserModal,
-		SearchBar,
-		Pagination
+		UserModal
 	}
 })
 export default class UserManagement extends AdminScreen {
