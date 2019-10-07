@@ -117,7 +117,7 @@ export default class FileUploadButton extends Vue {
 	z-index: -1;
 }
 .fub-input + label {
-	color: #666;
+	color: #666666;
 	cursor: pointer;
 	display: inline-block;
 	font-size: 14px;
