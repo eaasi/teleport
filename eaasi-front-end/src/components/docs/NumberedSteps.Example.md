@@ -20,9 +20,11 @@
 		},
 	]
 
-	
+	let selectedStep = 2;
+
+
 	<div>
-        <numbered-steps :steps="numberedSteps1" />
+        <numbered-steps :steps="numberedSteps1" v-model="selectedStep" />
     </div>
 ```
 ```js
@@ -50,7 +52,9 @@
 		},
 	]
 
+	let selectedStep = 3;
+
 	<div style="background-color: #F9F3EE;">
-        <numbered-steps :steps="numberedSteps2" />
+        <numbered-steps :steps="numberedSteps2" v-model="selectedStep" />
     </div>
 ```

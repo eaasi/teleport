@@ -132,7 +132,6 @@ export function getPageOffset(el: HTMLElement) {
 }
 
 export function getParameterByName(name) {
-	console.log('search', window.location.search);
 	let match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 	return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 };
@@ -142,6 +141,7 @@ export function getParameterByName(name) {
 /============================================================*/
 
 export function appendScript(scriptText: string) {
+	if(!scriptText) throw 'script string is required';
 	let script   = document.createElement('script');
 	script.type  = 'text/javascript';
 	script.text  = scriptText;

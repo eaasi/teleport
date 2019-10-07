@@ -114,7 +114,13 @@ export default class UiButton extends Vue {
 	&.block {
 		display: block;
 		margin: 0 auto;
-		max-width: 26rem;
+		max-width: 32rem;
+		width: 100%;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
 	}
 
 	&:hover {
