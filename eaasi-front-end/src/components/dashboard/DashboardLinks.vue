@@ -18,7 +18,6 @@
 						>
 							See ALL Node Resources
 						</ui-button>
-						<selectable-card :data="exampleResource" />
 					</div>
 				</div>
 			</div>
@@ -73,63 +72,7 @@ import {IEaasiResourceSummary} from '@/types/Resource';
 @Component({
 	name: 'DashboardLinks'
 })
-export default class DashboardLinks extends Vue {
-	exampleResource: IEaasiResourceSummary = {
-		content: {OS: 'Windows 98 SE', SOFTWARE: 'Microsoft Word 97', MACHINE:'???' },
-		subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-		tagGroup: [{icon: 'box', key: 1, value: 'ENVIRONMENT'}],
-		id: 1,
-		title: 'Windows 98 SE + Microsoft Office 97 (Placeholder)'
-	}
-
-	exampleNetworkActivity: IEaasiResourceSummary[] = [
-		{
-			content: {ACTIVITY: 'Lorem Ipsum', MACHINE:'???' },
-			subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-			tagGroup: [],
-			id: 1,
-			title: 'Placholder'
-		},
-		{
-			content: {ACTIVITY: 'Lorem Ipsum', MACHINE:'???' },
-			subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-			tagGroup: [],
-			id: 1,
-			title: 'Placholder'
-		},
-		{
-			content: {ACTIVITY: 'Lorem Ipsum', MACHINE:'???' },
-			subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-			tagGroup: [],
-			id: 1,
-			title: 'Placholder'
-		},
-	]
-
-	exampleMyResources: IEaasiResourceSummary[] = [
-		{
-			content: {ACTIVITY: 'Lorem Ipsum', MACHINE:'???' },
-			subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-			tagGroup: [],
-			id: 1,
-			title: 'Placholder'
-		},
-		{
-			content: {ACTIVITY: 'Lorem Ipsum', MACHINE:'???' },
-			subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-			tagGroup: [],
-			id: 1,
-			title: 'Placholder'
-		},
-		{
-			content: {ACTIVITY: 'Lorem Ipsum', MACHINE:'???' },
-			subContent: {CREATED: '03-06-18', BY: 'Yale University Library'},
-			tagGroup: [],
-			id: 1,
-			title: 'Placholder'
-		},
-	]
-}
+export default class DashboardLinks extends Vue { }
 </script>
 
 <style lang="scss">
