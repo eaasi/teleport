@@ -12,6 +12,7 @@ export default class BlogFeedController extends BaseController {
 	}
 
 	async getFeed(req: Request, res: Response) {
+		console.log('in blog feed')
 		try {
 			let blogFeed = await this._blogService.getFeed();
 			res.send(blogFeed);
@@ -19,5 +20,4 @@ export default class BlogFeedController extends BaseController {
 			this.sendError(e.message, res);
 		}
 	}
-
 }
