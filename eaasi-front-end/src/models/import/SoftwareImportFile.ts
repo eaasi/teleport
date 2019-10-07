@@ -9,7 +9,6 @@ export default class SoftwareImportFile implements ISoftwareImportFile {
 	name: string;
 
 	constructor(file: File, sortIndex: number = 0) {
-		console.log(file);
 		this.file = file;
 		this.fileLabel = file.type;
 		this.sortIndex = sortIndex;

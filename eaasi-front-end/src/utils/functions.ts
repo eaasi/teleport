@@ -132,7 +132,6 @@ export function getPageOffset(el: HTMLElement) {
 }
 
 export function getParameterByName(name) {
-	console.log('search', window.location.search);
 	let match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 	return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 };
