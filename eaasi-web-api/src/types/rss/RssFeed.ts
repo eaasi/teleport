@@ -8,14 +8,14 @@ import moment from 'moment';
  */
 export class RssFeed {
 	constructor(
-		articleLinks: BlogArticleLink[],
+		articleLinks: EaasiBlogArticleLink[],
 		blogDescription: string,
 		blogTitle: string
 	) {
 		this._buildRssFeed(articleLinks, blogDescription, blogTitle)
 	}
 
-	articleLinks: BlogArticleLink[];
+	articleLinks: EaasiBlogArticleLink[];
 	blogDescription: string;
 	blogTitle: string;
 
@@ -24,7 +24,7 @@ export class RssFeed {
 	}
 
 	private _buildRssFeed(
-		articleLinks: BlogArticleLink[],
+		articleLinks: EaasiBlogArticleLink[],
 		blogDescription: string,
 		blogTitle: string
 	) {
@@ -38,7 +38,7 @@ export class RssFeed {
  * Represents a link to a Blog Article
  * article: JSON RSS response to be parsed
  */
-export class BlogArticleLink {
+export class EaasiBlogArticleLink {
 	constructor(article: any) {
 		this._buildArticleLink(article);
 	}

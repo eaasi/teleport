@@ -6,7 +6,7 @@ import xml2js from 'xml2js';
 
 export default class BlogFeedService {
 
-	private rssParser: RssParser;
+	rssParser: RssParser;
 
 	constructor(rssParser: any = new EaasiRssParser()) {
 		this.rssParser = rssParser;

@@ -1,5 +1,5 @@
 import RssParser from '@/types/blog/RssParser';
-import {BlogArticleLink} from '@/types/rss/RssFeed';
+import {EaasiBlogArticleLink} from '@/types/rss/RssFeed';
 
 /**
  * Parses an RSS Feed according to the EaaSI Blog Format
@@ -25,6 +25,6 @@ export default class EaasiRssParser implements RssParser {
 	getBlogArticles(numberOfArticles: number = 6) {
 		return this.rssResponse.rss.channel[0].item
 			.slice(0, numberOfArticles)
-			.map(entry => new BlogArticleLink(entry))
+			.map(entry => new EaasiBlogArticleLink(entry))
 	}
 }
