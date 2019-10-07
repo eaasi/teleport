@@ -29,7 +29,7 @@ export default class DashboardBlogFeed extends Vue {
 
 	buildBlogFeed() {
 		rssService.getBlogFeed().then(res => {
-			console.log(res)
+			console.log(res);
 		});
 	}
 

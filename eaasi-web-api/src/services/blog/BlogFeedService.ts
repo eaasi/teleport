@@ -35,6 +35,6 @@ export default class BlogFeedService {
 			rssFeed = new RssFeed(articles, blogDescription, blogTitle);
 		});
 
-		return rssFeed;
+		return rssFeed ? rssFeed : RssFeed.empty();
 	}
 }

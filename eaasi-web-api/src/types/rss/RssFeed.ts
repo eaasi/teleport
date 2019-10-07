@@ -7,7 +7,11 @@ import moment from 'moment';
  * blogTitle: string title fo the syndicated blog
  */
 export class RssFeed {
-	constructor(articleLinks: BlogArticleLink[], blogDescription: string, blogTitle: string) {
+	constructor(
+		articleLinks: BlogArticleLink[],
+		blogDescription: string,
+		blogTitle: string
+	) {
 		this._buildRssFeed(articleLinks, blogDescription, blogTitle)
 	}
 
@@ -15,7 +19,15 @@ export class RssFeed {
 	blogDescription: string;
 	blogTitle: string;
 
-	private _buildRssFeed(articleLinks: BlogArticleLink[], blogDescription: string, blogTitle: string) {
+	static empty() {
+		return new RssFeed([], 'Saving Software Together', 'EaaSI Blog');
+	}
+
+	private _buildRssFeed(
+		articleLinks: BlogArticleLink[],
+		blogDescription: string,
+		blogTitle: string
+	) {
 		this.articleLinks = articleLinks;
 		this.blogDescription = blogDescription;
 		this.blogTitle = blogTitle;
