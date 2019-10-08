@@ -1,7 +1,7 @@
-import { ISoftwareImportFile } from '@/types/Import';
+import { IResourceImportFile } from '@/types/Import';
 import { PhysicalFormat } from '@/types/Resource';
 
-export default class SoftwareImportFile implements ISoftwareImportFile {
+export default class ResourceImportFile implements IResourceImportFile {
 	physicalFormat: PhysicalFormat = 'Disk';
 	fileLabel?: string;
 	file: File;

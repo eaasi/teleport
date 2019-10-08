@@ -1,10 +1,10 @@
 <template>
-	<div class="software-files-import padded">
+	<div class="import-resource-files padded">
 		<div v-if="!filesAreAdded">
-			<h3>I will attach files to this resource from...</h3>
+			<h3>{{ headline }}</h3>
 			<div class="row">
 				<div class="col-md-6">
-					<div class="sfi-option">
+					<div class="irf-option">
 						<span class="text-center">URL</span>
 						<text-input
 							label="File Location"
@@ -14,14 +14,14 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="sfi-option text-center">
+					<div class="irf-option text-center">
 						<span>My Computer</span>
 						<file-upload-button @change="addFiles" />
 					</div>
 				</div>
 			</div>
 		</div>
-		<div v-if="filesAreAdded">
+		<div v-if="filesAreAdded && !isEnvImport">
 			<div class="flex-row justify-between mb-lg">
 				<h3 class="no-mb">{{ files.length }} files attached to this resource.</h3>
 				<file-upload-button
@@ -30,6 +30,23 @@
 					icon="plus"
 					button-label="Add More Files"
 				/>
+			</div>
+		</div>
+		<div v-if="filesAreAdded && isEnvImport">
+			<div class="flex-row justify-between mb-lg">
+				<text-input
+					readonly
+					:value="files[0].name"
+					label="Disk Image"
+				/>
+				<ui-button
+					style="margin-left: 2rem;"
+					size="small"
+					secondary
+					@click="files = []"
+				>
+					Change
+				</ui-button>
 			</div>
 		</div>
 		<br />
@@ -46,7 +63,7 @@
 							@sort="sorted"
 							handle=".sfl-handle"
 						>
-							<software-file-list-item
+							<resource-file-list-item
 								v-for="f in files"
 								:key="f.name"
 								:file="f"
@@ -64,29 +81,44 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import Draggable from 'vuedraggable';
-import SoftwareFileListItem from './SoftwareFileListItem.vue';
-import SoftwareImportFile from '@/models/import/SoftwareImportFile';
+import ResourceFileListItem from './ResourceFileListItem.vue';
+import ResourceImportFile from '@/models/import/ResourceImportFile';
+import { ImportType } from '@/types/Import';
 
 @Component({
-	name: 'SoftwareFilesImport',
+	name: 'ImportResourceFiles',
 	components: {
 		Draggable,
-		SoftwareFileListItem
+		ResourceFileListItem
 	}
 })
-export default class SoftwareFilesImport extends Vue {
+export default class ImportResourceFiles extends Vue {
 
 	/* Computed
 	============================================*/
 
 	@Sync('import/softwareFilesToUpload')
-	files: SoftwareImportFile[]
+	files: ResourceImportFile[]
+
+	@Sync('import/importType')
+	importType: ImportType
 
 	@Sync('import/importStep')
 	step: number
 
 	get filesAreAdded(): boolean {
 		return !!this.files.length;
+	}
+
+	get isEnvImport() {
+		return this.importType === 'environment';
+	}
+
+	get headline() {
+		if (this.isEnvImport) {
+			return 'I will attach my disk image from...';
+		}
+		return 'I will attach files to this resource from...';
 	}
 
 	/* Data
@@ -102,7 +134,7 @@ export default class SoftwareFilesImport extends Vue {
 		for(let i=0; i<fileList.length; i++) {
 			let f = fileList[i];
 			if(this.files.some(x => x.name === f.name)) continue;
-			this.files.push(new SoftwareImportFile(f, startingSortIndex + i));
+			this.files.push(new ResourceImportFile(f, startingSortIndex + i));
 		}
 		this.step = 3;
 	}
@@ -126,7 +158,7 @@ export default class SoftwareFilesImport extends Vue {
 </script>
 
 <style lang="scss">
-.sfi-option {
+.irf-option {
 	background-color: lighten($light-neutral, 50%);
 	height: 9.5rem;
 	padding: 2rem;

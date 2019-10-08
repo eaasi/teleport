@@ -4,10 +4,10 @@
 			<div class="flex-row">
 				<p>I want to import a</p>
 				<select-list v-model="type" class="no-mb flex-adapt">
-					<option value="file">Content File</option>
+					<option value="content">Content File</option>
 					<option value="software">Software Resource</option>
 					<option value="environment">Enrivonment Resource</option>
-					<option value="bulk">Bulk Import</option>
+					<!-- <option value="bulk">Bulk Import</option> -->
 				</select-list>
 			</div>
 		</div>
@@ -21,7 +21,7 @@
 							<ui-button
 								block
 								sub-label="Examples: .jpg / .doc / .cdr / .pdf / .xd / .psd / .wav / etc"
-								@click="chooseImportType('file')"
+								@click="chooseImportType('content')"
 							>
 								Import Content
 							</ui-button>
@@ -65,7 +65,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { ImportType } from '@/types/Import';
 
@@ -73,12 +73,6 @@ import { ImportType } from '@/types/Import';
 	name: 'ImportSelect'
 })
 export default class ImportSelect extends Vue {
-
-	/* Props
-	============================================*/
-
-	/* Data
-	============================================*/
 
 	/* Computed
 	============================================*/
@@ -97,11 +91,16 @@ export default class ImportSelect extends Vue {
 		this.step++;
 	}
 
-	/* Lifecycle Hooks
-	============================================*/
-
 	/* Watchers
 	============================================*/
+
+	/**
+	 * Reset import metadata / files if type is changed by user
+	 */
+	@Watch('type')
+	onTypeChange() {
+		this.$store.commit('import/INIT_FOR_TYPE');
+	}
 
 }
 

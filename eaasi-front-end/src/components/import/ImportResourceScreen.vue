@@ -5,6 +5,10 @@
 		<section class="import-wrapper flex">
 			<div class="import-content">
 				<import-select v-if="step >= 0" />
+				<import-path-select
+					v-if="showPathSelect"
+					v-model="importPath"
+				/>
 				<import-metadata v-if="step >= 1" />
 				<import-files v-if="step >= 2" />
 				<import-finished v-if="step >= 3" />
@@ -23,6 +27,8 @@ import ImportFiles from './ImportFiles.vue';
 import ImportMetadata from './ImportMetadata.vue';
 import ImportSelect from './ImportSelect.vue';
 import ImportFinished from './ImportFinished.vue';
+import ImportPathSelect from './ImportPathSelect.vue';
+import { ResourceImportPath, ImportType } from '@/types/Import';
 
 @Component({
 	name: 'ImportResourceScreen',
@@ -31,6 +37,7 @@ import ImportFinished from './ImportFinished.vue';
 		ImportSelect,
 		ImportFiles,
 		ImportMetadata,
+		ImportPathSelect,
 		ImportFinished
 	}
 })
@@ -44,6 +51,19 @@ export default class ImportResourceScreen extends Vue {
 
 	@Sync('import/importStep')
 	step: number
+
+	@Sync('import/importPath')
+	importPath: ResourceImportPath
+
+	@Sync('import/importType')
+	importType: ImportType
+
+	get showPathSelect() {
+		return this.step >= 1 && (
+			this.importType === 'environment' ||
+			this.importType === 'software'
+		);
+	}
 
 	/* Computed
 	============================================*/

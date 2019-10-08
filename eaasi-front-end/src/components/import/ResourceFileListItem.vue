@@ -41,7 +41,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import SoftwareImportFile from '@/models/import/SoftwareImportFile';
+import ResourceImportFile from '@/models/import/ResourceImportFile';
 
 @Component({
 	name: 'SoftwareFileListItem',
@@ -52,7 +52,7 @@ export default class SoftwareFileListItem extends Vue {
 	============================================*/
 
 	@Prop({type: Object as () => File, required: true})
-	readonly file: SoftwareImportFile
+	readonly file: ResourceImportFile
 
 	/* Data
 	============================================*/

@@ -9,7 +9,7 @@
 			<input
 				class="fub-input"
 				type="file"
-				name="files[]"
+				:name="inputName"
 				:id="id"
 				:accept="accept"
 				@change="changeFiles"
@@ -68,10 +68,24 @@ export default class FileUploadButton extends Vue {
 	readonly icon: string;
 
 	/**
+	 * The max number of files that can be added at a time
+	 */
+	@Prop({type: Number, required: false})
+	readonly limit: number
+
+	/**
 	 * Use secondary styles
 	 */
 	@Prop({type: Boolean, required: false})
 	readonly secondary: boolean;
+
+	/* Computed
+	============================================*/
+
+	get inputName() {
+		if(this.limit && this.limit > 1) return 'files[]';
+		return 'files';
+	}
 
 	/* Data
 	============================================*/

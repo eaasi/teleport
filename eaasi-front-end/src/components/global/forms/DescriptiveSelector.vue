@@ -1,8 +1,8 @@
 <template>
-	<div :class="['descriptive-selector', { checked }]" @click="$emit('input', selectableOption.id)">
+	<div :class="['descriptive-selector', { checked }]" @click="$emit('input', value)">
 		<div class="ds-info">
-			<h3>{{ selectableOption.title }}</h3>
-			<p>{{ selectableOption.description }}</p>
+			<h3>{{ title }}</h3>
+			<p>{{ description }}</p>
 		</div>
 		<div class="ds-footer">
 			<div :class="['ds-checkbox', { checked }]"></div>
@@ -22,17 +22,14 @@ export default class DescriptiveSelector extends Vue {
 	/* Props
 	============================================*/
 
-	/**
-	 * A selectable object
-	 */
-	@Prop({type: Object as () => any, required: true})
-	readonly selectableOption: any
+	@Prop({type: String, required: true})
+	readonly title: string
 
-	/**
-	 * The underlying value
-	 */
-	@Prop({type: Number, required: false})
-	readonly value: number;
+	@Prop({type: String, required: true})
+	readonly description: string
+
+	@Prop({required: false})
+	readonly value: any;
 
 	/* Computed
 	============================================*/

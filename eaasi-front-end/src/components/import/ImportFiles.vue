@@ -1,6 +1,6 @@
 <template>
 	<div class="import-files">
-		<software-files-import v-if="type === 'software'" />
+		<import-resource-files />
 	</div>
 </template>
 
@@ -9,12 +9,12 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import { ImportType } from '@/types/Import';
-import SoftwareFilesImport from './software/SoftwareFilesImport.vue';
+import ImportResourceFiles from './ImportResourceFiles.vue';
 
 @Component({
 	name: 'ImportFiles',
 	components: {
-		SoftwareFilesImport
+		ImportResourceFiles
 	}
 })
 export default class ImportFiles extends Vue {

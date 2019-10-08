@@ -1,6 +1,6 @@
 import { make } from 'vuex-pathify';
 import _svc from '@/services/AdminService';
-import { ImportType, ISoftwareImportFile, ResourceImportPath } from '@/types/Import';
+import { ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
 import { IEaasiResource } from '@/types/Resource';
 import { Store } from 'vuex';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
@@ -15,7 +15,7 @@ class ImportState {
 	importStep: number = 1;
 	importType: ImportType = 'software';
 	software: SoftwareImportResource = new SoftwareImportResource();
-	softwareFilesToUpload: ISoftwareImportFile[] = [];
+	softwareFilesToUpload: IResourceImportFile[] = [];
 }
 
 const state = new ImportState();
@@ -26,9 +26,17 @@ const state = new ImportState();
 
 const mutations = make.mutations(state);
 
-mutations.RESET_IMPORT = (state) => {
+mutations.RESET = (state) => {
 	state.importStep = 0;
 	state.importType = null;
+	state.softwareFilesToUpload = [];
+	state.importPath = 'Unselected';
+	state.software = new SoftwareImportResource();
+};
+
+
+mutations.INIT_FOR_TYPE = (state) => {
+	state.importStep = 1;
 	state.softwareFilesToUpload = [];
 	state.importPath = 'Unselected';
 	state.software = new SoftwareImportResource();

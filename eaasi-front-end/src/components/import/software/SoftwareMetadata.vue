@@ -1,6 +1,5 @@
 <template>
 	<div class="software-metadata">
-		<import-path-select v-model="importPath" />
 		<div v-if="step > 1" class="sm-summary padded">
 			<text-input
 				readonly
@@ -135,9 +134,7 @@ export default class SoftwareMetadata extends Vue {
 
 	submitForm() {
 		// Workaround vue/typescript bug where _form type is 'Vue' rather than 'EaasiForm'
-		// It seems to only be an issue in this specific class for some reason
 		let form: any = this.$refs._form;
-		if(!form) return;
 		form.submit();
 	}
 
