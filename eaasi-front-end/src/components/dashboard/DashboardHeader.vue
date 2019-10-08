@@ -19,7 +19,7 @@
 				<div class="dh-quick-links flex-row">
 					<a href="https://www.softwarepreservationnetwork.org/eaasi-sandbox/" target="_blank">
 						<big-button
-							sublabel="Open source software sandbox with access to EaaSI service."
+							sub-label="Open source software sandbox with access to EaaSI service."
 							icon="box"
 							label="Sandbox Demo"
 						/>
@@ -27,7 +27,7 @@
 
 					<a href="https://eaasi.gitlab.io/eaasi_user_handbook/" target="_blank">
 						<big-button
-							sublabel="User guides, training resources, and support for EaaSI users."
+							sub-label="User guides, training resources, and support for EaaSI users."
 							icon="graduation-cap"
 							label="Learn and Support"
 						/>
@@ -35,7 +35,7 @@
 
 					<a href="https://groups.google.com/forum/#!forum/eaasi-tech-talk" target="_blank">
 						<big-button
-							sublabel="Connect to other EaaSI users for support and collaboration."
+							sub-label="Connect to other EaaSI users for support and collaboration."
 							icon="comments"
 							label="User Forum"
 						/>
