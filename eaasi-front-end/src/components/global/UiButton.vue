@@ -1,7 +1,7 @@
 <template>
 	<span class="ui-btn-container">
 		<button
-			:class="['eaasi-button', size, stretch ? 'stretch' : '', {collapse, secondary, block}]"
+			:class="['eaasi-button', size, {collapse, secondary, block}]"
 			v-on="$listeners"
 			v-bind="$attrs"
 		>
@@ -72,12 +72,6 @@ export default class UiButton extends Vue {
 	 */
 	@Prop({type: String, required: false})
 	readonly size: string;
-
-	/**
-	 * Stretches to 100% width
-	 */
-	@Prop({type: Boolean, required: false})
-	readonly stretch: boolean;
 }
 </script>
 
@@ -128,15 +122,9 @@ export default class UiButton extends Vue {
 		padding: 1rem 1.6rem;
 	}
 
-	&.stretch,
-	&.stretch {
-		min-width: 100%;
-	}
-
 	&.block {
 		display: block;
 		margin: 0 auto;
-		max-width: 32rem;
 		width: 100%;
 	}
 

@@ -13,7 +13,7 @@
 							icon="chevron-right"
 							icon-right
 							secondary
-							stretch
+							block
 							size="md"
 						>
 							See ALL Node Resources
@@ -33,7 +33,7 @@
 							icon="chevron-right"
 							icon-right
 							secondary
-							stretch
+							block
 							size="md"
 						>
 							See ALL Network Resources
@@ -53,7 +53,7 @@
 							icon="chevron-right"
 							icon-right
 							secondary
-							stretch
+							block
 							size="md"
 						>
 							See ALL My Resources
