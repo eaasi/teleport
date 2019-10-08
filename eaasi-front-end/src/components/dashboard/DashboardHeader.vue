@@ -2,7 +2,7 @@
 	<div class="dh-container">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="dh-welcome">
+				<div class="dh-welcome flex-row">
 					<div id="dh-eaasi-hexagon">
 						<img src="@/assets/eaasi_logos/EaaSI_hexGraphic.png" alt="EaaSI Logo" />
 					</div>
@@ -16,7 +16,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="dh-quick-links">
+				<div class="dh-quick-links flex-row">
 					<a href="https://www.softwarepreservationnetwork.org/eaasi-sandbox/" target="_blank">
 						<big-button
 							sublabel="Open source software sandbox with access to EaaSI service."
@@ -57,8 +57,6 @@ export default class DashboardHeader extends Vue { }
 
 <style lang="scss">
 	.dh-welcome {
-		display: flex;
-		flex-direction: row;
 
 		#dh-eaasi-hexagon {
 			margin: 0 1.2rem;
@@ -80,8 +78,6 @@ export default class DashboardHeader extends Vue { }
 	}
 
 	.dh-quick-links {
-		display: flex;
-		flex-direction: row;
 		padding: 2rem 0 4rem 0;
 
 		a {

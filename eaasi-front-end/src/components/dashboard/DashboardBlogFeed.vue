@@ -4,11 +4,15 @@
 			{{ blogTitle }}
 		</div>
 		<div class="row">
-			<dashboard-blog-entry
-				v-for="entry in blogArticles"
-				:entry="entry"
-				:key="entry.title"
-			/>
+			<div class="columns">
+				<div class="column">
+					<dashboard-blog-entry
+						v-for="entry in blogArticles"
+						:entry="entry"
+						:key="entry.title"
+					/>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

@@ -1,15 +1,17 @@
 <template functional>
-	<div class="entry-bg-trim">
-		<div class="entry-container">
-			<div class="entry-header">
-				<span id="categories">{{ props.entry.categories.join(', ') }}</span>
-				|
-				<span id="date">{{ props.entry.pubDate }}</span>
-			</div>
-			<div class="entry-title">
-				<a :href="props.entry.link" target="_blank">
-					{{ props.entry.title }}
-				</a>
+	<div class="dbe-container">
+		<div class="entry-bg-trim">
+			<div class="entry-container">
+				<div class="entry-header">
+					<span id="categories">{{ props.entry.categories.join(', ') }}</span>
+					|
+					<span id="date">{{ props.entry.pubDate }}</span>
+				</div>
+				<div class="entry-title">
+					<a :href="props.entry.link" target="_blank">
+						{{ props.entry.title }}
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,6 +34,18 @@ export default class DashboardBlogEntry extends Vue {
 </script>
 
 <style lang="scss">
+
+	.dbe-container {
+		display: inline-block;
+	}
+
+	.entry-bg-trim {
+		background: #000000 url('~@/assets/login-bg.png') center;
+		height: 200px;
+		margin: 1.8rem;
+		position: relative;
+		width: 380px;
+	}
 
 	.entry-container {
 		background-color: #FFFFFF;
@@ -66,14 +80,6 @@ export default class DashboardBlogEntry extends Vue {
 				text-decoration: none;
 			}
 		}
-	}
-
-	.entry-bg-trim {
-		background: #000000 url('../../assets/login-bg.png') center;
-		height: 200px;
-		margin: 1.8rem;
-		position: relative;
-		width: 380px;
 	}
 
 </style>
