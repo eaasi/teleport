@@ -6,7 +6,7 @@ import {IRssFeed} from '@/types/RssFeed';
  */
 class RssService extends BaseHttpService {
 	async getBlogFeed(): Promise<IRssFeed> {
-		let res = await this.get<any>('/blog/feed');
+		let res = await this.get<IRssFeed>('/blog/feed');
 		if(!res.ok) return null;
 		return res.result;
 	}

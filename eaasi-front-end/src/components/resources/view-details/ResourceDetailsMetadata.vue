@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div id="softwareIncluded" class="col-md-12 vrd-subsection">
+			<div class="softwareIncluded col-md-12 vrd-subsection">
 				<section-heading title="Software Included In This Resource" size="large" />
 				<div class="active-software-items" v-if="activeSoftware">
 					<selectable-card :data="activeSoftware" />
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div id="thisIncludedIn" class="col-md-12 vrd-subsection">
+			<div class="thisIncludedIn col-md-12 vrd-subsection">
 				<section-heading title="This Resource Is Included In" size="large" />
 			</div>
 		</div>
