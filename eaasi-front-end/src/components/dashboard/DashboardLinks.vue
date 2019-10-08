@@ -9,7 +9,7 @@
 					</div>
 					<div class="db-links-btn">
 						<ui-button
-							@click="$emit('click:node')"
+							@click="$emit('click:new-resources')"
 							icon="chevron-right"
 							icon-right
 							secondary
@@ -29,7 +29,7 @@
 					</div>
 					<div class="db-links-btn">
 						<ui-button
-							@click="$emit('click:node')"
+							@click="$emit('click:network')"
 							icon="chevron-right"
 							icon-right
 							secondary
@@ -49,7 +49,7 @@
 					</div>
 					<div class="db-links-btn">
 						<ui-button
-							@click="$emit('click:node')"
+							@click="$emit('click:my-resources')"
 							icon="chevron-right"
 							icon-right
 							secondary
