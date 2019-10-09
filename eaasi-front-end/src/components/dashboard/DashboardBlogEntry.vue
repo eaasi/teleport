@@ -44,7 +44,6 @@ export default class DashboardBlogEntry extends Vue {
 		height: 200px;
 		margin: 1.8rem;
 		position: relative;
-		width: 380px;
 	}
 
 	.entry-container {
@@ -53,7 +52,7 @@ export default class DashboardBlogEntry extends Vue {
 		line-height: 2.4rem;
 		position: relative;
 		top: 4.8rem;
-		width: 350px;
+		width: 90%;
 
 		.entry-header {
 			background-color: lighten($light-neutral, 50%);
