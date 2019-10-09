@@ -25,6 +25,7 @@ export default class BaseHttpService {
 	 * Makes a POST request using Fetch
 	 *
 	 * @param {string} url - The request URL
+	 * @param {any} data
 	 * @param {IEaasiApiRequestOptions} [options] - Request options
 	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
 	 */
@@ -101,7 +102,7 @@ export default class BaseHttpService {
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 
-		if(url.indexOf('://') === -1) url = config.SERVICE_URL + url;
+		if (url.indexOf('://') === -1) url = config.SERVICE_URL + url;
 
 		let self = this;
 		let requestInit = new EaasiApiRequestInit(url, method, data, options);
