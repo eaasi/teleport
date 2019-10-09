@@ -5,6 +5,7 @@ import adminStore from './admin-store';
 import globalStore from './global-store';
 import importStore from './import-store';
 import resourceStore from './resource-store';
+import softwareStore from './software-store';
 
 pathify.options.mapping = 'simple';
 pathify.options.deep = true;
@@ -15,6 +16,7 @@ export default new Vuex.Store({
 	...globalStore,
 	modules: {
 		admin: adminStore,
+		software: softwareStore,
 		import: importStore,
 		resource: resourceStore
 	},
