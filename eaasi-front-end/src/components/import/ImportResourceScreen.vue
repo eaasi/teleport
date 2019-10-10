@@ -7,7 +7,10 @@
 				<import-select v-if="step >= 0" />
 				<import-metadata v-if="step >= 1" />
 				<import-files v-if="step >= 2" />
-				<import-finished v-if="step >= 3" />
+				<configure-hardware
+					class="padded"
+					v-if="type === 'environment' && step >= 3"
+				/>
 			</div>
 			<div class="import-tip-lane"></div>
 		</section>
@@ -18,29 +21,26 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
-import ImportProgress from './ImportProgress.vue';
+import { ResourceImportPath, ImportType } from '@/types/Import';
+import ConfigureHardware from './environment/EnvironmentConfigureHardware.vue';
 import ImportFiles from './ImportFiles.vue';
 import ImportMetadata from './ImportMetadata.vue';
+import ImportProgress from './ImportProgress.vue';
 import ImportSelect from './ImportSelect.vue';
-import ImportFinished from './ImportFinished.vue';
-import { ResourceImportPath, ImportType } from '@/types/Import';
 
 @Component({
 	name: 'ImportResourceScreen',
 	components: {
-		ImportProgress,
-		ImportSelect,
+		ConfigureHardware,
 		ImportFiles,
 		ImportMetadata,
-		ImportFinished
+		ImportProgress,
+		ImportSelect
 	}
 })
 export default class ImportResourceScreen extends Vue {
 
-	/* Props
-	============================================*/
-
-	/* Data
+	/* Computed
 	============================================*/
 
 	@Sync('import/importStep')
@@ -50,26 +50,14 @@ export default class ImportResourceScreen extends Vue {
 	importPath: ResourceImportPath
 
 	@Sync('import/importType')
-	importType: ImportType
+	type: ImportType
 
 	get showPathSelect() {
 		return this.step >= 1 && (
-			this.importType === 'environment' ||
-			this.importType === 'software'
+			this.type === 'environment' ||
+			this.type === 'software'
 		);
 	}
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
 
 }
 

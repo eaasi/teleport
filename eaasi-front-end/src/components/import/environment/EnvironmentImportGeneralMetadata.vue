@@ -40,6 +40,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import EaasiForm from '@/components/global/forms/EaasiForm.vue';
+import { IRadioOption } from '@/types/Forms';
 
 @Component({
 	name: 'EnvironmentImportGeneralMetadata'

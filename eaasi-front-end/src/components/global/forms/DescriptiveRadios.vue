@@ -62,7 +62,7 @@ export default class DescriptiveRadios extends Vue {
 </script>
 
 <style lang="scss">
-.descriptive-selector {
+.descriptive-radio {
 	background-color: #FFFFFF;
 	border: solid 2px $light-blue;
 	border-radius: 10px;
