@@ -1,6 +1,6 @@
 import EaasiRssParser from '@/services/blog/EaasiRssParser';
 import RssParser from '@/types/blog/RssParser';
-import {RssFeed} from '@/types/rss/RssFeed.ts';
+import {RssFeed} from '@/types/rss/RssFeed';
 import fetch from 'node-fetch';
 import xml2js from 'xml2js';
 
