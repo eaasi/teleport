@@ -44,6 +44,10 @@ h4 {
 	font-weight: 300;
 	margin-bottom: 1rem;
 	margin-top: 0;
+
+	&.no-mb {
+		margin-bottom: 0;
+	}
 }
 
 h1 {
@@ -83,6 +87,9 @@ p {
 	line-height: 1.2em;
 	margin: 0;
 	margin-bottom: 1rem;
+	&.no-mb {
+		margin-bottom: 0;
+	}
 	@include mobile() {
 		font-size: 1.4rem;
 	}
@@ -315,6 +322,10 @@ strong {
 	align-items: flex-end;
 }
 
+.align-stretch {
+	align-items: stretch;
+}
+
 .justify-start {
 	justify-content: flex-start;
 }
@@ -376,7 +387,7 @@ strong {
 }
 
 .padded {
-	padding: 2rem;
+	padding: $defaultScreenPadding;
 }
 
 .padded-sm {

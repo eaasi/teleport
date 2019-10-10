@@ -9,6 +9,7 @@ import BaseController from './base/BaseController';
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
 const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
+const SAML_LOGOUT_URL = process.env.SAML_LOGOUT_URL as string;
 
 export default class EaasiAuthController extends BaseController {
 
@@ -56,6 +57,7 @@ export default class EaasiAuthController extends BaseController {
      */
 	logout(req: Request, res: Response) {
 		req.logout();
+		//TODO: Call logout
 		res.redirect(CLIENT_URL);
 	}
 

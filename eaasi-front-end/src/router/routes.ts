@@ -1,12 +1,15 @@
-import Home from '@/components/Home.vue';
+// TODO: Should routes be split into their own files?
+import Dashboard from '@/components/dashboard/Dashboard.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
 import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesScreen.vue';
 import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
+import ViewResourceDetailsScreen from '@/components/resources/view-details/ViewResourceDetailsScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
-import { RouteConfig, Route } from 'vue-router';
+import ImportScreen from '@/components/import/ImportResourceScreen.vue';
+import { RouteConfig } from 'vue-router';
 
 export default [
 	{
@@ -18,7 +21,7 @@ export default [
 	{
 		path: '/dashboard',
 		name: 'Dashboard',
-		component: Home,
+		component: Dashboard,
 	},
 	{
 		path: '/admin/users',
@@ -43,6 +46,15 @@ export default [
 			allowGuest: true
 		}
 	},
+
+	/* Import Resource
+	============================================*/
+
+	{
+		path: '/import-resource',
+		name: 'Import Resource',
+		component: ImportScreen,
+	},
 	{
 		path: '/resources/my-resources',
 		name: 'My Resources',
@@ -52,6 +64,12 @@ export default [
 		path: '/resources/explore',
 		name: 'Explore Resources',
 		component: ExploreResourcesScreen
+	},
+	{
+		path: '/resources/explore/:resourceId',
+		name: 'Resource Detail',
+		component: ViewResourceDetailsScreen,
+		props: true
 	},
 	{
 		path: '/access-interface/:envId',

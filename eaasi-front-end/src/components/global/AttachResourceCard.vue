@@ -31,13 +31,12 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
-	/**
-	 * A Card providing user interface to Attach a Resource
-	 * @example ../docs/AttachResourceCard.Example.md
-	 */
-	@Component({
-		name: 'AttachResourceCard'
-	})
+/**
+ * A Card providing user interface to Attach a Resource
+ */
+@Component({
+	name: 'AttachResourceCard'
+})
 export default class AttachResourceCard extends Vue {
 		/**
 		 * Provides the title of the Resource Type to be attached

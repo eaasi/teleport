@@ -1,7 +1,13 @@
 <template>
 	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-input">
 		<div class="eaasi-input-wrapper">
-			<div :class="['eaasi-input flex-row', fieldStatus]">
+			<div
+				:class="[
+					'eaasi-input flex-row',
+					fieldStatus,
+					{ readonly }
+				]"
+			>
 				<input
 					v-bind="$attrs"
 					v-on="inputListeners"

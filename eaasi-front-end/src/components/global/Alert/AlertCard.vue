@@ -14,7 +14,7 @@ import Alert from './Alert.vue';
 
 /**
  * A Card showing information about an Error, Warning, Success, or Info
- * @example ../docs/AlertCard.Example.md
+ * @example ../../docs/AlertCard.Example.md
  */
 @Component({
 	name: 'AlertCard',

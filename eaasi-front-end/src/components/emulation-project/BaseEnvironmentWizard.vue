@@ -2,9 +2,9 @@
 	<div class="base-env-wiz-container">
 		<div class="row">
 			<div class="col-md-4">
-				<options-box option-name="Find a Base" header="Recommended" style="height: 100%;">
+				<options-box title="Find a Base" header="Recommended">
 					Find an existing base environment.
-					<template v-slot:footer>
+					<div slot="footer" class="flex justify-between">
 						<ui-button
 							sub-label="...node or network saved resources"
 							@click="searchForEnvironment"
@@ -18,21 +18,25 @@
 						>
 							My Resources
 						</ui-button>
-					</template>
+					</div>
 				</options-box>
 			</div>
 
 			<div class="col-md-4">
-				<options-box option-name="Start from Scratch" header="Less Common" style="height: 100%;">
+				<options-box
+					title="Start from Scratch"
+					header="Less Common"
+				>
 					Use a system template with no configured operating system or software.
-					<template v-slot:footer>
+					<div slot="footer">
 						<ui-button
+							block
 							sub-label="...from your node's system templates"
 							@click="chooseTemplate"
 						>
 							Choose Template
 						</ui-button>
-					</template>
+					</div>
 				</options-box>
 			</div>
 

@@ -6,9 +6,11 @@
 				<router-view />
 			</section>
 		</div>
+		<!--
 		<div id="appFooter">
 			<app-footer />
 		</div>
+		-->
 		<task-modal
 			:task="activeTask"
 			@close="activeTask = null"
@@ -91,6 +93,11 @@ export default class AppContent extends Vue {
 </script>
 
 <style lang="scss">
+	#appContent {
+		align-content: stretch;
+		flex-grow: 1;
+	}
+
 	#contentWrapper {
 		margin-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
