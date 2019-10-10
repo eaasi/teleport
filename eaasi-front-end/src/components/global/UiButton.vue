@@ -1,6 +1,10 @@
 <template>
 	<span class="ui-btn-container">
-		<button :class="['eaasi-button', size, {collapse, secondary, block}]" v-on="$listeners" v-bind="$attrs">
+		<button
+			:class="['eaasi-button', size, {collapse, secondary, block}]"
+			v-on="$listeners"
+			v-bind="$attrs"
+		>
 			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
 			<slot></slot>
 			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
@@ -111,10 +115,16 @@ export default class UiButton extends Vue {
 		padding: 0.6rem 1.6rem;
 	}
 
+	&.md,
+	&.medium {
+		font-size: 1.6rem;
+		min-width: 12rem;
+		padding: 1rem 1.6rem;
+	}
+
 	&.block {
 		display: block;
 		margin: 0 auto;
-		max-width: 32rem;
 		width: 100%;
 	}
 

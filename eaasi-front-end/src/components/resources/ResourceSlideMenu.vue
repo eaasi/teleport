@@ -12,10 +12,10 @@
 					:tabs="tabs"
 				/>
 			</div>
-			<resource-details
+			<labeled-item-list
 				v-if="tab === 'Details'"
 				class="rsm-details"
-				:resource="resource"
+				:labeled-items="labeledItems"
 			/>
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
@@ -46,15 +46,16 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceAction from './ResourceAction.vue';
-import ResourceDetails from './ResourceDetails.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
+import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+import {ILabeledItem} from '@/types/ILabeledItem';
 import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceSlideMenu',
 	components: {
+		LabeledItemList,
 		ResourceAction,
-		ResourceDetails,
 		SlideMenu
 	}
 })
@@ -77,6 +78,9 @@ export default class ResourceSlideMenu extends Vue {
 
 	/* Data
 	============================================*/
+
+	// TODO: Labeled Items should be derived from the resource
+	labeledItems: ILabeledItem[] = [];
 
 	// TODO: Actions should become dynamic based on resource type and user role
 	localActions: IAction[] = [
@@ -152,13 +156,26 @@ export default class ResourceSlideMenu extends Vue {
 
 	doAction(action: IAction) {
 		console.log(`Action clicked: ${action.label}`);
-		if(action.label === 'Run in Emulator') {
-			if(this.environment) {
+		switch (action.label) {
+
+		case 'Run in Emulator': // TODO
+			if (this.environment) {
 				this.$router.push(`/access-interface/${this.environment.envId}`);
 			}
+			break;
+
+		case 'View Details': {
+			this.$router.push({
+				name: 'Resource Detail',
+				params: {resource: JSON.stringify(this.resource)}
+			});
+		}
+			break;
+
+		default:
+			break;
 		}
 	}
-
 }
 
 </script>
