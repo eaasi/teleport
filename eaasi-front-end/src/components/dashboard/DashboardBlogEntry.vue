@@ -1,15 +1,15 @@
-<template functional>
+<template>
 	<div class="dbe-container">
 		<div class="entry-bg-trim">
 			<div class="entry-container">
 				<div class="entry-header">
-					<span id="categories">{{ props.entry.categories.join(', ') }}</span>
+					<span id="categories">{{ entry.categories.join(', ') }}</span>
 					|
-					<span id="date">{{ props.entry.pubDate }}</span>
+					<span id="date">{{ entry.pubDate }}</span>
 				</div>
 				<div class="entry-title">
-					<a :href="props.entry.link" target="_blank">
-						{{ props.entry.title }}
+					<a :href="entry.link" target="_blank">
+						{{ entry.title }}
 					</a>
 				</div>
 			</div>
@@ -35,14 +35,9 @@ export default class DashboardBlogEntry extends Vue {
 
 <style lang="scss">
 
-	.dbe-container {
-		display: inline-block;
-	}
-
 	.entry-bg-trim {
 		background: #000000 url('~@/assets/login-bg.png') center;
 		height: 200px;
-		margin: 1.8rem;
 		position: relative;
 	}
 
@@ -76,6 +71,7 @@ export default class DashboardBlogEntry extends Vue {
 
 			a {
 				color: $dark-blue;
+				line-height: 1.6em;
 				text-decoration: none;
 			}
 		}
