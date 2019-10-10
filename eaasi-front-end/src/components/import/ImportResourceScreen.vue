@@ -5,10 +5,6 @@
 		<section class="import-wrapper flex">
 			<div class="import-content">
 				<import-select v-if="step >= 0" />
-				<import-path-select
-					v-if="showPathSelect"
-					v-model="importPath"
-				/>
 				<import-metadata v-if="step >= 1" />
 				<import-files v-if="step >= 2" />
 				<import-finished v-if="step >= 3" />
@@ -27,7 +23,6 @@ import ImportFiles from './ImportFiles.vue';
 import ImportMetadata from './ImportMetadata.vue';
 import ImportSelect from './ImportSelect.vue';
 import ImportFinished from './ImportFinished.vue';
-import ImportPathSelect from './ImportPathSelect.vue';
 import { ResourceImportPath, ImportType } from '@/types/Import';
 
 @Component({
@@ -37,7 +32,6 @@ import { ResourceImportPath, ImportType } from '@/types/Import';
 		ImportSelect,
 		ImportFiles,
 		ImportMetadata,
-		ImportPathSelect,
 		ImportFinished
 	}
 })

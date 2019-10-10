@@ -1,11 +1,18 @@
 <template>
-	<div :class="['descriptive-selector', { checked }]" @click="$emit('input', value)">
-		<div class="ds-info">
-			<h3>{{ title }}</h3>
-			<p>{{ description }}</p>
-		</div>
-		<div class="ds-footer">
-			<div :class="['ds-checkbox', { checked }]"></div>
+	<div class="descriptive-radios row">
+		<div :class="`col-sm-${colSize}`" v-for="option in options" :key="option.value">
+			<div
+				:class="['descriptive-radio', { checked: isChecked(option.value) }]"
+				@click="$emit('input', option.value)"
+			>
+				<div class="ds-info">
+					<h3>{{ option.label }}</h3>
+					<p v-if="option.description">{{ option.description }}</p>
+				</div>
+				<div class="ds-footer">
+					<div :class="['ds-checkbox', { checked: isChecked(option.value) }]"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -13,29 +20,43 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { IRadioOption } from '@/types/Forms';
 
 @Component({
-	name: 'DescriptiveSelector',
+	name: 'DescriptiveRadios',
 })
-export default class DescriptiveSelector extends Vue {
+export default class DescriptiveRadios extends Vue {
 
 	/* Props
 	============================================*/
 
-	@Prop({type: String, required: true})
-	readonly title: string
+	/**
+	 * A list of descriptive radio button options
+	 */
+	@Prop({type: Array, required: true})
+	readonly options: IRadioOption[]
 
-	@Prop({type: String, required: true})
-	readonly description: string
-
-	@Prop({required: false})
-	readonly value: any;
+	/**
+	 * The selected option value for use with v-model directive
+	 */
+	@Prop({type: Number, required: false})
+	readonly value: number;
 
 	/* Computed
 	============================================*/
-	get checked() {
-		return this.selectableOption.id === this.value;
+
+	get colSize() {
+		if(this.options.length <= 3) return 12 / this.options.length;
+		return 4;
 	}
+
+	/* Methods
+	============================================*/
+
+	isChecked(val) {
+		return val === this.value;
+	}
+
 }
 
 </script>
@@ -60,8 +81,13 @@ export default class DescriptiveSelector extends Vue {
 		}
 	}
 
+	h3 {
+		user-select: none;
+	}
+
 	p {
 		color: $dark-neutral;
+		user-select: none;
 	}
 
 	.ds-info {

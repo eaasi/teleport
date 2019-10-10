@@ -4,6 +4,9 @@ import { Collapsable } from '@/components/global';
 describe('Collapsable.vue', () => {
 	it('Does not show slot content when closed', () => {
 		const wrapper = shallowMount(Collapsable, {
+			propsData: {
+				collapsed: true
+			},
 			slots: {
 				default: '<div class="slot-content">I am the content></div>'
 			}
@@ -13,6 +16,9 @@ describe('Collapsable.vue', () => {
 
 	it('Opens and displays slot content when title is clicked', () => {
 		const wrapper = shallowMount(Collapsable, {
+			propsData: {
+				collapsed: true
+			},
 			slots: {
 				default: '<div class="slot-content">I am the content></div>'
 			}
@@ -25,7 +31,8 @@ describe('Collapsable.vue', () => {
 		const wrapper = shallowMount(Collapsable, {
 			propsData: {
 				title: 'I am not open',
-				openTitle: 'I am open'
+				openTitle: 'I am open',
+				collapsed: true
 			}
 		});
 		let menuWrapperText = wrapper.find('.collapse-title').text();

@@ -6,9 +6,11 @@ import BaseFormField from './forms/BaseFormField.vue';
 import BigButton from './BigButton.vue';
 import BigSectionHeading from './BigSectionHeading.vue';
 import Collapsable from './Collapsable.vue';
+import Column from './grid/Column.vue';
 import ConfirmModal from './Modal/ConfirmModal.vue';
 import Checkbox from './forms/Checkbox.vue';
 import FileDropzone from './FileDropzone.vue';
+import DescriptiveRadios from './forms/DescriptiveRadios.vue';
 import DualToggle from './DualToggle.vue';
 import EaasiForm from './forms/EaasiForm.vue';
 import FileUploadButton from './FileUploadButton.vue';
@@ -23,6 +25,7 @@ import OptionsBox from './OptionsBox/OptionsBox.vue';
 import Pagination from './Pagination.vue';
 import TabbedNav from './TabbedNav.vue';
 import RadioButtons from './forms/RadioButtons.vue';
+import Row from './grid/Row.vue';
 import SearchBar from './forms/SearchBar.vue';
 import SectionHeading from './SectionHeading.vue';
 import SelectableCard from './SelectableCard/SelectableCard.vue';
@@ -53,10 +56,12 @@ export default {
 		Vue.component('BigSectionHeading', BigSectionHeading);
 		Vue.component('Checkbox', Checkbox);
 		Vue.component('Collapsable', Collapsable);
+		Vue.component('Column', Column);
 		Vue.component('ConfirmModal', ConfirmModal);
-		Vue.component('FileDropzone', FileDropzone);
+		Vue.component('DescriptiveRadios', DescriptiveRadios);
 		Vue.component('DualToggle', DualToggle);
 		Vue.component('EaasiForm', EaasiForm);
+		Vue.component('FileDropzone', FileDropzone);
 		Vue.component('FileUploadButton', FileUploadButton);
 		Vue.component('FormModal', FormModal);
 		Vue.component('HoverMenu', HoverMenu);
@@ -69,6 +74,7 @@ export default {
 		Vue.component('Pagination', Pagination);
 		Vue.component('TabbedNav', TabbedNav);
 		Vue.component('RadioButtons', RadioButtons);
+		Vue.component('Row', Row);
 		Vue.component('SearchBar', SearchBar);
 		Vue.component('SectionHeading', SectionHeading);
 		Vue.component('SelectableCard', SelectableCard);
@@ -99,10 +105,12 @@ export {
 	BigSectionHeading,
 	Checkbox,
 	Collapsable,
+	Column,
 	ConfirmModal,
-	FileDropzone,
+	DescriptiveRadios,
 	DualToggle,
 	EaasiForm,
+	FileDropzone,
 	FileUploadButton,
 	FormModal,
 	HoverMenu,
@@ -115,6 +123,7 @@ export {
 	Pagination,
 	TabbedNav,
 	RadioButtons,
+	Row,
 	SearchBar,
 	SectionHeading,
 	SelectableCard,

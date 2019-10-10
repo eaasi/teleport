@@ -1,6 +1,6 @@
 <template>
 	<div class="software-metadata">
-		<div v-if="step > 1" class="sm-summary padded">
+		<div v-if="step > 1" class="sm-summary">
 			<text-input
 				readonly
 				label="Name"
@@ -15,7 +15,7 @@
 			</ui-button>
 		</div>
 		<div v-if="step == 1">
-			<div v-if="importPath === 'Fast'" class="im-fast padded">
+			<div v-if="importPath === 'Fast'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<software-general-info-form />
 					<ui-button
@@ -27,7 +27,7 @@
 					</ui-button>
 				</eaasi-form>
 			</div>
-			<div v-if="importPath === 'Detailed'" class="im-fast padded">
+			<div v-if="importPath === 'Detailed'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<collapsable title="General" class="mb-lg">
 						<software-general-info-form />
@@ -98,9 +98,6 @@ export default class SoftwareMetadata extends Vue {
 		_form: EaasiForm
 	}
 
-	/* Props
-	============================================*/
-
 	/* Computed
 	============================================*/
 
@@ -156,7 +153,6 @@ export default class SoftwareMetadata extends Vue {
 }
 
 .sm-summary {
-	border-bottom: solid 2px darken($light-neutral, 10%);
 	.eaasi-form-control {
 		margin-bottom: 2rem;
 	}

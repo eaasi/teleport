@@ -98,7 +98,8 @@ export default class ImportSelect extends Vue {
 	 * Reset import metadata / files if type is changed by user
 	 */
 	@Watch('type')
-	onTypeChange() {
+	onTypeChange(newType) {
+		if(!newType) return;
 		this.$store.commit('import/INIT_FOR_TYPE');
 	}
 

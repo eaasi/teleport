@@ -1,21 +1,21 @@
 import { make } from 'vuex-pathify';
 import _svc from '@/services/AdminService';
 import { ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
-import { IEaasiResource } from '@/types/Resource';
 import { Store } from 'vuex';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
 
 /*============================================================
  == State
 /============================================================*/
 
 class ImportState {
-	environment: IEaasiResource = null;
+	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	importPath: ResourceImportPath = 'Unselected';
 	importStep: number = 1;
 	importType: ImportType = 'software';
 	software: SoftwareImportResource = new SoftwareImportResource();
-	softwareFilesToUpload: IResourceImportFile[] = [];
+	filestoUpload: IResourceImportFile[] = [];
 }
 
 const state = new ImportState();
@@ -29,17 +29,19 @@ const mutations = make.mutations(state);
 mutations.RESET = (state) => {
 	state.importStep = 0;
 	state.importType = null;
-	state.softwareFilesToUpload = [];
+	state.filestoUpload = [];
 	state.importPath = 'Unselected';
 	state.software = new SoftwareImportResource();
+	state.environment = new EnvironmentImportResource();
 };
 
 
 mutations.INIT_FOR_TYPE = (state) => {
 	state.importStep = 1;
-	state.softwareFilesToUpload = [];
+	state.filestoUpload = [];
 	state.importPath = 'Unselected';
 	state.software = new SoftwareImportResource();
+	state.environment = new EnvironmentImportResource();
 };
 
 /*============================================================

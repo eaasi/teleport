@@ -95,7 +95,7 @@
 		"superagent": "^5.1.0",
 		"supertest": "^4.0.2",
 		"tslint": "^5.18.0",
-		"typescript": "^3.5.3"
+		"typescript": "^3.6.3"
 	},
 	"resolutions": {
 		"babel-core": "7.0.0-bridge.0"

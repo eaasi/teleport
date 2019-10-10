@@ -1,52 +1,37 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
-import pathify from 'vuex-pathify';
-import adminStore from '@/store/admin-store';
-import globalStore from '@/store/global-store';
-import { makeAdminStoreState } from '../../store-helpers';
-import DescriptiveSelector from '@/components/global/forms/DescriptiveSelector.vue';
+import DescriptiveRadios from '@/components/global/forms/DescriptiveRadios.vue';
+import { IRadioOption } from '@/types/Forms';
 
 const localVue = createLocalVue();
+const options: IRadioOption[] = [
+	{label: 'brett', description: 'favre', value: 1},
+	{label: 'leroy', description: 'butler', value: 2},
+	{label: 'reggie', description: 'white', value: 3}
+];
 
 localVue.use(Vuex);
 
-describe('DescriptiveSelector.vue', () => {
-	let store;
-	beforeEach(() => {
-		let localAdminStore = adminStore;
-		localAdminStore.state = makeAdminStoreState(10);
-		store = new Vuex.Store({
-			modules: {
-				// @ts-ignore
-				admin: localAdminStore,
-				// @ts-ignore
-				global: globalStore
-			},
-			plugins: [pathify.plugin]
+describe('DescriptiveRadios.vue', () => {
+
+	it('Displays each option', () => {
+		const wrapper = shallowMount(DescriptiveRadios, {
+			propsData: {
+				options,
+				value: 1
+			}
 		});
+		expect(wrapper.findAll('.descriptive-radio').length).toBe(3);
 	});
 
-	it('Displays Selectable Option name passed as Props', () => {
-		const wrapper = shallowMount(DescriptiveSelector, {
-			localVue,
+	it('Adds checked class to selected option', () => {
+		const wrapper = shallowMount(DescriptiveRadios, {
 			propsData: {
-				selectableOption: {title: 'foo', description: 'bar'},
-				value: 1
-			},
-			store
+				options,
+				value: 2
+			}
 		});
-		expect(wrapper.find('h3').text()).toBe('foo');
-	});
-
-	it('Displays Role Description passed as Props', () => {
-		const wrapper = shallowMount(DescriptiveSelector, {
-			localVue,
-			propsData: {
-				selectableOption: {title: 'foo', description: 'bar'},
-				value: 1
-			},
-			store
-		});
-		expect(wrapper.find('p').text()).toBe('bar');
+		let selected = options.find(x => x.value === 2);
+		expect(wrapper.find('.checked').find('h3').text()).toBe(selected.label);
 	});
 });

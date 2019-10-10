@@ -1,9 +1,9 @@
 <template>
-	<div class="select-import-path padded">
+	<div class="select-import-path">
 		<div v-if="value === 'Unselected'">
 			<h3>How would you like to import?</h3>
 			<br />
-			<div class="row">
+			<div class="row" style="max-width: 80rem;">
 				<div class="col-md-6">
 					<big-button
 						block
@@ -14,7 +14,7 @@
 						@click="$emit('input', 'Fast')"
 					/>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 flex">
 					<big-button
 						block
 						icon="list"
@@ -65,8 +65,6 @@ export default class ImportPathSelect extends Vue {
 
 <style lang="scss">
 .select-import-path {
-	border-bottom: solid 2px darken($light-neutral, 10%);
-
 	h3 {
 		margin-bottom: 0;
 	}

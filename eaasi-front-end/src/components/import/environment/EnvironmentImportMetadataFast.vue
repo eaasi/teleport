@@ -5,12 +5,15 @@
 				<text-input
 					label="Name"
 					placeholder="Enter a name or title for this resource"
+					:readonly="readonly"
+					v-model="title"
 				/>
 			</div>
 			<div class="col-md-6">
 				<select-list
 					label="Operating System Type"
 					placeholder="Select OS Type..."
+					:readonly="readonly"
 				/>
 			</div>
 		</div>
@@ -19,34 +22,40 @@
 				<select-list
 					label="Operating System Version"
 					placeholder="Select OS Version..."
+					:readonly="readonly"
 				/>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
+import { Get, Sync } from 'vuex-pathify';
+
+@Component({
 	name: 'EnvironmentImportMetadataFast',
-	props: {
+})
+export default class EnvironmentImportMetadataFast extends Vue {
 
-	},
-	components: {
+	/* Props
+	============================================*/
 
-	},
-	computed: {
+	/**
+	 * Pass-through as readonly attribute to all form fields
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly readonly: boolean
 
-	},
-	data() {
-		return {
+	/* Computed
+	============================================*/
 
-		}
-	},
-	methods: {
+	@Sync('import/environment@title')
+	readonly title: string
 
-	}
 }
+
 </script>
 
-<style>
-</style>
+<style lang="scss"></style>
