@@ -42,18 +42,10 @@
 
 		<div class="user-roles">
 			<h3>User Roles & Permissions</h3>
-			<div class="row">
-				<div
-					class="col-xs-4"
-					v-for="role in roles"
-					:key="role.id"
-				>
-					<descriptive-selector
-						:selectable-option="mapToSelectable(role)"
-						v-model="user.roleId"
-					/>
-				</div>
-			</div>
+			<descriptive-radios
+				:options="radioOptions"
+				v-model="user.roleId"
+			/>
 		</div>
 	</form-modal>
 </template>
@@ -63,15 +55,13 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
 import { Get } from 'vuex-pathify';
-import DescriptiveSelector from '@/components/global/forms/DescriptiveSelector.vue';
 import FormModal from '@/components/global/forms/FormModal.vue';
 import TextInput from '@/components/global/forms/TextInput.vue';
+import { IRadioOption } from '@/types/Forms';
 
 @Component({
 	name: 'UserModal',
 	components: {
-		DescriptiveSelector,
-		TextInput,
 		FormModal
 	}
 })
@@ -97,12 +87,15 @@ export default class UserModal extends Vue {
 		return this.isNew ? 'Create New User' : 'Edit User';
 	}
 
-	mapToSelectable(role) {
-		return {
-			id: role.id,
-			title: role.roleName,
-			description: role.roleDescription
-		};
+	get radioOptions(): IRadioOption[] {
+		if(!this.roles) return [];
+		return this.roles.map(x => {
+			return {
+				value: x.id,
+				label: x.roleName,
+				description: x.roleDescription
+			};
+		});
 	}
 
 	/* Methods

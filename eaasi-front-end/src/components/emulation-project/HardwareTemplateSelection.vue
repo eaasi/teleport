@@ -6,16 +6,10 @@
 		</div>
 
 		<div>
-			<div>
-				<descriptive-selector
-					v-for="template in templates"
-					:selectable-option="template"
-					:key="template.id"
-					:value="template.id"
-					v-model="selectedHardware"
-					class="col-4"
-				/>
-			</div>
+			<descriptive-radios
+				:options="templates"
+				v-model="selectedHardware"
+			/>
 			<base-environment-details-card
 				:template-details="templateDetails"
 			/>
@@ -25,14 +19,12 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from 'vue-property-decorator';
-import DescriptiveSelector from '@/components/global/forms/DescriptiveSelector.vue';
 import BaseEnvironmentDetailsCard from '@/components/emulation-project/BaseEnvironmentDetailsCard.vue';
 import { IHardwareTemplateDetails } from '@/types/HardwareTemplateDetails';
 
 @Component({
 	name: 'HardwareTemplateSelection',
 	components: {
-		DescriptiveSelector,
 		BaseEnvironmentDetailsCard
 	}
 })

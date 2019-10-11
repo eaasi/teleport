@@ -76,7 +76,7 @@ export default class ImportProgress extends Vue {
 	}
 
 	reset() {
-		this.$store.commit('import/RESET_IMPORT');
+		this.$store.commit('import/RESET');
 	}
 
 }
