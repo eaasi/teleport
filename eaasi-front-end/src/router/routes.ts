@@ -9,6 +9,7 @@ import EmulationProjectScreen from '@/components/emulation-project/EmulationProj
 import ViewResourceDetailsScreen from '@/components/resources/view-details/ViewResourceDetailsScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
 import ImportScreen from '@/components/import/ImportResourceScreen.vue';
+import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
 import { RouteConfig } from 'vue-router';
 
 export default [
@@ -32,6 +33,11 @@ export default [
 		path: '/admin/emulators',
 		name: 'Emulators',
 		component: EmulatorManagement
+	},
+	{
+		path: '/admin/metadata-sync',
+		name: 'Metadata Sync',
+		component: MetadataSyncAdmin
 	},
 	{
 		path: '/emulation-project',

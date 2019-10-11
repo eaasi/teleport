@@ -1,6 +1,6 @@
 <template>
 	<section id="emulatorWrapper" ref="_wrapper">
-		<!-- Do not change this div's ID, eeas-client looks for '#emulator-container' -->
+		<!-- Do not change this div's ID, eaas-client looks for '#emulator-container' -->
 		<div ref="_container" id="emulator-container"></div>
 		<div class="emulator-actions" v-show="isStarted">
 			<p>Emulator Actions</p>
