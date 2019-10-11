@@ -1,15 +1,15 @@
-<template>
+<template functional>
 	<div class="dbe-container">
 		<div class="entry-bg-trim">
 			<div class="entry-container">
 				<div class="entry-header">
-					<span id="categories">{{ entry.categories.join(', ') }}</span>
+					<span id="categories">{{ props.entry.categories.join(', ') }}</span>
 					|
-					<span id="date">{{ entry.pubDate }}</span>
+					<span id="date">{{ props.entry.pubDate }}</span>
 				</div>
 				<div class="entry-title">
-					<a :href="entry.link" target="_blank">
-						{{ entry.title }}
+					<a :href="props.entry.link" target="_blank">
+						{{ props.entry.title }}
 					</a>
 				</div>
 			</div>
