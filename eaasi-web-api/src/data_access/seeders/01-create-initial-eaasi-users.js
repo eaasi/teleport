@@ -1,8 +1,8 @@
-const testUsers = require('../../../test/data/faker-users');
+const data = require('../data/eaasiUsers');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('eaasi_user', testUsers);
+		return queryInterface.bulkInsert('eaasi_user', data);
 	},
 
 	down: (queryInterface) => {
@@ -10,3 +10,4 @@ module.exports = {
 		return queryInterface.bulkDelete('eaasi_user', {}, {});
 	}
 };
+
