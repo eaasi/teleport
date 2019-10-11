@@ -9,7 +9,7 @@
 				<import-files v-if="step >= 2" />
 				<configure-hardware
 					class="padded"
-					v-if="type === 'environment' && step >= 3"
+					v-if="showConfigureHardware"
 				/>
 			</div>
 			<div class="import-tip-lane"></div>
@@ -51,6 +51,10 @@ export default class ImportResourceScreen extends Vue {
 
 	@Sync('import/importType')
 	type: ImportType
+
+	get showConfigureHardware() {
+		return this.type === 'environment' && this.step >= 3;
+	}
 
 	get showPathSelect() {
 		return this.step >= 1 && (
