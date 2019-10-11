@@ -3,17 +3,11 @@
 		<div id="bf-header">
 			{{ blogTitle }}
 		</div>
-		<div class="row">
-			<div class="columns">
-				<div class="column">
-					<dashboard-blog-entry
-						v-for="entry in blogArticles"
-						:entry="entry"
-						:key="entry.title"
-					/>
-				</div>
-			</div>
-		</div>
+		<row>
+			<column size="4" v-for="entry in blogArticles" :key="entry.title">
+				<dashboard-blog-entry :entry="entry" />
+			</column>
+		</row>
 	</div>
 </template>
 
@@ -33,11 +27,11 @@ export default class DashboardBlogFeed extends Vue {
 	blogTitle: string = '';
 	blogArticles: IBlogArticleLink[] = []
 
-	buildBlogFeed() {
-		rssService.getBlogFeed().then(res => {
-			this.blogTitle = res.blogTitle;
-			this.blogArticles = res.articleLinks;
-		});
+	async buildBlogFeed() {
+		let res = await rssService.getBlogFeed();
+		if(!res) return;
+		this.blogTitle = res.blogTitle;
+		this.blogArticles = res.articleLinks;
 	}
 
 	created() {

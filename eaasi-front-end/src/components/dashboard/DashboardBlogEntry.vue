@@ -35,14 +35,9 @@ export default class DashboardBlogEntry extends Vue {
 
 <style lang="scss">
 
-	.dbe-container {
-		display: inline-block;
-	}
-
 	.entry-bg-trim {
 		background: #000000 url('~@/assets/login-bg.png') center;
 		height: 200px;
-		margin: 1.8rem;
 		position: relative;
 	}
 
@@ -76,6 +71,7 @@ export default class DashboardBlogEntry extends Vue {
 
 			a {
 				color: $dark-blue;
+				line-height: 1.6em;
 				text-decoration: none;
 			}
 		}

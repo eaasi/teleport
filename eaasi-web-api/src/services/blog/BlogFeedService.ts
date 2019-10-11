@@ -28,7 +28,7 @@ export default class BlogFeedService {
 	 * @param numberOfArticles: maximum number of articles to display from feed
 	 * @private
 	 */
-	private async _parseRssResult(xml, numberOfArticles = 8) {
+	private async _parseRssResult(xml, numberOfArticles = 3) {
 	    let rssFeed;
 
 		await xml2js.parseString(xml, (err, result) => {
