@@ -11,11 +11,11 @@ describe('BigButton.vue', () => {
 		expect(wrapper.find('label').text()).toBe('foo');
 	});
 
-	it('Renders sublabel prop', () => {
+	it('Renders subLabel prop', () => {
 		const wrapper = shallowMount(BigButton, {
 			propsData: {
 				label: 'bar',
-				sublabel: 'baz bang'
+				subLabel: 'baz bang'
 			},
 		});
 		expect(wrapper.find('.eb-sublabel').text()).toBe('baz bang');
@@ -25,7 +25,7 @@ describe('BigButton.vue', () => {
 		const wrapper = shallowMount(BigButton, {
 			propsData: {
 				label: 'quux',
-				sublabel: 'etc etc',
+				subLabel: 'etc etc',
 				info: 'artificial intelligence'
 			},
 		});
@@ -36,7 +36,7 @@ describe('BigButton.vue', () => {
 		const wrapper = shallowMount(BigButton, {
 			propsData: {
 				label: 'quux',
-				sublabel: 'etc etc',
+				subLabel: 'etc etc',
 				info: 'random forest',
 				icon: 'tree'
 			},
