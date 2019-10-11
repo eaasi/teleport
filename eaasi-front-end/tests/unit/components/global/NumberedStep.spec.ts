@@ -3,14 +3,12 @@ import NumberedStep from '@/components/global/NumberedSteps/NumberedStep.vue';
 
 const incompleteStep =  {
 	stepNumber: 8,
-	description: 'Foo Bar',
-	isComplete: false
+	description: 'Foo Bar'
 };
 
 const completeStep = {
 	stepNumber: 99,
-	description: 'Baz Quux',
-	isComplete: true
+	description: 'Baz Quux'
 };
 
 describe('NumberedStep.vue', () => {
@@ -18,7 +16,7 @@ describe('NumberedStep.vue', () => {
 		const wrapper = shallowMount(NumberedStep, {
 			context: {
 				props: {
-					stepData: incompleteStep
+					step: incompleteStep
 				}
 			}
 		});
@@ -29,18 +27,19 @@ describe('NumberedStep.vue', () => {
 		const wrapper = shallowMount(NumberedStep, {
 			context: {
 				props: {
-					stepData: incompleteStep
+					step: incompleteStep
 				}
 			}
 		});
 		expect(wrapper.find('span.step-description').text()).toBe('Foo Bar');
 	});
 
-	it('When complete => renders step number that is passed as props', () => {
+	it('When complete => renders checkmark icon', () => {
 		const wrapper = shallowMount(NumberedStep, {
 			context: {
 				props: {
-					stepData: completeStep
+					step: completeStep,
+					complete: true
 				}
 			}
 		});
@@ -51,7 +50,8 @@ describe('NumberedStep.vue', () => {
 		const wrapper = shallowMount(NumberedStep, {
 			context: {
 				props: {
-					stepData: completeStep
+					step: completeStep,
+					complete: true
 				}
 			}
 		});

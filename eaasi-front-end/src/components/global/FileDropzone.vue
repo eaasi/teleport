@@ -8,7 +8,7 @@
 		<div class="dfu-icon" @dragenter="dragover = true">
 			<i class="fas fa-upload"></i>
 			<div ckass="dfu-content">
-				Drag Files Here To Upload
+				{{ label }}
 			</div>
 		</div>
 	</div>
@@ -26,6 +26,23 @@ import { Component, Prop } from 'vue-property-decorator';
 	name: 'FileDropzone',
 })
 export default class FileDropzone extends Vue {
+
+	/* Props
+	============================================*/
+
+	/**
+	 * The max number of files that can be added at a time
+	 */
+	@Prop({type: Number, required: false})
+	readonly limit: number
+
+	/* Computed
+	============================================*/
+
+	get label() {
+		if(this.limit === 1) return 'Drag File Here To Upload';
+		return 'Drag Files Here To Upload';
+	}
 
 	/* Data
 	============================================*/
@@ -50,6 +67,7 @@ export default class FileDropzone extends Vue {
 		let fileList = e.dataTransfer.files as FileList;
 		if(!fileList || !fileList.length) return;
 		for(let i=0; i<fileList.length; i++) {
+			if( this.limit && (i+1) > this.limit) continue;
 			this.files.push(fileList[i]);
 		}
 		this.$emit('change', this.files);
