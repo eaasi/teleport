@@ -55,13 +55,13 @@ export default class Checkbox extends BaseFormField {
 $checkboxSize: 20px;
 
 .eaasi-checkbox {
-	height: $checkboxSize;
 
 	label {
 		cursor: pointer;
-		font-size: 1.3rem;
-		height: $checkboxSize + 2px; // account for border
-		padding-left: $checkboxSize + 8px;
+		display: block;
+		font-size: 1.4rem;
+		height: $checkboxSize + 6px;
+		padding-left: $checkboxSize + 10px;
 		position: relative;
 		user-select: none;
 
@@ -76,7 +76,7 @@ $checkboxSize: 20px;
 		span {
 			height: $checkboxSize;
 			position: relative;
-			top: 6px;
+			top: 7px;
 		}
 	}
 

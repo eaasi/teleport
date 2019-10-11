@@ -99,7 +99,7 @@ export default class OptionsBox extends Vue {
 	}
 
 	.ob-content {
-		padding: 4rem 4em 1rem;
+		padding: 4rem 2rem 1rem;
 	}
 
 	.ob-footer-content {
