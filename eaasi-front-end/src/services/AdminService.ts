@@ -2,6 +2,7 @@ import BaseHttpService from './BaseHttpService';
 import User from '@/models/admin/User';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiRole, IEmulator } from 'eaasi-admin';
+import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import { ITaskState } from '@/types/Task';
 
@@ -56,6 +57,32 @@ class AdminService extends BaseHttpService {
 		let res = await this.get<IEaasiSearchResponse<IEaasiRole>>(url);
 		if (!res.ok) return null;
 		return res.result as IEaasiSearchResponse<IEaasiRole>;
+	}
+
+	/* OAI-PMH Harvesters
+	============================================*/
+
+	async getHarvesters(): Promise<string[]> {
+		let res = await this.get<string[]>('/admin/get-harvesters');
+		if(!res.ok) return null;
+		return res.result;
+	}
+
+	async addHarvester(req: IAddHarvesterRequest): Promise<boolean> {
+		let res = await this.post<boolean>('/admin/add-harvester', req);
+		return res.ok;
+	}
+
+	async syncHarvester(name: string, full: boolean = false): Promise<IHarvesterSyncResult> {
+		let url = `/admin/sync-harvester/?name=${name}`;
+		if(full) url += '&full=true';
+		let res = await this.post<IHarvesterSyncResult>(url, null);
+		return res.result;
+	}
+
+	async deleteHarvester(name: string): Promise<boolean> {
+		let res = await this.post<boolean>(`/admin/delete-harvester/?name=${name}`, null);
+		return res.ok;
 	}
 
 }

@@ -10,7 +10,7 @@
 			<div class="flex-row justify-end">
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
-						<ui-button @click="$emit('click:cancel')" secondary>
+						<ui-button @click="cancel" secondary>
 							{{ cancelLabel }}
 						</ui-button>
 						<ui-button @click="$emit('click:confirm')">
@@ -63,7 +63,15 @@ export default class InfoModal extends Vue {
      * Alternative size of the modal. Accepts 'sm, small, lg, or large'
      */
     @Prop({type: String, default: 'small'})
-    readonly size: string
+	readonly size: string
+
+    /* Methods
+	============================================*/
+
+    cancel() {
+    	this.$emit('close');
+    	this.$emit('click:cancel');
+    }
 
 }
 
@@ -80,6 +88,7 @@ export default class InfoModal extends Vue {
 	}
 
 	.eaasi-confirm-modal-content {
+		line-height: 1.5em;
 		padding: 3rem 2rem;
 	}
 

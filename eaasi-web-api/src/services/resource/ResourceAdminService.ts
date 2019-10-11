@@ -10,7 +10,7 @@ import {
 	IResourceSearchResponse
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
-import EmilBaseService from '../emil/EmilBaseService';
+import EmilBaseService from '../eaas/emil/EmilBaseService';
 
 export default class ResourceAdminService extends BaseService {
 
