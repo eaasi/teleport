@@ -1,6 +1,6 @@
 import BaseController from './base/BaseController';
 import { Request, Response } from 'express';
-import EmilContainerService from '@/services/emil/EmilContainerService';
+import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
 
 export default class TaskController extends BaseController {
 
