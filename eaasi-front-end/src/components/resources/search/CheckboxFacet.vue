@@ -22,7 +22,7 @@
 			style="display: block; margin-top: 1rem;"
 			@click="$emit('expand', facet)" 
 		>
-			See All {{ facet.name }} <i class="fas fa-chevron-right" />
+			See All {{ facet.name }} <i class="fas fa-chevron-right"></i>
 		</ui-button>
 	</search-facet-wrapper>
 </template>
