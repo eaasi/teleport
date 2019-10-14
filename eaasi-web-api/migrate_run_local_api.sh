@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Start the database
-cd ../ && docker-compose build eaasi-database && docker-compose up -d eaasi-database
+cd ../ && docker-compose down -v \
+       && docker-compose up -d --build eaasi-database
 
 cd ./eaasi-web-api
 
