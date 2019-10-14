@@ -53,7 +53,7 @@ export default class DualToggle extends Vue {
 	}
 
 	toggle(option: string = null) {
-		if(!option) {
+		if (!option) {
 			this.changeVal();
 		}
 		else {
@@ -65,9 +65,14 @@ export default class DualToggle extends Vue {
 	============================================*/
 
 	beforeMount() {
-		if(!this.options || this.options.length !== 2) {
+		if (!this.options || this.options.length !== 2) {
 			console.error('DualToggle requires an options array with two string values');
 		}
+	}
+
+	created() {
+		console.log('VALUE', this.value)
+		console.log('OPTIONS', this.options)
 	}
 
 }
@@ -107,7 +112,7 @@ export default class DualToggle extends Vue {
 .dt-inner {
 	display: block;
 	margin-left: -100%;
-	transition: margin 0.3s ease-in 0s;
+	transition: margin 0.2s ease-in 0s;
 	width: 200%;
 }
 
@@ -125,7 +130,7 @@ export default class DualToggle extends Vue {
 }
 
 .dt-inner::before {
-	background-color: lighten($light-blue, 80%);
+	background-color: $light-blue;
 	color: $dark-blue;
 	content: '';
 	padding-left: 10px;
