@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Start the database
+cd ../ && docker-compose build eaasi-database && docker-compose up -d eaasi-database
+
+cd ./eaasi-web-api
+
 # Run database migrations
 npx sequelize-cli db:migrate --env=local
 
