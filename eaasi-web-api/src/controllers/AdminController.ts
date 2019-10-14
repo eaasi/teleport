@@ -4,16 +4,20 @@ import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
+import HarvesterService from '@/services/eaas/oaipmh/HarvesterService';
+import { HarvesterReq } from '@/types/oaiphm/Harvester';
 
 export default class AdminController extends BaseController {
 
 	readonly _userSvc: UserAdminService;
 	readonly _emulatorAdminSvc: EmulatorAdminService;
+	readonly _harvesterSvc: HarvesterService;
 
 	constructor() {
 		super();
 		this._userSvc = new UserAdminService();
 		this._emulatorAdminSvc = new EmulatorAdminService();
+		this._harvesterSvc = new HarvesterService();
 	}
 
 	/*============================================================
@@ -125,6 +129,71 @@ export default class AdminController extends BaseController {
 			let entry = req.body as EmulatorEntry;
 			let response = await this._emulatorAdminSvc.setDefaultVersion(entry);
 			res.send(response);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/*============================================================
+	 == OAI-PMH Harvesters
+	/============================================================*/
+
+	/**
+	 * Get list of all known oai-pmh harvesters
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async getHarvesters(_req: Request, res: Response) {
+		try {
+			let list = await this._harvesterSvc.getHarvesters();
+			res.send(list);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Adds aq new oai-pmh harvester
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async addHarvester(req: Request, res: Response) {
+		try {
+			let data = req.body as HarvesterReq;
+			let success = await this._harvesterSvc.addHarvester(data);
+			if(success) return res.send(true);
+			return this.sendError('Could not add new oai-pmh harvester', res);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Syncs an existing oai-pmh harvester
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async syncHarvester(req: Request, res: Response) {
+		try {
+			let { name, full } = req.query;
+			let result = await this._harvesterSvc.syncHarvester(name, !!full);
+			res.send(result);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Deletes an existing oai-pmh harvester
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async deleteHarvester(req: Request, res: Response) {
+		try {
+			let { name } = req.query;
+			let success = await this._harvesterSvc.deleteHarvester(name);
+			if(success) return res.send(true);
+			return this.sendError(`Could not delete oai-pmh harvester: ${name}`, res);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}

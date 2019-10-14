@@ -28,8 +28,13 @@ export default class AdminMenu extends Vue {
 
 	menuItems: IMenuItem[] = [
 		{
+			icon: 'server',
+			label: 'Emulators',
+			route: '/admin/emulators'
+		},
+		{
 			icon: 'sync-alt',
-			label: 'Metadata Sync',
+			label: 'Endpoints / Metadata Sync',
 			route: '/admin/metadata-sync'
 		},
 		{
@@ -37,21 +42,18 @@ export default class AdminMenu extends Vue {
 			label: 'Node Cache / Storage',
 			route: '/admin/storage'
 		},
+		/*
 		{
 			icon: 'code-branch',
 			label: 'Node Endpoints',
 			route: '/admin/node-endpoints'
 		},
 		{
-			icon: 'server',
-			label: 'Emulators',
-			route: '/admin/emulators'
-		},
-		{
 			icon: 'history',
 			label: 'Session Settings',
 			route: '/admin/session-settings'
 		},
+		*/
 	]
 
 	userMenuItems: IMenuItem[] = [
