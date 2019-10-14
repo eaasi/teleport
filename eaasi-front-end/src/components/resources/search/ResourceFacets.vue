@@ -22,10 +22,9 @@ import Vue from 'vue';
 import { Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
 import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
+import SearchFacetModal from './SearchFacetModal.vue';
 import { IResourceSearchFacet } from '@/types/Search.d.ts';
 import { jsonCopy } from '@/utils/functions';
-import SearchFacetModal from '../search/SearchFacetModal';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
 
 @Component({
 	name: 'ResourceFacets',
