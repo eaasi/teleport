@@ -69,12 +69,6 @@ export default class DualToggle extends Vue {
 			console.error('DualToggle requires an options array with two string values');
 		}
 	}
-
-	created() {
-		console.log('VALUE', this.value)
-		console.log('OPTIONS', this.options)
-	}
-
 }
 
 </script>

@@ -2,6 +2,7 @@
 	<div class="vds-container">
 		<section-heading :title="summaryData.title" size="large" />
 		<div class="vds-description">
+			{{ environment.description }}
 		</div>
 		<div class="vds-footer">
 		</div>
@@ -11,7 +12,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {IEaasiResourceSummary} from '@/types/Resource';
+import {IEaasiResourceSummary, IEnvironment} from '@/types/Resource';
+import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceDetailsSummary',
@@ -29,6 +31,8 @@ export default class ResourceDetailsScreen extends Vue {
 
 	/* Computed
 	============================================*/
+	@Sync('resource/activeEnvironment')
+	environment: IEnvironment
 
 	/* Methods
 	============================================*/

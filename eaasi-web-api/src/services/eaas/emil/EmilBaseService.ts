@@ -22,7 +22,8 @@ export default class EmilBaseService implements IHttpService {
 	}
 
 	private _createUrl(methodName: string): string {
-		return `${BASE_URL}/${this._path}/${methodName}`;
+		let url = `${BASE_URL}/${this._path}/${methodName}`;
+		return url
 	}
 
 }

@@ -3,6 +3,7 @@
 		<h1>Resource Details</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<mode-toggle-bar v-if="activeTab === 'Metadata'" />
+
 		<div class="vrd-content" v-if="activeTab === 'Metadata'">
 			<tag icon="fa-box" text="Environment" />
 			<resource-details-metadata :resource-detail-summary="resourceData" />
@@ -21,60 +22,59 @@ import ResourceDetailsSummary from '@/components/resources/view-details/Resource
 import {Sync} from 'vuex-pathify';
 import {IEnvironment} from '@/types/Resource';
 
-	@Component({
-		name: 'ViewResourceDetailsScreen',
-		components: {
-			ResourceDetailsSummary,
-			ModeToggleBar,
-			ResourceDetails,
-			ResourceDetailsMetadata
-		}
-	})
+@Component({
+	name: 'ViewResourceDetailsScreen',
+	components: {
+		ResourceDetailsSummary,
+		ModeToggleBar,
+		ResourceDetails,
+		ResourceDetailsMetadata
+	}
+})
 export default class ViewResourceDetailsScreen extends Vue {
+    /* Props
+    ============================================*/
+    @Prop({ type: String, required: true })
+    resource: string;
 
-		/* Props
-        ============================================*/
-		@Prop({ type: String, required: true })
-		resource: string;
+    /* Data
+    ============================================*/
+    resourceData = JSON.parse(this.resource);
 
-		/* Data
-        ============================================*/
-		resourceData = JSON.parse(this.resource);
+    activeTab: string = 'Metadata';
 
-		activeTab: string = 'Metadata';
+    tabs: IEaasiTab[] = [
+    	{ label: 'Metadata' },
+    	{ label: 'History' },
+    ]
 
-		tabs: IEaasiTab[] = [
-			{ label: 'Metadata' },
-			{ label: 'History' },
-		]
+    /* Computed
+    ============================================*/
+    @Sync('resource/activeEnvironment')
+    environment: IEnvironment
 
-		/* Computed
-        ============================================*/
-		@Sync('resource/activeEnvironment')
-		environment: IEnvironment
+    /* Methods
+    ============================================*/
+    // Sends the current envId to store to set the current environment details
+    async getEnvironment(envId: string) {
+    	let activeEnvironment = await this.$store.dispatch('resource/getEnvironment', envId);
+    	if (!activeEnvironment) return;
+    	this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', activeEnvironment);
+    }
 
-		/* Methods
-        ============================================*/
-		// TODO: This page shows more than environments, however, this method just gets envs only.
-		async getEnvironment(envId: string) {
-			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
-			if(!environment) return;
-			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
-		}
+    // TODO: Should update to search all software for a given environmentId
+    async getSoftware() {
+    	let softwareId = this.environment.installedSoftwareIds[0]; // TODO <---
+    	let software = await this.$store.dispatch('software/getSoftware', softwareId);
+    	if(!software) return;
+    	this.$store.commit('software/SET_ACTIVE_SOFTWARE', software);
+    }
 
-		// TODO: Should update to search all software for a given environmentId
-		async getSoftware() {
-			let softwareId = this.environment.installedSoftwareIds[0]; // TODO <---
-			let software = await this.$store.dispatch('software/getSoftware', softwareId);
-			if(!software) return;
-			this.$store.commit('software/SET_ACTIVE_SOFTWARE', software);
-		}
-
-		/* Lifecycle Hooks
-        ============================================*/
-		created() {
-			this.getEnvironment(this.resourceData.envId);
-		}
+    /* Lifecycle Hooks
+    ============================================*/
+    created() {
+    	this.getEnvironment(this.resourceData.envId);
+    }
 }
 
 </script>
