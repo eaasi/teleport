@@ -15,13 +15,21 @@
 			<div class="col-md-4">
 				<section-heading title="Configured Machine" size="large" />
 				<labeled-item-list
-					:labeled-items="configuredMachineLabeledItems"
+					:labeled-items="configMachineLabeledItems"
 				/>
 			</div>
 			<div class="col-md-4">
 				<section-heading title="Emulator" size="large" />
 				<labeled-item-list
 					:labeled-items="emulatorLabeledItems"
+				/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<section-heading title="Configured Drives" size="large" />
+				<labeled-item-list
+					:labeled-items="driveLabeledItems"
 				/>
 			</div>
 		</div>
@@ -67,8 +75,6 @@ export default class ResourceDetailsMetadata extends Vue {
 	/* Data
 	============================================*/
 	title: string = this.resourceDetailSummary.title;
-	configuredMachineLabeledItems: ILabeledItem[] = [];
-	osLabeledItems: ILabeledItem[] = [];
 
 	/* Computed
 	============================================*/
@@ -94,7 +100,7 @@ export default class ResourceDetailsMetadata extends Vue {
 	/**
 	 * Parses the environment data for emulator-specific properties
 	 */
-	get emulatorLabeledItems() {
+	get emulatorLabeledItems() : ILabeledItem[] {
 		if (this.environment == null) return [];
 
 		let emuItems = [];
@@ -130,32 +136,41 @@ export default class ResourceDetailsMetadata extends Vue {
 		return emuItems;
 	}
 
-	/* Methods
-	============================================*/
-	populateCfgMachineLabeledItems() {
-		return [
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-		];
+	/**
+	 * Parses the environment data for emulator-specific properties
+	 */
+	get driveLabeledItems() {
+		if (this.environment == null || !this.environment.drives) return [];
+
+		let driveItems = [];
+
+		this.environment.drives.map(drive => {
+			driveItems.push({
+				label: drive.type,
+				value: this._createFileSystemLabel(drive.filesystem)
+			});
+		});
+
+		return driveItems;
 	}
 
-	populateOsLabeledItems() {
-		return [
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-		];
+	get configMachineLabeledItems() : ILabeledItem[] {
+		return [];
+	}
+
+	get osLabeledItems() : ILabeledItem[] {
+		return [];
+	}
+
+	/* Methods
+	============================================*/
+	_createFileSystemLabel(fileSystem: string): string {
+		if (!fileSystem) fileSystem = 'Not specified';
+		return `File System: ${fileSystem}`;
 	}
 
 	/* Lifecycle Hooks
 	============================================*/
-
-	created() {
-		this.configuredMachineLabeledItems = this.populateCfgMachineLabeledItems();
-		this.osLabeledItems = this.populateOsLabeledItems();
-	}
 }
 
 </script>
