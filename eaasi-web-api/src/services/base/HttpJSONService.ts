@@ -35,6 +35,18 @@ export default class HttpJSONService implements IHttpService {
 	}
 
 	/**
+	 * Makes a DELETE request with a using Fetch
+	 *
+	 * @param {string} url - The request URL
+	 * @param {RequestInit} [options] - Request options
+	 * @return {Promise<Response>} - Response from fetch APY
+	 */
+	public async delete(url: string, options?: RequestInit): Promise<Response> {
+		let requestInit = this._createRequestInit('DELETE', null, options);
+		return await fetch(url, requestInit);
+	}
+
+	/**
 	 * Merges default options with other request properties
 	 *
 	 * @param {string} method - The Request method
