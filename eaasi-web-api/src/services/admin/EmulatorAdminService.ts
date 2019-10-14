@@ -1,4 +1,4 @@
-import EmilBaseService from '@/services/emil/EmilBaseService';
+import EmilBaseService from '@/services/eaas/emil/EmilBaseService';
 import ICrudService from '../interfaces/ICrudService';
 import CrudService from '../base/CrudService';
 const { Emulator } = require('@/data_access/models');

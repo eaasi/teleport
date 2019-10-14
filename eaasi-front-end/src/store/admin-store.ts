@@ -1,7 +1,8 @@
-import { make } from 'vuex-pathify';
+import { make, commit } from 'vuex-pathify';
 import { Store } from 'vuex';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiRole, IEmulator, IEmulatorEntry } from 'eaasi-admin';
+import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import User from '@/models/admin/User';
 import _svc from '@/services/AdminService';
@@ -17,6 +18,7 @@ export class AdminState {
 	activeEmulator: IEmulator = null;
 	activeUser: User = null;
 	emulators: IEmulator[] = null;
+	harvesters: string[] = [];
 	usersResult: IEaasiSearchResponse<User> = null;
 	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
@@ -75,6 +77,34 @@ const actions = {
 		let rolesResult = await _svc.getRoles();
 		if (!rolesResult) return;
 		commit('SET_ROLES', rolesResult.result);
+	},
+
+	/* OAI-PMH Harvesters
+	============================================*/
+
+	async getHarvesters({commit}: Store<AdminState>): Promise<string[]> {
+		let harvesters = await _svc.getHarvesters();
+		if(!harvesters) return null;
+		commit('SET_HARVESTERS', harvesters);
+		return harvesters;
+	},
+
+	async addHarvester({ dispatch }: Store<AdminState>, req: IAddHarvesterRequest): Promise<boolean> {
+		let success = await _svc.addHarvester(req);
+		if(!success) return false;
+		dispatch('getHarvesters');
+		return true;
+	},
+
+	async syncHarvester(_, { name, full }: { name: string, full: boolean}): Promise<IHarvesterSyncResult> {
+		return await _svc.syncHarvester(name, full);
+	},
+
+	async deleteHarvester({ dispatch }: Store<AdminState>, name: string): Promise<boolean> {
+		let success = _svc.deleteHarvester(name);
+		if(!success) return false;
+		dispatch('getHarvesters');
+		return true;
 	}
 
 };

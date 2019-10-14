@@ -17,4 +17,12 @@ router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
 router.post('/import-emulator', (req, res) => controller.importEmulator(req, res));
 router.post('/set-default-emulator-version', (req, res) => controller.setDefaultEmulatorVersion(req, res));
 
+/* OAI-PMH HArvesters
+============================================*/
+
+router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));
+router.post('/add-harvester', (req, res) => controller.addHarvester(req, res));
+router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res));
+router.post('/delete-harvester', (req, res) => controller.deleteHarvester(req, res));
+
 module.exports = router;
