@@ -1,7 +1,9 @@
 <template>
 	<div class="rdm-container">
 		<div class="row">
-			<resource-details-summary :summary-data="resourceDetailSummary" />
+			<div class="col-md-4">
+				<resource-details-summary :summary-data="resourceDetailSummary" />
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
@@ -89,11 +91,43 @@ export default class ResourceDetailsMetadata extends Vue {
 		};
 	}
 
+	/**
+	 * Parses the environment data for emulator-specific properties
+	 */
 	get emulatorLabeledItems() {
 		if (this.environment == null) return [];
-		return [
-			{ label: 'Name', value: this.environment.emulator || ''},
-		];
+
+		let emuItems = [];
+
+		if (this.environment.emulator) {
+			emuItems.push({
+				label: 'Name',
+				value: this.environment.emulator
+			});
+		}
+
+		if (this.environment.containerName) {
+			emuItems.push({
+				label: 'Container Name',
+				value: this.environment.containerName
+			});
+		}
+
+		if (this.environment.containerVersion) {
+			emuItems.push({
+				label: 'Container Version',
+				value: this.environment.containerVersion
+			});
+		}
+
+		if (this.environment.nativeConfig) {
+			emuItems.push({
+				label: 'Emulator Configuration',
+				value: this.environment.nativeConfig
+			});
+		}
+
+		return emuItems;
 	}
 
 	/* Methods

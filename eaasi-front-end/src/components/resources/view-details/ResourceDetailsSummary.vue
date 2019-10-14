@@ -1,8 +1,11 @@
 <template>
 	<div class="vds-container">
-		<section-heading :title="summaryData.title" size="large" />
+		<section-heading
+			:title="summaryData.title"
+			size="large"
+		/>
 		<div class="vds-description">
-			{{ environment.description }}
+			{{ environment.description | stripHtml }}
 		</div>
 		<div class="vds-footer">
 		</div>
@@ -48,9 +51,12 @@ export default class ResourceDetailsScreen extends Vue {
 
 <style lang="scss">
 	.vds-container {
+		width: 33vw;
 
 		.vds-description {
-			font-size: 1rem;
+			color: $dark-neutral;
+			font-size: 1.5rem;
+			padding: 1.2rem 0;
 		}
 
 		.vds-footer {
