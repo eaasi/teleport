@@ -5,29 +5,41 @@
 			v-for="(f, i) in facets"
 			:key="i"
 			:facet="facets[i]"
+			@expand="expandSearchFacetValues(f)"
+		/>
+		<search-facet-modal 
+			v-if="activeSearchFacet" 
+			:facet="activeSearchFacet" 
+			@close="closeSearchFacetModal" 
+			@apply-filters="applySearchFacetValues"
+			@clear-filters="unselectFacetValues"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Sync } from 'vuex-pathify';
+import { Component } from 'vue-property-decorator';
 import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
+import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { jsonCopy } from '@/utils/functions';
+import SearchFacetModal from '../search/SearchFacetModal';
 import { IResourceSearchFacet } from '@/types/Search.d.ts';
 
 @Component({
 	name: 'ResourceFacets',
 	components: {
-		CheckboxFacet
+		CheckboxFacet,
+		SearchFacetModal
 	}
 })
 export default class ResourceFacets extends Vue {
 
 	/* Data
 	============================================*/
-
-	// TODO: These should come from ResourceSearchResult
-	facets: IResourceSearchFacet[] = [
+	activeSearchFacet: IResourceSearchFacet = null;
+	facets = [ // TODO: These should come from ResourceSearchResult
 		{
 			name: 'Resource Types',
 			values: [
@@ -44,6 +56,11 @@ export default class ResourceFacets extends Vue {
 				{
 					label: 'Content Environments',
 					total: 0,
+					isSelected: false
+				},
+				{
+					label: 'Some Type',
+					total: 13,
 					isSelected: false
 				},
 			]
@@ -65,6 +82,11 @@ export default class ResourceFacets extends Vue {
 					label: 'Remote',
 					total: 73,
 					isSelected: false
+				},
+				{
+					label: 'Some Status',
+					total: 73,
+					isSelected: false
 				}
 			]
 		},
@@ -78,7 +100,34 @@ export default class ResourceFacets extends Vue {
 				}
 			]
 		}
-	]
+	];
+
+	/* Methods
+	============================================*/
+
+	closeSearchFacetModal() {
+		this.activeSearchFacet = null;
+	}
+
+	unselectFacetValues(facet) {
+		this.activeSearchFacet.values.map(v => v.isSelected = false);
+	}
+
+	expandSearchFacetValues(facet) {
+		this.activeSearchFacet = jsonCopy(facet);
+	}
+
+	applySearchFacetValues() {
+		const newFacets = this.facets.map(f => {
+			if (this.activeSearchFacet.name === f.name) {
+				return this.activeSearchFacet;
+			} else {
+				return f;
+			}
+		});
+		this.facets = newFacets;
+		this.closeSearchFacetModal();
+	}
 
 }
 
