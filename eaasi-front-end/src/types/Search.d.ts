@@ -35,6 +35,11 @@ export interface IResourceSearchFacet {
 	values: IResourceSearchFacetValue[];
 }
 
+export interface IResourceSearchFacetAttribute {
+	label: string;
+	facetValues: IResourceSearchFacetValue[];
+}
+
 export interface IResourceSearchFacetValue {
 	label: string;
 	total: number;

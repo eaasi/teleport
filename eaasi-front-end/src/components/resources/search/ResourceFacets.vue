@@ -5,80 +5,61 @@
 			v-for="(f, i) in facets"
 			:key="i"
 			:facet="facets[i]"
+			@expand="expandSearchFacet(f)"
+		/>
+		<search-facet-modal 
+			v-if="activeSearchFacet" 
+			:facet="activeSearchFacet" 
+			@close="closeSearchFacetModal" 
+			@apply="applySearchFacetValues"
+			@deselect="deselectAllFacetValues"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { Sync } from 'vuex-pathify';
+import { Component } from 'vue-property-decorator';
+import { IResourceSearchFacet, IResourceSearchResponse, IResourceSearchQuery } from '@/types/Search.d.ts';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
-	name: 'ResourceFacets',
-	components: {
-		CheckboxFacet
-	}
+	name: 'ResourceFacets'
 })
 export default class ResourceFacets extends Vue {
 
-	/* Data
+	/* Computed
 	============================================*/
 
-	// TODO: These should come from ResourceSearchResult
-	facets: IResourceSearchFacet[] = [
-		{
-			name: 'Resource Types',
-			values: [
-				{
-					label: 'Environments',
-					total: 75,
-					isSelected: false
-				},
-				{
-					label: 'Software',
-					total: 2,
-					isSelected: false
-				},
-				{
-					label: 'Content Environments',
-					total: 0,
-					isSelected: false
-				},
-			]
-		},
-		{
-			name: 'Network Status',
-			values: [
-				{
-					label: 'Private',
-					total: 4,
-					isSelected: false
-				},
-				{
-					label: 'Public',
-					total: 0,
-					isSelected: false
-				},
-				{
-					label: 'Remote',
-					total: 73,
-					isSelected: false
-				}
-			]
-		},
-		{
-			name: 'Source Organization',
-			values: [
-				{
-					label: 'Yale',
-					total: 73,
-					isSelected: false
-				}
-			]
-		}
-	]
+    @Sync('resource/query@selectedFacets')
+	facets: IResourceSearchFacet[]
+
+	/* Data
+	============================================*/
+	activeSearchFacet: IResourceSearchFacet = null;
+
+	/* Methods
+	============================================*/
+
+	closeSearchFacetModal() {
+		this.activeSearchFacet = null;
+	}
+
+	deselectAllFacetValues() {
+		this.activeSearchFacet.values.forEach(v => v.isSelected = false);
+	}
+
+	expandSearchFacet(facet) {
+		this.activeSearchFacet = jsonCopy(facet);
+	}
+
+	applySearchFacetValues() {
+		this.facets = this.facets.slice().map(
+			f => this.activeSearchFacet.name === f.name ? this.activeSearchFacet : f
+		);
+		this.closeSearchFacetModal();
+	}
 
 }
 

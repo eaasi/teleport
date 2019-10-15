@@ -1,6 +1,8 @@
 import Alert from './Alert/Alert.vue';
 import AlertCard from './Alert/AlertCard.vue';
 import AttachResourceCard from '@/components/global/AttachResourceCard.vue';
+import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
+import SearchFacetModal from '@/components/resources/search/SearchFacetModal.vue';
 import Autocomplete from './forms/Autocomplete.vue';
 import BaseFormField from './forms/BaseFormField.vue';
 import BigButton from './BigButton.vue';
@@ -67,6 +69,8 @@ export default {
 		Vue.component('HoverMenu', HoverMenu);
 		Vue.component('InfoModal', InfoModal);
 		Vue.component('Loader', Loader);
+		Vue.component('CheckboxFacet', CheckboxFacet);
+		Vue.component('SearchFacetModal', SearchFacetModal);
 		Vue.component('LoaderOverlay', LoaderOverlay);
 		Vue.component('Modal', Modal);
 		Vue.component('NumberedSteps', NumberedSteps);
@@ -126,6 +130,8 @@ export {
 	Row,
 	SearchBar,
 	SectionHeading,
+	CheckboxFacet,
+	SearchFacetModal,
 	SelectableCard,
 	SelectList,
 	SmallBookmark,
