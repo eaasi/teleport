@@ -1,7 +1,8 @@
 <template>
 	<div id="exploreResources">
 		<div class="resource-results">
-			<resource-facets />
+			<resource-facets v-if="bentoResult && bentoResult.facets" />
+			<applied-search-facets v-if="query.selectedFacets.length > 0" />
 			<div class="resource-bento width-md">
 				<div class="row" v-if="bentoResult">
 					<div class="col-md-6">
@@ -39,6 +40,7 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
+import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { IEaasiTab } from 'eaasi-nav';
@@ -49,6 +51,7 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
+		AppliedSearchFacets,
 		ResourceFacets,
 		ResourceList,
 		ResourceSlideMenu
@@ -72,6 +75,7 @@ export default class MyResourcesScreen extends Vue {
 	============================================*/
 
 	menuOpen: boolean = false;
+	showAppliedFacets: boolean = true;
 
 	/* Methods
 	============================================*/
