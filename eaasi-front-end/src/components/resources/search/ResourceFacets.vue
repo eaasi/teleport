@@ -43,7 +43,6 @@ export default class ResourceFacets extends Vue {
 	============================================*/
 
 	closeSearchFacetModal() {
-		console.log('clsoe', this.activeSearchFacet)
 		this.activeSearchFacet = null;
 	}
 
