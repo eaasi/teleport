@@ -1,6 +1,6 @@
 import { make, commit } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
+import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
@@ -14,6 +14,68 @@ class ResourceState {
 	activeResource: IEaasiResource = null;
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
+	facets: IResourceSearchFacet[] = [ // TODO: These should come from ResourceSearchResponse
+		{
+			name: 'Resource Types',
+			values: [
+				{
+					label: 'Environments',
+					total: 75,
+					isSelected: false
+				},
+				{
+					label: 'Software',
+					total: 2,
+					isSelected: false
+				},
+				{
+					label: 'Content Environments',
+					total: 0,
+					isSelected: false
+				},
+				{
+					label: 'Some Type',
+					total: 13,
+					isSelected: false
+				},
+			]
+		},
+		{
+			name: 'Network Status',
+			values: [
+				{
+					label: 'Private',
+					total: 4,
+					isSelected: false
+				},
+				{
+					label: 'Public',
+					total: 0,
+					isSelected: false
+				},
+				{
+					label: 'Remote',
+					total: 73,
+					isSelected: false
+				},
+				{
+					label: 'Some Status',
+					total: 73,
+					isSelected: false
+				}
+			]
+		},
+		{
+			name: 'Source Organization',
+			values: [
+				{
+					label: 'Yale',
+					total: 73,
+					isSelected: false
+				}
+			]
+		}
+	];
 }
 
 const state = new ResourceState();
@@ -37,7 +99,8 @@ const actions = {
 	async searchResources({ state, commit }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;
-		commit('SET_RESULT', result);
+		commit('SET_RESULT', {...result, facets: state.facets}); // TODO: facets should be in the result. Populate with dummy data for now
+		commit('SET_QUERY', {...state.query, selectedFacets: state.facets});
 		return result;
 	}
 };
