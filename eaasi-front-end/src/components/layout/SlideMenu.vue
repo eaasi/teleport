@@ -1,5 +1,10 @@
 <template>
 	<div :class="['slide-menu', {'open': open}]" :style="styles">
+		<div class="slideOutTab">
+			<div>
+				View Actions
+			</div>
+		</div>
 		<slot></slot>
 	</div>
 </template>
@@ -55,15 +60,56 @@ export default class SlideMenu extends Vue {
 .slide-menu {
 	bottom: 0;
 	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
-	overflow-y: auto;
 	position: fixed;
-	right: 0;
+	right: 8px;
 	top: $headerHeight;
 	transform: translate3d($slideMenuWidth + 1rem, 0, 0);
 	width: $slideMenuWidth;
 
 	&.open {
 		transform: translate3d(0, 0, 0);
+	}
+
+	.slideOutTab {
+		background: $dark-blue;
+		border-radius: 15px 0px 0px 15px;
+		color: #FFFFFF;
+		height: 180px;
+		left: -40px;
+		margin-top: 50px;
+		position: absolute;
+		width: 40px;
+	}
+
+	.slideOutTab div {
+		position: relative;
+		right: 70px;
+		text-align: center;
+		top: 80px;
+		transform: rotate(270deg);
+		width: 180px;
+		writing-mode: lr-tb;
+	}
+
+	.thumb-tab {
+		background: #F2AB34;
+		border-radius: 15px 0px 0px 15px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+		height: 200px;
+		left: -40px;
+		margin-top: 50px;
+		position: absolute;
+		width: 40px;
+
+		div {
+			background: #F2AB34;
+			position: relative;
+			right: 70px;
+			text-align: center;
+			top: 90px;
+			width: 180px;
+			writing-mode: lr-tb;
+		}
 	}
 }
 </style>

@@ -192,6 +192,7 @@ export default class ResourceSlideMenu extends Vue {
 <style lang="scss">
 .resource-slide-menu {
 	background-color: lighten($light-neutral, 60%);
+	position: fixed;
 
 	.fa-times {
 		cursor: pointer;
@@ -217,4 +218,5 @@ export default class ResourceSlideMenu extends Vue {
 	border-bottom: solid 4px lighten($light-neutral, 10%);
 	margin-bottom: 3rem;
 }
+
 </style>
