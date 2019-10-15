@@ -69,7 +69,7 @@ export default class AppliedSearchFacets extends Vue {
 	}
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);
-		padding: .5rem 2rem;
+		padding: 0.5rem 2rem;
 	}
 }
 </style>
