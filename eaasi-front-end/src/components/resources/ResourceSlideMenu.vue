@@ -118,11 +118,6 @@ export default class ResourceSlideMenu extends Vue {
 					icon: 'file-alt',
 				},
 				{
-					label: 'Bookmark This Resource',
-					description: 'Add resource to my bookmarks in my resources',
-					icon: 'bookmark',
-				},
-				{
 					label: 'Run in Emulator',
 					description: 'Emulate this resource without changes',
 					icon: 'power-off',
@@ -134,6 +129,11 @@ export default class ResourceSlideMenu extends Vue {
 			label: 'Add to Emulation Project',
 			description: 'Emulate this resource without changes',
 			icon: 'paperclip'
+		},
+		{
+			label: 'Bookmark This Resource',
+			description: 'Add resource to my bookmarks in my resources',
+			icon: 'bookmark',
 		});
 
 		return localActions;

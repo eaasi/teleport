@@ -36,7 +36,8 @@ export default class SortHeader extends Vue {
 	readonly query: IEaasiSearchQuery
 
 	/**
-	 * The optional width percentage of the header item
+	 * The optional width of the header item (px)
+	 * Used to ensure constant width on dynamic change
 	 */
 	@Prop({type: Number, required: false})
 	readonly width: number
