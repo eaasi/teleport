@@ -5,14 +5,14 @@
 			v-for="(f, i) in facets"
 			:key="i"
 			:facet="facets[i]"
-			@expand="expandSearchFacetValues(f)"
+			@expand="expandSearchFacet(f)"
 		/>
 		<search-facet-modal 
 			v-if="activeSearchFacet" 
 			:facet="activeSearchFacet" 
 			@close="closeSearchFacetModal" 
-			@apply-filters="applySearchFacetValues"
-			@clear-filters="unselectFacetValues"
+			@apply="applySearchFacetValues"
+			@deselect="deselectAllFacetValues"
 		/>
 	</div>
 </template>
@@ -23,7 +23,7 @@ import { Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
 import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
 import SearchFacetModal from './SearchFacetModal.vue';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { IResourceSearchFacet, IResourceSearchResponse, IResourceSearchQuery } from '@/types/Search.d.ts';
 import { jsonCopy } from '@/utils/functions';
 
 @Component({
@@ -35,71 +35,15 @@ import { jsonCopy } from '@/utils/functions';
 })
 export default class ResourceFacets extends Vue {
 
+	/* Computed
+	============================================*/
+
+    @Sync('resource/query@selectedFacets')
+	facets: IResourceSearchFacet[]
+
 	/* Data
 	============================================*/
 	activeSearchFacet: IResourceSearchFacet = null;
-	facets = [ // TODO: These should come from ResourceSearchResult
-		{
-			name: 'Resource Types',
-			values: [
-				{
-					label: 'Environments',
-					total: 75,
-					isSelected: false
-				},
-				{
-					label: 'Software',
-					total: 2,
-					isSelected: false
-				},
-				{
-					label: 'Content Environments',
-					total: 0,
-					isSelected: false
-				},
-				{
-					label: 'Some Type',
-					total: 13,
-					isSelected: false
-				},
-			]
-		},
-		{
-			name: 'Network Status',
-			values: [
-				{
-					label: 'Private',
-					total: 4,
-					isSelected: false
-				},
-				{
-					label: 'Public',
-					total: 0,
-					isSelected: false
-				},
-				{
-					label: 'Remote',
-					total: 73,
-					isSelected: false
-				},
-				{
-					label: 'Some Status',
-					total: 73,
-					isSelected: false
-				}
-			]
-		},
-		{
-			name: 'Source Organization',
-			values: [
-				{
-					label: 'Yale',
-					total: 73,
-					isSelected: false
-				}
-			]
-		}
-	];
 
 	/* Methods
 	============================================*/
@@ -108,23 +52,18 @@ export default class ResourceFacets extends Vue {
 		this.activeSearchFacet = null;
 	}
 
-	unselectFacetValues(facet) {
-		this.activeSearchFacet.values.map(v => v.isSelected = false);
+	deselectAllFacetValues() {
+		this.activeSearchFacet.values.forEach(v => v.isSelected = false);
 	}
 
-	expandSearchFacetValues(facet) {
+	expandSearchFacet(facet) {
 		this.activeSearchFacet = jsonCopy(facet);
 	}
 
 	applySearchFacetValues() {
-		const newFacets = this.facets.map(f => {
-			if (this.activeSearchFacet.name === f.name) {
-				return this.activeSearchFacet;
-			} else {
-				return f;
-			}
-		});
-		this.facets = newFacets;
+		this.facets = this.facets.slice().map(
+			f => this.activeSearchFacet.name === f.name ? this.activeSearchFacet : f
+		);
 		this.closeSearchFacetModal();
 	}
 
