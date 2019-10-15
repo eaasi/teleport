@@ -17,6 +17,15 @@ class ResourceService extends BaseHttpService {
 		return res.result;
 	}
 
+	async replicateEnvironment(environmentId: string) {
+		console.log('todo: ResourceService replicateEnvironment');
+		// POST REQUEST PAYLOAD
+		// {replicateList: ["d15443af-a2ac-4695-a5ec-3acb4c4b79d715"], destArchive: "public"}
+		// destArchive: "public"
+		// replicateList: ["d15443af-a2ac-4695-a5ec-3acb4c4b79d715"]
+		// 0: "d15443af-a2ac-4695-a5ec-3acb4c4b79d715"
+	}
+
 }
 
 export default new ResourceService();

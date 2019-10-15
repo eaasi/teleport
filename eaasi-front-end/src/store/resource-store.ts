@@ -97,8 +97,8 @@ const mutations = make.mutations(state);
 
 const actions = {
 
-	async getEnvironment(_store: Store<ResourceState>, envId: string) {
-		return await _svc.getEnvironment(envId);
+	async getEnvironment(_store: Store<ResourceState>, environmentId: string) {
+		return await _svc.getEnvironment(environmentId);
 	},
 
 	async searchResources({ state, commit }: Store<ResourceState>) {
@@ -107,6 +107,10 @@ const actions = {
 		commit('SET_RESULT', {...result, facets: state.facets}); // TODO: facets should be in the result. Populate with dummy data for now
 		commit('SET_QUERY', {...state.query, selectedFacets: state.facets});
 		return result;
+	},
+
+	async replicateEnvironment(environmentId: string) {
+		return await _svc.replicateEnvironment(environmentId);
 	}
 };
 

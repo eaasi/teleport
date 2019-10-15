@@ -7,7 +7,7 @@
 		<div v-if="resources">
 			<div class="rsm-header">
 				<div class="rsm-resource-title flex-row">
-					<span v-if="multipleActiveResources" class="flex-adapt">
+					<span v-if="isMultipleActiveResources" class="flex-adapt">
 						({{ resources.length }}) Resources Selected
 					</span>
 					<span v-else-if="resources.length === 1" class="flex-adapt">
@@ -29,7 +29,7 @@
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
 					<resource-action
-						v-for="action in actionsForSelected"
+						v-for="action in localActionsForSelected"
 						:action="action"
 						:key="action.label"
 						@click="doAction(action)"
@@ -38,10 +38,10 @@
 
 				<div class="rsm-node-actions">
 					<resource-action
-						v-for="action in nodeActions"
+						v-for="action in nodeActionsForSelected"
 						:action="action"
 						:key="action.label"
-						@click="doAction(a)"
+						@click="doAction(action)"
 					/>
 				</div>
 			</div>
@@ -63,7 +63,6 @@ import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
 
 let menuService = new ResourceSlideMenuService();
 
-
 @Component({
 	name: 'ResourceSlideMenu',
 	components: {
@@ -75,147 +74,140 @@ let menuService = new ResourceSlideMenuService();
 export default class ResourceSlideMenu extends Vue {
 
 	/* Props
-	============================================*/
+    ============================================*/
 
-	@Prop({type: Boolean, required: true})
-	readonly open: boolean
+    @Prop({type: Boolean, required: true})
+    readonly open: boolean
 
-	@Prop({type: Array as () => IEaasiResource[]})
-	readonly resources: IEaasiResource[]
+    @Prop({type: Array as () => IEaasiResource[]})
+    readonly resources: IEaasiResource[]
 
-	/* Computed
-	============================================*/
+    /* Computed
+    ============================================*/
 
-	@Get('resource/activeEnvironment')
-	readonly environment: IEnvironment
+    @Get('resource/activeEnvironment')
+    readonly environment: IEnvironment
 
-	@Sync('resource/activeResources')
-	activeResources: IEaasiResource[]
+    @Sync('resource/activeResources')
+    activeResources: IEaasiResource[]
 
-	get singleSelectedResource() {
-		if (this.resources.length === 1) {
-			return this.resources[0];
-		}
-	}
+    get singleSelectedResource() {
+    	if (this.resources.length === 1) {
+    		return this.resources[0];
+    	}
+    }
 
-	/**
-	 * Computes whether or not to show the details tab
-	 */
-	get hasDetails() {
-		// TODO: Logic for showing details tab
-		return true;
-	}
+    /**
+     * Computes whether or not to show the details tab
+     */
+    // TODO: Logic for showing details tab
+    get hasDetails() {
+    	return true;
+    }
 
-	get multipleActiveResources() {
-		return this.resources.length > 1;
-	}
+    get isMultipleActiveResources() {
+    	return this.resources.length > 1;
+    }
+
+    /**
+     * Populates the list of Local Actions in the Sidebar
+     */
+    get localActionsForSelected() {
+    	return menuService.getLocalActions(this.activeResources);
+    }
+
+    /**
+     * Populates the list of Node Actions in the Sidebar
+     */
+    get nodeActionsForSelected() {
+    	return menuService.getNodeActions(this.activeResources);
+    }
+
+    /* Data
+    ============================================*/
+
+    // TODO: Labeled Items should be derived from the resource
+    labeledItems: ILabeledItem[] = [];
 
 
-	get actionsForSelected() {
-		return menuService.getLocalActions(this.activeResources);
-	}
+    tabs: IEaasiTab[] = [
+    	{
+    		label: 'Details'
+    	},
+    	{
+    		label: 'Actions'
+    	}
+    ]
 
-	/* Data
-	============================================*/
+    tab: string = 'Actions'
 
-	// TODO: Labeled Items should be derived from the resource
-	labeledItems: ILabeledItem[] = [];
+    /* Methods
+    ============================================*/
 
-	nodeActions: IAction[] = [
-		{
-			label: 'Save To My Node',
-			description: 'Make this resource available to all users of my node',
-			icon: 'cloud'
-		},
-		{
-			label: 'Publish To Network',
-			description: 'Make this resource available to all users of my node.',
-			icon: 'cloud-upload'
-		},
-		{
-			label: 'Sync Metadata',
-			description: 'Update resource with metadata from WikiData',
-			icon: 'sync'
-		},
-		{
-			label: 'Delete',
-			description: 'Delete this resource',
-			icon: 'trash-alt'
-		}
-	]
+    toggleSlide() {
+    	this.$emit('toggle');
+    }
 
-	tabs: IEaasiTab[] = [
-		{
-			label: 'Details'
-		},
-		{
-			label: 'Actions'
-		}
-	]
+    async initiateReplicateEnvironment() {
+    	await this.$store.dispatch(
+    		'resource/replicateEnvironment',
+    		this.singleSelectedResource.id
+    	);
+    }
 
-	tab: string = 'Actions'
-
-	/* Methods
-	============================================*/
-
-	toggleSlide() {
-		this.$emit('toggle');
-	}
-
-	doAction(action: IAction) {
-		console.log(`Action clicked: ${action.label}`);
-		switch (action.label) {
-
-		case 'Run in Emulator':
-			if (this.environment) {
-				this.$router.push(`/access-interface/${this.environment.envId}`);
-			}
-			break;
-
-		case 'View Details': {
-			this.$router.push({
-				name: 'Resource Detail',
-				params: {resource: JSON.stringify(this.singleSelectedResource)}
-			});
-		}
-			break;
-
-		default:
-			break;
-		}
-	}
+    doAction(action: IAction) {
+    	switch (action.shortName) {
+    	case 'run': {
+    		if (this.environment) {
+    			this.$router.push(`/access-interface/${this.environment.envId}`);
+    		}
+    		break;
+    	}
+    	case 'viewDetails': {
+    		this.$router.push({
+    			name: 'Resource Detail',
+    			params: {resource: JSON.stringify(this.singleSelectedResource)}});
+    	}
+    	break;
+    	case 'save': {
+    		this.$emit('show-replicate-modal');
+    	}
+    		break;
+    	default: break;
+    	}
+    }
 }
 
 </script>
 
 <style lang="scss">
-.resource-slide-menu {
-	background-color: lighten($light-neutral, 60%);
-	position: fixed;
+	.resource-slide-menu {
+		background-color: lighten($light-neutral, 60%);
+		position: fixed;
 
-	.fa-times {
-		cursor: pointer;
+		.fa-times {
+			cursor: pointer;
+		}
 	}
-}
 
-.rsm-header {
-	background-color: #FFFFFF;
-	border-bottom: solid 4px lighten($dark-neutral, 70%);
-}
+	.rsm-header {
+		background-color: #FFFFFF;
+		border-bottom: solid 4px lighten($dark-neutral, 70%);
+	}
 
-.rsm-details {
-	padding: 2.4rem;
-}
+	.rsm-details {
+		padding: 2.4rem;
+	}
 
-.rsm-resource-title {
-	border-top: solid 6px $dark-blue;
-	font-size: 1.7rem;
-	padding: 2rem;
-}
+	.rsm-resource-title {
+		border-top: solid 6px $dark-blue;
+		font-size: 1.7rem;
+		padding: 2rem;
+	}
 
-.rsm-local-actions {
-	border-bottom: solid 4px lighten($light-neutral, 10%);
-	margin-bottom: 3rem;
-}
+	.rsm-local-actions {
+		border-bottom: solid 4px lighten($light-neutral, 10%);
+		margin-bottom: 3rem;
+	}
 
 </style>

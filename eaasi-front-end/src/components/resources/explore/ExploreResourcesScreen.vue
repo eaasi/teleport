@@ -31,7 +31,26 @@
 			:resources="activeResources"
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
+			@show-replicate-modal="showReplicateModal"
 		/>
+		<confirm-modal
+			title="Save To My Node"
+			confirm-label="Save"
+			@click:cancel="isReplicateModalVisible = false"
+			@click:confirm="restart"
+			v-if="isReplicateModalVisible"
+		>
+			<alert type="info">
+				<span class="ers-rep-msg">
+					Replication will copy environment data to local storage.
+					Environments copied from the EaaSI Network cannot be deleted
+					from storage once replicated.
+				</span>
+				<span class="ers-rep-msg">
+					Do you want to replicate this environment from the network?
+				</span>
+			</alert>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -57,89 +76,99 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 export default class MyResourcesScreen extends Vue {
 
 	/* Computed
-	============================================*/
+    ============================================*/
 
-	@Sync('resource/activeResources')
-	activeResources: IEaasiResource[]
+    @Sync('resource/activeResources')
+    activeResources: IEaasiResource[]
 
-	@Sync('resource/query')
-	query: ResourceSearchQuery;
+    @Sync('resource/query')
+    query: ResourceSearchQuery;
 
-	@Get('resource/result')
-	bentoResult: IResourceSearchResponse
+    @Get('resource/result')
+    bentoResult: IResourceSearchResponse
 
-	get hasActiveResources() {
-		return this.activeResources.length > 0;
-	}
+    get hasActiveResources() {
+    	return this.activeResources.length > 0;
+    }
 
-	/* Data
-	============================================*/
+    /* Data
+    ============================================*/
 
-	isMenuOpenRequest: boolean = true;
+    isMenuOpenRequest: boolean = true;
+    isReplicateModalVisible: boolean = false;
 
-	/* Methods
-	============================================*/
+    /* Methods
+    ============================================*/
 
-	toggleSideMenu() {
-		this.isMenuOpenRequest = !this.isMenuOpenRequest;
-	}
+    toggleSideMenu() {
+    	this.isMenuOpenRequest = !this.isMenuOpenRequest;
+    }
 
-	search() {
-		this.$store.dispatch('resource/searchResources');
-	}
+    search() {
+    	this.$store.dispatch('resource/searchResources');
+    }
 
-	/* Lifecycle Hooks
-	============================================*/
+    showReplicateModal() {
+    	console.log('showin modal')
+    	this.isReplicateModalVisible = true;
+    }
 
-	mounted() {
-		let keyword = this.$route.query && this.$route.query.q;
-		this.query.keyword = keyword as string;
-		this.search();
-	}
+    /* Lifecycle Hooks
+    ============================================*/
 
-	destroyed() {
-		this.activeResources = [];
-	}
+    mounted() {
+    	let keyword = this.$route.query && this.$route.query.q;
+    	this.query.keyword = keyword as string;
+    	this.search();
+    }
 
-	@Watch('$route.query')
-	onRouteChanged(newQuery, oldQuery) {
-		console.log(newQuery.q !== oldQuery.q, newQuery.q);
-		if(newQuery.q !== oldQuery.q) {
-			this.query.keyword = newQuery.q as string;
-			this.search();
-		}
-	}
+    destroyed() {
+    	this.activeResources = [];
+    }
+
+    @Watch('$route.query')
+    onRouteChanged(newQuery, oldQuery) {
+    	console.log(newQuery.q !== oldQuery.q, newQuery.q);
+    	if(newQuery.q !== oldQuery.q) {
+    		this.query.keyword = newQuery.q as string;
+    		this.search();
+    	}
+    }
 
 }
 
 </script>
 
 <style lang="scss">
-#exploreResources {
+	#exploreResources {
 
-	h1 {
-		background-color: lighten($light-neutral, 70%);
-		border-top: solid 1px darken($light-neutral, 10%);
-		display: block;
-		font-weight: 300;
-		margin-bottom: 0;
-		padding: 3rem 3rem 1rem;
-	}
-}
-
-.resource-results {
-	min-height: 80vh;
-	position: relative;
-
-	.resource-facets {
-		bottom: 0;
-		position: absolute;
-		top: 0;
+		h1 {
+			background-color: lighten($light-neutral, 70%);
+			border-top: solid 1px darken($light-neutral, 10%);
+			display: block;
+			font-weight: 300;
+			margin-bottom: 0;
+			padding: 3rem 3rem 1rem;
+		}
 	}
 
-	.resource-bento {
-		margin-left: 28rem;
-		padding: 1.5rem;
+	.resource-results {
+		min-height: 80vh;
+		position: relative;
+
+		.resource-facets {
+			bottom: 0;
+			position: absolute;
+			top: 0;
+		}
+
+		.resource-bento {
+			margin-left: 28rem;
+			padding: 1.5rem;
+		}
 	}
-}
+
+	.ers-rep-msg {
+		margin: 1.4rem 0;
+	}
 </style>
