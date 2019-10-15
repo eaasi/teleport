@@ -19,9 +19,9 @@ import {IEaasiResourceSummary, IEnvironment} from '@/types/Resource';
 import { Sync } from 'vuex-pathify';
 
 @Component({
-	name: 'ResourceDetailsSummary',
+	name: 'EnvironmentDetailsSummary',
 })
-export default class ResourceDetailsScreen extends Vue {
+export default class EnvironmentDetailsSummary extends Vue {
 
 	/* Props
 	============================================*/

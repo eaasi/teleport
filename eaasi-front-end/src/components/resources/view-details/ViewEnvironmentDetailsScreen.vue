@@ -1,12 +1,17 @@
 <template>
 	<div id="myResources">
-		<h1>Resource Details</h1>
+		<h1>Environment Details</h1>
+
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
+
 		<mode-toggle-bar v-if="activeTab === 'Metadata'" />
 
 		<div class="vrd-content" v-if="activeTab === 'Metadata'">
-			<tag icon="fa-box" text="Environment" />
-			<resource-details-metadata :resource-detail-summary="resourceData" />
+			<environment-details-metadata :resource-detail-summary="resourceData" />
+		</div>
+
+		<div class="vrd-content" v-if="activeTab === 'History'">
+			<environment-details-history :revisions="environmentRevisions" />
 		</div>
 	</div>
 </template>
@@ -14,24 +19,30 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { Sync } from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
+import {IEnvironment, IEnvironmentRevision} from '@/types/Resource';
 import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
 import ResourceDetails from '@/components/resources/ResourceDetails.vue';
-import ResourceDetailsMetadata from '@/components/resources/view-details/ResourceDetailsMetadata.vue';
-import ResourceDetailsSummary from '@/components/resources/view-details/ResourceDetailsSummary.vue';
-import {Sync} from 'vuex-pathify';
-import {IEnvironment} from '@/types/Resource';
+import EnvironmentDetailsHistory from '@/components/resources/view-details/history/EnvironmentDetailsHistory.vue';
+import EnvironmentDetailsMetadata from '@/components/resources/view-details/metadata/EnvironmentDetailsMetadata.vue';
+import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
+
+function ResourceDetailsSummary() {
+
+}
 
 @Component({
-	name: 'ViewResourceDetailsScreen',
+	name: 'ViewEnvironmentDetailsScreen',
 	components: {
-		ResourceDetailsSummary,
 		ModeToggleBar,
 		ResourceDetails,
-		ResourceDetailsMetadata
+		EnvironmentDetailsSummary,
+		EnvironmentDetailsMetadata,
+		EnvironmentDetailsHistory
 	}
 })
-export default class ViewResourceDetailsScreen extends Vue {
+export default class ViewEnvironmentDetailsScreen extends Vue {
     /* Props
     ============================================*/
     @Prop({ type: String, required: true })
@@ -52,6 +63,10 @@ export default class ViewResourceDetailsScreen extends Vue {
     ============================================*/
     @Sync('resource/activeEnvironment')
     environment: IEnvironment
+
+    get environmentRevisions() : IEnvironmentRevision[] {
+    	return this.environment.revisions;
+    }
 
     /* Methods
     ============================================*/

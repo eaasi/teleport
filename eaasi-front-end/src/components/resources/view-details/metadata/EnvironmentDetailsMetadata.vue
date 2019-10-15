@@ -2,7 +2,7 @@
 	<div class="rdm-container">
 		<div class="row">
 			<div class="col-md-4">
-				<resource-details-summary :summary-data="resourceDetailSummary" />
+				<environment-details-summary :summary-data="resourceDetailSummary" />
 			</div>
 		</div>
 		<div class="row">
@@ -52,20 +52,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Sync} from 'vuex-pathify';
 import {IEaasiResourceSummary, IEnvironment} from '@/types/Resource';
 import {ILabeledItem} from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import ResourceDetailsSummary from './ResourceDetailsSummary.vue';
-import {Sync} from 'vuex-pathify';
+import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
 
 @Component({
-	name: 'ResourceDetailsMetadata',
+	name: 'EnvironmentDetailsMetadata.vue',
 	components: {
 		LabeledItemList,
-		ResourceDetailsSummary
+		EnvironmentDetailsSummary
 	}
 })
-export default class ResourceDetailsMetadata extends Vue {
+export default class EnvironmentDetailsMetadata extends Vue {
 
 	/* Props
 	============================================*/
@@ -179,7 +179,7 @@ export default class ResourceDetailsMetadata extends Vue {
 	.vds-container {
 
 		.vds-description {
-			font-size: 1rem;
+			font-size: 1.6rem;
 		}
 
 		.vds-footer {

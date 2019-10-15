@@ -61,7 +61,6 @@ export default class SortHeader extends Vue {
 		query.sortCol = this.sortCol;
 		this.$emit('sort', query);
 	}
-
 }
 
 </script>
