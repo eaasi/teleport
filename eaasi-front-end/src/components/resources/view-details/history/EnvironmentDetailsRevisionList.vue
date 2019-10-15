@@ -25,7 +25,7 @@
 					>
 						<td>N/A</td>
 						<td>
-							<span :class="[encircled, {activeEncircled: expandedRows.includes(rev.id)}]">&nbsp; 1 &nbsp;</span>
+							<span :class="['encircled', {activeEncircled: expandedRows.includes(rev.id)}]">&nbsp; 1 &nbsp;</span>
 							<div
 								class="edrl-details-content"
 								v-if="expandedRows.includes(rev.id)"
@@ -123,18 +123,10 @@ export default class EnvironmentDetailsRevisionList extends Vue {
 
 	.activeEncircled {
 		background-color: $dark-neutral;
-		border-radius: 50%;
 		color: #FFFFFF;
-		height: 12px;
-		padding: 0.4rem;
-		width: 12px;
 	}
 
 	.edrl-details-content {
 		margin: 2.8rem 0 1rem 0;
-	}
-
-	.isExpanded {
-		background-color: limegreen;
 	}
 </style>
