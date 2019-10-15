@@ -15,6 +15,15 @@
 			/>
 			<span class="facet-total">({{ v.total }})</span>
 		</div>
+		<ui-button 
+			v-if="facet.values.length > maxDisplayLimit" 
+			size="sm" 
+			secondary 
+			style="display: block; margin-top: 1rem;"
+			@click="$emit('expand', facet)" 
+		>
+			See All {{ facet.name }} <i class="fas fa-chevron-right"></i>
+		</ui-button>
 	</search-facet-wrapper>
 </template>
 
@@ -34,6 +43,9 @@ export default class CheckboxFacet extends Vue {
 
 	/* Props
 	============================================*/
+
+	@Prop({type: Number, required: false, default: 3})
+	readonly maxDisplayLimit: Number
 
 	@Prop({type: Object as () => IResourceSearchFacet, required: true})
 	readonly facet: IResourceSearchFacet
