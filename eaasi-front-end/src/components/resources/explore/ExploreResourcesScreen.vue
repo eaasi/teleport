@@ -97,6 +97,10 @@ export default class MyResourcesScreen extends Vue {
 		this.search();
 	}
 
+	destroyed() {
+		this.activeResources = [];
+	}
+
 	@Watch('$route.query')
 	onRouteChanged(newQuery, oldQuery) {
 		console.log(newQuery.q !== oldQuery.q, newQuery.q);

@@ -29,18 +29,18 @@
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
 					<resource-action
-						v-for="a in localActions"
-						:action="a"
-						:key="a.label"
-						@click="doAction(a)"
+						v-for="action in actionsForSelected"
+						:action="action"
+						:key="action.label"
+						@click="doAction(action)"
 					/>
 				</div>
 
 				<div class="rsm-node-actions">
 					<resource-action
-						v-for="a in nodeActions"
-						:action="a"
-						:key="a.label"
+						v-for="action in nodeActions"
+						:action="action"
+						:key="action.label"
 						@click="doAction(a)"
 					/>
 				</div>
@@ -58,7 +58,7 @@ import ResourceAction from './ResourceAction.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import {ILabeledItem} from '@/types/ILabeledItem';
-import { Get } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -85,35 +85,65 @@ export default class ResourceSlideMenu extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment
 
+	@Sync('resource/activeResources')
+	activeResources: IEaasiResource[]
+
+	get singleSelectedResource() {
+		if (this.resources.length === 1) {
+			return this.resources[0];
+		}
+	}
+
+	/**
+	 * Computes whether or not to show the details tab
+	 */
+	get hasDetails() {
+		// TODO: Logic for showing details tab
+		return true;
+	}
+
+	get multipleActiveResources() {
+		return this.resources.length > 1;
+	}
+
+
+	get actionsForSelected() {
+		let localActions = [];
+
+		if (this.activeResources.length === 1) {
+			localActions = localActions.slice().concat([
+				{
+					label: 'View Details',
+					description: 'Review full resource details',
+					icon: 'file-alt',
+				},
+				{
+					label: 'Bookmark This Resource',
+					description: 'Add resource to my bookmarks in my resources',
+					icon: 'bookmark',
+				},
+				{
+					label: 'Run in Emulator',
+					description: 'Emulate this resource without changes',
+					icon: 'power-off',
+				},
+			]);
+		}
+
+		localActions.push({
+			label: 'Add to Emulation Project',
+			description: 'Emulate this resource without changes',
+			icon: 'paperclip'
+		});
+
+		return localActions;
+	}
+
 	/* Data
 	============================================*/
 
 	// TODO: Labeled Items should be derived from the resource
 	labeledItems: ILabeledItem[] = [];
-
-	// TODO: Actions should become dynamic based on resource type and user role
-	localActions: IAction[] = [
-		{
-			label: 'View Details',
-			description: 'Review full resource details',
-			icon: 'file-alt',
-		},
-		{
-			label: 'Bookmark This Resource',
-			description: 'Add resource to my bookmarks in my resources',
-			icon: 'bookmark',
-		},
-		{
-			label: 'Run in Emulator',
-			description: 'Emulate this resource without changes',
-			icon: 'power-off',
-		},
-		{
-			label: 'Add to Emulation Project',
-			description: 'Emulate this resource without changes',
-			icon: 'paperclip'
-		}
-	]
 
 	nodeActions: IAction[] = [
 		{
@@ -149,21 +179,6 @@ export default class ResourceSlideMenu extends Vue {
 
 	tab: string = 'Actions'
 
-	/* Computed
-	============================================*/
-
-	/**
-	 * Computes whether or not to show the details tab
-	 */
-	get hasDetails() {
-		// TODO: Logic for showing details tab
-		return true;
-	}
-
-	get multipleActiveResources() {
-		return this.resources.length > 1;
-	}
-
 	/* Methods
 	============================================*/
 
@@ -184,7 +199,7 @@ export default class ResourceSlideMenu extends Vue {
 		case 'View Details': {
 			this.$router.push({
 				name: 'Resource Detail',
-				params: {resource: JSON.stringify(this.resources)}
+				params: {resource: JSON.stringify(this.singleSelectedResource)}
 			});
 		}
 			break;
