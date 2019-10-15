@@ -111,7 +111,7 @@ export default class ResourceSlideMenu extends Vue {
 		let localActions = [];
 
 		if (this.activeResources.length === 1) {
-			localActions = localActions.slice().concat([
+			localActions.push(
 				{
 					label: 'View Details',
 					description: 'Review full resource details',
@@ -122,7 +122,7 @@ export default class ResourceSlideMenu extends Vue {
 					description: 'Emulate this resource without changes',
 					icon: 'power-off',
 				},
-			]);
+			);
 		}
 
 		localActions.push({
