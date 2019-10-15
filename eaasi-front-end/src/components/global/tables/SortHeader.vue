@@ -1,5 +1,5 @@
 <template>
-	<th :class="['sort-header', {sorted}]" @click="sort">
+	<th :class="['sort-header', { sorted }]" :style="{width: thWidth}" @click="sort">
 		<slot></slot>
 		<span class="sh-arrow">
 			<i :class="`fas fa-fw fa-${icon}`"></i>
@@ -35,6 +35,12 @@ export default class SortHeader extends Vue {
 	@Prop({type: Object, required: true})
 	readonly query: IEaasiSearchQuery
 
+	/**
+	 * The optional width percentage of the header item
+	 */
+	@Prop({type: Number, required: false})
+	readonly width: number
+
 	/* Computed
 	============================================*/
 
@@ -45,6 +51,12 @@ export default class SortHeader extends Vue {
 
 	get sorted() {
 		return this.sortCol === this.query.sortCol;
+	}
+
+	get thWidth() {
+		if (this.width!== undefined) {
+			return this.width + 'px';
+		}
 	}
 
 	/* Methods
