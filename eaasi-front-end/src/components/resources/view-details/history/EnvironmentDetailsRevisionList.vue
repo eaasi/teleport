@@ -68,7 +68,7 @@ export default class EnvironmentDetailsRevisionList extends Vue {
 
     /* Props
     ============================================*/
-    @Prop({ required: true, type: () => [] as IEnvironmentRevision[] })
+    @Prop({ required: true, type: Array })
     revisions?: IEnvironmentRevision[];
 
     query: IEaasiSearchQuery = {descending: false, keyword: '', limit: 0, page: 0, sortCol: 'date'};
