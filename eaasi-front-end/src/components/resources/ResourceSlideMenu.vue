@@ -52,13 +52,17 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { Get, Sync } from 'vuex-pathify';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { ILabeledItem } from '@/types/ILabeledItem';
 import ResourceAction from './ResourceAction.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import {ILabeledItem} from '@/types/ILabeledItem';
-import {Get, Sync} from 'vuex-pathify';
+import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
+
+let menuService = new ResourceSlideMenuService();
+
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -108,35 +112,7 @@ export default class ResourceSlideMenu extends Vue {
 
 
 	get actionsForSelected() {
-		let localActions = [];
-
-		if (this.activeResources.length === 1) {
-			localActions = localActions.slice().concat([
-				{
-					label: 'View Details',
-					description: 'Review full resource details',
-					icon: 'file-alt',
-				},
-				{
-					label: 'Run in Emulator',
-					description: 'Emulate this resource without changes',
-					icon: 'power-off',
-				},
-			]);
-		}
-
-		localActions.push({
-			label: 'Add to Emulation Project',
-			description: 'Emulate this resource without changes',
-			icon: 'paperclip'
-		},
-		{
-			label: 'Bookmark This Resource',
-			description: 'Add resource to my bookmarks in my resources',
-			icon: 'bookmark',
-		});
-
-		return localActions;
+		return menuService.getLocalActions(this.activeResources);
 	}
 
 	/* Data
