@@ -21,6 +21,6 @@ describe('UiChip.vue', () => {
 			}
 		});
 		expect(wrapper.find('.fa-times').exists()).toBeTruthy();
-    });
+	});
     
 });

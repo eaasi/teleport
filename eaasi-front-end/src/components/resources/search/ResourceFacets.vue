@@ -53,8 +53,8 @@ export default class ResourceFacets extends Vue {
 	}
 
 	deselectAllFacetValues() {
-        this.activeSearchFacet.values.forEach(v => v.isSelected = false);
-    }
+		this.activeSearchFacet.values.forEach(v => v.isSelected = false);
+	}
 
 	expandSearchFacet(facet) {
 		this.activeSearchFacet = jsonCopy(facet);
