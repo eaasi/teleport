@@ -1,7 +1,7 @@
 <template>
 	<div :class="['slide-menu', {'open': open}]" :style="styles">
-		<div class="slideOutTab">
-			<div>
+		<div class="slide-out-tab">
+			<div @click="toggleOpen">
 				View Actions
 			</div>
 		</div>
@@ -52,6 +52,11 @@ export default class SlideMenu extends Vue {
 		};
 	}
 
+	/* Methods
+	============================================*/
+	toggleOpen() {
+		this.$emit('toggle');
+	}
 }
 
 </script>
@@ -70,7 +75,7 @@ export default class SlideMenu extends Vue {
 		transform: translate3d(0, 0, 0);
 	}
 
-	.slideOutTab {
+	.slide-out-tab {
 		background: $dark-blue;
 		border-radius: 15px 0px 0px 15px;
 		color: #FFFFFF;
@@ -81,7 +86,7 @@ export default class SlideMenu extends Vue {
 		width: 40px;
 	}
 
-	.slideOutTab div {
+	.slide-out-tab div {
 		position: relative;
 		right: 70px;
 		text-align: center;
@@ -91,25 +96,8 @@ export default class SlideMenu extends Vue {
 		writing-mode: lr-tb;
 	}
 
-	.thumb-tab {
-		background: #F2AB34;
-		border-radius: 15px 0px 0px 15px;
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-		height: 200px;
-		left: -40px;
-		margin-top: 50px;
-		position: absolute;
-		width: 40px;
-
-		div {
-			background: #F2AB34;
-			position: relative;
-			right: 70px;
-			text-align: center;
-			top: 90px;
-			width: 180px;
-			writing-mode: lr-tb;
-		}
+	.visible {
+		visibility: hidden;
 	}
 }
 </style>

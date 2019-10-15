@@ -1,12 +1,16 @@
 <template>
-	<slide-menu class="resource-slide-menu" :open="open">
+	<slide-menu
+		class="resource-slide-menu"
+		:open="open"
+		@toggle="toggleSlide"
+	>
 		<div v-if="resources">
 			<div class="rsm-header">
 				<div class="rsm-resource-title flex-row">
 					<span v-if="multipleActiveResources" class="flex-adapt">
 						({{ resources.length }}) Resources Selected
 					</span>
-					<span v-else-if="resources.length === 1">
+					<span v-else-if="resources.length === 1" class="flex-adapt">
 						{{ resources[0].title }}
 					</span>
 					<i class="fas fa-times" @click="$emit('close')"></i>
@@ -162,6 +166,10 @@ export default class ResourceSlideMenu extends Vue {
 
 	/* Methods
 	============================================*/
+
+	toggleSlide() {
+		this.$emit('toggle')
+	}
 
 	doAction(action: IAction) {
 		console.log(`Action clicked: ${action.label}`);

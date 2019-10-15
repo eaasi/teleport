@@ -27,8 +27,10 @@
 			</div>
 		</div>
 		<resource-slide-menu
-			:open="hasActiveResources"
+			:open="hasActiveResources && isMenuOpenRequest"
 			:resources="activeResources"
+			:is-tab-visible="hasActiveResources"
+			@toggle="toggleSideMenu"
 		/>
 	</div>
 </template>
@@ -73,10 +75,14 @@ export default class MyResourcesScreen extends Vue {
 	/* Data
 	============================================*/
 
-	menuOpen: boolean = false;
+	isMenuOpenRequest: boolean = true;
 
 	/* Methods
 	============================================*/
+
+	toggleSideMenu() {
+		this.isMenuOpenRequest = !this.isMenuOpenRequest;
+	}
 
 	search() {
 		this.$store.dispatch('resource/searchResources');
