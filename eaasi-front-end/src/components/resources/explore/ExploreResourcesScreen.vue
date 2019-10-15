@@ -1,7 +1,7 @@
 <template>
 	<div id="exploreResources">
 		<div class="resource-results">
-			<resource-facets />
+			<resource-facets v-if="query.selectedFacets" />
 			<div class="resource-bento width-md">
 				<div class="row" v-if="bentoResult">
 					<div class="col-md-6">
