@@ -16,7 +16,7 @@
 			<span class="facet-total">({{ v.total }})</span>
 		</div>
 		<ui-button 
-			v-if="facet.values.length > 3" 
+			v-if="facet.values.length > maxDisplayLimit" 
 			size="sm" 
 			secondary 
 			style="display: block; margin-top: 1rem;"
@@ -43,6 +43,9 @@ export default class CheckboxFacet extends Vue {
 
 	/* Props
 	============================================*/
+
+	@Prop({type: Number, required: false, default: 3})
+	readonly maxDisplayLimit: Number
 
 	@Prop({type: Object as () => IResourceSearchFacet, required: true})
 	readonly facet: IResourceSearchFacet
