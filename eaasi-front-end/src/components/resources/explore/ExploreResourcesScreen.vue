@@ -27,23 +27,21 @@
 			</div>
 		</div>
 		<resource-slide-menu
-			:open="!!activeResource"
-			:resource="activeResource"
-			@close="activeResource = null"
+			:open="hasActiveResources"
+			:resources="activeResources"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
+import { IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -59,14 +57,18 @@ export default class MyResourcesScreen extends Vue {
 	/* Computed
 	============================================*/
 
-	@Sync('resource/activeResource')
-	activeResource: IEaasiResource
+	@Sync('resource/activeResources')
+	activeResources: IEaasiResource[]
 
 	@Sync('resource/query')
 	query: ResourceSearchQuery;
 
 	@Get('resource/result')
 	bentoResult: IResourceSearchResponse
+
+	get hasActiveResources() {
+		return this.activeResources.length > 0;
+	}
 
 	/* Data
 	============================================*/

@@ -11,7 +11,12 @@ import { Store } from 'vuex';
 
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
-	activeResource: IEaasiResource = null;
+
+	/**
+	 * Active Resources are Selected in Explore Resources / My Resources Screen
+	 */
+	activeResources: IEaasiResource[] = [];
+
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
 }

@@ -1,9 +1,14 @@
 <template>
 	<slide-menu class="resource-slide-menu" :open="open">
-		<div v-if="resource">
+		<div v-if="resources">
 			<div class="rsm-header">
 				<div class="rsm-resource-title flex-row">
-					<span class="flex-adapt">{{ resource.title }}</span>
+					<span v-if="multipleActiveResources" class="flex-adapt">
+						({{ resources.length }}) Resources Selected
+					</span>
+					<span v-else-if="resources.length === 1">
+						{{ resources[0].title }}
+					</span>
 					<i class="fas fa-times" @click="$emit('close')"></i>
 				</div>
 				<tabbed-nav
@@ -67,8 +72,8 @@ export default class ResourceSlideMenu extends Vue {
 	@Prop({type: Boolean, required: true})
 	readonly open: boolean
 
-	@Prop({type: Object as () => IEaasiResource})
-	readonly resource: IEaasiResource
+	@Prop({type: Array as () => IEaasiResource[]})
+	readonly resources: IEaasiResource[]
 
 	/* Computed
 	============================================*/
@@ -151,6 +156,10 @@ export default class ResourceSlideMenu extends Vue {
 		return true;
 	}
 
+	get multipleActiveResources() {
+		return this.resources.length > 1;
+	}
+
 	/* Methods
 	============================================*/
 
@@ -158,7 +167,7 @@ export default class ResourceSlideMenu extends Vue {
 		console.log(`Action clicked: ${action.label}`);
 		switch (action.label) {
 
-		case 'Run in Emulator': // TODO
+		case 'Run in Emulator':
 			if (this.environment) {
 				this.$router.push(`/access-interface/${this.environment.envId}`);
 			}
@@ -167,7 +176,7 @@ export default class ResourceSlideMenu extends Vue {
 		case 'View Details': {
 			this.$router.push({
 				name: 'Resource Detail',
-				params: {resource: JSON.stringify(this.resource)}
+				params: {resource: JSON.stringify(this.resources)}
 			});
 		}
 			break;
