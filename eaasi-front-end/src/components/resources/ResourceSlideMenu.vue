@@ -168,7 +168,7 @@ export default class ResourceSlideMenu extends Vue {
 	============================================*/
 
 	toggleSlide() {
-		this.$emit('toggle')
+		this.$emit('toggle');
 	}
 
 	doAction(action: IAction) {
