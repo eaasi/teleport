@@ -46,6 +46,4 @@ export default class EnvironmentDetailsHistory extends Vue {
 </script>
 
 <style lang="scss">
-	.edHistory {
-	}
 </style>
