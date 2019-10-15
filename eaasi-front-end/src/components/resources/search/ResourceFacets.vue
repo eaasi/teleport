@@ -21,21 +21,15 @@
 import Vue from 'vue';
 import { Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
-import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
-import SearchFacetModal from './SearchFacetModal.vue';
 import { IResourceSearchFacet, IResourceSearchResponse, IResourceSearchQuery } from '@/types/Search.d.ts';
 import { jsonCopy } from '@/utils/functions';
 
 @Component({
-	name: 'ResourceFacets',
-	components: {
-		CheckboxFacet,
-		SearchFacetModal
-	}
+	name: 'ResourceFacets'
 })
 export default class ResourceFacets extends Vue {
 
-	/* Computed\
+	/* Computed
 	============================================*/
 
     @Sync('resource/query@selectedFacets')
