@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<div class="clear-btn-wrapper">
-			<ui-button @click="$emit('clear-filters', facet)" secondary>
+			<ui-button @click="$emit('deselect', facet)" secondary>
 				Clear ALL Filters
 			</ui-button>
 		</div>
@@ -37,7 +37,7 @@
 					<ui-button @click="$emit('close')" secondary>
 						Cancel
 					</ui-button>
-					<ui-button @click="$emit('apply-filters')">
+					<ui-button @click="$emit('apply')">
 						Apply Changes
 					</ui-button>
 				</div>
@@ -82,7 +82,6 @@ export default class SearchFacetModal extends Vue {
     	const attributes: IResourceSearchFacetAttribute[] = attributeLabels.map(attLabel => {
     		let facetValues: IResourceSearchFacetValue[] = [];
     		this.facet.values.forEach(facetValue => {
-    			console.log(facetValue.label.charAt(0).toLowerCase() === attLabel);
     			if(facetValue.label.charAt(0).toLowerCase() === attLabel) {
     				facetValues.push(facetValue);
     			}
