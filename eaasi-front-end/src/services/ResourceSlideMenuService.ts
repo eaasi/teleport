@@ -5,8 +5,16 @@ export default class ResourceSlideMenuService {
 	getLocalActions(activeResources: IEaasiResource[]) {
 		let localActions = [];
 
+		// If only one resource is selected
 		if (activeResources.length === 1) {
-			localActions.push(this.VIEW_DETAILS, this.RUN_IN_EMULATOR);
+
+			// Show the View Details option
+			localActions.push(this.VIEW_DETAILS);
+
+			// If the resource is Saved, Show the option to Run in Emulator
+			if (activeResources[0].archive === 'public') {
+				localActions.push(this.RUN_IN_EMULATOR);
+			}
 		}
 
 		localActions.push(this.BOOKMARK_RESOURCE, this.ADD_TO_EMULATION_PROJECT);
@@ -15,12 +23,19 @@ export default class ResourceSlideMenuService {
 	}
 
 	getNodeActions(activeResources: IEaasiResource[]) {
-		return [
-			this.SAVE_TO_MY_NODE,
-			this.PUBLISH_TO_NETWORK,
-			this.SYNC_METADATA,
-			this.DELETE_RESOURCE
-		];
+		let nodeActions = [];
+
+		// If only one resource is selected
+		if (activeResources.length === 1) {
+			// If the resource is Saved, Show the option to Run in Emulator
+			if (activeResources[0].archive !== 'public') {
+				nodeActions.push(this.SAVE_TO_MY_NODE);
+			}
+		}
+
+		nodeActions.push(this.PUBLISH_TO_NETWORK, this.SYNC_METADATA, this.DELETE_RESOURCE);
+
+		return nodeActions;
 	}
 
 	// Local Actions

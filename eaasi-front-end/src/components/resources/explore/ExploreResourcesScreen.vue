@@ -109,7 +109,7 @@ export default class MyResourcesScreen extends Vue {
     }
 
     showReplicateModal() {
-    	console.log('showin modal')
+    	console.log('showin modal');
     	this.isReplicateModalVisible = true;
     }
 
