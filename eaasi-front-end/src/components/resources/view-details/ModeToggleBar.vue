@@ -1,23 +1,30 @@
 <template>
 	<div class="mtb-container">
-		<toggle-pill @check="toggleSelect" />
-		<div class="mtb-mode">
-			{{ toggleMode }}
-		</div>
+		<dual-toggle
+			:options="['Review', 'Edit']"
+			:value="value"
+			@input="changeValue"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import TogglePill from '@/components/global/TogglePill.vue';
+import DualToggle from '@/components/global/DualToggle.vue';
 
 @Component({
 	name: 'ModeToggleBar',
-	components: {TogglePill}
+	components: { DualToggle }
 })
 export default class ModeToggleBar extends Vue {
 	toggleMode: string = 'Review Mode'
+
+	value: string | null = 'Review';
+
+	changeValue(newValue) {
+		this.value = newValue;
+	}
 
 	toggleSelect(e) {
 		if (e) {

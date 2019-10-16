@@ -1,9 +1,18 @@
 <template>
-	<slide-menu class="resource-slide-menu" :open="open">
-		<div v-if="resource">
+	<slide-menu
+		class="resource-slide-menu"
+		:open="open"
+		@toggle="toggleSlide"
+	>
+		<div v-if="resources">
 			<div class="rsm-header">
 				<div class="rsm-resource-title flex-row">
-					<span class="flex-adapt">{{ resource.title }}</span>
+					<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
+						({{ resources.length }}) Resources Selected
+					</span>
+					<span v-else-if="resources.length === 1" class="flex-adapt">
+						{{ resources[0].title }}
+					</span>
 					<i class="fas fa-times" @click="$emit('close')"></i>
 				</div>
 				<tabbed-nav
@@ -20,18 +29,18 @@
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
 					<resource-action
-						v-for="a in localActions"
-						:action="a"
-						:key="a.label"
-						@click="doAction(a)"
+						v-for="action in actionsForSelected"
+						:action="action"
+						:key="action.label"
+						@click="doAction(action)"
 					/>
 				</div>
 
 				<div class="rsm-node-actions">
 					<resource-action
-						v-for="a in nodeActions"
-						:action="a"
-						:key="a.label"
+						v-for="action in nodeActions"
+						:action="action"
+						:key="action.label"
 						@click="doAction(a)"
 					/>
 				</div>
@@ -49,7 +58,7 @@ import ResourceAction from './ResourceAction.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import {ILabeledItem} from '@/types/ILabeledItem';
-import { Get } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -67,8 +76,8 @@ export default class ResourceSlideMenu extends Vue {
 	@Prop({type: Boolean, required: true})
 	readonly open: boolean
 
-	@Prop({type: Object as () => IEaasiResource})
-	readonly resource: IEaasiResource
+	@Prop({type: Array as () => IEaasiResource[]})
+	readonly resources: IEaasiResource[]
 
 	/* Computed
 	============================================*/
@@ -76,35 +85,65 @@ export default class ResourceSlideMenu extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment
 
-	/* Data
-	============================================*/
+	@Sync('resource/activeResources')
+	activeResources: IEaasiResource[]
 
-	// TODO: Labeled Items should be derived from the resource
-	labeledItems: ILabeledItem[] = [];
+	get onlySelectedResource() : IEaasiResource {
+		if (this.resources.length === 1) {
+			return this.resources[0];
+		}
+	}
 
-	// TODO: Actions should become dynamic based on resource type and user role
-	localActions: IAction[] = [
-		{
-			label: 'View Details',
-			description: 'Review full resource details',
-			icon: 'file-alt',
+	/**
+	 * Computes whether or not to show the details tab
+	 */
+	get hasDetails() {
+		// TODO: Logic for showing details tab
+		return true;
+	}
+
+	get areMultipleActiveResourcesSelected() : boolean {
+		return this.resources.length > 1;
+	}
+
+
+	get actionsForSelected() {
+		let localActions = [];
+
+		if (this.activeResources.length === 1) {
+			localActions.push(
+				{
+					label: 'View Details',
+					description: 'Review full resource details',
+					icon: 'file-alt',
+				},
+				{
+					label: 'Run in Emulator',
+					description: 'Emulate this resource without changes',
+					icon: 'power-off',
+				},
+			);
+		}
+
+		localActions.push({
+			label: 'Add to Emulation Project',
+			description: 'Emulate this resource without changes',
+			icon: 'paperclip'
 		},
 		{
 			label: 'Bookmark This Resource',
 			description: 'Add resource to my bookmarks in my resources',
 			icon: 'bookmark',
-		},
-		{
-			label: 'Run in Emulator',
-			description: 'Emulate this resource without changes',
-			icon: 'power-off',
-		},
-		{
-			label: 'Add to Emulation Project',
-			description: 'Emulate this resource without changes',
-			icon: 'paperclip'
-		}
-	]
+		});
+
+		return localActions;
+	}
+
+	/* Data
+	============================================*/
+
+	// TODO: Labeled Items should be derived from the resource
+	labeledItems: ILabeledItem[] = [];
 
 	nodeActions: IAction[] = [
 		{
@@ -140,25 +179,18 @@ export default class ResourceSlideMenu extends Vue {
 
 	tab: string = 'Actions'
 
-	/* Computed
-	============================================*/
-
-	/**
-	 * Computes whether or not to show the details tab
-	 */
-	get hasDetails() {
-		// TODO: Logic for showing details tab
-		return true;
-	}
-
 	/* Methods
 	============================================*/
+
+	toggleSlide() {
+		this.$emit('toggle');
+	}
 
 	doAction(action: IAction) {
 		console.log(`Action clicked: ${action.label}`);
 		switch (action.label) {
 
-		case 'Run in Emulator': // TODO
+		case 'Run in Emulator':
 			if (this.environment) {
 				this.$router.push(`/access-interface/${this.environment.envId}`);
 			}
@@ -167,7 +199,7 @@ export default class ResourceSlideMenu extends Vue {
 		case 'View Details': {
 			this.$router.push({
 				name: 'Resource Detail',
-				params: {resource: JSON.stringify(this.resource)}
+				params: {resource: JSON.stringify(this.onlySelectedResource)}
 			});
 		}
 			break;
@@ -183,6 +215,7 @@ export default class ResourceSlideMenu extends Vue {
 <style lang="scss">
 .resource-slide-menu {
 	background-color: lighten($light-neutral, 60%);
+	position: fixed;
 
 	.fa-times {
 		cursor: pointer;
@@ -208,4 +241,5 @@ export default class ResourceSlideMenu extends Vue {
 	border-bottom: solid 4px lighten($light-neutral, 10%);
 	margin-bottom: 3rem;
 }
+
 </style>

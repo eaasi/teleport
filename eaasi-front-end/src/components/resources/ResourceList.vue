@@ -53,8 +53,8 @@ export default class ResourceList extends Vue {
 	/* Computed
 	============================================*/
 
-	@Sync('resource/activeResource')
-	activeResource: IEaasiResource
+	@Sync('resource/activeResources')
+	activeResources: IEaasiResource[]
 
 	/* Methods
 	============================================*/
@@ -64,8 +64,13 @@ export default class ResourceList extends Vue {
 	}
 
 	setActiveResource(resource: IEaasiResource, isActive: boolean) {
-		if(!isActive) this.activeResource = null;
-		else this.activeResource = resource;
+		if (!isActive) this._removeFromActiveResources(resource);
+		else this.activeResources.push(resource);
+	}
+
+	_removeFromActiveResources(resource: IEaasiResource) {
+		let index = this.activeResources.findIndex(o => o.id === resource.id);
+		if (index !== -1) this.activeResources.splice(index, 1);
 	}
 
 }
