@@ -7,7 +7,7 @@
 		<div v-if="resources">
 			<div class="rsm-header">
 				<div class="rsm-resource-title flex-row">
-					<span v-if="multipleActiveResources" class="flex-adapt">
+					<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
 						({{ resources.length }}) Resources Selected
 					</span>
 					<span v-else-if="resources.length === 1" class="flex-adapt">
@@ -88,7 +88,7 @@ export default class ResourceSlideMenu extends Vue {
 	@Sync('resource/activeResources')
 	activeResources: IEaasiResource[]
 
-	get singleSelectedResource() {
+	get onlySelectedResource() : IEaasiResource {
 		if (this.resources.length === 1) {
 			return this.resources[0];
 		}
@@ -102,7 +102,7 @@ export default class ResourceSlideMenu extends Vue {
 		return true;
 	}
 
-	get multipleActiveResources() {
+	get areMultipleActiveResourcesSelected() : boolean {
 		return this.resources.length > 1;
 	}
 
@@ -199,7 +199,7 @@ export default class ResourceSlideMenu extends Vue {
 		case 'View Details': {
 			this.$router.push({
 				name: 'Resource Detail',
-				params: {resource: JSON.stringify(this.singleSelectedResource)}
+				params: {resource: JSON.stringify(this.onlySelectedResource)}
 			});
 		}
 			break;
