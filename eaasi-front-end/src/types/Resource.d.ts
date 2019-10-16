@@ -97,6 +97,9 @@ export interface IEnvironment extends IEaasiResource {
 	permissions: IEaasPermissions;
 	timestamp: Date;
 	networking: any;
+	containerName?: string;
+	containerVersion?: string;
+	drives: IDrive[];
 }
 
 export interface IEaasPermissions {
@@ -107,6 +110,17 @@ export interface IEnvironmentRevision {
 	id: string;
 	text: string;
 	archive: string;
+}
+
+export interface IDrive {
+	data: string;
+	iface: string;
+	filesystem: string;
+	bus: string;
+	unit: string;
+	type: string;
+	boot: boolean;
+	plugged: boolean;
 }
 
 /*============================================================
