@@ -22,6 +22,16 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	async saveEnvironment(req: Request, res: Response) {
+		try {
+			let environmentId = req.body.id;
+			let result = await this._svc.saveEnvironment(environmentId);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
 	async getSoftwarePackageDescription(req: Request, res: Response) {
 		try {
 			let id = req.query.id;

@@ -115,7 +115,7 @@ const actions = {
 	 * @param environment: instance that satisfies IEnvironment
 	 */
 	async saveEnvironment(_store: Store<ResourceState>, environment: IEnvironment) {
-		return await _svc.replicateEnvironment(environment.envId);
+		return await _svc.saveEnvironment(environment.envId);
 	}
 };
 

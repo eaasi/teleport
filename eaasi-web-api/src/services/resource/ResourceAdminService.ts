@@ -1,4 +1,5 @@
 import {ResourceSearchResponse} from '@/models/resource/ResourceSearchResponse';
+import SaveEnvironmentRequest from "@/models/resource/SaveEnvironmentRequest";
 import {EaasiSearchQuery} from '@/models/search/EaasiSearchQuery.';
 import {IEnvironment} from '@/types/emil/EmilEnvironmentData';
 import {ISoftwarePackageDescription, ISoftwarePackageDescriptionsList} from '@/types/emil/EmilSoftwareData';
@@ -7,7 +8,7 @@ import {
 	IEaasiSearchQuery,
 	IEaasiSearchResponse,
 	IResourceSearchQuery,
-	IResourceSearchResponse
+	IResourceSearchResponse, ISaveEnvironmentResponse
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
@@ -45,6 +46,18 @@ export default class ResourceAdminService extends BaseService {
 	async getEnvironment(id: string): Promise<IEnvironment> {
 		let res = await this._emilEnvSvc.get(id);
 		return await res.json() as IEnvironment;
+	}
+
+	/**
+	 * Save / Replicate an Environment to local storage
+	 * @param id: environmentId
+	 */
+	async saveEnvironment(id: string): Promise<ISaveEnvironmentResponse | null> {
+	    // The endpoint currently takes a POST request payload containing a list of ids and a source destination.
+		// 'public' source destination makes the environment available locally.
+		let saveEnvironmentRequest = new SaveEnvironmentRequest([id], 'public')
+		let response = await this._emilEnvSvc.post('/EmilEnvironmentData/replicateImage', saveEnvironmentRequest)
+		return response.json()
 	}
 
 	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {

@@ -1,7 +1,7 @@
 /**
  * Encapsulates a request to replicate / save an Environment
  */
-class ReplicateImageRequest {
+export default class SaveEnvironmentRequest {
 	/**
 	 * Destination archive
 	 */
@@ -29,3 +29,4 @@ class ReplicateImageRequest {
 		this.destArchive = destArchive;
 	}
 }
+

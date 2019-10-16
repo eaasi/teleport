@@ -7,5 +7,6 @@ const controller = new ResourceController();
 router.post('/search', (req, res) => controller.search(req, res));
 router.get('/environment', (req, res) => controller.getEnvironment(req, res));
 router.get('/software', (req, res) => controller.getSoftwarePackageDescription(req, res));
+router.get('/save', (req, res) => controller.saveEnvironment(req, res));
 
 module.exports = router;
