@@ -7,7 +7,7 @@
 		<div v-if="resources">
 			<div class="rsm-header">
 				<div class="rsm-resource-title flex-row">
-					<span v-if="isMultipleActiveResources" class="flex-adapt">
+					<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
 						({{ resources.length }}) Resources Selected
 					</span>
 					<span v-else-if="resources.length === 1" class="flex-adapt">
@@ -91,7 +91,7 @@ export default class ResourceSlideMenu extends Vue {
     @Sync('resource/activeResources')
     activeResources: IEaasiResource[]
 
-    get singleSelectedResource() {
+    get onlySelectedResource() : IEaasiResource {
     	if (this.resources.length === 1) {
     		return this.resources[0];
     	}
@@ -105,7 +105,7 @@ export default class ResourceSlideMenu extends Vue {
     	return true;
     }
 
-    get isMultipleActiveResources() {
+    get areMultipleActiveResourcesSelected() : boolean {
     	return this.resources.length > 1;
     }
 
@@ -181,33 +181,33 @@ export default class ResourceSlideMenu extends Vue {
 </script>
 
 <style lang="scss">
-	.resource-slide-menu {
-		background-color: lighten($light-neutral, 60%);
-		position: fixed;
+.resource-slide-menu {
+	background-color: lighten($light-neutral, 60%);
+	position: fixed;
 
-		.fa-times {
-			cursor: pointer;
-		}
+	.fa-times {
+		cursor: pointer;
 	}
+}
 
-	.rsm-header {
-		background-color: #FFFFFF;
-		border-bottom: solid 4px lighten($dark-neutral, 70%);
-	}
+.rsm-header {
+	background-color: #FFFFFF;
+	border-bottom: solid 4px lighten($dark-neutral, 70%);
+}
 
-	.rsm-details {
-		padding: 2.4rem;
-	}
+.rsm-details {
+	padding: 2.4rem;
+}
 
-	.rsm-resource-title {
-		border-top: solid 6px $dark-blue;
-		font-size: 1.7rem;
-		padding: 2rem;
-	}
+.rsm-resource-title {
+	border-top: solid 6px $dark-blue;
+	font-size: 1.7rem;
+	padding: 2rem;
+}
 
-	.rsm-local-actions {
-		border-bottom: solid 4px lighten($light-neutral, 10%);
-		margin-bottom: 3rem;
-	}
+.rsm-local-actions {
+	border-bottom: solid 4px lighten($light-neutral, 10%);
+	margin-bottom: 3rem;
+}
 
 </style>

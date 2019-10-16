@@ -28,9 +28,6 @@ import EnvironmentDetailsHistory from '@/components/resources/view-details/histo
 import EnvironmentDetailsMetadata from '@/components/resources/view-details/metadata/EnvironmentDetailsMetadata.vue';
 import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
 
-function ResourceDetailsSummary() {
-
-}
 
 @Component({
 	name: 'ViewEnvironmentDetailsScreen',
