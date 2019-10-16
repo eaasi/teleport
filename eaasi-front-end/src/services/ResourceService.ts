@@ -18,12 +18,15 @@ class ResourceService extends BaseHttpService {
 	}
 
 	async replicateEnvironment(environmentId: string) {
-		console.log('todo: ResourceService replicateEnvironment');
-		// POST REQUEST PAYLOAD
-		// {replicateList: ["d15443af-a2ac-4695-a5ec-3acb4c4b79d715"], destArchive: "public"}
-		// destArchive: "public"
-		// replicateList: ["d15443af-a2ac-4695-a5ec-3acb4c4b79d715"]
-		// 0: "d15443af-a2ac-4695-a5ec-3acb4c4b79d715"
+
+		let replicateEnvPayload : IReplicateImageRequest = {
+			replicateList: [environmentId],
+			destArchive: 'public'
+		};
+
+		let res = await this.post<any>('/replicateImage', replicateEnvPayload);
+
+		console.log('GOT REST in replicateEnvironment:', res);
 	}
 
 }

@@ -109,8 +109,13 @@ const actions = {
 		return result;
 	},
 
-	async saveEnvironment(environmentId: string) {
-		return await _svc.replicateEnvironment(environmentId);
+	/**
+	 * Triggers request to save an Environment to local storage
+	 * @param _store Store<ResourceState>
+	 * @param environment: instance that satisfies IEnvironment
+	 */
+	async saveEnvironment(_store: Store<ResourceState>, environment: IEnvironment) {
+		return await _svc.replicateEnvironment(environment.envId);
 	}
 };
 

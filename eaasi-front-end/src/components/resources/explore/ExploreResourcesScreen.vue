@@ -33,6 +33,8 @@
 			@toggle="toggleSideMenu"
 			@show-replicate-modal="showReplicateModal"
 		/>
+
+		<!-- Save To My Node Modal -->
 		<confirm-modal
 			title="Save To My Node"
 			confirm-label="Save Environment"
@@ -113,8 +115,13 @@ export default class MyResourcesScreen extends Vue {
     	this.isReplicateModalVisible = true;
     }
 
-    saveEnvironment() {
-    	this.$store.dispatch('resource/saveEnvironment')
+    async saveEnvironment() {
+    	// TODO: handle saving multiple selected
+    	let environment = this.activeResources[0];
+
+    	if (environment) {
+    		await this.$store.dispatch('resource/saveEnvironment', environment);
+    	}
     }
 
     /* Lifecycle Hooks
@@ -132,7 +139,6 @@ export default class MyResourcesScreen extends Vue {
 
     @Watch('$route.query')
     onRouteChanged(newQuery, oldQuery) {
-    	console.log(newQuery.q !== oldQuery.q, newQuery.q);
     	if(newQuery.q !== oldQuery.q) {
     		this.query.keyword = newQuery.q as string;
     		this.search();
