@@ -56,7 +56,9 @@ export default class ResourceAdminService extends BaseService {
 	    // The endpoint currently takes a POST request payload containing a list of ids and a source destination.
 		// 'public' source destination makes the environment available locally.
 		let saveEnvironmentRequest = new SaveEnvironmentRequest([id], 'public')
-		let response = await this._emilEnvSvc.post('/EmilEnvironmentData/replicateImage', saveEnvironmentRequest)
+		console.log('MADE REQUEST', saveEnvironmentRequest)
+		let response = await this._emilEnvSvc.post('replicateImage', saveEnvironmentRequest)
+		console.log('GOT RESPONSE', response)
 		return response.json()
 	}
 

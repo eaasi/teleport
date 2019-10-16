@@ -31,8 +31,7 @@ class ResourceService extends BaseHttpService {
 	 */
 	async saveEnvironment(environmentId: string) : Promise<ISaveEnvironmentResponse> {
 		let res = await this.post<any>(
-			'/resource/save',
-			environmentId
+			'/resource/save', { environmentId: environmentId }
 		);
 
 		if (!res.ok) return null;

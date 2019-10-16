@@ -1,7 +1,8 @@
-import { make, commit } from 'vuex-pathify';
+import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
 import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 
@@ -16,6 +17,8 @@ class ResourceState {
 	 * Active Resources are Selected in Explore Resources / My Resources Screen
 	 */
 	activeResources: IEaasiResource[] = [];
+
+	taskListStatus: IEaasiTaskListStatus;
 
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
