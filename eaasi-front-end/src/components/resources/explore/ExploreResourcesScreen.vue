@@ -35,9 +35,10 @@
 		/>
 		<confirm-modal
 			title="Save To My Node"
-			confirm-label="Save"
+			confirm-label="Save Environment"
 			@click:cancel="isReplicateModalVisible = false"
-			@click:confirm="restart"
+			@click:confirm="saveEnvironment"
+			@close="isReplicateModalVisible = false"
 			v-if="isReplicateModalVisible"
 		>
 			<alert type="info">
@@ -109,8 +110,11 @@ export default class MyResourcesScreen extends Vue {
     }
 
     showReplicateModal() {
-    	console.log('showin modal');
     	this.isReplicateModalVisible = true;
+    }
+
+    saveEnvironment() {
+    	this.$store.dispatch('resource/saveEnvironment')
     }
 
     /* Lifecycle Hooks

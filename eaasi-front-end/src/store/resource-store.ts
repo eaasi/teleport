@@ -109,7 +109,7 @@ const actions = {
 		return result;
 	},
 
-	async replicateEnvironment(environmentId: string) {
+	async saveEnvironment(environmentId: string) {
 		return await _svc.replicateEnvironment(environmentId);
 	}
 };

@@ -148,28 +148,25 @@ export default class ResourceSlideMenu extends Vue {
     	this.$emit('toggle');
     }
 
-    async initiateReplicateEnvironment() {
-    	await this.$store.dispatch(
-    		'resource/replicateEnvironment',
-    		this.singleSelectedResource.id
-    	);
-    }
-
     doAction(action: IAction) {
     	switch (action.shortName) {
     	case 'run': {
+    		// When Run is clicked, we send to Access Interface @ environmentId
     		if (this.environment) {
     			this.$router.push(`/access-interface/${this.environment.envId}`);
     		}
     		break;
     	}
     	case 'viewDetails': {
+    		// When View Details is clicked, we send to Resource Detail view
+    		// with the (only) selected resource
     		this.$router.push({
     			name: 'Resource Detail',
-    			params: {resource: JSON.stringify(this.singleSelectedResource)}});
+    			params: {resource: JSON.stringify(this.onlySelectedResource)}});
     	}
     	break;
     	case 'save': {
+    		// When Save is clicked, we show the Replicate Modal to confirm
     		this.$emit('show-replicate-modal');
     	}
     		break;
