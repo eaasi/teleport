@@ -53,7 +53,7 @@ router.get('/:id',
 	});
 
 /**
- * @api {post} api/eaasi-user/ Create a new EaasiUser resource
+ * @api {post} api/eaasi-user/
  * @apiVersion 1.0.0
  * @apiName Create an EaasiUser
  * @apiGroup EaasiUser
