@@ -5,9 +5,9 @@ const router = express.Router();
 const controller = new BlogFeedController();
 
 /**
- * @api {get} blog/feed Gets a Blog Feed
+ * @api {get} blog/feed
  * @apiVersion 1.0.0
- * @apiName Blog Feed
+ * @apiName Blog RSS Feed (JSON)
  * @apiGroup Blog
  * @apiPermission System Administrator only
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network

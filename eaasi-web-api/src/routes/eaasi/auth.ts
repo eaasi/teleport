@@ -8,48 +8,38 @@ const samlAuth = passport.authenticate('saml', {session: false});
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
 /**
- * @api {get} auth/login Log In
+ * @api {get} auth/login
  * @apiVersion 1.0.0
  * @apiName Login
  * @apiGroup Auth
  * @apiPermission Any
- * @apiDescription Log In a user
- *
- * @apiSuccess {[]Object} Logs a user in and redirects a user to the homepage.
  */
 router.get('/login', samlAuth, controller.login);
 
 /**
- * @api {post} auth/callback SAML callback URL
+ * @api {post}  auth/callback
  * @apiVersion 1.0.0
- * @apiName Callback
+ * @apiName SAML Callback Endpoint
  * @apiGroup Auth
  * @apiPermission Any
- * @apiDescription Log In a user
- *
- * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
 router.post('/callback', samlAuth, controller.callback);
 
 /**
- * @api {post} auth/user Creates a new User
+ * @api {post} auth/user
  * @apiVersion 1.0.0
  * @apiName User
  * @apiGroup Auth
  * @apiPermission System Administrator only
- *
- * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
 router.get('/user', jwtAuth, controller.user);
 
 /**
- * @api {post} auth/logout Logs out a user
+ * @api {post} auth/logout
  * @apiVersion 1.0.0
  * @apiName Import Emulator
  * @apiGroup Auth
  * @apiPermission Any
- *
- * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
 router.delete('/logout', jwtAuth, controller.logout);
 
@@ -59,8 +49,6 @@ router.delete('/logout', jwtAuth, controller.logout);
  * @apiName Refresh
  * @apiGroup Auth
  * @apiPermission Administrator only
- *
- * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
 router.post('/refresh', jwtAuth, controller.refresh);
 
@@ -70,8 +58,6 @@ router.post('/refresh', jwtAuth, controller.refresh);
  * @apiName Shibboleth.sso Metadata
  * @apiGroup Auth
  * @apiPermission Any
- *
- * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
 router.get('/Shibboleth.sso/Metadata', controller.shibbolethXml);
 
