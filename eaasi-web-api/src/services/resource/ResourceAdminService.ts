@@ -57,7 +57,8 @@ export default class ResourceAdminService extends BaseService {
 		// 'public' source destination makes the environment available locally.
 		// TODO: Handle error responses from Emil API -- there are several cases to handle
 		// TODO: See https://gitlab.com/eaasi/eaas-server/blob/eaasi-release-2019.07/src/emil/src/main/java/de/bwl/bwfla/emil/EmilEnvironmentData.java#L772
-		let saveEnvironmentRequest = { replicateList: [id], destArchive: 'public' }
+
+		let saveEnvironmentRequest = new SaveEnvironmentRequest([id], 'public').toJson();
 		let response = await this._emilEnvSvc.post('replicateImage', saveEnvironmentRequest)
 		return response.json()
 	}
