@@ -31,17 +31,17 @@
 			:resources="activeResources"
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
-			@show-replicate-modal="showReplicateModal"
+			@show-save-modal="showSaveModal"
 		/>
 
 		<!-- Save To My Node Modal -->
 		<confirm-modal
 			title="Save To My Node"
 			confirm-label="Save Environment"
-			@click:cancel="isReplicateModalVisible = false"
+			@click:cancel="isSaveModalVisible=false"
 			@click:confirm="saveEnvironment"
-			@close="isReplicateModalVisible = false"
-			v-if="isReplicateModalVisible"
+			@close="isSaveModalVisible=false"
+			v-if="isSaveModalVisible"
 		>
 			<alert type="info">
 				<span class="ers-rep-msg">
@@ -98,7 +98,7 @@ export default class MyResourcesScreen extends Vue {
     ============================================*/
 
     isMenuOpenRequest: boolean = true;
-    isReplicateModalVisible: boolean = false;
+    isSaveModalVisible: boolean = false;
 
     /* Methods
     ============================================*/
@@ -111,8 +111,8 @@ export default class MyResourcesScreen extends Vue {
     	this.$store.dispatch('resource/searchResources');
     }
 
-    showReplicateModal() {
-    	this.isReplicateModalVisible = true;
+    showSaveModal() {
+    	this.isSaveModalVisible = true;
     }
 
     async saveEnvironment() {
@@ -122,7 +122,7 @@ export default class MyResourcesScreen extends Vue {
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment)
     			.then(res => this.$store.commit('resource/SET_TASK_LIST_STATUS', res))
-    			.finally(() => this.isReplicateModalVisible = false);
+    			.finally(() => this.isSaveModalVisible = false);
     	}
     }
 

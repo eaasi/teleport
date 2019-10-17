@@ -166,8 +166,8 @@ export default class ResourceSlideMenu extends Vue {
     	}
     	break;
     	case 'save': {
-    		// When Save is clicked, we show the Replicate Modal to confirm
-    		this.$emit('show-replicate-modal');
+    		// When Save is clicked, we show the Save (Replicate) Modal to confirm
+    		this.$emit('show-save-modal');
     	}
     		break;
     	default: break;
