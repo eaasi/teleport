@@ -45,12 +45,12 @@
 		>
 			<alert type="info">
 				<span class="ers-rep-msg">
-					Replication will copy environment data to local storage.
+					Saving to your node will copy environment data to local storage.
 					Environments copied from the EaaSI Network cannot be deleted
-					from storage once replicated.
+					from storage once saved.
 				</span>
 				<span class="ers-rep-msg">
-					Do you want to replicate this environment from the network?
+					Do you want to save this environment to your node?
 				</span>
 			</alert>
 		</confirm-modal>

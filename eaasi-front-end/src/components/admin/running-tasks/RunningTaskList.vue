@@ -2,21 +2,21 @@
 	<div class="running-task-list">
 		<table class="eaasi-table clickable" v-if="runningTasks.ength">
 			<thead>
-			<tr>
-				<th>
-					Task
-				</th>
-				<th>
-					Status
-				</th>
-				<th style="width: 100px;"></th>
-			</tr>
+				<tr>
+					<th>
+						Task
+					</th>
+					<th>
+						Status
+					</th>
+					<th style="width: 100px;"></th>
+				</tr>
 			</thead>
 			<tbody>
-			<tr v-for="task in runningTasks" :key="task.taskId">
-				<td>{{ task.description }}</td>
-				<td>{{ task.status }}</td>
-			</tr>
+				<tr v-for="task in runningTasks" :key="task.taskId">
+					<td>{{ task.description }}</td>
+					<td>{{ task.status }}</td>
+				</tr>
 			</tbody>
 		</table>
 		<div v-else>
@@ -54,7 +54,7 @@ export default class RunningTaskList extends Vue {
 	 * Polls the task state endpoint to keep track of import status
 	 */
 	async pollTask(taskId: string) {
-		console.log('POLLING FOR TASK: ', taskId)
+		console.log('POLLING FOR TASK: ', taskId);
 		if (!taskId) return;
 		let self = this;
 		if (self.timer) clearInterval(self.timer);
