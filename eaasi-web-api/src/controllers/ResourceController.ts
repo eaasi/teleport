@@ -3,6 +3,9 @@ import { Request, Response } from 'express';
 import { IResourceSearchQuery } from '@/types/resource/Resource';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 
+/**
+ * Handles requests related to Resource entities
+ */
 export default class ResourceController extends BaseController {
 
 	private readonly _svc: ResourceAdminService;
@@ -12,6 +15,9 @@ export default class ResourceController extends BaseController {
 		this._svc = resourceService;
 	}
 
+	/**
+	 * Gets an Environment by id  on the request query
+	 */
 	async getEnvironment(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
@@ -22,6 +28,9 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	/**
+	 * Saves an Environment to local Node using `environmentId` on the request body
+	 */
 	async saveEnvironment(req: Request, res: Response) {
 		try {
 			let environmentId = req.body.environmentId;
@@ -33,6 +42,9 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	/**
+	 * Gets information about a Software Package by `id` on the request query
+	 */
 	async getSoftwarePackageDescription(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
@@ -43,6 +55,9 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	/**
+	 * Gets a Software Object by `id` on the request query
+	 */
 	async getSoftwareObject(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
@@ -53,6 +68,9 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	/**
+	 * Searches for resources using the request body as IResourceSearchQuery
+	 */
 	async search(req: Request, res: Response) {
 		try {
 			let query = req.body as IResourceSearchQuery;
