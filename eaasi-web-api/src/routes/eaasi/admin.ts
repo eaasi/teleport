@@ -6,6 +6,17 @@ const controller = new AdminController();
 
 /* Users
 ============================================*/
+/**
+ * @api {get} api/admin/users/list Request All EaasiUsers (Paginated)
+ * @apiVersion 1.0.0
+ * @apiName Get All EaasiUsers
+ * @apiGroup EaasiUser
+ * @apiPermission System Administrator only
+ *
+ * @apiSampleRequest http://localhost:8081/api/eaasi-user/?limit=10&page=1
+ *
+ * @apiSuccess {[]Object} result Array of EaasiUser objects.
+ */
 router.get('/users/list', (req, res) => controller.getUsers(req, res));
 router.get('/users/roles', (req, res) => controller.getRoles(req, res));
 router.post('/users/save', (req, res) => controller.saveUser(req, res));
