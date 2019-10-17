@@ -5,7 +5,6 @@ import adminStore from '@/store/admin-store';
 import globalStore from '@/store/global-store';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import UserList from '@/components/admin/users/UserList.vue';
-import {Pagination} from '@/components/global';
 import { makeAdminStoreState } from '../../store-helpers';
 
 const localVue = createLocalVue();
@@ -26,7 +25,6 @@ describe('UserManagement.vue', () => {
 
 		store = new Vuex.Store({
 			modules: {
-				// @ts-ignore
 				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore

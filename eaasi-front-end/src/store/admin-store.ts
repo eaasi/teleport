@@ -49,7 +49,7 @@ const actions = {
 
 	async importEmulator(store: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
 		let taskState = await _svc.importEmulator(req) as ITaskState;;
-		if(!taskState) return null;
+		if (!taskState) return null;
 		let description = req.update ? 'Updating' : 'Importing';
 		let task = new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);
 		store.commit('ADD_OR_UPDATE_TASK', task, { root: true});

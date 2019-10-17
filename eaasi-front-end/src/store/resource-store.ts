@@ -1,8 +1,9 @@
+import EaasiTask from '@/models/task/EaasiTask';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
 import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import {IEaasiTaskListStatus, IEaasiTaskStatus} from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 
@@ -18,7 +19,7 @@ class ResourceState {
 	 */
 	activeResources: IEaasiResource[] = [];
 
-	taskListStatus: IEaasiTaskListStatus;
+	taskListStatus: IEaasiTaskListStatus = {status: '', taskList: []};
 
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
@@ -117,9 +118,13 @@ const actions = {
 	 * @param _store Store<ResourceState>
 	 * @param environment: instance that satisfies IEnvironment
 	 */
-	async saveEnvironment(_store: Store<ResourceState>, environment: IEnvironment) {
-		return await _svc.saveEnvironment(environment.envId);
-	}
+	async saveEnvironment(_store: Store<ResourceState>, environment: IEnvironment): Promise<EaasiTask> {
+		let taskState = await _svc.saveEnvironment(environment.envId);
+		if (!taskState) return null;
+		let task = new EaasiTask(taskState.taskList[0], 'save environment'); // TODO: handle multiple tasks, wrap string
+		_store.commit('ADD_OR_UPDATE_TASK', task, { root: true });
+		return task;
+	},
 };
 
 /*============================================================
