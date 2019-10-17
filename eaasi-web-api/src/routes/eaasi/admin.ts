@@ -13,7 +13,7 @@ const controller = new AdminController();
  * @apiGroup EaasiUser
  * @apiPermission System Administrator only
  *
- * @apiSampleRequest http://localhost:8081/api/eaasi-user/?limit=10&page=1
+ * @apiSampleRequest http://localhost:8081/api/admin/users/list
  *
  * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
@@ -22,13 +22,13 @@ router.get('/users/roles', (req, res) => controller.getRoles(req, res));
 router.post('/users/save', (req, res) => controller.saveUser(req, res));
 router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
 
-/* Emulaters
+/* Emulators
 ============================================*/
 router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
 router.post('/import-emulator', (req, res) => controller.importEmulator(req, res));
 router.post('/set-default-emulator-version', (req, res) => controller.setDefaultEmulatorVersion(req, res));
 
-/* OAI-PMH HArvesters
+/* OAI-PMH Harvesters
 ============================================*/
 
 router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));

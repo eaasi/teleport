@@ -1,5 +1,6 @@
 {
-  "name": "EaaSI Internal Web API",
+  "name": "EaaSI Web API",
   "version": "1.0.0",
-  "title": "EaaSI Internal Web API"
+  "title": "EaaSI Web API",
+  "description": "This web API serves the EaaSI front-end Vue.js application.  It provides resource-level access to the Eaasi Metadata model and proxies requests from the Vue.js application to the Eaasi Server Java back-end API."
 }
