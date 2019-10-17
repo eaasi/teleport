@@ -24,17 +24,6 @@ import { Component } from 'vue-property-decorator';
 	components: { RunningTaskList }
 })
 export default class RunningTaskManagement extends AdminScreen {
-	/* Computed
-	============================================*/
-
-	/* Data
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
 }
 
 </script>

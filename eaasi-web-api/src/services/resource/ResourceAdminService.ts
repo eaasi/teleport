@@ -55,8 +55,8 @@ export default class ResourceAdminService extends BaseService {
 	async saveEnvironment(id: string): Promise<ISaveEnvironmentResponse | null> {
 	    // The endpoint currently takes a POST request payload containing a list of ids and a source destination.
 		// 'public' source destination makes the environment available locally.
-
-		// TODO: Handle error responses
+		// TODO: Handle error responses from Emil API -- there are several cases to handle
+		// TODO: See https://gitlab.com/eaasi/eaas-server/blob/eaasi-release-2019.07/src/emil/src/main/java/de/bwl/bwfla/emil/EmilEnvironmentData.java#L772
 		let saveEnvironmentRequest = { replicateList: [id], destArchive: 'public' }
 		let response = await this._emilEnvSvc.post('replicateImage', saveEnvironmentRequest)
 		return response.json()
