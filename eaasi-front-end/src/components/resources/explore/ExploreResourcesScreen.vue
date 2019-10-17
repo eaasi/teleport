@@ -28,24 +28,24 @@
 			</div>
 		</div>
 		<resource-slide-menu
-			:open="!!activeResource"
-			:resource="activeResource"
-			@close="activeResource = null"
+			:open="hasActiveResources && isMenuOpenRequest"
+			:resources="activeResources"
+			:is-tab-visible="hasActiveResources"
+			@toggle="toggleSideMenu"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
+import { IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -62,8 +62,8 @@ export default class MyResourcesScreen extends Vue {
 	/* Computed
 	============================================*/
 
-	@Sync('resource/activeResource')
-	activeResource: IEaasiResource
+	@Sync('resource/activeResources')
+	activeResources: IEaasiResource[]
 
 	@Sync('resource/query')
 	query: ResourceSearchQuery;
@@ -71,14 +71,21 @@ export default class MyResourcesScreen extends Vue {
 	@Get('resource/result')
 	bentoResult: IResourceSearchResponse
 
+	get hasActiveResources() {
+		return this.activeResources.length > 0;
+	}
+
 	/* Data
 	============================================*/
 
-	menuOpen: boolean = false;
-	showAppliedFacets: boolean = true;
+	isMenuOpenRequest: boolean = true;
 
 	/* Methods
 	============================================*/
+
+	toggleSideMenu() {
+		this.isMenuOpenRequest = !this.isMenuOpenRequest;
+	}
 
 	search() {
 		this.$store.dispatch('resource/searchResources');
@@ -91,6 +98,10 @@ export default class MyResourcesScreen extends Vue {
 		let keyword = this.$route.query && this.$route.query.q;
 		this.query.keyword = keyword as string;
 		this.search();
+	}
+
+	destroyed() {
+		this.activeResources = [];
 	}
 
 	@Watch('$route.query')

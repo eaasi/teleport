@@ -1,6 +1,7 @@
 import { IEaasiUser } from 'eaasi-admin';
 
 export default class User implements IEaasiUser {
+
 	id: number;
 	email: string;
 	firstName: string;

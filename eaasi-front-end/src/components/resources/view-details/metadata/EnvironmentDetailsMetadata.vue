@@ -1,7 +1,9 @@
 <template>
 	<div class="rdm-container">
 		<div class="row">
-			<resource-details-summary :summary-data="resourceDetailSummary" />
+			<div class="col-md-4">
+				<environment-details-summary :summary-data="resourceDetailSummary" />
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
@@ -13,13 +15,21 @@
 			<div class="col-md-4">
 				<section-heading title="Configured Machine" size="large" />
 				<labeled-item-list
-					:labeled-items="configuredMachineLabeledItems"
+					:labeled-items="configMachineLabeledItems"
 				/>
 			</div>
 			<div class="col-md-4">
 				<section-heading title="Emulator" size="large" />
 				<labeled-item-list
 					:labeled-items="emulatorLabeledItems"
+				/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<section-heading title="Configured Drives" size="large" />
+				<labeled-item-list
+					:labeled-items="driveLabeledItems"
 				/>
 			</div>
 		</div>
@@ -42,20 +52,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Sync} from 'vuex-pathify';
 import {IEaasiResourceSummary, IEnvironment} from '@/types/Resource';
 import {ILabeledItem} from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import ResourceDetailsSummary from './ResourceDetailsSummary.vue';
-import {Sync} from 'vuex-pathify';
+import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
 
 @Component({
-	name: 'ResourceDetailsMetadata',
+	name: 'EnvironmentDetailsMetadata.vue',
 	components: {
 		LabeledItemList,
-		ResourceDetailsSummary
+		EnvironmentDetailsSummary
 	}
 })
-export default class ResourceDetailsMetadata extends Vue {
+export default class EnvironmentDetailsMetadata extends Vue {
 
 	/* Props
 	============================================*/
@@ -65,8 +75,6 @@ export default class ResourceDetailsMetadata extends Vue {
 	/* Data
 	============================================*/
 	title: string = this.resourceDetailSummary.title;
-	configuredMachineLabeledItems: ILabeledItem[] = [];
-	osLabeledItems: ILabeledItem[] = [];
 
 	/* Computed
 	============================================*/
@@ -89,39 +97,80 @@ export default class ResourceDetailsMetadata extends Vue {
 		};
 	}
 
-	get emulatorLabeledItems() {
+	/**
+	 * Parses the environment data for emulator-specific properties
+	 */
+	get emulatorLabeledItems() : ILabeledItem[] {
 		if (this.environment == null) return [];
-		return [
-			{ label: 'Name', value: this.environment.emulator || ''},
-		];
+
+		let emuItems = [];
+
+		if (this.environment.emulator) {
+			emuItems.push({
+				label: 'Name',
+				value: this.environment.emulator
+			});
+		}
+
+		if (this.environment.containerName) {
+			emuItems.push({
+				label: 'Container Name',
+				value: this.environment.containerName
+			});
+		}
+
+		if (this.environment.containerVersion) {
+			emuItems.push({
+				label: 'Container Version',
+				value: this.environment.containerVersion
+			});
+		}
+
+		if (this.environment.nativeConfig) {
+			emuItems.push({
+				label: 'Emulator Configuration',
+				value: this.environment.nativeConfig
+			});
+		}
+
+		return emuItems;
+	}
+
+	/**
+	 * Parses the environment data for emulator-specific properties
+	 */
+	get driveLabeledItems() {
+		if (this.environment == null || !this.environment.drives) return [];
+
+		let driveItems = [];
+
+		this.environment.drives.map(drive => {
+			driveItems.push({
+				label: drive.type,
+				value: this._createFileSystemLabel(drive.filesystem)
+			});
+		});
+
+		return driveItems;
+	}
+
+	get configMachineLabeledItems() : ILabeledItem[] {
+		return [];
+	}
+
+	get osLabeledItems() : ILabeledItem[] {
+		return [];
 	}
 
 	/* Methods
 	============================================*/
-	populateCfgMachineLabeledItems() {
-		return [
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-		];
-	}
-
-	populateOsLabeledItems() {
-		return [
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-			{ label: 'File Format', value: '.iso' },
-		];
+	_createFileSystemLabel(fileSystem: string): string {
+		if (!fileSystem) fileSystem = 'Not specified';
+		return `File System: ${fileSystem}`;
 	}
 
 	/* Lifecycle Hooks
 	============================================*/
-
-	created() {
-		this.configuredMachineLabeledItems = this.populateCfgMachineLabeledItems();
-		this.osLabeledItems = this.populateOsLabeledItems();
-	}
 }
 
 </script>
@@ -130,7 +179,7 @@ export default class ResourceDetailsMetadata extends Vue {
 	.vds-container {
 
 		.vds-description {
-			font-size: 1rem;
+			font-size: 1.6rem;
 		}
 
 		.vds-footer {
