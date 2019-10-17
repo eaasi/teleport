@@ -40,6 +40,7 @@ import TextAreaInput from './forms/TextAreaInput.vue';
 import TextInput from './forms/TextInput.vue';
 import TipsCard from '@/components/global/TipsCard.vue';
 import UiButton from './UiButton.vue';
+import UiChip from './UiChip.vue';
 import ViewHeader from './ViewHeader.vue';
 import { VueConstructor } from 'vue';
 
@@ -91,6 +92,7 @@ export default {
 		Vue.component('TextInput', TextInput);
 		Vue.component('TipsCard', TipsCard);
 		Vue.component('UiButton', UiButton);
+		Vue.component('UiChip', UiChip);
 		Vue.component('ViewHeader', ViewHeader);
 	}
 };
@@ -142,5 +144,6 @@ export {
 	TextInput,
 	TipsCard,
 	UiButton,
+	UiChip,
 	ViewHeader
 };
