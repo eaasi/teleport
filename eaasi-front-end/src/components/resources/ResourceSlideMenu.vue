@@ -113,14 +113,14 @@ export default class ResourceSlideMenu extends Vue {
      * Populates the list of Local Actions in the Sidebar
      */
     get localActionsForSelected() {
-    	return menuService.getLocalActions(this.activeResources);
+    	return menuService.getLocalActions(this.activeResources as IEnvironment[]);
     }
 
     /**
      * Populates the list of Node Actions in the Sidebar
      */
     get nodeActionsForSelected() {
-    	return menuService.getNodeActions(this.activeResources);
+    	return menuService.getNodeActions(this.activeResources as IEnvironment[]);
     }
 
     /* Data

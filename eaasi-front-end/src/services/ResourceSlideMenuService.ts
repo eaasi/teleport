@@ -1,8 +1,8 @@
-import { IEaasiResource } from '@/types/Resource';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
 
 export default class ResourceSlideMenuService {
-	getLocalActions(activeResources: IEaasiResource[]) {
+	getLocalActions(activeResources: IEnvironment[]) {
 		let localActions = [];
 
 		// If only one resource is selected
@@ -22,7 +22,7 @@ export default class ResourceSlideMenuService {
 		return localActions;
 	}
 
-	getNodeActions(activeResources: IEaasiResource[]) {
+	getNodeActions(activeResources: IEnvironment[]) {
 		let nodeActions = [];
 
 		// If only one resource is selected

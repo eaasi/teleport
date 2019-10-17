@@ -25,6 +25,7 @@ describe('UserManagement.vue', () => {
 
 		store = new Vuex.Store({
 			modules: {
+				// @ts-ignore
 				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore
