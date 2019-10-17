@@ -36,6 +36,8 @@ class ResourceService extends BaseHttpService {
 
 		if (!res.ok) return null;
 
+		console.log('ResourceService RES.RESULT', res.result);
+
 		return res.result as ISaveEnvironmentResponse;
 	}
 

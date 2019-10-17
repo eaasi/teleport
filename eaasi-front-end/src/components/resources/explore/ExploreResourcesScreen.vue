@@ -121,8 +121,7 @@ export default class MyResourcesScreen extends Vue {
 
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment)
-    			.then(res => this.$store.commit('resource/SET_TASK_LIST_STATUS', res))
-    			.finally(() => this.isSaveModalVisible = false);
+			this.isSaveModalVisible = false
     	}
     }
 

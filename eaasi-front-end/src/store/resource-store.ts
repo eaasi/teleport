@@ -3,7 +3,7 @@ import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
 import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import {IEaasiTaskListStatus, IEaasiTaskStatus} from '@/types/IEaasiTaskListStatus';
+import {IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 
@@ -120,8 +120,9 @@ const actions = {
 	 */
 	async saveEnvironment(_store: Store<ResourceState>, environment: IEnvironment): Promise<EaasiTask> {
 		let taskState = await _svc.saveEnvironment(environment.envId);
+		let environmentTitle = environment.title;
 		if (!taskState) return null;
-		let task = new EaasiTask(taskState.taskList[0], 'save environment'); // TODO: handle multiple tasks, wrap string
+		let task = new EaasiTask(taskState.taskList[0], `Save Environment ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
 		_store.commit('ADD_OR_UPDATE_TASK', task, { root: true });
 		return task;
 	},

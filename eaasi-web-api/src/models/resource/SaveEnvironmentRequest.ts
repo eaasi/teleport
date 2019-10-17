@@ -13,8 +13,8 @@ export default class SaveEnvironmentRequest {
 	private replicateList: string[];
 
 	constructor(replicateList: string[], destArchive: string) {
-		this.destArchive = destArchive;
 		this.replicateList = replicateList;
+		this.destArchive = destArchive;
 	}
 
 	addToReplicateList(envId: string) {
@@ -27,6 +27,13 @@ export default class SaveEnvironmentRequest {
 
 	setDestArchive(destArchive: string) {
 		this.destArchive = destArchive;
+	}
+
+	toJson() {
+		return {
+			replicateList: this.replicateList,
+			destArchive: this.destArchive
+		}
 	}
 }
 
