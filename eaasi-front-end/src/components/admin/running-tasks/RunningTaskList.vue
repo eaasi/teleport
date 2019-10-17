@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IEmulator } from 'eaasi-admin';
+import EaasiTask from '@/models/task/EaasiTask';
 import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 
@@ -34,10 +34,6 @@ import { Sync } from 'vuex-pathify';
 	name: 'RunningTaskList'
 })
 export default class RunningTaskList extends Vue {
-	/* Computed
-	============================================*/
-	@Sync('runningTasks')
-	runningTasks: IEmulator;
 
 	/* Data
 	============================================*/
@@ -45,13 +41,11 @@ export default class RunningTaskList extends Vue {
 	success: boolean = false;
 	error: string = null;
 
-	/* Methods
+	/* Computed
 	============================================*/
+	@Sync('runningTasks')
+	runningTasks: EaasiTask[];
 
-	/* Lifecycle Hooks
-	============================================*/
-	created() {
-	}
 }
 
 </script>
