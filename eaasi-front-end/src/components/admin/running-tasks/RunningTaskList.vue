@@ -12,7 +12,8 @@
 				<tr v-for="task in runningTasks" :key="task.taskId">
 					<td>
 						<i :class="`task-spinner fas fa-fw fa-circle-notch fa-spin`"></i>
-						{{ task.description }}</td>
+						{{ task.description }}
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -120,8 +120,8 @@ export default class MyResourcesScreen extends Vue {
     	let environment = this.activeResources[0];
 
     	if (environment) {
-    		await this.$store.dispatch('resource/saveEnvironment', environment)
-			this.isSaveModalVisible = false
+    		await this.$store.dispatch('resource/saveEnvironment', environment);
+    		this.isSaveModalVisible = false;
     	}
     }
 
