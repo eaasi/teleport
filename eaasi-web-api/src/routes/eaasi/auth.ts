@@ -26,18 +26,18 @@ router.get('/login', samlAuth, controller.login);
 router.post('/callback', samlAuth, controller.callback);
 
 /**
- * @api {post} auth/user Get Logged-In User Data
+ * @api {get} auth/user Get User Data
  * @apiVersion 1.0.0
  * @apiGroup Auth
  * @apiPermission Authenticated User
- * @apiDescription Returns JSON data for the logged-in User, available on the request object.
- * @apiSuccess (200) {String} firstName first name of the User.
- * @apiSuccess (200) {String} lastName last name of the User.
- * @apiSuccess (200) {String} email email of the User.
- * @apiSuccess (200) {String} roleId PK of the `EaasiUserRole` for the User.
- * @apiSuccess (200) {Date} lastLogin the last time the user logged in.
- * @apiSuccess (200) {int} iat the time at which the JWT token for the user was issued (epoch).
- * @apiSuccess (200) {int} exp the time at which the JWT token for the user expires (epoch).
+ * @apiDescription Returns JSON data for the logged-in User
+ * @apiSuccess (200) {String} firstName first name of the User
+ * @apiSuccess (200) {String} lastName last name of the User
+ * @apiSuccess (200) {String} email email of the User
+ * @apiSuccess (200) {String} roleId PK of the `EaasiUserRole` for the User
+ * @apiSuccess (200) {Date} lastLogin the last time the user logged in
+ * @apiSuccess (200) {int} iat the time at which the JWT token for the user was issued (epoch)
+ * @apiSuccess (200) {int} exp the time at which the JWT token for the user expires (epoch)
  * @apiSuccessExample {json} Success-Response:
  *  HTTP/1.1 200 OK
  *  {
