@@ -32,10 +32,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
-import EaasiTask from '@/models/task/EaasiTask';
-import { Get } from 'vuex-pathify';
 import { ITaskState } from '../../../types/Task';
 
 @Component({
