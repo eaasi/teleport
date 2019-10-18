@@ -7,7 +7,7 @@ const EaasiUserController = require('@/controllers/rest-api/EaasiUserController'
 const controller = new EaasiUserController();
 
 /**
- * @api {get} api/eaasi-user/:id Request All EaasiUsers (Paginated)
+ * @api {get} eaasi-user/:id Request All EaasiUsers (Paginated)
  * @apiVersion 1.0.0
  * @apiName Get All EaasiUsers
  * @apiGroup EaasiUser
@@ -28,7 +28,7 @@ router.get('/',
 	});
 
 /**
- * @api {get} api/eaasi-user/:id Request EaasiUser by ID
+ * @api {get} eaasi-user/:id Request EaasiUser by ID
  * @apiVersion 1.0.0
  * @apiName Get an EaasiUser
  * @apiGroup EaasiUser
@@ -53,7 +53,7 @@ router.get('/:id',
 	});
 
 /**
- * @api {post} api/eaasi-user/
+ * @api {post} eaasi-user/
  * @apiVersion 1.0.0
  * @apiName Create an EaasiUser
  * @apiGroup EaasiUser
@@ -77,7 +77,7 @@ router.post('/',
 	});
 
 /**
- * @api {put} api/eaasi-user/:id Update an EaasiUser resource by ID
+ * @api {put} eaasi-user/:id Update an EaasiUser resource by ID
  * @apiVersion 1.0.0
  * @apiName Update an EaasiUser
  * @apiGroup EaasiUser
@@ -111,7 +111,7 @@ router.put('/:id',
 	});
 
 /**
- * @api {delete} api/eaasi-user/:id Delete an EaasiUser resource by ID
+ * @api {delete} eaasi-user/:id Delete an EaasiUser resource by ID
  * @apiVersion 1.0.0
  * @apiName Delete an EaasiUser
  * @apiGroup EaasiUser

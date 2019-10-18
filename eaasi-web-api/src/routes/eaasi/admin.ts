@@ -7,9 +7,8 @@ const controller = new AdminController();
 /* Users
 ============================================*/
 /**
- * @api {get} api/admin/users/list
+ * @api {get} admin/users/list Get all EaaSI Users
  * @apiVersion 1.0.0
- * @apiName Get All Users
  * @apiGroup Users
  * @apiPermission System Administrator only
  *
@@ -18,9 +17,8 @@ const controller = new AdminController();
 router.get('/users/list', (req, res) => controller.getUsers(req, res));
 
 /**
- * @api {get} api/admin/users/roles
+ * @api {get} admin/users/roles Get all EaaSI User Roles
  * @apiVersion 1.0.0
- * @apiName Get All User Roles
  * @apiGroup Users
  * @apiPermission System Administrator only
  *
@@ -29,9 +27,8 @@ router.get('/users/list', (req, res) => controller.getUsers(req, res));
 router.get('/users/roles', (req, res) => controller.getRoles(req, res));
 
 /**
- * @api {post} api/admin/users/save
+ * @api {post} admin/users/save Save an EaaSI User
  * @apiVersion 1.0.0
- * @apiName Save a User
  * @apiGroup Users
  * @apiPermission System Administrator only
  *
@@ -40,9 +37,8 @@ router.get('/users/roles', (req, res) => controller.getRoles(req, res));
 router.post('/users/save', (req, res) => controller.saveUser(req, res));
 
 /**
- * @api {post} api/admin/users/delete
+ * @api {post} admin/users/delete  Delete an EaaSI User
  * @apiVersion 1.0.0
- * @apiName Delete a User
  * @apiGroup Users
  * @apiPermission System Administrator only
  *
@@ -52,9 +48,8 @@ router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
 /* Emulators
 ============================================*/
 /**
- * @api {post} api/admin/get-emulators
+ * @api {post} admin/get-emulators  Get all Emulators
  * @apiVersion 1.0.0
- * @apiName Get All Emulators
  * @apiGroup Emulators
  * @apiPermission System Administrator only
  *
@@ -62,9 +57,8 @@ router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
 router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
 
 /**
- * @api {post} api/admin/import-emulator
+ * @api {post} admin/import-emulator Import an Emulator
  * @apiVersion 1.0.0
- * @apiName Import Emulator
  * @apiGroup Emulators
  * @apiPermission System Administrator only
  *
@@ -72,9 +66,8 @@ router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
 router.post('/import-emulator', (req, res) => controller.importEmulator(req, res));
 
 /**
- * @api {post} api/admin/set-default-emulator-version
+ * @api {post} admin/set-default-emulator-version Set the Default Emulator Version
  * @apiVersion 1.0.0
- * @apiName Sets Emulator Version
  * @apiGroup Emulators
  * @apiPermission System Administrator only
  *
@@ -85,9 +78,8 @@ router.post('/set-default-emulator-version', (req, res) => controller.setDefault
 ============================================*/
 
 /**
- * @api {get} api/admin/get-harvesters
+ * @api {get} admin/get-harvesters Get all Harvesters
  * @apiVersion 1.0.0
- * @apiName Get all OAI-PMH Harvesters
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
  *
@@ -95,9 +87,8 @@ router.post('/set-default-emulator-version', (req, res) => controller.setDefault
 router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));
 
 /**
- * @api {post} api/admin/add-harvester
+ * @api {post} admin/add-harvester Add a Harvester
  * @apiVersion 1.0.0
- * @apiName Add OAI-PMH Harvester
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
  *
@@ -105,9 +96,8 @@ router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));
 router.post('/add-harvester', (req, res) => controller.addHarvester(req, res));
 
 /**
- * @api {post} api/admin/sync-harvester
+ * @api {post} admin/sync-harvester Synchronize a Harvester
  * @apiVersion 1.0.0
- * @apiName Sync OAI-PMH Harvester
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
  *
@@ -115,9 +105,8 @@ router.post('/add-harvester', (req, res) => controller.addHarvester(req, res));
 router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res));
 
 /**
- * @api {post} api/admin/delete-harvester
+ * @api {post} admin/delete-harvester Delete a Harvester
  * @apiVersion 1.0.0
- * @apiName Delete OAI-PMH Harvester
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
  *

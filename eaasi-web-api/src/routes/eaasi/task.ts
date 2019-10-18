@@ -5,7 +5,7 @@ const router = express.Router();
 const controller = new TaskController();
 
 /**
- * @api {get} task/get-state
+ * @api {get} task/get-state Get State of a Task
  * @apiVersion 1.0.0
  * @apiName Task State
  * @apiGroup Tasks
