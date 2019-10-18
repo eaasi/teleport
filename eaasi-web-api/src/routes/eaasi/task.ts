@@ -10,6 +10,7 @@ const controller = new TaskController();
  * @apiName Task State
  * @apiGroup Tasks
  * @apiPermission System Administrator only
+ * @apiDescription Gets the state of a current long-running task (e.g. emulator import, environment replication)
  */
 router.get('/get-state', (req, res) => controller.getEmilTaskState(req, res));
 

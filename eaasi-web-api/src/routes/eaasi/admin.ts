@@ -11,6 +11,7 @@ const controller = new AdminController();
  * @apiVersion 1.0.0
  * @apiGroup Users
  * @apiPermission System Administrator only
+ * @apiDescription Gets a list of all EaaSI Users
  *
  * @apiSuccess {[]Object} result Array of EaasiUser objects.
  */
@@ -21,6 +22,7 @@ router.get('/users/list', (req, res) => controller.getUsers(req, res));
  * @apiVersion 1.0.0
  * @apiGroup Users
  * @apiPermission System Administrator only
+ * @apiDescription Gets a list of all EaaSI User Roles
  *
  * @apiSuccess {[]Object} result Array of EaasiRole objects.
  */
@@ -31,8 +33,7 @@ router.get('/users/roles', (req, res) => controller.getRoles(req, res));
  * @apiVersion 1.0.0
  * @apiGroup Users
  * @apiPermission System Administrator only
- *
- * @apiSuccess {[]Object} result Array of EaasiUser objects.
+ * @apiDescription Saves a new User
  */
 router.post('/users/save', (req, res) => controller.saveUser(req, res));
 
@@ -41,7 +42,7 @@ router.post('/users/save', (req, res) => controller.saveUser(req, res));
  * @apiVersion 1.0.0
  * @apiGroup Users
  * @apiPermission System Administrator only
- *
+ * @apiDescription Deletes a User
  */
 router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
 
@@ -52,7 +53,7 @@ router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
  * @apiVersion 1.0.0
  * @apiGroup Emulators
  * @apiPermission System Administrator only
- *
+ * @apiDescription Gets a list of all Emulators
  */
 router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
 
@@ -61,7 +62,7 @@ router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
  * @apiVersion 1.0.0
  * @apiGroup Emulators
  * @apiPermission System Administrator only
- *
+ * @apiDescription Imports a new Emulator
  */
 router.post('/import-emulator', (req, res) => controller.importEmulator(req, res));
 
@@ -70,6 +71,7 @@ router.post('/import-emulator', (req, res) => controller.importEmulator(req, res
  * @apiVersion 1.0.0
  * @apiGroup Emulators
  * @apiPermission System Administrator only
+ * @apiDescription Sets the Default Emulator Version
  *
  */
 router.post('/set-default-emulator-version', (req, res) => controller.setDefaultEmulatorVersion(req, res));
@@ -82,7 +84,7 @@ router.post('/set-default-emulator-version', (req, res) => controller.setDefault
  * @apiVersion 1.0.0
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
- *
+ * @apiDescription Gets a list of all OAI-PMH Harvesters
  */
 router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));
 
@@ -91,16 +93,16 @@ router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));
  * @apiVersion 1.0.0
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
- *
+ * @apiDescription Adds an OAI-PMH Harvester
  */
 router.post('/add-harvester', (req, res) => controller.addHarvester(req, res));
 
 /**
- * @api {post} admin/sync-harvester Synchronize a Harvester
+ * @api {post} admin/sync-harvester Synchronize Harvester
  * @apiVersion 1.0.0
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
- *
+ * @apiDescription Synchronizes OAI-PMH Harvester
  */
 router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res));
 
@@ -109,7 +111,7 @@ router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res))
  * @apiVersion 1.0.0
  * @apiGroup OAI-PMH
  * @apiPermission System Administrator only
- *
+ * @apiDescription Deletes an OAI-PMH Harvester
  */
 router.post('/delete-harvester', (req, res) => controller.deleteHarvester(req, res));
 
