@@ -44,6 +44,10 @@ export default class LoginScreen extends Vue {
 	============================================*/
 
 	loginUrl: string = config.SERVICE_URL + '/auth/login';
+
+	created() {
+		console.log(this.loginUrl);
+	}
 }
 
 </script>
