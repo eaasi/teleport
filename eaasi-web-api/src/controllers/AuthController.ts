@@ -25,7 +25,7 @@ export default class EaasiAuthController extends BaseController {
 	}
 
 	/**
-     * Callback URL for shibboleth SP login
+     * Callback URL for Shibboleth SP login
      * @param req request
      * @param res response
      */
