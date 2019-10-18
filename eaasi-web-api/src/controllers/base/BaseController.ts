@@ -1,7 +1,7 @@
 import AppLogger from '@/logging/appLogger';
 import CrudQuery from '@/services/base/CrudQuery';
 import HttpResponseCode from '@/utils/HttpResponseCode';
-import { build_500_response } from '@/utils/error-helpers';
+import {build_400_response, build_500_response} from '@/utils/error-helpers';
 import {Request, Response} from 'express';
 
 export default class BaseController {
@@ -10,6 +10,11 @@ export default class BaseController {
 
 	constructor() {
 		this._logger = new AppLogger(this.constructor.name);
+	}
+
+	protected sendClientError(error: string, response: Response) {
+		response.status(HttpResponseCode.BAD_REQUEST)
+			.send(build_400_response(error));
 	}
 
 	protected sendError(error: string, response: Response) {

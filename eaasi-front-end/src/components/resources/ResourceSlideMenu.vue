@@ -29,7 +29,7 @@
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
 					<resource-action
-						v-for="action in actionsForSelected"
+						v-for="action in localActionsForSelected"
 						:action="action"
 						:key="action.label"
 						@click="doAction(action)"
@@ -38,10 +38,10 @@
 
 				<div class="rsm-node-actions">
 					<resource-action
-						v-for="action in nodeActions"
+						v-for="action in nodeActionsForSelected"
 						:action="action"
 						:key="action.label"
-						@click="doAction(a)"
+						@click="doAction(action)"
 					/>
 				</div>
 			</div>
@@ -52,13 +52,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { Get, Sync } from 'vuex-pathify';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { ILabeledItem } from '@/types/ILabeledItem';
 import ResourceAction from './ResourceAction.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import {ILabeledItem} from '@/types/ILabeledItem';
-import {Get, Sync} from 'vuex-pathify';
+import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
+
+let menuService = new ResourceSlideMenuService();
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -71,143 +74,105 @@ import {Get, Sync} from 'vuex-pathify';
 export default class ResourceSlideMenu extends Vue {
 
 	/* Props
-	============================================*/
+    ============================================*/
 
-	@Prop({type: Boolean, required: true})
-	readonly open: boolean
+    @Prop({type: Boolean, required: true})
+    readonly open: boolean
 
-	@Prop({type: Array as () => IEaasiResource[]})
-	readonly resources: IEaasiResource[]
+    @Prop({type: Array as () => IEaasiResource[]})
+    readonly resources: IEaasiResource[]
 
-	/* Computed
-	============================================*/
+    /* Computed
+    ============================================*/
 
-	@Get('resource/activeEnvironment')
-	readonly environment: IEnvironment
+    @Get('resource/activeEnvironment')
+    readonly environment: IEnvironment
 
-	@Sync('resource/activeResources')
-	activeResources: IEaasiResource[]
+    @Sync('resource/activeResources')
+    activeResources: IEaasiResource[]
 
-	get onlySelectedResource() : IEaasiResource {
-		if (this.resources.length === 1) {
-			return this.resources[0];
-		}
-	}
+    get onlySelectedResource() : IEaasiResource {
+    	if (this.resources.length === 1) {
+    		return this.resources[0];
+    	}
+    }
 
-	/**
-	 * Computes whether or not to show the details tab
-	 */
-	get hasDetails() {
-		// TODO: Logic for showing details tab
-		return true;
-	}
+    /**
+     * Computes whether or not to show the details tab
+     */
+    // TODO: Logic for showing details tab
+    get hasDetails() {
+    	return true;
+    }
 
-	get areMultipleActiveResourcesSelected() : boolean {
-		return this.resources.length > 1;
-	}
+    get areMultipleActiveResourcesSelected() : boolean {
+    	return this.resources.length > 1;
+    }
+
+    /**
+     * Populates the list of Local Actions in the Sidebar
+     */
+    get localActionsForSelected() {
+    	return menuService.getLocalActions(this.activeResources as IEnvironment[]);
+    }
+
+    /**
+     * Populates the list of Node Actions in the Sidebar
+     */
+    get nodeActionsForSelected() {
+    	return menuService.getNodeActions(this.activeResources as IEnvironment[]);
+    }
+
+    /* Data
+    ============================================*/
+
+    // TODO: Labeled Items should be derived from the resource
+    labeledItems: ILabeledItem[] = [];
 
 
-	get actionsForSelected() {
-		let localActions = [];
+    tabs: IEaasiTab[] = [
+    	{
+    		label: 'Details'
+    	},
+    	{
+    		label: 'Actions'
+    	}
+    ]
 
-		if (this.activeResources.length === 1) {
-			localActions.push(
-				{
-					label: 'View Details',
-					description: 'Review full resource details',
-					icon: 'file-alt',
-				},
-				{
-					label: 'Run in Emulator',
-					description: 'Emulate this resource without changes',
-					icon: 'power-off',
-				},
-			);
-		}
+    tab: string = 'Actions'
 
-		localActions.push({
-			label: 'Add to Emulation Project',
-			description: 'Emulate this resource without changes',
-			icon: 'paperclip'
-		},
-		{
-			label: 'Bookmark This Resource',
-			description: 'Add resource to my bookmarks in my resources',
-			icon: 'bookmark',
-		});
+    /* Methods
+    ============================================*/
 
-		return localActions;
-	}
+    toggleSlide() {
+    	this.$emit('toggle');
+    }
 
-	/* Data
-	============================================*/
-
-	// TODO: Labeled Items should be derived from the resource
-	labeledItems: ILabeledItem[] = [];
-
-	nodeActions: IAction[] = [
-		{
-			label: 'Save To My Node',
-			description: 'Make this resource available to all users of my node',
-			icon: 'cloud'
-		},
-		{
-			label: 'Publish To Network',
-			description: 'Make this resource available to all users of my node.',
-			icon: 'cloud-upload'
-		},
-		{
-			label: 'Sync Metadata',
-			description: 'Update resource with metadata from WikiData',
-			icon: 'sync'
-		},
-		{
-			label: 'Delete',
-			description: 'Delete this resource',
-			icon: 'trash-alt'
-		}
-	]
-
-	tabs: IEaasiTab[] = [
-		{
-			label: 'Details'
-		},
-		{
-			label: 'Actions'
-		}
-	]
-
-	tab: string = 'Actions'
-
-	/* Methods
-	============================================*/
-
-	toggleSlide() {
-		this.$emit('toggle');
-	}
-
-	doAction(action: IAction) {
-		console.log(`Action clicked: ${action.label}`);
-		switch (action.label) {
-
-		case 'Run in Emulator':
-			if (this.environment) {
-				this.$router.push(`/access-interface/${this.environment.envId}`);
-			}
-			break;
-
-		case 'View Details': {
-			this.$router.push({
-				name: 'Resource Detail',
-				params: {resource: JSON.stringify(this.onlySelectedResource)}
-			});
-		}
-			break;
-
-		default:
-			break;
-		}
-	}
+    doAction(action: IAction) {
+    	switch (action.shortName) {
+    	case 'run': {
+    		// When Run is clicked, we send to Access Interface @ environmentId
+    		if (this.environment) {
+    			this.$router.push(`/access-interface/${this.environment.envId}`);
+    		}
+    		break;
+    	}
+    	case 'viewDetails': {
+    		// When View Details is clicked, we send to Resource Detail view
+    		// with the (only) selected resource
+    		this.$router.push({
+    			name: 'Resource Detail',
+    			params: {resource: JSON.stringify(this.onlySelectedResource)}});
+    	}
+    	break;
+    	case 'save': {
+    		// When Save is clicked, we show the Save (Replicate) Modal to confirm
+    		this.$emit('show-save-modal');
+    	}
+    		break;
+    	default: break;
+    	}
+    }
 }
 
 </script>

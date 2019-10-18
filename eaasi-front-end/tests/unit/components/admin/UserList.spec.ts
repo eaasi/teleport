@@ -10,7 +10,7 @@ const localVue = createLocalVue();
 
 localVue.use(Vuex);
 
-describe('AdminMenu.vue', () => {
+describe('UserList.vue', () => {
 
 	let store;
 
