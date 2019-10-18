@@ -1,10 +1,10 @@
-import ICrudService from '../interfaces/ICrudService';
-import CrudService from '../base/CrudService';
+import BaseService from '@/services/base/BaseService';
+import CrudQuery from '@/services/base/CrudQuery';
+import CrudService from '@/services/base/CrudService';
+import ICrudService from '@/services/interfaces/ICrudService';
+import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 const { EaasiUser } = require('@/data_access/models');
 const { EaasiRole } = require('@/data_access/models');
-import CrudQuery from '../base/CrudQuery';
-import BaseService from '../base/BaseService';
-import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 
 
 /**
@@ -27,6 +27,10 @@ export default class UserAdminService extends BaseService {
 	/* Users
 	============================================*/
 
+	/**
+	 * Gets all Users using a CrudQuery
+	 * @param query: CrudQuery
+	 */
 	async getUsers(query: CrudQuery) {
 		let result = await this._userCrudService.getAll(query);
 
@@ -37,6 +41,10 @@ export default class UserAdminService extends BaseService {
 		return result.result;
 	}
 
+	/**
+	 * Gets a User by Id
+	 * @param id: number User PK
+	 */
 	async getUser(id: number) {
 		let result = await this._userCrudService.getByPk(id);
 
@@ -51,6 +59,10 @@ export default class UserAdminService extends BaseService {
 		return result.result;
 	}
 
+	/**
+	 * Gets a User by Email address
+	 * @param email: string email address
+	 */
 	async getUserByEmail(email: string) {
 		let result = await this._userCrudService.getOneWhere({email});
 
@@ -65,6 +77,11 @@ export default class UserAdminService extends BaseService {
 		return result.result;
 	}
 
+	/**
+	 * Saves (Create or Update) a User by id / User instance
+	 * @param id: number User PK
+	 * @param user: User instance
+	 */
 	async saveUser(id: number, user: object) {
 		let result: ICrudServiceResult;
 		if(id) {
@@ -80,6 +97,10 @@ export default class UserAdminService extends BaseService {
 		return result.result;
 	}
 
+	/**
+	 * Deletes a User by id
+	 * @param id: number User PK
+	 */
 	async deleteUser(id: number) {
 		let result = await this._userCrudService.destroy(id);
 
@@ -93,6 +114,9 @@ export default class UserAdminService extends BaseService {
 	/* Roles
 	============================================*/
 
+	/**
+	 * Gets a list of all UserRoles
+	 */
 	async getRoles() {
 		let query = new CrudQuery();
 
