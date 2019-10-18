@@ -32,5 +32,7 @@ router.get('/environment', (req, res) => controller.getEnvironment(req, res));
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
  */
 router.get('/software', (req, res) => controller.getSoftwarePackageDescription(req, res));
+router.post('/search', (req, res) => controller.search(req, res));
+router.post('/save', (req, res) => controller.saveEnvironment(req, res));
 
 module.exports = router;

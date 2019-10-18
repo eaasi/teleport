@@ -6,6 +6,7 @@ import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import User from '@/models/admin/User';
 import _svc from '@/services/AdminService';
+import _taskSvc from '@/services/TaskService';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import { ITaskState } from '@/types/Task';
 import EaasiTask from '@/models/task/EaasiTask';
@@ -49,7 +50,7 @@ const actions = {
 
 	async importEmulator(store: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
 		let taskState = await _svc.importEmulator(req) as ITaskState;;
-		if(!taskState) return null;
+		if (!taskState) return null;
 		let description = req.update ? 'Updating' : 'Importing';
 		let task = new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);
 		store.commit('ADD_OR_UPDATE_TASK', task, { root: true});
@@ -82,16 +83,16 @@ const actions = {
 	/* OAI-PMH Harvesters
 	============================================*/
 
-	async getHarvesters({commit}: Store<AdminState>): Promise<string[]> {
+	async getHarvesters({ commit }: Store<AdminState>): Promise<string[]> {
 		let harvesters = await _svc.getHarvesters();
-		if(!harvesters) return null;
+		if (!harvesters) return null;
 		commit('SET_HARVESTERS', harvesters);
 		return harvesters;
 	},
 
 	async addHarvester({ dispatch }: Store<AdminState>, req: IAddHarvesterRequest): Promise<boolean> {
 		let success = await _svc.addHarvester(req);
-		if(!success) return false;
+		if (!success) return false;
 		dispatch('getHarvesters');
 		return true;
 	},
@@ -102,11 +103,20 @@ const actions = {
 
 	async deleteHarvester({ dispatch }: Store<AdminState>, name: string): Promise<boolean> {
 		let success = _svc.deleteHarvester(name);
-		if(!success) return false;
+		if (!success) return false;
 		dispatch('getHarvesters');
 		return true;
-	}
+	},
 
+	/* Tasks
+	============================================*/
+	async getTaskState(_, taskId: string): Promise<ITaskState> {
+		let taskState = await _taskSvc.getTaskState(taskId);
+		if (!taskState) return null;
+		// TODO: Can refactor to store state in a map { taskId: taskState }
+		// TODO: Then, sync the map to the active tasks table view
+		return taskState;
+	},
 };
 
 /*============================================================

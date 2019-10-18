@@ -73,7 +73,7 @@ export default class EmulatorManagement extends AdminScreen {
 	list: IEmulator[]
 
 	get result() {
-		if(!this.list || !this.list.length) return [];
+		if (!this.list || !this.list.length) return [];
 		return this.list.filter(x => x.name.indexOf(this.keyword) > -1);
 	}
 

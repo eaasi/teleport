@@ -5,6 +5,7 @@ declare module 'eaasi-nav' {
 	}
 
 	export interface IMenuItem {
+		shortName?: string;
 		icon: string;
 		label: string;
 		route?: string;
