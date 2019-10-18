@@ -1,9 +1,9 @@
 <template>
 	<div class="admin-menu">
-		<h2>Node Management</h2>
+		<h2 class="admin-menu-heading">Node Management</h2>
 		<admin-menu-item v-for="i in menuItems" :key="i.route" :item="i" />
 		<div class="menu-divider"></div>
-		<h2>Node User Administration</h2>
+		<h2 class="admin-menu-heading">Node User Administration</h2>
 		<admin-menu-item v-for="i in userMenuItems" :key="i.route" :item="i" />
 	</div>
 </template>
@@ -41,6 +41,11 @@ export default class AdminMenu extends Vue {
 			icon: 'database',
 			label: 'Node Cache / Storage',
 			route: '/admin/storage'
+		},
+		{
+			icon: 'tasks',
+			label: 'Running Tasks',
+			route: '/admin/running-tasks'
 		},
 		/*
 		{
@@ -92,17 +97,16 @@ export default class AdminMenu extends Vue {
 	width: 25rem;
 
 	h2 {
-		color: #AAAAAA;
-		font-size: 1.2rem;
+		color: lighten($teal, 40%);
+		font-size: 1.3rem;
 		text-transform: uppercase;
 	}
 }
 
 .menu-divider {
-	background-color: darken($teal, 80%);
+	background-color: darken($teal, 55%);
 	height: 2px;
-	margin-bottom: 1.4rem;
-	margin-top: 2rem;
+	margin: 2rem 0;
 }
 
 </style>
