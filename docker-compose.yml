@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  # Nginx Reverse Proxy
+  nginx:
+    image: eaasi-nginx
+    build:
+        context: ./eaasi-nginx
+    ports:
+        - 80:80
+        - 443:443
+    restart: always
+
   # PostgresQL Database
   eaasi-database:
     image: eaasi-database
