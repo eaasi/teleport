@@ -1,11 +1,11 @@
-import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
-import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
+import UserAdminService from '@/services/admin/UserAdminService';
+import HarvesterService from '@/services/eaas/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
-import HarvesterService from '@/services/eaas/oaipmh/HarvesterService';
-import { HarvesterReq } from '@/types/oaiphm/Harvester';
+import { HarvesterReq } from '@/types/oaipmh/Harvester';
 
 export default class AdminController extends BaseController {
 
@@ -44,7 +44,7 @@ export default class AdminController extends BaseController {
 
 	/**
 	 * Gets all user roles
-	 * @param req - Express request
+	 * @param _req - Express request
 	 * @param res - Express response
 	 */
 	async getRoles(_req: Request, res: Response) {
@@ -95,7 +95,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getEmulators(_req: Request, res: Response) {
+	async getEmulators(req: Request, res: Response) {
 		try {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
 			res.send(emulators);
@@ -143,7 +143,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getHarvesters(_req: Request, res: Response) {
+	async getHarvesters(req: Request, res: Response) {
 		try {
 			let list = await this._harvesterSvc.getHarvesters();
 			res.send(list);
