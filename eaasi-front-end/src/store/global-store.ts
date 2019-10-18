@@ -8,6 +8,7 @@ import _taskService from '@/services/TaskService';
 import { ITaskState } from '@/types/Task';
 import EaasiTask from '@/models/task/EaasiTask';
 import { Store } from 'vuex';
+import User from '@/models/admin/User';
 
 /*============================================================
  == State
@@ -27,6 +28,7 @@ class GlobalState {
 	appError: IAppError = null;
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
 	showLoader: boolean = false;
+	user: User;
 }
 
 const state = new GlobalState();
