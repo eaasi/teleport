@@ -265,9 +265,9 @@ export default class EnvironmentDetailsMetadata extends Vue {
 			margin-left: 12px;
 		}
 		.read-only-message {
-			color: $dark-neutral;
 			border: 2px solid lighten($dark-neutral, 40%);
 			border-radius: 20px;
+			color: $dark-neutral;
 			padding: 1rem;
 		}
 	}
