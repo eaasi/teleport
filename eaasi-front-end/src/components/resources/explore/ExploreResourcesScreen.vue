@@ -98,7 +98,7 @@ export default class MyResourcesScreen extends Vue {
 	@Get('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
-    get hasActiveResources() {
+	get hasActiveResources() {
     	return this.activeResources.length > 0;
 	}
 
@@ -111,7 +111,7 @@ export default class MyResourcesScreen extends Vue {
 		const result = this.bentoResult.content.result.filter(
 			c => this.selectedFacets.some(f => f.values.some(v => c[f.name] === v.label && v.isSelected ))
 		);
-		return {...this.bentoResult.software, result}
+		return {...this.bentoResult.software, result};
 	}
 
 	get filteredSoftware() {
@@ -119,7 +119,7 @@ export default class MyResourcesScreen extends Vue {
 		const result = this.bentoResult.software.result.filter(
 			s => this.selectedFacets.some(f => f.values.some(v => s[f.name] === v.label && v.isSelected ))
 		);
-		return {...this.bentoResult.software, result}
+		return {...this.bentoResult.software, result};
 	}
 	
 	get filteredEnvironments() {
@@ -127,10 +127,10 @@ export default class MyResourcesScreen extends Vue {
 		const result = this.bentoResult.environments.result.filter(
 			env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
 		);
-		return {...this.bentoResult.environments, result}
+		return {...this.bentoResult.environments, result};
 	}
 
-    /* Data
+	/* Data
     ============================================*/
 
     isMenuOpenRequest: boolean = true;
@@ -144,10 +144,10 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async search() {
-		await this.$store.dispatch('resource/searchResources');
-		// generates facets based on the result received in searchResources.
-		// eventually won't need to do this, because facets will come with a result from the backend
-		this.$store.dispatch('resource/populateSearchFacets');
+    	await this.$store.dispatch('resource/searchResources');
+    	// generates facets based on the result received in searchResources.
+    	// eventually won't need to do this, because facets will come with a result from the backend
+    	this.$store.dispatch('resource/populateSearchFacets');
     }
 
     showSaveModal() {
@@ -170,7 +170,7 @@ export default class MyResourcesScreen extends Vue {
     mounted() {
     	let keyword = this.$route.query && this.$route.query.q;
     	this.query.keyword = keyword as string;
-		this.search();
+    	this.search();
     }
 
     destroyed() {
@@ -180,7 +180,7 @@ export default class MyResourcesScreen extends Vue {
     @Watch('$route.query')
     onRouteChanged(newQuery, oldQuery) {
     	if(newQuery.q !== oldQuery.q) {
-			this.query.keyword = newQuery.q as string;
+    		this.query.keyword = newQuery.q as string;
     		this.search();
     	}
     }

@@ -71,7 +71,7 @@ const actions = {
 			{ name: 'envType', values: [] },
 			{ name: 'owner', values: [] },
 			{ name: 'archiveId', values: [] }
-		]
+		];
 		facets.forEach(f => {
 			state.result.environments.result.forEach(e => {
 				if (e[f.name] != null) {
@@ -92,7 +92,7 @@ const actions = {
 						f.values.push({ label: e[f.name], total: 1, isSelected: false });
 					}
 				}
-			})
+			});
 		});
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
 	}
