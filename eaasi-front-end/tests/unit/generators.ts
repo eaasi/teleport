@@ -1,8 +1,9 @@
 import {IEnvironment} from '@/types/Resource';
 import faker from 'faker';
 import {IEaasiRole, IEaasiUser} from 'eaasi-admin';
+import User from '@/models/admin/User';
 
-export function generateFakeUsers(userCount: number) : IEaasiUser[] {
+export function generateFakeUsers(userCount: number) : User[] {
 	let users = [];
 	for (let i = 1; i <= userCount; i++) {
 		users.push({
