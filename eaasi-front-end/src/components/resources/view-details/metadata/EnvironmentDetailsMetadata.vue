@@ -2,13 +2,13 @@
 	<div>
 		<div class="mtb-container">
 			<dual-toggle 
-				v-if="showToggle"
+				v-if="canUserToggle"
 				:options="toggleOptions" 
 				:value="toggleValue"
 				@input="onToggleValueChange" 
 			/>
 			<div class="flex-center flex-row">
-				<div v-if="!showToggle" class="read-only-message no-select">
+				<div v-if="!canUserToggle" class="read-only-message no-select">
 					{{ toggleOptions[0] }} Only
 				</div>
 				<div style="margin-left: 1rem;">
@@ -88,6 +88,7 @@ import { IEaasiResourceSummary, IEnvironment } from '@/types/Resource';
 import { ILabeledItem } from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
+import User from '@/models/admin/User';
 
 @Component({
 	name: 'EnvironmentDetailsMetadata.vue',
@@ -106,8 +107,8 @@ export default class EnvironmentDetailsMetadata extends Vue {
 	/* Data
 	============================================*/
 	title: string = this.resourceDetailSummary.title;
-	editable: bool = false;
-	showEditConfirmModal: bool = false;
+	editable: Boolean = false;
+	showEditConfirmModal: Boolean = false;
 	toggleOptions = ['Review Mode', 'Edit Mode'];
 	toggleValue: string = this.toggleOptions[0];
 	
@@ -119,12 +120,11 @@ export default class EnvironmentDetailsMetadata extends Vue {
 	@Sync('software/activeSoftware')
 	software: any
 	
-	@Sync('user')
-	user: User
+	@Sync('loggedInUser')
+	loggedInUser: User
 	
-	get showToggle() {
-		return true;
-		return this.user && this.user.roleID < 3;
+	get canUserToggle() {
+		return this.loggedInUser.userHasEditPermissions;
 	}
 
 	// TODO: This temporarily just returns the first active software for proof of concept integration

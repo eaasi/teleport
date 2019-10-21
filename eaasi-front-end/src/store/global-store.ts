@@ -1,5 +1,4 @@
 import { make } from 'vuex-pathify';
-import { IEaasiUser } from 'eaasi-admin';
 import {IAppError} from '@/types/AppError';
 import config from '@/config';
 import Cookies from 'js-cookie';
@@ -20,7 +19,7 @@ class GlobalState {
 	emulatorIsRunning: boolean = false;
 	hideAppHeader: boolean = false;
 	hideLeftMenu: boolean = false;
-	loggedInUser: IEaasiUser = null;
+	loggedInUser: User = null;
 	loginError: string = null;
 	nodeName: string = 'PortalMedia Inc';
 	runningTasks: EaasiTask[] = [];
@@ -28,7 +27,6 @@ class GlobalState {
 	appError: IAppError = null;
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
 	showLoader: boolean = false;
-	user: User;
 }
 
 const state = new GlobalState();
@@ -71,7 +69,7 @@ const actions = {
 		if(!token) return false;
 		let user = await _authService.getUserData();
 		if(!user) return false;
-		commit('SET_LOGGED_IN_USER', user);
+		commit('SET_LOGGED_IN_USER', new User(user));
 		return true;
 	},
 
