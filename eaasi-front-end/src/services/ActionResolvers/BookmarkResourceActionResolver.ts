@@ -13,7 +13,7 @@ export default class BookmarkResourceActionResolver extends  SlideMenuActionReso
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() : IAction {
+	get action() : IAction {
 		return {
 			shortName: 'bookmark',
 			label: 'Bookmark This Resource',

@@ -5,7 +5,6 @@ import {IAction} from 'eaasi-nav';
 export default class SaveToMyNodeActionResolver extends SlideMenuActionResolver {
 	activeResources: IEnvironment[];
 	userRoleId: number
-	action: IAction;
 
 	constructor(activeResources: IEnvironment[], roleId: number) {
 		super(activeResources, roleId);
@@ -14,7 +13,7 @@ export default class SaveToMyNodeActionResolver extends SlideMenuActionResolver 
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() : IAction {
+	get action() : IAction {
 		return {
 			shortName: 'save',
 			label: 'Save To My Node',

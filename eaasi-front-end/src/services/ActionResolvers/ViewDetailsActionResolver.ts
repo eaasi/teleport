@@ -13,7 +13,7 @@ export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() : IAction {
+	get action() : IAction {
 		// Disabled if more than one resource is selected
 		return {
 			shortName: 'viewDetails',

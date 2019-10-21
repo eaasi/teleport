@@ -9,7 +9,7 @@ import { IEnvironment } from '@/types/Resource';
 
 
 /**
- * Determines Resource Slide Menu Behavior
+ * Provides Resource Slide Menu Behavior
  */
 export default class ResourceSlideMenuService {
 
@@ -20,7 +20,7 @@ export default class ResourceSlideMenuService {
 	 */
 	getLocalActions(selected: IEnvironment[], roleId: number) {
 		return [
-			new ViewDetailsActionResolver(selected, roleId).resolveAction(),
+			new ViewDetailsActionResolver(selected, roleId).action,
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
 			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
 			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),

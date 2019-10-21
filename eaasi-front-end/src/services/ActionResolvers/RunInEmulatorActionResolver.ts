@@ -5,7 +5,6 @@ import { IAction } from 'eaasi-nav';
 export default class RunInEmulatorActionResolver extends SlideMenuActionResolver {
 	activeResources: IEnvironment[];
 	userRoleId: number
-	action: IAction;
 
 	constructor(activeResources: IEnvironment[], roleId: number) {
 		super(activeResources, roleId);
@@ -14,7 +13,7 @@ export default class RunInEmulatorActionResolver extends SlideMenuActionResolver
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() : IAction {
+	get action() : IAction {
 		// Disabled if resource is int a single public resource
 		return {
 			shortName: 'run',

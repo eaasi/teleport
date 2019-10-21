@@ -5,7 +5,6 @@ import {IAction} from 'eaasi-nav';
 export default class DeleteResourceActionResolver extends SlideMenuActionResolver {
 	activeResources: IEnvironment[];
 	userRoleId: number
-	action: IAction;
 
 	constructor(activeResources: IEnvironment[], roleId: number) {
 		super(activeResources, roleId);
@@ -14,7 +13,7 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() {
+	get action() : IAction {
 		// Active only for admin users
 		return {
 			shortName: 'delete',
@@ -23,6 +22,6 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 			icon: 'trash-alt',
 			isEnabled: super.isUserAdmin()
 		};
-	}
+	};
 }
 

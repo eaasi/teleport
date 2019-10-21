@@ -1,6 +1,12 @@
 import {IEnvironment} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
 
+/**
+ * Resolves an Action on a SlideMenuAction
+ *
+ * Encapsulates logic required to determine the state of any Action, such as whether or not
+ * an action is enabled.
+ */
 export default class SlideMenuActionResolver {
 	activeResources: IEnvironment[];
 	userRoleId: number
@@ -9,27 +15,21 @@ export default class SlideMenuActionResolver {
 	constructor(activeResources: IEnvironment[], roleId: number) {
 		this.activeResources = activeResources;
 		this.userRoleId = roleId;
-		this.action = this.resolveAction();
 	}
 
 	/**
 	 * Resolves custom behavior of an action
+	 * This method should be overidden by child classes if the child resolver changes the state
+	 * of the action
 	 */
 	resolveAction() {
-		// Override this method with custom resolution behavior
 		return this.action;
 	}
 
-	/**
-	 * Returns true if a single Active Resource exists
-	 */
 	isSingleSelected() : boolean {
 		return this.activeResources.length === 1;
 	}
 
-	/**
-	 * Returns true if a single Active Resource whose archive is public
-	 */
 	isSinglePublicResource() : boolean {
 		return this.isSingleSelected()
 			&& this.activeResources[0].archive === 'public';
@@ -40,9 +40,6 @@ export default class SlideMenuActionResolver {
 			&& this.activeResources[0].archive === 'remote';
 	}
 
-	/**
-	 * Returns true if user has Admin UserRole
-	 */
 	isUserAdmin() : boolean {
 		return this.userRoleId === 1;
 	}

@@ -5,7 +5,6 @@ import {IAction} from 'eaasi-nav';
 export default class PublishToNetworkActionResolver extends SlideMenuActionResolver {
 	activeResources: IEnvironment[];
 	userRoleId: number
-	action: IAction;
 
 	constructor(activeResources: IEnvironment[], roleId: number) {
 		super(activeResources, roleId);
@@ -14,7 +13,7 @@ export default class PublishToNetworkActionResolver extends SlideMenuActionResol
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() {
+	get action() {
 		return {
 			shortName: 'publish',
 			label: 'Publish To Network',

@@ -5,7 +5,6 @@ import {IAction} from 'eaasi-nav';
 export default class AddToEmulationProjectActionResolver extends  SlideMenuActionResolver {
 	activeResources: IEnvironment[];
 	userRoleId: number
-	action: IAction;
 
 	constructor(activeResources: IEnvironment[], roleId: number) {
 		super(activeResources, roleId);
@@ -14,7 +13,7 @@ export default class AddToEmulationProjectActionResolver extends  SlideMenuActio
 	/**
 	 * Resolves custom behavior of an action
 	 */
-	resolveAction() : IAction {
+	get action() : IAction {
 		return {
 			shortName: 'addToEmuProject',
 			label: 'Add to Emulation Project',
