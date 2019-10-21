@@ -16,7 +16,7 @@ export default class SaveToMyNodeActionResolver extends SlideMenuActionResolver 
 	get action() : IAction {
 		return {
 			shortName: 'save',
-			label: 'Save To My Node',
+			label: 'Save to My Node',
 			description: 'Make this resource available to all users of my node',
 			icon: 'cloud',
 			isEnabled: super.isSingleRemoteResource()
