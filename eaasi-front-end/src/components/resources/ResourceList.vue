@@ -69,7 +69,7 @@ export default class ResourceList extends Vue {
 	}
 
 	_removeFromActiveResources(resource: IEaasiResource) {
-		let index = this.activeResources.findIndex(o => o.id === resource.id);
+		let index = this.activeResources.findIndex(o => o.title === resource.title);
 		if (index !== -1) this.activeResources.splice(index, 1);
 	}
 

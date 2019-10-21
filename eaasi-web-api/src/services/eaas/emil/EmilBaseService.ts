@@ -23,7 +23,6 @@ export default class EmilBaseService implements IHttpService {
 
 	private _createUrl(methodName: string): string {
 		let url = `${BASE_URL}/${this._path}/${methodName}`;
-		console.log('POSTING TO URL', url)
 		return url
 	}
 
