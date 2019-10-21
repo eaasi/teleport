@@ -1,7 +1,7 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet, IResourceSearchFacetValue } from '@/types/Search';
+import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet, IResourceSearchFacetValue, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import {IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -66,44 +66,34 @@ const actions = {
 	},
 
 	populateSearchFacets({ state, commit }: Store<ResourceState>) {
-		// {
-		// 	name: 'Network Status',
-		// 	type: 'Software',
-		// 	values: [
-		// 		{
-		// 			label: 'Private',
-		// 			total: 4,
-		// 			isSelected: false
-		// 		}
-		// 	]
-		// }
 		const facets: IResourceSearchFacet[] = [
 			{ name: 'archive', values: [] },
 			{ name: 'envType', values: [] },
 			{ name: 'owner', values: [] },
-			{ name: 'archiveID', values: [] }
+			{ name: 'archiveId', values: [] }
 		]
-		state.result.environments.result.forEach(e => {
-			facets.forEach(f => {
+		facets.forEach(f => {
+			state.result.environments.result.forEach(e => {
 				if (e[f.name] != null) {
 					const value = f.values.find(v => v.label === e[f.name]);
-					console.log(value)
-					const total = value ? value.total : 1;
-					f.values.push({ label: e[f.name], total, isSelected: false });
+					if(value) {
+						f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
+					} else {
+						f.values.push({ label: e[f.name], total: 1, isSelected: false });
+					}
 				}
 			});
-		})
-		state.result.software.result.forEach(e => {
-			facets.forEach(f => {
+			state.result.software.result.forEach(e => {
 				if (e[f.name] != null) {
 					const value = f.values.find(v => v.label === e[f.name]);
-					console.log(value)
-					const total = value ? value.total : 1;
-					f.values.push({ label: e[f.name], total, isSelected: false });
+					if(value) {
+						f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
+					} else {
+						f.values.push({ label: e[f.name], total: 1, isSelected: false });
+					}
 				}
-			});
-		})
-		console.log(facets)
+			})
+		});
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
 	}
 };

@@ -1,24 +1,26 @@
 <template>
 	<div id="exploreResources">
 		<div class="resource-results">
-			<resource-facets v-if="bentoResult && bentoResult.facets" />
-			<applied-search-facets v-if="query.selectedFacets.length > 0" />
+			<resource-facets v-if="query && query.selectedFacets.length > 0" />
+			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
-				<div class="row" v-if="bentoResult">
-					<div class="col-md-6">
+				<div class="flex-elastic-row" v-if="bentoResult">
+					<div class="elastic-col" v-if="filteredEnvironments.result.length > 0">
 						<resource-list
 							:query="query"
-							:result="bentoResult.environments"
+							:result="filteredEnvironments"
 							type="Environment"
 						/>
 					</div>
-					<div class="col-md-6">
+					<div class="elastic-col" v-if="filteredSoftware.result.length > 0 || filteredContent.result.length > 0">
 						<resource-list
+							v-if="filteredSoftware.result.length > 0"
 							:query="query"
-							:result="bentoResult.software"
+							:result="filteredSoftware"
 							type="Software"
 						/>
 						<resource-list
+							v-if="filteredContent.result.length > 0"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -67,7 +69,7 @@ import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
-import { IResourceSearchResponse } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -91,11 +93,42 @@ export default class MyResourcesScreen extends Vue {
     query: ResourceSearchQuery;
 
     @Get('resource/result')
-    bentoResult: IResourceSearchResponse
+	bentoResult: IResourceSearchResponse
+	
+	@Get('resource/query@selectedFacets')
+	selectedFacets: IResourceSearchFacet[]
 
     get hasActiveResources() {
     	return this.activeResources.length > 0;
-    }
+	}
+
+	get hasSelectedFacets() {
+    	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
+	}
+	
+	get filteredContent() {
+		if (!this.hasSelectedFacets) return this.bentoResult.content;
+		const result = this.bentoResult.content.result.filter(
+			c => this.selectedFacets.some(f => f.values.some(v => c[f.name] === v.label && v.isSelected ))
+		);
+		return {...this.bentoResult.software, result}
+	}
+
+	get filteredSoftware() {
+		if (!this.hasSelectedFacets) return this.bentoResult.software;
+		const result = this.bentoResult.software.result.filter(
+			s => this.selectedFacets.some(f => f.values.some(v => s[f.name] === v.label && v.isSelected ))
+		);
+		return {...this.bentoResult.software, result}
+	}
+	
+	get filteredEnvironments() {
+		if (!this.hasSelectedFacets) return this.bentoResult.environments;
+		const result = this.bentoResult.environments.result.filter(
+			env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
+		);
+		return {...this.bentoResult.environments, result}
+	}
 
     /* Data
     ============================================*/
@@ -112,6 +145,8 @@ export default class MyResourcesScreen extends Vue {
 
     async search() {
 		await this.$store.dispatch('resource/searchResources');
+		// generates facets based on the result received in searchResources.
+		// eventually won't need to do this, because facets will come with a result from the backend
 		this.$store.dispatch('resource/populateSearchFacets');
     }
 
@@ -145,7 +180,7 @@ export default class MyResourcesScreen extends Vue {
     @Watch('$route.query')
     onRouteChanged(newQuery, oldQuery) {
     	if(newQuery.q !== oldQuery.q) {
-    		this.query.keyword = newQuery.q as string;
+			this.query.keyword = newQuery.q as string;
     		this.search();
     	}
     }
@@ -180,6 +215,14 @@ export default class MyResourcesScreen extends Vue {
 		.resource-bento {
 			margin-left: 28rem;
 			padding: 1.5rem;
+			.flex-elastic-row {
+				display: flex;
+				flex-direction: row;
+				.elastic-col {
+					flex: 1;
+					margin: 0 1rem;
+				}
+			}
 		}
 	}
 

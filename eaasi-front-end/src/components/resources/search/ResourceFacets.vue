@@ -20,9 +20,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Sync } from 'vuex-pathify';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { IResourceSearchFacet, IResourceSearchResponse, IResourceSearchQuery } from '@/types/Search.d.ts';
-import { jsonCopy } from '@/utils/functions';
+import { jsonCopy, jsonEquals } from '@/utils/functions';
 
 @Component({
 	name: 'ResourceFacets'
