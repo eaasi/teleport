@@ -120,7 +120,7 @@ export default class EnvironmentDetailsMetadata extends Vue {
 	@Sync('software/activeSoftware')
 	software: any
 	
-	@Sync('loggedInUser')
+	@Get('loggedInUser')
 	loggedInUser: User
 	
 	get canUserToggle() {
