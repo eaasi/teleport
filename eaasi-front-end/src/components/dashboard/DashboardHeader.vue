@@ -4,9 +4,22 @@
 			<div id="dh-eaasi-hexagon">
 				<img src="@/assets/eaasi_logos/EaaSI_hexGraphic.png" alt="EaaSI Logo" />
 			</div>
-			<div id="dh-eaasi-welcome-text">
+			<div id="dh-eaasi-welcome">
 				<h3>Welcome to EaaSI</h3>
-				<div class="dh-welcome-content">
+				<div class="dh-welcome-container">
+					<div class="dh-welcome-overview">
+						Overview
+					</div>
+					<div class="dh-welcome-subheading">
+						Emulation-as-a-Service Infrastructure = EaaSI
+					</div>
+					<p class="dh-welcome-blurb">
+						Led by the Digital Preservation Services team at Yale University Library,
+						and with support from OpenSLX, DataCurrent, PortalMedia, Educopia, and
+						the Software Preservation Network, the EaaSI program of work is focused on
+						the development of technology and services to expand and scale the
+						capabilities of the Emulation-as-a-Service software.
+					</p>
 				</div>
 			</div>
 		</div>
@@ -54,17 +67,33 @@ export default class DashboardHeader extends Vue { }
 		margin: 0 1.2rem;
 	}
 
-	#dh-eaasi-welcome-text {
-		padding: 24px;
+	#dh-eaasi-welcome {
+		padding: 2.4rem;
 		width: 20vw;
 
 		h3 {
-			font-size: 2.4rem;
+			font-size: 3.4rem;
+		}
+	}
+
+	.dh-welcome-container {
+		padding: 1.2rem 0;
+
+		.dh-welcome-overview {
+			font-size: 2rem;
+			font-weight: bold;
+			margin-bottom: 1.2rem;
 		}
 
-		> p {
+		.dh-welcome-subheading {
+			font-size: 1.8rem;
+			font-weight: bold;
+			margin-bottom: 1.2rem;
+		}
+
+		.dh-welcome-blurb {
 			font-size: 1.6rem;
-			line-height: 3.2rem;
+			line-height: 2.3rem;
 		}
 	}
 }
