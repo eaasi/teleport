@@ -47,11 +47,11 @@ export default class AppliedSearchFacets extends Vue {
 
     deselectAllFacetValues() {
     	this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
-	}
+    }
 	
-	search() {
-		console.log('search')
-	}
+    search() {
+    	console.log('search');
+    }
 
 }
 </script>

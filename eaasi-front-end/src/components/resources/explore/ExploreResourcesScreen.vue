@@ -154,13 +154,13 @@ export default class MyResourcesScreen extends Vue {
     	// generates facets based on the result received in searchResources.
     	// eventually won't need to do this, because facets will come with a result from the backend
     	this.$store.dispatch('resource/populateSearchFacets');
-	}
+    }
 	
-	getAll(types) {
-		this.query.types = types;
-		this.query.limit = this.bentoResult.environments.totalResults;
-		this.search();
-	}
+    getAll(types) {
+    	this.query.types = types;
+    	this.query.limit = this.bentoResult.environments.totalResults;
+    	this.search();
+    }
 
     showSaveModal() {
     	this.isSaveModalVisible = true;
