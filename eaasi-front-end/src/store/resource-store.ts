@@ -6,6 +6,7 @@ import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import {IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
+import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 
 /*============================================================
  == State
@@ -62,38 +63,8 @@ const actions = {
 
 	// this will map results and generate facets
 	populateSearchFacets({ state, commit }: Store<ResourceState>) {
-		const facets: IResourceSearchFacet[] = [
-			{ name: 'archive', values: [] },
-			{ name: 'envType', values: [] },
-			{ name: 'owner', values: [] },
-			{ name: 'archiveId', values: [] }
-		];
-		facets.forEach(f => {
-			if (state.result.environments) {
-				state.result.environments.result.forEach(e => {
-					if (e[f.name] != null) {
-						const value = f.values.find(v => v.label === e[f.name]);
-						if(value) {
-							f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
-						} else {
-							f.values.push({ label: e[f.name], total: 1, isSelected: false });
-						}
-					}
-				});
-			}
-			if (state.result.software) {
-				state.result.software.result.forEach(e => {
-					if (e[f.name] != null) {
-						const value = f.values.find(v => v.label === e[f.name]);
-						if(value) {
-							f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
-						} else {
-							f.values.push({ label: e[f.name], total: 1, isSelected: false });
-						}
-					}
-				});
-			}
-		});
+		const { environments, software, content } = state.result;
+		const facets = populateFacets(environments, software, content);
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
 	}
 };

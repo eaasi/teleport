@@ -1,28 +1,34 @@
 <template>
-	<div id="exploreResources">
+	<div id="exploreResources" v-if="bentoResult">
 		<div class="resource-results">
-			<resource-facets v-if="query && query.selectedFacets.length > 0" />
+			<resource-facets />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
-				<div class="bento-row" v-if="bentoResult">
-					<div class="bento-col" v-if="filteredEnvironments.result.length > 0">
+				<div class="bento-row">
+					<div 
+						v-if="refinedEnvironment.result.length > 0" 
+						class="bento-col"
+					>
 						<resource-list
 							:query="query"
-							:result="filteredEnvironments"
+							:result="refinedEnvironment"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
-					<div class="bento-col" v-if="filteredSoftware.result.length > 0 || filteredContent.result.length > 0">
+					<div 
+						v-if="refinedSoftware.result.length > 0 || refinedContent.result.length > 0"
+						class="bento-col" 
+					>
 						<resource-list
-							v-if="filteredSoftware.result.length > 0"
+							v-if="refinedSoftware.result.length > 0"
 							:query="query"
-							:result="filteredSoftware"
+							:result="refinedSoftware"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							v-if="filteredContent.result.length > 0"
+							v-if="refinedContent.result.length > 0"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -70,9 +76,9 @@ import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource, IEnvironment } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
-import { IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -109,31 +115,16 @@ export default class MyResourcesScreen extends Vue {
     	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
 	
-	get filteredContent() {
-		if (!this.bentoResult.content) return { result: [], totalResults: 0 };
-		if (!this.hasSelectedFacets) return this.bentoResult.content;
-		const result = this.bentoResult.content.result.filter(
-			c => this.selectedFacets.some(f => f.values.some(v => c[f.name] === v.label && v.isSelected ))
-		);
-		return {...this.bentoResult.software, result};
+	get refinedContent() {
+		return this.refinedResult(this.bentoResult.content);
 	}
 
-	get filteredSoftware() {
-		if (!this.bentoResult.software) return { result: [], totalResults: 0 };
-		if (!this.hasSelectedFacets) return this.bentoResult.software;
-		const result = this.bentoResult.software.result.filter(
-			s => this.selectedFacets.some(f => f.values.some(v => s[f.name] === v.label && v.isSelected ))
-		);
-		return {...this.bentoResult.software, result};
+	get refinedSoftware() {
+		return this.refinedResult(this.bentoResult.software);
 	}
 	
-	get filteredEnvironments() {
-		if (!this.bentoResult.environments) return { result: [], totalResults: 0 };
-		if (!this.hasSelectedFacets) return this.bentoResult.environments;
-		const result = this.bentoResult.environments.result.filter(
-			env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
-		);
-		return {...this.bentoResult.environments, result};
+	get refinedEnvironment() {
+		return this.refinedResult(this.bentoResult.environments);
 	}
 
 	/* Data
@@ -143,7 +134,16 @@ export default class MyResourcesScreen extends Vue {
     isSaveModalVisible: boolean = false;
 
     /* Methods
-    ============================================*/
+	============================================*/
+	
+	refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
+		if (!bentoResult) return { result: [], totalResults: 0 };
+		if (!this.hasSelectedFacets) return bentoResult;
+		const result = bentoResult.result.filter(
+			env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
+		);
+		return {...bentoResult, result};
+	}
 
     toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;

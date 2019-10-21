@@ -62,6 +62,9 @@ export default class SearchFacetWrapper extends Vue {
 .sfw-content {
 	padding: 1rem;
 }
+.sfw-label {
+	text-transform: uppercase;
+}
 
 .sfw-content {
 	padding-top: 0;

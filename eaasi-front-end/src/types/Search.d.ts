@@ -32,6 +32,7 @@ export interface IResourceSearchResponse {
 }
 
 export interface IResourceSearchFacet {
+	displayLabel: string;
 	name: string;
 	values: IResourceSearchFacetValue[];
 }
