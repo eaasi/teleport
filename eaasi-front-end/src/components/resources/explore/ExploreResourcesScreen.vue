@@ -136,14 +136,14 @@ export default class MyResourcesScreen extends Vue {
     /* Methods
 	============================================*/
 	
-	refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
-		if (!bentoResult) return { result: [], totalResults: 0 };
-		if (!this.hasSelectedFacets) return bentoResult;
-		const result = bentoResult.result.filter(
-			env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
-		);
-		return {...bentoResult, result};
-	}
+    refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
+    	if (!bentoResult) return { result: [], totalResults: 0 };
+    	if (!this.hasSelectedFacets) return bentoResult;
+    	const result = bentoResult.result.filter(
+    		env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
+    	);
+    	return {...bentoResult, result};
+    }
 
     toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
