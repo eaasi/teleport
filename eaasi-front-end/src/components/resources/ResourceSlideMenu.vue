@@ -50,18 +50,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { Get, Sync } from 'vuex-pathify';
-import { IAction, IEaasiTab } from 'eaasi-nav';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import { ILabeledItem } from '@/types/ILabeledItem';
-import ResourceAction from './ResourceAction.vue';
-import SlideMenu from '@/components/layout/SlideMenu.vue';
-import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
+	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+	import SlideMenu from '@/components/layout/SlideMenu.vue';
+	import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
+	import {ILabeledItem} from '@/types/ILabeledItem';
+	import {IEaasiResource, IEnvironment} from '@/types/Resource';
+	import {IEaasiUser} from 'eaasi-admin';
+	import {IAction, IEaasiTab} from 'eaasi-nav';
+	import Vue from 'vue';
+	import {Component, Prop} from 'vue-property-decorator';
+	import {Get, Sync} from 'vuex-pathify';
+	import ResourceAction from './ResourceAction.vue';
 
-let menuService = new ResourceSlideMenuService();
+	let menuService = new ResourceSlideMenuService();
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -91,43 +92,47 @@ export default class ResourceSlideMenu extends Vue {
     @Sync('resource/activeResources')
     activeResources: IEaasiResource[]
 
-    get onlySelectedResource() : IEaasiResource {
-    	if (this.resources.length === 1) {
-    		return this.resources[0];
-    	}
-    }
+	@Get('loggedInUser')
+	user: IEaasiUser
 
-    /**
-     * Computes whether or not to show the details tab
-     */
-    // TODO: Logic for showing details tab
-    get hasDetails() {
-    	return true;
-    }
 
-    get areMultipleActiveResourcesSelected() : boolean {
-    	return this.resources.length > 1;
-    }
+	get onlySelectedResource() : IEaasiResource {
+		if (this.resources.length === 1) {
+			return this.resources[0];
+		}
+	}
 
-    /**
-     * Populates the list of Local Actions in the Sidebar
-     */
-    get localActionsForSelected() {
-    	return menuService.getLocalActions(this.activeResources as IEnvironment[]);
-    }
+	/**
+	 * Computes whether or not to show the details tab
+	 */
+	// TODO: Logic for showing details tab
+	get hasDetails() {
+		return true;
+	}
 
-    /**
-     * Populates the list of Node Actions in the Sidebar
-     */
-    get nodeActionsForSelected() {
-    	return menuService.getNodeActions(this.activeResources as IEnvironment[]);
-    }
+	get areMultipleActiveResourcesSelected() : boolean {
+		return this.resources.length > 1;
+	}
 
-    /* Data
+	/**
+	 * Populates the list of Local Actions in the Sidebar
+	 */
+	get localActionsForSelected() {
+		return menuService.getLocalActions(this.activeResources as IEnvironment[], this.user.roleId);
+	}
+
+	/**
+	 * Populates the list of Node Actions in the Sidebar
+	 */
+	get nodeActionsForSelected() {
+		return menuService.getNodeActions(this.activeResources as IEnvironment[], this.user.roleId);
+	}
+
+	/* Data
     ============================================*/
 
-    // TODO: Labeled Items should be derived from the resource
-    labeledItems: ILabeledItem[] = [];
+	// TODO: Labeled Items should be derived from the resource
+	labeledItems: ILabeledItem[] = [];
 
 
     tabs: IEaasiTab[] = [

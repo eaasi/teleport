@@ -1,5 +1,5 @@
 <template functional>
-	<div class="resource-action flex-row" @click="listeners.click">
+	<div :class="['resource-action', 'flex-row', { disabled: !props.action.isEnabled }]" @click="listeners.click">
 		<div class="ra-icon">
 			<i :class="`fas fa-fw fa-${props.action.icon}`"></i>
 		</div>
@@ -27,7 +27,6 @@ export default class ResourceAction extends Vue {
 	============================================*/
 	@Prop({type: Object as () => IAction, required: true})
 	readonly action: IAction
-
 }
 
 </script>
@@ -49,6 +48,17 @@ export default class ResourceAction extends Vue {
 		color: $grey;
 		font-size: 1.4rem;
 		margin-top: 0.3rem;
+	}
+}
+
+.disabled {
+	background-color: lighten($light-neutral, 80%);
+	border-bottom: solid 2px lighten($light-neutral, 10%);
+	color: lighten($grey, 30%);
+	cursor: not-allowed;
+
+	&:hover {
+		background-color: lighten($light-neutral, 80%);
 	}
 }
 
