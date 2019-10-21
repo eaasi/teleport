@@ -34,7 +34,7 @@ export default class AppliedSearchFacets extends Vue {
     ============================================*/
 
     @Sync('resource/query@selectedFacets')
-	selectedFacets: IResourceSearchFacet[]
+	selectedFacets: IResourceSearchFacet[];
 
     /* Methods
     ============================================*/
@@ -47,7 +47,11 @@ export default class AppliedSearchFacets extends Vue {
 
     deselectAllFacetValues() {
     	this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
-    }
+	}
+	
+	search() {
+		console.log('search')
+	}
 
 }
 </script>

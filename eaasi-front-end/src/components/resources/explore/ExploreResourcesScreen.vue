@@ -4,26 +4,29 @@
 			<resource-facets v-if="query && query.selectedFacets.length > 0" />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
-				<div class="flex-elastic-row" v-if="bentoResult">
-					<div class="elastic-col" v-if="filteredEnvironments.result.length > 0">
+				<div class="bento-row" v-if="bentoResult">
+					<div class="bento-col" v-if="filteredEnvironments.result.length > 0">
 						<resource-list
 							:query="query"
 							:result="filteredEnvironments"
 							type="Environment"
+							@click:all="getAll(['Environment'])"
 						/>
 					</div>
-					<div class="elastic-col" v-if="filteredSoftware.result.length > 0 || filteredContent.result.length > 0">
+					<div class="bento-col" v-if="filteredSoftware.result.length > 0 || filteredContent.result.length > 0">
 						<resource-list
 							v-if="filteredSoftware.result.length > 0"
 							:query="query"
 							:result="filteredSoftware"
 							type="Software"
+							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
 							v-if="filteredContent.result.length > 0"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
+							@click:all="getAll(['Content'])"
 						/>
 					</div>
 				</div>
@@ -107,6 +110,7 @@ export default class MyResourcesScreen extends Vue {
 	}
 	
 	get filteredContent() {
+		if (!this.bentoResult.content) return { result: [], totalResults: 0 };
 		if (!this.hasSelectedFacets) return this.bentoResult.content;
 		const result = this.bentoResult.content.result.filter(
 			c => this.selectedFacets.some(f => f.values.some(v => c[f.name] === v.label && v.isSelected ))
@@ -115,6 +119,7 @@ export default class MyResourcesScreen extends Vue {
 	}
 
 	get filteredSoftware() {
+		if (!this.bentoResult.software) return { result: [], totalResults: 0 };
 		if (!this.hasSelectedFacets) return this.bentoResult.software;
 		const result = this.bentoResult.software.result.filter(
 			s => this.selectedFacets.some(f => f.values.some(v => s[f.name] === v.label && v.isSelected ))
@@ -123,6 +128,7 @@ export default class MyResourcesScreen extends Vue {
 	}
 	
 	get filteredEnvironments() {
+		if (!this.bentoResult.environments) return { result: [], totalResults: 0 };
 		if (!this.hasSelectedFacets) return this.bentoResult.environments;
 		const result = this.bentoResult.environments.result.filter(
 			env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
@@ -148,7 +154,13 @@ export default class MyResourcesScreen extends Vue {
     	// generates facets based on the result received in searchResources.
     	// eventually won't need to do this, because facets will come with a result from the backend
     	this.$store.dispatch('resource/populateSearchFacets');
-    }
+	}
+	
+	getAll(types) {
+		this.query.types = types;
+		this.query.limit = this.bentoResult.environments.totalResults;
+		this.search();
+	}
 
     showSaveModal() {
     	this.isSaveModalVisible = true;
@@ -215,10 +227,10 @@ export default class MyResourcesScreen extends Vue {
 		.resource-bento {
 			margin-left: 28rem;
 			padding: 1.5rem;
-			.flex-elastic-row {
+			.bento-row {
 				display: flex;
 				flex-direction: row;
-				.elastic-col {
+				.bento-col {
 					flex: 1;
 					margin: 0 1rem;
 				}

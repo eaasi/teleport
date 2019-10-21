@@ -21,6 +21,7 @@ export interface IResourceSearchQuery {
 	selectedFacets: IResourceSearchFacet[];
 	types: ResourceType[];
 	keyword: string;
+	limit: number;
 }
 
 export interface IResourceSearchResponse {

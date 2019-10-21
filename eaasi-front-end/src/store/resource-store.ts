@@ -10,20 +10,15 @@ import { Store } from 'vuex';
 /*============================================================
  == State
 /============================================================*/
-
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
-
 	/**
 	 * Active Resources are Selected in Explore Resources / My Resources Screen
 	 */
 	activeResources: IEaasiResource[] = [];
-
 	taskListStatus: IEaasiTaskListStatus = {status: '', taskList: []};
-
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
-	facets: IResourceSearchFacet[] = []; // TODO: These should come from ResourceSearchResponse
 }
 
 const state = new ResourceState();
@@ -47,7 +42,7 @@ const actions = {
 	async searchResources({ state, commit }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;
-		commit('SET_RESULT', {...result, facets: state.facets}); // TODO: facets should be in the result. Populate with dummy data for now
+		commit('SET_RESULT', result);
 		return result;
 	},
 
@@ -65,6 +60,7 @@ const actions = {
 		return task;
 	},
 
+	// this will map results and generate facets
 	populateSearchFacets({ state, commit }: Store<ResourceState>) {
 		const facets: IResourceSearchFacet[] = [
 			{ name: 'archive', values: [] },
@@ -73,26 +69,30 @@ const actions = {
 			{ name: 'archiveId', values: [] }
 		];
 		facets.forEach(f => {
-			state.result.environments.result.forEach(e => {
-				if (e[f.name] != null) {
-					const value = f.values.find(v => v.label === e[f.name]);
-					if(value) {
-						f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
-					} else {
-						f.values.push({ label: e[f.name], total: 1, isSelected: false });
+			if (state.result.environments) {
+				state.result.environments.result.forEach(e => {
+					if (e[f.name] != null) {
+						const value = f.values.find(v => v.label === e[f.name]);
+						if(value) {
+							f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
+						} else {
+							f.values.push({ label: e[f.name], total: 1, isSelected: false });
+						}
 					}
-				}
-			});
-			state.result.software.result.forEach(e => {
-				if (e[f.name] != null) {
-					const value = f.values.find(v => v.label === e[f.name]);
-					if(value) {
-						f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
-					} else {
-						f.values.push({ label: e[f.name], total: 1, isSelected: false });
+				});
+			}
+			if (state.result.software) {
+				state.result.software.result.forEach(e => {
+					if (e[f.name] != null) {
+						const value = f.values.find(v => v.label === e[f.name]);
+						if(value) {
+							f.values.forEach(v => v.label === value.label ? v.total += 1 : null);
+						} else {
+							f.values.push({ label: e[f.name], total: 1, isSelected: false });
+						}
 					}
-				}
-			});
+				});
+			}
 		});
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
 	}
