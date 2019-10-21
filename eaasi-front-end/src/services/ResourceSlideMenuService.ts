@@ -1,7 +1,32 @@
-import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import { IEnvironment } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
+import store from '@/store/admin-store';
 
 export default class ResourceSlideMenuService {
+
+	userRoleId = store.state.activeUser.roleId;
+
+	/**
+	 * Returns true if a User has any RoleID in 1, 2, 3
+	 */
+	isEnabledForAnyUserRole() {
+		return [1, 2, 3].includes(this.userRoleId);
+	}
+
+	/**
+	 * Returns true if a User has a RoleID of 1 or 2
+	 */
+	isEnabledForManagerRoleAndAbove() {
+		return [1, 2].includes(this.userRoleId);
+	}
+
+	/**
+	 * Returns true if a User has a RoleID of 1
+	 */
+	isEnabledForAdminRoleOnly() {
+		return this.userRoleId === 1;
+	}
+
 	getLocalActions(activeResources: IEnvironment[]) {
 		let localActions = [];
 
@@ -33,7 +58,7 @@ export default class ResourceSlideMenuService {
 			}
 		}
 
-		nodeActions.push(this.PUBLISH_TO_NETWORK, this.SYNC_METADATA, this.DELETE_RESOURCE);
+		nodeActions.push(this.PUBLISH_TO_NETWORK, this.DELETE_RESOURCE);
 
 		return nodeActions;
 	}
@@ -45,13 +70,15 @@ export default class ResourceSlideMenuService {
 		label: 'Bookmark This Resource',
 		description: 'Add resource to my bookmarks in my resources',
 		icon: 'bookmark',
+		isEnabled: this.isEnabledForAnyUserRole()
 	}
 
 	ADD_TO_EMULATION_PROJECT: IAction = {
 		shortName: 'addToEmuProject',
 		label: 'Add to Emulation Project',
 		description: 'Emulate this resource without changes',
-		icon: 'paperclip'
+		icon: 'paperclip',
+		isEnabled: this.isEnabledForAnyUserRole()
 	}
 
 	VIEW_DETAILS: IAction = {
@@ -59,6 +86,7 @@ export default class ResourceSlideMenuService {
 		label: 'View Details',
 		description: 'Review full resource details',
 		icon: 'file-alt',
+		isEnabled: this.isEnabledForAnyUserRole()
 	}
 
 	RUN_IN_EMULATOR: IAction = {
@@ -66,36 +94,33 @@ export default class ResourceSlideMenuService {
 		label: 'Run in Emulator',
 		description: 'Emulate this resource without changes',
 		icon: 'power-off',
+		isEnabled: this.isEnabledForAnyUserRole()
 	}
 
 	// Node Actions
 
-	SAVE_TO_MY_NODE = {
+	SAVE_TO_MY_NODE: IAction = {
 		shortName: 'save',
 		label: 'Save To My Node',
 		description: 'Make this resource available to all users of my node',
-		icon: 'cloud'
+		icon: 'cloud',
+		isEnabled: this.isEnabledForAnyUserRole()
 	}
 
-	PUBLISH_TO_NETWORK = {
+	PUBLISH_TO_NETWORK: IAction = {
 		shortName: 'publish',
 		label: 'Publish To Network',
 		description: 'Make this resource available to all users of my node.',
-		icon: 'cloud-upload'
+		icon: 'cloud-upload',
+		isEnabled: this.isEnabledForAnyUserRole()
 	}
 
-	SYNC_METADATA = {
-		shortName: 'syncMeta',
-		label: 'Sync Metadata',
-		description: 'Update resource with metadata from WikiData',
-		icon: 'sync'
-	}
-
-	DELETE_RESOURCE = {
+	DELETE_RESOURCE: IAction = {
 		shortName: 'delete',
 		label: 'Delete',
 		description: 'Delete this resource',
-		icon: 'trash-alt'
+		icon: 'trash-alt',
+		isEnabled: this.isEnabledForAdminRoleOnly()
 	}
 
 }
