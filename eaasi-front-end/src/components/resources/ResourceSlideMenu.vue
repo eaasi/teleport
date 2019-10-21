@@ -50,19 +50,19 @@
 </template>
 
 <script lang="ts">
-	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-	import SlideMenu from '@/components/layout/SlideMenu.vue';
-	import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
-	import {ILabeledItem} from '@/types/ILabeledItem';
-	import {IEaasiResource, IEnvironment} from '@/types/Resource';
-	import {IEaasiUser} from 'eaasi-admin';
-	import {IAction, IEaasiTab} from 'eaasi-nav';
-	import Vue from 'vue';
-	import {Component, Prop} from 'vue-property-decorator';
-	import {Get, Sync} from 'vuex-pathify';
-	import ResourceAction from './ResourceAction.vue';
+import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+import SlideMenu from '@/components/layout/SlideMenu.vue';
+import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
+import {ILabeledItem} from '@/types/ILabeledItem';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {IEaasiUser} from 'eaasi-admin';
+import {IAction, IEaasiTab} from 'eaasi-nav';
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+import {Get, Sync} from 'vuex-pathify';
+import ResourceAction from './ResourceAction.vue';
 
-	let menuService = new ResourceSlideMenuService();
+let menuService = new ResourceSlideMenuService();
 
 @Component({
 	name: 'ResourceSlideMenu',
@@ -154,6 +154,8 @@ export default class ResourceSlideMenu extends Vue {
     }
 
     doAction(action: IAction) {
+    	if (!action.isEnabled) return;
+
     	switch (action.shortName) {
     	case 'run': {
     		// When Run is clicked, we send to Access Interface @ environmentId

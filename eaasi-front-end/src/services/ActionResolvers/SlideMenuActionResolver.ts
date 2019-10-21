@@ -35,6 +35,11 @@ export default class SlideMenuActionResolver {
 			&& this.activeResources[0].archive === 'public';
 	}
 
+	isSingleRemoteResource() {
+		return this.isSingleSelected()
+			&& this.activeResources[0].archive === 'remote';
+	}
+
 	/**
 	 * Returns true if user has Admin UserRole
 	 */
