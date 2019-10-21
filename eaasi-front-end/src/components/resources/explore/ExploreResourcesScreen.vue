@@ -158,7 +158,7 @@ export default class MyResourcesScreen extends Vue {
 	
     getAll(types) {
     	this.query.types = types;
-    	this.query.limit = this.bentoResult.environments.totalResults;
+    	this.query.limit = 5000;
     	this.search();
     }
 
