@@ -110,8 +110,9 @@ export default class MyResourcesScreen extends Vue {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
     }
 
-    search() {
-    	this.$store.dispatch('resource/searchResources');
+    async search() {
+		await this.$store.dispatch('resource/searchResources');
+		this.$store.dispatch('resource/populateSearchFacets');
     }
 
     showSaveModal() {
@@ -134,7 +135,7 @@ export default class MyResourcesScreen extends Vue {
     mounted() {
     	let keyword = this.$route.query && this.$route.query.q;
     	this.query.keyword = keyword as string;
-    	this.search();
+		this.search();
     }
 
     destroyed() {

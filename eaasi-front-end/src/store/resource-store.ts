@@ -1,7 +1,7 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
+import { IResourceSearchQuery, IResourceSearchResponse, IResourceSearchFacet, IResourceSearchFacetValue } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import {IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -23,68 +23,7 @@ class ResourceState {
 
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
-	facets: IResourceSearchFacet[] = [ // TODO: These should come from ResourceSearchResponse
-		{
-			name: 'Resource Types',
-			values: [
-				{
-					label: 'Environments',
-					total: 75,
-					isSelected: false
-				},
-				{
-					label: 'Software',
-					total: 2,
-					isSelected: false
-				},
-				{
-					label: 'Content Environments',
-					total: 0,
-					isSelected: false
-				},
-				{
-					label: 'Some Type',
-					total: 13,
-					isSelected: false
-				},
-			]
-		},
-		{
-			name: 'Network Status',
-			values: [
-				{
-					label: 'Private',
-					total: 4,
-					isSelected: false
-				},
-				{
-					label: 'Public',
-					total: 0,
-					isSelected: false
-				},
-				{
-					label: 'Remote',
-					total: 73,
-					isSelected: false
-				},
-				{
-					label: 'Some Status',
-					total: 73,
-					isSelected: false
-				}
-			]
-		},
-		{
-			name: 'Source Organization',
-			values: [
-				{
-					label: 'Yale',
-					total: 73,
-					isSelected: false
-				}
-			]
-		}
-	];
+	facets: IResourceSearchFacet[] = []; // TODO: These should come from ResourceSearchResponse
 }
 
 const state = new ResourceState();
@@ -109,7 +48,6 @@ const actions = {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;
 		commit('SET_RESULT', {...result, facets: state.facets}); // TODO: facets should be in the result. Populate with dummy data for now
-		commit('SET_QUERY', {...state.query, selectedFacets: state.facets});
 		return result;
 	},
 
@@ -126,6 +64,48 @@ const actions = {
 		_store.commit('ADD_OR_UPDATE_TASK', task, { root: true });
 		return task;
 	},
+
+	populateSearchFacets({ state, commit }: Store<ResourceState>) {
+		// {
+		// 	name: 'Network Status',
+		// 	type: 'Software',
+		// 	values: [
+		// 		{
+		// 			label: 'Private',
+		// 			total: 4,
+		// 			isSelected: false
+		// 		}
+		// 	]
+		// }
+		const facets: IResourceSearchFacet[] = [
+			{ name: 'archive', values: [] },
+			{ name: 'envType', values: [] },
+			{ name: 'owner', values: [] },
+			{ name: 'archiveID', values: [] }
+		]
+		state.result.environments.result.forEach(e => {
+			facets.forEach(f => {
+				if (e[f.name] != null) {
+					const value = f.values.find(v => v.label === e[f.name]);
+					console.log(value)
+					const total = value ? value.total : 1;
+					f.values.push({ label: e[f.name], total, isSelected: false });
+				}
+			});
+		})
+		state.result.software.result.forEach(e => {
+			facets.forEach(f => {
+				if (e[f.name] != null) {
+					const value = f.values.find(v => v.label === e[f.name]);
+					console.log(value)
+					const total = value ? value.total : 1;
+					f.values.push({ label: e[f.name], total, isSelected: false });
+				}
+			});
+		})
+		console.log(facets)
+		commit('SET_QUERY', {...state.query, selectedFacets: facets});
+	}
 };
 
 /*============================================================
