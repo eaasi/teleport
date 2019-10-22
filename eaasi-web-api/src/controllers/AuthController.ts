@@ -21,6 +21,10 @@ export default class EaasiAuthController extends BaseController {
 	login(req: Request, res: Response) {
 		// This should get redirected by passport-saml middleware,
 		// if not, fallback to the client root
+		console.log('calling login!')
+		console.log('CLIENT_URL IS:', CLIENT_URL)
+		console.log('req is:', req)
+
 		res.redirect(CLIENT_URL);
 	}
 
