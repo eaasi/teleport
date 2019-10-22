@@ -23,8 +23,7 @@ services:
     build:
         context: ./eaasi-front-end
     ports:
-        # - 8080:80
-        - 8084:8084
+        - 8080:80
 
   # Express Web API
   eaasi-web-api:

@@ -5,16 +5,10 @@
 	"scripts": {
 		"serve": "vue-cli-service serve --port 8084",
 		"build": "vue-cli-service build",
-		"cy:run": "cypress run",
-		"cy:run:styleguide": "cypress run --spec cy tests/e2e/specs/styleguide/**/*",
-		"cy:open": "cypress open",
 		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
 		"test:e2e": "vue-cli-service test:e2e",
-		"test:styleguide": "export CYPRESS_BASE_URL=http://localhost:6060 && run-p --race styleguide cy:run:styleguide",
-		"test:styleguide:ci": "export CYPRESS_BASE_URL=http://localhost:6060 && cypress install && run-p --race styleguide cy:run:styleguide",
-		"test:styleguide:open": "export CYPRESS_BASE_URL=http://localhost:6060 && run-p --race styleguide cy:open",
 		"test:unit": "vue-cli-service test:unit --verbose --coverage"
 	},
 	"dependencies": {
@@ -39,7 +33,6 @@
 		"@types/jest": "^23.1.4",
 		"@types/lodash": "^4.14.135",
 		"@vue/cli-plugin-babel": "^3.8.0",
-		"@vue/cli-plugin-e2e-cypress": "^3.8.0",
 		"@vue/cli-plugin-eslint": "^3.8.0",
 		"@vue/cli-plugin-typescript": "^3.8.0",
 		"@vue/cli-plugin-unit-jest": "^3.8.0",
@@ -47,8 +40,6 @@
 		"@vue/test-utils": "1.0.0-beta.29",
 		"babel-core": "7.0.0-bridge.0",
 		"babel-eslint": "^10.0.1",
-		"cypress": "^3.4.1",
-		"cypress-vue-unit-test": "^1.11.3",
 		"eslint": "^5.16.0",
 		"eslint-config-prettier": "^6.0.0",
 		"eslint-plugin-prettier": "^3.1.0",

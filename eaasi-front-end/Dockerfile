@@ -1,18 +1,12 @@
-# build stage
-FROM node:10-alpine as build-stage
-# make the 'app' folder the current working directory
+FROM node:latest as build-stage
 WORKDIR /app
-# copy both 'package.json' and 'package-lock.json'
 COPY package*.json ./
-# install project dependencies
 RUN npm install
-# copy project files and directories to the working directory
-COPY . .
-# build app for production with minification
+COPY ./ .
 RUN npm run build
 
-# production stage
-FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/ngnix/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:latest as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
+# CMD ["nginx", "-g", "daemon off;"]
