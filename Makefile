@@ -15,7 +15,7 @@ DEV_PROJECT := $(RELEASE_PROJECT)_dev
 clean-build:
 	echo "running test stage"
 	sudo docker-compose down -v
-	sudo docker-compose build --no-cache
+	sudo docker-compose build
 	sudo docker-compose up
 
 test:
