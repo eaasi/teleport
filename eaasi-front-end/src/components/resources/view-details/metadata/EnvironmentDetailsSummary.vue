@@ -4,7 +4,7 @@
 			:title="summaryData.title"
 			size="large"
 		/>
-		<div class="vds-description">
+		<div class="vds-description" v-if="environment">
 			{{ environment.description | stripHtml }}
 		</div>
 		<div class="vds-footer">
