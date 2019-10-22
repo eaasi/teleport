@@ -5,15 +5,17 @@ services:
   eaasi-nginx:
     image: nginx:latest
     container_name: eaasi-nginx
+    depends_on:
+        - eaasi-front-end
+        - eaasi-web-api
     volumes:
         - ./eaasi-nginx/nginx.conf:/etc/nginx/nginx.conf
-        - ./eaasi-nginx/error.log:/etc/nginx/error_log.log
+        - ./eaasi-nginx/error.log:/var/log/nginx/error.log
         - ./eaasi-nginx/cache:/etc/nginx/cache
     ports:
         - 80:80
         - 443:443
     restart: always
-
 
   # Vue.js Front End SPA
   eaasi-front-end:
