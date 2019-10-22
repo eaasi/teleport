@@ -8,23 +8,12 @@ services:
     volumes:
         - ./eaasi-nginx/nginx.conf:/etc/nginx/nginx.conf
         - ./eaasi-nginx/error.log:/etc/nginx/error_log.log
-        - ./eaasi-nginx/cache/:etc/nginx/cache
+        - ./eaasi-nginx/cache:/etc/nginx/cache
     ports:
         - 80:80
         - 443:443
     restart: always
 
-  # PostgresQL Database
-  eaasi-database:
-    image: eaasi-database
-    build:
-        context: ./eaasi-database
-    env_file:
-        - ./eaasi-database/vars.env
-    ports:
-        - 5432:5432
-    volumes:
-        - eaasi_db:/var/lib/postgresql/data
 
   # Vue.js Front End SPA
   eaasi-front-end:
@@ -47,6 +36,19 @@ services:
     ports:
         - 8081:8081
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"
+
+
+  # PostgresQL Database
+  eaasi-database:
+    image: eaasi-database
+    build:
+        context: ./eaasi-database
+    env_file:
+        - ./eaasi-database/vars.env
+    ports:
+        - 5432:5432
+    volumes:
+        - eaasi_db:/var/lib/postgresql/data
 
 volumes:
     # Database Data
