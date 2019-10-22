@@ -28,7 +28,7 @@ export default class EnvironmentDetailsHistory extends Vue {
 
 	/* Props
     ============================================*/
-	@Prop({ required: false, type: () => [] as IEnvironmentRevision[] })
+	@Prop({ required: false })
 	revisions?: IEnvironmentRevision[];
 
 	/* Computed

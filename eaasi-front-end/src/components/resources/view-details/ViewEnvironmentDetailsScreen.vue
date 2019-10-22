@@ -55,7 +55,7 @@ export default class ViewEnvironmentDetailsScreen extends Vue {
     environment: IEnvironment
 
     get environmentRevisions() : IEnvironmentRevision[] {
-    	return this.environment.revisions;
+    	return this.environment.revisions ? this.environment.revisions : [];
     }
 
     /* Methods

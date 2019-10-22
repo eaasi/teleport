@@ -1,14 +1,17 @@
-<template functional>
-	<div class="resource-action flex-row" @click="listeners.click">
+<template>
+	<div
+		:class="['resource-action', 'flex-row', { disabled: !action.isEnabled }]"
+		@click="emitClickEvent"
+	>
 		<div class="ra-icon">
-			<i :class="`fas fa-fw fa-${props.action.icon}`"></i>
+			<i :class="`fas fa-fw fa-${action.icon}`"></i>
 		</div>
 		<div class="ra-info flex-adapt">
-			<b>{{ props.action.label }}</b>
-			<p class="no-mb">{{ props.action.description }}</p>
+			<b>{{ action.label }}</b>
+			<p class="no-mb" v-if="action.description">{{ action.description }}</p>
 		</div>
 		<div class="ra-arrow flex flex-center">
-			<i class="fas fa-chevron-right"></i>
+			<i class="fas fa-chevron-right" v-if="action.isEnabled"></i>
 		</div>
 	</div>
 </template>
@@ -28,6 +31,9 @@ export default class ResourceAction extends Vue {
 	@Prop({type: Object as () => IAction, required: true})
 	readonly action: IAction
 
+	emitClickEvent() {
+		this.$emit('click');
+	}
 }
 
 </script>
@@ -49,6 +55,17 @@ export default class ResourceAction extends Vue {
 		color: $grey;
 		font-size: 1.4rem;
 		margin-top: 0.3rem;
+	}
+}
+
+.disabled {
+	background-color: lighten($light-neutral, 82%);
+	border-bottom: solid 2px lighten($light-neutral, 10%);
+	color: lighten($grey, 30%);
+	cursor: not-allowed;
+
+	&:hover {
+		background-color: lighten($light-neutral, 80%);
 	}
 }
 
