@@ -10,13 +10,19 @@ DEV_COMPOSE_FILE := ./docker-compose.yml
 RELEASE_PROJECT := $(PROJECT_NAME)$(BUILD_ID)
 DEV_PROJECT := $(RELEASE_PROJECT)_dev
 
-.PHONY: test build clean run
+.PHONY: test build clean run clean
+
+clean-build:
+	echo "running test stage"
+	sudo docker-compose down -v
+	sudo docker-compose build --no-cache
+	sudo docker-compose up
 
 test:
 	echo "running test stage"
 
 build:
-	echo "running build stage"
+	sudo docker-compose build --no-cache
 
 echo:
 	echo "running release stage"
