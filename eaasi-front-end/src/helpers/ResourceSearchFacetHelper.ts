@@ -16,7 +16,12 @@ export const populateFacets = (
 		if (environments) facet = getFacet(environments, facet);
 		if (software) facet = getFacet(software, facet);
 		if (content) facet = getFacet(content, facet);
-	});
+    });
+    facets.unshift({ displayLabel: 'Resource Types', name: 'resource-type', values: [
+        { label: 'Environment', isSelected: false, total: environments.totalResults },
+        { label: 'Content', isSelected: false, total: content.totalResults },
+        { label: 'Software', isSelected: false, total: software.totalResults },
+    ] })
 	return facets;
 };
 

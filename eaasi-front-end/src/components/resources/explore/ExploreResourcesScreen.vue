@@ -150,10 +150,10 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async search() {
-    	await this.$store.dispatch('resource/searchResources');
+    	const result = await this.$store.dispatch('resource/searchResources');
     	// generates facets based on the result received in searchResources.
     	// eventually won't need to do this, because facets will come with a result from the backend
-    	this.$store.dispatch('resource/populateSearchFacets');
+    	if (result) this.$store.dispatch('resource/populateSearchFacets');
     }
 	
     getAll(types) {
