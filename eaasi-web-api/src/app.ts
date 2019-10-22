@@ -39,7 +39,7 @@ app.use('/eaasi', require('./routes/eaasi'));
 app.use('/api', require('./routes/rest-api'));
 
 // API docs
-app.use('/docs/', express.static(path.join(__dirname, '../apidoc')));
+app.use('/', express.static(path.join(__dirname, '../apidoc')));
 
 app.use(clientErrorHandler);
 app.use(errorHandler);
