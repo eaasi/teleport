@@ -1,5 +1,5 @@
 <template>
-	<div class="applied-facets-wrapper flex-row" v-if="hasSelectedFacets">
+	<div class="applied-facets-wrapper flex-row">
 		<div class="applied-facets flex-row flex-wrap">
 			<div 
 				v-for="facet in selectedFacets" 
@@ -34,11 +34,7 @@ export default class AppliedSearchFacets extends Vue {
     ============================================*/
 
     @Sync('resource/query@selectedFacets')
-	selectedFacets: IResourceSearchFacet[]
-
-    get hasSelectedFacets() {
-    	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
-    }
+	selectedFacets: IResourceSearchFacet[];
 
     /* Methods
     ============================================*/

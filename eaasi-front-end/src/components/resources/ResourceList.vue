@@ -3,6 +3,7 @@
 		<bento-header
 			:result="result"
 			:type="type"
+			@click:all="$emit('click:all')"
 		/>
 		<div v-for="(resource, index) in result.result" :key="resource.title + index">
 			<environment-resource-card
