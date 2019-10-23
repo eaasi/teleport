@@ -1,9 +1,9 @@
 import { ResourceType } from '@/types/resource/Resource';
 
 export const resourceTypes: IResourceTypes = {
-	ENVIRONMENT: "Environment",
-	SOFTWARE: "Software",
-	CONTENT: "Content"
+	ENVIRONMENT: 'Environment',
+	SOFTWARE: 'Software',
+	CONTENT: 'Content'
 };
 
 export enum userRoles {
