@@ -2,6 +2,7 @@ declare module 'eaasi-nav' {
 
 	export interface IAction extends IMenuItem {
 		description: string
+		isEnabled: boolean
 	}
 
 	export interface IMenuItem {

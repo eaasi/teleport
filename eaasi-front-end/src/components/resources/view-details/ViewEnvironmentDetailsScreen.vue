@@ -1,17 +1,16 @@
 <template>
 	<div id="myResources">
 		<h1>Environment Details</h1>
-
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
-
-		<mode-toggle-bar v-if="activeTab === 'Metadata'" />
-
-		<div class="vrd-content" v-if="activeTab === 'Metadata'">
-			<environment-details-metadata :resource-detail-summary="resourceData" />
-		</div>
-
-		<div class="vrd-content" v-if="activeTab === 'History'">
-			<environment-details-history :revisions="environmentRevisions" />
+		<div class="vrd-content">
+			<environment-details-metadata 
+				v-if="activeTab === 'Metadata'" 
+				:resource-detail-summary="resourceData" 
+			/>
+			<environment-details-history 
+				v-else-if="activeTab === 'History'" 
+				:revisions="environmentRevisions" 
+			/>
 		</div>
 	</div>
 </template>
@@ -21,20 +20,14 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
-import {IEnvironment, IEnvironmentRevision} from '@/types/Resource';
-import ModeToggleBar from '@/components/resources/view-details/ModeToggleBar.vue';
-import ResourceDetails from '@/components/resources/ResourceDetails.vue';
+import { IEnvironment, IEnvironmentRevision } from '@/types/Resource';
 import EnvironmentDetailsHistory from '@/components/resources/view-details/history/EnvironmentDetailsHistory.vue';
 import EnvironmentDetailsMetadata from '@/components/resources/view-details/metadata/EnvironmentDetailsMetadata.vue';
-import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
 
 
 @Component({
 	name: 'ViewEnvironmentDetailsScreen',
 	components: {
-		ModeToggleBar,
-		ResourceDetails,
-		EnvironmentDetailsSummary,
 		EnvironmentDetailsMetadata,
 		EnvironmentDetailsHistory
 	}
@@ -62,7 +55,7 @@ export default class ViewEnvironmentDetailsScreen extends Vue {
     environment: IEnvironment
 
     get environmentRevisions() : IEnvironmentRevision[] {
-    	return this.environment.revisions;
+    	return this.environment.revisions ? this.environment.revisions : [];
     }
 
     /* Methods
@@ -93,7 +86,6 @@ export default class ViewEnvironmentDetailsScreen extends Vue {
 
 <style lang="scss">
 	.vrd-content {
-		padding: 24px;
 
 		.vrd-subsection {
 			padding: 18px 0;
