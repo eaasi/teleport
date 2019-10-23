@@ -27,7 +27,6 @@ install_web_api_npm_packages:
         - cd ./eaasi-web-api
         - npm install
         - npm install -g babel-cli
-        - npm install -g apidoc
         - npm run build
     only:
         - merge_requests
@@ -41,15 +40,5 @@ run_api_unit_tests:
         - npm install -g jest
         - npm install
         - jest --verbose --detectOpenHandles --logHeapUsage --coverage
-    only:
-        - merge_requests
-
-# Linting Jobs
-run_vue_linters:
-    stage: merge
-    script:
-        - cd ./eaasi-front-end
-        - npm install
-        - npm run lint
     only:
         - merge_requests
