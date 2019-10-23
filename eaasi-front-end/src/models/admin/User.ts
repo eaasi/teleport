@@ -1,5 +1,5 @@
 import { IEaasiUser } from 'eaasi-admin';
-import { userRoles } from '@/utils/globals';
+import { userRoles } from '@/utils/constants';
 
 export default class User implements IEaasiUser {
 	id: number;

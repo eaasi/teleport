@@ -12,6 +12,7 @@ import {
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
+import { resourceTypes } from '@/utils/constants';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -51,9 +52,9 @@ export default class ResourceAdminService extends BaseService {
 		result.environments = envReq ? await envReq : { result: [], totalResults: 0 };
 		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
 		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
-		result.environments.result.forEach(env => env.resourceType = 'Environment');
-		result.software.result.forEach(s => s.resourceType = 'Software');
-		result.content.result.forEach(c => c.resourceType = 'Content');
+		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+		result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
+		result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 		return result;
 	}
 
