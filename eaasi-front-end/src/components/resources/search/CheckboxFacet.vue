@@ -1,6 +1,6 @@
 <template>
 	<search-facet-wrapper
-		:label="facet.name"
+		:label="facet.displayLabel"
 		collapsable
 	>
 		<div

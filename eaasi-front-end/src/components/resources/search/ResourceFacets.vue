@@ -2,9 +2,9 @@
 	<div class="resource-facets">
 		<h2>Refine Your Results</h2>
 		<checkbox-facet
-			v-for="(f, i) in facets"
+			v-for="(f, i) in availableFacets"
 			:key="i"
-			:facet="facets[i]"
+			:facet="availableFacets[i]"
 			@expand="expandSearchFacet(f)"
 		/>
 		<search-facet-modal 
@@ -20,9 +20,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Sync } from 'vuex-pathify';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { IResourceSearchFacet, IResourceSearchResponse, IResourceSearchQuery } from '@/types/Search.d.ts';
-import { jsonCopy } from '@/utils/functions';
+import { jsonCopy, jsonEquals } from '@/utils/functions';
 
 @Component({
 	name: 'ResourceFacets'
@@ -34,6 +34,10 @@ export default class ResourceFacets extends Vue {
 
     @Sync('resource/query@selectedFacets')
 	facets: IResourceSearchFacet[]
+
+    get availableFacets() {
+    	return this.facets.filter(f => f.values.length > 0);
+    }
 
 	/* Data
 	============================================*/

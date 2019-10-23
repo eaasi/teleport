@@ -21,6 +21,7 @@ export interface IResourceSearchQuery {
 	selectedFacets: IResourceSearchFacet[];
 	types: ResourceType[];
 	keyword: string;
+	limit: number;
 }
 
 export interface IResourceSearchResponse {
@@ -31,6 +32,7 @@ export interface IResourceSearchResponse {
 }
 
 export interface IResourceSearchFacet {
+	displayLabel: string;
 	name: string;
 	values: IResourceSearchFacetValue[];
 }
