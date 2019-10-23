@@ -8,6 +8,9 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
+/**
+ * A thin functional wrapper around a div with class `row`
+ */
 @Component({
 	name: 'Row',
 })
