@@ -8,12 +8,6 @@ module.exports = {
 	pagePerSection: true,
 	sections: [
 		{
-			name: 'Form Components',
-			content: 'src/components/docs/sections/Forms.md',
-			components: 'src/components/forms/**/*.vue'
-		},
-
-		{
 			name: 'Global Components',
 			content: 'src/components/docs/sections/Global.md',
 			components: 'src/components/global/**/*.vue'
