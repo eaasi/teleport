@@ -2,3 +2,5 @@
 .DS_Store
 .idea/
 node_modules/
+eaasi-nginx/*.log
+eaasi-nginx/cache

@@ -68,7 +68,6 @@ export default class EaasiAuthController extends BaseController {
      */
 	refresh(req: Request, res: Response) {
 		// TODO
-		console.log('Not implemented');
 		res.json({});
 	}
 
