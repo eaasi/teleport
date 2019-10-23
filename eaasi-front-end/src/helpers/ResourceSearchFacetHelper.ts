@@ -7,21 +7,17 @@ export const populateFacets = (
 	content: IEaasiSearchResponse<IEaasiResource>
 ): IResourceSearchFacet[] =>  {
 	const facets: IResourceSearchFacet[] = [
+		{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
 		{ displayLabel: 'Network Status', name: 'archive', values: [] },
 		{ displayLabel: 'Environment Type', name: 'envType', values: [] },
 		{ displayLabel: 'Source Organization', name: 'owner', values: [] },
-		{ displayLabel: 'Source Location', name: 'archiveId', values: [] }
+		{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
 	];
 	facets.forEach(facet => {
 		if (environments) facet = getFacet(environments, facet);
 		if (software) facet = getFacet(software, facet);
 		if (content) facet = getFacet(content, facet);
-    });
-    facets.unshift({ displayLabel: 'Resource Types', name: 'resource-type', values: [
-        { label: 'Environment', isSelected: false, total: environments.totalResults },
-        { label: 'Content', isSelected: false, total: content.totalResults },
-        { label: 'Software', isSelected: false, total: software.totalResults },
-    ] })
+	});
 	return facets;
 };
 
@@ -33,4 +29,4 @@ function getFacet(resource: IEaasiSearchResponse<IEaasiResource>, facet: IResour
 			: facet.values.push({ label: e[facet.name], total: 1, isSelected: false });
 	});
 	return facet;
-}
+};

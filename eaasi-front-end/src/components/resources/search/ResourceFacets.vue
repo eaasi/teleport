@@ -36,7 +36,6 @@ export default class ResourceFacets extends Vue {
 	facets: IResourceSearchFacet[]
 
     get availableFacets() {
-    	console.log(this.facets);
     	return this.facets.filter(f => f.values.length > 0);
     }
 

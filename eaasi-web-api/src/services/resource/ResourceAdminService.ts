@@ -51,6 +51,9 @@ export default class ResourceAdminService extends BaseService {
 		result.environments = envReq ? await envReq : { result: [], totalResults: 0 };
 		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
 		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
+		result.environments.result.forEach(env => env.resourceType = 'Environment');
+		result.software.result.forEach(s => s.resourceType = 'Software');
+		result.content.result.forEach(c => c.resourceType = 'Content');
 		return result;
 	}
 
