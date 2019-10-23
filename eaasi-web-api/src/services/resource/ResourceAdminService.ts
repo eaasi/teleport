@@ -12,6 +12,7 @@ import {
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
+import { resourceTypes } from '@/utils/constants';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -32,14 +33,28 @@ export default class ResourceAdminService extends BaseService {
 	 * @param query
 	 */
 	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
-		let q = new EaasiSearchQuery(query.keyword, 10);
+		let q = new EaasiSearchQuery(query.keyword, query.limit);
 		let result = new ResourceSearchResponse();
-		let envReq = this._searchEnvironments(q);
-		let sofReq = this._searchSoftware(q);
-		let conReq = this._searchContent(q);
-		result.environments = await envReq;
-		result.software = await sofReq;
-		result.content = await conReq;
+		let envReq;
+		let sofReq;
+		let conReq;
+		if (query.types && query.types.length > 0) {
+			query.types.forEach(t => {
+				if (t === 'Environment') envReq = this._searchEnvironments(q);
+				else if (t === 'Software') sofReq = this._searchSoftware(q);
+				else if (t === 'Content') conReq = this._searchContent(q);
+			}) 
+		} else {
+			envReq = this._searchEnvironments(q);
+			sofReq = this._searchSoftware(q);
+			conReq = this._searchContent(q);
+		}
+		result.environments = envReq ? await envReq : { result: [], totalResults: 0 };
+		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
+		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
+		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+		result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
+		result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 		return result;
 	}
 

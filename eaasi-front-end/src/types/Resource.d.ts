@@ -15,6 +15,11 @@ export interface IEaasiResource {
 	 * The title of a Resource object
 	 */
 	title: string
+
+	/**
+	 * The type of resource 'Environment' | 'Software' | 'Content'
+	 */
+	resourceType: ResourceType;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {

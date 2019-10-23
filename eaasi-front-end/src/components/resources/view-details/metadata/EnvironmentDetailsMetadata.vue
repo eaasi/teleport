@@ -89,6 +89,7 @@ import { ILabeledItem } from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import EnvironmentDetailsSummary from '@/components/resources/view-details/metadata/EnvironmentDetailsSummary.vue';
 import User from '@/models/admin/User';
+import { resourceTypes } from '@/utils/constants';
 
 @Component({
 	name: 'EnvironmentDetailsMetadata.vue',
@@ -136,7 +137,8 @@ export default class EnvironmentDetailsMetadata extends Vue {
 			subContent: undefined,
 			tagGroup: [],
 			title: this.software.label,
-			id: this.software.id
+			id: this.software.id,
+			resourceType: resourceTypes.SOFTWARE
 		};
 	}
 
