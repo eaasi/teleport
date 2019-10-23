@@ -20,7 +20,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A drag-and-drop file upload area
- * @example ../docs/FileDropzone.Example.md
+ * @example ../docs/FileDropZone.Example.md
  */
 @Component({
 	name: 'FileDropzone',

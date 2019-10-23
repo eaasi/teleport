@@ -5,8 +5,6 @@
 	"scripts": {
 		"generate-docs": "apidoc -i src/ -o apidoc",
 		"check-types": "tsc",
-		"cy:run": "cypress run",
-		"cy:open": "cypress open",
 		"clean": "rimraf dist",
 		"build": "npm run generate-docs && npm run clean && babel src --out-dir dist --copy-files --source-maps --extensions \".ts,.js\"",
 		"lint": "eslint src --fix",
@@ -83,7 +81,6 @@
 		"babel-eslint": "^10.0.1",
 		"babel-plugin-module-resolver": "^3.2.0",
 		"babel-watch": "^7.0.0",
-		"cypress": "^3.4.1",
 		"eslint": "^5.16.0",
 		"eslint-config-prettier": "^6.0.0",
 		"eslint-plugin-prettier": "^3.1.0",
