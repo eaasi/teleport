@@ -1,19 +1,13 @@
 import { IEaasiUser } from 'eaasi-admin';
+import { userRoles } from '@/utils/globals';
 
 export default class User implements IEaasiUser {
-
-	private userRoles = {
-		ADMIN: 1,
-		MANAGER: 2,
-		CONTRIBUTOR: 3
-	};
-
 	id: number;
 	email: string;
 	firstName: string;
 	lastName: string;
 	username: string;
-	roleId: number = this.userRoles.CONTRIBUTOR;
+	roleId: number = userRoles.CONTRIBUTOR;
 	createdAt: Date;
 	updatedAt: Date;
 	lastLogin: Date;
@@ -33,7 +27,7 @@ export default class User implements IEaasiUser {
 	}
 
 	get userHasEditPermissions() {
-		return this.roleId === this.userRoles.ADMIN 
-			|| this.roleId === this.userRoles.MANAGER;
+		return this.roleId === userRoles.ADMIN 
+			|| this.roleId === userRoles.MANAGER;
 	}
 }
