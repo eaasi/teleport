@@ -60,9 +60,6 @@ export default class AppliedSearchFacets extends Vue {
 	justify-content: space-between;
 	margin-left: 28rem;
 	padding: 1rem;
-	.active-facet {
-		margin: 0.5rem 1rem;
-	}
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);
 		padding: 0.5rem 2rem;

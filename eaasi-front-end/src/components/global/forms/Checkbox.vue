@@ -77,6 +77,7 @@ $checkboxSize: 20px;
 			height: $checkboxSize;
 			position: relative;
 			top: 7px;
+			text-transform: capitalize;
 		}
 	}
 
