@@ -1,27 +1,38 @@
 <template>
-	<div id="exploreResources">
+	<div id="exploreResources" v-if="bentoResult">
 		<div class="resource-results">
-			<resource-facets v-if="bentoResult && bentoResult.facets" />
-			<applied-search-facets v-if="query.selectedFacets.length > 0" />
+			<resource-facets />
+			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
-				<div class="row" v-if="bentoResult">
-					<div class="col-md-6">
+				<div class="bento-row">
+					<div 
+						v-if="refinedEnvironment.result.length > 0" 
+						class="bento-col"
+					>
 						<resource-list
 							:query="query"
-							:result="bentoResult.environments"
+							:result="refinedEnvironment"
 							type="Environment"
+							@click:all="getAll(['Environment'])"
 						/>
 					</div>
-					<div class="col-md-6">
+					<div 
+						v-if="refinedSoftware.result.length > 0 || refinedContent.result.length > 0"
+						class="bento-col" 
+					>
 						<resource-list
+							v-if="refinedSoftware.result.length > 0"
 							:query="query"
-							:result="bentoResult.software"
+							:result="refinedSoftware"
 							type="Software"
+							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
+							v-if="refinedContent.result.length > 0"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
+							@click:all="getAll(['Content'])"
 						/>
 					</div>
 				</div>
@@ -64,9 +75,9 @@ import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource, IEnvironment } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
-import { IResourceSearchResponse } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
@@ -90,27 +101,64 @@ export default class MyResourcesScreen extends Vue {
     query: ResourceSearchQuery;
 
     @Get('resource/result')
-    bentoResult: IResourceSearchResponse
+	bentoResult: IResourceSearchResponse
+	
+	@Get('resource/query@selectedFacets')
+	selectedFacets: IResourceSearchFacet[]
 
-    get hasActiveResources() {
+	get hasActiveResources() {
     	return this.activeResources.length > 0;
-    }
+	}
 
-    /* Data
+	get hasSelectedFacets() {
+    	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
+	}
+	
+	get refinedContent() {
+		return this.refinedResult(this.bentoResult.content);
+	}
+
+	get refinedSoftware() {
+		return this.refinedResult(this.bentoResult.software);
+	}
+	
+	get refinedEnvironment() {
+		return this.refinedResult(this.bentoResult.environments);
+	}
+
+	/* Data
     ============================================*/
 
     isMenuOpenRequest: boolean = true;
     isSaveModalVisible: boolean = false;
 
     /* Methods
-    ============================================*/
+	============================================*/
+	
+    refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
+    	if (!bentoResult) return { result: [], totalResults: 0 };
+    	if (!this.hasSelectedFacets) return bentoResult;
+    	const result = bentoResult.result.filter(
+    		env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
+    	);
+    	return {...bentoResult, result};
+    }
 
     toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
     }
 
-    search() {
-    	this.$store.dispatch('resource/searchResources');
+    async search() {
+    	const result = await this.$store.dispatch('resource/searchResources');
+    	// generates facets based on the result received in searchResources.
+    	// eventually won't need to do this, because facets will come with a result from the backend
+    	if (result) this.$store.dispatch('resource/populateSearchFacets');
+    }
+	
+    getAll(types) {
+    	this.query.types = types;
+    	this.query.limit = 5000;
+    	this.search();
     }
 
     showSaveModal() {
@@ -178,6 +226,14 @@ export default class MyResourcesScreen extends Vue {
 		.resource-bento {
 			margin-left: 28rem;
 			padding: 1.5rem;
+			.bento-row {
+				display: flex;
+				flex-direction: row;
+				.bento-col {
+					flex: 1;
+					margin: 0 1rem;
+				}
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 <template>
 	<div v-if="selectedValues.length > 0" class="chip-group-wrapper flex-row"> 
-		<span class="facet-name">{{ facet.name }}:</span>
+		<span class="facet-name">{{ facet.displayLabel }}:</span>
 		<div class="flex-row flex-wrap">
 			<ui-chip 
 				v-for="facetValue in selectedValues" 

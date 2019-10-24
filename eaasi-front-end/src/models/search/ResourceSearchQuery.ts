@@ -5,4 +5,5 @@ export default class ResourceSearchQuery implements IResourceSearchQuery {
 	selectedFacets: IResourceSearchFacet[] = [];
 	types: ResourceType[];
 	keyword: string = null;
+	limit: number = 10;
 }
