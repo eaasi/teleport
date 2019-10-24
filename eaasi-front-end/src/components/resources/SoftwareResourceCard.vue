@@ -1,7 +1,9 @@
 <template>
 	<selectable-card
+		bookmark
 		:data="summary"
 		@change="$emit('change', $event)"
+		@bookmarked="isActive => $emit('bookmarked', isActive)"
 	/>
 </template>
 

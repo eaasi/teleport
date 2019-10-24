@@ -10,11 +10,13 @@
 				:environment="resource"
 				@change="setActiveResource(resource, $event)"
 				v-if="type === 'Environment'"
+				@bookmarked="isActive => handleBookmark(resource, isActive)"
 			/>
 			<software-resource-card
 				:software="resource"
 				@change="setActiveResource(resource, $event)"
 				v-if="type === 'Software'"
+				@bookmarked="isActive => handleBookmark(resource, isActive)"
 			/>
 		</div>
 	</div>
@@ -72,6 +74,16 @@ export default class ResourceList extends Vue {
 	_removeFromActiveResources(resource: IEaasiResource) {
 		let index = this.activeResources.findIndex(o => o.title === resource.title);
 		if (index !== -1) this.activeResources.splice(index, 1);
+	}
+
+	async handleBookmark(resource: IEaasiResource, isActive: boolean) {
+		return isActive 
+			? this.$store.dispatch('bookmark/createBookmark', resource.id)
+			: this.$store.dispatch('bookmark/removeBookmark', resource.id);
+		// await this.$store.dispatch('resource/bookmarkResource', {
+		// 	resourceId: resource.id, 
+		// 	userId: this.$store.state.loggedInUser.id
+		// });
 	}
 
 }

@@ -3,7 +3,10 @@
 		:class="['resource-object-container flex', selectStyle]"
 	>
 		<div v-if="bookmark">
-			<bookmark class="bookmark" />
+			<bookmark 
+				class="bookmark" 
+				@bookmarked="isActive => $emit('bookmarked',isActive)" 
+			/>
 		</div>
 
 		<div :class="['panel-left', selectStyle]">

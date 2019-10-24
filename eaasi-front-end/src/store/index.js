@@ -6,6 +6,7 @@ import globalStore from './global-store';
 import importStore from './import-store';
 import resourceStore from './resource-store';
 import softwareStore from './software-store';
+import bookmarkStore from './bookmark-store';
 
 pathify.options.mapping = 'simple';
 pathify.options.deep = true;
@@ -18,7 +19,8 @@ export default new Vuex.Store({
 		admin: adminStore,
 		software: softwareStore,
 		import: importStore,
-		resource: resourceStore
+		resource: resourceStore,
+		bookmark: bookmarkStore
 	},
 	plugins: [pathify.plugin]
 });
