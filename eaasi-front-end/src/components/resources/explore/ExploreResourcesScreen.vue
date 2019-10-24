@@ -150,16 +150,15 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async search() {
-    	const result = await this.$store.dispatch('resource/searchResources');
-    	// generates facets based on the result received in searchResources.
-    	// eventually won't need to do this, because facets will come with a result from the backend
-    	if (result) this.$store.dispatch('resource/populateSearchFacets');
+    	await this.$store.dispatch('resource/searchResources');
     }
 	
-    getAll(types) {
+    async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
-    	this.search();
+		await this.search();
+		
+		this.selectedFacets[0].values[0].isSelected = true;
     }
 
     showSaveModal() {
@@ -195,7 +194,7 @@ export default class MyResourcesScreen extends Vue {
     		this.query.keyword = newQuery.q as string;
     		this.search();
     	}
-    }
+	}
 
 }
 

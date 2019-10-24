@@ -40,10 +40,13 @@ const actions = {
 		return await _svc.getEnvironment(environmentId);
 	},
 
-	async searchResources({ state, commit }: Store<ResourceState>) {
+	async searchResources({ state, commit, dispatch }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;
 		commit('SET_RESULT', result);
+		// generates facets based on the result received in searchResources.
+    	// eventually won't need to do this, because facets will come with a result from the backend
+    	if (result) dispatch('populateSearchFacets');
 		return result;
 	},
 
@@ -61,6 +64,17 @@ const actions = {
 		return task;
 	},
 
+	async clearSearch({ commit, dispatch }) {
+		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
+		let result = await _svc.searchResources(clearSearchQuery);
+		if(!result) return;
+		commit('SET_RESULT', result);
+		// generates facets based on the result received in searchResources.
+    	// eventually won't need to do this, because facets will come with a result from the backend
+    	if (result) dispatch('populateSearchFacets');
+		return result;
+	},
+
 	// this will map results and generate facets
 	populateSearchFacets({ state, commit }: Store<ResourceState>) {
 		const { environments, software, content } = state.result;
@@ -73,7 +87,18 @@ const actions = {
  == Getters
 /============================================================*/
 
-const getters = {};
+const getters = {
+	isSingleResult(state) {
+		if(!state.result) return false;
+		const { environments, software, content } = state.result;
+		console.log(environments, software, content)
+		const lengthArr: Array<number> = [];
+		environments && lengthArr.push(environments.result.length);
+		software && lengthArr.push(software.result.length);
+		content && lengthArr.push(content.result.length);
+		return lengthArr.filter(length => length > 0).length === 1;
+	}
+};
 
 export default {
 	state,
