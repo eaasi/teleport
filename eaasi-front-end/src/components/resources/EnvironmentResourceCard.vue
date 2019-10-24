@@ -6,7 +6,7 @@
 		@change="setActiveEnvironment"
 	>
 		<template v-slot:tagsLeft>
-			<tag :text="environmentResourceType" icon="fa-box" color="blue"/>
+			<tag :text="environmentResourceType" icon="fa-box" color="blue" />
 		</template>
 		<template v-slot:tagsRight>
 			<tag-group v-if="summary" position="right" :tags="envTags" />
