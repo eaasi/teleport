@@ -16,6 +16,7 @@ import isValidAlert from '@/types/validators/AlertType.validator';
 
 /**
  * An alert icon + message combo
+ * @example ../../docs/Alert.Example.md
  */
 @Component({
 	name: 'Alert'

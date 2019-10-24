@@ -6,18 +6,24 @@ Provide a `type` of `info`, `success`, `warning`, or `error` to change the Alert
 
 ```js
 
-<div style="display: flex; flex-direction: row;">
+<div style="margin: 16px;">
     <alert-card type="info">
-        This is some useful information.
+        This is an Info AlertCard.
     </alert-card>
+</div>
+<div style="margin: 16px;">
     <alert-card type="success">
-        This is a success message.
+        This is a Success AlertCard.
     </alert-card>
+</div>
+<div style="margin: 16px;">
     <alert-card type="warning">
-        This is a warning.
+        This is a Warning AlertCard.
     </alert-card>
+</div>
+<div style="margin: 16px;">
     <alert-card type="error">
-        This is an error message.
+        This is an Error AlertCard.
     </alert-card>
 </div>
 ```

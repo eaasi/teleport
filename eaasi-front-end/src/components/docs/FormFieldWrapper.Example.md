@@ -4,7 +4,7 @@ Use the slots provided by the form component to wrap form elements in custom for
 
 See example usage for a custom input component:
 
-```bash
+```js
 <template>
 	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-input">
         <div>
