@@ -1,6 +1,19 @@
 ### Example Usage
 
-Big Button can be sizes using the `size` prop, which takes a value of `sm`, `small`, `lg`, or `large`
+Big Button takes an optional `block` prop to change its display style.
+
+```js
+<div style="padding: 3px;">
+    <big-button label="My block prop is true!" :block="true"
+    />
+</div>
+
+<div style="padding: 3px;">
+    <big-button label="My block prop is false!" :block="false" />
+</div>
+
+```
+Big Button can be sized using the `size` prop, which takes a value of `sm`, `small`, `lg`, or `large`
 
 ```js
 <div style="padding: 3px;">

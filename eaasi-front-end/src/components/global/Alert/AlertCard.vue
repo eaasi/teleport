@@ -1,6 +1,7 @@
 <template>
 	<div :class="['card-container', color]">
 		<alert :type="type" ref="_alert">
+			<!-- @slot use to inject alert card content -->
 			<slot></slot>
 		</alert>
 	</div>
