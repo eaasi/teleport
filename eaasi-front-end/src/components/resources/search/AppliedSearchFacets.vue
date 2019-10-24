@@ -39,23 +39,23 @@ export default class AppliedSearchFacets extends Vue {
 	@Get('resource/isSingleResult')
 	readonly isSingleResult: boolean;
 
-    /* Methods
+	/* Methods
     ============================================*/
 
-    deselectFacetValue(facetValue) {
+	deselectFacetValue(facetValue) {
 		if (this.isSingleResult) return this.deselectAllFacetValues();
     	this.selectedFacets.forEach(
     		f => f.values.forEach(v => {
 				if (v.label !== facetValue.label) return;
-				v.isSelected = false
+				v.isSelected = false;
 			})
     	);
-    }
+	}
 
-    deselectAllFacetValues() {
+	deselectAllFacetValues() {
 		this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
 		this.$store.dispatch('resource/clearSearch');
-    }
+	}
 
 }
 </script>

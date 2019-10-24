@@ -91,8 +91,8 @@ const getters = {
 	isSingleResult(state) {
 		if(!state.result) return false;
 		const { environments, software, content } = state.result;
-		console.log(environments, software, content)
-		const lengthArr: Array<number> = [];
+		console.log(environments, software, content);
+		const lengthArr: number[] = [];
 		environments && lengthArr.push(environments.result.length);
 		software && lengthArr.push(software.result.length);
 		content && lengthArr.push(content.result.length);

@@ -156,9 +156,9 @@ export default class MyResourcesScreen extends Vue {
     async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
-		await this.search();
+    	await this.search();
 		
-		this.selectedFacets[0].values[0].isSelected = true;
+    	this.selectedFacets[0].values[0].isSelected = true;
     }
 
     showSaveModal() {
@@ -194,7 +194,7 @@ export default class MyResourcesScreen extends Vue {
     		this.query.keyword = newQuery.q as string;
     		this.search();
     	}
-	}
+    }
 
 }
 
