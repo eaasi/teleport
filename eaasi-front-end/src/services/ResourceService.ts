@@ -20,7 +20,6 @@ class ResourceService extends BaseHttpService {
 		);
 
 		if (!res.ok) return null;
-
 		return res.result;
 	}
 

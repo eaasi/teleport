@@ -6,7 +6,7 @@
 			<div class="resource-bento width-md">
 				<div class="bento-row">
 					<div 
-						v-if="refinedEnvironment.result.length > 0" 
+						v-if="refinedEnvironment.result.length"
 						class="bento-col"
 					>
 						<resource-list
@@ -17,18 +17,18 @@
 						/>
 					</div>
 					<div 
-						v-if="refinedSoftware.result.length > 0 || refinedContent.result.length > 0"
+						v-if="refinedSoftware.result.length || refinedContent.result.length"
 						class="bento-col" 
 					>
 						<resource-list
-							v-if="refinedSoftware.result.length > 0"
+							v-if="refinedSoftware.result.length"
 							:query="query"
 							:result="refinedSoftware"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							v-if="refinedContent.result.length > 0"
+							v-if="refinedContent.result.length"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -94,6 +94,10 @@ export default class MyResourcesScreen extends Vue {
 	/* Computed
     ============================================*/
 
+	/**
+	 * Resources that are currently selected
+	 * TODO: name change => selectedResources
+	 */
     @Sync('resource/activeResources')
     activeResources: IEaasiResource[]
 
