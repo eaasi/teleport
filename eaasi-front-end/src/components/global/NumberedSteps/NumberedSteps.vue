@@ -9,7 +9,7 @@
 						:complete="value > step.stepNumber"
 					/>
 				</div>
-				<div class="step-elipses flex-adapt"></div>
+				<div class="step-ellipses flex-adapt"></div>
 			</div>
 		</span>
 	</div>
@@ -53,9 +53,10 @@ export default class NumberSteps extends Vue {
 	.numbered-steps-container {
 		width: 100%;
 	}
-	.step-elipses {
+
+	.step-ellipses {
 		border-bottom: dotted 2px #000000;
 		height: 2.4rem;
-		margin: 0 2.5rem 0 2px;
+		margin: 0 2.5rem 0 0.2rem;
 	}
 </style>

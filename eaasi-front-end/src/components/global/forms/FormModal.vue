@@ -30,6 +30,9 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import EaasiForm from './EaasiForm.vue';
 
+/**
+ * A Modal with a title, subtitle, slot for content, close, and save button
+ */
 @Component({
 	name: 'FormModal',
 	components: {

@@ -57,9 +57,8 @@
 		>
 			<alert type="info">
 				<span class="ers-rep-msg">
-					Saving to your node will copy environment data to local storage.
-					Environments copied from the EaaSI Network cannot be deleted
-					from storage once saved.
+					Saving to your node will copy all environment data and files to local storage.
+					Environments copied from the EaaSI Network cannot be easily deleted once saved.
 				</span>
 				<span class="ers-rep-msg">
 					Do you want to save this environment to your node?
