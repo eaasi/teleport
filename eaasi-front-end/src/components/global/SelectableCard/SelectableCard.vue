@@ -1,7 +1,6 @@
 <template>
-	<div
-		:class="['resource-object-container flex', selectStyle]"
-	>
+	<div :class="['resource-object-container flex', selectStyle]">
+		<component-loader />
 		<div v-if="bookmark">
 			<bookmark class="bookmark" />
 		</div>
@@ -33,6 +32,7 @@
 </template>
 
 <script lang="ts">
+import ComponentLoader from '@/components/global/ComponentLoader.vue';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
@@ -47,6 +47,7 @@ import SelectableCardContent from './SelectableCardContent.vue';
 @Component({
 	name: 'SelectableCard',
 	components: {
+		ComponentLoader,
 		SelectableCardContent,
 		Bookmark,
 		Tag,
@@ -71,37 +72,43 @@ export default class SelectableCard extends Vue {
 		isSelected: boolean = false
 		contentData: object = {}
 		subContentData: object = {}
+        isLoading: boolean = false;
+        error = {};
 
-		/* Computed
+        /* Computed
         ============================================*/
-		get selectStyle() : string {
-			return this.isSelected ? 'selected' : '';
-		}
+        get hasError() : boolean {
+        	return !!this.error;
+        };
 
-		get hasSubContent() : boolean {
-			return !!this.subContentData;
-		}
+        get selectStyle() : string {
+        	return this.isSelected ? 'selected' : '';
+        }
 
-		/* Methods
+        get hasSubContent() : boolean {
+        	return !!this.subContentData;
+        }
+
+        /* Methods
 		============================================*/
 
-		toggleSelected(isSelected) : void {
-			this.isSelected = isSelected;
-			this.$emit('change', isSelected);
-		}
+        toggleSelected(isSelected) : void {
+        	this.isSelected = isSelected;
+        	this.$emit('change', isSelected);
+        }
 
-		buildResourceData() {
-			this.title = this.data.title;
-			this.contentData = this.data.content;
-			this.subContentData = this.data.subContent;
-		}
+        buildResourceData() {
+        	this.title = this.data.title;
+        	this.contentData = this.data.content;
+        	this.subContentData = this.data.subContent;
+        }
 
-		/* Lifecycle Hooks
+        /* Lifecycle Hooks
 		============================================*/
 
-		created() {
-			this.buildResourceData();
-		}
+        created() {
+        	this.buildResourceData();
+        }
 
 }
 </script>

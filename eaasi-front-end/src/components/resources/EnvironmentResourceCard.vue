@@ -43,11 +43,7 @@ export default class EnvironmentResourceCard extends Vue {
 
 	get envTags(): ITag[] {
 		if (!this.summary) return [];
-		return this.summary.tagGroup.map(t => ({
-			icon: 'fa-map-marker-alt',
-			color: 'green',
-			text: t.value
-		}));
+		return this.summary.tagGroup;
 	}
 
 	get summary(): IEaasiResourceSummary | null {
@@ -72,9 +68,9 @@ export default class EnvironmentResourceCard extends Vue {
 				if (key.toLowerCase() === 'archive') {
 					if (summary.content[key].toLowerCase() === 'public') {
 						summary.tagGroup.push({
-							icon: 'eye',
-							key: '',
-							value: 'SAVED'
+							icon: 'fa-map-marker-alt',
+							color: 'green',
+							text: 'SAVED'
 						});
 					}
 				}
