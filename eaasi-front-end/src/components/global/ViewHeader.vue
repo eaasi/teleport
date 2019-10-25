@@ -20,6 +20,7 @@ import Vue from 'vue';
 
 /**
  * Provides title and description of a View
+ * @example ../docs/ViewHeader.Example.md
  */
 @Component({
 	name: 'ViewHeader'

@@ -13,7 +13,6 @@ import ConfirmModal from './Modal/ConfirmModal.vue';
 import Checkbox from './forms/Checkbox.vue';
 import FileDropzone from './FileDropzone.vue';
 import DescriptiveRadios from './forms/DescriptiveRadios.vue';
-import DualToggle from './DualToggle.vue';
 import EaasiForm from './forms/EaasiForm.vue';
 import FileUploadButton from './FileUploadButton.vue';
 import FormModal from './forms/FormModal.vue';
@@ -62,7 +61,6 @@ export default {
 		Vue.component('Column', Column);
 		Vue.component('ConfirmModal', ConfirmModal);
 		Vue.component('DescriptiveRadios', DescriptiveRadios);
-		Vue.component('DualToggle', DualToggle);
 		Vue.component('EaasiForm', EaasiForm);
 		Vue.component('FileDropzone', FileDropzone);
 		Vue.component('FileUploadButton', FileUploadButton);
@@ -114,7 +112,6 @@ export {
 	Column,
 	ConfirmModal,
 	DescriptiveRadios,
-	DualToggle,
 	EaasiForm,
 	FileDropzone,
 	FileUploadButton,
