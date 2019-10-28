@@ -1,6 +1,6 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle]">
-		<component-loader />
+		<component-loader v-if="isLoading" />
 		<div v-if="bookmark">
 			<bookmark class="bookmark" />
 		</div>
@@ -66,13 +66,15 @@ export default class SelectableCard extends Vue {
         @Prop({type: Boolean, required: false, default: false})
 		footer: boolean
 
+        @Prop({type: Boolean, required: false, default: false})
+        isLoading: boolean
+
 		/* Data
         ============================================*/
 		title: string = ''
 		isSelected: boolean = false
 		contentData: object = {}
 		subContentData: object = {}
-        isLoading: boolean = false;
         error = {};
 
         /* Computed
@@ -98,9 +100,11 @@ export default class SelectableCard extends Vue {
         }
 
         buildResourceData() {
-        	this.title = this.data.title;
-        	this.contentData = this.data.content;
-        	this.subContentData = this.data.subContent;
+        	if (this.data) {
+        		this.title = this.data.title;
+        		this.contentData = this.data.content;
+        		this.subContentData = this.data.subContent;
+        	}
         }
 
         /* Lifecycle Hooks

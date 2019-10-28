@@ -3,6 +3,7 @@
 		:bookmark="true"
 		:data="summary"
 		:footer="true"
+		:is-loading="isLoading"
 		@change="setActiveEnvironment"
 	>
 		<template v-slot:tagsLeft>
@@ -15,11 +16,14 @@
 </template>
 
 <script lang="ts">
+import ResourceService from '@/services/ResourceService';
 import { ITag } from '@/types/Tag';
 import { resourceTypes } from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEnvironment } from '@/types/Resource.d.ts';
+import {IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment} from '@/types/Resource.d.ts';
+
+let resourceSvc = ResourceService;
 
 @Component({
 	name: 'EnvironmentResourceCard',
@@ -33,6 +37,9 @@ export default class EnvironmentResourceCard extends Vue {
 
 	/* Data
 	============================================*/
+	environmentCardSummary?: IEaasiEnvironmentCardSummary;
+	isLoading: boolean = false;
+	hasNoDetails: boolean = false;
 
 	/* Computed
 	============================================*/
@@ -49,6 +56,26 @@ export default class EnvironmentResourceCard extends Vue {
 	get summary(): IEaasiResourceSummary | null {
 		if (!this.environment) return null;
 
+		resourceSvc.getEnvironment(this.environment.envId).then(res => {
+			if (res.error) {
+				this.hasNoDetails = true;
+				this.environmentCardSummary = {
+					hasError: true
+				};
+			} else {
+				this.environmentCardSummary = {
+					title: res.title,
+					description: res.description,
+					archive: res.archive,
+					drives: res.drives,
+					emulator: res.emulator,
+					isInternetEnabled: res.enableInternet,
+					isPrintingEnabled: res.enablePrinting,
+					installedSoftware: res.installedSoftwareIds,
+				};
+			}
+		});
+
 		let summary = {
 			id: this.environment.id,
 			title: this.environment.title,
@@ -59,9 +86,12 @@ export default class EnvironmentResourceCard extends Vue {
 
 		// TODO: Refactor
 		for (let key in this.environment) {
+			if (key.toLowerCase() === 'archive' || key.toLowerCase() === 'resourcetype') continue;
+
 			let val = this.environment[key];
 
 			if (val && typeof val === 'string' && val !== 'n.a.' && val.length <= 20) {
+
 				summary.content[key] = val;
 				summary.subContent[key] = val;
 
@@ -75,6 +105,14 @@ export default class EnvironmentResourceCard extends Vue {
 					}
 				}
 			}
+		}
+
+		if (this.hasNoDetails) {
+			summary.tagGroup.push({
+				icon: 'fa-exclamation-triangle',
+				color: 'red',
+				text: 'Error'
+			});
 		}
 		return summary;
 	}
@@ -93,6 +131,8 @@ export default class EnvironmentResourceCard extends Vue {
 
 	/* Lifecycle Hooks
 	============================================*/
+	created() {
+	}
 
 	/* Watchers
 	============================================*/
