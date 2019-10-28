@@ -74,6 +74,9 @@
 			});
 		}
 
+		/**
+		 * Sets the display data in the EnvironmentResourceCard
+		 */
 		setCardSummary() {
 			if (!this.environment) return null;
 
@@ -88,17 +91,18 @@
 			for (let key in this.environment) {
 				let val = this.environment[key];
 
-				if (val && typeof val === 'string' && val !== 'n.a.' && val.length <= 20) {
-					summary.subContent[key] = val;
-					if (key.toLowerCase() === 'archive') {
-						if (summary.subContent[key].toLowerCase() === 'public') {
-							summary.tagGroup.push({
-								icon: 'fa-map-marker-alt',
-								color: 'green',
-								text: 'Saved'
-							});
-						}
+				if (key.toLowerCase() === 'archive') {
+					if (this.environment[key].toLowerCase() === 'public') {
+						summary.tagGroup.push({
+							icon: 'fa-map-marker-alt',
+							color: 'green',
+							text: 'Saved'
+						});
 					}
+				}
+
+				if (key.toLowerCase() === 'owner') {
+					summary.subContent[key] = val;
 				}
 			}
 
@@ -109,6 +113,8 @@
 						color: 'red',
 						text: 'Error Retrieving Details'
 					});
+
+					continue;
 				}
 
 				if (key.toLowerCase() === 'drives') {
@@ -121,6 +127,8 @@
 				} else if (key.toLowerCase() === 'isprintingenabled') {
 					let printingEnabled = 'Printing Enabled';
 					summary.content[printingEnabled] = this.environmentCardSummary[key];
+				} else if (key.toLowerCase() === 'archive') {
+					continue;
 				} else if (key.toLowerCase() === 'description') {
 					summary.content[key] = StringCleaner.stripHTML(this.environmentCardSummary[key]);
 				} else if (key.toLowerCase() === 'installedsoftware') {
