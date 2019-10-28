@@ -1,7 +1,7 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle]">
-		<component-loader v-if="isLoading" />
-		<div v-if="bookmark">
+
+		<div v-if="bookmark && !isLoading">
 			<bookmark class="bookmark" />
 		</div>
 
@@ -23,7 +23,11 @@
 				<selectable-card-content :content-data="subContentData" />
 			</div>
 
-			<div v-if="footer" class="panel-footer">
+			<div v-if="isLoading" class="panel-footer loading-tag">
+				<tag text="Loading" icon="fa-spinner fa-spin" color="blue" />
+			</div>
+
+			<div v-if="footer && !isLoading" class="panel-footer">
 				<slot name="tagsLeft"></slot>
 				<slot name="tagsRight"></slot>
 			</div>
@@ -32,7 +36,6 @@
 </template>
 
 <script lang="ts">
-import ComponentLoader from '@/components/global/ComponentLoader.vue';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
@@ -47,7 +50,6 @@ import SelectableCardContent from './SelectableCardContent.vue';
 @Component({
 	name: 'SelectableCard',
 	components: {
-		ComponentLoader,
 		SelectableCardContent,
 		Bookmark,
 		Tag,
@@ -164,6 +166,10 @@ export default class SelectableCard extends Vue {
 			color: $dark-blue;
 			font-size: 1.6rem;
 			line-height: 2rem;
+
+			.loading-icon {
+				margin-left: 1rem;
+			}
 		}
 
 		.content {
@@ -178,4 +184,9 @@ export default class SelectableCard extends Vue {
 		justify-content: space-between;
 		padding-top: 10px;
 	}
+
+	.loading-tag {
+		float: right;
+	}
+
 </style>

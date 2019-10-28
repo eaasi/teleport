@@ -1,28 +1,35 @@
 <template>
-	<selectable-card
-		v-if="cardSummary"
-		:bookmark="true"
-		:data="cardSummary"
-		:footer="true"
-		:is-loading="isLoading"
-		@change="setActiveEnvironment"
-	>
-		<template v-slot:tagsLeft>
-			<tag :text="environmentResourceType" icon="fa-box" color="blue" />
-		</template>
-		<template v-slot:tagsRight>
-			<tag-group v-if="cardSummary" position="right" :tags="cardSummary.tagGroup" />
-		</template>
-	</selectable-card>
+	<div>
+		<selectable-card
+			v-if="cardSummary"
+			:bookmark="true"
+			:data="cardSummary"
+			:footer="true"
+			:is-loading="isLoading"
+			@change="setActiveEnvironment"
+		>
+			<template v-slot:tagsLeft>
+				<tag :text="environmentResourceType" icon="fa-box" color="blue" />
+			</template>
+			<template v-slot:tagsRight>
+				<tag-group v-if="cardSummary" position="right" :tags="cardSummary.tagGroup" />
+			</template>
+		</selectable-card>
+	</div>
 </template>
 
 <script lang="ts">
     import ResourceService from '@/services/ResourceService';
-    import {IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment} from '@/types/Resource.d.ts';
+	import {
+		IEaasiEnvironmentCardSummary,
+		IEaasiResourceSummary,
+		IEnvironment
+	} from '@/types/Resource.d.ts';
     import {resourceTypes} from '@/utils/constants';
 	import StringCleaner from '@/utils/string-cleaner';
     import Vue from 'vue';
     import {Component, Prop} from 'vue-property-decorator';
+	import {Sync} from 'vuex-pathify';
 
     let resourceSvc = ResourceService;
 
@@ -39,12 +46,20 @@
 		/* Data
         ============================================*/
 		environmentCardSummary?: IEaasiEnvironmentCardSummary;
-		isLoading: boolean = false;
 		hasNoDetails: boolean = false;
 		cardSummary: IEaasiResourceSummary = null;
 
 		/* Computed
         ============================================*/
+		@Sync('resource/loadingEnvironments')
+		loadingEnvironments: string[];
+
+		get isLoading() {
+			if (this.loadingEnvironments) {
+				return this.loadingEnvironments.includes(this.environment.envId);
+			}
+			return false;
+		}
 
 		get environmentResourceType() {
 			return resourceTypes.ENVIRONMENT;
@@ -78,6 +93,8 @@
 		 * Sets the display data in the EnvironmentResourceCard
 		 */
 		setCardSummary() {
+			// TODO: Refactor this method
+
 			if (!this.environment) return null;
 
 			let summary = {
@@ -113,19 +130,15 @@
 						color: 'red',
 						text: 'Error Retrieving Details'
 					});
-
 					continue;
 				}
-
 				if (key.toLowerCase() === 'drives') {
 					let driveCountName = '# Drives';
 					summary.content[driveCountName] = this.environmentCardSummary[key].length;
 				}
-
 				else if (key.toLowerCase() === 'archive' || key.toLowerCase() === 'title') {
 					// Do not add redundant data to summary
 				}
-
 				else if (key.toLowerCase() === 'isinternetenabled') {
 					let internetEnabled = 'Internet Enabled';
 					summary.content[internetEnabled] = this.environmentCardSummary[key];
@@ -157,10 +170,8 @@
 		/* Lifecycle Hooks
         ============================================*/
 		async created() {
-			this.isLoading = true;
 			this.getEnvironmentDetails().then(async () => {
 				await this.setCardSummary();
-				this.isLoading = false;
 			});
 		}
 

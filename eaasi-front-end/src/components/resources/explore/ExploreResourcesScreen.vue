@@ -5,7 +5,7 @@
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
 				<div class="bento-row">
-					<div 
+					<div
 						v-if="refinedEnvironment.result.length"
 						class="bento-col"
 					>
@@ -16,9 +16,9 @@
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
-					<div 
+					<div
 						v-if="refinedSoftware.result.length || refinedContent.result.length"
-						class="bento-col" 
+						class="bento-col"
 					>
 						<resource-list
 							v-if="refinedSoftware.result.length"
@@ -38,6 +38,7 @@
 				</div>
 			</div>
 		</div>
+
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			:resources="activeResources"
@@ -106,7 +107,7 @@ export default class MyResourcesScreen extends Vue {
 
     @Get('resource/result')
 	bentoResult: IResourceSearchResponse
-	
+
 	@Get('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
@@ -117,7 +118,7 @@ export default class MyResourcesScreen extends Vue {
 	get hasSelectedFacets() {
     	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
-	
+
 	get refinedContent() {
 		return this.refinedResult(this.bentoResult.content);
 	}
@@ -125,7 +126,7 @@ export default class MyResourcesScreen extends Vue {
 	get refinedSoftware() {
 		return this.refinedResult(this.bentoResult.software);
 	}
-	
+
 	get refinedEnvironment() {
 		return this.refinedResult(this.bentoResult.environments);
 	}
@@ -138,7 +139,7 @@ export default class MyResourcesScreen extends Vue {
 
     /* Methods
 	============================================*/
-	
+
     refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
     	if (!bentoResult) return { result: [], totalResults: 0 };
     	if (!this.hasSelectedFacets) return bentoResult;
@@ -158,7 +159,7 @@ export default class MyResourcesScreen extends Vue {
     	// eventually won't need to do this, because facets will come with a result from the backend
     	if (result) this.$store.dispatch('resource/populateSearchFacets');
     }
-	
+
     getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
@@ -170,9 +171,9 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async saveEnvironment() {
-    	// TODO: handle saving multiple selected
+    	// TODO: handle simultaneous saving multiple selected
     	let environment = this.activeResources[0];
-
+    	console.log('saving environment!: ', environment);
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
     		this.isSaveModalVisible = false;
