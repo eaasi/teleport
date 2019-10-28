@@ -121,14 +121,17 @@
 					let driveCountName = '# Drives';
 					summary.content[driveCountName] = this.environmentCardSummary[key].length;
 				}
+
+				else if (key.toLowerCase() === 'archive' || key.toLowerCase() === 'title') {
+					// Do not add redundant data to summary
+				}
+
 				else if (key.toLowerCase() === 'isinternetenabled') {
 					let internetEnabled = 'Internet Enabled';
 					summary.content[internetEnabled] = this.environmentCardSummary[key];
 				} else if (key.toLowerCase() === 'isprintingenabled') {
 					let printingEnabled = 'Printing Enabled';
 					summary.content[printingEnabled] = this.environmentCardSummary[key];
-				} else if (key.toLowerCase() === 'archive') {
-					continue;
 				} else if (key.toLowerCase() === 'description') {
 					summary.content[key] = StringCleaner.stripHTML(this.environmentCardSummary[key]);
 				} else if (key.toLowerCase() === 'installedsoftware') {
@@ -138,7 +141,6 @@
 				} else {
 					summary.content[key] = this.environmentCardSummary[key];
 				}
-
 			}
 			this.cardSummary = summary;
 		}
