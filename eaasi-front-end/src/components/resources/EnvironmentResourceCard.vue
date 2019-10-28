@@ -11,7 +11,7 @@
 			<tag :text="environmentResourceType" icon="fa-box" color="blue" />
 		</template>
 		<template v-slot:tagsRight>
-			<tag-group v-if="summary" position="right" :tags="envTags" />
+			<tag-group v-if="cardSummary" position="right" :tags="cardSummary.tagGroup" />
 		</template>
 	</selectable-card>
 </template>
@@ -19,7 +19,6 @@
 <script lang="ts">
     import ResourceService from '@/services/ResourceService';
     import {IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment} from '@/types/Resource.d.ts';
-    import {ITag} from '@/types/Tag';
     import {resourceTypes} from '@/utils/constants';
 	import StringCleaner from '@/utils/string-cleaner';
     import Vue from 'vue';
@@ -49,11 +48,6 @@
 
 		get environmentResourceType() {
 			return resourceTypes.ENVIRONMENT;
-		}
-
-		get envTags(): ITag[] {
-			if (!this.cardSummary) return [];
-			return this.cardSummary.tagGroup;
 		}
 
 		/* Methods
@@ -93,6 +87,7 @@
 
 			for (let key in this.environment) {
 				let val = this.environment[key];
+
 				if (val && typeof val === 'string' && val !== 'n.a.' && val.length <= 20) {
 					summary.subContent[key] = val;
 					if (key.toLowerCase() === 'archive') {
@@ -108,13 +103,19 @@
 			}
 
 			for (let key in this.environmentCardSummary) {
-				console.log(key)
+				if (key.toLowerCase() === 'haserror') {
+					summary.tagGroup.push({
+						icon: 'fa-exclamation-triangle',
+						color: 'red',
+						text: 'Error Retrieving Details'
+					});
+				}
+
 				if (key.toLowerCase() === 'drives') {
 					let driveCountName = '# Drives';
 					summary.content[driveCountName] = this.environmentCardSummary[key].length;
-				} else if (key.toLowerCase() === 'archive') {
-					continue;
-				} else if (key.toLowerCase() === 'isinternetenabled') {
+				}
+				else if (key.toLowerCase() === 'isinternetenabled') {
 					let internetEnabled = 'Internet Enabled';
 					summary.content[internetEnabled] = this.environmentCardSummary[key];
 				} else if (key.toLowerCase() === 'isprintingenabled') {
@@ -129,16 +130,8 @@
 				} else {
 					summary.content[key] = this.environmentCardSummary[key];
 				}
-			}
 
-			if (this.hasNoDetails) {
-				summary.tagGroup.push({
-					icon: 'fa-exclamation-triangle',
-					color: 'red',
-					text: 'Error Retrieving Details'
-				});
 			}
-
 			this.cardSummary = summary;
 		}
 
