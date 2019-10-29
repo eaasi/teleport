@@ -59,7 +59,7 @@ const actions = {
 		let environmentTitle = environment.title;
 		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
 		commit('ADD_OR_UPDATE_TASK', task, { root: true });
-		commit('SET_LOADING_ENVIRONMENTS', [...state.savingEnvironments, environment.envId]);
+		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, environment.envId]);
 		return task;
 	},
 
