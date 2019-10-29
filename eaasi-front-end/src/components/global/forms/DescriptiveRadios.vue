@@ -22,6 +22,10 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IRadioOption } from '@/types/Forms';
 
+/**
+ * A component to allow selection between two values, with a description
+ * @example ../../docs/DescriptiveRadios.Example.md
+ */
 @Component({
 	name: 'DescriptiveRadios',
 })

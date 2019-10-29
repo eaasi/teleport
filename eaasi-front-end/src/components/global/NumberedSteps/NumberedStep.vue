@@ -70,11 +70,12 @@ export default class Step extends Vue {
 		border: 3px solid #ffffff;
 		border-radius: 50%;
 		color: #000000;
-		display: block;
+		display: flex;
 		font-size: 1.6rem;
 		font-weight: bold;
 		height: $circleSize;
 		margin-right: 1.2rem;
+		text-align: center;
 		transition: background-color 0.5s, border 0.5s;
 		width: $circleSize;
 

@@ -33,6 +33,7 @@ import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A Card providing user interface to Attach a Resource
+ * @example ../docs/AttachResourceCard.Example.md
  */
 @Component({
 	name: 'AttachResourceCard'
