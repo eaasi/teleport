@@ -23,7 +23,7 @@
 			</div>
 
 			<div v-if="isLoading" class="panel-footer loading-tag">
-				<tag text="Loading" icon="fa-spinner fa-spin" color="blue" />
+				<tag text="Saving to Node" icon="fa-spinner fa-spin" color="yellow" />
 			</div>
 
 			<div v-if="footer && !isLoading" class="panel-footer">
@@ -182,10 +182,6 @@ export default class SelectableCard extends Vue {
 		display: flex;
 		justify-content: space-between;
 		padding-top: 10px;
-	}
-
-	.loading-tag {
-		float: right;
 	}
 
 </style>
