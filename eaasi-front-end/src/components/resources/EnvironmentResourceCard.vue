@@ -51,12 +51,12 @@
 
 		/* Computed
         ============================================*/
-		@Sync('resource/loadingEnvironments')
-		loadingEnvironments: string[];
+		@Sync('resource/savingEnvironments')
+		savingEnvironments: string[];
 
 		get isLoading() {
-			if (this.loadingEnvironments) {
-				return this.loadingEnvironments.includes(this.environment.envId);
+			if (this.savingEnvironments) {
+				return this.savingEnvironments.includes(this.environment.envId);
 			}
 			return false;
 		}

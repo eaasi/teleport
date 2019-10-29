@@ -12,19 +12,21 @@ import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
  == State
 /============================================================*/
 class ResourceState {
+
 	activeEnvironment: IEnvironment = null;
-	/**
-	 * Active Resources are Selected in Explore Resources / My Resources Screen
-	 */
-	activeResources: IEaasiResource[] = [];
-	taskListStatus: IEaasiTaskListStatus = {status: '', taskList: []};
-	query: IResourceSearchQuery = new ResourceSearchQuery();
-	result: IResourceSearchResponse = null;
 
 	/**
-	 * Environments in a loading state
+	 * Resources that are currently selected in Explore Resources / My Resources Screen
 	 */
-	loadingEnvironments: string[] = [];
+	selectedResources: IEaasiResource[] = [];
+
+	query: IResourceSearchQuery = new ResourceSearchQuery();
+
+	result: IResourceSearchResponse = null;
+
+	taskListStatus: IEaasiTaskListStatus = {status: '', taskList: []};
+
+	savingEnvironments: string[] = [];
 }
 
 const state = new ResourceState();
@@ -58,13 +60,13 @@ const actions = {
 	 * @param environment: instance that satisfies IEnvironment
 	 */
 	async saveEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment) { // : Promise<EaasiTask> {
-		// let taskState = await _svc.saveEnvironment(environment.envId);
-		// let environmentTitle = environment.title;
-		// if (!taskState) return null;
-		// let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
-		// commit('ADD_OR_UPDATE_TASK', task, { root: true });
+		let taskState = await _svc.saveEnvironment(environment.envId);
+		if (!taskState) return null;
+		let environmentTitle = environment.title;
+		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
+		commit('ADD_OR_UPDATE_TASK', task, { root: true });
 		commit('SET_LOADING_ENVIRONMENTS', [...state.loadingEnvironments, environment.envId]);
-		// return task;
+		return task;
 	},
 
 	// this will map results and generate facets

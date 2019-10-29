@@ -1,6 +1,5 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle]">
-
 		<div v-if="bookmark && !isLoading">
 			<bookmark class="bookmark" />
 		</div>

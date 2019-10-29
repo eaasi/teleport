@@ -89,8 +89,8 @@ export default class ResourceSlideMenu extends Vue {
     @Get('resource/activeEnvironment')
     readonly environment: IEnvironment
 
-    @Sync('resource/activeResources')
-    activeResources: IEaasiResource[]
+    @Sync('resource/selectedResources')
+    selectedResources: IEaasiResource[]
 
 	@Get('loggedInUser')
 	user: IEaasiUser
@@ -118,14 +118,14 @@ export default class ResourceSlideMenu extends Vue {
 	 * Populates the list of Local Actions in the Sidebar
 	 */
 	get localActionsForSelected() {
-		return menuService.getLocalActions(this.activeResources as IEnvironment[], this.user.roleId);
+		return menuService.getLocalActions(this.selectedResources as IEnvironment[], this.user.roleId);
 	}
 
 	/**
 	 * Populates the list of Node Actions in the Sidebar
 	 */
 	get nodeActionsForSelected() {
-		return menuService.getNodeActions(this.activeResources as IEnvironment[], this.user.roleId);
+		return menuService.getNodeActions(this.selectedResources as IEnvironment[], this.user.roleId);
 	}
 
 	/* Data

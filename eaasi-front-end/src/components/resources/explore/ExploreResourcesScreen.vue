@@ -41,7 +41,7 @@
 
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
-			:resources="activeResources"
+			:resources="selectedResources"
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
 			@show-save-modal="showSaveModal"
@@ -82,7 +82,7 @@ import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } f
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
-	name: 'MyResourcesScreen',
+	name: 'ExploreResourcesScreen',
 	components: {
 		AppliedSearchFacets,
 		ResourceFacets,
@@ -90,7 +90,7 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 		ResourceSlideMenu
 	}
 })
-export default class MyResourcesScreen extends Vue {
+export default class ExploreResourcesScreen extends Vue {
 
 	/* Computed
     ============================================*/
@@ -99,8 +99,8 @@ export default class MyResourcesScreen extends Vue {
 	 * Resources that are currently selected
 	 * TODO: name change => selectedResources
 	 */
-    @Sync('resource/activeResources')
-    activeResources: IEaasiResource[]
+    @Sync('resource/selectedResources')
+    selectedResources: IEaasiResource[]
 
     @Sync('resource/query')
     query: ResourceSearchQuery;
@@ -112,7 +112,7 @@ export default class MyResourcesScreen extends Vue {
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
-    	return this.activeResources.length > 0;
+    	return this.selectedResources.length > 0;
 	}
 
 	get hasSelectedFacets() {
@@ -172,7 +172,7 @@ export default class MyResourcesScreen extends Vue {
 
     async saveEnvironment() {
     	// TODO: handle simultaneous saving multiple selected
-    	let environment = this.activeResources[0];
+    	let environment = this.selectedResources[0];
     	console.log('saving environment!: ', environment);
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
@@ -190,7 +190,7 @@ export default class MyResourcesScreen extends Vue {
     }
 
     destroyed() {
-    	this.activeResources = [];
+    	this.selectedResources = [];
     }
 
     @Watch('$route.query')

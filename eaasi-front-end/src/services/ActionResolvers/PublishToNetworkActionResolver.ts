@@ -2,11 +2,11 @@ import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionR
 import {IEnvironment} from '@/types/Resource';
 
 export default class PublishToNetworkActionResolver extends SlideMenuActionResolver {
-	activeResources: IEnvironment[];
+	selectedResources: IEnvironment[];
 	userRoleId: number
 
-	constructor(activeResources: IEnvironment[], roleId: number) {
-		super(activeResources, roleId);
+	constructor(selectedResources: IEnvironment[], roleId: number) {
+		super(selectedResources, roleId);
 	}
 
 	/**
