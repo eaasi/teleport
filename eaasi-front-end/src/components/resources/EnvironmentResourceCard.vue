@@ -5,7 +5,7 @@
 			:bookmark="true"
 			:data="cardSummary"
 			:footer="true"
-			:is-loading="isLoading"
+			:is-loading="isSaving"
 			@change="setActiveEnvironment"
 		>
 			<template v-slot:tagsLeft>
@@ -25,6 +25,7 @@
 		IEaasiResourceSummary,
 		IEnvironment
 	} from '@/types/Resource.d.ts';
+	import {ITaskState} from '@/types/Task';
     import {resourceTypes} from '@/utils/constants';
 	import StringCleaner from '@/utils/string-cleaner';
     import Vue from 'vue';
@@ -48,15 +49,23 @@
 		environmentCardSummary?: IEaasiEnvironmentCardSummary;
 		hasNoDetails: boolean = false;
 		cardSummary: IEaasiResourceSummary = null;
+		timer: number = null;
 
 		/* Computed
         ============================================*/
 		@Sync('resource/savingEnvironments')
 		savingEnvironments: string[];
 
-		get isLoading() {
-			if (this.savingEnvironments) {
-				return this.savingEnvironments.includes(this.environment.envId);
+		@Sync('resource/saveEnvironmentTaskMap')
+		saveEnvironmentTaskMap: string[];
+
+		get isSaving() {
+			if (this.savingEnvironments.length) {
+				let result = this.savingEnvironments.includes(this.environment.envId);
+				if (result) {
+					this.pollForEnvironmentTaskStatus();
+					return true;
+				}
 			}
 			return false;
 		}
@@ -67,6 +76,25 @@
 
 		/* Methods
         ============================================*/
+		async pollForEnvironmentTaskStatus() {
+			let self = this;
+			if (self.timer) clearInterval(self.timer);
+			let task = this.saveEnvironmentTaskMap[this.environment.envId];
+			console.log('pollForEnv taskId: ', task.taskId);
+
+			self.timer = setInterval(async () => {
+				let taskState = await self.$store.dispatch('getEnvironmentTaskState', task.taskId) as ITaskState;
+				if (!taskState || taskState.isDone) {
+					console.log('Done Saving Environment');
+				}
+				else if (taskState.message && taskState.status == '1') {
+					console.log(taskState);
+					clearInterval(self.timer);
+					console.log('Error Saving Environment');
+				}
+			}, task.pollingInterval);
+		}
+
 		async getEnvironmentDetails() {
 			await resourceSvc.getEnvironment(this.environment.envId).then(res => {
 				if (res.error) {

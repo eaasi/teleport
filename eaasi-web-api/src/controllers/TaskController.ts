@@ -1,24 +1,39 @@
 import BaseController from './base/BaseController';
 import { Request, Response } from 'express';
 import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
+import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
 
 export default class TaskController extends BaseController {
 
-	private readonly _emilSvc: EmilContainerService;
+	private readonly emilContainerService: EmilContainerService;
+	private readonly emilEnvironmentService: EmilEnvironmentService;
 
-	constructor(emilContainerService = new EmilContainerService()) {
+	constructor(emilContainerService = new EmilContainerService(), emilEnvironmentService = new EmilEnvironmentService()) {
 		super();
-		this._emilSvc = emilContainerService;
+		this.emilContainerService = emilContainerService;
+		this.emilEnvironmentService = emilEnvironmentService;
 	}
 
-	async getEmilTaskState(req: Request, res: Response) {
+	async getEmilContainerTaskState(req: Request, res: Response) {
 		try {
 			let taskID = req.query.id;
-			let taskState = await this._emilSvc.getTaskState(taskID);
+			let taskState = await this.emilContainerService.getTaskState(taskID);
 			res.send(taskState);
 		} catch(e) {
 			this.sendError(e.message, res);
 		}
 	}
 
+	async getEmilEnvironmentTaskState(req: Request, res: Response) {
+		try {
+			let taskID = req.query.id;
+			let environmentService = new EmilEnvironmentService()
+			let taskState = await environmentService.getEnvironmentTaskState(taskID);
+			res.send(taskState);
+		} catch(e) {
+			console.log('ERROR::::')
+			console.log(e)
+			this.sendError(e.message, res);
+		}
+	}
 }

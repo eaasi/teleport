@@ -171,9 +171,7 @@ export default class ExploreResourcesScreen extends Vue {
     }
 
     async saveEnvironment() {
-    	// TODO: handle simultaneous saving multiple selected
     	let environment = this.selectedResources[0];
-    	console.log('saving environment!: ', environment);
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
     		this.isSaveModalVisible = false;

@@ -21,6 +21,8 @@ class ResourceState {
 	result: IResourceSearchResponse = null;
 
 	savingEnvironments: string[] = [];
+
+	saveEnvironmentTaskMap: object = {};
 }
 
 const state = new ResourceState();
@@ -60,6 +62,13 @@ const actions = {
 		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
 		commit('ADD_OR_UPDATE_TASK', task, { root: true });
 		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, environment.envId]);
+
+		let taskMap = state.saveEnvironmentTaskMap;
+		taskMap[environment.envId] = task;
+		commit('SET_SAVE_ENVIRONMENT_TASK_MAP', taskMap);
+
+		console.log('** resource-store ** new task map:', taskMap);
+
 		return task;
 	},
 
