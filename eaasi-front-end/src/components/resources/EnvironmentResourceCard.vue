@@ -76,21 +76,33 @@
 
 		/* Methods
         ============================================*/
+
+		/**
+		 * Polls for an Environment Task to be complete at the rate specified by
+		 * the task's polling interval.  If a task is complete, we remove it from the
+		 * list of saving environments.  If there is an error, we update the Resource Card
+		 * to display an error message.
+		 */
 		async pollForEnvironmentTaskStatus() {
 			let self = this;
 			if (self.timer) clearInterval(self.timer);
 			let task = this.saveEnvironmentTaskMap[this.environment.envId];
-			console.log('pollForEnv taskId: ', task.taskId);
 
 			self.timer = setInterval(async () => {
 				let taskState = await self.$store.dispatch('getEnvironmentTaskState', task.taskId) as ITaskState;
+
 				if (!taskState || taskState.isDone) {
-					console.log('Done Saving Environment');
+					await self.$store.dispatch('resource/onEnvironmentSaved', task.taskId);
 				}
+
 				else if (taskState.message && taskState.status == '1') {
 					console.log(taskState);
 					clearInterval(self.timer);
-					console.log('Error Saving Environment');
+					this.cardSummary.tagGroup.push({
+						icon: 'fa-exclamation-triangle',
+						color: 'red',
+						text: 'Error Occurred While Saving'
+					});
 				}
 			}, task.pollingInterval);
 		}

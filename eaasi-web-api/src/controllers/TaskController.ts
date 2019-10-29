@@ -31,8 +31,6 @@ export default class TaskController extends BaseController {
 			let taskState = await environmentService.getEnvironmentTaskState(taskID);
 			res.send(taskState);
 		} catch(e) {
-			console.log('ERROR::::')
-			console.log(e)
 			this.sendError(e.message, res);
 		}
 	}

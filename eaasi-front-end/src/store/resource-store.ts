@@ -33,6 +33,10 @@ const state = new ResourceState();
 
 const mutations = make.mutations(state);
 
+mutations['REMOVE_FROM_SAVING_ENVIRONMENTS'] = function(state: ResourceState, environmentId: string | number) {
+	state.savingEnvironments = state.savingEnvironments.filter(x => x != environmentId);
+};
+
 /*============================================================
  == Actions
 /============================================================*/
@@ -67,9 +71,11 @@ const actions = {
 		taskMap[environment.envId] = task;
 		commit('SET_SAVE_ENVIRONMENT_TASK_MAP', taskMap);
 
-		console.log('** resource-store ** new task map:', taskMap);
-
 		return task;
+	},
+
+	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
+		commit('REMOVE_FROM_SAVING_ENVIRONMENTS', environmentId);
 	},
 
 	// this will map results and generate facets

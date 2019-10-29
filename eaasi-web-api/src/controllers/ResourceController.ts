@@ -36,7 +36,6 @@ export default class ResourceController extends BaseController {
 			let environmentId = req.body.environmentId;
 			if (!environmentId) this.sendClientError('Request to save environment requires non-null Environment ID', res)
 			let result = await this._svc.saveEnvironment(environmentId);
-			console.log('ResourceController saveEnvironment result:', result);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
