@@ -22,6 +22,15 @@
 			>
 				See all {{ label }}
 			</ui-button>
+			<ui-button
+				@click="$emit('clear-search')"
+				icon-right
+				secondary
+				size="sm"
+				v-if="result.result.length === result.totalResults"
+			>
+				Clear Search
+			</ui-button>
 		</div>
 	</div>
 </template>
