@@ -70,7 +70,7 @@ export default class ImportResourceScreen extends Vue {
 <style lang="scss">
 
 #importResource {
-	background-color: #FFFFFF;
+	background-color: lighten($light-neutral, 80%);
 }
 
 .import-content {
