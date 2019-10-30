@@ -101,16 +101,6 @@
 							});
 						});
 				}
-
-				else if (taskState.message && taskState.status == '1') {
-					console.log(taskState);
-					clearInterval(self.timer);
-					this.cardSummary.tagGroup.push({
-						icon: 'fa-exclamation-triangle',
-						color: 'red',
-						text: 'Error Occurred While Saving'
-					});
-				}
 			}, task.pollingInterval);
 		}
 
