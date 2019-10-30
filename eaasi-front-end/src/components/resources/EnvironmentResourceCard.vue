@@ -92,7 +92,14 @@
 				let taskState = await self.$store.dispatch('getEnvironmentTaskState', task.taskId) as ITaskState;
 
 				if (!taskState || taskState.isDone) {
-					await self.$store.dispatch('resource/onEnvironmentSaved', task.taskId);
+					await self.$store.dispatch('resource/onEnvironmentSaved', this.environment.envId)
+						.then(() => {
+							this.cardSummary.tagGroup.push({
+								icon: 'fa-map-marker-alt',
+								color: 'green',
+								text: 'Saved'
+							});
+						});
 				}
 
 				else if (taskState.message && taskState.status == '1') {

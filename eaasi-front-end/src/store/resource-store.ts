@@ -33,10 +33,6 @@ const state = new ResourceState();
 
 const mutations = make.mutations(state);
 
-mutations['REMOVE_FROM_SAVING_ENVIRONMENTS'] = function(state: ResourceState, environmentId: string | number) {
-	state.savingEnvironments = state.savingEnvironments.filter(x => x != environmentId);
-};
-
 /*============================================================
  == Actions
 /============================================================*/
@@ -75,7 +71,10 @@ const actions = {
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
-		commit('REMOVE_FROM_SAVING_ENVIRONMENTS', environmentId);
+		console.log('original savingEnvironments:', state.savingEnvironments);
+		console.log('removing', environmentId);
+		state.savingEnvironments = state.savingEnvironments.filter(x => x != environmentId);
+		console.log('updated savingEnvironments:', state.savingEnvironments);
 	},
 
 	// this will map results and generate facets
