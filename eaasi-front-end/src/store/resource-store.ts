@@ -55,11 +55,13 @@ const actions = {
 	 * @param _store Store<ResourceState>
 	 * @param environment: instance that satisfies IEnvironment
 	 */
-	async saveEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment) { // : Promise<EaasiTask> {
+	async saveEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment) : Promise<EaasiTask> {
 		let taskState = await _svc.saveEnvironment(environment.envId);
 		if (!taskState) return null;
 		let environmentTitle = environment.title;
-		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
+
+		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`);
+
 		commit('ADD_OR_UPDATE_TASK', task, { root: true });
 		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, environment.envId]);
 
