@@ -37,7 +37,7 @@ export default class MyResourcesScreen extends Vue {
 	============================================*/
 
 	@Sync('resource/selectedResources')
-	selectedResources: IEaasiResource
+	selectedResources: IEaasiResource[]
 
 	@Sync('resource/query')
 	query: ResourceSearchQuery;
