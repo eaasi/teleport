@@ -5,15 +5,15 @@
 				<metadata-fast />
 			</div>
 			<div v-else>
-				<collapsable title="General" class="mb-lg">
+				<collapsable title="General" class="mb-lg white-bg">
 					<general-metadata />
 				</collapsable>
 
-				<collapsable title="Operating System" class="mb-lg">
+				<collapsable title="Operating System" class="mb-lg white-bg">
 					<os-metadata />
 				</collapsable>
 
-				<collapsable title="Software Version Metadata" class="mb-lg">
+				<collapsable title="Software Version Metadata" class="mb-lg white-bg">
 					<div v-for="(v, i) in versions" :key="v.id">
 						<h4>Version {{ i + 1 }}</h4>
 						<software-version-form :version="v" />
@@ -28,7 +28,7 @@
 					</ui-button>
 				</collapsable>
 
-				<collapsable title="Software Product" class="mb-lg">
+				<collapsable title="Software Product" class="mb-lg white-bg">
 					<software-product-form />
 				</collapsable>
 			</div>
@@ -105,4 +105,5 @@ export default class EnvironmentImportMetadata extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>
