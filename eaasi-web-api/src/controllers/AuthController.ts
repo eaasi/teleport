@@ -5,6 +5,8 @@ import fs from 'fs';
 import path from 'path';
 import { DOMAIN, MAX_AGE } from '@/config/jwt-config';
 import BaseController from './base/BaseController';
+import UserAdminService from '@/services/admin/UserAdminService';
+import AppLogger from '@/logging/appLogger';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
@@ -12,6 +14,13 @@ const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
 const SAML_LOGOUT_URL = process.env.SAML_LOGOUT_URL as string;
 
 export default class EaasiAuthController extends BaseController {
+
+	readonly _logger: AppLogger;
+
+	constructor() {
+		super();
+		this._logger = new AppLogger(this.constructor.name);
+	}
 
 	/**
      * SAML protected login route
@@ -38,6 +47,14 @@ export default class EaasiAuthController extends BaseController {
 			expires,
 			domain: DOMAIN
 		});
+
+		let userService = new UserAdminService();
+		let logger = new AppLogger('AuthController');
+
+		userService.setUserLastLogin(req.user.res.id).then(() => {
+			logger.log.info(`User logged in: ${req.user.res.email}`)
+		});
+
 		res.redirect(CLIENT_URL);
 	}
 
