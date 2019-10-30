@@ -80,4 +80,5 @@ export default class EnvironmentImportGeneralMetadata extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>
