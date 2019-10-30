@@ -43,7 +43,6 @@ export default class AppliedSearchFacets extends Vue {
     ============================================*/
 
 	deselectFacetValue(facetValue) {
-		if (this.isSingleResult) return this.deselectAllFacetValues();
     	this.selectedFacets.forEach(
     		f => f.values.forEach(v => {
 				if (v.label !== facetValue.label) return;
@@ -54,7 +53,6 @@ export default class AppliedSearchFacets extends Vue {
 
 	deselectAllFacetValues() {
 		this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
-		this.$store.dispatch('resource/clearSearch');
 	}
 
 }

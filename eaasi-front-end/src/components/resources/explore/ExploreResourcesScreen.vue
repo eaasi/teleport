@@ -104,7 +104,7 @@ export default class MyResourcesScreen extends Vue {
     @Get('resource/result')
 	bentoResult: IResourceSearchResponse
 	
-	@Get('resource/query@selectedFacets')
+	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
@@ -158,7 +158,7 @@ export default class MyResourcesScreen extends Vue {
     	this.query.limit = 5000;
     	await this.search();
 		
-    	this.selectedFacets[0].values[0].isSelected = true;
+    	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
 
     showSaveModal() {
