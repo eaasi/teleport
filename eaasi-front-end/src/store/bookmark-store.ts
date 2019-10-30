@@ -31,6 +31,10 @@ const actions = {
 
     async removeBookmark(_: Store<BookmarkStore>, resourceID: string) {
         return await _svc.removeBookmark(resourceID);
+    },
+
+    async getBookmarks(_:Store<BookmarkStore>) {
+        return await _svc.getBookmarks(2);
     }
 
 };

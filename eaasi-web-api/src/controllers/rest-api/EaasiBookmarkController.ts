@@ -1,33 +1,35 @@
 import BaseCrudController from '@/controllers/base/BaseCrudController';
-import EaasiBookmarkService from '../../services/rest-api/EaasiBookmarkService';
-import UserAdminService from '@/services/admin/UserAdminService';
+import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
 import { Request, Response } from 'express-serve-static-core';
 import HttpResponseCode from '@/utils/HttpResponseCode';
-import { build_400_response, build_500_response } from '@/utils/error-helpers';
-import CrudService from '@/services/base/CrudService';
+import { build_400_response, build_500_response, build_404_response } from '@/utils/error-helpers';
 
 class EaasiBookmarkController extends BaseCrudController {
 
-	private _userService: UserAdminService;
-	private crudService: CrudService;
-
-	constructor(userService: UserAdminService) {
+	readonly bookmarkService: EaasiBookmarkService;
+	
+	constructor() {
 		super(new EaasiBookmarkService());
-		this._userService = userService;
-		this.crudService = new CrudService(new EaasiBookmarkService());
+
+		this.bookmarkService = new EaasiBookmarkService();
 	}
 
-	async create(req: Request, res: Response) {
-		const { resourceID } = req.body;
-		const newObject = { resourceID, userID: 2 };
-
-		if (newObject == null) {
+		/**
+	 * Gets a resource by ID
+	 * @param req request
+	 * @param res response
+	 */
+	async getByUserID(req: Request, res: Response) {
+		const { userID } = req.params;
+		console.log(req.params);
+		if (userID == null) {
 			return await res
 				.status(HttpResponseCode.BAD_REQUEST)
-				.send(build_400_response(req.body));
+				.send(build_400_response(req.params));
 		}
 
-		let response = await this.crudService.create(newObject);
+		let response = await this.bookmarkService.getByUserID(userID);
+		console.log(response);
 
 		if (response.hasError) {
 			return await res
@@ -35,7 +37,13 @@ class EaasiBookmarkController extends BaseCrudController {
 				.send(build_500_response(response.error));
 		}
 
-		return await res.status(HttpResponseCode.CREATED).send(response.result);
+		if (response.result == null) {
+			return await res
+				.status(HttpResponseCode.NOT_FOUND)
+				.send(build_404_response(req.originalUrl));
+		}
+
+		return await res.status(HttpResponseCode.OK).send(response.result);
 	}
 
 }

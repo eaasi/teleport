@@ -2,27 +2,32 @@
 
 const Sequelize = require('sequelize');
 
-class Bookmarks extends Sequelize.Model {}
+class Bookmark extends Sequelize.Model {}
 
 module.exports = sequelize => {
-	Bookmarks.init({
+	Bookmark.init({
+		id: {
+			type: Sequelize.INTEGER,
+			primaryKey: true,
+			autoIncrement: true
+		},
 		userID: {
 			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: false
+			allowNull: false
 		},
 		// TODO: resources will be objs
 		resourceID: {
 			type: Sequelize.STRING,
 			allowNull: false
-		}
+		},
+		createdAt: Sequelize.DATE,
+		updatedAt: Sequelize.DATE
 	},
     
 	{
 		sequelize,
-		tableName: 'bookmars'
+		tableName: 'bookmark'
 	});
     
-	return Bookmarks;
+	return Bookmark;
 }

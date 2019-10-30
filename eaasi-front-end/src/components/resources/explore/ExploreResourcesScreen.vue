@@ -173,7 +173,12 @@ export default class MyResourcesScreen extends Vue {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
     		this.isSaveModalVisible = false;
     	}
-    }
+	}
+	
+	async getBookmarks() {
+		let result = await this.$store.dispatch('bookmark/getBookmarks');
+		console.log(result);
+	}
 
     /* Lifecycle Hooks
     ============================================*/
@@ -181,7 +186,8 @@ export default class MyResourcesScreen extends Vue {
     mounted() {
     	let keyword = this.$route.query && this.$route.query.q;
     	this.query.keyword = keyword as string;
-    	this.search();
+		this.search();
+		this.getBookmarks();
     }
 
     destroyed() {
