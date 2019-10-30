@@ -95,10 +95,6 @@ export default class ExploreResourcesScreen extends Vue {
 	/* Computed
     ============================================*/
 
-	/**
-	 * Resources that are currently selected
-	 * TODO: name change => selectedResources
-	 */
     @Sync('resource/selectedResources')
     selectedResources: IEaasiResource[]
 
