@@ -14,7 +14,7 @@
 				Back To Metadata
 			</ui-button>
 		</div>
-		<div v-else class="padded">
+		<div v-else class="padded white-bg">
 			<h3>About This Resource</h3>
 			<eaasi-form ref="_form" @submit="step++">
 				<div class="row">
