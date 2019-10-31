@@ -5,8 +5,8 @@
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
 				<div class="bento-row">
-					<div 
-						v-if="refinedEnvironment.result.length > 0" 
+					<div
+						v-if="refinedEnvironment.result.length"
 						class="bento-col"
 					>
 						<resource-list
@@ -16,19 +16,19 @@
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
-					<div 
-						v-if="refinedSoftware.result.length > 0 || refinedContent.result.length > 0"
-						class="bento-col" 
+					<div
+						v-if="refinedSoftware.result.length || refinedContent.result.length"
+						class="bento-col"
 					>
 						<resource-list
-							v-if="refinedSoftware.result.length > 0"
+							v-if="refinedSoftware.result.length"
 							:query="query"
 							:result="refinedSoftware"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							v-if="refinedContent.result.length > 0"
+							v-if="refinedContent.result.length"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -38,9 +38,10 @@
 				</div>
 			</div>
 		</div>
+
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
-			:resources="activeResources"
+			:resources="selectedResources"
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
 			@show-save-modal="showSaveModal"
@@ -81,7 +82,7 @@ import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } f
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
-	name: 'MyResourcesScreen',
+	name: 'ExploreResourcesScreen',
 	components: {
 		AppliedSearchFacets,
 		ResourceFacets,
@@ -89,31 +90,31 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 		ResourceSlideMenu
 	}
 })
-export default class MyResourcesScreen extends Vue {
+export default class ExploreResourcesScreen extends Vue {
 
 	/* Computed
     ============================================*/
 
-    @Sync('resource/activeResources')
-    activeResources: IEaasiResource[]
+    @Sync('resource/selectedResources')
+    selectedResources: IEaasiResource[]
 
     @Sync('resource/query')
     query: ResourceSearchQuery;
 
     @Get('resource/result')
 	bentoResult: IResourceSearchResponse
-	
-	@Get('resource/query@selectedFacets')
+
+	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
-    	return this.activeResources.length > 0;
+    	return this.selectedResources.length > 0;
 	}
 
 	get hasSelectedFacets() {
     	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
-	
+
 	get refinedContent() {
 		return this.refinedResult(this.bentoResult.content);
 	}
@@ -121,7 +122,7 @@ export default class MyResourcesScreen extends Vue {
 	get refinedSoftware() {
 		return this.refinedResult(this.bentoResult.software);
 	}
-	
+
 	get refinedEnvironment() {
 		return this.refinedResult(this.bentoResult.environments);
 	}
@@ -134,7 +135,7 @@ export default class MyResourcesScreen extends Vue {
 
     /* Methods
 	============================================*/
-	
+
     refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
     	if (!bentoResult) return { result: [], totalResults: 0 };
     	if (!this.hasSelectedFacets) return bentoResult;
@@ -149,16 +150,14 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async search() {
-    	const result = await this.$store.dispatch('resource/searchResources');
-    	// generates facets based on the result received in searchResources.
-    	// eventually won't need to do this, because facets will come with a result from the backend
-    	if (result) this.$store.dispatch('resource/populateSearchFacets');
+    	await this.$store.dispatch('resource/searchResources');
     }
-	
-    getAll(types) {
+    async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
-    	this.search();
+    	await this.search();
+
+    	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
 
     showSaveModal() {
@@ -166,9 +165,7 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async saveEnvironment() {
-    	// TODO: handle saving multiple selected
-    	let environment = this.activeResources[0];
-
+    	let environment = this.selectedResources[0];
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
     		this.isSaveModalVisible = false;
@@ -191,7 +188,7 @@ export default class MyResourcesScreen extends Vue {
     }
 
     destroyed() {
-    	this.activeResources = [];
+    	this.selectedResources = [];
     }
 
     @Watch('$route.query')

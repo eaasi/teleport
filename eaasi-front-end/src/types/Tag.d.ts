@@ -8,12 +8,12 @@ export interface ITag {
 	icon: string
 
 	/**
-	 * Property name
+	 * Tag Color
 	 */
-	key: string | number
+	color: string
 
 	/**
-	 * Value name
+	 * Tag display value
 	 */
-	value: string | number | Date
+	text: string | number | Date
 }

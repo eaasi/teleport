@@ -4,7 +4,6 @@ import _svc from '@/services/ResourceService';
 import _bookmarkService from '@/services/BookmarkService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import {IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
@@ -13,14 +12,18 @@ import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
  == State
 /============================================================*/
 class ResourceState {
+
 	activeEnvironment: IEnvironment = null;
-	/**
-	 * Active Resources are Selected in Explore Resources / My Resources Screen
-	 */
-	activeResources: IEaasiResource[] = [];
-	taskListStatus: IEaasiTaskListStatus = {status: '', taskList: []};
+
+	selectedResources: IEaasiResource[] = [];
+
 	query: IResourceSearchQuery = new ResourceSearchQuery();
+
 	result: IResourceSearchResponse = null;
+
+	savingEnvironments: string[] = [];
+
+	saveEnvironmentTaskMap: object = {};
 }
 
 const state = new ResourceState();
@@ -41,10 +44,13 @@ const actions = {
 		return await _svc.getEnvironment(environmentId);
 	},
 
-	async searchResources({ state, commit }: Store<ResourceState>) {
+	async searchResources({ state, commit, dispatch }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if(!result) return;
 		commit('SET_RESULT', result);
+		// generates facets based on the result received in searchResources.
+    	// eventually won't need to do this, because facets will come with a result from the backend
+    	if (result) dispatch('populateSearchFacets');
 		return result;
 	},
 
@@ -53,13 +59,36 @@ const actions = {
 	 * @param _store Store<ResourceState>
 	 * @param environment: instance that satisfies IEnvironment
 	 */
-	async saveEnvironment(_store: Store<ResourceState>, environment: IEnvironment): Promise<EaasiTask> {
+	async saveEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment) : Promise<EaasiTask> {
 		let taskState = await _svc.saveEnvironment(environment.envId);
-		let environmentTitle = environment.title;
 		if (!taskState) return null;
-		let task = new EaasiTask(taskState.taskList[0], `Save Environment ${environmentTitle}`); // TODO: handle multiple tasks, wrap string
-		_store.commit('ADD_OR_UPDATE_TASK', task, { root: true });
+		let environmentTitle = environment.title;
+
+		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`);
+
+		commit('ADD_OR_UPDATE_TASK', task, { root: true });
+		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, environment.envId]);
+
+		let taskMap = state.saveEnvironmentTaskMap;
+		taskMap[environment.envId] = task;
+		commit('SET_SAVE_ENVIRONMENT_TASK_MAP', taskMap);
+
 		return task;
+	},
+
+	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
+		state.savingEnvironments = state.savingEnvironments.filter(x => x != environmentId);
+	},
+
+	async clearSearch({ commit, dispatch }) {
+		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
+		let result = await _svc.searchResources(clearSearchQuery);
+		if(!result) return;
+		commit('SET_RESULT', result);
+		// generates facets based on the result received in searchResources.
+    	// eventually won't need to do this, because facets will come with a result from the backend
+    	if (result) dispatch('populateSearchFacets');
+		return result;
 	},
 
 	// this will map results and generate facets
@@ -74,7 +103,18 @@ const actions = {
  == Getters
 /============================================================*/
 
-const getters = {};
+const getters = {
+	isSingleResult(state) {
+		if(!state.result) return false;
+		const { environments, software, content } = state.result;
+		console.log(environments, software, content);
+		const lengthArr: number[] = [];
+		environments && lengthArr.push(environments.result.length);
+		software && lengthArr.push(software.result.length);
+		content && lengthArr.push(content.result.length);
+		return lengthArr.filter(length => length > 0).length === 1;
+	}
+};
 
 export default {
 	state,

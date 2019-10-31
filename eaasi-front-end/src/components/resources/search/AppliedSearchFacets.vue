@@ -36,18 +36,24 @@ export default class AppliedSearchFacets extends Vue {
     @Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[];
 
-    /* Methods
+	@Get('resource/isSingleResult')
+	readonly isSingleResult: boolean;
+
+	/* Methods
     ============================================*/
 
-    deselectFacetValue(facetValue) {
+	deselectFacetValue(facetValue) {
     	this.selectedFacets.forEach(
-    		f => f.values.forEach(v => v.label === facetValue.label ? v.isSelected = false : null )
+    		f => f.values.forEach(v => {
+				if (v.label !== facetValue.label) return;
+				v.isSelected = false;
+			})
     	);
-    }
+	}
 
-    deselectAllFacetValues() {
-    	this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
-    }
+	deselectAllFacetValues() {
+		this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
+	}
 
 }
 </script>

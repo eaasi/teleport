@@ -1,12 +1,7 @@
 <template>
-	<div
-		:class="['resource-object-container flex', selectStyle]"
-	>
-		<div v-if="bookmark">
-			<bookmark 
-				class="bookmark" 
-				@bookmarked="isActive => $emit('bookmarked',isActive)" 
-			/>
+	<div :class="['resource-object-container flex', selectStyle]">
+		<div v-if="bookmark && !isLoading">
+			<bookmark class="bookmark" />
 		</div>
 
 		<div :class="['panel-left', selectStyle]">
@@ -27,7 +22,11 @@
 				<selectable-card-content :content-data="subContentData" />
 			</div>
 
-			<div v-if="footer" class="panel-footer">
+			<div v-if="isLoading" class="panel-footer loading-tag">
+				<tag text="Saving to Node" icon="fa-spinner fa-spin" color="yellow" />
+			</div>
+
+			<div v-if="footer && !isLoading" class="panel-footer">
 				<slot name="tagsLeft"></slot>
 				<slot name="tagsRight"></slot>
 			</div>
@@ -68,43 +67,53 @@ export default class SelectableCard extends Vue {
         @Prop({type: Boolean, required: false, default: false})
 		footer: boolean
 
+        @Prop({type: Boolean, required: false, default: false})
+        isLoading: boolean
+
 		/* Data
         ============================================*/
 		title: string = ''
 		isSelected: boolean = false
 		contentData: object = {}
 		subContentData: object = {}
+        error = {};
 
-		/* Computed
+        /* Computed
         ============================================*/
-		get selectStyle() : string {
-			return this.isSelected ? 'selected' : '';
-		}
+        get hasError() : boolean {
+        	return !!this.error;
+        };
 
-		get hasSubContent() : boolean {
-			return !!this.subContentData;
-		}
+        get selectStyle() : string {
+        	return this.isSelected ? 'selected' : '';
+        }
 
-		/* Methods
+        get hasSubContent() : boolean {
+        	return !!this.subContentData;
+        }
+
+        /* Methods
 		============================================*/
 
-		toggleSelected(isSelected) : void {
-			this.isSelected = isSelected;
-			this.$emit('change', isSelected);
-		}
+        toggleSelected(isSelected) : void {
+        	this.isSelected = isSelected;
+        	this.$emit('change', isSelected);
+        }
 
-		buildResourceData() {
-			this.title = this.data.title;
-			this.contentData = this.data.content;
-			this.subContentData = this.data.subContent;
-		}
+        buildResourceData() {
+        	if (this.data) {
+        		this.title = this.data.title;
+        		this.contentData = this.data.content;
+        		this.subContentData = this.data.subContent;
+        	}
+        }
 
-		/* Lifecycle Hooks
+        /* Lifecycle Hooks
 		============================================*/
 
-		created() {
-			this.buildResourceData();
-		}
+        created() {
+        	this.buildResourceData();
+        }
 
 }
 </script>
@@ -156,6 +165,10 @@ export default class SelectableCard extends Vue {
 			color: $dark-blue;
 			font-size: 1.6rem;
 			line-height: 2rem;
+
+			.loading-icon {
+				margin-left: 1rem;
+			}
 		}
 
 		.content {
@@ -170,4 +183,5 @@ export default class SelectableCard extends Vue {
 		justify-content: space-between;
 		padding-top: 10px;
 	}
+
 </style>
