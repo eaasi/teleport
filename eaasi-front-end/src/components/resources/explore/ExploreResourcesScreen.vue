@@ -103,8 +103,8 @@ export default class ExploreResourcesScreen extends Vue {
 
     @Get('resource/result')
 	bentoResult: IResourceSearchResponse
-
-	@Get('resource/query@selectedFacets')
+	
+	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
@@ -150,16 +150,15 @@ export default class ExploreResourcesScreen extends Vue {
     }
 
     async search() {
-    	const result = await this.$store.dispatch('resource/searchResources');
-    	// generates facets based on the result received in searchResources.
-    	// eventually won't need to do this, because facets will come with a result from the backend
-    	if (result) this.$store.dispatch('resource/populateSearchFacets');
+    	await this.$store.dispatch('resource/searchResources');
     }
-
-    getAll(types) {
+	
+    async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
-    	this.search();
+    	await this.search();
+		
+    	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
 
     showSaveModal() {

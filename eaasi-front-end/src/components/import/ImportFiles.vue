@@ -164,16 +164,21 @@ export default class ImportFiles extends Vue {
 </script>
 
 <style lang="scss">
-.irf-option {
-	background-color: lighten($light-neutral, 50%);
-	height: 9.5rem;
-	padding: 2rem;
-	> span {
-		color: darken($dark-neutral, 40%);
-		display: block;
-		font-size: 1.6rem;
-		font-weight: bold;
-		margin-bottom: 1.7rem;
+
+	.import-resource-files {
+		background-color: #FFFFFF;
 	}
-}
+
+	.irf-option {
+		background-color: lighten($light-neutral, 70%);
+		height: 9.5rem;
+		padding: 2rem;
+		> span {
+			color: darken($dark-neutral, 40%);
+			display: block;
+			font-size: 1.6rem;
+			font-weight: bold;
+			margin-bottom: 1.7rem;
+		}
+	}
 </style>

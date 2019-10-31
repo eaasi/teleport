@@ -29,11 +29,11 @@
 			</div>
 			<div v-if="importPath === 'Detailed'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
-					<collapsable title="General" class="mb-lg">
+					<collapsable title="General" class="mb-lg white-bg">
 						<software-general-info-form />
 					</collapsable>
 
-					<collapsable title="Versions">
+					<collapsable title="Versions" class="white-bg">
 						<div v-for="(v, i) in versions" :key="v.id">
 							<h4>Version {{ i + 1 }}</h4>
 							<software-version-form :version="v" />
@@ -48,11 +48,11 @@
 						</ui-button>
 					</collapsable>
 
-					<collapsable title="System Requirements">
+					<collapsable title="System Requirements" class="white-bg">
 						<software-requirements-form />
 					</collapsable>
 
-					<collapsable title="Software Product Metadata">
+					<collapsable title="Software Product Metadata" class="white-bg">
 						<software-product-metadata-form />
 					</collapsable>
 
