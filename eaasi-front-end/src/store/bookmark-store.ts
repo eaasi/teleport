@@ -8,7 +8,7 @@ import { Store } from 'vuex';
 /============================================================*/
 class BookmarkStore {
     // array of resource ids that are bookmarked by current user
-    bookmarks: Array<string> = [];
+    bookmarks: string[] = [];
 }
 
 const state = new BookmarkStore();

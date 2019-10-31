@@ -1,4 +1,4 @@
-import BaseHttpService from "./BaseHttpService";
+import BaseHttpService from './BaseHttpService';
 
 class BookmarkService extends BaseHttpService {
 

@@ -43,7 +43,7 @@ export default class FacetChipGroup extends Vue {
 
 <style lang='scss' scoped>
 .chip-group-wrapper {
-    margin: 0.5rem 1rem;
+	margin: 0.5rem 1rem;
 	.facet-name {
 		margin-right: 1rem;
 	}
