@@ -93,10 +93,10 @@
 				</span>
 				<span v-if="selectedResources.length === 1">
 					Do you want to delete this resource?
-                </span>
+				</span>
 				<span v-if="selectedResources.length > 1">
 					Do you want to delete the selected resources?
-                </span>
+				</span>
 			</alert>
 		</confirm-modal>
 	</div>
