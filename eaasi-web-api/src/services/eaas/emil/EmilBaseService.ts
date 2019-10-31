@@ -14,6 +14,8 @@ export default class EmilBaseService implements IHttpService {
 	}
 
 	public async get(methodName: string) {
+		let url = this._createUrl(methodName);
+		console.log('Making Request to URL:', url);
 		return await this._svc.get(this._createUrl(methodName));
 	}
 

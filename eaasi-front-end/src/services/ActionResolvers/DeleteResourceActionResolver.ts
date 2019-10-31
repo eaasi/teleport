@@ -3,11 +3,11 @@ import {IEnvironment} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
 
 export default class DeleteResourceActionResolver extends SlideMenuActionResolver {
-	activeResources: IEnvironment[];
+	selectedResources: IEnvironment[];
 	userRoleId: number
 
-	constructor(activeResources: IEnvironment[], roleId: number) {
-		super(activeResources, roleId);
+	constructor(selectedResources: IEnvironment[], roleId: number) {
+		super(selectedResources, roleId);
 	}
 
 	/**

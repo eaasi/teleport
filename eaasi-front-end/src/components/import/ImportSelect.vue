@@ -6,8 +6,7 @@
 				<select-list v-model="type" class="no-mb flex-adapt">
 					<option value="content">Content File</option>
 					<option value="software">Software Resource</option>
-					<option value="environment">Enrivonment Resource</option>
-					<!-- <option value="bulk">Bulk Import</option> -->
+					<option value="environment">Environment Resource</option>
 				</select-list>
 			</div>
 		</div>

@@ -18,7 +18,6 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint', 'vue'],
 	rules: {
-		indent: ['error', 'tab'],
 		'lines-between-class-members': ['off', 'never'],
 		'vue/component-name-in-template-casing': ['error', 'kebab-case'],
 		'vue/order-in-components': [

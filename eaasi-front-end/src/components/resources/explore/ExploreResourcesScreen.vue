@@ -5,8 +5,8 @@
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
 				<div class="bento-row">
-					<div 
-						v-if="refinedEnvironment.result.length > 0" 
+					<div
+						v-if="refinedEnvironment.result.length"
 						class="bento-col"
 					>
 						<resource-list
@@ -16,19 +16,19 @@
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
-					<div 
-						v-if="refinedSoftware.result.length > 0 || refinedContent.result.length > 0"
-						class="bento-col" 
+					<div
+						v-if="refinedSoftware.result.length || refinedContent.result.length"
+						class="bento-col"
 					>
 						<resource-list
-							v-if="refinedSoftware.result.length > 0"
+							v-if="refinedSoftware.result.length"
 							:query="query"
 							:result="refinedSoftware"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							v-if="refinedContent.result.length > 0"
+							v-if="refinedContent.result.length"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -38,14 +38,18 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Resources Slide Menu -->
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
-			:resources="activeResources"
+			:resources="selectedResources"
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
 			@show-save-modal="showSaveModal"
+			@show-delete-modal="showDeleteModal"
 		/>
 
+		<!-- Modals -->
 		<!-- Save To My Node Modal -->
 		<confirm-modal
 			title="Save To My Node"
@@ -65,10 +69,41 @@
 				</span>
 			</alert>
 		</confirm-modal>
+
+		<!-- Delete Resource Modal -->
+		<confirm-modal
+			title="Delete Resources"
+			confirm-label="Delete"
+			@click:cancel="isDeleteModalVisible=false"
+			@click:confirm="deleteSelected"
+			@close="isDeleteModalVisible=false"
+			v-if="isDeleteModalVisible"
+		>
+			<alert type="warning" v-if="softwareIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this software resource will remove all associated data from your node
+					and it will no longer be available for use.
+				</span>
+			</alert>
+			<alert type="warning" v-if="environmentIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this environment will hide its metadata from all users in your node
+					but related disk images will be retained for use in emulation of derivative
+					environments.
+				</span>
+				<span v-if="selectedResources.length === 1">
+					Do you want to delete this resource?
+				</span>
+				<span v-if="selectedResources.length > 1">
+					Do you want to delete the selected resources?
+				</span>
+			</alert>
+		</confirm-modal>
 	</div>
 </template>
 
 <script lang="ts">
+import {resourceTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
@@ -81,7 +116,7 @@ import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } f
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 @Component({
-	name: 'MyResourcesScreen',
+	name: 'ExploreResourcesScreen',
 	components: {
 		AppliedSearchFacets,
 		ResourceFacets,
@@ -89,31 +124,31 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 		ResourceSlideMenu
 	}
 })
-export default class MyResourcesScreen extends Vue {
+export default class ExploreResourcesScreen extends Vue {
 
 	/* Computed
     ============================================*/
 
-    @Sync('resource/activeResources')
-    activeResources: IEaasiResource[]
+    @Sync('resource/selectedResources')
+    selectedResources: IEaasiResource[]
 
     @Sync('resource/query')
     query: ResourceSearchQuery;
 
     @Get('resource/result')
 	bentoResult: IResourceSearchResponse
-	
-	@Get('resource/query@selectedFacets')
+
+	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
-    	return this.activeResources.length > 0;
+		return this.selectedResources.length > 0;
 	}
 
 	get hasSelectedFacets() {
-    	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
+		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
-	
+
 	get refinedContent() {
 		return this.refinedResult(this.bentoResult.content);
 	}
@@ -121,9 +156,19 @@ export default class MyResourcesScreen extends Vue {
 	get refinedSoftware() {
 		return this.refinedResult(this.bentoResult.software);
 	}
-	
+
 	get refinedEnvironment() {
 		return this.refinedResult(this.bentoResult.environments);
+	}
+
+	get environmentIsSelected() {
+		return this.selectedResources
+			.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
+	}
+
+	get softwareIsSelected() {
+		return this.selectedResources
+			.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
 	}
 
 	/* Data
@@ -131,10 +176,11 @@ export default class MyResourcesScreen extends Vue {
 
     isMenuOpenRequest: boolean = true;
     isSaveModalVisible: boolean = false;
+	isDeleteModalVisible: boolean = false;
 
     /* Methods
 	============================================*/
-	
+
     refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
     	if (!bentoResult) return { result: [], totalResults: 0 };
     	if (!this.hasSelectedFacets) return bentoResult;
@@ -149,31 +195,36 @@ export default class MyResourcesScreen extends Vue {
     }
 
     async search() {
-    	const result = await this.$store.dispatch('resource/searchResources');
-    	// generates facets based on the result received in searchResources.
-    	// eventually won't need to do this, because facets will come with a result from the backend
-    	if (result) this.$store.dispatch('resource/populateSearchFacets');
+    	await this.$store.dispatch('resource/searchResources');
     }
-	
-    getAll(types) {
+    async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
-    	this.search();
+    	await this.search();
+
+    	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
 
     showSaveModal() {
     	this.isSaveModalVisible = true;
     }
 
-    async saveEnvironment() {
-    	// TODO: handle saving multiple selected
-    	let environment = this.activeResources[0];
+	showDeleteModal() {
+		this.isDeleteModalVisible = true;
+	}
 
+    async saveEnvironment() {
+    	let environment = this.selectedResources[0];
     	if (environment) {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
     		this.isSaveModalVisible = false;
     	}
     }
+
+    async deleteSelected() {
+    	// TODO: Deleting an environment is currently not working on the back end.
+		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
+	}
 
     /* Lifecycle Hooks
     ============================================*/
@@ -185,7 +236,7 @@ export default class MyResourcesScreen extends Vue {
     }
 
     destroyed() {
-    	this.activeResources = [];
+    	this.selectedResources = [];
     }
 
     @Watch('$route.query')
@@ -238,6 +289,7 @@ export default class MyResourcesScreen extends Vue {
 	}
 
 	.ers-rep-msg {
+		display: block;
 		margin: 1.4rem 0;
 	}
 </style>

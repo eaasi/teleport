@@ -43,7 +43,7 @@ export default class ResourceAdminService extends BaseService {
 				if (t === 'Environment') envReq = this._searchEnvironments(q);
 				else if (t === 'Software') sofReq = this._searchSoftware(q);
 				else if (t === 'Content') conReq = this._searchContent(q);
-			}) 
+			})
 		} else {
 			envReq = this._searchEnvironments(q);
 			sofReq = this._searchSoftware(q);
@@ -77,7 +77,7 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async saveEnvironment(id: string): Promise<ISaveEnvironmentResponse | null> {
 	    // The endpoint currently takes a POST request payload containing a list of ids and a source destination.
-		// 'public' source destination makes the environment available locally.
+		// 'public' source destination makes the environment available locally to the requesting Node.
 		// TODO: Handle error responses from Emil API -- there are several cases to handle
 		// TODO: See https://gitlab.com/eaasi/eaas-server/blob/eaasi-release-2019.07/src/emil/src/main/java/de/bwl/bwfla/emil/EmilEnvironmentData.java#L772
 

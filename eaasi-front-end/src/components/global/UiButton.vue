@@ -1,7 +1,7 @@
 <template>
 	<span class="ui-btn-container">
 		<button
-			:class="['eaasi-button', size, {collapse, secondary, block}]"
+			:class="['eaasi-button', size, {collapse, secondary, green, block}]"
 			v-on="$listeners"
 			v-bind="$attrs"
 		>
@@ -48,6 +48,12 @@ export default class UiButton extends Vue {
 	 */
 	@Prop({type: Boolean, required: false})
 	readonly secondary: boolean;
+
+	/**
+	 * Use emulator green styles
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly green: boolean;
 
 	/**
 	 * Font icon name
@@ -144,6 +150,17 @@ export default class UiButton extends Vue {
 
 		&:hover {
 			background-color: lighten($light-blue, 40%);
+		}
+	}
+
+	&.green {
+		background-color: darken($teal, 50%);
+		border: solid 2px lighten($teal, 30%);
+		color: lighten($teal, 30%);
+
+		&:hover {
+			background-color: lighten($teal, 30%);
+			color: darken($teal, 30%);
 		}
 	}
 
