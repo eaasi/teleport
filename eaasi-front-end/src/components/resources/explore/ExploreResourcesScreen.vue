@@ -152,13 +152,7 @@ export default class ExploreResourcesScreen extends Vue {
     async search() {
     	await this.$store.dispatch('resource/searchResources');
     }
-<<<<<<< HEAD
-
-    getAll(types) {
-=======
-
     async getAll(types) {
->>>>>>> master
     	this.query.types = types;
     	this.query.limit = 5000;
     	await this.search();
