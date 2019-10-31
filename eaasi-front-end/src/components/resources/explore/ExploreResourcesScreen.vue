@@ -142,11 +142,11 @@ export default class ExploreResourcesScreen extends Vue {
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
-    	return this.selectedResources.length > 0;
+		return this.selectedResources.length > 0;
 	}
 
 	get hasSelectedFacets() {
-    	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
+		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
 
 	get refinedContent() {
@@ -162,7 +162,7 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	get environmentIsSelected() {
-    	return this.selectedResources
+		return this.selectedResources
 			.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
 	}
 
