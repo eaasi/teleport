@@ -1,14 +1,17 @@
 <template>
 	<div id="accessInterface" class="flex">
+
 		<access-interface-header
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
 			@click:save="save"
 		/>
+
 		<environment-menu
 			v-if="environment"
 			:environment="environment"
 		/>
+
 		<div class="flex-adapt padded ai-content">
 			<div class="ai-emulator">
 				<emulator
@@ -18,6 +21,8 @@
 				/>
 			</div>
 		</div>
+
+		<!-- Modals -->
 		<confirm-modal
 			title="Exit Emulation?"
 			confirm-label="Exit"
@@ -153,7 +158,7 @@ export default class AccessInterfaceScreen extends Vue {
 <style lang="scss">
 #accessInterface {
 	background-color: darken($teal, 72%);
-	min-height: 100vh;
+	max-height: 100vh;
 }
 
 .ai-content {

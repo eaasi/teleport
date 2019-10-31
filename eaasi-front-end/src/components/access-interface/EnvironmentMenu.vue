@@ -2,7 +2,7 @@
 	<div class="environment-menu">
 		<div class="em-header">
 			<h2>{{ environment.title }}</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In lobortis placerat quam, nec sodales metus pellentesque vitae. Proin lacinia congue est, nec blandit tortor convallis sed. Praesent semper non urna id dapibus.</p>
+			<p>{{ environment.description | stripHtml }}</p>
 		</div>
 		<tabbed-nav
 			:tabs="tabs"
@@ -116,8 +116,8 @@ export default class EnvironmentMenu extends Vue {
 	background-color: lighten($light-neutral, 60%);
 	height: calc(100vh - #{$accessHeaderHeight});
 	margin-top: $accessHeaderHeight;
+	overflow-y: scroll;
 	width: 43rem;
-
 	.fa-times {
 		cursor: pointer;
 	}
