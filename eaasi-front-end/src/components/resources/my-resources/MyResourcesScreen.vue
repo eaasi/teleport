@@ -3,11 +3,12 @@
 		<h1>My Resources</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<!-- TODO -->
-		<resource-slide-menu
+		<my-bookmarks-section />
+		<!-- <resource-slide-menu
 			:open="!!selectedResources"
 			:resource="selectedResources"
 			@close="selectedResources = []"
-		/>
+		/> -->
 	</div>
 </template>
 
@@ -22,6 +23,7 @@ import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import MyBookmarksSection from './MyBookmarksSection';
 import User from '../../../models/admin/User';
 
 @Component({
@@ -29,7 +31,8 @@ import User from '../../../models/admin/User';
 	components: {
 		ResourceFacets,
 		ResourceList,
-		ResourceSlideMenu
+		ResourceSlideMenu,
+		MyBookmarksSection
 	}
 })
 export default class MyResourcesScreen extends Vue {
@@ -38,13 +41,13 @@ export default class MyResourcesScreen extends Vue {
 	============================================*/
 
 	@Sync('resource/selectedResources')
-	selectedResources: IEaasiResource[]
+	selectedResources: IEaasiResource[];
 
 	@Sync('resource/query')
 	query: ResourceSearchQuery;
 
 	@Get('resource/result')
-	result: IResourceSearchResponse
+	result: IResourceSearchResponse;
 
 	@Get('loggedInUser')
 	user: User;
@@ -52,19 +55,22 @@ export default class MyResourcesScreen extends Vue {
 	/* Data
 	============================================*/
 
-	activeTab: string = 'Imported Resources';
 	menuOpen: boolean = false;
 	tabs: IEaasiTab[] = [
 		{
-			label: 'Imported Resources'
+			label: 'My bookmarks',
+			disabled: false
 		},
 		{
-			label: 'My bookmarks'
+			label: 'Imported Resources',
+			disabled: true
 		},
 		{
-			label: 'My Contributions'
+			label: 'My Contributions',
+			disabled: true
 		}
 	]
+	activeTab: IEaasiTab = this.tabs[0];
 
 	/* Methods
 	============================================*/

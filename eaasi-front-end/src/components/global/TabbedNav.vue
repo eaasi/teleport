@@ -4,7 +4,7 @@
 			<li
 				v-for="(t, i) in tabs"
 				:key="i"
-				:class="{active: t.label === value}"
+				:class="['no-select', { active: t.label === value.label, disabled: t.disabled }]"
 				@click="selectTab(t)"
 			>
 				<span>{{ t.label }}</span>
@@ -32,17 +32,17 @@ export default class TabbedNav extends Vue {
 
 	// List of tabs
 	@Prop({type: Array, required: true})
-	readonly tabs: IEaasiTab[]
+	readonly tabs: IEaasiTab[];
 
 	// Active tab label (use v-model)
-	@Prop({type: String, required: true})
-	readonly value: string
+	@Prop({type: Object, required: true})
+	readonly value: IEaasiTab;
 
 	/* Methods
 	============================================*/
 
 	selectTab(tab: IEaasiTab) {
-		this.$emit('input', tab.label);
+		return !tab.disabled && this.$emit('input', tab);
 	}
 }
 
@@ -103,6 +103,13 @@ export default class TabbedNav extends Vue {
 
 			&::before {
 				width: 100%;
+			}
+		}
+
+		&.disabled {
+			opacity: .5;
+			span {
+				cursor: not-allowed;
 			}
 		}
 	}
