@@ -3,14 +3,14 @@ import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
 import { Request, Response } from 'express-serve-static-core';
 import HttpResponseCode from '@/utils/HttpResponseCode';
 import { build_400_response, build_500_response, build_404_response } from '@/utils/error-helpers';
+import BaseController from '../base/BaseController';
 
-class EaasiBookmarkController extends BaseCrudController {
+export default class EaasiBookmarkController extends BaseController {
 
 	readonly bookmarkService: EaasiBookmarkService;
 	
-	constructor() {
-		super(new EaasiBookmarkService());
-
+	constructor(bookmarkService = new EaasiBookmarkService()) {
+		super();
 		this.bookmarkService = new EaasiBookmarkService();
 	}
 
@@ -20,12 +20,11 @@ class EaasiBookmarkController extends BaseCrudController {
 	 * @param res response
 	 */
 	async getByUserID(req: Request, res: Response) {
-		const { userID } = req.params;
-		console.log(req.params);
+		const userID = req.query.userID;
 		if (userID == null) {
 			return await res
 				.status(HttpResponseCode.BAD_REQUEST)
-				.send(build_400_response(req.params));
+				.send(build_400_response(req.query));
 		}
 
 		let response = await this.bookmarkService.getByUserID(userID);
@@ -46,6 +45,45 @@ class EaasiBookmarkController extends BaseCrudController {
 		return await res.status(HttpResponseCode.OK).send(response.result);
 	}
 
-}
+	/**
+	 * Creates a new resource and persists to database
+	 * @param req request
+	 * @param res response
+	 */
+	async create(req: Request, res: Response) {
+		const newObject = req.body;
 
-module.exports = EaasiBookmarkController;
+		if (newObject == null) {
+			return await res
+				.status(HttpResponseCode.BAD_REQUEST)
+				.send(build_400_response(req.body));
+		}
+
+		let response = await this.bookmarkService.create(newObject);
+
+		if (response.hasError) {
+			return await res
+				.status(HttpResponseCode.SERVER_ERROR)
+				.send(build_500_response(response.error));
+		}
+
+		return await res.status(HttpResponseCode.CREATED).send(response.result);
+	}
+
+	/**
+	 * Deletes a resource by ID
+	 * @param req request
+	 * @param res response
+	 */
+	async delete(req: Request, res: Response) {
+		const id = req.query.id;
+		let deleteResponse = await this.bookmarkService.destroy(id);
+
+		if (deleteResponse.hasError) {
+			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
+		}
+
+		return await res.status(HttpResponseCode.OK).send(deleteResponse);
+	}
+
+}
