@@ -39,14 +39,17 @@
 			</div>
 		</div>
 
+		<!-- Resources Slide Menu -->
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			:resources="selectedResources"
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
 			@show-save-modal="showSaveModal"
+			@show-delete-modal="showDeleteModal"
 		/>
 
+		<!-- Modals -->
 		<!-- Save To My Node Modal -->
 		<confirm-modal
 			title="Save To My Node"
@@ -66,10 +69,41 @@
 				</span>
 			</alert>
 		</confirm-modal>
+
+		<!-- Delete Resource Modal -->
+		<confirm-modal
+			title="Delete Resources"
+			confirm-label="Delete"
+			@click:cancel="isDeleteModalVisible=false"
+			@click:confirm="deleteSelected"
+			@close="isDeleteModalVisible=false"
+			v-if="isDeleteModalVisible"
+		>
+			<alert type="warning" v-if="softwareIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this software resource will remove all associated data from your node
+					and it will no longer be available for use.
+				</span>
+			</alert>
+			<alert type="warning" v-if="environmentIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this environment will hide its metadata from all users in your node
+					but related disk images will be retained for use in emulation of derivative
+					environments.
+				</span>
+				<span v-if="selectedResources.length === 1">
+					Do you want to delete this resource?
+				</span>
+				<span v-if="selectedResources.length > 1">
+					Do you want to delete the selected resources?
+				</span>
+			</alert>
+		</confirm-modal>
 	</div>
 </template>
 
 <script lang="ts">
+import {resourceTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
@@ -108,11 +142,11 @@ export default class ExploreResourcesScreen extends Vue {
 	selectedFacets: IResourceSearchFacet[]
 
 	get hasActiveResources() {
-    	return this.selectedResources.length > 0;
+		return this.selectedResources.length > 0;
 	}
 
 	get hasSelectedFacets() {
-    	return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
+		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
 
 	get refinedContent() {
@@ -127,11 +161,22 @@ export default class ExploreResourcesScreen extends Vue {
 		return this.refinedResult(this.bentoResult.environments);
 	}
 
+	get environmentIsSelected() {
+		return this.selectedResources
+			.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
+	}
+
+	get softwareIsSelected() {
+		return this.selectedResources
+			.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
+	}
+
 	/* Data
     ============================================*/
 
     isMenuOpenRequest: boolean = true;
     isSaveModalVisible: boolean = false;
+	isDeleteModalVisible: boolean = false;
 
     /* Methods
 	============================================*/
@@ -164,6 +209,10 @@ export default class ExploreResourcesScreen extends Vue {
     	this.isSaveModalVisible = true;
     }
 
+	showDeleteModal() {
+		this.isDeleteModalVisible = true;
+	}
+
     async saveEnvironment() {
     	let environment = this.selectedResources[0];
     	if (environment) {
@@ -171,6 +220,11 @@ export default class ExploreResourcesScreen extends Vue {
     		this.isSaveModalVisible = false;
     	}
     }
+
+    async deleteSelected() {
+    	// TODO: Deleting an environment is currently not working on the back end.
+		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
+	}
 
     /* Lifecycle Hooks
     ============================================*/
@@ -235,6 +289,7 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.ers-rep-msg {
+		display: block;
 		margin: 1.4rem 0;
 	}
 </style>
