@@ -47,18 +47,6 @@ export default class AdminMenu extends Vue {
 			label: 'Running Tasks',
 			route: '/admin/running-tasks'
 		},
-		/*
-		{
-			icon: 'code-branch',
-			label: 'Node Endpoints',
-			route: '/admin/node-endpoints'
-		},
-		{
-			icon: 'history',
-			label: 'Session Settings',
-			route: '/admin/session-settings'
-		},
-		*/
 	]
 
 	userMenuItems: IMenuItem[] = [
