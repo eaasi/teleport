@@ -1,5 +1,5 @@
 import CrudService from '../base/CrudService';
-const { EaasiUser } = require('@/data_access/models/metadata');
+const { EaasiUser } = require('@/data_access/models');
 
 /**
  * Handles CRUD operations for EaasIUser domain

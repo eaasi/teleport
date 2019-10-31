@@ -1,65 +1,61 @@
-'use strict';
+import { CreatedAt, UpdatedAt, Column, HasOne, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import EaasiRole from './EaasiRole';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'eaasi_user'
+})
+export default class EaasiUser extends Model<EaasiUser> {
+    @CreatedAt
+	createdAt: Date;
 
-class EaasiUser extends Sequelize.Model {
+    @UpdatedAt
+    updatedAt: Date;
+
+    @Column({
+    	allowNull: false,
+    	primaryKey: true,
+    	autoIncrement: true
+    })
+    id: number
+
+    @Column({
+    	allowNull: false,
+    	type: DataTypes.STRING(50)
+    })
+    username: string;
+
+    @Column({
+    	allowNull: true,
+    	type: DataTypes.STRING(50)
+    })
+    firstName: string;
+
+    @Column({
+    	allowNull: true,
+    	type: DataTypes.STRING(50)
+    })
+    lastName: string;
+
+    @Column({
+    	allowNull: true,
+    	type: DataTypes.STRING(200)
+    })
+    email: string;
+
+    @Column({
+    	references: {
+    		model: 'eaasi_role',
+    		key: 'id'
+    	}
+    })
+    roleId: number;
+
+    @Column({
+    	allowNull: true
+    })
+    lastLogin: Date;
+
+    @HasOne(() => EaasiRole, 'id')
+    role: EaasiRole;
 }
-
-module.exports = (sequelize) => {
-	EaasiUser.init({
-		createdAt: {
-			type: Sequelize.DATE,
-			defaultValue: new Date()
-		},
-		updatedAt: {
-			type: Sequelize.DATE,
-			defaultValue: new Date()
-		},
-		id: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		username: {
-			type: Sequelize.STRING(50),
-			allowNull: false,
-			columnName: 'username'
-		},
-		firstName: {
-			type: Sequelize.STRING(50),
-			allowNull: true,
-			columnName: 'first_name'
-		},
-		lastName: {
-			type: Sequelize.STRING(50),
-			allowNull: true,
-			columnName: 'last_name'
-		},
-		email: {
-			type: Sequelize.STRING(200),
-			allowNull: false,
-			columnName: 'email',
-			unique: true
-		},
-		roleId: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			columnName: 'role_id',
-			references: {
-				model: 'eaasi_role',
-				key: 'id'
-			}
-		},
-		lastLogin: {
-			type: Sequelize.DATE,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'eaasi_user' });
-
-	EaasiUser.associate = (models) => {
-		models.EaasiUser.hasOne(models.EaasiRole, {foreignKey: 'id'});
-	};
-
-	return EaasiUser;
-};

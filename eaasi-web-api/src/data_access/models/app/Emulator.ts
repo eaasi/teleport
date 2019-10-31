@@ -1,32 +1,29 @@
-'use strict';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import { IEmulator } from '@/types/admin/Emulator';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'emulator'
+})
+export default class Emulator extends Model<Emulator> implements IEmulator {
+    @CreatedAt
+	createdAt: Date;
 
-class Emulator extends Sequelize.Model {}
+    @UpdatedAt
+    updatedAt: Date;
 
-module.exports = (sequelize) => {
-	Emulator.init({
-		id: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		createdAt: {
-			type: Sequelize.DATE,
-			defaultValue: new Date()
-		},
-		updatedAt: {
-			type: Sequelize.DATE,
-			defaultValue: new Date()
-		},
-		name: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			unique: true
-		}
-	}, { sequelize, tableName: 'emulator' }
-	);
+    @Column({
+    	type: DataTypes.INTEGER,
+    	allowNull: false,
+    	primaryKey: true,
+    	autoIncrement: true
+    })
+    readonly id: number
 
-	return Emulator;
-};
+    @Column({
+    	type: DataTypes.STRING,
+    	allowNull: false,
+    	unique: true
+    })
+    name: string
+}

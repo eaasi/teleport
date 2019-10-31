@@ -3,8 +3,8 @@ import CrudQuery from '@/services/base/CrudQuery';
 import CrudService from '@/services/base/CrudService';
 import ICrudService from '@/services/interfaces/ICrudService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
-const { EaasiUser } = require('@/data_access/models/metadata');
-const { EaasiRole } = require('@/data_access/models/metadata');
+const { EaasiUser } = require('@/data_access/models');
+const { EaasiRole } = require('@/data_access/models');
 
 
 /**

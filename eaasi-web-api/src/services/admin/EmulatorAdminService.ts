@@ -1,7 +1,7 @@
 import EmilBaseService from '@/services/eaas/emil/EmilBaseService';
 import ICrudService from '../interfaces/ICrudService';
 import CrudService from '../base/CrudService';
-const { Emulator } = require('@/data_access/models/metadata');
+const { Emulator } = require('@/data_access/models');
 import CrudQuery from '../base/CrudQuery';
 import BaseService from '../base/BaseService';
 import { EmulatorNamedIndexes, AliasEntry, EmulatorEntry } from '@/types/emil/EmilEnvironmentData';

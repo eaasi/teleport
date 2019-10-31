@@ -1,38 +1,34 @@
-'use strict';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'eaasi_role'
+})
+export default class EaasiRole extends Model<EaasiRole> {
+    @CreatedAt
+	readonly createdAt: Date = new Date();
 
-class EaasiRole extends Sequelize.Model {}
+    @UpdatedAt
+    readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	EaasiRole.init({
-		id: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		createdAt: {
-			type: Sequelize.DATE,
-			defaultValue: new Date()
-		},
-		updatedAt: {
-			type: Sequelize.DATE,
-			defaultValue: new Date()
-		},
-		roleName: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			unique: true,
-			columnName: 'role_name',
-		},
-		roleDescription: {
-			type: Sequelize.STRING(100),
-			allowNull: false,
-			columnName: 'role_description'
-		}
-	}, { sequelize, tableName: 'eaasi_role' }
-	);
+    @Column({
+    	type: DataTypes.INTEGER,
+    	allowNull: false,
+    	primaryKey: true,
+    	autoIncrement: true
+    })
+    id: number
 
-	return EaasiRole;
-};
+    @Column({
+    	type: DataTypes.STRING,
+    	allowNull: false,
+    	unique: true
+    })
+    roleName: string
+
+    @Column({
+    	type: DataTypes.STRING(100),
+    	allowNull: false
+    })
+    roleDescription: string
+}
