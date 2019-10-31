@@ -1,8 +1,12 @@
 <template>
 	<div class="environment-menu">
 		<div class="em-header">
+			<div class="em-tags">
+				<tag text="Environment" icon="fa-box" />
+			</div>
 			<h2>{{ environment.title }}</h2>
-			<p>{{ environment.description | stripHtml }}</p>
+			<p v-if="environment.description">{{ environment.description | stripHtml }}</p>
+			<p v-else>No description for this environment was provided.</p>
 		</div>
 		<tabbed-nav
 			:tabs="tabs"
@@ -137,6 +141,10 @@ export default class EnvironmentMenu extends Vue {
 	p {
 		color: $dark-neutral;
 		font-size: 1.4rem;
+	}
+
+	.em-tags {
+		margin-bottom: 1.4rem;
 	}
 }
 
