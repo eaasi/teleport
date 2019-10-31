@@ -52,11 +52,14 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 * @param res response
 	 */
 	async get(req: Request, res: Response) {
+		// @ts-ignore
 		const id = req.params.id;
 
+		// @ts-ignore
 		if (req.params.id == null) {
 			return await res
 				.status(HttpResponseCode.BAD_REQUEST)
+				// @ts-ignore
 				.send(build_400_response(req.params));
 		}
 
@@ -108,6 +111,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 * @param res response
 	 */
 	async update(req: Request, res: Response) {
+		// @ts-ignore
 		const id = req.params.id;
 		const updateData = req.body;
 		let updateResponse = await this._crudService.update(id, updateData);
@@ -125,6 +129,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 * @param res response
 	 */
 	async delete(req: Request, res: Response) {
+		// @ts-ignore
 		const id = req.params.id;
 		let deleteResponse = await this._crudService.destroy(id);
 
