@@ -71,7 +71,7 @@ export default class Alert extends Vue {
 <style lang="scss">
 .eaasi-alert {
 	font-size: 0.9em;
-	line-height: 1.5em;
+	text-align: left;
 
 	&.red {
 		color: darken($red, 35%);
@@ -95,7 +95,7 @@ export default class Alert extends Vue {
 
 	.icon {
 		font-size: 2em;
-		padding: 0 0 12px 0;
+		padding: 0 0 6px 0;
 	}
 }
 </style>
