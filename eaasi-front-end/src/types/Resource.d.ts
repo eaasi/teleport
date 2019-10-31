@@ -105,6 +105,19 @@ export interface IEnvironment extends IEaasiResource {
 	containerName?: string;
 	containerVersion?: string;
 	drives: IDrive[];
+	error?: string;
+}
+
+export interface IEaasiEnvironmentCardSummary {
+	title?: string;
+	description?: string;
+	archive?: string;
+	drives?: any[];
+	emulator?: string;
+	isInternetEnabled?: boolean;
+	isPrintingEnabled?: boolean;
+	installedSoftware?: any[];
+	hasError?: boolean;
 }
 
 export interface IEaasPermissions {
