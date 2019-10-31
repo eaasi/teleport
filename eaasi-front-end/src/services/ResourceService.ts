@@ -20,7 +20,6 @@ class ResourceService extends BaseHttpService {
 		);
 
 		if (!res.ok) return null;
-
 		return res.result;
 	}
 
@@ -34,10 +33,12 @@ class ResourceService extends BaseHttpService {
 			'/resource/save', { environmentId: environmentId }
 		);
 
-		if (!res.ok) return null;
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
 
 		console.log('ResourceService RES.RESULT', res.result);
-
 		return res.result as ISaveEnvironmentResponse;
 	}
 
