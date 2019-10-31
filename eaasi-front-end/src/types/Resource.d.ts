@@ -6,36 +6,15 @@ import { ITag } from './Tag';
 export type ResourceType = 'Environment' | 'Software' | 'Content';
 
 export interface IEaasiResource {
-	/**
-	 * A unique identifier for the Resource object
-	 */
 	id: number | string
-
-	/**
-	 * The title of a Resource object
-	 */
 	title: string
-
-	/**
-	 * The type of resource 'Environment' | 'Software' | 'Content'
-	 */
 	resourceType: ResourceType;
+	description?: string;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {
-	/**
-	 * A unique identifier for the Resource object
-	 */
 	id: number | string
-
-	/**
-	 * The title of a Resource object
-	 */
 	title: string
-
-	/**
-	 * A group of Tags
-	 */
 	tagGroup: ITag[]
 
 	/**
