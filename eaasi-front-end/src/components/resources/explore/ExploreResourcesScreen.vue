@@ -158,6 +158,7 @@ export default class ExploreResourcesScreen extends Vue {
     }
 
     async search() {
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
     	await this.$store.dispatch('resource/searchResources');
     }
     async getAll(types) {
@@ -187,7 +188,6 @@ export default class ExploreResourcesScreen extends Vue {
     	let keyword = this.$route.query && this.$route.query.q;
     	this.query.keyword = keyword as string;
 		this.search();
-		this.$store.dispatch('bookmark/getBookmarks', this.user.id);
     }
 
     destroyed() {

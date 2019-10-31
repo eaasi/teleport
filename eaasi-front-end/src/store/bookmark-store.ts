@@ -45,7 +45,7 @@ const actions = {
     async getBookmarks({ commit }:Store<BookmarkStore>, userID: number) {
         const result = await _svc.getBookmarks(userID);
         if (!result) return;
-        commit('SET_BOOKMARKS', result)
+        commit('SET_BOOKMARKS', result);
     }
 
 };
