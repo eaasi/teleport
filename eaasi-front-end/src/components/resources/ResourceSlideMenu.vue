@@ -154,6 +154,7 @@
 
 		doAction(action: IAction) {
 			if (!action.isEnabled) return;
+			console.log(action);
 
 			switch (action.shortName) {
 				case 'run': {
@@ -175,6 +176,11 @@
 				case 'save': {
 					// When Save is clicked, we show the Save (Replicate) Modal to confirm
 					this.$emit('show-save-modal');
+				}
+					break;
+				case 'delete': {
+					// When Delete is clicked, we show the Delete Modal to confirm
+					this.$emit('show-delete-modal');
 				}
 					break;
 				default: break;
