@@ -41,7 +41,7 @@
 
 			<collapsable
 				title="Did you make software changes?"
-				open-title="I made these softare changes.."
+				open-title="I made these software changes.."
 				secondary
 				:collapsed="true"
 				class="white-bg"
