@@ -123,7 +123,6 @@ export default class CrudService extends BaseService implements ICrudService {
      * @returns {Promise<{}>}
      */
 	async create(modelData: object): Promise<ICrudServiceResult> {
-		console.log('MODEL = ', this.model);
     	return await this.model
 			.create(modelData)
     		.then((created: object) => {

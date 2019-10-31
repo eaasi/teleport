@@ -11,11 +11,11 @@ export default class EaasiBookmarkController extends BaseController {
 	
 	constructor(bookmarkService = new EaasiBookmarkService()) {
 		super();
-		this.bookmarkService = new EaasiBookmarkService();
+		this.bookmarkService = bookmarkService;
 	}
 
-		/**
-	 * Gets a resource by ID
+	/**
+	 * Gets all bookmarks by user id
 	 * @param req request
 	 * @param res response
 	 */
@@ -28,7 +28,6 @@ export default class EaasiBookmarkController extends BaseController {
 		}
 
 		let response = await this.bookmarkService.getByUserID(userID);
-		console.log(response);
 
 		if (response.hasError) {
 			return await res
@@ -46,7 +45,7 @@ export default class EaasiBookmarkController extends BaseController {
 	}
 
 	/**
-	 * Creates a new resource and persists to database
+	 * Creates a new bookmark and persists to database
 	 * @param req request
 	 * @param res response
 	 */
@@ -71,7 +70,7 @@ export default class EaasiBookmarkController extends BaseController {
 	}
 
 	/**
-	 * Deletes a resource by ID
+	 * Deletes a bookmark by id
 	 * @param req request
 	 * @param res response
 	 */

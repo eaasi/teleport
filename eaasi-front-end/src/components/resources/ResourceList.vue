@@ -86,15 +86,10 @@ export default class ResourceList extends Vue {
 	}
 
 	async handleBookmark(resourceID: number, isActive: boolean) {
-		console.log('handle bookmark', resourceID, isActive);
-		const bookmarkRequest = { resourceID, userID: this.user.id };
+		const bookmarkRequest = { userID: this.user.id, resourceID };
 		return isActive 
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);
-		// await this.$store.dispatch('resource/bookmarkResource', {
-		// 	resourceId: resource.id, 
-		// 	userId: this.$store.state.loggedInUser.id
-		// });
 	}
 
 }
