@@ -85,11 +85,14 @@ import Vue from 'vue';
 	@Component({
 		name: 'Bookmark',
 	})
-export default class Bookmark extends Vue {
+	export default class Bookmark extends Vue {
+
+		@Prop({ type: Boolean, default: false })
+		readonly initState: boolean;
 
 		/* Data
         ============================================*/
-		isActive: Boolean = false;
+		isActive: Boolean = this.initState;
 
 		/* Computed
         ============================================*/

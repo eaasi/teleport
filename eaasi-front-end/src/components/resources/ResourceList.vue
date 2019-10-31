@@ -11,11 +11,13 @@
 				:environment="resource"
 				@change="setActiveResource(resource, $event)"
 				v-if="type === 'Environment'"
+				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"
 			/>
 			<software-resource-card
 				:software="resource"
 				@change="setActiveResource(resource, $event)"
 				v-if="type === 'Software'"
+				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 		</div>
 	</div>
@@ -28,7 +30,8 @@ import { IEaasiResource, ResourceType } from '@/types/Resource';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import EnvironmentResourceCard from './EnvironmentResourceCard.vue';
 import SoftwareResourceCard from './SoftwareResourceCard.vue';
-import { Sync } from 'vuex-pathify';
+import { Get, Sync } from 'vuex-pathify';
+import User from '../../models/admin/User';
 
 @Component({
 	name: 'ResourceList',
@@ -58,6 +61,9 @@ export default class ResourceList extends Vue {
 	@Sync('resource/selectedResources')
 	selectedResources: IEaasiResource[]
 
+	@Get('loggedInUser')
+	user: User;
+
 	/* Methods
 	============================================*/
 
@@ -77,6 +83,13 @@ export default class ResourceList extends Vue {
 
 	async clearSearch() {
 		await this.$store.dispatch('resource/clearSearch');
+	}
+
+	async handleBookmark(resourceID: number, isActive: boolean) {
+		const bookmarkRequest = { userID: this.user.id, resourceID };
+		return isActive 
+			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
+			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);
 	}
 
 }

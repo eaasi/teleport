@@ -1,7 +1,11 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle]">
 		<div v-if="bookmark && !isLoading">
-			<bookmark class="bookmark" />
+			<bookmark 
+				class="bookmark" 
+				:init-state="isBookmarkSelected" 
+				@bookmarked="isActive => $emit('bookmarked', isActive)" 
+			/>
 		</div>
 
 		<div :class="['panel-left', selectStyle]">
@@ -68,7 +72,10 @@ export default class SelectableCard extends Vue {
 		footer: boolean
 
         @Prop({type: Boolean, required: false, default: false})
-        isLoading: boolean
+		isLoading: boolean
+		
+		@Prop({ type: Boolean, default: false })
+		isBookmarkSelected: boolean
 
 		/* Data
         ============================================*/

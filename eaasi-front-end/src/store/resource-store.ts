@@ -1,6 +1,7 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
+import _bookmarkService from '@/services/BookmarkService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -11,7 +12,6 @@ import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
  == State
 /============================================================*/
 class ResourceState {
-
 	activeEnvironment: IEnvironment = null;
 
 	selectedResources: IEaasiResource[] = [];
@@ -106,7 +106,6 @@ const getters = {
 	isSingleResult(state) {
 		if(!state.result) return false;
 		const { environments, software, content } = state.result;
-		console.log(environments, software, content);
 		const lengthArr: number[] = [];
 		environments && lengthArr.push(environments.result.length);
 		software && lengthArr.push(software.result.length);
