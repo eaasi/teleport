@@ -1,6 +1,5 @@
 <template>
 	<div id="accessInterface" class="flex">
-
 		<access-interface-header
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
