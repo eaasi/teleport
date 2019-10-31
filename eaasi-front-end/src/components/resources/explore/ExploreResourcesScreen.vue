@@ -46,6 +46,7 @@
 			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
 			@show-save-modal="showSaveModal"
+			@show-delete-modal="showDeleteModal"
 		/>
 
 		<!-- Modals -->
@@ -78,32 +79,31 @@
 			@close="isDeleteModalVisible=false"
 			v-if="isDeleteModalVisible"
 		>
-			<alert type="info">
-				<span class="ers-rep-msg" v-if="softwareInSelected">
+			<alert type="warning" v-if="softwareIsSelected">
+				<span class="ers-rep-msg">
 					Deleting this software resource will remove all associated data from your node
 					and it will no longer be available for use.
 				</span>
-
-				<span class="ers-rep-msg" v-if="environmentInSelected">
+			</alert>
+			<alert type="warning" v-if="environmentIsSelected">
+				<span class="ers-rep-msg">
 					Deleting this environment will hide its metadata from all users in your node
 					but related disk images will be retained for use in emulation of derivative
 					environments.
 				</span>
-
-				<span class="ers-rep-msg" v-if="selected.length === 1">
+				<span v-if="selectedResources.length === 1">
 					Do you want to delete this resource?
-				</span>
-
-				<span class="ers-rep-msg" v-if="selected.length === 1">
+                </span>
+				<span v-if="selectedResources.length > 1">
 					Do you want to delete the selected resources?
-				</span>
-
+                </span>
 			</alert>
 		</confirm-modal>
 	</div>
 </template>
 
 <script lang="ts">
+import {resourceTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
@@ -161,6 +161,16 @@ export default class ExploreResourcesScreen extends Vue {
 		return this.refinedResult(this.bentoResult.environments);
 	}
 
+	get environmentIsSelected() {
+    	return this.selectedResources
+			.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
+	}
+
+	get softwareIsSelected() {
+		return this.selectedResources
+			.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
+	}
+
 	/* Data
     ============================================*/
 
@@ -198,6 +208,10 @@ export default class ExploreResourcesScreen extends Vue {
     showSaveModal() {
     	this.isSaveModalVisible = true;
     }
+
+	showDeleteModal() {
+		this.isDeleteModalVisible = true;
+	}
 
     async saveEnvironment() {
     	let environment = this.selectedResources[0];
@@ -275,6 +289,7 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.ers-rep-msg {
+		display: block;
 		margin: 1.4rem 0;
 	}
 </style>
