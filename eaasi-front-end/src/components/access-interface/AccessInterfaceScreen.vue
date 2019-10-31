@@ -157,7 +157,7 @@ export default class AccessInterfaceScreen extends Vue {
 <style lang="scss">
 #accessInterface {
 	background-color: darken($teal, 72%);
-	max-height: 100vh;
+	min-height: 100vh;
 }
 
 .ai-content {
