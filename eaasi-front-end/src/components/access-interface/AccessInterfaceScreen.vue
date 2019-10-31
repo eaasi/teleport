@@ -5,10 +5,12 @@
 			@click:restart="showConfirmRestartModal = true"
 			@click:save="save"
 		/>
+
 		<environment-menu
 			v-if="environment"
 			:environment="environment"
 		/>
+
 		<div class="flex-adapt padded ai-content">
 			<div class="ai-emulator">
 				<emulator
@@ -18,6 +20,8 @@
 				/>
 			</div>
 		</div>
+
+		<!-- Modals -->
 		<confirm-modal
 			title="Exit Emulation?"
 			confirm-label="Exit"

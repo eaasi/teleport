@@ -3,6 +3,7 @@ import CrudQuery from '@/services/base/CrudQuery';
 import CrudService from '@/services/base/CrudService';
 import ICrudService from '@/services/interfaces/ICrudService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
+
 const { EaasiUser } = require('@/data_access/models');
 const { EaasiRole } = require('@/data_access/models');
 
@@ -84,7 +85,7 @@ export default class UserAdminService extends BaseService {
 	 */
 	async saveUser(id: number, user: object) {
 		let result: ICrudServiceResult;
-		if(id) {
+		if (id) {
 			result = await this._userCrudService.update(id, user);
 		} else {
 			result = await this._userCrudService.create(user);
@@ -95,6 +96,15 @@ export default class UserAdminService extends BaseService {
 		}
 
 		return result.result;
+	}
+
+	/**
+	 * Sets the a last login date to now for the EaasiUser with the provided userId
+	 * @param userId: number User PK
+	 */
+	async setUserLastLogin(userId: number) {
+		let now = Date.now();
+		return await this._userCrudService.update(userId, {lastLogin: now});
 	}
 
 	/**

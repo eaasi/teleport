@@ -17,7 +17,7 @@
 			</div>
 			<div class="ah-alert flex-row" v-if="emulatorIsRunning">
 				<i class="far fa-exclamation-triangle"></i>
-				<span>Emulated computer must be shut down before saving.</span>
+				<span class="ah-warning-message">Emulated computer must be shut down before saving.</span>
 			</div>
 		</div>
 		<div class="ah-options">
@@ -58,6 +58,10 @@ export default class AccessInterfaceHeader extends Vue {
 	.eaasi-button {
 		margin-right: 2rem;
 	}
+
+	.ah-warning-message {
+		font-size: 1.5rem;
+	}
 }
 
 .ah-top,
@@ -86,7 +90,7 @@ export default class AccessInterfaceHeader extends Vue {
 
 .ah-alert {
 	i {
-		color: $orange;
+		color: darken($orange, 12%);
 		font-size: 2.5rem;
 		margin-right: 1rem;
 	}
