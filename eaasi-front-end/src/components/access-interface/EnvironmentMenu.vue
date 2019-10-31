@@ -16,6 +16,8 @@
 				title="Did you change OS settings?"
 				open-title="I made these changes to OS settings..."
 				secondary
+				:collapsed="true"
+				class="white-bg"
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -27,6 +29,8 @@
 				title="Did you install new software?"
 				open-title="I installed the following software.."
 				secondary
+				:collapsed="true"
+				class="white-bg"
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -39,6 +43,8 @@
 				title="Did you make software changes?"
 				open-title="I made these softare changes.."
 				secondary
+				:collapsed="true"
+				class="white-bg"
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
