@@ -22,6 +22,7 @@ import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import User from '../../../models/admin/User';
 
 @Component({
 	name: 'MyResourcesScreen',
@@ -45,6 +46,9 @@ export default class MyResourcesScreen extends Vue {
 	@Get('resource/result')
 	result: IResourceSearchResponse
 
+	@Get('loggedInUser')
+	user: User;
+
 	/* Data
 	============================================*/
 
@@ -55,7 +59,7 @@ export default class MyResourcesScreen extends Vue {
 			label: 'Imported Resources'
 		},
 		{
-			label: 'My Bookmarks'
+			label: 'My bookmarks'
 		},
 		{
 			label: 'My Contributions'
@@ -65,8 +69,9 @@ export default class MyResourcesScreen extends Vue {
 	/* Methods
 	============================================*/
 
-	search() {
-		this.$store.dispatch('resource/searchResources');
+    async search() {
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
+		await this.$store.dispatch('resource/searchResources');
 	}
 
 	/* Lifecycle Hooks
