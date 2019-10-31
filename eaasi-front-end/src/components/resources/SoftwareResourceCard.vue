@@ -1,7 +1,10 @@
 <template>
 	<selectable-card
+		bookmark
 		:data="summary"
 		@change="$emit('change', $event)"
+		:is-bookmark-selected="isBookmarkSelected"
+		@bookmarked="isActive => $emit('bookmarked', isActive)"
 	/>
 </template>
 
@@ -9,6 +12,8 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, ISoftwarePackage } from '@/types/Resource.d.ts';
+import { IBookmark } from '@/types/Bookmark';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'Software',
@@ -38,6 +43,13 @@ export default class Software extends Vue {
 			}
 		} as IEaasiResourceSummary;
 		return summary;
+	}
+
+	@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];
+
+	get isBookmarkSelected(): Boolean {
+		return this.bookmarks.some(b => b.resourceID === this.software.id);
 	}
 
 	/* Methods

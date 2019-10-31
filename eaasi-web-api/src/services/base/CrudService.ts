@@ -198,7 +198,7 @@ export default class CrudService extends BaseService implements ICrudService {
 
 	private createFindAllOptions(query: CrudQuery, raw: boolean = false) {
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
-    	let offset = query.limit * (query.page - 1);
+    	let offset = query.limit * (query.page - 1) || 0;
     	let options = {
 			limit,
 			offset,

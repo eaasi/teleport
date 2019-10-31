@@ -76,6 +76,7 @@ $checkboxSize: 20px;
 		span {
 			height: $checkboxSize;
 			position: relative;
+			text-transform: capitalize;
 			top: 7px;
 		}
 	}
