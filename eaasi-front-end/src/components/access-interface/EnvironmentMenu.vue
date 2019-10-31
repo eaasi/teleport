@@ -1,8 +1,12 @@
 <template>
 	<div class="environment-menu">
 		<div class="em-header">
+			<div class="em-tags">
+				<tag text="Environment" icon="fa-box" />
+			</div>
 			<h2>{{ environment.title }}</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In lobortis placerat quam, nec sodales metus pellentesque vitae. Proin lacinia congue est, nec blandit tortor convallis sed. Praesent semper non urna id dapibus.</p>
+			<p v-if="environment.description">{{ environment.description | stripHtml }}</p>
+			<p v-else>No description for this environment was provided.</p>
 		</div>
 		<tabbed-nav
 			:tabs="tabs"
@@ -16,6 +20,8 @@
 				title="Did you change OS settings?"
 				open-title="I made these changes to OS settings..."
 				secondary
+				:collapsed="true"
+				class="white-bg"
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -27,6 +33,8 @@
 				title="Did you install new software?"
 				open-title="I installed the following software.."
 				secondary
+				:collapsed="true"
+				class="white-bg"
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -37,8 +45,10 @@
 
 			<collapsable
 				title="Did you make software changes?"
-				open-title="I made these softare changes.."
+				open-title="I made these software changes.."
 				secondary
+				:collapsed="true"
+				class="white-bg"
 			>
 				<eaasi-form>
 					<text-input label="Applied Change" rules="required" />
@@ -116,8 +126,8 @@ export default class EnvironmentMenu extends Vue {
 	background-color: lighten($light-neutral, 60%);
 	height: calc(100vh - #{$accessHeaderHeight});
 	margin-top: $accessHeaderHeight;
+	overflow-y: scroll;
 	width: 43rem;
-
 	.fa-times {
 		cursor: pointer;
 	}
@@ -131,6 +141,10 @@ export default class EnvironmentMenu extends Vue {
 	p {
 		color: $dark-neutral;
 		font-size: 1.4rem;
+	}
+
+	.em-tags {
+		margin-bottom: 1.4rem;
 	}
 }
 
