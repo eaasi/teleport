@@ -103,7 +103,7 @@ export default class ExploreResourcesScreen extends Vue {
 
     @Get('resource/result')
 	bentoResult: IResourceSearchResponse
-	
+
 	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
 
@@ -152,12 +152,11 @@ export default class ExploreResourcesScreen extends Vue {
     async search() {
     	await this.$store.dispatch('resource/searchResources');
     }
-	
     async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
     	await this.search();
-		
+
     	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
 

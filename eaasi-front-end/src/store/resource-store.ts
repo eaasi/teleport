@@ -75,6 +75,10 @@ const actions = {
 		return task;
 	},
 
+	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
+		state.savingEnvironments = state.savingEnvironments.filter(x => x != environmentId);
+	},
+
 	async clearSearch({ commit, dispatch }) {
 		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
 		let result = await _svc.searchResources(clearSearchQuery);
