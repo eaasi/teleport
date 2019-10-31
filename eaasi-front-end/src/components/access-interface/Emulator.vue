@@ -9,7 +9,7 @@
 					size="sm"
 					@click="takeScreenShot()"
 				>
-					Take Screenshot
+					Save Screen Image
 				</ui-button>
 				<ui-button
 					icon="keyboard"
@@ -39,17 +39,20 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import config from '@/config';
+	import { saveAs } from 'file-saver';
+	import cookies from 'js-cookie';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
-	import { IEaasClient, IbwflaController, IMachineComponentRequest } from '@/types/Eaas';
+	import { IEaasClient, IbwflaController } from '@/types/Eaas';
 	import { IEnvironment } from '@/types/Resource';
-	import { Get, Sync } from 'vuex-pathify';
-	import { saveAs } from 'file-saver';
+	import { Sync } from 'vuex-pathify';
 	import { slugify } from '@/utils/functions';
 	import MachineComponentRequest from '@/models/eaas/emil/MachineComponentRequest';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
-	import cookies from 'js-cookie';
 
+	/**
+	 * Component contains screen in which an emulated environment is presented.
+	 */
 	@Component({
 		name: 'Emulator'
 	})
@@ -90,16 +93,16 @@
 
 		attachUserControls() {
 			let vm = this;
-			if(!vm.bwfla) return;
+			if (!vm.bwfla) return;
 			if (vm.client.params.pointerLock === 'true') {
 				vm.bwfla.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
 			}
 		}
 
 		handleError(error: string | Error) {
-			if(typeof error === 'string') {
+			if (typeof error === 'string') {
 				this.error = { message: error };
-			} else if(typeof error === 'object') {
+			} else if (typeof error === 'object') {
 				this.error = error;
 			} else {
 				console.warn('handleError received:', error);
@@ -111,7 +114,7 @@
 
 		getKeyboardPreferences() {
 			let prefs = cookies.getJSON('kbLayoutPrefs');
-			if(!prefs) return null;
+			if (!prefs) return null;
 			return {
 				keyboardLayout: prefs.language.name,
 				keyboardModel: prefs.layout.name
@@ -134,12 +137,12 @@
 			try {
 				let container = vm.$refs._container;
 				let EaasClient = (window as any).EaasClient || null;
-				if(!EaasClient) return;
-				if(!vm.client) {
+				if (!EaasClient) return;
+				if (!vm.client) {
 					await fetch(config.EAASI_HOST + '/EmilEnvironmentData/init');
 					vm.client = new EaasClient.Client(config.EAASI_HOST, container);
 				}
-				if(!vm.bwfla) {
+				if (!vm.bwfla) {
 					vm.bwfla = (window as any).BWFLA as IbwflaController;
 				}
 				vm.setupListeners();
@@ -156,7 +159,7 @@
 				let data = new MachineComponentRequest(vm.environment);
 				let params = new StartEnvironmentParams(vm.environment);
 				let keyboardPrefs = vm.getKeyboardPreferences();
-				if(keyboardPrefs) data = { ...data, ...keyboardPrefs };
+				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
 				await vm.client.start([{data, vizualize: true}], params);
 				vm.isStarted = true;
 				await vm.client.connect();
@@ -169,7 +172,7 @@
 
 		async stopEnvironment() {
 			let vm = this;
-			if(!vm.client || vm.isStopping) return;
+			if (!vm.client || vm.isStopping) return;
 			vm.isStopping = true;
 			window.onbeforeunload = null;
 			await vm.client.release();
@@ -178,12 +181,12 @@
 		}
 
 		sendCtrlAltDelete() {
-			if(!this.client) return;
+			if (!this.client) return;
 			this.client.sendCtrlAltDel();
 		}
 
 		sendEscape() {
-			if(!this.client) return;
+			if (!this.client) return;
 			this.client.sendEsc();
 		}
 
@@ -196,7 +199,7 @@
 
 		takeScreenShot() {
 			let canvas = document.querySelector('#emulatorWrapper canvas') as HTMLCanvasElement;
-			if(!canvas) return;
+			if (!canvas) return;
 			let envTitle = this.environment.title;
 			let filename = slugify(envTitle + '-screenshot-' + new Date().toLocaleString());
 			canvas.toBlob(blob => saveAs(blob, filename));
