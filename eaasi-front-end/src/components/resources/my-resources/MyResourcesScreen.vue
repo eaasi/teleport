@@ -4,9 +4,9 @@
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<!-- TODO -->
 		<resource-slide-menu
-			:open="!!activeResource"
-			:resource="activeResource"
-			@close="activeResource = null"
+			:open="!!selectedResources"
+			:resource="selectedResources"
+			@close="selectedResources = []"
 		/>
 	</div>
 </template>
@@ -36,8 +36,8 @@ export default class MyResourcesScreen extends Vue {
 	/* Computed
 	============================================*/
 
-	@Sync('resource/activeResource')
-	activeResource: IEaasiResource
+	@Sync('resource/selectedResources')
+	selectedResources: IEaasiResource[]
 
 	@Sync('resource/query')
 	query: ResourceSearchQuery;

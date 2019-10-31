@@ -84,6 +84,13 @@ const actions = {
 		return res;
 	},
 
+	async getEnvironmentTaskState(store: Store<GlobalState>, taskID: number | string) {
+		let res = await _taskService.getEnvironmentTaskState(taskID);
+		if(!res) return null;
+		res.taskId = taskID;
+		store.commit('ADD_OR_UPDATE_TASK', res);
+		return res;
+	},
 };
 
 /*============================================================

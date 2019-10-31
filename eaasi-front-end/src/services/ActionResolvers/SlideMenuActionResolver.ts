@@ -8,12 +8,12 @@ import {IAction} from 'eaasi-nav';
  * an action is enabled.
  */
 export default class SlideMenuActionResolver {
-	activeResources: IEnvironment[];
+	selectedResources: IEnvironment[];
 	userRoleId: number
 	action: IAction;
 
-	constructor(activeResources: IEnvironment[], roleId: number) {
-		this.activeResources = activeResources;
+	constructor(selectedResources: IEnvironment[], roleId: number) {
+		this.selectedResources = selectedResources;
 		this.userRoleId = roleId;
 	}
 
@@ -27,17 +27,17 @@ export default class SlideMenuActionResolver {
 	}
 
 	isSingleSelected() : boolean {
-		return this.activeResources.length === 1;
+		return this.selectedResources.length === 1;
 	}
 
 	isSinglePublicResource() : boolean {
 		return this.isSingleSelected()
-			&& this.activeResources[0].archive === 'public';
+			&& this.selectedResources[0].archive === 'public';
 	}
 
 	isSingleRemoteResource() {
 		return this.isSingleSelected()
-			&& this.activeResources[0].archive === 'remote';
+			&& this.selectedResources[0].archive === 'remote';
 	}
 
 	isUserAdmin() : boolean {

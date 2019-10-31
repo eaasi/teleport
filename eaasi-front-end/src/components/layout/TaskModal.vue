@@ -48,15 +48,15 @@ export default class TaskModal extends Vue {
 	 * Polls the task state endpoint to keep track of import status
 	 */
 	async pollTask() {
-		if(!this.task) return;
+		if (!this.task) return;
 		let self = this;
-		if(self.timer) clearInterval(self.timer);
+		if (self.timer) clearInterval(self.timer);
 		self.timer = setInterval(async () => {
 			let taskState = await self.$store.dispatch('getTaskState', self.task.taskId) as ITaskState;
-			if(!taskState || taskState.isDone) {
+			if (!taskState || taskState.isDone) {
 				self.success = true;
 			}
-			else if(taskState.message && taskState.status == '1') {
+			else if (taskState.message && taskState.status == '1') {
 				clearInterval(self.timer);
 				self.error = taskState.message;
 			}
