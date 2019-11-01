@@ -10,6 +10,7 @@ export interface IEaasiResource {
 	title: string
 	resourceType: ResourceType;
 	description?: string;
+	envId?: string;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {
@@ -43,7 +44,6 @@ export interface IEnvironmentList {
 
 export interface IEnvironment extends IEaasiResource {
 	parentEnvId: string;
-	envId: string;
 	title: string;
 	description: string;
 	version?: string;
