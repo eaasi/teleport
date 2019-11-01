@@ -64,6 +64,7 @@ import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import User from '../../../models/admin/User';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
@@ -162,7 +163,9 @@ export default class  extends Vue {
 
     async search() {
         await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-        await this.$store.dispatch('resource/searchResources');
+        await this.$store.dispatch('resource/searchResources', this.bookmarks);
+		const facets = populateFacets(this.refinedEnvironment, this.refinedSoftware, this.refinedContent);
+		this.query = {...this.query, selectedFacets: facets};
     }
     async getAll(types) {
         this.query.types = types;
