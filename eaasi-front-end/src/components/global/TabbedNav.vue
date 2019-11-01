@@ -108,7 +108,7 @@ export default class TabbedNav extends Vue {
 		}
 
 		&.disabled {
-			opacity: .5;
+			opacity: 0.5;
 			span {
 				cursor: not-allowed;
 			}

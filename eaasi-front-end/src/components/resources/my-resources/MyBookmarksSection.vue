@@ -1,57 +1,57 @@
 <template>
-    <div class="mbs-wrapper">
-        <div class="bg-top-message flex-row flex-wrap">
-            <div class="message-wrapper">
-                <p style="margin: 0;">
-                    These resources will be bookmarked until you remove the bookmark.
-                </p>
-            </div>
-            <div class="btn-section">
-                <ui-button secondary @click="clearBookmarks">
-                    Clear ALL Bookmarks
-                </ui-button>
-            </div>
-        </div>
+	<div class="mbs-wrapper">
+		<div class="bg-top-message flex-row flex-wrap">
+			<div class="message-wrapper">
+				<p style="margin: 0;">
+					These resources will be bookmarked until you remove the bookmark.
+				</p>
+			</div>
+			<div class="btn-section">
+				<ui-button secondary @click="clearBookmarks">
+					Clear ALL Bookmarks
+				</ui-button>
+			</div>
+		</div>
 
-        <div class="resource-results" v-if="bentoResult">
-            <resource-facets />
-            <applied-search-facets v-if="hasSelectedFacets" />
-            <div class="resource-bento width-md">
-                <div class="bento-row">
-                    <div
-                        v-if="refinedEnvironment.result.length"
-                        class="bento-col"
-                    >
-                        <resource-list
-                            :query="query"
-                            :result="refinedEnvironment"
-                            type="Environment"
-                            @click:all="getAll(['Environment'])"
-                        />
-                    </div>
-                    <div
-                        v-if="refinedSoftware.result.length || refinedContent.result.length"
-                        class="bento-col"
-                    >
-                        <resource-list
-                            v-if="refinedSoftware.result.length"
-                            :query="query"
-                            :result="refinedSoftware"
-                            type="Software"
-                            @click:all="getAll(['Software'])"
-                        />
-                        <resource-list
-                            v-if="refinedContent.result.length"
-                            :query="query"
-                            :result="bentoResult.content"
-                            type="Content"
-                            @click:all="getAll(['Content'])"
-                        />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="resource-results" v-if="bentoResult">
+			<resource-facets />
+			<applied-search-facets v-if="hasSelectedFacets" />
+			<div class="resource-bento width-md">
+				<div class="bento-row">
+					<div
+						v-if="refinedEnvironment.result.length"
+						class="bento-col"
+					>
+						<resource-list
+							:query="query"
+							:result="refinedEnvironment"
+							type="Environment"
+							@click:all="getAll(['Environment'])"
+						/>
+					</div>
+					<div
+						v-if="refinedSoftware.result.length || refinedContent.result.length"
+						class="bento-col"
+					>
+						<resource-list
+							v-if="refinedSoftware.result.length"
+							:query="query"
+							:result="refinedSoftware"
+							type="Software"
+							@click:all="getAll(['Software'])"
+						/>
+						<resource-list
+							v-if="refinedContent.result.length"
+							:query="query"
+							:result="bentoResult.content"
+							type="Content"
+							@click:all="getAll(['Content'])"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts">
@@ -168,7 +168,7 @@ export default class  extends Vue {
         this.query.types = types;
         this.query.limit = 5000;
         this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
-        this.$router.push('explore')
+        this.$router.push('explore');
     }
 
     showSaveModal() {
@@ -213,37 +213,37 @@ export default class  extends Vue {
 
 <style lang='scss' scoped>
 .bg-top-message {
-    background-color: lighten($light-neutral, 40%);
-    border-bottom: 2px solid darken($light-neutral, 10%);
-    justify-content: space-between;
-    padding: 2rem 3rem;
-    .btn-section {
-        border-left: 2px solid darken($light-neutral, 10%);
-        padding: 0.5rem 3rem;
-    }
+	background-color: lighten($light-neutral, 40%);
+	border-bottom: 2px solid darken($light-neutral, 10%);
+	justify-content: space-between;
+	padding: 2rem 3rem;
+	.btn-section {
+		border-left: 2px solid darken($light-neutral, 10%);
+		padding: 0.5rem 3rem;
+	}
 }
 
 .resource-results {
-    min-height: 80vh;
-    position: relative;
+	min-height: 80vh;
+	position: relative;
 
-    .resource-facets {
-        bottom: 0;
-        position: absolute;
-        top: 0;
-    }
+	.resource-facets {
+		bottom: 0;
+		position: absolute;
+		top: 0;
+	}
 
-    .resource-bento {
-        margin-left: 28rem;
-        padding: 1.5rem;
-        .bento-row {
-            display: flex;
-            flex-direction: row;
-            .bento-col {
-                flex: 1;
-                margin: 0 1rem;
-            }
-        }
-    }
+	.resource-bento {
+		margin-left: 28rem;
+		padding: 1.5rem;
+		.bento-row {
+			display: flex;
+			flex-direction: row;
+			.bento-col {
+				flex: 1;
+				margin: 0 1rem;
+			}
+		}
+	}
 }
 </style>
