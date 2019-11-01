@@ -21,6 +21,13 @@ class BookmarkService extends BaseHttpService {
         if (!res.ok) return null;
         return res.result;
     }
+
+    async clearBookmarks(userID: number) {
+        const res = await this.delete<IBookmark>(`${config.REST_API_URL}/bookmark/all?userID=${userID}`);
+        if (!res.ok) return null;
+        return res.result;
+    }
+
 }
 
 export default new BookmarkService();

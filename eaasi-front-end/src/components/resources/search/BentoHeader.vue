@@ -27,7 +27,7 @@
 				icon-right
 				secondary
 				size="sm"
-				v-if="result.result.length === result.totalResults"
+				v-if="result.result.length === result.totalResults && result.result.length"
 			>
 				Clear Search
 			</ui-button>

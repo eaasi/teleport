@@ -1,4 +1,5 @@
 import { ResourceType, IEnvironment, IEaasiResource } from './Resource';
+import { IBookmark } from './Bookmark';
 
 export interface IEaasiSearchResponse<T> {
 	result: T[],

@@ -42,10 +42,16 @@ const actions = {
         commit('SET_BOOKMARKS', updatedBookmarks);
     },
 
-    async getBookmarks({ commit }:Store<BookmarkStore>, userID: number) {
+    async getBookmarks({ commit }: Store<BookmarkStore>, userID: number) {
         const result = await _svc.getBookmarks(userID);
         if (!result) return;
         commit('SET_BOOKMARKS', result);
+    },
+
+    async clearBookmarks({ commit }: Store<BookmarkStore>, userID: number) {
+        const result = await _svc.clearBookmarks(userID);
+        if (!result) return;
+        commit('SET_BOOKMARKS', []);
     }
 
 };
