@@ -2,63 +2,30 @@
 	<div id="myResources">
 		<h1>My Resources</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
-		<!-- TODO -->
-		<my-bookmarks-section />
-		<!-- <resource-slide-menu
-			:open="!!selectedResources"
-			:resource="selectedResources"
-			@close="selectedResources = []"
-		/> -->
+		<my-bookmarks-section v-if="activeTab.label === 'My Bookmarks'" />
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import ResourceSlideMenu from '../ResourceSlideMenu.vue';
-import ResourceFacets from '../search/ResourceFacets.vue';
-import ResourceList from '../ResourceList.vue';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import MyBookmarksSection from './MyBookmarksSection.vue';
-import User from '../../../models/admin/User';
+import User from '@/models/admin/User';
 
 @Component({
 	name: 'MyResourcesScreen',
-	components: {
-		ResourceFacets,
-		ResourceList,
-		ResourceSlideMenu,
-		MyBookmarksSection
-	}
+	components: { MyBookmarksSection }
 })
 export default class MyResourcesScreen extends Vue {
-
-	/* Computed
-	============================================*/
-
-	@Sync('resource/selectedResources')
-	selectedResources: IEaasiResource[];
-
-	@Sync('resource/query')
-	query: ResourceSearchQuery;
-
-	@Get('resource/result')
-	result: IResourceSearchResponse;
-
-	@Get('loggedInUser')
-	user: User;
 
 	/* Data
 	============================================*/
 
-	menuOpen: boolean = false;
 	tabs: IEaasiTab[] = [
 		{
-			label: 'My bookmarks',
+			label: 'My Bookmarks',
 			disabled: false
 		},
 		{
@@ -71,20 +38,6 @@ export default class MyResourcesScreen extends Vue {
 		}
 	]
 	activeTab: IEaasiTab = this.tabs[0];
-
-	/* Methods
-	============================================*/
-
-    async search() {
-		
-	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	mounted() {
-		
-	}
 
 }
 

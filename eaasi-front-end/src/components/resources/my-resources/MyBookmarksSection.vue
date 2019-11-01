@@ -102,10 +102,6 @@ export default class  extends Vue {
     @Get('bookmark/bookmarks')
     bookmarks: IBookmark[]
 
-    get hasActiveResources() {
-        return this.selectedResources.length > 0;
-    }
-
     get hasSelectedFacets() {
         return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
     }
