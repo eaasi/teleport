@@ -1,6 +1,7 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
+import _bookmarkService from '@/services/BookmarkService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';

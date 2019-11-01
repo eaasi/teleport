@@ -2,7 +2,6 @@ import CrudService from '../base/CrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from '../base/CrudServiceResult';
 const { Bookmark } = require('@/data_access/models');
-import Sequelize from 'sequelize';
 
 /**
  * Handles CRUD operations for Bookmarks

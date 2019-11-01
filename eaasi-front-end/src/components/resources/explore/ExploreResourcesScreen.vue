@@ -204,8 +204,9 @@ export default class ExploreResourcesScreen extends Vue {
 
     async search() {
 		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-		await this.$store.dispatch('resource/searchResources');
-    }
+    	await this.$store.dispatch('resource/searchResources');
+	}
+	
     async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
