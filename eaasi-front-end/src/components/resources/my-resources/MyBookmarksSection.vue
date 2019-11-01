@@ -2,7 +2,9 @@
     <div class="mbs-wrapper">
         <div class="bg-top-message flex-row flex-wrap">
             <div class="message-wrapper">
-                <p>These resources will be bookmarked until you remove the bookmark.</p>
+                <p style="margin: 0;">
+                    These resources will be bookmarked until you remove the bookmark.
+                </p>
             </div>
             <div class="btn-section">
                 <ui-button secondary @click="clearBookmarks">
@@ -163,12 +165,10 @@ export default class  extends Vue {
         await this.$store.dispatch('resource/searchResources');
     }
     async getAll(types) {
-        this.$router.push('explore')
         this.query.types = types;
         this.query.limit = 5000;
-        await this.search();
-
         this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
+        this.$router.push('explore')
     }
 
     showSaveModal() {
@@ -200,21 +200,12 @@ export default class  extends Vue {
     ============================================*/
 
     mounted() {
-        let keyword = this.$route.query && this.$route.query.q;
-        this.query.keyword = keyword as string;
         this.search();
     }
 
-    destroyed() {
+    beforeDestroy() {
         this.selectedResources = [];
-    }
-
-    @Watch('$route.query')
-    onRouteChanged(newQuery, oldQuery) {
-        if(newQuery.q !== oldQuery.q) {
-            this.query.keyword = newQuery.q as string;
-            this.search();
-        }
+        this.query = {...this.query, keyword: null};
     }
 
 }

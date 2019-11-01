@@ -23,7 +23,7 @@ import { IEaasiTab } from 'eaasi-nav';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiSearchResponse, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import MyBookmarksSection from './MyBookmarksSection';
+import MyBookmarksSection from './MyBookmarksSection.vue';
 import User from '../../../models/admin/User';
 
 @Component({
@@ -76,15 +76,14 @@ export default class MyResourcesScreen extends Vue {
 	============================================*/
 
     async search() {
-		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-		await this.$store.dispatch('resource/searchResources');
+		
 	}
 
 	/* Lifecycle Hooks
 	============================================*/
 
 	mounted() {
-		this.search();
+		
 	}
 
 }

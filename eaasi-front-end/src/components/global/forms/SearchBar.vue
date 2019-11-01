@@ -13,7 +13,7 @@
 					:value="value"
 					:id="id"
 				/>
-				<span class="eaasi-field-icon" @click="search">
+				<span class="eaasi-field-icon" @click="$emit('search')">
 					<i :class="`fas fa-chevron-circle-right`"></i>
 				</span>
 			</div>
@@ -47,13 +47,6 @@ export default class SearchBar extends BaseFormField {
 	@Prop({type: String, required: false, default: '#1C5F6B'})
 	readonly borderColor: string
 
-
-	/* Methods
-	============================================*/
-
-	search() {
-		this.$emit('search', this.value);
-	}
 }
 
 </script>
