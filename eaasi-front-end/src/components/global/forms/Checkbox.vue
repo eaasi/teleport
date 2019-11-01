@@ -109,8 +109,8 @@ $checkboxSize: 18px;
 		border: solid #FFFFFF;
 		border-width: 0 3px 3px 0;
 		height: 10px;
-		left: 6px;
-		top: 2px;
+		left: 5px;
+		top: 1px;
 		transform: rotate(45deg);
 		width: 5px;
 	}

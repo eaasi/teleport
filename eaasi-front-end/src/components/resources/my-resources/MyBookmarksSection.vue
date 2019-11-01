@@ -2,9 +2,9 @@
 	<div class="mbs-wrapper">
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
-                <p v-if="bookmarks.length">
-                    These resources will be bookmarked until you remove the bookmark.
-                </p>
+				<p v-if="bookmarks.length">
+					These resources will be bookmarked until you remove the bookmark.
+				</p>
 				<p style="margin: 0;" v-else>
 					No Bookmarks Found
 				</p>
@@ -13,7 +13,7 @@
 				<ui-button secondary @click="clearBookmarks" v-if="bookmarks.length">
 					Clear ALL Bookmarks
 				</ui-button>
-                <ui-button secondary @click="$router.push('explore')" v-else>
+				<ui-button secondary @click="$router.push('explore')" v-else>
 					Add Bookmarks
 				</ui-button>
 			</div>
