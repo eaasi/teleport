@@ -5,9 +5,10 @@
 				<search-bar
 					placeholder="Enter a search term..."
 					:border-color="searchBorderColor"
-					v-model="query.keyword"
+					v-model="searchKeyword"
 					name="q"
 					role="search"
+					@search="search"
 				/>
 			</form>
 		</div>
@@ -58,17 +59,14 @@ export default class AppHeader extends Vue {
 	@Get('loggedInUser')
 	user: IEaasiUser
 
-	@Sync('resource/query')
-	query: IResourceSearchQuery
+	@Sync('resource/query@keyword')
+	searchKeyword: string;
 
 	/* Methods
 	============================================*/
 
-	/**
-	 * Route to search page with query string
-	 */
-	search(): void {
-		this.$router.push(`/resources/explore?q=${this.query.keyword}`);
+	async search() {
+		await this.$store.dispatch('resource/searchResources');
 	}
 
 	/**
