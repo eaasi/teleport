@@ -14,21 +14,21 @@
 			<div class="col-md-6">
 				<text-input
 					label="Local Identifier"
-					placeholder="Entar an identifier..."
+					placeholder="Enter an identifier..."
 					v-model="localIdentifier"
 				/>
 			</div>
 			<div class="col-md-6">
 				<text-input
 					label="Local Identifier Source"
-					placeholder="Entar source..."
+					placeholder="Enter source..."
 					v-model="localIdentifierSource"
 				/>
 			</div>
 			<div class="col-md-6">
 				<text-input
 					label="Version"
-					placeholder="Entar the software version..."
+					placeholder="Enter the software version..."
 					v-model="version"
 				/>
 			</div>

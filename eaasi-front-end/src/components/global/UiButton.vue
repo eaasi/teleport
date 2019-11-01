@@ -105,6 +105,7 @@ export default class UiButton extends Vue {
 	cursor: pointer;
 	font-size: 1.6rem;
 	min-width: 17.5rem;
+	font-weight: 600;
 	outline: none;
 	padding: 0.8rem 1.6rem;
 	transition: background-color 0.3s;

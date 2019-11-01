@@ -8,7 +8,7 @@
 				:checked="value"
 				@change="handleChange"
 			/>
-			<span class="checkmark"></span>
+			<span :class="['checkmark', {checked: value}]"></span>
 		</label>
 	</form-field-wrapper>
 </template>
@@ -52,7 +52,7 @@ export default class Checkbox extends BaseFormField {
 </script>
 
 <style lang="scss">
-$checkboxSize: 20px;
+$checkboxSize: 18px;
 
 .eaasi-checkbox {
 
@@ -83,13 +83,16 @@ $checkboxSize: 20px;
 
 	.checkmark {
 		background-color: #ffffff;
-		border: 1px solid $light-blue;
-		border-radius: 0.5em;
+		border: 2px solid $light-blue;
+		border-radius: 0.6em;
 		height: $checkboxSize;
-		left: 3px;
+		left: 0;
 		position: absolute;
-		top: 3px;
+		top: 0;
 		width: $checkboxSize;
+		&.checked {
+			border: 2px solid $dark-blue;
+		}
 	}
 
 	label input:checked ~ .checkmark {
