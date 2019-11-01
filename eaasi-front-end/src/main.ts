@@ -27,6 +27,8 @@ Vue.filter('stripHtml', value => {
  == Global Vue Instance
 /============================================================*/
 
+console.log(process.env);
+
 new Vue({
 	router,
 	store,

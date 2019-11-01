@@ -54,7 +54,7 @@ export default class EaasiUser extends Model<EaasiUser> {
     roleId: number;
 
     @Column({
-        type: DataTypes.TIME,
+    	type: DataTypes.TIME,
     	allowNull: true
     })
     lastLogin: Date;

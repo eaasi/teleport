@@ -1,3 +1,4 @@
+import {sequelize} from '@/data_access/models';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -44,6 +45,8 @@ app.use('/', express.static(path.join(__dirname, '../apidoc')));
 app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
+
+sequelize.sync({force: true});
 
 /**
  * Create HTTP server.
