@@ -111,7 +111,7 @@ export default class  extends Vue {
     }
 
     get refinedContent() {
-        const searchResult = this.refinedResult(this.bentoResult.software);
+        const searchResult = this.refinedResult(this.bentoResult.content);
         const result = searchResult.result.filter(r => this.bookmarks.some(b => b.resourceID === r.id));
         return {...searchResult, result};
     }
@@ -164,7 +164,7 @@ export default class  extends Vue {
     async search() {
         await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
         await this.$store.dispatch('resource/searchResources', this.bookmarks);
-		const facets = populateFacets(this.refinedEnvironment, this.refinedSoftware, this.refinedContent);
+        const facets = populateFacets(this.refinedEnvironment, this.refinedSoftware, this.refinedContent);
 		this.query = {...this.query, selectedFacets: facets};
     }
     async getAll(types) {
