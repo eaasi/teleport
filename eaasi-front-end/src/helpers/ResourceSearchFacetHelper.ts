@@ -1,8 +1,8 @@
 import { IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
-import { IEnvironment, IEaasiResource } from '@/types/Resource';
+import { IEaasiResource } from '@/types/Resource';
 
 export const populateFacets = (
-	environments: IEaasiSearchResponse<IEnvironment>,
+	environments: IEaasiSearchResponse<IEaasiResource>,
 	software: IEaasiSearchResponse<IEaasiResource>,
 	content: IEaasiSearchResponse<IEaasiResource>
 ): IResourceSearchFacet[] =>  {
@@ -22,11 +22,11 @@ export const populateFacets = (
 };
 
 function getFacet(resource: IEaasiSearchResponse<IEaasiResource>, facet: IResourceSearchFacet) {
-	resource.result.forEach(e => {
-		if (e[facet.name] == null) return facet;
-		const value = facet.values.find(v => v.label === e[facet.name]);
+	resource.result.forEach(r => {
+		if (r[facet.name] == null) return facet;
+		const value = facet.values.find(v => v.label === r[facet.name]);
 		value ? facet.values.forEach(v => v.label === value.label && v.total++)
-			: facet.values.push({ label: e[facet.name], total: 1, isSelected: false });
+			: facet.values.push({ label: r[facet.name], total: 1, isSelected: false });
 	});
 	return facet;
 };
