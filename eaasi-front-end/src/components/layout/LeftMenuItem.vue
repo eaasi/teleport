@@ -61,6 +61,7 @@ a.left-menu-item {
 	&.active {
 		background-color: #ffffff;
 		color: darken($teal, 60%);
+		border-right: 2px solid lighten($teal, 80%);
 
 		&::before {
 			border-left: 4px solid $teal;

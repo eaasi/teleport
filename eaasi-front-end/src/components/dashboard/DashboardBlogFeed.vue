@@ -3,11 +3,13 @@
 		<div id="bf-header">
 			{{ blogTitle }}
 		</div>
-		<row>
-			<column size="4" v-for="entry in blogArticles" :key="entry.title">
-				<dashboard-blog-entry :entry="entry" />
-			</column>
-		</row>
+		<div style="padding: 2.4rem;">
+			<row>
+				<column size="4" v-for="entry in blogArticles" :key="entry.title">
+					<dashboard-blog-entry :entry="entry" />
+				</column>
+			</row>
+		</div>
 	</div>
 </template>
 
@@ -44,12 +46,12 @@ export default class DashboardBlogFeed extends Vue {
 	.bf-container {
 		background-color: lighten($teal, 90%);
 		min-height: 50vh;
-		padding: 1.5rem;
+		padding: 1.5rem 0;
 
 		#bf-header {
 			border-bottom: 2px solid lighten($teal, 60%);
 			font-size: 2.2rem;
-			padding: 2.4rem 0;
+			padding: 2.4rem 02.4rem;
 			width: 100%;
 
 			.bf-description {
