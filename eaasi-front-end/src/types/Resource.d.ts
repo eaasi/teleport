@@ -44,6 +44,7 @@ export interface IEnvironmentList {
 
 export interface IEnvironment extends IEaasiResource {
 	parentEnvId: string;
+	envId: string;
 	title: string;
 	description: string;
 	version?: string;
