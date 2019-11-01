@@ -42,7 +42,9 @@ export default class EaasiAuthController extends BaseController {
 		req.method = 'GET';
 		// Set JWT cookie
 		let expires = new Date();
+
 		expires.setSeconds(expires.getSeconds() + MAX_AGE);
+
 		res.cookie('EAASI_TOKEN', req.user.token, {
 			expires,
 			domain: DOMAIN
@@ -51,9 +53,9 @@ export default class EaasiAuthController extends BaseController {
 		let userService = new UserAdminService();
 		let logger = new AppLogger('AuthController');
 
-		userService.setUserLastLogin(req.user.res.id).then(() => {
-			logger.log.info(`User logged in: ${req.user.res.email}`)
-		});
+	    userService.setUserLastLogin(req.user.res.id).then(() => {
+	    	logger.log.info(`User logged in: ${req.user.res.email}`)
+	    });
 
 		res.redirect(CLIENT_URL);
 	}

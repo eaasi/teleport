@@ -13,9 +13,10 @@ export default class EaasiUser extends Model<EaasiUser> {
     updatedAt: Date;
 
     @Column({
+    	type: DataTypes.BIGINT,
     	allowNull: false,
     	primaryKey: true,
-    	autoIncrement: true
+    	autoIncrement: true,
     })
     id: number
 
@@ -44,6 +45,7 @@ export default class EaasiUser extends Model<EaasiUser> {
     email: string;
 
     @Column({
+    	type: DataTypes.BIGINT,
     	references: {
     		model: 'eaasi_role',
     		key: 'id'
@@ -52,6 +54,7 @@ export default class EaasiUser extends Model<EaasiUser> {
     roleId: number;
 
     @Column({
+        type: DataTypes.TIME,
     	allowNull: true
     })
     lastLogin: Date;

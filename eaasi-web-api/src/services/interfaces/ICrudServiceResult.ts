@@ -1,8 +1,8 @@
-export default interface ICrudServiceResult {
+export default interface ICrudServiceResult<T> {
 	readonly hasError: boolean;
 
 	// TODO: result => data?
-	readonly result?: any;
+	readonly result?: T;
 
 	readonly error?: string | Error | null;
 }

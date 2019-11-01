@@ -12,10 +12,10 @@ export default class EaasiRole extends Model<EaasiRole> {
     readonly updatedAt: Date = new Date();
 
     @Column({
-    	type: DataTypes.INTEGER,
+    	type: DataTypes.BIGINT,
     	allowNull: false,
     	primaryKey: true,
-    	autoIncrement: true
+    	autoIncrement: true,
     })
     id: number
 

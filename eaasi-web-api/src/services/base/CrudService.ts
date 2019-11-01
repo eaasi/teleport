@@ -1,18 +1,20 @@
-import Sequelize, {WhereOptions} from 'sequelize';
+import { WhereOptions } from 'sequelize';
 import ICrudService from '../interfaces/ICrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from './CrudServiceResult';
 import CrudQuery from '@/services/base/CrudQuery';
 import BaseService from './BaseService';
+import { Model } from 'sequelize-typescript';
+import { IPaginatedResult } from '@/types/Crud';
 
-export default class CrudService extends BaseService implements ICrudService {
+export default class CrudService<T extends Model> extends BaseService implements ICrudService<T> {
 
 	protected MAX_GET_ALL_PAGE_SIZE: number;
 	protected model: any;
 
-	constructor(model: any) {
+	constructor(model: new () => T) {
 		super();
-		this.model = model;
+		this.model = new model();
     	this.MAX_GET_ALL_PAGE_SIZE = 100;
 	}
 
@@ -32,12 +34,12 @@ export default class CrudService extends BaseService implements ICrudService {
 	 * @returns {Promise<{}>}
 	 * @param query CRUD query with pagination parameters
 	 */
-	async getAll(query: CrudQuery, raw: boolean = false): Promise<ICrudServiceResult> {
+	async getAll(query: CrudQuery, raw: boolean = false): Promise<ICrudServiceResult<IPaginatedResult<T>>> {
 
 		let totalResults = await this.model.findAndCountAll()
     		.catch((error: string) => {
 				this._logger.log.error(error);
-				return new CrudServiceResult(error);
+				return new CrudServiceResult<IPaginatedResult<T>>(error);
     		});
 
 		if (totalResults.hasError) {
@@ -46,18 +48,13 @@ export default class CrudService extends BaseService implements ICrudService {
 
 		let options = this.createFindAllOptions(query, raw);
 
-    	let results = await this.model
-			.findAll(options)
-    		.catch((error: string) => {
-				this._logger.log.error(error);
-				return new CrudServiceResult(error);
-    		});
+    	let results = await this.model.findAll(options);
 
 		if (results.hasError) {
     		return results;
 		}
 
-		return new CrudServiceResult(null, {
+		return new CrudServiceResult<IPaginatedResult<T>>(null, {
     		result: results,
 			count: results.length,
 			totalResults: totalResults.count
@@ -71,15 +68,15 @@ export default class CrudService extends BaseService implements ICrudService {
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-	async getByPk(pk: number): Promise<ICrudServiceResult> {
+	async getByPk(pk: number): Promise<ICrudServiceResult<T>> {
 		return await this.model
     		.findByPk(pk)
-			.then((result: object) => {
-    			return new CrudServiceResult(null, result);
+			.then((result: T) => {
+    			return new CrudServiceResult<T>(null, result);
     		})
     		.catch((error: string) => {
 				this._logger.log.error(error);
-    			return new CrudServiceResult(error);
+    			return new CrudServiceResult<T>(error);
     		});
 	}
 
@@ -88,14 +85,14 @@ export default class CrudService extends BaseService implements ICrudService {
 	 * Accepts Sequelize WhereOptions to query a matched object
 	 * @param whereOptions
 	 */
-	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
+	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult<T>> {
 		return await this.model.findAll({
 			where: whereOptions
-		}).then((result: object[]) => {
-			return new CrudServiceResult(null, result);
+		}).then((result: T[]) => {
+			return new CrudServiceResult<T[]>(null, result);
 		}).catch((error: string) => {
 			this._logger.log.error(error);
-			return new CrudServiceResult(error);
+			return new CrudServiceResult<T>(error);
 		})
 	}
 
@@ -104,10 +101,10 @@ export default class CrudService extends BaseService implements ICrudService {
 	 * Accepts Sequelize WhereOptions to query a matched object
 	 * @param whereOptions
 	 */
-	async getOneWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult> {
+	async getOneWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult<T>> {
 		return await this.model.findOne({
 			where: whereOptions
-		}).then((result: object) => {
+		}).then((result: T) => {
 			return new CrudServiceResult(null, result);
 		}).catch((error: string) => {
 			this._logger.log.error(error);
@@ -122,10 +119,10 @@ export default class CrudService extends BaseService implements ICrudService {
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-	async create(modelData: object): Promise<ICrudServiceResult> {
+	async create(modelData: object): Promise<ICrudServiceResult<T>> {
     	return await this.model
 			.create(modelData)
-    		.then((created: object) => {
+    		.then((created: T) => {
 				return new CrudServiceResult(null, created);
 			})
     		.catch((error: string) => {
@@ -142,11 +139,11 @@ export default class CrudService extends BaseService implements ICrudService {
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-	async update(pk: number, modelData: any): Promise<ICrudServiceResult> {
+	async update(pk: number, modelData: any): Promise<ICrudServiceResult<T>> {
 		// TODO: Pull the pk off of the modelData
     	return await this.model
 			.findByPk(pk)
-    		.then((found: Sequelize.Model) => {
+    		.then((found: T) => {
     			if (!found) {
 					return new CrudServiceResult('notFound');
     			}
@@ -154,16 +151,16 @@ export default class CrudService extends BaseService implements ICrudService {
     				.update(modelData)
 					.then(() => {
 						found.save();
-						return new CrudServiceResult(null, found);
+						return new CrudServiceResult<T>(null, found);
     				})
 					.catch((error: string) => {
 						this._logger.log.error(error);
-    					return new CrudServiceResult(error);
+    					return new CrudServiceResult<T>(error);
 					});
 			})
 			.catch((error: string) => {
 				this._logger.log.error(error);
-				return new CrudServiceResult(error);
+				return new CrudServiceResult<T>(error);
     		});
 	}
 
@@ -174,25 +171,25 @@ export default class CrudService extends BaseService implements ICrudService {
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-	async destroy(pk: number): Promise<ICrudServiceResult> {
+	async destroy(pk: number): Promise<ICrudServiceResult<T>> {
 		return await this.model
     		.findByPk(pk)
-			.then((found: Sequelize.Model) => {
+			.then((found: T) => {
 				if (!found) {
     				return new CrudServiceResult('notFound');
 				}
 				return found.destroy()
 					.then(() => {
-						return new CrudServiceResult(null, pk);
+						return new CrudServiceResult<number>(null, pk);
     				})
 					.catch((error: string) => {
 						this._logger.log.error(error);
-						return new CrudServiceResult(error);
+						return new CrudServiceResult<T>(error);
 					});
 			})
 			.catch((error: string) => {
 				this._logger.log.error(error);
-				return new CrudServiceResult(error);
+				return new CrudServiceResult<T>(error);
     		});
 	}
 
