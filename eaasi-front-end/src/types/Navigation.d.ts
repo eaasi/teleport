@@ -16,6 +16,6 @@ declare module 'eaasi-nav' {
 	export interface IEaasiTab {
 		icon?: string;
 		label: string;
-		disabled: boolean;
+		disabled?: boolean;
 	}
 }
