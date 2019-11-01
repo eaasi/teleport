@@ -1,8 +1,8 @@
 import { IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
-import { IEnvironment, IEaasiResource } from '@/types/Resource';
+import { IEaasiResource } from '@/types/Resource';
 
 export const populateFacets = (
-	environments: IEaasiSearchResponse<IEnvironment>,
+	environments: IEaasiSearchResponse<IEaasiResource>,
 	software: IEaasiSearchResponse<IEaasiResource>,
 	content: IEaasiSearchResponse<IEaasiResource>
 ): IResourceSearchFacet[] =>  {
