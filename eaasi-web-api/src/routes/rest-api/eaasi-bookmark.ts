@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import EaasiBookmarkController from '@/controllers/rest-api/EaasiBookmarkController.ts';
+import EaasiBookmarkController from '@/controllers/rest-api/EaasiBookmarkController';
 
 const router = express.Router();
 
