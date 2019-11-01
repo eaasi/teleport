@@ -163,6 +163,7 @@ export default class  extends Vue {
         await this.$store.dispatch('resource/searchResources');
     }
     async getAll(types) {
+        this.$router.push('explore')
         this.query.types = types;
         this.query.limit = 5000;
         await this.search();

@@ -42,6 +42,7 @@ export default class TabbedNav extends Vue {
 	============================================*/
 
 	selectTab(tab: IEaasiTab) {
+		if (tab.label === this.value.label) return;
 		return !tab.disabled && this.$emit('input', tab);
 	}
 }
