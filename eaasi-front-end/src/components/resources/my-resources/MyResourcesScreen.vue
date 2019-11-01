@@ -59,7 +59,7 @@ export default class MyResourcesScreen extends Vue {
 			label: 'Imported Resources'
 		},
 		{
-			label: 'My bookmarks'
+			label: 'My Bookmarks'
 		},
 		{
 			label: 'My Contributions'

@@ -9,7 +9,10 @@ import { join } from 'path';
 import { Sequelize } from 'sequelize-typescript';
 
 const isDirectory = source => lstatSync(source).isDirectory();
-const allSubdirectories = source => readdirSync(source).map(name => join(source, name)).filter(isDirectory);
+const allSubdirectories = source =>
+	readdirSync(source)
+		.map(name => join(source, name))
+		.filter(isDirectory);
 
 const seq = new Sequelize({
 	database: config.database,
