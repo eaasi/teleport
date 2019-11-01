@@ -30,7 +30,7 @@
 					<td>{{ u.firstName }}</td>
 					<td>{{ u.lastName }}</td>
 					<td>{{ getRole(u) }}</td>
-					<td>{{ u.lastLogin || 'Never' }}</td>
+					<td>{{ u.lastLogin || 'Unknown' }}</td>
 				</tr>
 			</tbody>
 		</table>

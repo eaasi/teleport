@@ -2,10 +2,12 @@
 	<div>
 		<selectable-card
 			v-if="cardSummary"
-			:bookmark="true"
+			bookmark
 			:data="cardSummary"
-			:footer="true"
+			footer
 			:is-loading="isSaving"
+			:is-bookmark-selected="isBookmarkSelected"
+			@bookmarked="isActive => $emit('bookmarked', isActive)"
 			@change="setActiveEnvironment"
 		>
 			<template v-slot:tagsLeft>
@@ -25,12 +27,13 @@
 		IEaasiResourceSummary,
 		IEnvironment
 	} from '@/types/Resource.d.ts';
-	import {ITaskState} from '@/types/Task';
-    import {resourceTypes} from '@/utils/constants';
+	import { ITaskState } from '@/types/Task';
+    import { resourceTypes } from '@/utils/constants';
 	import StringCleaner from '@/utils/string-cleaner';
     import Vue from 'vue';
-    import {Component, Prop} from 'vue-property-decorator';
-	import {Sync} from 'vuex-pathify';
+    import { Component, Prop } from 'vue-property-decorator';
+	import { Get, Sync } from 'vuex-pathify';
+	import { IBookmark } from '../../types/Bookmark';
 
     let resourceSvc = ResourceService;
 
@@ -52,12 +55,19 @@
 		timer: number = null;
 
 		/* Computed
-        ============================================*/
+	============================================*/
 		@Sync('resource/savingEnvironments')
 		savingEnvironments: string[];
 
 		@Sync('resource/saveEnvironmentTaskMap')
 		saveEnvironmentTaskMap: string[];
+
+		@Get('bookmark/bookmarks')
+		bookmarks: IBookmark[];
+
+		get isBookmarkSelected(): Boolean {
+			return this.bookmarks.some(b => b.resourceID === this.environment.envId);
+		}
 
 		get isSaving() {
 			if (this.savingEnvironments.length) {

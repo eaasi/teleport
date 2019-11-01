@@ -110,10 +110,12 @@ import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
-import { IEaasiResource, IEnvironment } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import User from '../../../models/admin/User';
+import { IBookmark } from '@/types/Bookmark';
 
 @Component({
 	name: 'ExploreResourcesScreen',
@@ -140,6 +142,12 @@ export default class ExploreResourcesScreen extends Vue {
 
 	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[]
+
+	@Get('loggedInUser')
+	user: User;
+
+	@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[]
 
 	get hasActiveResources() {
 		return this.selectedResources.length > 0;
@@ -195,6 +203,7 @@ export default class ExploreResourcesScreen extends Vue {
     }
 
     async search() {
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
     	await this.$store.dispatch('resource/searchResources');
     }
     async getAll(types) {
@@ -219,7 +228,7 @@ export default class ExploreResourcesScreen extends Vue {
     		await this.$store.dispatch('resource/saveEnvironment', environment);
     		this.isSaveModalVisible = false;
     	}
-    }
+	}
 
     async deleteSelected() {
     	// TODO: Deleting an environment is currently not working on the back end.
@@ -232,12 +241,12 @@ export default class ExploreResourcesScreen extends Vue {
     mounted() {
     	let keyword = this.$route.query && this.$route.query.q;
     	this.query.keyword = keyword as string;
-    	this.search();
+		this.search();
     }
 
     destroyed() {
     	this.selectedResources = [];
-    }
+	}
 
     @Watch('$route.query')
     onRouteChanged(newQuery, oldQuery) {
@@ -245,7 +254,7 @@ export default class ExploreResourcesScreen extends Vue {
     		this.query.keyword = newQuery.q as string;
     		this.search();
     	}
-    }
+	}
 
 }
 

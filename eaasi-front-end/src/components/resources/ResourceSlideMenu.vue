@@ -21,11 +21,13 @@
 					:tabs="tabs"
 				/>
 			</div>
+
 			<labeled-item-list
 				v-if="tab === 'Details'"
 				class="rsm-details"
-				:labeled-items="labeledItems"
+				:labeled-items="detailsItems"
 			/>
+
 			<div v-if="tab === 'Actions'">
 				<div class="rsm-local-actions">
 					<resource-action
@@ -53,6 +55,7 @@
 	import Vue from 'vue';
 	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 	import SlideMenu from '@/components/layout/SlideMenu.vue';
+	import ResourceService from '@/services/ResourceService';
 	import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
 	import {ILabeledItem} from '@/types/ILabeledItem';
 	import {IEaasiResource, IEnvironment} from '@/types/Resource';
@@ -62,8 +65,10 @@
 	import {Component, Prop} from 'vue-property-decorator';
 	import {Get, Sync} from 'vuex-pathify';
 	import ResourceAction from './ResourceAction.vue';
+	import stringCleaner from '../../utils/string-cleaner';
 
 	let menuService = new ResourceSlideMenuService();
+	let resourceService = ResourceService;
 
 	@Component({
 		name: 'ResourceSlideMenu',
@@ -101,38 +106,90 @@
 			if (this.resources.length === 1) return this.resources[0];
 		}
 
-		/**
-		 * Computes whether or not to show the details tab
-		 */
-		// TODO: Logic for showing details tab
 		get hasDetails() {
-			return true;
+			// If more than one resource is selected, we do not show Details tab.
+			if (!this.onlySelectedResource) return false;
+			if (this.onlySelectedResource.description !== null) {
+				this.setDetailsItems();
+				return true;
+			}
+			return false;
 		}
 
 		get areMultipleActiveResourcesSelected() : boolean {
-			return this.resources.length > 1;
+			if (this.resources.length > 1) {
+				// If we are showing the Details tab when multiple are selected,
+				// We should change to the Actions tab.
+				this.tab = 'Actions';
+				return true;
+			};
+			return false;
 		}
 
 		/**
 		 * Populates the list of Local Actions in the Sidebar
 		 */
 		get localActionsForSelected() {
-			return menuService.getLocalActions(this.selectedResources as IEnvironment[], this.user.roleId);
+			return menuService.getLocalActions(
+				this.selectedResources as IEnvironment[],
+				this.user.roleId
+			);
 		}
 
 		/**
 		 * Populates the list of Node Actions in the Sidebar
 		 */
 		get nodeActionsForSelected() {
-			return menuService.getNodeActions(this.selectedResources as IEnvironment[], this.user.roleId);
+			return menuService.getNodeActions(
+				this.selectedResources as IEnvironment[],
+				this.user.roleId
+			);
 		}
 
 		/* Data
         ============================================*/
+		detailsItems: ILabeledItem[] = [];
 
-		// TODO: Labeled Items should be derived from the resource
-		labeledItems: ILabeledItem[] = [];
+		async setDetailsItems() : Promise<void> {
 
+			if (!this.onlySelectedResource) return;
+
+			let resource = this.onlySelectedResource as IEnvironment;
+
+			if (this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT) {
+				await resourceService.getEnvironment(resource.envId).then((env) => {
+					let detailsItems = [
+						{
+							label: 'Description',
+							value: stringCleaner.stripHTML(env.description)
+						},
+						{
+							label: 'Internet Enabled',
+							value: env.enableInternet.toString()
+						},
+						{
+							label: 'Printing Enabled',
+							value: env.enablePrinting.toString()
+						},
+						{
+							label: 'Operating System',
+							value: env.os
+						},
+					];
+
+					if (env.drives.length) {
+						for (let i = 0; i < env.drives.length; i++) {
+							detailsItems.push({
+								label: `Drive (${i + 1})`,
+								value: env.drives[i].type
+							});
+						}
+					}
+
+					this.detailsItems = detailsItems;
+				});
+			}
+		};
 
 		tabs: IEaasiTab[] = [
 			{
