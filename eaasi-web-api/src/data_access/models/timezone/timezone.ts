@@ -1,22 +1,26 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'timezone'
+})
+export default class Timezone extends Model<Timezone> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class Timezone extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	Timezone.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		timezoneQID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true
-		},
-		utcOffset: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'timezone' });
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return Timezone;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+		primaryKey: true
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	utcOffset: string
+}

@@ -1,3 +1,5 @@
+import ConfiguredNetwork from '@/data_access/models/configured/configuredNetwork';
+import SoftwareEnvironment from '@/data_access/models/software/softwareEnvironment';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 

@@ -1,46 +1,63 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'osVersion'
+})
+export default class OsVersion extends Model<OsVersion> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersion extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersion.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		osVersionQID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		osVersionName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		osVersionDescription: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		osVersionNumber: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		osVersionPublicationDate: {
-			type: Sequelize.DATE,
-			allowNull: true
-		},
-		osVersionSystemRequirements: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		},
-		isVersionOf_osProduct: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'osVersion' });
-	return OsVersion;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	description: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	versionNumber: string
+
+	@Column({
+		type: DataTypes.DATE,
+		allowNull: true,
+	})
+	publicationDate: Date
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	systemRequirementsId: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	isVersionOf_osProduct: number
+}

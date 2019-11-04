@@ -1,34 +1,45 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'softwareObject'
+})
+export default class SoftwareObject extends Model<SoftwareObject> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareObject extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareObject.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-		},
-		softwareObject_inNetwork: {
-			type: Sequelize.BOOLEAN,
-			allowNull: false,
-			defaultValue: false
-		},
-		softwareObject_hasSourceOrg: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		softwareObjectProductKey: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareObjectHelpText: {
-			type: Sequelize.TEXT,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'softwareObject' });
-	return SoftwareObject;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	})
+	inNetwork: boolean
+
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	hasSourceOrg: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	productKey: string
+
+	@Column({
+		type: DataTypes.TEXT,
+		allowNull: true,
+	})
+	helpText: string
+}

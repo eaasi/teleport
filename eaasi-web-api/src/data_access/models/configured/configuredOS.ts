@@ -1,72 +1,75 @@
-'use strict';
+import ColorDepth from '@/data_access/models/colorDepth';
+import DisplayResolution from '@/data_access/models/display/displayResolution';
+import OsVersion from '@/data_access/models/os/osVersion';
+import Region from '@/data_access/models/region';
+import SoftwareObject from '@/data_access/models/software/softwareObject';
+import Timezone from '@/data_access/models/timezone/timezone';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configuredOs'
+})
+export default class ConfiguredOS extends Model<ConfiguredOS> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredOS extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ConfiguredOS.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredOperatingSystemID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		configuredDisplayResolution: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'displayResolution',
-				key: 'displayResolutionID'
-			}
-		},
-		configuredColorDepth: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'colorDepth',
-				key: 'colorDepthID'
-			}
-		},
-		configuredRegion: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'region',
-				key: 'regionQID'
-			}
-		},
-		configuredTimezone: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'timezone',
-				key: 'timezoneQID'
-			}
-		},
-		configuredDateTime: {
-			type: Sequelize.DATE,
-			allowNull: true
-		},
-		hasSource_softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareObject',
-				key: 'softwareObjectID'
-			}
-		},
-		manifestationOf_osVersion: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredOS' });
-	ConfiguredOS.associate = models => {
-		models.ConfiguredOS.hasOne(models.Timezone, {foreignKey: 'timezoneQID'});
-		models.ConfiguredOS.hasOne(models.Region, {foreignKey: 'regionQID'});
-		models.ConfiguredOS.hasOne(models.ColorDepth, {foreignKey: 'colorDepthID'});
-		models.ConfiguredOS.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
-	};
-	return ConfiguredOS;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@ForeignKey(() => DisplayResolution)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	displayResolutionId: number
+
+	@ForeignKey(() => ColorDepth)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	colorDepthId: number
+
+	@ForeignKey(() => Region)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	configuredRegionQid: string
+
+	@ForeignKey(() => Timezone)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	configuredTimezoneQid: string
+
+	@Column({
+		type: DataTypes.DATE,
+		allowNull: true,
+	})
+	configuredDateTime: Date
+
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	has_source_softwareObjectID: string
+
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	manifestation_of_osVersionId: number
+}

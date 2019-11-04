@@ -1,27 +1,33 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configuredNetwork'
+})
+export default class ConfiguredNetwork extends Model<ConfiguredNetwork> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredNetwork extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredNetwork.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredNetworkID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		configuredNetworkName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		configuredNetworkDescription: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredNetwork' });
-	return ConfiguredNetwork;
-};
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	description: string
+}

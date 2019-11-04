@@ -1,51 +1,54 @@
-'use strict';
+import ConfiguredOS from '@/data_access/models/configured/configuredOS';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'softwareEnvironment'
+})
+export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareEnvironment extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareEnvironment.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		softwareEnvironmentName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareEnvironmentDescription: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareEnvironmentHelpText: {
-			type: Sequelize.TEXT,
-			allowNull: true
-		},
-		derivedFrom_softwareEnvironment: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'softwareEnvironment',
-				key: 'softwareEnvironmentID'
-			}
-		},
-		softwareEnvironment_hasPart_configuredOS: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredOS',
-				key: 'configuredOperatingSystemID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareEnvironment' });
-	SoftwareEnvironment.associate = models => {
-		models.SoftwareEnvironment.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'});
-		models.SoftwareEnvironment.hasOne(models.SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareEnvironment;
-};
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	description: string
+
+	@Column({
+		type: DataTypes.TEXT,
+		allowNull: false,
+	})
+	helpText: string
+
+	@ForeignKey(() => SoftwareEnvironment)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	derivedFrom_SoftwareEnvironment: number
+
+	@ForeignKey(() => ConfiguredOS)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	hasPart_configuredOS: number
+}
