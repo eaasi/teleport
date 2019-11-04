@@ -1,8 +1,9 @@
+import ComputingEnvironment from '@/data_access/models/computing/computingEnvironment';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'computingEnvironment_has_event'
+	tableName: 'computing_environment_has_event'
 })
 export default class ComputingEnvironmentHasEvent extends Model<ComputingEnvironmentHasEvent> {
 	@CreatedAt
@@ -20,7 +21,6 @@ export default class ComputingEnvironmentHasEvent extends Model<ComputingEnviron
 	})
 	computingEnvironmentId: number
 
-	@ForeignKey(() => Event)
 	@Column({
 		type: DataTypes.BIGINT,
 		allowNull: false,

@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'cpuArchitecture'
+	tableName: 'cpu_architecture'
 })
 export default class CpuArchitecture extends Model<CpuArchitecture> {
 	@CreatedAt

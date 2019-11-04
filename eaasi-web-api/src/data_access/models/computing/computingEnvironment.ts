@@ -4,9 +4,9 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'computingEnvironment'
+	tableName: 'computing_environment'
 })
-export default class Bookmark extends Model<Bookmark> {
+export default class ComputingEnvironment extends Model<ComputingEnvironment> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'mediaType'
+	tableName: 'media_type'
 })
 export default class MediaType extends Model<MediaType> {
 	@CreatedAt

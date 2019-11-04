@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'eventType'
+	tableName: 'event_type'
 })
 export default class EventType extends Model<EventType> {
 	@CreatedAt

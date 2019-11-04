@@ -2,7 +2,7 @@ import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'colorDepth'
+	tableName: 'color_depth'
 })
 export default class ColorDepth extends Model<ColorDepth> {
 	@CreatedAt

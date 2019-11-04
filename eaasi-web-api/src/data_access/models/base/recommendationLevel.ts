@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'recommendationLevel'
+	tableName: 'recommendation_level'
 })
 export default class RecommendationLevel extends Model<RecommendationLevel> {
 	@CreatedAt

@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'frequencyUnit'
+	tableName: 'frequency_unit'
 })
 export default class FrequencyUnit extends Model<FrequencyUnit> {
 	@CreatedAt
