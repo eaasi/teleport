@@ -1,32 +1,57 @@
-'use strict';
+import RecommendationLevel from '@/data_access/models/base/recommendationLevel';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'machine_recommendation'
+})
+export default class MachineRecommendation extends Model<MachineRecommendation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class MachineRecommendation extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	MachineRecommendation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		machineRecommendation_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		machineRecommendation_emulatorProjectID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		machineRecommendation_recommendedMachineID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		machineRecommendation_recommendationLevel: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		machineRecommendation_description: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'machineRecommendation' });
-	return MachineRecommendation;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+		allowNull: false,
+	})
+	id: number
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => EmulatorProject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	emulatorProject: number
+
+	@ForeignKey(() => RecommendedMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	recommendedMachineID: number
+
+	@ForeignKey(() => RecommendationLevel)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	recommendationLevel: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	description : string
+}

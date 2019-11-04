@@ -1,30 +1,45 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'machine_interface'
+})
+export default class MachineInterface extends Model<MachineInterface> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class MachineInterface extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	MachineInterface.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		machineInterfaceQID: {
-			type: Sequelize.STRING(45),
-		},
-		machineInterfaceLabel: {
-			type: Sequelize.STRING,
-		},
-		machineInterfaceBandwidth: {
-			type: Sequelize.INTEGER,
-		},
-		machineInterfaceBandwidthUnit: {
-			type: Sequelize.STRING,
-		},
-	}, { sequelize, tableName: 'machineInterface' });
-	return MachineInterface;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+		allowNull: false,
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	label: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	bandwidth: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	bandwidthUnit: string
+}

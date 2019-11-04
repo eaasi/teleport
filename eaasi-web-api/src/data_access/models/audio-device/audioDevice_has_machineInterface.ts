@@ -1,34 +1,28 @@
-'use strict';
+import AudioDevice from '@/data_access/models/audio-device/AudioDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'audio_device_has_machine_interface'
+})
+export default class AudioDeviceHasMachineInterface extends Model<AudioDeviceHasMachineInterface> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class AudioDeviceHasMachineInterface extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	AudioDeviceHasMachineInterface.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		audioDevice_audioDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'audioDevice',
-				key: 'audioDeviceID'
-			}
-		},
-		audioDevice_machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	},
-	{
-		sequelize,
-		tableName: 'audioDevice_has_machineInterface'
-	});
+	@ForeignKey(() => AudioDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	audioDeviceID: number
 
-	AudioDeviceHasMachineInterface.associate = function(models){
-		models.AudioDeviceHasMachineInterface.hasOne(models.AudioDevice, {foreignKey: 'audioDeviceID'});
-	};
-
-	return AudioDeviceHasMachineInterface;
-};
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	machineInterfaceID: string
+}

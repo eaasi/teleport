@@ -1,9 +1,10 @@
 import AudioDevice from '@/data_access/models/audio-device/AudioDevice';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'audio_device'
+	tableName: 'audio_device_has_driver_software'
 })
 export default class AudioDeviceHasDriverSoftware extends Model<AudioDeviceHasDriverSoftware> {
 	@CreatedAt
