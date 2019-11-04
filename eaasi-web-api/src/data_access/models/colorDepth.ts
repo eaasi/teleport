@@ -1,33 +1,33 @@
-'use strict';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'colorDepth'
+})
+export default class ColorDepth extends Model<ColorDepth> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ColorDepth extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ColorDepth.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		colorDepthID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		colorDepthLabel: {
-			type: Sequelize.STRING(64),
-			allowNull: false
-		},
-		bitDepth: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	},
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
 
-	{
-		sequelize,
-		tableName: 'colorDepth'
-	});
+	@Column({
+		type: DataTypes.STRING(64),
+		allowNull: true,
+	})
+	label: string
 
-	return ColorDepth;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	bitDepth: string
+}

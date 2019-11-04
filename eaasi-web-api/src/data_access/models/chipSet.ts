@@ -1,33 +1,33 @@
-'use strict';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'chipset'
+})
+export default class ChipSet extends Model<ChipSet> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class Chipset extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	Chipset.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		chipsetID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		chipsetQID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		},
-		chipsetLabel: {
-			type: Sequelize.STRING(64),
-			allowNull: false
-		},
-	},
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
 
-	{
-		sequelize,
-		tableName: 'chipset'
-	});
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
 
-	return Chipset;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	label: string
+}

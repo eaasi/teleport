@@ -1,30 +1,29 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'computingEnvironment_has_event'
+})
+export default class ComputingEnvironmentHasEvent extends Model<ComputingEnvironmentHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ComputingEnvironmentHasEvent extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ComputingEnvironmentHasEvent.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		computingEnvironment_computingEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'computingEnvironment',
-				key: 'computingEnvironmentID'
-			}
-		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'computingEnvironment_has_event' });
+	@ForeignKey(() => ComputingEnvironment)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	computingEnvironmentId: number
 
-	ComputingEnvironmentHasEvent.associate = models =>{
-		models.ComputingEnvironmentHasEvent.hasOne(models.ComputingEnvironment, {foreignKey: 'computingEnvironmentID'});
-	};
-	return ComputingEnvironmentHasEvent;
-};
-
+	@ForeignKey(() => Event)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	eventId: number
+}

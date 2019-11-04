@@ -1,52 +1,48 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'computingEnvironment'
+})
+export default class Bookmark extends Model<Bookmark> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ComputingEnvironment extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ComputingEnvironment.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		computingEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		computingEnvironment_hasSourceOrg: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		computingEnvironment_inNetwork: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		},
-		computingEnvironment_configuredNetworkID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredNetwork',
-				key: 'configuredNetworkID'
-			}
-		},
-		computingEnvironment_softwareEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'softwareEnvironment',
-				key: 'softwareEnvironmentID'
-			}
-		}
-	},
-	{
-		sequelize, tableName: 'computingEnvironment'
-	});
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
 
-	ComputingEnvironment.associate = models => {
-		models.ComputingEnvironment.hasOne(models.SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
-		models.ComputingEnvironment.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
-	};
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	sourceOrg: number
 
-	return ComputingEnvironment;
-};
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	})
+	isInNetwork: boolean
+
+    @ForeignKey(() => ConfiguredNetwork)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	configuredNetworkId: number
+
+	@ForeignKey(() => SoftwareEnvironment)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+    softwareEnvironmentId: number
+}

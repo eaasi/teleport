@@ -14,7 +14,8 @@ export default class Bookmark extends Model<Bookmark> {
 	@Column({
 		type: DataTypes.BIGINT,
 		allowNull: false,
-		primaryKey: true
+		primaryKey: true,
+		autoIncrement: true
 	})
 	id: number
 
