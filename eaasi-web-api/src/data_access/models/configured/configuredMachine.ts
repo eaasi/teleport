@@ -1,5 +1,5 @@
 import ChipSet from '@/data_access/models/base/chipSet';
-import MachineType from '@/data_access/models/machine/machineType';
+import MachineType from '@/data_access/models/machine/MachineType';
 import ProcessorDevice from '@/data_access/models/processor/ProcessorDevice';
 import SoftwareVersion from '@/data_access/models/software/softwareVersion';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';

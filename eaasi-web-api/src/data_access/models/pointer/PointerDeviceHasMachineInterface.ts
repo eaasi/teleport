@@ -1,28 +1,29 @@
-'use strict';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import PointerDevice from '@/data_access/models/pointer/PointerDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'pointer_device_has_machine_interface'
+})
+export default class PointerDeviceHasMachineInterface extends Model<PointerDeviceHasMachineInterface> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class PointerDeviceHasMachineInterface extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	PointerDeviceHasMachineInterface.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		pointerDevice_pointerDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'pointerDevice',
-				key: 'pointerDeviceID'
-			}
-		},
-		pointerDevice_machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'pointerDevice_has_machineInterface' });
-	PointerDeviceHasMachineInterface.associate = models => {
-		models.PointerDeviceHasMachineInterface.hasOne(models.PointerDevice, {foreignKey: 'pointerDeviceID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return PointerDeviceHasMachineInterface;
-};
+	@ForeignKey(() => PointerDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	pointerDeviceID: number
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	machineInterfaceID: number
+}

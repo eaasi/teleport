@@ -1,6 +1,6 @@
 import AudioDevice from '@/data_access/models/audio-device/AudioDevice';
 import ConfiguredMachine from '@/data_access/models/configured/configuredMachine';
-import MachineInterface from '@/data_access/models/machine/machineInterface';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 

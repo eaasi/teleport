@@ -1,3 +1,4 @@
+import PointerDeviceType from '@/data_access/models/pointer/PointerDeviceType';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 

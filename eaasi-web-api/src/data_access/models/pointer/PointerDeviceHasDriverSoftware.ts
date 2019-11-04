@@ -1,32 +1,29 @@
-'use strict';
+import PointerDevice from '@/data_access/models/pointer/PointerDevice';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'pointer_device_has_driver_software'
+})
+export default class PointerDeviceHasDriverSoftware extends Model<PointerDeviceHasDriverSoftware> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class PointerDeviceHasDriverSoftware extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	PointerDeviceHasDriverSoftware.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		pointerDevice_pointerDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'pointerDevice',
-				key: 'pointerDeviceID'
-			}
-		},
-		pointerDevice_driverSoftwareID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		}
-	}, { sequelize, tableName: 'pointerDevice_has_driverSoftware' });
-	PointerDeviceHasDriverSoftware.associate = models => {
-		models.PointerDeviceHasDriverSoftware.hasOne(models.PointerDevice, {foreignKey: 'pointerDeviceID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return PointerDeviceHasDriverSoftware;
-};
+	@ForeignKey(() => PointerDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	pointerDeviceID: number
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	driverSoftwareID: number
+}
