@@ -1,99 +1,95 @@
-'use strict';
+import ChipSet from '@/data_access/models/base/chipSet';
+import MachineType from '@/data_access/models/machine/machineType';
+import ProcessorDevice from '@/data_access/models/processor/processorDevice';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_machine'
+})
+export default class ConfiguredMachine extends Model<ConfiguredMachine> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredMachine extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredMachine.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
 
-		configuredMachineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	name: string
 
-		configuredMachineName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	description: string
 
-		configuredMachineDescription: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
+	@Column({
+		type: DataTypes.DATE,
+		allowNull: true,
+	})
+	datetime: Date
 
-		configuredMachineDateTime: {
-			type: Sequelize.DATE,
-			allowNull: false
-		},
+    @ForeignKey(() => MachineType)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	machineTypeID: Date
 
-		configuredMachineType: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'machineType',
-				key: 'machineTypeID'
-			}
-		},
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+    RAM: number
 
-		configuredMachineRAM: {
-			type: Sequelize.INTEGER,
-		},
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	RAMUnit: string
 
-		configuredMachineRAMUnit: {
-			type: Sequelize.STRING,
-			references: {
-				model: 'frequencyUnit',
-				key: 'frequencyUnitLabel'
-			}
-		},
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	CpuCores: number
 
-		configuredMachineCpuCores: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
+    @ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	EmulatorSoftwareID: number
 
-		configuredMachine_emulatorSoftwareID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
+	@ForeignKey(() => ProcessorDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+    ProcessorDeviceID: number
 
-		configuredMachineProcessor: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'processorDevice',
-				key: 'processorDeviceID'
-			}
-		},
+	@ForeignKey(() => ChipSet)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	ChipsetID: number
 
-		configuredMachineChipset: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'chipset',
-				key: 'chipsetID'
-			}
-		},
-
-		configuredMachine_romFileID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		}
-	}, { sequelize, tableName: 'configuredMachine' });
-	ConfiguredMachine.associate = models  => {
-		models.ConfiguredMachine.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.ConfiguredMachine.hasOne(models.CpuArchitecture, {foreignKey: 'cpuArchitectureQID'});
-		models.ConfiguredMachine.hasOne(models.MachineType, {foreignKey: 'machineTypeID'});
-	};
-
-	return ConfiguredMachine;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	ROMFileID: number
+}

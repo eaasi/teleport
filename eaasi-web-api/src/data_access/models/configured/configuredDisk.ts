@@ -1,63 +1,74 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/configuredMachine';
+import File from '@/data_access/models/file/file';
+import MachineInterface from '@/data_access/models/machine/machineInterface';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_disk'
+})
+export default class ConfiguredDisk extends Model<ConfiguredDisk> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredDisk extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = sequelize => {
+	@ForeignKey(() => File)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	diskImageFileID: number
 
-	ConfiguredDisk.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredDisk_diskImageFileID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-		},
-		configuredDisk_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		configuredDisk_storageDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'storageDevice',
-				key: 'storageDeviceID'
-			}
-		},
-		configuredDisk_uses_machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'machineInterface',
-				key: 'machineInterfaceID'
-			}
-		},
-		configuredDisk_diskVolume: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredDisk_remainingVolume: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredDisk_volumeUnit: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		configuredDisk_bootOrder: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredDisk_irq: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'configuredDisk' });
-	return ConfiguredDisk;
-};
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	configuredMachineID: number
+
+	@ForeignKey(() => StorageDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	storageDeviceID: number
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	uses_machineInterfaceID: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	diskVolume: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	remainingVolume: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	volumeUnit: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	bootOrder: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	irq: number
+}

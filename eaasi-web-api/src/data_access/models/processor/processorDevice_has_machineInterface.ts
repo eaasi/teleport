@@ -1,20 +1,29 @@
-'use strict';
+import MachineInterface from '@/data_access/models/machine/machineInterface';
+import ProcessorDevice from '@/data_access/models/processor/processorDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'processor_device_has_machine_interface'
+})
+export default class ProcessorDeviceHasMachineInterface extends Model<ProcessorDeviceHasMachineInterface> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ProcessorDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ProcessorDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		processorDevice_processorDeviceID: {
-			type: Sequelize.STRING(45),
-			allowNull: false,
-		},
-		processorDevice_machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-		}
-	}, { sequelize, tableName: 'processorDevice_has_machineInterfaceID' });
-	return ProcessorDevice;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => ProcessorDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	processorDeviceID
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	machineInterfaceID
+}

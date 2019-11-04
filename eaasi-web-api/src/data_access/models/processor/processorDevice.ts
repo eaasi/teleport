@@ -1,37 +1,51 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'processor_device'
+})
+export default class ProcessorDevice extends Model<ProcessorDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ProcessorDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ProcessorDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		processorDeviceID: {
-			type: Sequelize.STRING(45),
-			allowNull: false,
-			primaryKey: true,
-		},
-		processorDeviceQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		processorDeviceName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		processorDeviceFrequency: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		processorDeviceFrequencyUnit: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		processorDeviceCpuArchitecture: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'processorDevice' });
-	return ProcessorDevice;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	frequency: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	frequencyUnit: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	cpuArchitecture: string
+}
