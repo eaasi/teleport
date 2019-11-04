@@ -1,36 +1,40 @@
-'use strict';
+import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_object_has_alternate_id'
+})
+export default class SoftwareObjectHasAlternateID extends Model<SoftwareObjectHasAlternateID> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareObjectHasAlternateID extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareObjectHasAlternateID.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareObject_softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareObject',
-				key: 'softwareObjectID'
-			}
-		},
-		softwareObject_alternateID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareObject_alternateIDSource: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareObject_localID: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'softwareObjectHasAlternateID' });
-	SoftwareObjectHasAlternateID.associate = models => {
-		models.SoftwareObjectHasAlternateID.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareObjectHasAlternateID;
-};
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareObjectID: number;
+
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareObjectAlternateID: number;
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	softwareObjectAlternateIDSource: number;
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	})
+	isLocalID: boolean;
+}

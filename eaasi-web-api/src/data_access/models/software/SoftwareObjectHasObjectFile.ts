@@ -1,45 +1,47 @@
-'use strict';
+import File from '@/data_access/models/file/file';
+import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_object_has_object_file'
+})
+export default class SoftwareObjectHasObjectFile extends Model<SoftwareObjectHasObjectFile> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareObjectHasObjectFile extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareObjectHasObjectFile.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareObject_softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareObject',
-				key: 'softwareObjectID'
-			}
-		},
-		softwareObjectFileID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'file',
-				key: 'fileID'
-			}
-		},
-		softwareObjectFileLabel: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareObjectFile_mediaTypeName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareObjectFile_order: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'softwareObject_has_objectFile' });
-	SoftwareObjectHasObjectFile.associate = models => {
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-		models.SoftwareObjectHasObjectFile.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
-		models.SoftwareObjectHasObjectFile.hasOne(models.File, {foreignKey: 'fileID'});
-	};
-	return SoftwareObjectHasObjectFile;
-};
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareObjectID: number;
+
+	@ForeignKey(() => File)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	fileID: number;
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	softwareObjectFileLabel: string;
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	softwareObjectFileMediaTypeName: string;
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareObjectFileOrder: number;
+}

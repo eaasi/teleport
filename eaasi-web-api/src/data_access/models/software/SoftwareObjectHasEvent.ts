@@ -1,27 +1,27 @@
-'use strict';
+import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_object_has_event'
+})
+export default class SoftwareObjectHasEvent extends Model<SoftwareObjectHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareObjectHasEvent extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareObjectHasEvent.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareObject_softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareObject',
-				key: 'softwareObjectID'
-			}
-		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'pointerDevice' });
-	SoftwareObjectHasEvent.associate = models => {
-		models.SoftwareObjectHasEvent.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
-	};
-	return SoftwareObjectHasEvent;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareObjectID: number;
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	eventID: number;
+}
