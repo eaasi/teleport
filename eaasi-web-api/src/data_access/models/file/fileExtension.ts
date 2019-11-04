@@ -1,22 +1,27 @@
-'use strict';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'fileExtension'
+})
+export default class FileExtension extends Model<FileExtension> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FileExtension extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	FileExtension.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		fileExtensionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		fileExtensionLabel: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'fileExtension' });
-	return FileExtension;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	label: string
+}

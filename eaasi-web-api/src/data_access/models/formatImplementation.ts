@@ -1,3 +1,4 @@
+import FileExtension from '@/data_access/models/file/fileExtension';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
