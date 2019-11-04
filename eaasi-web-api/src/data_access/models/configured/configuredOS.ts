@@ -1,7 +1,7 @@
-import ColorDepth from '@/data_access/models/colorDepth';
+import ColorDepth from '@/data_access/models/base/colorDepth';
 import DisplayResolution from '@/data_access/models/display/displayResolution';
 import OsVersion from '@/data_access/models/os/osVersion';
-import Region from '@/data_access/models/region';
+import Region from '@/data_access/models/geo/region';
 import SoftwareObject from '@/data_access/models/software/softwareObject';
 import Timezone from '@/data_access/models/timezone/timezone';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';

@@ -5,6 +5,7 @@ import { join } from 'path';
 import { Sequelize } from 'sequelize-typescript';
 
 const isDirectory = source => lstatSync(source).isDirectory();
+
 const allSubdirectories = source =>
 	readdirSync(source)
 		.map(name => join(source, name))
@@ -15,5 +16,5 @@ export const sequelize = new Sequelize({
 	username: config.username,
 	password: config.password,
 	dialect: config.dialect,
-	models: [__dirname, allSubdirectories(__dirname)]
+	models: [allSubdirectories(__dirname)]
 });
