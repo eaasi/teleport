@@ -1,32 +1,39 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_product'
+})
+export default class SoftwareProduct extends Model<SoftwareProduct> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareProduct extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareProduct.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareProductID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		softwareProductQID: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		softwareProductName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		isOperatingSystem: {
-			type: Sequelize.BOOLEAN,
-			allowNull: false,
-			defaultValue: false
-		}
-	}, { sequelize, tableName: 'softwareProduct' });
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareProduct;
-};
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	})
+	isOperatingSystem: boolean
+}

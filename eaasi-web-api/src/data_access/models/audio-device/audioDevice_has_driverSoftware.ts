@@ -1,4 +1,5 @@
-import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import AudioDevice from '@/data_access/models/audio-device/AudioDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
@@ -11,29 +12,17 @@ export default class AudioDeviceHasDriverSoftware extends Model<AudioDeviceHasDr
 	@UpdatedAt
 	readonly updatedAt: Date = new Date();
 
+	@ForeignKey(() => AudioDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
-		references: {
-			model: 'AudioDevice',
-			key: 'id'
-		}
 	})
 	audioDeviceId: number
 
+	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
-		references: {
-			model: 'SoftwareVersion',
-			key: 'id'
-		}
 	})
 	driverSoftwareId: string
 }
-
-AudioDeviceHasDriverSoftware.associate = models => {
-	models.AudioDeviceHasDriverSoftware.hasOne(models.AudioDevice, {foreignKey: 'audioDeviceID'});
-	models.AudioDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-};
-

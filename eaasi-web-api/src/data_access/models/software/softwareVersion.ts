@@ -1,52 +1,59 @@
-'use strict';
+import SoftwareProduct from '@/data_access/models/software/softwareProduct';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-import {SystemRequirements} from './systemRequirements';
-import {SoftwareProduct} from './softwareProduct';
+@Table({
+	tableName: 'software_version'
+})
+export default class SoftwareVersion extends Model<SoftwareVersion> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-const Sequelize = require('sequelize');
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-class SoftwareVersion extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersion.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-		},
-		softwareVersionQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareVersionName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		softwareVersionHelpText: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		softwareVersionNumber: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		softwareVersionPublicationDate: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		isVersionOf_softwareProduct: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareProduct',
-				key: 'softwareProductID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareVersion' });
-	SoftwareVersion.associate = models => {
-		models.SoftwareVersion.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SoftwareVersion.belongsTo(models.SoftwareProduct, {foreignKey: 'softwareProductID'});
-	};
-	return SoftwareVersion;
-};
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.TEXT,
+		allowNull: true,
+	})
+	helpText: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	versionNumber: string
+
+	@Column({
+		type: DataTypes.DATE,
+		allowNull: true,
+	})
+	publicationDate: Date
+
+	@ForeignKey(() => SoftwareProduct)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: true,
+	})
+	is_version_of_softwareProduct: Date
+}
