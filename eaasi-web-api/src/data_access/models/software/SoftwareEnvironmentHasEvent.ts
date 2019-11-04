@@ -1,27 +1,27 @@
-'use strict';
+import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_environment_has_event'
+})
+export default class SoftwareEnvironmentHasEvent extends Model<SoftwareEnvironmentHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareEnvironmentHasEvent extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareEnvironmentHasEvent.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareEnvironment_softwareEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'softwareEnvironment',
-				key: 'softwareEnvironmentID'
-			}
-		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'softwareEnvironment_has_event' });
-	SoftwareEnvironmentHasEvent.associate = models => {
-		models.SoftwareEnvironmentHasEvent.hasOne(models.SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
-	};
-	return SoftwareEnvironmentHasEvent;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareEnvironment)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareEnvironmentID: number;
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	eventID: number;
+}

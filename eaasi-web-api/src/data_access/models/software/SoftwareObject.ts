@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'softwareObject'
+	tableName: 'software_object'
 })
 export default class SoftwareObject extends Model<SoftwareObject> {
 	@CreatedAt
@@ -17,29 +17,29 @@ export default class SoftwareObject extends Model<SoftwareObject> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: true,
 	})
-	inNetwork: boolean
+	inNetwork: boolean;
 
 	@Column({
 		type: DataTypes.BIGINT,
 		allowNull: true,
 	})
-	hasSourceOrg: number
+	hasSourceOrg: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	productKey: string
+	productKey: string;
 
 	@Column({
 		type: DataTypes.TEXT,
 		allowNull: true,
 	})
-	helpText: string
+	helpText: string;
 }

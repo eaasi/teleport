@@ -1,34 +1,28 @@
-'use strict';
+import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_environment_has_event'
+})
+export default class SoftwareEnvironmentHasPartConfiguredSoftware extends Model<SoftwareEnvironmentHasPartConfiguredSoftware> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareEnvironmentHasPartConfiguredSoftware extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareEnvironmentHasPartConfiguredSoftware.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareEnvironment_softwareEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'softwareEnvironment',
-				key: 'softwareEnvironmentID'
-			}
-		},
-		hasConfiguredSoftware: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'configuredSoftware',
-				key: 'configuredSoftwareVersionID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareEnvironment_hasPart_configuredSoftware' });
-	SoftwareEnvironmentHasPartConfiguredSoftware.associate = models => {
-		models.SoftwareEnvironmentHasPartConfiguredSoftware.hasOne(
-			models.SoftwareEnvironment, {foreignKey: 'softwareEnvironmentID'});
-		models.SoftwareEnvironmentHasPartConfiguredSoftware.hasOne(
-			models.ConfiguredSoftware, {foreignKey: 'configuredSoftwareID'});
-	};
-	return SoftwareEnvironmentHasPartConfiguredSoftware;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareEnvironment)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareEnvironmentID: number;
+
+	@ForeignKey(() => SoftwareEnvironment)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredSoftwareID: number;
+}

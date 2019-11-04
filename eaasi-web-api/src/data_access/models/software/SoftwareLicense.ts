@@ -1,25 +1,33 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_license'
+})
+export default class SoftwareLicense extends Model<SoftwareLicense> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareLicense extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareLicense.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareLicenseID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-		},
-		softwareLicenseQID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		},
-		softwareLicenseLabel: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'softwareLicense' });
-	return SoftwareLicense;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number;
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	qid: string;
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	label: string;
+}

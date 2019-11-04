@@ -1,34 +1,28 @@
-'use strict';
+import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_family_version_has_software_product'
+})
+export default class SoftwareFamilyVersionHasSoftwareProduct extends Model<SoftwareFamilyVersionHasSoftwareProduct> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareFamilyVersionHasSoftwareProduct extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareFamilyVersionHasSoftwareProduct.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareFamilyID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareProduct',
-				key: 'softwareProductID'
-			}
-		},
-		hasPart_softwareProductID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareProduct',
-				key: 'softwareProductID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareFamilyVersion_has_softwareProduct' });
-	SoftwareFamilyVersionHasSoftwareProduct.associate = models => {
-		models.SoftwareFamilyVersionHasSoftwareProduct.hasOne(
-			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'softwareFamilyProduct'});
-		models.SoftwareFamilyVersionHasSoftwareProduct.hasOne(
-			models.SoftwareProduct, {foreignKey: 'softwareProductID', as: 'hasSoftwareProduct'});
-	};
-	return SoftwareFamilyVersionHasSoftwareProduct;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareProduct)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareFamilyID: number;
+
+	@ForeignKey(() => SoftwareProduct)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	hasPart_softwareProductID: number;
+}

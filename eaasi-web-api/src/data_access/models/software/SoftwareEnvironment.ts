@@ -18,37 +18,37 @@ export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	name: string
+	name: string;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	description: string
+	description: string;
 
 	@Column({
 		type: DataTypes.TEXT,
 		allowNull: false,
 	})
-	helpText: string
+	helpText: string;
 
 	@ForeignKey(() => SoftwareEnvironment)
 	@Column({
 		type: DataTypes.BIGINT,
 		allowNull: true,
 	})
-	derivedFrom_SoftwareEnvironment: number
+	derivedFrom_SoftwareEnvironment: number;
 
 	@ForeignKey(() => ConfiguredOS)
 	@Column({
 		type: DataTypes.BIGINT,
 		allowNull: true,
 	})
-	hasPart_configuredOS: number
+	hasPart_configuredOS: number;
 }

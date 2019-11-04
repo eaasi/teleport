@@ -17,41 +17,41 @@ export default class SoftwareEnvironmentHasDiskImage extends Model<SoftwareEnvir
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareEnvironmentID
+	softwareEnvironmentID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	diskImageID
+	diskImageID: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	mountPoint
+	mountPoint: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	fileSystemID: number
+	fileSystemID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	storageCapacityBytes: number
+	storageCapacityBytes: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	storageUsedBytes: number
+	storageUsedBytes: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	storageRemainingBytes: number
+	storageRemainingBytes: number;
 }
