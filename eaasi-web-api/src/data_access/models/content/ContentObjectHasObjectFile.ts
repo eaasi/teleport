@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
 			type: Sequelize.STRING,
 			allowNull: false,
 			references: {
-				model: 'file',
+				model: 'File.ts',
 				key: 'fileID'
 			}
 		},

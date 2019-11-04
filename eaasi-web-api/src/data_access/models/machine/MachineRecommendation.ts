@@ -1,4 +1,4 @@
-import RecommendationLevel from '@/data_access/models/base/recommendationLevel';
+import RecommendationLevel from '@/data_access/models/base/RecommendationLevel';
 import SoftwareVersion from '@/data_access/models/software/softwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';

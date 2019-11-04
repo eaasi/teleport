@@ -19,7 +19,7 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'file',
+					model: 'File.ts',
 					key: 'fileID'
 				}
 			},

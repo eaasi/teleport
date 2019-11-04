@@ -1,9 +1,9 @@
-import FileFormat from '@/data_access/models/file/fileFormat';
+import FileFormat from '@/data_access/models/file/FileFormat';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'file'
+	tableName: 'File.ts'
 })
 export default class File extends Model<File> {
 	@CreatedAt

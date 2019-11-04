@@ -1,9 +1,9 @@
-import ColorDepth from '@/data_access/models/base/colorDepth';
-import DisplayResolution from '@/data_access/models/display/displayResolution';
-import OsVersion from '@/data_access/models/os/osVersion';
-import Region from '@/data_access/models/geo/region';
+import ColorDepth from '@/data_access/models/base/ColorDepth';
+import DisplayResolution from '@/data_access/models/display/DisplayResolution';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import Region from '@/data_access/models/geo/Region';
 import SoftwareObject from '@/data_access/models/software/SoftwareObject';
-import Timezone from '@/data_access/models/timezone/timezone';
+import Timezone from '@/data_access/models/timezone/Timezone';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 

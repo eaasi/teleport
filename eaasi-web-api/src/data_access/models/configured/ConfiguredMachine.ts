@@ -1,4 +1,4 @@
-import ChipSet from '@/data_access/models/base/chipSet';
+import ChipSet from '@/data_access/models/base/ChipSet';
 import MachineType from '@/data_access/models/machine/MachineType';
 import ProcessorDevice from '@/data_access/models/processor/ProcessorDevice';
 import SoftwareVersion from '@/data_access/models/software/softwareVersion';

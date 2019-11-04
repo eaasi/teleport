@@ -1,11 +1,10 @@
-import FileExtension from '@/data_access/models/file/fileExtension';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'formatImplementation'
+	tableName: 'Country.ts'
 })
-export default class FormatImplementation extends Model<FormatImplementation> {
+export default class Country extends Model<Country> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -13,23 +12,21 @@ export default class FormatImplementation extends Model<FormatImplementation> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.INTEGER,
+		type: DataTypes.STRING,
 		primaryKey: true,
 		allowNull: false,
-		autoIncrement: true
 	})
-	id: number
+	qid: string
 
-	@Column({
-		type: DataTypes.STRING,
-		allowNull: false
-	})
-	name: string
-
-	@ForeignKey(() => FileExtension)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	extension: string
+	label: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	iso31661_numeric_code: string
 }

@@ -1,4 +1,4 @@
-import ConfiguredOS from '@/data_access/models/configured/configuredOS';
+import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
