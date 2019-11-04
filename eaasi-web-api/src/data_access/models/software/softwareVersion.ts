@@ -1,4 +1,4 @@
-import SoftwareProduct from '@/data_access/models/software/softwareProduct';
+import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 

@@ -3,7 +3,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'softwareEnvironment'
+	tableName: 'software_environment'
 })
 export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 	@CreatedAt

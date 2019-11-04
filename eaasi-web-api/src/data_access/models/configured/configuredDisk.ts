@@ -1,6 +1,7 @@
 import ConfiguredMachine from '@/data_access/models/configured/configuredMachine';
 import File from '@/data_access/models/file/file';
 import MachineInterface from '@/data_access/models/machine/machineInterface';
+import StorageDevice from '@/data_access/models/storage/StorageDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
