@@ -1,32 +1,29 @@
-'use strict';
+import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_object_is_manifestation_of_software_version'
+})
+export default class SoftwareObjectIsManifestationOfSoftwareVersion extends Model<SoftwareObjectIsManifestationOfSoftwareVersion> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareObjectIsManifestationOfSoftwareVersion extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareObjectIsManifestationOfSoftwareVersion.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareObject_softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareObject',
-				key: 'softwareObjectID'
-			}
-		},
-		softwareObject_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareObject_isManifestationOf_softwareVersion' });
-	SoftwareObjectIsManifestationOfSoftwareVersion.associate = models => {
-		models.SoftwareObjectIsManifestationOfSoftwareVersion.hasOne( models.SoftwareObject, {foreignKey: 'softwareObjectID'});
-		models.SoftwareObjectIsManifestationOfSoftwareVersion.hasOne( models.SoftwareVersion, {foreignKey: 'softwareVersion'});
-	};
-	return SoftwareObjectIsManifestationOfSoftwareVersion;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareObjectID: number;
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareVersionID: number;
+}
