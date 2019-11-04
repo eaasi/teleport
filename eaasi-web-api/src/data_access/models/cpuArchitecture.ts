@@ -1,25 +1,26 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'cpuArchitecture'
+})
+export default class CpuArchitecture extends Model<CpuArchitecture> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class CpuArchitecture extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	CpuArchitecture.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		cpuArchitectureID: {
-			type: Sequelize.INTEGER,
-			primaryKey: true
-		},
-		cpuArchitectureQID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		},
-		cpuArchitectureLabel: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'configuredNetwork' });
-	return CpuArchitecture;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
+	@Column({
+		type: DataTypes.STRING,
+		primaryKey: true,
+		allowNull: false,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	label: string
+}

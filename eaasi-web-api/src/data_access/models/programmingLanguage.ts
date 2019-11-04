@@ -1,26 +1,33 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'programmingLanguage'
+})
+export default class ProgrammingLanguage extends Model<ProgrammingLanguage> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ProgrammingLanguage extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ProgrammingLanguage.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		programmingLanguageID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true
-		},
-		programmingLanguageQID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		},
-		programmingLanguageLabel: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'programmingLanguage' });
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return ProgrammingLanguage;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	label: string
+}

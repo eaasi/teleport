@@ -1,40 +1,45 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'userInformation'
+})
+export default class UserInformation extends Model<UserInformation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class UserInformation extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	UserInformation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		userInformationID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		username: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		password: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		organization: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		admin: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'userInformation' });
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true,
+	})
+	id: string
 
-	UserInformation.associate = models => {
-		models.UserInformation.hasMany(models.ConfiguredSoftwareHasUserInformation);
-	};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	username: string
 
-	return UserInformation;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	password: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	organization: string
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	})
+	admin: boolean
+}

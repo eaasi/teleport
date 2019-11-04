@@ -1,19 +1,27 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'recommendationLevel'
+})
+export default class RecommendationLevel extends Model<RecommendationLevel> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class RecommendationLevel extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	RecommendationLevel.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		recommendationLevelLabel: {
-			type: Sequelize.STRING,
-			primaryKey: true,
-			allowNull: false
-		},
-	}, { sequelize, tableName: 'readWriteStatus' });
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return RecommendationLevel;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
 
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	label: string
+}

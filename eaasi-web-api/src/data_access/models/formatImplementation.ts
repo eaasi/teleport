@@ -1,34 +1,34 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'formatImplementation'
+})
+export default class FormatImplementation extends Model<FormatImplementation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FormatImplementation extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	FormatImplementation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		formatImplementationID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		formatImplementationName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		implementationExtension: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'fileExtension',
-				key: 'fileExtensionID'
-			}
-		}
-	}, { sequelize, tableName: 'formatImplementation' });
-	FormatImplementation.associate = models => {
-		models.FormatImplementation.hasOne(models.FileExtension, {foreignKey: 'fileExtensionID'});
-	};
-	return FormatImplementation;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		allowNull: false,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	name: string
+
+	@ForeignKey(() => FileExtension)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	extension: string
+}

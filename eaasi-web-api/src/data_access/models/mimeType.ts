@@ -1,16 +1,25 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'mimeType'
+})
+export default class MimeType extends Model<MimeType> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class MimeType extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	MimeType.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		mimeTypeLabel: {
-			type: Sequelize.STRING,
-			primaryKey: true
-		},
-	}, { sequelize, tableName: 'mimeType' });
-	return MimeType;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	label: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	qid: string
+}

@@ -1,22 +1,27 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'formatOperation'
+})
+export default class FormatOperation extends Model<FormatOperation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FormatOperation extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	FormatOperation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		operationID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		operationName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'formatOperation' });
-	return FormatOperation;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+		allowNull: false
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	name: string
+}

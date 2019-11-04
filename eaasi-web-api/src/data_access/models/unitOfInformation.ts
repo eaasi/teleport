@@ -1,31 +1,32 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'unitOfInformation'
+})
+export default class UnitOfInformation extends Model<UnitOfInformation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class UnitOfInformation extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	UnitOfInformation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		unitLabel: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-		},
-		unitAbbreviation: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		},
-		unitQID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		},
-	},
-	{
-		sequelize,
-		tableName: 'unitOfInformation'
-	});
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+		primaryKey: true,
+	})
+	label: string
 
-	return UnitOfInformation;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	abbreviation: string
+}

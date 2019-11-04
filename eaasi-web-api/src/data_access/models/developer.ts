@@ -1,24 +1,26 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'developer'
+})
+export default class Developer extends Model<Developer> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class Developer extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	Developer.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		developerID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true
-		},
-		developerQID: {
-			type: Sequelize.STRING,
-		},
-		developerLabel: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'developer' });
-	return Developer;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.STRING,
+		primaryKey: true,
+		allowNull: false,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	label: string
+}

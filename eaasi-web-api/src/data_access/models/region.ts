@@ -1,26 +1,32 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'region'
+})
+export default class Region extends Model<Region> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class Region extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	Region.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		regionQID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true
-		},
-		regionName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		iso31661_numericCode: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'region' });
-	return Region;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+		primaryKey: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	iso31661_numeric_code: number
+}

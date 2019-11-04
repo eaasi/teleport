@@ -1,23 +1,27 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'eventType'
+})
+export default class EventType extends Model<EventType> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class EventType extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	EventType.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		eventTypeLabel: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true
-		},
-	},
-	{
-		sequelize,
-		tableName: 'eventType'
-	});
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		allowNull: false,
+		autoIncrement: true
+	})
+	id: number
 
-	return EventType;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	label: string
+}

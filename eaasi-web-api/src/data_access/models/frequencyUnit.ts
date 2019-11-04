@@ -1,22 +1,25 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'frequencyUnit'
+})
+export default class FrequencyUnit extends Model<FrequencyUnit> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FrequencyUnit extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	FrequencyUnit.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		frequencyUnitLabel: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true
-		},
-		frequencyUnitQID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		},
-	}, { sequelize, tableName: 'frequencyUnit' });
-	return FrequencyUnit;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	label: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	qid: string
+}
