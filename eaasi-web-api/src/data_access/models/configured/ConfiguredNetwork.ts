@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'configuredNetwork'
+	tableName: 'configured_network'
 })
 export default class ConfiguredNetwork extends Model<ConfiguredNetwork> {
 	@CreatedAt

@@ -1,30 +1,35 @@
-'use strict';
+import FileSystem from '@/data_access/models/file/FileSystem';
+import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_disk_has_partition'
+})
+export default class ConfiguredDiskHasPartition extends Model<ConfiguredDiskHasPartition> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredDiskHasPartition extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = sequelize => {
+	@ForeignKey(() => SoftwareEnvironment)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareEnvironmentID: number
 
-	ConfiguredDiskHasPartition.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredDiskPartition_diskImageFileID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		configuredDiskPartition_softwareEnvironmentID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		configuredDiskPartition_fileSystemID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredDiskPartition_startupDisk: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'configuredDisk_has_partition' });
-	return ConfiguredDiskHasPartition;
-};
+	@ForeignKey(() => FileSystem)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	fileSystemID: number
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true
+	})
+	isStartupDisk: boolean
+}

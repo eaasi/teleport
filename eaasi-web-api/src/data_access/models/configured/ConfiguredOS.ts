@@ -8,7 +8,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'configuredOs'
+	tableName: 'configured_os'
 })
 export default class ConfiguredOS extends Model<ConfiguredOS> {
 	@CreatedAt
@@ -44,14 +44,14 @@ export default class ConfiguredOS extends Model<ConfiguredOS> {
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	configuredRegionQid: string
+	regionQid: string
 
 	@ForeignKey(() => Timezone)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	configuredTimezoneQid: string
+	timezoneQid: string
 
 	@Column({
 		type: DataTypes.DATE,

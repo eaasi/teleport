@@ -1,40 +1,38 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import KeyboardDevice from '@/data_access/models/keyboard/KeyboardDevice';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_keyboard_device'
+})
+export default class ConfiguredKeyboardDevice extends Model<ConfiguredKeyboardDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredKeyboardDevice extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	configuredMachineID: number
 
-	ConfiguredKeyboardDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredMachine_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		configuredKeyboardDevice_keyboardDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'keyboardDevice',
-				key: 'keyboardDeviceID'
-			}
-		},
-		configuredKeyboardDevice_usesMachineInterface: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredGpuDeviceHasDisplayDevice' });
+	@ForeignKey(() => KeyboardDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	keyboardDeviceID: number
 
-	ConfiguredKeyboardDevice.associate = models => {
-		models.ConfiguredKeyboardDevice.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-		models.ConfiguredKeyboardDevice.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-	};
-	return ConfiguredKeyboardDevice;
-};
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	uses_machineInterfaceID: number
+}
 

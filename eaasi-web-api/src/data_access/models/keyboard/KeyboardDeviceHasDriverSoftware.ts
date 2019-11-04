@@ -1,35 +1,30 @@
-'use strict';
+import KeyboardDevice from '@/data_access/models/keyboard/KeyboardDevice';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'keyboard_device_has_driver_software'
+})
+export default class KeyboardDeviceHasDriverSoftware extends Model<KeyboardDeviceHasDriverSoftware> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class KeyboardDeviceHasDriverSoftware extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	KeyboardDeviceHasDriverSoftware.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		keyboardDevice_keyboardDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'keyboardDevice',
-				key: 'keyboardDeviceID'
-			}
-		},
-		keyboardDevice_driverSoftware: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		}
-	}, { sequelize, tableName: 'ipuDevice_has_equivalent' });
+	@ForeignKey(() => KeyboardDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	keyboardDeviceID: number
 
-	KeyboardDeviceHasDriverSoftware.associate = models => {
-		models.KeyboardDeviceHasDriverSoftware.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-		models.KeyboardDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	driverSoftwareID: number
+}
 
-	return KeyboardDeviceHasDriverSoftware;
-};

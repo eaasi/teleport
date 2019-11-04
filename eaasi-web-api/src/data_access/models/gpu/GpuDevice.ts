@@ -1,26 +1,33 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'gpu_device'
+})
+export default class GpuDevice extends Model<GpuDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class GpuDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	GpuDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		gpuDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		gpuDeviceQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		gpuDeviceName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'gpuDevice' });
-	return GpuDevice;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.NUMBER,
+		primaryKey: true,
+		autoIncrement: true,
+		allowNull: false,
+	})
+	id: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	name: string
+}

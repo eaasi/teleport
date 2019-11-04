@@ -1,42 +1,43 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import NetworkDevice from '@/data_access/models/network/NetworkDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_network_device'
+})
+export default class ConfiguredNetworkDevice extends Model<ConfiguredNetworkDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredNetworkDevice extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredNetworkDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredMachine_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		configuredNetworkDevice_networkDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'networkDevice',
-				key: 'networkDeviceID'
-			}
-		},
-		configuredNetworkDevice_macAddress: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredNetworkDevice_usesMachineInterface: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredNetworkDevice' });
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	macAddress: number
 
-	ConfiguredNetworkDevice.associate = models => {
-		models.ConfiguredNetworkDevice.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-		models.ConfiguredNetworkDevice.hasOne(models.NetworkDevice, {foreignKey: 'networkDeviceID'});
-	};
-	return ConfiguredNetworkDevice;
-};
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredMachineID: number
+
+	@ForeignKey(() => NetworkDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	networkDeviceID: number
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	uses_machineInterfaceID: number
+}

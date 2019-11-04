@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'Country.ts'
+	tableName: 'country'
 })
 export default class Country extends Model<Country> {
 	@CreatedAt

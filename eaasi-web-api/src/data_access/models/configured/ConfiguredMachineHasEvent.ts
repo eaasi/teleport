@@ -1,27 +1,27 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_machine_has_event'
+})
+export default class ConfiguredMachineHasEvent extends Model<ConfiguredMachineHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredMachineHasEvent extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ConfiguredMachineHasEvent.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredMachine_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'computingEnvironment' });
-	ConfiguredMachineHasEvent.associate = models => {
-		models.ConfiguredMachineHasEvent.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-	};
-	return ConfiguredMachineHasEvent;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredMachineID: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	eventID: string
+}

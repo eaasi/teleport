@@ -1,63 +1,69 @@
-'use strict';
+import Language from '@/data_access/models/base/Language';
+import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_software'
+})
+export default class ConfiguredSoftware extends Model<ConfiguredSoftware> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredSoftware extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ConfiguredSoftware.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredSoftwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		executableLocation: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		executableSyntax: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		saveLocation: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		configuredLanguage: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		hasSource_softwareObjectID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareObject',
-				key: 'softwareObjectID'
-			}
-		},
-		hasSource_contentObjectLocalID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'contentObject',
-				key: 'contentObjectLocalID'
-			}
-		},
-		manifestationOf_softwareVersion: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredSoftware' });
-	ConfiguredSoftware.associate = models => {
-		models.ConfiguredSoftware.hasOne(models.ContentObject, {foreignKey: 'contentObjectLocalID'});
-		models.ConfiguredSoftware.hasOne(models.SoftwareObject, {foreignKey: 'softwareObjectID'});
-		models.ConfiguredSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return ConfiguredSoftware;
-};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	executableLocation: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	executableSyntax: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	saveLocation: string
+
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	configuredLanguageQid: string
+
+	@ForeignKey(() => SoftwareObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	has_source_softwareObjectID: number
+
+	@ForeignKey(() => ContentObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	has_source_contentObjectLocalID: number
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	manifestation_of_softwareVersion: number
+}

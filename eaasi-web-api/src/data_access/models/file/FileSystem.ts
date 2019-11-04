@@ -1,27 +1,33 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'file_system'
+})
+export default class FileSystem extends Model<FileSystem> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FileSystem extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	FileSystem.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		fileSystemID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true
-		},
-		fileSystemQID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			primaryKey: true
-		},
-		fileSystemLabel: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'fileSystem' });
-	return FileSystem;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	label: string
+}

@@ -12,14 +12,15 @@ export default class Language extends Model<Language> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
+		primaryKey: true,
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	label: string
+	qid: string
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	qid: string
+	label: string
 }

@@ -1,26 +1,33 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'display_device'
+})
+export default class DisplayDevice extends Model<DisplayDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class DisplayDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	DisplayDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		displayDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		displayDeviceQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		displayDeviceName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'displayDevice' });
-	return DisplayDevice;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+		allowNull: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	name: string
+}

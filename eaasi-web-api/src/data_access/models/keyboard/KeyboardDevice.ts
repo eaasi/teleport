@@ -1,47 +1,50 @@
-'use strict';
+import Language from '@/data_access/models/base/Language';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'keyboard_device'
+})
+export default class KeyboardDevice extends Model<KeyboardDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class KeyboardDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	KeyboardDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		keyboardDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		keyboardDeviceQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		keyboardDeviceName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		keyboardDevice_keyboardLayout: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'keyboardLayout',
-				key: 'keyboardLayoutID'
-			}
-		},
-		keyboardDevice_keyboardLanguage: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'language',
-				key: 'languageQID'
-			}
-		}
-	}, { sequelize, tableName: 'keyboardDevice' });
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	KeyboardDevice.associate = models => {
-		models.KeyboardDevice.hasOne(models.KeyboardLayout, {foreignKey: 'keyboardLayoutID'});
-	};
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
 
-	return KeyboardDevice;
-};
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	qid: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	name: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	layout: number
+
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	languageQID: number
+}
+

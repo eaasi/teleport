@@ -52,44 +52,44 @@ export default class ConfiguredMachine extends Model<ConfiguredMachine> {
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-    RAM: number
+    ram: number
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	RAMUnit: string
+	ramUnit: string
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	CpuCores: number
+	cpuCores: number
 
     @ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	EmulatorSoftwareID: number
+	emulatorSoftwareID: number
 
 	@ForeignKey(() => ProcessorDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-    ProcessorDeviceID: number
+    processorDeviceID: number
 
 	@ForeignKey(() => ChipSet)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	ChipsetID: number
+	chipsetID: number
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	ROMFileID: number
+	romFileID: number
 }

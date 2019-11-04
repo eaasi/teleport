@@ -1,44 +1,29 @@
-'use strict';
+import ConfiguredGpuDevice from '@/data_access/models/configured/ConfiguredGpuDevice';
+import DisplayDevice from '@/data_access/models/display/DisplayDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_gpu_device_has_display_device'
+})
+export default class ConfiguredGpuDeviceHasDisplayDevice extends Model<ConfiguredGpuDeviceHasDisplayDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredGpuDeviceHasDisplayDevice extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredGpuDeviceHasDisplayDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredMachine_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		},
-		configuredGpuDevice_gpuDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredGpuDevice',
-				key: 'configuredGpuDeviceID'
-			}
-		},
-		configuredGpuDevice_displayDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'displayDevice',
-				key: 'displayDeviceID'
-			}
-		},
-		displayDevice_usesDisplayInterface: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'configuredGpuDeviceHasDisplayDevice' });
+	@ForeignKey(() => ConfiguredGpuDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	configuredGpuDeviceID: number
 
-	ConfiguredGpuDeviceHasDisplayDevice.associate = models => {
-		models.ConfiguredGpuDeviceHasDisplayDevice.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
-		models.ConfiguredGpuDeviceHasDisplayDevice.hasOne(models.ConfiguredGpuDevice, {foreignKey: 'configuredGpuDeviceID'});
-	};
-
-	return ConfiguredGpuDeviceHasDisplayDevice;
-};
-
+	@ForeignKey(() => DisplayDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	displayDeviceID: number
+}
