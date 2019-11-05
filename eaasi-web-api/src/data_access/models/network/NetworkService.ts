@@ -1,34 +1,45 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'network_service'
+})
+export default class NetworkService extends Model<NetworkService> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class NetworkService extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	NetworkService.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		networkServiceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		networkServiceName: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		networkServiceQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		defaultPort: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		defaultPortRange: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'networkService' });
-	return NetworkService;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	qid: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	name: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	defaultPort: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	defaultPortRange: string
+}

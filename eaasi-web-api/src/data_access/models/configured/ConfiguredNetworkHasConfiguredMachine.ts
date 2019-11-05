@@ -1,45 +1,41 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import ConfiguredNetwork from '@/data_access/models/configured/ConfiguredNetwork';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_network_has_configured_machine'
+})
+export default class ConfiguredNetworkHasConfiguredMachine extends Model<ConfiguredNetworkHasConfiguredMachine> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredNetworkHasConfiguredMachine extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredNetworkHasConfiguredMachine.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredNetwork_configuredNetworkID: {
-			type: Sequelize.INTEGER,
-			primaryKey: true,
-			allowNull: false,
-			references: {
-				model: 'configuredNetwork',
-				key: 'configuredNetworkID'
-			}
-		},
-		configuredNetwork_machineID: {
-			type: Sequelize.INTEGER,
-			primaryKey: true,
-			allowNull: false,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		bootOrder: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		},
-		staticIpAddress: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredNetwork_has_configuredMachine' });
-	ConfiguredNetworkHasConfiguredMachine.associate = models => {
+	@ForeignKey(() => ConfiguredNetwork)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredNetworkID: number
 
-		models.ConfiguredNetworkHasConfiguredMachine.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-		models.ConfiguredNetworkHasConfiguredMachine.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
-	};
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredMachineID: number
 
-	return ConfiguredNetworkHasConfiguredMachine;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	bootOrder: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	staticIpAddress: number
+}

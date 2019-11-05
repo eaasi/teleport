@@ -1,37 +1,29 @@
-'use strict';
+import ConfiguredNetwork from '@/data_access/models/configured/ConfiguredNetwork';
+import NetworkService from '@/data_access/models/network/NetworkService';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_network_emulates_network_service'
+})
+export default class ConfiguredNetworkEmulatesNetworkService extends Model<ConfiguredNetworkEmulatesNetworkService> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredNetworkEmulatesNetworkService extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredNetworkEmulatesNetworkService.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredNetwork_configuredNetworkID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredNetwork',
-				key: 'configuredNetworkID'
-			}
-		},
-		configuredNetwork_networkServiceID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'networkService',
-				key: 'networkServiceID'
-			}
-		},
-		servicePortExposed: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredNetwork_emulatesNetworkService' });
-	ConfiguredNetworkEmulatesNetworkService.associate = models => {
-		models.ConfiguredNetworkEmulatesNetworkService.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
-		models.ConfiguredNetworkEmulatesNetworkService.hasOne(models.NetworkService, {foreignKey: 'networkServiceID'});
-	};
-	return ConfiguredNetworkEmulatesNetworkService;
-};
+	@ForeignKey(() => ConfiguredNetwork)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	configuredNetworkID: number
+
+	@ForeignKey(() => NetworkService)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	networkServiceID: number
+}
