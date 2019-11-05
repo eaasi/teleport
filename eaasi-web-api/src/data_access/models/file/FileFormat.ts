@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'fileFormat'
+	tableName: 'file_format'
 })
 export default class FileFormat extends Model<FileFormat> {
 	@CreatedAt

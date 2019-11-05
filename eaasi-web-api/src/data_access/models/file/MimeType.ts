@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'mimeType'
+	tableName: 'mime_type'
 })
 export default class MimeType extends Model<MimeType> {
 	@CreatedAt

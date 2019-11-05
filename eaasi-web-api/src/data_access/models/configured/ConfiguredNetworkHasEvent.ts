@@ -1,28 +1,27 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import ConfiguredNetwork from '@/data_access/models/configured/ConfiguredNetwork';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_network_has_event'
+})
+export default class ConfiguredNetworkHasEvent extends Model<ConfiguredNetworkHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredNetworkHasEvent extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredNetworkHasEvent.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredNetwork_configuredNetworkID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredNetwork',
-				key: 'configuredNetworkID'
-			}
-		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredNetwork' });
-	ConfiguredNetworkHasEvent.associate = models => {
-		models.ConfiguredNetworkHasEvent.hasOne(models.ConfiguredNetwork, {foreignKey: 'configuredNetworkID'});
-	};
-	return ConfiguredNetworkHasEvent;
-};
+	@ForeignKey(() => ConfiguredNetwork)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredNetworkID: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	eventID: number
+}

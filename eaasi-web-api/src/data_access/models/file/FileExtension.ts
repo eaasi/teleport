@@ -2,7 +2,7 @@ import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'fileExtension'
+	tableName: 'file_extension'
 })
 export default class FileExtension extends Model<FileExtension> {
 	@CreatedAt

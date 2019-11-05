@@ -3,7 +3,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'formatImplementation'
+	tableName: 'format_implementation'
 })
 export default class FormatImplementation extends Model<FormatImplementation> {
 	@CreatedAt

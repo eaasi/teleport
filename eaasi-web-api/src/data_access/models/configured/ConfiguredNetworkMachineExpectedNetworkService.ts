@@ -1,48 +1,43 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import ConfiguredNetwork from '@/data_access/models/configured/ConfiguredNetwork';
+import NetworkService from '@/data_access/models/network/NetworkService';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_network_machine_expected_network_service'
+})
+export default class ConfiguredNetworkHasEvent extends Model<ConfiguredNetworkHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredNetworkMachineExpectedNetworkService extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredNetworkMachineExpectedNetworkService.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredNetworkMachine_configuredNetworkID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredNetworkMachine_configuredMachineID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredNetwork_has_configuredMachine',
-				key: 'configuredNetwork_machineID'
-			}
-		},
-		configuredNetworkMachine_expectedNetworkServiceID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'networkService',
-				key: 'networkServiceID'
-			}
-		},
-		servicePortExpected: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredNetworkMachine_expectedNetworkService' });
+	@ForeignKey(() => ConfiguredNetwork)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredNetworkID: number
 
-	ConfiguredNetworkMachineExpectedNetworkService.associate = models => {
-		models.ConfiguredNetworkMachineExpectedNetworkService.hasOne(
-			models.ConfiguredNetworkHasConfiguredMachine,
-			{ foreignKey: 'configuredNetwork_has_configuredMachine' });
-		models.ConfiguredNetworkMachineExpectedNetworkService.hasOne(
-			models.NetworkService,
-			{ foreignKey: 'networkServiceID' });
-	};
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredMachineID: number
 
-	return ConfiguredNetworkMachineExpectedNetworkService;
-};
+	@ForeignKey(() => NetworkService)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	expectedNetworkServiceID: number
 
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	servicePortExpected: string
+}

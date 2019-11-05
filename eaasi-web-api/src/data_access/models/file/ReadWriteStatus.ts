@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'readWriteStatus'
+	tableName: 'read_write_status'
 })
 export default class ReadWriteStatus extends Model<ReadWriteStatus> {
 	@CreatedAt

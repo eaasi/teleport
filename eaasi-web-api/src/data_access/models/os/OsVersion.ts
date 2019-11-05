@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'osVersion'
+	tableName: 'os_version'
 })
 export default class OsVersion extends Model<OsVersion> {
 	@CreatedAt

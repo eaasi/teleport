@@ -1,28 +1,28 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_os_has_event'
+})
+export default class ConfiguredOSHasEvent extends Model<ConfiguredOSHasEvent> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredOsHasEvent extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ConfiguredOsHasEvent.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredOS_configuredOperatingSystemID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredOS',
-				key: 'configuredOperatingSystemID'
-			}
-		},
-		event_eventID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredOsHasEvent' });
-	ConfiguredOsHasEvent.associate = models => {
-		models.ConfiguredOsHasEvent.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'});
-	};
-	return ConfiguredOsHasEvent;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => ConfiguredOS)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredOsID: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	eventID: number
+}
 

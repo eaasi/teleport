@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'formatOperation'
+	tableName: 'format_operation'
 })
 export default class FormatOperation extends Model<FormatOperation> {
 	@CreatedAt
