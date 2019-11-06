@@ -7,7 +7,7 @@ import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine
 @Table({
 	tableName: 'configured_network_machine_expected_network_service'
 })
-export default class ConfiguredNetworkHasEvent extends Model<ConfiguredNetworkHasEvent> {
+export default class ConfiguredNetworkMachineExpectedNetworkService extends Model<ConfiguredNetworkMachineExpectedNetworkService> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

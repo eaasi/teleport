@@ -1,36 +1,37 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import PointerDevice from '@/data_access/models/pointer/PointerDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_pointer_device'
+})
+export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredPointerDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ConfiguredPointerDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredMachine_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		configuredPointerDevice_pointerDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'pointerDevice',
-				key: 'pointerDeviceID'
-			}
-		},
-		configuredPointerDevice_usesMachineInterface: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, {sequelize, tableName: 'configuredNetwork'});
-	ConfiguredPointerDevice.associate = models => {
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-		models.ConfiguredPointerDevice.hasOne(models.ConfiguredMachine);
-	};
-	return ConfiguredPointerDevice;
-};
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredMachineID: number
+
+	@ForeignKey(() => PointerDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	pointerDeviceID: string
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	uses_machineInterfaceID: boolean
+}

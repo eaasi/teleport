@@ -1,34 +1,29 @@
-'use strict';
+import UserInformation from '@/data_access/models/base/UserInformation';
+import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_os_has_user_information'
+})
+export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredOsHasUserInformation extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredOsHasUserInformation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredOS_configuredOperatingSystemID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredOS',
-				key: 'configuredOperatingSystemID'
-			}
-		},
-		userInformation_userInformationID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'userInformation',
-				key: 'userInformationID'
-			}
-		}
-	}, {sequelize, tableName: 'configuredOs_has_userInformation'});
-	ConfiguredOsHasUserInformation.associate = models => {
+	@ForeignKey(() => ConfiguredOS)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	configuredOsID: number
 
-		models.ConfiguredOsHasUserInformation.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'});
-		models.ConfiguredOsHasUserInformation.hasOne(models.UserInformation, {foreignKey: 'userInformationID'});
-	};
-	return ConfiguredOsHasUserInformation;
-};
+	@ForeignKey(() => UserInformation)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	userInformationID: number
+}

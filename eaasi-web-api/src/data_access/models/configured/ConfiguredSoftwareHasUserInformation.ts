@@ -1,33 +1,29 @@
-'use strict';
+import UserInformation from '@/data_access/models/base/UserInformation';
+import ConfiguredSoftware from '@/data_access/models/configured/ConfiguredSoftware';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_software_has_user_information'
+})
+export default class ConfiguredSoftwareHasUserInformation extends Model<ConfiguredSoftwareHasUserInformation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredSoftwareHasUserInformation extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ConfiguredSoftwareHasUserInformation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredSoftware_configuredSoftwareManifestationID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'configuredSoftware',
-				key: 'configuredSoftwareVersionID'
-			}
-		},
-		userInformation_userInformationID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'userInformation',
-				key: 'userInformationID'
-			}
-		}
-	}, { sequelize, tableName: 'configuredSoftware_has_userInformation' });
-	ConfiguredSoftwareHasUserInformation.associate = models => {
-		models.ConfiguredSoftwareHasUserInformation.belongsTo(models.UserInformation, {foreignKey: 'configuredSoftwareVersionID'});
-		models.ConfiguredSoftwareHasUserInformation.belongsTo(models.ConfiguredSoftware, {foreignKey: 'userInformationID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return ConfiguredSoftwareHasUserInformation;
-};
+	@ForeignKey(() => ConfiguredSoftware)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredSoftwareVersionID: number
+
+	@ForeignKey(() => UserInformation)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	userInformation: number
+}

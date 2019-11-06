@@ -1,4 +1,5 @@
 import Language from '@/data_access/models/base/Language';
+import ContentObject from '@/data_access/models/content/ContentObject';
 import SoftwareObject from '@/data_access/models/software/SoftwareObject';
 import SoftwareVersion from '@/data_access/models/software/softwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';

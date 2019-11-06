@@ -1,33 +1,36 @@
-'use strict';
+import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
+import Language from '@/data_access/models/base/Language';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_os_has_user_information'
+})
+export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredOsLanguage extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredOsLanguage.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredOS_configuredOperatingSystemID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredOS',
-				key: 'configuredOperatingSystemID'
-			}
-		},
-		configuredOs_languageQID: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		configuredOS_primaryLanguage: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'configuredOsLanguage' });
-	ConfiguredOsLanguage.associate = models => {
-		models.ConfiguredOsLanguage.hasOne(models.ConfiguredOS, {foreignKey: 'configuredOperatingSystemID'});
-	};
+	@ForeignKey(() => ConfiguredOS)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	configuredOsID: number
 
-	return ConfiguredOsLanguage;
-};
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	languageQid: string
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	})
+	isPrimaryLanguage: boolean
+}

@@ -1,41 +1,63 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import StorageDevice from '@/data_access/models/storage/StorageDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'configured_storage_device'
+})
+export default class ConfiguredStorageDevice extends Model<ConfiguredStorageDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ConfiguredStorageDevice extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	ConfiguredStorageDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		configuredMachine_machineID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		},
-		configureStorageDevice_storageDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'storageDevice',
-				key: 'storageDeviceID'
-			}
-		},
-		configuredStorageDevice_usesMachineInterface: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		configuredStorageDevice_idBootOrder: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'configuredStorageDevice' });
-	ConfiguredStorageDevice.associate = models => {
-		models.ConfiguredStorageDevice.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-		models.ConfiguredStorageDevice.hasOne(models.StorageDevice, {foreignKey: 'storageDeviceID'});
-	};
-	return ConfiguredStorageDevice;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+		allowNull: false,
+	})
+	id: number
+
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	configuredMachineID: number
+
+	@ForeignKey(() => StorageDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	storageDeviceID: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	memoryBytes: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	irq: string
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	uses_machineInterfaceID: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	bootOrder: number
+}
