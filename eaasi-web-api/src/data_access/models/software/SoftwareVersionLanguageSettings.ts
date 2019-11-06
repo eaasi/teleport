@@ -1,28 +1,30 @@
-'use strict';
+import Language from '@/data_access/models/base/Language';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_language_settings'
+})
+export default class SoftwareVersionLanguageSettings extends Model<SoftwareVersionLanguageSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionLanguageSettings extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionLanguageSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_languageQID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		},
-	}, { sequelize, tableName: 'softwareVersion_languageSettings' });
-	SoftwareVersionLanguageSettings.associate = models => {
-		models.SoftwareVersionLanguageSettings.hasOne(
-			models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
-	return SoftwareVersionLanguageSettings;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	languageQID: string
+}
+

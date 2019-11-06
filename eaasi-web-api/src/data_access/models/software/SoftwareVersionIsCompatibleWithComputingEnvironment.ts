@@ -1,35 +1,30 @@
-'use strict';
+import ComputingEnvironment from '@/data_access/models/computing/ComputingEnvironment';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_compatible_with_computing_environment'
+})
+export default class SoftwareVersionIsCompatibleWithComputingEnvironment extends Model<SoftwareVersionIsCompatibleWithComputingEnvironment> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionIsCompatibleWithComputingEnvironment extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionIsCompatibleWithComputingEnvironment.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		compatibleComputingEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'computingEnvironment',
-				key: 'computingEnvironmentID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareVersion_isCompatibleWith_computingEnvironment' });
-	SoftwareVersionIsCompatibleWithComputingEnvironment.associate = models => {
-		models.SoftwareVersionIsCompatibleWithComputingEnvironment.hasOne(
-			models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.SoftwareVersionIsCompatibleWithComputingEnvironment.hasOne(
-			models.ComputingEnvironment, {foreignKey: 'computingEnvironmentID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareVersionIsCompatibleWithComputingEnvironment;
-};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => ComputingEnvironment)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	computingEnvironmentID: number
+}
+
