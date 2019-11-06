@@ -1,40 +1,53 @@
-'use strict';
+import ContentObject from '@/data_access/models/content/ContentObject';
+import File from '@/data_access/models/file/File';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'content_object_has_object_file'
+})
+export default class ContentObjectHasObjectFile extends Model<ContentObjectHasObjectFile> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ContentObjectHasObjectFile extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ContentObjectHasObjectFile.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		contentObject_contentObjectLocalID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'contentObject',
-				key: 'contentObjectLocalID'
-			}
-		},
-		contentObjectFileID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'File.ts',
-				key: 'fileID'
-			}
-		},
-		contentObjectFileLabel: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		contentObjectFile_mediaTypeName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		contentObjectFile_order: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'contentObject_has_objectFile' });
-	return ContentObjectHasObjectFile;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => ContentObject)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	contentObjectID: number;
+
+	@ForeignKey(() => File)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	fileID: string;
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	fileLabel: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	mediaTypeName: string
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false
+	})
+	productKey: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false
+	})
+	fileOrder: number
+}

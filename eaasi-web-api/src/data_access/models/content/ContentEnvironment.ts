@@ -1,24 +1,35 @@
-'use strict';
+import ComputingEnvironment from '@/data_access/models/computing/ComputingEnvironment';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'content_environment'
+})
+export default class ContentEnvironment extends Model<ContentEnvironment> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class ContentEnvironment extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	ContentEnvironment.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		contentEnvironmentID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		},
-		contentEnvironment_computingEnvironmentID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-		},
-		contentEnvironmentHelpText: {
-			type: Sequelize.TEXT,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'contentEnvironment' });
-	return ContentEnvironment;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@ForeignKey(() => ComputingEnvironment)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	computingEnvironmentId: number
+
+	@Column({
+		type: DataTypes.TEXT,
+		allowNull: false
+	})
+	helpText: string
+}
