@@ -46,14 +46,14 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-sequelize.sync({force: true});
-
-/**
- * Create HTTP server.
- */
-const server = http.createServer(app);
-server.listen(port);
-server.on('error', (err) => onError(err, port));
-server.on('listening', () => {
-	console.log('Express is listening on: ' + port);
+sequelize.sync({force: true}).then(() => {
+	/**
+	 * Create HTTP server.
+	 */
+	const server = http.createServer(app);
+	server.listen(port);
+	server.on('error', (err) => onError(err, port));
+	server.on('listening', () => {
+		console.log('Express is listening on: ' + port);
+	});
 });
