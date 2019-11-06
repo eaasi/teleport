@@ -1,29 +1,31 @@
-'use strict';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_os_version'
+})
+export default class SystemRequirementsRequiresOsVersion extends Model<SystemRequirementsRequiresOsVersion> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresOsVersion extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresOsVersion.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
-		systemRequirements_requiresOSVersionID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_osVersion' });
-	SystemRequirementsRequiresOsVersion.associate = models => {
-		models.SystemRequirementsRequiresOsVersion.hasOne(
-			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SystemRequirementsRequiresOsVersion;
-};
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	systemRequirementsID: number
+
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	osVersionID: number
+}
+
+

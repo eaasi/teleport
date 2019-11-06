@@ -1,40 +1,41 @@
-'use strict';
+import ProcessorDevice from '@/data_access/models/processor/ProcessorDevice';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_processor_device'
+})
+export default class SystemRequirementsRequiresProcessor extends Model<SystemRequirementsRequiresProcessor> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresProcessor extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresProcessor.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
-		systemRequirements_requiresProcessorID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'processorDevice',
-				key: 'processorDeviceID'
-			}
-		},
-		systemRequirements_minimumFrequency: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-		},
-		systemRequirements_minimumFrequencyUnit: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_processor' });
-	SystemRequirementsRequiresProcessor.associate = models => {
-		models.SystemRequirementsRequiresProcessor.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsRequiresProcessor.hasOne(models.ProcessorDevice, {foreignKey: 'processorDeviceID'});
-	};
-	return SystemRequirementsRequiresProcessor;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	systemRequirementsID: number
+
+	@ForeignKey(() => ProcessorDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	processorDeviceID: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	minimumFrequency: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	minimumFrequencyUnit: string
+}

@@ -1,36 +1,29 @@
-'use strict';
+import GpuDevice from '@/data_access/models/gpu/GpuDevice';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_gpu_device'
+})
+export default class SystemRequirementsRequiresGpuDevice extends Model<SystemRequirementsRequiresGpuDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresGpuDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresGpuDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		systemRequirements_requiresGpuDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'gpuDevice',
-				key: 'gpuDeviceID'
-			}
-		},
-		systemRequirements_minimumGpuRAM: {
-			type: Sequelize.DECIMAL,
-			allowNull: true
-		},
-		systemRequirements_minimumGpuRAMUnit: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_gpuDevice' });
-	SystemRequirementsRequiresGpuDevice.associate = models => {
-		models.SystemRequirementsRequiresGpuDevice.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SystemRequirementsRequiresGpuDevice;
-};
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	systemRequirementsID: number
+
+	@ForeignKey(() => GpuDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	gpuDeviceID: number
+}

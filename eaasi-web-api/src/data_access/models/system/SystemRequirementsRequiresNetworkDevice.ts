@@ -1,32 +1,30 @@
-'use strict';
+import NetworkDevice from '@/data_access/models/network/NetworkDevice';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_network_device'
+})
+export default class SystemRequirementsRequiresNetworkDevice extends Model<SystemRequirementsRequiresNetworkDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresNetworkDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresNetworkDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
-		systemRequirements_networkDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'networkDevice',
-				key: 'networkDeviceID'
-			}
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_networkDevice' });
-	SystemRequirementsRequiresNetworkDevice.associate = models => {
-		models.SystemRequirementsRequiresNetworkDevice.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsRequiresNetworkDevice.hasOne(models.NetworkDevice, {foreignKey: 'networkDeviceID'});
-	};
-	return SystemRequirementsRequiresNetworkDevice;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	systemRequirementsID: number
+
+	@ForeignKey(() => NetworkDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	networkDeviceID: number
+}
+

@@ -1,32 +1,29 @@
-'use strict';
+import KeyboardDevice from '@/data_access/models/keyboard/KeyboardDevice';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_keyboard_device'
+})
+export default class SystemRequirementsRequiresKeyboardDevice extends Model<SystemRequirementsRequiresKeyboardDevice> {
+    @CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresKeyboardDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresKeyboardDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
-		systemRequirements_requiresKeyboardDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'keyboardDevice',
-				key: 'keyboardDeviceID'
-			}
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_keyboardDevice' });
-	SystemRequirementsRequiresKeyboardDevice.associate = models => {
-		models.SystemRequirementsRequiresKeyboardDevice.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsRequiresKeyboardDevice.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-	};
-	return SystemRequirementsRequiresKeyboardDevice;
-};
+    @UpdatedAt
+    readonly updatedAt: Date = new Date();
+
+    @ForeignKey(() => SystemRequirements)
+    @Column({
+    	type: DataTypes.INTEGER,
+    	allowNull: false,
+    })
+    systemRequirementsID: number
+
+    @ForeignKey(() => KeyboardDevice)
+    @Column({
+    	type: DataTypes.INTEGER,
+    	allowNull: true,
+    })
+    keyboardDeviceID: number
+}

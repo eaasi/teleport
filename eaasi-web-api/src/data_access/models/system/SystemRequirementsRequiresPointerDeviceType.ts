@@ -1,35 +1,29 @@
-'use strict';
+import PointerDeviceType from '@/data_access/models/pointer/PointerDeviceType';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_pointer_device_type'
+})
+export default class SystemRequirementsRequiresPointerDeviceType extends Model<SystemRequirementsRequiresPointerDeviceType> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresPointerDeviceType extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresPointerDeviceType.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
-		systemRequirements_requiresPointerDeviceTypeID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'pointerDeviceType',
-				key: 'pointerDeviceTypeID'
-			}
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_pointerDeviceType' });
-	SystemRequirementsRequiresPointerDeviceType.associate = models => {
-		models.SystemRequirementsRequiresPointerDeviceType.hasOne(
-			models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsRequiresPointerDeviceType.hasOne(
-			models.PointerDeviceType, {foreignKey: 'pointerDeviceTypeID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SystemRequirementsRequiresPointerDeviceType;
-};
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	systemRequirementsID: number
+
+	@ForeignKey(() => PointerDeviceType)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	pointerDeviceTypeID: number
+}

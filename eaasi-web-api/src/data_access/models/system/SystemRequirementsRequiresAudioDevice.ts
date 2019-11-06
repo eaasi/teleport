@@ -1,32 +1,29 @@
-'use strict';
+import AudioDevice from '@/data_access/models/audio-device/AudioDevice';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements_requires_audio_device'
+})
+export default class SystemRequirementsRequiresAudioDevice extends Model<SystemRequirementsRequiresAudioDevice> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirementsRequiresAudioDevice extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirementsRequiresAudioDevice.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirements_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'systemRequirements',
-				key: 'systemRequirementsID'
-			}
-		},
-		systemRequirements_requiresAudioDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'audioDevice',
-				key: 'audioDeviceID'
-			}
-		}
-	}, { sequelize, tableName: 'systemRequirements_requires_audioDevice' });
-	SystemRequirementsRequiresAudioDevice.associate = models => {
-		models.SystemRequirementsRequiresAudioDevice.hasOne(models.SystemRequirements, {foreignKey: 'systemRequirementsID'});
-		models.SystemRequirementsRequiresAudioDevice.hasOne(models.AudioDevice, {foreignKey: 'audioDeviceID'});
-	};
-	return SystemRequirementsRequiresAudioDevice;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	systemRequirementsID: number
+
+	@ForeignKey(() => AudioDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	audioDeviceID: number
+}
