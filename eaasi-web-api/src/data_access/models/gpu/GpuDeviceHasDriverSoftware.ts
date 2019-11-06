@@ -1,33 +1,29 @@
-'use strict';
+import GpuDevice from '@/data_access/models/gpu/GpuDevice';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'gpu_device_has_driver_software'
+})
+export default class GpuDeviceHasDriverSoftware extends Model<GpuDeviceHasDriverSoftware> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class GpuDeviceHasDriverSoftware extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	GpuDeviceHasDriverSoftware.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		gpuDevice_gpuDeviceID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'gpuDevice',
-				key: 'gpuDeviceID'
-			}
-		},
-		gpuDevice_driverSoftwareID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		}
-	}, { sequelize, tableName: 'gpuDevice_has_displayInterface' });
-	GpuDeviceHasDriverSoftware.associate = models => {
-		models.GpuDeviceHasDriverSoftware.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
-		models.GpuDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
-	return GpuDeviceHasDriverSoftware;
-};
+	@ForeignKey(() => GpuDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	gpuDeviceID: number
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	driverSoftwareID: number
+}

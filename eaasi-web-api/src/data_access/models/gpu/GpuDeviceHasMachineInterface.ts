@@ -1,28 +1,29 @@
-'use strict';
+import GpuDevice from '@/data_access/models/gpu/GpuDevice';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'gpu_device_has_machine_interface'
+})
+export default class GpuDeviceHasMachineInterface extends Model<GpuDeviceHasMachineInterface> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class GpuDeviceHasMachineInterface extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	GpuDeviceHasMachineInterface.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		gpuDevice_gpuDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'gpuDevice',
-				key: 'gpuDeviceID'
-			}
-		},
-		gpuDevice_machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'gpuDevice_has_machineInterface' });
-	GpuDeviceHasMachineInterface.associate = models => {
-		models.GpuDeviceHasMachineInterface.hasOne(models.GpuDevice, {foreignKey: 'gpuDeviceID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return GpuDeviceHasMachineInterface;
-};
+	@ForeignKey(() => GpuDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	gpuDeviceID: number
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	machineInterfaceID: number
+}
