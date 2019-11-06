@@ -4,15 +4,15 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareEnvironment_has_event', {
+		return queryInterface.createTable('software_environment_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareEnvironment_softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'softwareEnvironment',
-					key: 'softwareEnvironmentID'
+					model: 'software_environment',
+					key: 'id'
 				}
 			},
 			event_eventID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareEnvironment_has_event');
+		return queryInterface.dropTable('software_environment_has_event');
 	}
 };

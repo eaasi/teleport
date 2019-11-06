@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareEnvironment_hasPart_configuredSoftware', {
+		return queryInterface.createTable('software_environment_has_part_configured_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareEnvironment_softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'softwareEnvironment',
-					key: 'softwareEnvironmentID'
+					model: 'software_environment',
+					key: 'id'
 				}
 			},
 			hasConfiguredSoftware: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'configuredSoftware',
-					key: 'configuredSoftwareVersionID'
+					model: 'configured_software',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareEnvironment_hasPart_configuredSoftware');
+		return queryInterface.dropTable('software_environment_has_part_configured_software');
 	}
 };

@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareObjectFile_has_objectFileOperation', {
+		return queryInterface.createTable('software_object_file_has_object_file_operation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareObjectFile_softwareObjectID: {
@@ -30,6 +30,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareObjectFile_has_objectFileOperation');
+		return queryInterface.dropTable('software_object_file_has_object_file_operation');
 	}
 };
