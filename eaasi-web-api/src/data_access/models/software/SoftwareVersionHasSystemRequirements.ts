@@ -1,26 +1,29 @@
-'use strict';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_system_requirements'
+})
+export default class SoftwareVersionHasSystemRequirements extends Model<SoftwareVersionHasSystemRequirements> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasSystemRequirements extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasSystemRequirements.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		}
-	}, { sequelize, tableName: 'softwareVersion_has_systemRequirements' });
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareVersionHasSystemRequirements;
-};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
 
+	@ForeignKey(() => SystemRequirements)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	systemRequirementsID: number
+}

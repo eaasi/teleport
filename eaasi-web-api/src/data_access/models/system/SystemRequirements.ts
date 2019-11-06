@@ -1,65 +1,86 @@
-'use strict';
+import ColorDepth from '@/data_access/models/base/ColorDepth';
+import DisplayResolution from '@/data_access/models/display/DisplayResolution';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'system_requirements'
+})
+export default class SystemRequirements extends Model<SystemRequirements> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SystemRequirements extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SystemRequirements.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		systemRequirementsID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-		},
-		requirementsSummary: {
-			type: Sequelize.TEXT,
-			allowNull: true
-		},
-		minimumRAM: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		minimumRAM_unitName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		minimumDiskVolume: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		},
-		minimumDiskVolume_unitName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		minimumColorDepth: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		},
-		minimumDisplayResolution: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'displayResolution',
-				key: 'displayResolutionID'
-			}
-		},
-		internetAccessRequired: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		},
-		minimumNetworkBitRate: {
-			type: Sequelize.DECIMAL,
-			allowNull: true
-		},
-		minimumNetworkBitRate_unitName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'systemRequirements' });
-	SystemRequirements.associate = models => {
-		models.SystemRequirements.hasOne(models.DisplayResolution, {foreignKey: 'displayResolutionID'});
-		models.SystemRequirements.hasOne(models.ColorDepth, {foreignKey: 'colorDepthID'});
-	};
-	return SystemRequirements;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@Column({
+		type: DataTypes.TEXT,
+		allowNull: true,
+	})
+	requirementsSummary: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	minimumRAM: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	minimumRAMUnitName: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	minimumDiskVolume: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	minimumDiskVolumeUnitName: string
+
+	@ForeignKey(() => ColorDepth)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	colorDepthID: number
+
+	@ForeignKey(() => DisplayResolution)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	displayResolution: number
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	})
+	isInternetAccessRequired: boolean
+
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	minimumNetworkBitRate: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	minimumNetworkBitRateUnitName: string
+}

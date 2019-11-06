@@ -1,34 +1,29 @@
-'use strict';
+import SoftwareLicense from '@/data_access/models/software/SoftwareLicense';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_software_license'
+})
+export default class SoftwareVersionHasSoftwareLicense extends Model<SoftwareVersionHasSoftwareLicense> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasSoftwareLicense extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasSoftwareLicense.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_softwareLicenseID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'softwareLicense',
-				key: 'softwareLicenseID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareVersion_has_softwareLicense' });
-	SoftwareVersionHasSoftwareLicense.associate = models => {
-		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.SoftwareVersionHasSoftwareLicense.hasOne(models.SoftwareLicense, {foreignKey: 'softwareLicenseID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareVersionHasSoftwareLicense;
-};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
 
+	@ForeignKey(() => SoftwareLicense)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	softwareLicenseID: number
+}
