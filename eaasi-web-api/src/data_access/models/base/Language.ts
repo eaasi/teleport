@@ -13,13 +13,13 @@ export default class Language extends Model<Language> {
 
 	@Column({
 		primaryKey: true,
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	label: string

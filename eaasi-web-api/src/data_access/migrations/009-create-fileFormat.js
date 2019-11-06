@@ -7,18 +7,13 @@ module.exports = {
 		return queryInterface.createTable('file_format', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileFormatID: {
-				type: Sq.STRING,
-				allowNull: true,
+			qid: {
+				type: Sq.STRING(64),
+				allowNull: false,
 				primaryKey: true
-
 			},
-			fileFormatQID: {
-				type: Sq.STRING,
-				allowNull: false
-			},
-			fileFormatLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 		});

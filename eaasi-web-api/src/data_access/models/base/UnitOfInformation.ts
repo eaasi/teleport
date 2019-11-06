@@ -12,20 +12,20 @@ export default class UnitOfInformation extends Model<UnitOfInformation> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 		primaryKey: true,
 	})
 	label: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	abbreviation: string

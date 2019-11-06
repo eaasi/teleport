@@ -20,13 +20,13 @@ export default class ConfiguredNetwork extends Model<ConfiguredNetwork> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	name: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: true,
 	})
 	description: string

@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('file_system', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileSystemID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true
 			},
-			fileSystemQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 			},
-			fileSystemLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});

@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('gpu_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			gpuDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			gpuDeviceQID: {
+			qid: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			gpuDeviceName: {
+			name: {
 				type: Sq.STRING,
 				allowNull: false
 			}

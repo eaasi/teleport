@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('unit_of_information', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			unitLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false,
 				primaryKey: true,
 			},
-			unitAbbreviation: {
-				type: Sq.STRING,
+			abbreviation: {
+				type: Sq.STRING(64),
 				allowNull: false,
 			},
-			unitQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 			},
 		});

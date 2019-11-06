@@ -7,10 +7,15 @@ module.exports = {
 		return queryInterface.createTable('operation_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			operationTypeLabel: {
+			id: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			label: {
 				type: Sq.STRING,
 				allowNull: false,
-				primaryKey: true
 			}
 		});
 	},

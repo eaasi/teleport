@@ -20,7 +20,7 @@ export default class FileExtension extends Model<FileExtension> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	label: string

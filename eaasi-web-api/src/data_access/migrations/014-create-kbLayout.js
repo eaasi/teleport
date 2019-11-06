@@ -7,18 +7,18 @@ module.exports = {
 		return queryInterface.createTable('keyboard_layout', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			keyboardLayoutID: {
+			id: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true
 			},
-			keyboardLayoutQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false,
 			},
-			keyboardLayoutLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});

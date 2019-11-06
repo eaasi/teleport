@@ -20,7 +20,7 @@ export default class AudioDevice extends Model<AudioDevice> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	qid: string

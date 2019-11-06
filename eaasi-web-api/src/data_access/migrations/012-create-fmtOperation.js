@@ -7,14 +7,14 @@ module.exports = {
 		return queryInterface.createTable('format_operation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			operationID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			operationName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});

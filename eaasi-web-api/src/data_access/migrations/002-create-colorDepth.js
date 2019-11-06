@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('color_depth', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			colorDepthID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			colorDepthLabel: {
+			label: {
 				type: Sq.STRING(64),
 				allowNull: false
 			},

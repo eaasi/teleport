@@ -7,20 +7,16 @@ module.exports = {
 		return queryInterface.createTable('audio_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			audioDeviceID: {
+			id: {
 				primaryKey: true,
 				type: Sq.INTEGER,
 				allowNull: false,
 			},
-			audioDeviceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			audioDevice_machineInterfaceID: {
-				type: Sq.INTEGER,
-				allowNull: true
-			},
-			audioDeviceName: {
+			name: {
 				type: Sequelize.STRING,
 				allowNull: false
 			},

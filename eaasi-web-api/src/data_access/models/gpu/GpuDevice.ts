@@ -20,13 +20,13 @@ export default class GpuDevice extends Model<GpuDevice> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	name: string

@@ -7,24 +7,25 @@ module.exports = {
 		return queryInterface.createTable('content_object', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentObjectLocalID: {
-				type: Sq.STRING,
+			localID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			contentObjectIDSource: {
-				type: Sq.STRING,
+			idSource: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			contentObjectName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			contentObjectProductKey: {
-				type: Sq.STRING,
+			productKey: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			contentObjectHelpText: {
+			helpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			},

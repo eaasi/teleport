@@ -20,8 +20,20 @@ export default class DisplayResolution extends Model<DisplayResolution> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	label: string
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayResolutionWidth: number
+
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayResolutionHeight: number
 }

@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('chipset', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			chipsetID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			chipsetQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false,
 			},
-			chipsetLabel: {
+			label: {
 				type: Sq.STRING(64),
 				allowNull: false
 			},

@@ -12,14 +12,14 @@ export default class CpuArchitecture extends Model<CpuArchitecture> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		primaryKey: true,
 		allowNull: false,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	label: string

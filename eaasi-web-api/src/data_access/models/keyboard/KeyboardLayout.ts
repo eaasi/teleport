@@ -22,13 +22,13 @@ export default class KeyboardLayout extends Model<KeyboardLayout> {
 
 	@ForeignKey(() => Language)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	label: string

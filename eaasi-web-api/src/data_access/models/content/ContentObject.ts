@@ -17,22 +17,22 @@ export default class ContentObject extends Model<ContentObject> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	localID: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	idSource: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false
 	})
 	name: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: false
 	})
 	productKey: string
