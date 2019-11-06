@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('osVersion_displayResolutionSettings', {
+		return queryInterface.createTable('os_version_display_resolution_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			osVersion_osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
+					model: 'os_version',
+					key: 'id'
 				}
 			},
 			osVersion_displayResolutionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'displayResolution',
-					key: 'displayResolutionID'
+					model: 'display_resolution',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('osVersion_displayResolutionSettings');
+		return queryInterface.dropTable('os_version_display_resolution_settings');
 	}
 };

@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('contentEnvironment_has_event', {
+		return queryInterface.createTable('content_environment_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			contentEnvironment_computingEnvironmentID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('contentEnvironment_has_event');
+		return queryInterface.dropTable('content_environment_has_event');
 	}
 };

@@ -4,23 +4,23 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('osVersion_keyboardLayoutSettings', {
+		return queryInterface.createTable('osVersion_keyboard_layout_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			osVersion_osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
+					model: 'os_version',
+					key: 'id'
 				}
 			},
 			osVersion_keyboardLayoutQID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'keyboardLayout',
-					key: 'keyboardLayoutID'
+					model: 'keyboard_layout',
+					key: 'qid'
 				}
 			},
 			osVersion_keyboardLayoutName: {
@@ -30,6 +30,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('osVersion_keyboardLayoutSettings');
+		return queryInterface.dropTable('os_version_keyboard_layout_settings');
 	}
 };

@@ -4,36 +4,36 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredSoftware_uses_formatImplementation', {
+		return queryInterface.createTable('configured_software_uses_format_implementation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredSoftware_configuredSoftwareManifestationID: {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'configuredSoftware',
-					key: 'configuredSoftwareVersionID'
+					model: 'configured_software',
+					key: 'id'
 				}
 			},
 			configuredSoftware_formatImplementation: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'formatImplementation',
-					key: 'formatImplementationID'
+					model: 'format_implementation',
+					key: 'id'
 				}
 			},
 			configuredFormatOperation: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'formatOperation',
-					key: 'operationID'
+					model: 'format_operation',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredSoftware_uses_formatImplementation');
+		return queryInterface.dropTable('configured_software_uses_format_implementation');
 	}
 };

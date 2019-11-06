@@ -4,15 +4,15 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('computingEnvironment_has_event', {
+		return queryInterface.createTable('computing_environment_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			computingEnvironment_computingEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'computingEnvironment',
-					key: 'computingEnvironmentID'
+					model: 'computing_environment',
+					key: 'id'
 				}
 			},
 			event_eventID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('computingEnvironment_has_event');
+		return queryInterface.dropTable('computing_environment_has_event');
 	}
 };

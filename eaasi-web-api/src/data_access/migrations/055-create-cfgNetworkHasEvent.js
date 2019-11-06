@@ -4,15 +4,15 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredNetwork_has_event', {
+		return queryInterface.createTable('configured_network_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredNetwork_configuredNetworkID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredNetwork',
-					key: 'configuredNetworkID'
+					model: 'configured_network',
+					key: 'id'
 				}
 			},
 			event_eventID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredNetwork_has_event');
+		return queryInterface.dropTable('configured_network_has_event');
 	}
 };

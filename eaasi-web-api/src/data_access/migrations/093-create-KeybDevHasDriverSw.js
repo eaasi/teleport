@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('keyboardDevice_has_driverSoftware', {
+		return queryInterface.createTable('keyboard_device_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			keyboardDevice_keyboardDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'keyboardDevice',
-					key: 'keyboardDeviceID'
+					model: 'keyboard_device',
+					key: 'id'
 				}
 			},
 			keyboardDevice_driverSoftware: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('keyboardDevice_has_driverSoftware');
+		return queryInterface.dropTable('keyboard_device_has_driver_software');
 	}
 };

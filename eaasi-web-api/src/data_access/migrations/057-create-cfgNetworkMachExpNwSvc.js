@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredNetworkMachine_expectedNetworkService', {
+		return queryInterface.createTable('configured_network_machine_expected_network_service', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredNetworkMachine_configuredNetworkID: {
@@ -19,8 +19,8 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'networkService',
-					key: 'networkServiceID'
+					model: 'network_service',
+					key: 'id'
 				}
 			},
 			configuredNetworkMachine_configuredMachineID: {
@@ -34,7 +34,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredNetworkMachine_expectedNetworkService');
+		return queryInterface.dropTable('configured_network_machine_expected_network_service');
 	}
 };
 

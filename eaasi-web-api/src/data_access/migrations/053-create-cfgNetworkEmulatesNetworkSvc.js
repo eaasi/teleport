@@ -4,23 +4,23 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredNetwork_emulatesNetworkService', {
+		return queryInterface.createTable('configured_network_emulates_network_service', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredNetwork_configuredNetworkID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredNetwork',
-					key: 'configuredNetworkID'
+					model: 'configured_network',
+					key: 'id'
 				}
 			},
 			configuredNetwork_networkServiceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'networkService',
-					key: 'networkServiceID'
+					model: 'network_service',
+					key: 'id'
 				}
 			},
 			servicePortExposed: {
@@ -30,6 +30,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredNetwork_emulatesNetworkService');
+		return queryInterface.dropTable('configured_network_emulates_network_service');
 	}
 };

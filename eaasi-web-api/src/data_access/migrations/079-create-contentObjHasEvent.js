@@ -4,15 +4,15 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('contentObject_has_event', {
+		return queryInterface.createTable('content_object_has_event', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			contentObject_contentObjectLocalID: {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'contentObject',
-					key: 'contentObjectLocalID'
+					model: 'content_object',
+					key: 'id'
 				}
 			},
 			event_eventID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sq) => {
-		return queryInterface.dropTable('contentObject_has_event');
+		return queryInterface.dropTable('content_object_has_event');
 	}
 };

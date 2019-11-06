@@ -4,23 +4,23 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('contentObject_has_objectFile', {
+		return queryInterface.createTable('content_object_has_object_file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			contentObject_contentObjectLocalID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'contentObject',
-					key: 'contentObjectLocalID'
+					model: 'content_object',
+					key: 'id'
 				}
 			},
 			contentObjectFileID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'File.ts',
-					key: 'fileID'
+					model: 'file',
+					key: 'id'
 				}
 			},
 			contentObjectFileLabel: {
@@ -38,6 +38,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('contentObject_has_objectFile');
+		return queryInterface.dropTable('content_object_has_object_file');
 	}
 };

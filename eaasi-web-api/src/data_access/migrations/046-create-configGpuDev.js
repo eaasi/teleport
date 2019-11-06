@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredGpuDevice', {
+		return queryInterface.createTable('configured_gpu_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredGpuDeviceID: {
@@ -17,16 +17,16 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
 			configuredGpuDevice_gpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'gpuDevice',
-					key: 'gpuDeviceID'
+					model: 'gpu_device',
+					key: 'id'
 				}
 			},
 			configuredGpuDevice_memoryBytes: {
@@ -44,6 +44,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredGpuDevice');
+		return queryInterface.dropTable('configured_gpu_device');
 	}
 };

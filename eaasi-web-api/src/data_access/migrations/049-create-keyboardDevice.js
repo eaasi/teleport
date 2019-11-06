@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('keyboardDevice', {
+		return queryInterface.createTable('keyboard_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			keyboardDeviceID: {
@@ -25,8 +25,8 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'keyboardLayout',
-					key: 'keyboardLayoutID'
+					model: 'keyboard_layout',
+					key: 'id'
 				}
 			},
 			keyboardDevice_keyboardLanguage: {
@@ -34,12 +34,12 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'language',
-					key: 'languageQID'
+					key: 'qid'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('keyboardDevice');
+		return queryInterface.dropTable('keyboard_device');
 	}
 };
