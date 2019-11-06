@@ -12,12 +12,12 @@ export default class GpuDevice extends Model<GpuDevice> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.NUMBER,
+		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: string
+	id: number
 
 	@Column({
 		type: DataTypes.STRING,

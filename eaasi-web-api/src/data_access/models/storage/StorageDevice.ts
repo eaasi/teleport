@@ -34,7 +34,7 @@ export default class StorageDevice extends Model<StorageDevice> {
 
 	@ForeignKey(() => StorageDeviceType)
 	@Column({
-		type: DataTypes.NUMBER,
+		type: DataTypes.INTEGER,
 		allowNull: true
 	})
 	storageDeviceTypeID: number

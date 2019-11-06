@@ -104,7 +104,11 @@ export default class UserAdminService extends BaseService {
 	 */
 	async setUserLastLogin(userId: number) {
 		let now = Date.now();
-		return await this._userCrudService.update(userId, {lastLogin: now});
+		console.log('Setting User Last Login for userID', userId)
+		if (await this._userCrudService.getByPk(userId)) {
+			return await this._userCrudService.update(userId, {lastLogin: now});
+		}
+		return null;
 	}
 
 	/**
