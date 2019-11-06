@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('File.ts', {
+		return queryInterface.createTable('file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			fileID: {
@@ -28,8 +28,8 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'fileFormat',
-					key: 'fileFormatID'
+					model: 'file_format',
+					key: 'id'
 				}
 			},
 			fileSize: {
@@ -39,6 +39,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('File.ts');
+		return queryInterface.dropTable('file');
 	}
 };

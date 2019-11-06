@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredSoftware', {
+		return queryInterface.createTable('configured_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredSoftwareVersionID: {
@@ -12,8 +12,8 @@ module.exports = {
 				allowNull: false,
 				primaryKey: true,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
 			executableLocation: {
@@ -36,16 +36,16 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'software_object',
+					key: 'id'
 				}
 			},
 			hasSource_contentObjectLocalID: {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'contentObject',
-					key: 'contentObjectLocalID'
+					model: 'content_object',
+					key: 'id'
 				}
 			},
 			manifestationOf_softwareVersion: {
@@ -55,6 +55,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredSoftware');
+		return queryInterface.dropTable('configured_software');
 	}
 };

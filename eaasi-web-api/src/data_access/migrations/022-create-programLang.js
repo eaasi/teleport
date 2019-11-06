@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('programmingLanguage', {
+		return queryInterface.createTable('programming_language', {
 			programmingLanguageID: {
 				type: Sq.INTEGER,
 				allowNull: false,
@@ -21,6 +21,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('programmingLanguage');
+		return queryInterface.dropTable('programming_language');
 	}
 };

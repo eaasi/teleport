@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('frequencyUnit', {
+		return queryInterface.createTable('frequency_unit', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			frequencyUnitLabel: {
@@ -19,6 +19,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('frequencyUnit');
+		return queryInterface.dropTable('frequency_unit');
 	}
 };

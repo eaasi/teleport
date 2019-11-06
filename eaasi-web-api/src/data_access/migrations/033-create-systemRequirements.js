@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements', {
+		return queryInterface.createTable('system_requirements', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirementsID: {
@@ -40,8 +40,8 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'displayResolution',
-					key: 'displayResolutionID'
+					model: 'display_resolution',
+					key: 'id'
 				}
 			},
 			internetAccessRequired: {
@@ -59,6 +59,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements');
+		return queryInterface.dropTable('system_requirements');
 	}
 };

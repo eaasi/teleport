@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersion', {
+		return queryInterface.createTable('software_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersionID: {
@@ -37,12 +37,12 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'softwareProduct',
-					key: 'softwareProductID'
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareVersion');
+		return queryInterface.dropTable('software_version');
 	}
 };

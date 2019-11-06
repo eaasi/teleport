@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('pointerDevice', {
+		return queryInterface.createTable('pointer_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			pointerDeviceID: {
@@ -25,13 +25,13 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'pointerDeviceType',
-					key: 'pointerDeviceTypeID'
+					model: 'pointer_device_type',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sq) => {
-		return queryInterface.dropTable('pointerDevice');
+		return queryInterface.dropTable('pointer_device');
 	}
 };

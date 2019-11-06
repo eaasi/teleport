@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredMachine', {
+		return queryInterface.createTable('configured_machine', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 
@@ -34,8 +34,8 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'machineType',
-					key: 'machineTypeID'
+					model: 'machine_type',
+					key: 'id'
 				}
 			},
 
@@ -56,8 +56,8 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
 
@@ -65,8 +65,8 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'processorDevice',
-					key: 'processorDeviceID'
+					model: 'processor_device',
+					key: 'id'
 				}
 			},
 
@@ -75,7 +75,7 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'chipset',
-					key: 'chipsetID'
+					key: 'id'
 				}
 			},
 
@@ -86,6 +86,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredMachine');
+		return queryInterface.dropTable('configured_machine');
 	}
 };

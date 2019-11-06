@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('keyboardLayout', {
+		return queryInterface.createTable('keyboard_layout', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			keyboardLayoutID: {
@@ -24,6 +24,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('keyboardLayout');
+		return queryInterface.dropTable('keyboard_layout');
 	}
 };

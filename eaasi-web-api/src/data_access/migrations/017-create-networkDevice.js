@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('networkDevice', {
+		return queryInterface.createTable('network_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			networkDeviceID: {
@@ -24,6 +24,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('networkDevice');
+		return queryInterface.dropTable('network_device');
 	}
 };

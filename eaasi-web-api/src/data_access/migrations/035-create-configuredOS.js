@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredOS', {
+		return queryInterface.createTable('configured_os', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredOperatingSystemID: {
@@ -17,16 +17,16 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'displayResolution',
-					key: 'displayResolutionID'
+					model: 'display_resolution',
+					key: 'id'
 				}
 			},
 			configuredColorDepth: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'colorDepth',
-					key: 'colorDepthID'
+					model: 'color_depth',
+					key: 'id'
 				}
 			},
 			configuredRegion: {
@@ -34,7 +34,7 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'region',
-					key: 'regionQID'
+					key: 'qid'
 				}
 			},
 			configuredTimezone: {
@@ -42,7 +42,7 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'timezone',
-					key: 'timezoneQID'
+					key: 'qid'
 				}
 			},
 			configuredDateTime: {
@@ -53,8 +53,8 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'software_object',
+					key: 'id'
 				}
 			},
 			manifestationOf_osVersion: {
@@ -64,6 +64,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredOS');
+		return queryInterface.dropTable('configured_os');
 	}
 };

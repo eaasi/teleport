@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('readWriteStatus', {
+		return queryInterface.createTable('read_write_status', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			readWriteStatusID: {
@@ -17,6 +17,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('readWriteStatus');
+		return queryInterface.dropTable('read_write_status');
 	}
 };

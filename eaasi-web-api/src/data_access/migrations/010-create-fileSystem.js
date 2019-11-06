@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('fileSystem', {
+		return queryInterface.createTable('file_system', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			fileSystemID: {
@@ -23,6 +23,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('fileSystem');
+		return queryInterface.dropTable('file_system');
 	}
 };

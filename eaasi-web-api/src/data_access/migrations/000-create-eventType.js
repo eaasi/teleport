@@ -4,17 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('eventType', {
+		return queryInterface.createTable('event_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			eventTypeLabel: {
+			id: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			label: {
 				type: Sq.STRING,
 				allowNull: false,
-				primaryKey: true
-			},
+			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('eventType');
+		return queryInterface.dropTable('event_type');
 	}
 };
