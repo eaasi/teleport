@@ -1,34 +1,29 @@
-'use strict';
+import ColorDepth from '@/data_access/models/base/ColorDepth';
+import DisplayDevice from '@/data_access/models/display/DisplayDevice';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'display_device_has_color_depth'
+})
+export default class DisplayDeviceHasColorDepth extends Model<DisplayDeviceHasColorDepth> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class DisplayDeviceHasColorDepth extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	DisplayDeviceHasColorDepth.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		displayDevice_displayDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'displayDevice',
-				key: 'displayDeviceID'
-			}
-		},
-		colorDepth_colorDepthID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'colorDepth',
-				key: 'colorDepthID'
-			}
-		}
-	}, { sequelize, tableName: 'displayDevice_has_colorDepth' });
-	DisplayDeviceHasColorDepth.associate = models => {
+	@ForeignKey(() => DisplayDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayDeviceID: number
 
-		models.DisplayDeviceHasColorDepth.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
-		models.DisplayDeviceHasColorDepth.hasOne(models.ColorDepth, {foreignKey: 'colorDepthID'});
-	};
-	return DisplayDeviceHasColorDepth;
-};
+	@ForeignKey(() => ColorDepth)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	colorDepthID: number
+}

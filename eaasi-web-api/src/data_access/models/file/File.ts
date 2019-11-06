@@ -3,7 +3,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'File.ts'
+	tableName: 'file'
 })
 export default class File extends Model<File> {
 	@CreatedAt

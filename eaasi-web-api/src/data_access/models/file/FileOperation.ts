@@ -1,26 +1,29 @@
-'use strict';
+import MimeType from '@/data_access/models/file/MimeType';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'file_operation'
+})
+export default class FileOperation extends Model<FileOperation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FileOperation extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	FileOperation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		fileOperationID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			primaryKey: true,
-		},
-		fileOperationText: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-		associatedMIMEType: {
-			type: Sequelize.STRING,
-			allowNull: true
-		},
-	}, { sequelize, tableName: 'fileOperation' });
-	return FileOperation;
-};
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number
+
+	@ForeignKey(() => MimeType)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	associatedMIMEType: string
+}

@@ -1,32 +1,29 @@
-'use strict';
+import DisplayDevice from '@/data_access/models/display/DisplayDevice';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'display_device_has_driver_software'
+})
+export default class DisplayDeviceHasDriverSoftware extends Model<DisplayDeviceHasDriverSoftware> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class DisplayDeviceHasDriverSoftware extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	DisplayDeviceHasDriverSoftware.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		displayDevice_displayDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'displayDevice',
-				key: 'displayDeviceID'
-			}
-		},
-		displayDevice_driverSoftwareID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		}
-	}, { sequelize, tableName: 'displayDevice_has_driverSoftware' });
-	DisplayDeviceHasDriverSoftware.associate = models => {
-		models.DisplayDeviceHasDriverSoftware.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
-		models.DisplayDeviceHasDriverSoftware.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
-	return DisplayDeviceHasDriverSoftware;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => DisplayDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayDeviceID: number
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	driverSoftwareID: number
+}

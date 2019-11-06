@@ -2,7 +2,7 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'displayResolution'
+	tableName: 'display_resolution'
 })
 export default class DisplayResolution extends Model<DisplayResolution> {
 	@CreatedAt

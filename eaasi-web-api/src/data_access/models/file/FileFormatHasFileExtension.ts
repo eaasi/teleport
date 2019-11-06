@@ -1,29 +1,29 @@
-'use strict';
+import FileExtension from '@/data_access/models/file/FileExtension';
+import FileFormat from '@/data_access/models/file/FileFormat';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'file_format_has_file_extension'
+})
+export default class FileFormatHasFileExtension extends Model<FileFormatHasFileExtension> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class FileFormatHasFileExtension extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	FileFormatHasFileExtension.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		fileFormat_fileFormatID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'fileFormat',
-				key: 'fileFormatID'
-			}
-		},
-		fileExtension_fileExtensionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'fileExtension',
-				key: 'fileExtensionID'
-			}
-		}
-	}, { sequelize, tableName: 'fileFormat_has_fileExtension' });
-	return FileFormatHasFileExtension;
-};
+	@ForeignKey(() => FileFormat)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	fileFormatQID: number
+
+    @ForeignKey(() => FileExtension)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	fileExtensionID: string
+}

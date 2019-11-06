@@ -14,12 +14,13 @@ export default class MimeType extends Model<MimeType> {
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
+		primaryKey: true
 	})
-	label: string
+	qid: string
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	qid: string
+	label: string
 }

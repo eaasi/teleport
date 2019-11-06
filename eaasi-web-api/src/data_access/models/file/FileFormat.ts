@@ -1,4 +1,4 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
@@ -16,7 +16,7 @@ export default class FileFormat extends Model<FileFormat> {
 		allowNull: false,
 		primaryKey: true,
 	})
-	qid: number
+	qid: string
 
 	@Column({
 		type: DataTypes.STRING,

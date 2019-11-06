@@ -1,28 +1,29 @@
-'use strict';
+import DisplayDevice from '@/data_access/models/display/DisplayDevice';
+import DisplayInterface from '@/data_access/models/display/DisplayInterface';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'display_device_has_display_interface'
+})
+export default class DisplayDeviceHasColorDepth extends Model<DisplayDeviceHasColorDepth> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class DisplayDeviceHasDisplayInterface extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	DisplayDeviceHasDisplayInterface.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		displayDevice_displayDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'displayDevice',
-				key: 'displayDeviceID'
-			}
-		},
-		displayInterface_displayInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'displayDevice_has_displayInterface' });
-	DisplayDeviceHasDisplayInterface.associate = models => {
-		models.DisplayDeviceHasDisplayInterface.hasOne(models.DisplayDevice, {foreignKey: 'displayDeviceID'});
-	};
-	return DisplayDeviceHasDisplayInterface;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
+	@ForeignKey(() => DisplayDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayDeviceID: number
+
+	@ForeignKey(() => DisplayInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayInterfaceID: number
+}
