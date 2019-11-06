@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredDisk', {
+		return queryInterface.createTable('configured_disk', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredDisk_diskImageFileID: {
@@ -16,24 +16,24 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
 			configuredDisk_storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'storageDevice',
-					key: 'storageDeviceID'
+					model: 'storage_device',
+					key: 'id'
 				}
 			},
 			configuredDisk_uses_machineInterfaceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'machineInterface',
-					key: 'machineInterfaceID'
+					model: 'machine_interface',
+					key: 'id'
 				}
 			},
 			configuredDisk_diskVolume: {
@@ -59,6 +59,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredDisk');
+		return queryInterface.dropTable('configured_disk');
 	}
 };

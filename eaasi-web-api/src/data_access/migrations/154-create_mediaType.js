@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('mediaType', {
+		return queryInterface.createTable('media_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			mediaTypeLabel: {
@@ -18,6 +18,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('mediaType');
+		return queryInterface.dropTable('media_type');
 	}
 };

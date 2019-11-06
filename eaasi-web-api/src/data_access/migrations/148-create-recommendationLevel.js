@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('recommendationLevel', {
+		return queryInterface.createTable('recommendation_level', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			recommendationLevelLabel: {
@@ -15,6 +15,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('recommendationLevel');
+		return queryInterface.dropTable('recommendation_level');
 	}
 };

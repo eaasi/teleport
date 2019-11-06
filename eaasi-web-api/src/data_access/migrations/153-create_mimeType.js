@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('mimeType', {
+		return queryInterface.createTable('mime_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			mimeTypeLabel: {
@@ -14,6 +14,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('mimeType');
+		return queryInterface.dropTable('mime_type');
 	}
 };

@@ -4,23 +4,23 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_requires_processor', {
+		return queryInterface.createTable('system_requirements_requires_processor', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirements_systemRequirementsID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'systemRequirements',
-					key: 'systemRequirementsID'
+					model: 'system_requirements',
+					key: 'id'
 				}
 			},
 			systemRequirements_requiresProcessorID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'processorDevice',
-					key: 'processorDeviceID'
+					model: 'processor_device',
+					key: 'id'
 				}
 			},
 			systemRequirements_minimumFrequency: {
@@ -34,7 +34,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_requires_processor');
+		return queryInterface.dropTable('system_requirements_requires_processor');
 	}
 };
 

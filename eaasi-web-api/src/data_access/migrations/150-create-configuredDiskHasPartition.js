@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredDisk_has_partition', {
+		return queryInterface.createTable('configured_disk_has_partition', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredDiskPartition_diskImageFileID: {
@@ -26,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredDisk_has_partition');
+		return queryInterface.dropTable('configured_disk_has_partition');
 	}
 };
