@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersion_isCompatibleWith_computingEnvironment', {
+		return queryInterface.createTable('software_version_is_compatible_with_computing_environment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersion_softwareVersionID: {
+			software_version_softwareVersionID: {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
-			compatibleComputingEnvironmentID: {
+			compatibleComputing_environmentID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'computingEnvironment',
-					key: 'computingEnvironmentID'
+					model: 'computing_environment',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareVersion_isCompatibleWith_computingEnvironment');
+		return queryInterface.dropTable('software_version_is_compatible_with_computing_environment');
 	}
 };

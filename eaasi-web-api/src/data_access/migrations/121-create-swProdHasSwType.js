@@ -4,23 +4,23 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareProduct_has_softwareType', {
+		return queryInterface.createTable('software_product_has_software_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareProduct_softwareProductID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'softwareProduct',
-					key: 'softwareProductID'
+					model: 'software_product',
+					key: 'id'
 				}
 			},
 			softwareProduct_softwareTypeQID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'softwareType',
-					key: 'softwareTypeQID'
+					model: 'software_type',
+					key: 'qid'
 				}
 			}
 		});

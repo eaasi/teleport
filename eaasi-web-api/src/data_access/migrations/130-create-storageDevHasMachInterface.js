@@ -4,15 +4,15 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('storageDevice_has_machineInterface', {
+		return queryInterface.createTable('storage_device_has_machine_interface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			storageDevice_storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'storageDevice',
-					key: 'storageDeviceID'
+					model: 'storage_device',
+					key: 'id'
 				}
 			},
 			storageDevice_machineInterfaceID: {
@@ -22,6 +22,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('storageDevice_has_machineInterface');
+		return queryInterface.dropTable('storage_device_has_machine_interface');
 	}
 };
