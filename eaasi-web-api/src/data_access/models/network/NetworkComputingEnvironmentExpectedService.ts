@@ -7,7 +7,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'network_computing_environment_expected_service'
 })
-export default class MachineType extends Model<MachineType> {
+export default class NetworkComputingEnvironmentExpectedService extends Model<NetworkComputingEnvironmentExpectedService> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

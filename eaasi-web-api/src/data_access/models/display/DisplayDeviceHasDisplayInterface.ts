@@ -6,7 +6,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'display_device_has_display_interface'
 })
-export default class DisplayDeviceHasColorDepth extends Model<DisplayDeviceHasColorDepth> {
+export default class DisplayDeviceHasDisplayInterface extends Model<DisplayDeviceHasDisplayInterface> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

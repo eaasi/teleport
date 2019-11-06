@@ -4,9 +4,9 @@ import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'configured_os_has_user_information'
+	tableName: 'configured_os_language'
 })
-export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
+export default class ConfiguredOSLanguage extends Model<ConfiguredOSLanguage> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

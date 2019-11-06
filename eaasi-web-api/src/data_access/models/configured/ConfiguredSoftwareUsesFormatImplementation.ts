@@ -7,7 +7,7 @@ import {Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt} from 'sequelize-
 @Table({
 	tableName: 'configured_software_uses_format_implementation'
 })
-export default class ConfiguredSoftwareHasUserInformation extends Model<ConfiguredSoftwareHasUserInformation> {
+export default class ConfiguredSoftwareUsesFormatImplementation extends Model<ConfiguredSoftwareUsesFormatImplementation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

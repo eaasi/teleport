@@ -7,7 +7,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'configured_pointer_device'
 })
-export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
+export default class ConfiguredPointerDevice extends Model<ConfiguredPointerDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
