@@ -1,4 +1,5 @@
-import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import EaasiUser from '@/data_access/models/app/EaasiUser';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
@@ -12,20 +13,17 @@ export default class Bookmark extends Model<Bookmark> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
 	})
 	id: number
 
+	@ForeignKey(() => EaasiUser)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
-		references: {
-			model: 'eaasi_user',
-			key: 'id'
-		}
 	})
 	userId: number
 

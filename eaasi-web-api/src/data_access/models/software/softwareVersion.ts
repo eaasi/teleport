@@ -52,7 +52,7 @@ export default class SoftwareVersion extends Model<SoftwareVersion> {
 
 	@ForeignKey(() => SoftwareProduct)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	is_version_of_softwareProduct: Date

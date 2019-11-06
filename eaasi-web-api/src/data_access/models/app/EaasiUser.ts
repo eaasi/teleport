@@ -1,4 +1,4 @@
-import { CreatedAt, UpdatedAt, Column, HasOne, Model, Table } from 'sequelize-typescript';
+import {CreatedAt, UpdatedAt, Column, HasOne, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import EaasiRole from './EaasiRole';
 
@@ -13,7 +13,7 @@ export default class EaasiUser extends Model<EaasiUser> {
     updatedAt: Date;
 
     @Column({
-    	type: DataTypes.BIGINT,
+    	type: DataTypes.INTEGER,
     	allowNull: false,
     	primaryKey: true,
     	autoIncrement: true,
@@ -44,12 +44,9 @@ export default class EaasiUser extends Model<EaasiUser> {
     })
     email: string;
 
+    @ForeignKey(() => EaasiRole)
     @Column({
-    	type: DataTypes.BIGINT,
-    	references: {
-    		model: 'eaasi_role',
-    		key: 'id'
-    	}
+    	type: DataTypes.INTEGER,
     })
     roleId: number;
 

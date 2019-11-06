@@ -12,7 +12,7 @@ export default class UserInformation extends Model<UserInformation> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true,

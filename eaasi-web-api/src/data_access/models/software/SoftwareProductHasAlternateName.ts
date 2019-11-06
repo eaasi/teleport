@@ -12,7 +12,7 @@ export default class SoftwareProductHasAlternateName extends Model<SoftwareProdu
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
 	softwareProductID: string

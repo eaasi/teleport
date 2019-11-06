@@ -13,7 +13,7 @@ export default class File extends Model<File> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true

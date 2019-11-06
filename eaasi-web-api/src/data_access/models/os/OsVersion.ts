@@ -12,7 +12,7 @@ export default class OsVersion extends Model<OsVersion> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true

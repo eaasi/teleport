@@ -13,7 +13,7 @@ export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
@@ -40,14 +40,14 @@ export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 
 	@ForeignKey(() => SoftwareEnvironment)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	derivedFrom_SoftwareEnvironment: number;
 
 	@ForeignKey(() => ConfiguredOS)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	hasPart_configuredOS: number;

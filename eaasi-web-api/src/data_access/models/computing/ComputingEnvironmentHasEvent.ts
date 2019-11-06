@@ -14,7 +14,7 @@ export default class ComputingEnvironmentHasEvent extends Model<ComputingEnviron
 
 	@ForeignKey(() => ComputingEnvironment)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
@@ -22,7 +22,7 @@ export default class ComputingEnvironmentHasEvent extends Model<ComputingEnviron
 	computingEnvironmentId: number
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
 	eventId: number

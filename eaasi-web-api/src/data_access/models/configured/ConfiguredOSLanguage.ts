@@ -15,7 +15,7 @@ export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHa
 
 	@ForeignKey(() => ConfiguredOS)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
 	configuredOsID: number

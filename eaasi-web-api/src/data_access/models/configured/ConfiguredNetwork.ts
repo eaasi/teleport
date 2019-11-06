@@ -12,7 +12,7 @@ export default class ConfiguredNetwork extends Model<ConfiguredNetwork> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true

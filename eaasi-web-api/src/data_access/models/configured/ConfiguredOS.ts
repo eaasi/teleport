@@ -18,7 +18,7 @@ export default class ConfiguredOS extends Model<ConfiguredOS> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
@@ -27,14 +27,14 @@ export default class ConfiguredOS extends Model<ConfiguredOS> {
 
 	@ForeignKey(() => DisplayResolution)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	displayResolutionId: number
 
 	@ForeignKey(() => ColorDepth)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	colorDepthId: number
@@ -68,7 +68,7 @@ export default class ConfiguredOS extends Model<ConfiguredOS> {
 
 	@ForeignKey(() => OsVersion)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	manifestation_of_osVersionId: number

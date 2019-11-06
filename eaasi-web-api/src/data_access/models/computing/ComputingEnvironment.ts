@@ -14,7 +14,7 @@ export default class ComputingEnvironment extends Model<ComputingEnvironment> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
@@ -22,7 +22,7 @@ export default class ComputingEnvironment extends Model<ComputingEnvironment> {
 	id: number
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
 	sourceOrg: number
@@ -36,14 +36,14 @@ export default class ComputingEnvironment extends Model<ComputingEnvironment> {
 
     @ForeignKey(() => ConfiguredNetwork)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	configuredNetworkId: number
 
 	@ForeignKey(() => SoftwareEnvironment)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
     softwareEnvironmentId: number
