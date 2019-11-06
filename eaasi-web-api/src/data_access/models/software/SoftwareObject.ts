@@ -12,7 +12,7 @@ export default class SoftwareObject extends Model<SoftwareObject> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
@@ -26,7 +26,7 @@ export default class SoftwareObject extends Model<SoftwareObject> {
 	inNetwork: boolean;
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
 	hasSourceOrg: number;

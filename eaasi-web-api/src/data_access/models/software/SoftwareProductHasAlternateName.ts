@@ -1,29 +1,25 @@
-'use strict';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_product_has_alternate_name'
+})
+export default class SoftwareProductHasAlternateName extends Model<SoftwareProductHasAlternateName> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareProductHasAlternateName extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareProductHasAlternateName.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareProduct_softwareProductID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareProduct',
-				key: 'softwareProductID'
-			}
-		},
-		softwareProduct_alternateName: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		}
-	}, { sequelize, tableName: 'softwareProduct_has_alternateName' });
-	SoftwareProductHasAlternateName.associate = models => {
-		models.SoftwareProductHasAlternateName.hasOne(models.SoftwareProduct, {foreignKey: 'softwareProductID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareProductHasAlternateName;
-};
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	softwareProductID: string
 
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	alternateName: string
+}

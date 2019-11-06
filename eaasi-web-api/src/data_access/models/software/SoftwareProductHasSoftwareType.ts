@@ -1,32 +1,29 @@
-'use strict';
+import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
+import SoftwareType from '@/data_access/models/software/SoftwareType';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_product_has_software_type'
+})
+export default class SoftwareProductHasSoftwareType extends Model<SoftwareProductHasSoftwareType> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareProductHasSoftwareType extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareProductHasSoftwareType.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareProduct_softwareProductID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareProduct',
-				key: 'softwareProductID'
-			}
-		},
-		softwareProduct_softwareTypeQID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareType',
-				key: 'softwareTypeQID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareProduct_has_softwareType' });
-	SoftwareProductHasSoftwareType.associate = models => {
-		models.SoftwareProductHasSoftwareType.hasOne(models.SoftwareProduct, {foreignKey: 'softwareProductID'});
-		models.SoftwareProductHasSoftwareType.hasOne(models.SoftwareType, {foreignKey: 'softwareTypeID'});
-	};
-	return SoftwareProductHasSoftwareType;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareProduct)
+	@Column({
+		type: DataTypes.BIGINT,
+		allowNull: false,
+	})
+	softwareProductID: string
+
+	@ForeignKey(() => SoftwareType)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	softwareTypeQID: string
+}

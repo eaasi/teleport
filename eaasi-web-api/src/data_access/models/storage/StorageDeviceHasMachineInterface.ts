@@ -1,3 +1,5 @@
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import StorageDevice from '@/data_access/models/storage/StorageDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
@@ -11,20 +13,14 @@ export default class StorageDeviceTypeHasMachineInterface extends Model<StorageD
 	@UpdatedAt
 	readonly updatedAt: Date = new Date();
 
-	@Column({
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		autoIncrement: true,
-		allowNull: false,
-	})
-	id: number
-
+	@ForeignKey(() => StorageDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
 	storageDeviceID: number
 
+	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true

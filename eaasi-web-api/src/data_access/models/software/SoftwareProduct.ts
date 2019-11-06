@@ -12,12 +12,12 @@ export default class SoftwareProduct extends Model<SoftwareProduct> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: string
+	id: number
 
 	@Column({
 		type: DataTypes.STRING,
