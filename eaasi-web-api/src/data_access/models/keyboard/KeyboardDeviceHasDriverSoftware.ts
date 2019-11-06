@@ -27,4 +27,3 @@ export default class KeyboardDeviceHasDriverSoftware extends Model<KeyboardDevic
 	})
 	driverSoftwareID: number
 }
-

@@ -1,29 +1,29 @@
-'use strict';
+import Language from '@/data_access/models/base/Language';
+import KeyboardDevice from '@/data_access/models/keyboard/KeyboardDevice';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'keyboard_device_has_language'
+})
+export default class KeyboardDeviceHasLanguage extends Model<KeyboardDeviceHasLanguage> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class KeyboardDeviceHasLanguage extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	KeyboardDeviceHasLanguage.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		keyboardDevice_keyboardDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'keyboardDevice',
-				key: 'keyboardDeviceID'
-			}
-		},
-		keyboardDevice_languageQID: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'ipuDevice_has_equivalent' });
-	KeyboardDeviceHasLanguage.associate = models => {
-		models.KeyboardDeviceHasLanguage.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-	};
+	@ForeignKey(() => KeyboardDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	keyboardDeviceID: number
 
-	return KeyboardDeviceHasLanguage;
-};
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true
+	})
+	languageQID: string
+}

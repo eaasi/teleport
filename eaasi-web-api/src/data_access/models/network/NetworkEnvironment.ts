@@ -3,9 +3,9 @@ import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript'
 import { DataTypes } from 'sequelize';
 
 @Table({
-	tableName: 'network_device'
+	tableName: 'network_environment'
 })
-export default class NetworkDevice extends Model<NetworkDevice> {
+export default class NetworkEnvironment extends Model<NetworkEnvironment> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -24,11 +24,5 @@ export default class NetworkDevice extends Model<NetworkDevice> {
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	qid: string
-
-	@Column({
-		type: DataTypes.STRING,
-		allowNull: true,
-	})
-	name: string
+	label: string
 }

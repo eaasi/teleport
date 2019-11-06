@@ -33,7 +33,7 @@ export default class MachineRecommendation extends Model<MachineRecommendation> 
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	emulatorProject: number
+	emulatorProjectID: number
 
 	@ForeignKey(() => RecommendedMachine)
 	@Column({
@@ -47,11 +47,11 @@ export default class MachineRecommendation extends Model<MachineRecommendation> 
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	recommendationLevel: number
+	recommendationLevelID: number
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	description : string
+	description: string
 }

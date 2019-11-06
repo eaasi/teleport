@@ -1,28 +1,29 @@
-'use strict';
+import GpuDevice from '@/data_access/models/gpu/GpuDevice';
+import MachineInterface from '@/data_access/models/machine/MachineInterface';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'keyboard_device_has_machine_interface'
+})
+export default class KeyboardDeviceHasMachineInterface extends Model<KeyboardDeviceHasMachineInterface> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class KeyboardDeviceHasMachineInterface extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	KeyboardDeviceHasMachineInterface.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		keyboardDevice_keyboardDeviceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'keyboardDevice',
-				key: 'keyboardDeviceID'
-			}
-		},
-		keyboardDevice_machineInterfaceID: {
-			type: Sequelize.INTEGER,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'keyboardDevice_has_machineInterface' });
-	KeyboardDeviceHasMachineInterface.associate = models => {
-		models.KeyboardDeviceHasMachineInterface.hasOne(models.KeyboardDevice, {foreignKey: 'keyboardDeviceID'});
-	};
-	return KeyboardDeviceHasMachineInterface;
-};
+	@ForeignKey(() => GpuDevice)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	keyboardDeviceID: number
+
+	@ForeignKey(() => MachineInterface)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true
+	})
+	machineInterfaceID: number
+}
