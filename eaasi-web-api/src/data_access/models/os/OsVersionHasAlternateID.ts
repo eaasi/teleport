@@ -1,28 +1,29 @@
-'use strict';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_has_alternate_id'
+})
+export default class OsVersionHasAlternateID extends Model<OsVersionHasAlternateID> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionHasAlternateID extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersionHasAlternateID.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		osVersion_alternativeID: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'osVersion_has_alternateID' });
-	OsVersionHasAlternateID.associate = models => {
-		models.OsVersionHasAlternateID.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return OsVersionHasAlternateID;
-};
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
+
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionAlternateID: number
+}
+

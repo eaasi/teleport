@@ -1,35 +1,29 @@
-'use strict';
+import ColorDepth from '@/data_access/models/base/ColorDepth';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_color_depth_settings'
+})
+export default class OsVersionColorDepthSettings extends Model<OsVersionColorDepthSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionColorDepthSettings extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
 
-	OsVersionColorDepthSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		osVersion_colorDepthID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'colorDepth',
-				key: 'colorDepthID'
-			}
-		}
-	}, { sequelize, tableName: 'osVersion_colorDepthSettings' });
-	OsVersionColorDepthSettings.associate = models => {
-		models.OsVersionColorDepthSettings.hasOne(models.ColorDepth, {foreignKey: 'colorDepthID'});
-		models.OsVersionColorDepthSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-	};
-
-	return OsVersionColorDepthSettings;
-};
+	@ForeignKey(() => ColorDepth)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	colorDepthID: number
+}

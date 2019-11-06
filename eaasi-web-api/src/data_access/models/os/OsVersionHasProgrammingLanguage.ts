@@ -1,36 +1,30 @@
-'use strict';
+import ProgrammingLanguage from '@/data_access/models/base/ProgrammingLanguage';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_has_programming_language'
+})
+export default class OsVersionHasProgrammingLanguage extends Model<OsVersionHasProgrammingLanguage> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionHasProgrammingLanguage extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersionHasProgrammingLanguage.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		osVersion_programmingLanguageID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'programmingLanguage',
-				key: 'programmingLanguageID'
-			}
-		}
-	}, { sequelize, tableName: 'osVersion_has_programmingLanguage' });
-	OsVersionHasProgrammingLanguage.associate = models => {
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-		models.OsVersionHasProgrammingLanguage.hasOne(models.OsVersion,
-			{foreignKey: 'osVersionID'});
-		models.OsVersionHasProgrammingLanguage.hasOne(models.ProgrammingLanguage,
-			{foreignKey: 'programmingLanguageID'});
-	};
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
 
-	return OsVersionHasProgrammingLanguage;
-};
+	@ForeignKey(() => ProgrammingLanguage)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	programmingLanguageID: number
+}
+

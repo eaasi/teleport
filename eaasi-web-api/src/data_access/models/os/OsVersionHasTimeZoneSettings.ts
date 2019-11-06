@@ -1,20 +1,29 @@
-'use strict';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import Timezone from '@/data_access/models/timezone/Timezone';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_has_timezone_settings'
+})
+export default class OsVersionHasTimeZoneSettings extends Model<OsVersionHasTimeZoneSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionTimezoneSettings extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersionTimezoneSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-		},
-		osVersion_has_timeZoneSetting: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'osVersion_has_timeZoneSettings' });
-	return OsVersionTimezoneSettings;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
+
+	@ForeignKey(() => Timezone)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	timezoneID: number
+}

@@ -1,34 +1,30 @@
-'use strict';
+import DisplayResolution from '@/data_access/models/display/DisplayResolution';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_display_resolution_settings'
+})
+export default class OsVersionDisplayResolutionSettings extends Model<OsVersionDisplayResolutionSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionDisplayResolutionSettings extends Sequelize.Model {}
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-module.exports = (sequelize) => {
-	OsVersionDisplayResolutionSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		osVersion_displayResolutionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'displayResolution',
-				key: 'displayResolutionID'
-			}
-		}
-	}, { sequelize, tableName: 'osVersion_displayResolutionSettings' });
-	OsVersionDisplayResolutionSettings.associate = models => {
-		models.OsVersionDisplayResolutionSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-		models.OsVersionDisplayResolutionSettings.hasOne(models.DisplayResolution, {foreignKey: 'displayResolutionID'});
-	};
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
 
-	return OsVersionDisplayResolutionSettings;
-};
+	@ForeignKey(() => DisplayResolution)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	displayResolutionID: number
+}
+

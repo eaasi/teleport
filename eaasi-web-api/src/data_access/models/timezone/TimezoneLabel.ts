@@ -1,10 +1,11 @@
+import Timezone from '@/data_access/models/timezone/Timezone';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'timezone_label'
 })
-export default class Timezone extends Model<Timezone> {
+export default class TimezoneLabel extends Model<TimezoneLabel> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

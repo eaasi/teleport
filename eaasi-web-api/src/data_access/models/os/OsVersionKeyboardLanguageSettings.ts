@@ -1,28 +1,29 @@
-'use strict';
+import Language from '@/data_access/models/base/Language';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_keyboard_language_settings'
+})
+export default class OsVersionKeyboardLanguageSettings extends Model<OsVersionKeyboardLanguageSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionKeyboardLanguageSettings extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersionKeyboardLanguageSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		osVersion_keyboardLanguageQID: {
-			type: Sequelize.STRING,
-			allowNull: false
-		}
-	}, {sequelize, tableName: 'osVersion_displayResolutionSettings'});
-	OsVersionKeyboardLanguageSettings.associate = models => {
-		models.OsVersionKeyboardLanguageSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-	};
-	return OsVersionKeyboardLanguageSettings;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
+
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	languageQID: string
+}

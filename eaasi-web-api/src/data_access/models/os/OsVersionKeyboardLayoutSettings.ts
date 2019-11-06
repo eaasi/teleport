@@ -1,35 +1,29 @@
-const Sequelize = require('sequelize');
+import KeyboardLayout from '@/data_access/models/keyboard/KeyboardLayout';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-class OsVersionKeyboardLayoutSettings extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersionKeyboardLayoutSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		osVersion_keyboardLayoutQID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'keyboardLayout',
-				key: 'keyboardLayoutID'
-			}
-		},
-		osVersion_keyboardLayoutName: {
-			type: Sequelize.STRING,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'osVersion_keyboardLayoutSettings' });
-	OsVersionKeyboardLayoutSettings.associate = models => {
-		models.OsVersionKeyboardLayoutSettings.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-		models.OsVersionKeyboardLayoutSettings.hasOne(models.KeyboardLayout, {foreignKey: 'keyboardLayoutQID'});
-	};
+@Table({
+	tableName: 'os_version_keyboard_layout_settings'
+})
+export default class OsVersionKeyboardLayoutSettings extends Model<OsVersionKeyboardLayoutSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-	return OsVersionKeyboardLayoutSettings;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
+
+	@ForeignKey(() => KeyboardLayout)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	keyboardLayoutID: number
+}

@@ -1,32 +1,29 @@
-'use strict';
+import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import OsVersion from '@/data_access/models/os/OsVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'os_version_compatible_with_configured_machine'
+})
+export default class OsVersionIsCompatibleWithConfiguredMachine extends Model<OsVersionIsCompatibleWithConfiguredMachine> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class OsVersionIsCompatibleWithConfiguredMachine extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	OsVersionIsCompatibleWithConfiguredMachine.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		osVersion_osVersionID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'osVersion',
-				key: 'osVersionID'
-			}
-		},
-		compatibleMachineID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'configuredMachine',
-				key: 'configuredMachineID'
-			}
-		}
-	}, { sequelize, tableName: 'osVersion_isCompatibleWith_configuredMachine' });
-	OsVersionIsCompatibleWithConfiguredMachine.associate = models => {
-		models.OsVersionIsCompatibleWithConfiguredMachine.hasOne(models.OsVersion, {foreignKey: 'osVersionID'});
-		models.OsVersionIsCompatibleWithConfiguredMachine.hasOne(models.ConfiguredMachine, {foreignKey: 'configuredMachineID'});
-	};
-	return OsVersionIsCompatibleWithConfiguredMachine;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => OsVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	osVersionID: number
+
+	@ForeignKey(() => ConfiguredMachine)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	configuredMachineID: number
+}
