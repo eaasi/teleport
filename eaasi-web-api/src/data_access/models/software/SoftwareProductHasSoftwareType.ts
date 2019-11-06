@@ -15,10 +15,10 @@ export default class SoftwareProductHasSoftwareType extends Model<SoftwareProduc
 
 	@ForeignKey(() => SoftwareProduct)
 	@Column({
-		type: DataTypes.BIGINT,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareProductID: string
+	softwareProductID: number
 
 	@ForeignKey(() => SoftwareType)
 	@Column({

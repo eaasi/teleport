@@ -1,32 +1,43 @@
-'use strict';
+import FileOperation from '@/data_access/models/file/FileOperation';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_file_operation'
+})
+export default class SoftwareVersionHasFileOperation extends Model<SoftwareVersionHasFileOperation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasFileOperation extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasFileOperation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_fileOperationID: {
-			type: Sequelize.STRING,
-			references: {
-				model: 'fileOperation',
-				key: 'fileOperationID'
-			}
-		},
-		softwareVersion_operationType: {
-			type: Sequelize.STRING,
-		},
-		defaultOperation: {
-			type: Sequelize.BOOLEAN,
-		}
-	}, { sequelize, tableName: 'softwareVersion_has_fileOperation' });
-	return SoftwareVersionHasFileOperation;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => FileOperation)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	fileOperationID: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	fileOperationType: string
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	})
+	isDefaultOperation: boolean
+}
+

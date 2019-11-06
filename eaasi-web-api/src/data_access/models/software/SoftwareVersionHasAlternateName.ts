@@ -1,27 +1,27 @@
-'use strict';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_alternate_name'
+})
+export default class SoftwareVersionHasAlternateName extends Model<SoftwareVersionHasAlternateName> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasAlternateName extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasAlternateName.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_alternateName: {
-			type: Sequelize.STRING,
-			allowNull: false,
-		}
-	}, { sequelize, tableName: 'softwareVersion_has_alternateName' });
-	SoftwareVersionHasAlternateName.associate = models => {
-		models.SoftwareVersionHasAlternateName.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
-	return SoftwareVersionHasAlternateName;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	alternateName: string
+}

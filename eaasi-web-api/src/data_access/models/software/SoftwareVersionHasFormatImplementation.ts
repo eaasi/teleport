@@ -1,45 +1,45 @@
-'use strict';
+import FormatImplementation from '@/data_access/models/file/FormatImplementation';
+import FormatOperation from '@/data_access/models/file/FormatOperation';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_format_implementation'
+})
+export default class SoftwareVersionHasFormatImplementation extends Model<SoftwareVersionHasFormatImplementation> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasFormatImplementation extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasFormatImplementation.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_formatImplementationID: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'formatImplementation',
-				key: 'formatImplementationID'
-			}
-		},
-		softwareVersion_implementationOperation: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'formatOperation',
-				key: 'operationID'
-			}
-		},
-		defaultImplementation: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true
-		}
-	}, { sequelize, tableName: 'pointerDevice' });
-	SoftwareVersionHasFormatImplementation.associate = models => {
-		models.SoftwareVersionHasFormatImplementation.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.SoftwareVersionHasFormatImplementation.hasOne(models.FormatImplementation, {foreignKey: 'formatImplementationID'});
-		models.SoftwareVersionHasFormatImplementation.hasOne(models.FormatOperation, {foreignKey: 'formatOperationID'});
-	};
-	return SoftwareVersionHasFormatImplementation;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => FormatImplementation)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	formatImplementationID: number
+
+	@ForeignKey(() => FormatOperation)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	formatOperationID: number
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	})
+	isDefaultOperation: boolean
+}
+

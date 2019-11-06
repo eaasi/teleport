@@ -1,32 +1,37 @@
-'use strict';
+import Language from '@/data_access/models/base/Language';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_language_settings'
+})
+export default class SoftwareVersionHasLanguageSettings extends Model<SoftwareVersionHasLanguageSettings> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasLanguageSettings extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasLanguageSettings.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_languageQID: {
-			type: Sequelize.STRING,
-			allowNull: true,
-			references: {
-				model: 'language',
-				key: 'languageQID'
-			}
-		},
-		softwareVersion_defaultLanguage: {
-			type: Sequelize.BOOLEAN,
-			allowNull: true,
-		}
-	}, { sequelize, tableName: 'pointerDevice' });
-	return SoftwareVersionHasLanguageSettings;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => Language)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	languageQID: string
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
+	})
+	isDefaultLanguage: boolean
+}
+

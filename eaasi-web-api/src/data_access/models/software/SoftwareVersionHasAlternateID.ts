@@ -1,36 +1,40 @@
-'use strict';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_alternate_id'
+})
+export default class SoftwareProductHasSoftwareType extends Model<SoftwareProductHasSoftwareType> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasAlternateID extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasAlternateID.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_alternateID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			unique: true
-		},
-		softwareVersion_idSource: {
-			type: Sequelize.STRING,
-			allowNull: false
-		},
-		softwareVersion_localID: {
-			type: Sequelize.BOOLEAN,
-			allowNull: false
-		}
-	}, { sequelize, tableName: 'softwareVersion_has_alternateName' });
-	SoftwareVersionHasAlternateID.associate = models => {
-		models.SoftwareVersionHasAlternateID.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-	};
-	return SoftwareVersionHasAlternateID;
-};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionAlternateID: number
+
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	softwareVersionIDSource: string
+
+	@Column({
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	})
+	isLocalID: boolean
+}

@@ -1,33 +1,30 @@
-'use strict';
+import ProgrammingLanguage from '@/data_access/models/base/ProgrammingLanguage';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_programming_language'
+})
+export default class SoftwareVersionHasProgrammingLanguage extends Model<SoftwareVersionHasProgrammingLanguage> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasProgrammingLanguage extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasProgrammingLanguage.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			allowNull: false,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_programmingLanguageID: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			references: {
-				model: 'programmingLanguage',
-				key: 'programmingLanguageID'
-			}
-		}
-	}, { sequelize, tableName: 'pointerDevice' });
-	SoftwareVersionHasProgrammingLanguage.associate = models => {
-		models.SoftwareVersionHasProgrammingLanguage.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersion'});
-		models.SoftwareVersionHasProgrammingLanguage.hasOne(models.ProgrammingLanguage, {foreignKey: 'programmingLanguage'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareVersionHasProgrammingLanguage;
-};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => ProgrammingLanguage)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: true,
+	})
+	programmingLanguageID: number
+}
+

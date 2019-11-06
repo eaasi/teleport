@@ -1,31 +1,30 @@
-'use strict';
+import Developer from '@/data_access/models/base/Developer';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
-const Sequelize = require('sequelize');
+@Table({
+	tableName: 'software_version_has_developer'
+})
+export default class SoftwareVersionHasDeveloper extends Model<SoftwareVersionHasDeveloper> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
 
-class SoftwareVersionHasDeveloper extends Sequelize.Model {}
-module.exports = (sequelize) => {
-	SoftwareVersionHasDeveloper.init({
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		softwareVersion_softwareVersionID: {
-			type: Sequelize.STRING,
-			references: {
-				model: 'softwareVersion',
-				key: 'softwareVersionID'
-			}
-		},
-		softwareVersion_softwareDeveloperID: {
-			type: Sequelize.INTEGER,
-			references: {
-				model: 'developer',
-				key: 'developerID'
-			}
-		}
-	}, { sequelize, tableName: 'softwareVersion_has_developer' });
-	SoftwareVersionHasDeveloper.associate = models => {
-		models.SoftwareVersionHasDeveloper.hasOne(models.SoftwareVersion, {foreignKey: 'softwareVersionID'});
-		models.SoftwareVersionHasDeveloper.hasOne(models.Developer, {foreignKey: 'developerID'});
-	};
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
 
-	return SoftwareVersionHasDeveloper;
-};
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number
+
+	@ForeignKey(() => Developer)
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: true,
+	})
+	developerQID: string
+}
+
