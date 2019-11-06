@@ -5,7 +5,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'software_version_has_alternate_id'
 })
-export default class SoftwareProductHasSoftwareType extends Model<SoftwareProductHasSoftwareType> {
+export default class SoftwareVersionHasAlternateID extends Model<SoftwareVersionHasAlternateID> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

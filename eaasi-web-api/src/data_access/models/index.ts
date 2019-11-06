@@ -107,6 +107,69 @@ import OsVersionIsCompatibleWithConfiguredMachine
 import OsVersionKeyboardLanguageSettings from '@/data_access/models/os/OsVersionKeyboardLanguageSettings';
 import OsVersionLanguageSettings from '@/data_access/models/os/OsVersionLanguageSettings';
 import OsVersionRegionSettings from '@/data_access/models/os/OsVersionRegionSettings';
+import PointerDevice from '@/data_access/models/pointer/PointerDevice';
+import PointerDeviceHasDriverSoftware from '@/data_access/models/pointer/PointerDeviceHasDriverSoftware';
+import PointerDeviceHasMachineInterface from '@/data_access/models/pointer/PointerDeviceHasMachineInterface';
+import PointerDeviceType from '@/data_access/models/pointer/PointerDeviceType';
+import ProcessorDevice from '@/data_access/models/processor/ProcessorDevice';
+import ProcessorDeviceHasDriverSoftware from '@/data_access/models/processor/ProcessorDeviceHasDriverSoftware';
+import ProcessorDeviceHasMachineInterface from '@/data_access/models/processor/ProcessorDeviceHasMachineInterface';
+import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
+import SoftwareEnvironmentHasDiskImage from '@/data_access/models/software/SoftwareEnvironmentHasDiskImage';
+import SoftwareEnvironmentHasEvent from '@/data_access/models/software/SoftwareEnvironmentHasEvent';
+import SoftwareEnvironmentHasPartConfiguredSoftware
+	from '@/data_access/models/software/SoftwareEnvironmentHasPartConfiguredSoftware';
+import SoftwareFamilyVersionHasSoftwareProduct
+	from '@/data_access/models/software/SoftwareFamilyVersionHasSoftwareProduct';
+import SoftwareFamilyVersionHasSoftwareVersion
+	from '@/data_access/models/software/SoftwareFamilyVersionHasSoftwareVersion';
+import SoftwareLicense from '@/data_access/models/software/SoftwareLicense';
+import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import SoftwareObjectHasAlternateID from '@/data_access/models/software/SoftwareObjectHasAlternateID';
+import SoftwareObjectHasEvent from '@/data_access/models/software/SoftwareObjectHasEvent';
+import SoftwareObjectHasObjectFile from '@/data_access/models/software/SoftwareObjectHasObjectFile';
+import SoftwareObjectIsManifestationOfSoftwareVersion
+	from '@/data_access/models/software/SoftwareObjectIsManifestationOfSoftwareVersion';
+import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
+import SoftwareProductHasAlternateName from '@/data_access/models/software/SoftwareProductHasAlternateName';
+import SoftwareProductHasSoftwareType from '@/data_access/models/software/SoftwareProductHasSoftwareType';
+import SoftwareType from '@/data_access/models/software/SoftwareType';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import SoftwareVersionHasAlternateID from '@/data_access/models/software/SoftwareVersionHasAlternateID';
+import SoftwareVersionHasAlternateName from '@/data_access/models/software/SoftwareVersionHasAlternateName';
+import SoftwareVersionHasDeveloper from '@/data_access/models/software/SoftwareVersionHasDeveloper';
+import SoftwareVersionHasFileOperation from '@/data_access/models/software/SoftwareVersionHasFileOperation';
+import SoftwareVersionHasFormatImplementation
+	from '@/data_access/models/software/SoftwareVersionHasFormatImplementation';
+import SoftwareVersionHasLanguageSettings from '@/data_access/models/software/SoftwareVersionHasLanguageSettings';
+import SoftwareVersionHasProgrammingLanguage from '@/data_access/models/software/SoftwareVersionHasProgrammingLanguage';
+import SoftwareVersionHasSoftwareLicense from '@/data_access/models/software/SoftwareVersionHasSoftwareLicense';
+import SoftwareVersionHasSystemRequirements from '@/data_access/models/software/SoftwareVersionHasSystemRequirements';
+import SoftwareVersionIncludesSoftwareVersion
+	from '@/data_access/models/software/SoftwareVersionIncludesSoftwareVersion';
+import SoftwareVersionIsCompatibleWithComputingEnvironment
+	from '@/data_access/models/software/SoftwareVersionIsCompatibleWithComputingEnvironment';
+import StorageDevice from '@/data_access/models/storage/StorageDevice';
+import StorageDeviceHasDriverSoftware from '@/data_access/models/storage/StorageDeviceHasDriverSoftware';
+import StorageDeviceHasMachineInterface from '@/data_access/models/storage/StorageDeviceHasMachineInterface';
+import StorageDeviceType from '@/data_access/models/storage/StorageDeviceType';
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import SystemRequirementsRequiresAudioDevice from '@/data_access/models/system/SystemRequirementsRequiresAudioDevice';
+import SystemRequirementsRequiresGpuDevice from '@/data_access/models/system/SystemRequirementsRequiresGpuDevice';
+import SystemRequirementsRequiresKeyboardDevice
+	from '@/data_access/models/system/SystemRequirementsRequiresKeyboardDevice';
+import SystemRequirementsRequiresNetworkDevice
+	from '@/data_access/models/system/SystemRequirementsRequiresNetworkDevice';
+import SystemRequirementsRequiresOsVersion from '@/data_access/models/system/SystemRequirementsRequiresOsVersion';
+import SystemRequirementsRequiresPointerDeviceType
+	from '@/data_access/models/system/SystemRequirementsRequiresPointerDeviceType';
+import SystemRequirementsRequiresProcessor from '@/data_access/models/system/SystemRequirementsRequiresProcessor';
+import SystemRequirementsRequiresSoftwareVersion
+	from '@/data_access/models/system/SystemRequirementsRequiresSoftwareVersion';
+import SystemRequirementsRequiresStorageDeviceType
+	from '@/data_access/models/system/SystemRequirementsRequiresStorageDeviceType';
+import Timezone from '@/data_access/models/timezone/Timezone';
+import TimezoneLabel from '@/data_access/models/timezone/TimezoneLabel';
 import { Sequelize } from 'sequelize-typescript';
 
 export const sequelize = new Sequelize({
@@ -211,10 +274,62 @@ export const sequelize = new Sequelize({
 		OsVersionKeyboardLanguageSettings,
 		OsVersionLanguageSettings,
 		OsVersionRegionSettings,
+		PointerDevice,
+		PointerDeviceHasDriverSoftware,
+		PointerDeviceHasMachineInterface,
+		PointerDeviceType,
+		ProcessorDevice,
+		ProcessorDeviceHasDriverSoftware,
+		ProcessorDeviceHasMachineInterface,
 		ProgrammingLanguage,
 		ReadWriteStatus,
 		RecommendationLevel,
 		Region,
+		SoftwareEnvironment,
+		SoftwareEnvironmentHasDiskImage,
+		SoftwareEnvironmentHasEvent,
+		SoftwareEnvironmentHasPartConfiguredSoftware,
+		SoftwareFamilyVersionHasSoftwareProduct,
+		SoftwareFamilyVersionHasSoftwareVersion,
+		SoftwareLicense,
+		SoftwareObject,
+		SoftwareObjectHasAlternateID,
+		SoftwareObjectHasEvent,
+		SoftwareObjectHasObjectFile,
+		SoftwareObjectIsManifestationOfSoftwareVersion,
+		SoftwareProduct,
+		SoftwareProductHasAlternateName,
+		SoftwareProductHasSoftwareType,
+		SoftwareType,
+		SoftwareVersion,
+		SoftwareVersionHasAlternateID,
+		SoftwareVersionHasAlternateName,
+		SoftwareVersionHasDeveloper,
+		SoftwareVersionHasFileOperation,
+		SoftwareVersionHasFormatImplementation,
+		SoftwareVersionHasLanguageSettings,
+		SoftwareVersionHasProgrammingLanguage,
+		SoftwareVersionHasSoftwareLicense,
+		SoftwareVersionHasSystemRequirements,
+		SoftwareVersionIncludesSoftwareVersion,
+		SoftwareVersionIsCompatibleWithComputingEnvironment,
+		SoftwareVersionHasLanguageSettings,
+		StorageDevice,
+		StorageDeviceHasDriverSoftware,
+		StorageDeviceHasMachineInterface,
+		StorageDeviceType,
+		SystemRequirements,
+		SystemRequirementsRequiresAudioDevice,
+		SystemRequirementsRequiresGpuDevice,
+		SystemRequirementsRequiresKeyboardDevice,
+		SystemRequirementsRequiresNetworkDevice,
+		SystemRequirementsRequiresOsVersion,
+		SystemRequirementsRequiresPointerDeviceType,
+		SystemRequirementsRequiresProcessor,
+		SystemRequirementsRequiresSoftwareVersion,
+		SystemRequirementsRequiresStorageDeviceType,
+		Timezone,
+		TimezoneLabel,
 		UnitOfInformation,
 		UserInformation,
 	]
