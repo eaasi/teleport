@@ -28,14 +28,12 @@ export default class MachineRecommendation extends Model<MachineRecommendation> 
 	})
 	softwareVersionID: number
 
-	@ForeignKey(() => EmulatorProject)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
 	emulatorProjectID: number
 
-	@ForeignKey(() => RecommendedMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
