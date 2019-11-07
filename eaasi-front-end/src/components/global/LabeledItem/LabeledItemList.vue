@@ -34,6 +34,7 @@ export default class LabeledDetailsList extends Vue {
 	.lil-container {
 		background-color: lighten($light-neutral, 75%);
 		margin: 1.2rem;
+		min-height: 20rem;
 		padding: 2.4rem;
 
 		.lil-no-data {

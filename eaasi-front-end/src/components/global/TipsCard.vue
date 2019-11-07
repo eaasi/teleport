@@ -1,7 +1,7 @@
 <template functional>
 	<div class="tips-card-container">
 		<div class="tips-title">
-			<i :class="`fas fa-lightbulb`"></i>
+			<i class="fas fa-lightbulb"></i>
 			<span class="tips">TIPS</span>
 		</div>
 		<div class="tips-content">
@@ -35,9 +35,9 @@ export default class TipsCard extends Vue {
 		display: flex;
 		flex-direction: column;
 		line-height: 2.2rem;
-		min-height: 28rem;
+		min-height: 24rem;
 		padding: 2.4rem;
-		width: 28rem;
+		width: 25rem;
 	}
 
 	.tips-title {
