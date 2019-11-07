@@ -9,7 +9,7 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			qid: {
 				type: Sq.STRING(64),
-				allowNull: false,
+				allowNull: true,
 				primaryKey: true
 			},
 			label: {

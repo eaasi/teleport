@@ -12,9 +12,9 @@ export default class FileFormat extends Model<FileFormat> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.STRING(64),
-		allowNull: false,
 		primaryKey: true,
+		type: DataTypes.STRING(64),
+		allowNull: true,
 	})
 	qid: string;
 
