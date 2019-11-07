@@ -18,12 +18,12 @@ export default class OsVersionIsCompatibleWithConfiguredMachine extends Model<Os
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 }

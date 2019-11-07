@@ -18,12 +18,12 @@ export default class OsVersionHasSoftwareLicense extends Model<OsVersionHasSoftw
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => SoftwareLicense)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareLicenseID: number
+	softwareLicenseID: number;
 }

@@ -18,13 +18,13 @@ export default class OsVersionHasProgrammingLanguage extends Model<OsVersionHasP
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => ProgrammingLanguage)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	programmingLanguageID: number
+	programmingLanguageID: number;
 }
 

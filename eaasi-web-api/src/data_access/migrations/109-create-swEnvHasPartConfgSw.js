@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('software_environment_has_part_configured_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareEnvironment_softwareEnvironmentID: {
+			softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,8 +15,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			hasConfiguredSoftware: {
-				type: Sq.STRING,
+			configuredSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'configured_software',

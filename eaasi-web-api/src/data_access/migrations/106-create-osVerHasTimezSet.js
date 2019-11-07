@@ -7,13 +7,21 @@ module.exports = {
 		return queryInterface.createTable('os_version_has_timezone_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_softwareVersionID: {
-				type: Sq.STRING,
-				allowNull: true,
+			osVersionID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'os_version',
+					key: 'id'
+				}
 			},
-			osVersion_has_timezoneSetting: {
+			timezoneQid: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: false,
+				references: {
+					model: 'timezone',
+					key: 'qid'
+				}
 			}
 		});
 	},

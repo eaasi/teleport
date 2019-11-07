@@ -16,11 +16,11 @@ export default class Timezone extends Model<Timezone> {
 		allowNull: false,
 		primaryKey: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	utcOffset: string
+	utcOffset: string;
 }

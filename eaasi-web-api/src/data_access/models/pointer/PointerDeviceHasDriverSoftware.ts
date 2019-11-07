@@ -18,12 +18,12 @@ export default class PointerDeviceHasDriverSoftware extends Model<PointerDeviceH
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	pointerDeviceID: number
+	pointerDeviceID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }

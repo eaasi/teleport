@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('software_environment_has_disk_image', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareEnvironment_softwareEnvironmentID: {
+			softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -16,14 +16,14 @@ module.exports = {
 				}
 			},
 			diskImageID: {
-				type: Sq.STRING,
+				type: Sq.NUMBER,
 				allowNull: true
 			},
 			mountPoint: {
-				type: Sq.STRING,
+				type: Sq.STRING(32),
 				allowNull: true
 			},
-			fileSystem: {
+			fileSystemID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

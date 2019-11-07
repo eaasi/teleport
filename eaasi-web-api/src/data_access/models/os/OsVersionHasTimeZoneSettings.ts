@@ -18,12 +18,12 @@ export default class OsVersionHasTimeZoneSettings extends Model<OsVersionHasTime
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => Timezone)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	timezoneID: number
+	timezoneQid: number;
 }

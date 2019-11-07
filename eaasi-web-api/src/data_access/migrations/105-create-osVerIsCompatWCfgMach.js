@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('os_version_is_compatible_with_configured_machine', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			compatibleMachineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

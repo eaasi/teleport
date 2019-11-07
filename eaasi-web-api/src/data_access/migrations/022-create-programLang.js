@@ -10,13 +10,13 @@ module.exports = {
 				allowNull: false,
 				primaryKey: true
 			},
-			label: {
-				type: Sq.STRING(128),
-				allowNull: false
-			},
 			qid: {
 				type: Sq.STRING(64),
 				allowNull: true,
+			},
+			label: {
+				type: Sq.STRING(64),
+				allowNull: false
 			}
 		});
 	},

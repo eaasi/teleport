@@ -18,12 +18,12 @@ export default class OsVersionIncludesSoftwareVersion extends Model<OsVersionInc
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 }

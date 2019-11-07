@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('os_version_includes_software_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,8 +15,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			osVersion_softwareVersionID: {
-				type: Sq.STRING,
+			softwareVersionID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

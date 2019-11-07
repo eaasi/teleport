@@ -17,17 +17,17 @@ export default class ProgrammingLanguage extends Model<ProgrammingLanguage> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	label: string
+	label: string;
 }

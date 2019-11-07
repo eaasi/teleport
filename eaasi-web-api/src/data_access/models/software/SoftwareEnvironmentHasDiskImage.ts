@@ -1,3 +1,4 @@
+import FileSystem from '@/data_access/models/file/FileSystem';
 import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
@@ -26,11 +27,12 @@ export default class SoftwareEnvironmentHasDiskImage extends Model<SoftwareEnvir
 	diskImageID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(32),
 		allowNull: true,
 	})
 	mountPoint: string;
 
+	@ForeignKey(() => FileSystem)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
