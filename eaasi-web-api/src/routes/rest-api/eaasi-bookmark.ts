@@ -20,7 +20,7 @@ const controller = new EaasiBookmarkController();
 router.get('/', (req, res) => controller.getByUserID(req, res))
 
 /**
- * @api {post} api/bookmark:id Create a new Bookmark
+ * @api {post} api/bookmark Create a new Bookmark
  * @apiVersion 1.0.0
  * @apiName Create a Bookmark
  * @apiGroup Bookmark
