@@ -30,6 +30,7 @@ export default class EaasiAuthController extends BaseController {
 	login(req: Request, res: Response) {
 		// This should get redirected by passport-saml middleware,
 		// if not, fallback to the client root
+		console.log('---- in login -----');
 		res.redirect(CLIENT_URL);
 	}
 
@@ -39,6 +40,7 @@ export default class EaasiAuthController extends BaseController {
      * @param res response
      */
 	callback(req: Request, res: Response) {
+		console.log('---- in callback -----');
 		req.method = 'GET';
 		// Set JWT cookie
 		let expires = new Date();
