@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('osVersion_keyboard_layout_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,12 +15,12 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			osVersion_keyboardLayoutQID: {
+			keyboardLayoutID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'keyboard_layout',
-					key: 'qid'
+					key: 'id'
 				}
 			},
 			osVersion_keyboardLayoutName: {

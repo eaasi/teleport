@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('os_version_display_resolution_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			osVersion_displayResolutionID: {
+			displayResolutionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

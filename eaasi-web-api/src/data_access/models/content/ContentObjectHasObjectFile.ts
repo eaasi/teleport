@@ -18,7 +18,7 @@ export default class ContentObjectHasObjectFile extends Model<ContentObjectHasOb
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	contentObjectID: number;
+	contentObjectLocalID: number;
 
 	@ForeignKey(() => File)
 	@Column({
@@ -29,25 +29,25 @@ export default class ContentObjectHasObjectFile extends Model<ContentObjectHasOb
 
 	@Column({
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: true
 	})
-	fileLabel: string
+	label: string;
 
 	@Column({
 		type: DataTypes.STRING,
-		allowNull: false
+		allowNull: true
 	})
-	mediaTypeName: string
+	mediaTypeName: string;
 
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: false
+		type: DataTypes.STRING(1028),
+		allowNull: true
 	})
-	productKey: string
+	productKey: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: false
+		allowNull: true
 	})
-	fileOrder: number
+	fileOrder: number;
 }

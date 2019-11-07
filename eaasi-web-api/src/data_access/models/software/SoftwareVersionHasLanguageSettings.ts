@@ -18,20 +18,20 @@ export default class SoftwareVersionHasLanguageSettings extends Model<SoftwareVe
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => Language)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	languageQID: string
+	languageQid: string;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: false
 	})
-	isDefaultLanguage: boolean
+	isDefaultLanguage: boolean;
 }
 

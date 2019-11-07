@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('display_device_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			displayDevice_displayDeviceID: {
+			displayDeviceID: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,8 +15,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			displayDevice_driverSoftwareID: {
-				type: Sequelize.STRING,
+			driverSoftwareID: {
+				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

@@ -18,19 +18,19 @@ export default class OsVersionRegionSettings extends Model<OsVersionRegionSettin
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => Region)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	regionQID: string
+	regionQid: string;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: false
 	})
-	isDefaultRegion: boolean
+	isDefaultRegion: boolean;
 }

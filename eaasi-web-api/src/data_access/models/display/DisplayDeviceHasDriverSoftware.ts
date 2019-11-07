@@ -18,12 +18,12 @@ export default class DisplayDeviceHasDriverSoftware extends Model<DisplayDeviceH
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayDeviceID: number
+	displayDeviceID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }

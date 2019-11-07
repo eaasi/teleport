@@ -18,12 +18,12 @@ export default class DisplayDeviceHasDisplayInterface extends Model<DisplayDevic
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayDeviceID: number
+	displayDeviceID: number;
 
 	@ForeignKey(() => DisplayInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayInterfaceID: number
+	displayInterfaceID: number;
 }

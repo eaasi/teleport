@@ -7,31 +7,35 @@ module.exports = {
 		return queryInterface.createTable('content_object_has_object_file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentObject_contentObjectLocalID: {
-				type: Sq.STRING,
+			contentObjectLocalID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'content_object',
 					key: 'id'
 				}
 			},
-			contentObjectFileID: {
-				type: Sq.STRING,
+			fileID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'file',
 					key: 'id'
 				}
 			},
-			contentObjectFileLabel: {
+			label: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			contentObjectFile_mediaTypeName: {
-				type: Sq.STRING,
+			mediaTypeName: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			contentObjectFile_order: {
+			productKey: {
+				type: Sq.STRING(1028),
+				allowNull: true
+			},
+			fileOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},

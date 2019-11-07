@@ -7,22 +7,26 @@ module.exports = {
 		return queryInterface.createTable('os_version_language_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
-				primaryKey: true,
 				references: {
 					model: 'os_version',
 					key: 'id'
 				}
 			},
-			osVersion_languageQID: {
-				type: Sq.INTEGER,
-				allowNull: true
+			languageQID: {
+				type: Sq.STRING,
+				allowNull: true,
+				references: {
+					model: 'language',
+					key: 'qid'
+				}
 			},
-			osVersion_DefaultLanguage: {
+			isDefaultLanguage: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},

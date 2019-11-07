@@ -25,7 +25,7 @@ export default class KeyboardLayout extends Model<KeyboardLayout> {
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),

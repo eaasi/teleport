@@ -18,13 +18,13 @@ export default class OsVersionDisplayResolutionSettings extends Model<OsVersionD
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => DisplayResolution)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayResolutionID: number
+	displayResolutionID: number;
 }
 

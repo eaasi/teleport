@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('display_device_has_color_depth', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			displayDevice_displayDeviceID: {
+			displayDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,9 +15,9 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			colorDepth_colorDepthID: {
+			colorDepthID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'color_depth',
 					key: 'id'

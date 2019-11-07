@@ -18,14 +18,14 @@ export default class OsVersionLanguageSettings extends Model<OsVersionLanguageSe
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => Language)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	languageQID: string
+	languageQID: string;
 
 	@Column({
 		type: DataTypes.BOOLEAN,

@@ -18,12 +18,12 @@ export default class OsVersionKeyboardLayoutSettings extends Model<OsVersionKeyb
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => KeyboardLayout)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	keyboardLayoutID: number
+	keyboardLayoutID: number;
 }

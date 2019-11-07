@@ -18,12 +18,12 @@ export default class OsVersionKeyboardLanguageSettings extends Model<OsVersionKe
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => Language)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	languageQID: string
+	languageQid: string
 }

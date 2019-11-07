@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('software_version_language_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersion_versionID: {
+			softwareVersionID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
@@ -15,13 +15,14 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			softwareVersion_languageQID: {
+			languageQid: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			osVersion_defaultLanguage: {
+			isDefaultLanguage: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},

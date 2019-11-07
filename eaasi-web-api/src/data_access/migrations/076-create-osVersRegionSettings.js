@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('os_version_region_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'os_version',
 					key: 'id'
 				}
 			},
-			osVersion_regionQID: {
+			regionQid: {
 				type: Sq.STRING,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'region',
 					key: 'qid'
@@ -25,7 +25,8 @@ module.exports = {
 			},
 			osVersion_defaultRegion: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},

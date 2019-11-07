@@ -18,12 +18,12 @@ export default class DisplayDeviceHasColorDepth extends Model<DisplayDeviceHasCo
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayDeviceID: number
+	displayDeviceID: number;
 
 	@ForeignKey(() => ColorDepth)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	colorDepthID: number
+	colorDepthID: number;
 }
