@@ -20,25 +20,25 @@ export default class NetworkService extends Model<NetworkService> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	name: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(12),
 		allowNull: true,
 	})
 	defaultPort: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(32),
 		allowNull: true,
 	})
 	defaultPortRange: string

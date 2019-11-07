@@ -25,7 +25,7 @@ export default class SystemRequirements extends Model<SystemRequirements> {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	})
-	requirementsSummary: string
+	symmary: string
 
 	@Column({
 		type: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ export default class SystemRequirements extends Model<SystemRequirements> {
 	minimumRAM: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
 	minimumRAMUnitName: string
@@ -46,7 +46,7 @@ export default class SystemRequirements extends Model<SystemRequirements> {
 	minimumDiskVolume: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
 	minimumDiskVolumeUnitName: string
@@ -56,14 +56,14 @@ export default class SystemRequirements extends Model<SystemRequirements> {
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	colorDepthID: number
+	minimumColorDepthID: number
 
 	@ForeignKey(() => DisplayResolution)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	displayResolution: number
+	minimumDisplayResolutionID: number
 
 	@Column({
 		type: DataTypes.BOOLEAN,
@@ -73,13 +73,13 @@ export default class SystemRequirements extends Model<SystemRequirements> {
 
 
 	@Column({
-		type: DataTypes.INTEGER,
+		type: DataTypes.DECIMAL,
 		allowNull: true,
 	})
 	minimumNetworkBitRate: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
 	minimumNetworkBitRateUnitName: string

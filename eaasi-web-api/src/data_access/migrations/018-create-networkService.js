@@ -7,26 +7,26 @@ module.exports = {
 		return queryInterface.createTable('network_service', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			networkServiceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			networkServiceName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			networkServiceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 			defaultPort: {
-				type: Sq.STRING,
+				type: Sq.STRING(12),
 				allowNull: true
 			},
 			defaultPortRange: {
-				type: Sq.STRING,
+				type: Sq.STRING(32),
 				allowNull: true
 			}
 		});

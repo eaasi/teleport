@@ -1,3 +1,4 @@
+import SystemRequirements from '@/data_access/models/system/SystemRequirements';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
@@ -49,6 +50,7 @@ export default class OsVersion extends Model<OsVersion> {
 	})
 	publicationDate: Date
 
+	@ForeignKey(() => SystemRequirements)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,

@@ -13,29 +13,33 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			osVersionQID: {
+			qid: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			osVersionName: {
+			name: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			osVersionDescription: {
+			description: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			osVersionNumber: {
+			number: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			osVersionPublicationDate: {
+			publicationDate: {
 				type: Sq.DATE,
 				allowNull: true
 			},
-			osVersionSystemRequirements: {
+			systemRequirementsID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'system_requirements',
+					key: 'id'
+				}
 			},
 			isVersionOf_osProduct: {
 				type: Sq.INTEGER,

@@ -7,12 +7,12 @@ module.exports = {
 		return queryInterface.createTable('system_requirements', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirementsID: {
+			id: {
 				type: Sq.STRING,
 				allowNull: false,
 				primaryKey: true,
 			},
-			requirementsSummary: {
+			summary: {
 				type: Sq.TEXT,
 				allowNull: true
 			},
@@ -20,23 +20,27 @@ module.exports = {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			minimumRAM_unitName: {
-				type: Sq.STRING,
+			minimumRAMUnitName: {
+				type: Sq.STRING(16),
 				allowNull: true
 			},
 			minimumDiskVolume: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			minimumDiskVolume_unitName: {
-				type: Sq.STRING,
+			minimumDiskVolumeUnitName: {
+				type: Sq.STRING(16),
 				allowNull: true
 			},
-			minimumColorDepth: {
-				type: Sq.STRING,
+			minimumColorDepthID: {
+				type: Sq.INTEGER,
 				allowNull: true,
+				references: {
+					model: 'color_depth',
+					key: 'id'
+				}
 			},
-			minimumDisplayResolution: {
+			minimumDisplayResolutionID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -44,7 +48,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			internetAccessRequired: {
+			isInternetAccessRequired: {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			},
@@ -52,8 +56,8 @@ module.exports = {
 				type: Sq.DECIMAL,
 				allowNull: true
 			},
-			minimumNetworkBitRate_unitName: {
-				type: Sq.STRING,
+			minimumNetworkBitRateUnitName: {
+				type: Sq.STRING(16),
 				allowNull: true
 			}
 		});

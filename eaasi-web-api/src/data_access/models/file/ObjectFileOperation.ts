@@ -20,7 +20,7 @@ export default class ObjectFileOperation extends Model<ObjectFileOperation> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	name: string
