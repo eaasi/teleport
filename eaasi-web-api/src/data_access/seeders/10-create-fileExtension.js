@@ -2,10 +2,10 @@ const data = require('../data/fileExtension');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('fileExtension', data);
+		return queryInterface.bulkInsert('file_extension', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('fileExtension', {}, {});
+		return queryInterface.bulkDelete('file_extension', {}, {});
 	}
 };

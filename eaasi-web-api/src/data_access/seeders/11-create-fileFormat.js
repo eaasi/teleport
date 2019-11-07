@@ -2,10 +2,10 @@ const data = require('../data/fileFormat');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('fileFormat', data);
+		return queryInterface.bulkInsert('file_format', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('fileFormat', {}, {});
+		return queryInterface.bulkDelete('file_format', {}, {});
 	}
 };

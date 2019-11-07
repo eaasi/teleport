@@ -2,10 +2,10 @@ const data = require('../data/networkdevice');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('networkDevice', data);
+		return queryInterface.bulkInsert('network_device', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('networkDevice', {}, {});
+		return queryInterface.bulkDelete('network_device', {}, {});
 	}
 };

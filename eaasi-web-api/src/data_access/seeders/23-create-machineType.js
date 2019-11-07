@@ -2,10 +2,10 @@ const data = require('../data/machinetype');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('machineType', data);
+		return queryInterface.bulkInsert('machine_type', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('machineType', {}, {});
+		return queryInterface.bulkDelete('machine_type', {}, {});
 	}
 };

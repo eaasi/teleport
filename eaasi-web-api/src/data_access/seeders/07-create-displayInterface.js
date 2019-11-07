@@ -2,10 +2,10 @@ const data = require('../data/displayinterface');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('displayInterface', data);
+		return queryInterface.bulkInsert('display_interface', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('displayInterface', {}, {});
+		return queryInterface.bulkDelete('display_interface', {}, {});
 	}
 };

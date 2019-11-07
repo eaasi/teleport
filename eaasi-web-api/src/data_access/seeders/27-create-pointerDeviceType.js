@@ -2,10 +2,10 @@ const data = require('../data/pointerDeviceType');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('pointerDeviceType', data);
+		return queryInterface.bulkInsert('pointer_device_type', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('pointerDeviceType', {}, {});
+		return queryInterface.bulkDelete('pointer_device_type', {}, {});
 	}
 };

@@ -2,10 +2,10 @@ const data = require('../data/eventType');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('eventType', data);
+		return queryInterface.bulkInsert('event_type', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('eventType', {}, {});
+		return queryInterface.bulkDelete('event_type', {}, {});
 	}
 };

@@ -2,10 +2,10 @@ const data = require('../data/displayresolution');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('displayResolution', data);
+		return queryInterface.bulkInsert('display_resolution', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('displayResolution', {}, {});
+		return queryInterface.bulkDelete('display_resolution', {}, {});
 	}
 };

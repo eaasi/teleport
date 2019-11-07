@@ -2,10 +2,10 @@ const data = require('../data/fileOperation');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('fileOperation', data);
+		return queryInterface.bulkInsert('file_operation', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('fileOperation', {}, {});
+		return queryInterface.bulkDelete('file_operation', {}, {});
 	}
 };

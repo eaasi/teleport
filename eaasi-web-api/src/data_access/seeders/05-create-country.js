@@ -2,10 +2,10 @@ const country = require('../data/country');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('Country.ts', country);
+		return queryInterface.bulkInsert('country', country);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('Country.ts', {}, {});
+		return queryInterface.bulkDelete('country', {}, {});
 	}
 };
