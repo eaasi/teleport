@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersionID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',
@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			languageQid: {
-				type: Sq.STRING,
+				type: Sq.STRING(64),
 				allowNull: false
 			},
 			isDefaultLanguage: {

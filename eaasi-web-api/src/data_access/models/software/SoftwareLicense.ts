@@ -1,4 +1,4 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
@@ -20,13 +20,13 @@ export default class SoftwareLicense extends Model<SoftwareLicense> {
 	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: false,
 	})
 	label: string;

@@ -12,7 +12,7 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'content_object',
-					key: 'id'
+					key: 'localID'
 				}
 			},
 			fileID: {
@@ -24,7 +24,7 @@ module.exports = {
 				}
 			},
 			label: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: true
 			},
 			mediaTypeName: {

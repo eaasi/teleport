@@ -12,7 +12,7 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'file_format',
-					key: 'id'
+					key: 'qid'
 				}
 			},
 			fileExtensionID: {

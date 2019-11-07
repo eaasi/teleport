@@ -17,29 +17,29 @@ export default class ContentObject extends Model<ContentObject> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	localID: number
+	localID: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	idSource: string
+	idSource: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false
 	})
-	name: string
+	name: string;
 
 	@Column({
 		type: DataTypes.STRING(128),
 		allowNull: false
 	})
-	productKey: string
+	productKey: string;
 
 	@Column({
 		type: DataTypes.TEXT,
 		allowNull: false
 	})
-	helpText: string
+	helpText: string;
 }

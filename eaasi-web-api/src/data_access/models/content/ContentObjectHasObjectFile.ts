@@ -28,13 +28,13 @@ export default class ContentObjectHasObjectFile extends Model<ContentObjectHasOb
 	fileID: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true
 	})
 	label: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	mediaTypeName: string;

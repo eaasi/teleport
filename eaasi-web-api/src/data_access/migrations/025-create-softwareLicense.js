@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('software_license', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareLicenseID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 			},
 			qid: {
-				type: Sq.STRING,
+				type: Sq.STRING(64),
 				allowNull: true,
 			},
 			label: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: false
 			}
 		});

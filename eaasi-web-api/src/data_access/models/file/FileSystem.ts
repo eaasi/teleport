@@ -17,17 +17,17 @@ export default class FileSystem extends Model<FileSystem> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	label: string
+	label: string;
 }
