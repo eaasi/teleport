@@ -20,7 +20,6 @@ import RecommendationLevel from '@/data_access/models/base/RecommendationLevel';
 import UnitOfInformation from '@/data_access/models/base/UnitOfInformation';
 import UserInformation from '@/data_access/models/base/UserInformation';
 import ComputingEnvironment from '@/data_access/models/computing/ComputingEnvironment';
-import ComputingEnvironmentHasEvent from '@/data_access/models/computing/ComputingEnvironmentHasEvent';
 import CpuArchitecture from '@/data_access/models/computing/CpuArchitecture';
 import ConfiguredAudioDevice from '@/data_access/models/configured/ConfiguredAudioDevice';
 import ConfiguredDisk from '@/data_access/models/configured/ConfiguredDisk';
@@ -29,18 +28,15 @@ import ConfiguredGpuDevice from '@/data_access/models/configured/ConfiguredGpuDe
 import ConfiguredGpuDeviceHasDisplayDevice from '@/data_access/models/configured/ConfiguredGpuDeviceHasDisplayDevice';
 import ConfiguredKeyboardDevice from '@/data_access/models/configured/ConfiguredKeyboardDevice';
 import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import ConfiguredMachineHasEvent from '@/data_access/models/configured/ConfiguredMachineHasEvent';
 import ConfiguredNetwork from '@/data_access/models/configured/ConfiguredNetwork';
 import ConfiguredNetworkDevice from '@/data_access/models/configured/ConfiguredNetworkDevice';
 import ConfiguredNetworkEmulatesNetworkService
 	from '@/data_access/models/configured/ConfiguredNetworkEmulatesNetworkService';
 import ConfiguredNetworkHasConfiguredMachine
 	from '@/data_access/models/configured/ConfiguredNetworkHasConfiguredMachine';
-import ConfiguredNetworkHasEvent from '@/data_access/models/configured/ConfiguredNetworkHasEvent';
 import ConfiguredNetworkMachineExpectedNetworkService
 	from '@/data_access/models/configured/ConfiguredNetworkMachineExpectedNetworkService';
 import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
-import ConfiguredOSHasEvent from '@/data_access/models/configured/ConfiguredOSHasEvent';
 import ConfiguredOSHasUserInformation from '@/data_access/models/configured/ConfiguredOSHasUserInformation';
 import ConfiguredOSLanguage from '@/data_access/models/configured/ConfiguredOSLanguage';
 import ConfiguredPointerDevice from '@/data_access/models/configured/ConfiguredPointerDevice';
@@ -116,7 +112,6 @@ import ProcessorDeviceHasDriverSoftware from '@/data_access/models/processor/Pro
 import ProcessorDeviceHasMachineInterface from '@/data_access/models/processor/ProcessorDeviceHasMachineInterface';
 import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
 import SoftwareEnvironmentHasDiskImage from '@/data_access/models/software/SoftwareEnvironmentHasDiskImage';
-import SoftwareEnvironmentHasEvent from '@/data_access/models/software/SoftwareEnvironmentHasEvent';
 import SoftwareEnvironmentHasPartConfiguredSoftware
 	from '@/data_access/models/software/SoftwareEnvironmentHasPartConfiguredSoftware';
 import SoftwareFamilyVersionHasSoftwareProduct
@@ -126,7 +121,6 @@ import SoftwareFamilyVersionHasSoftwareVersion
 import SoftwareLicense from '@/data_access/models/software/SoftwareLicense';
 import SoftwareObject from '@/data_access/models/software/SoftwareObject';
 import SoftwareObjectHasAlternateID from '@/data_access/models/software/SoftwareObjectHasAlternateID';
-import SoftwareObjectHasEvent from '@/data_access/models/software/SoftwareObjectHasEvent';
 import SoftwareObjectHasObjectFile from '@/data_access/models/software/SoftwareObjectHasObjectFile';
 import SoftwareObjectIsManifestationOfSoftwareVersion
 	from '@/data_access/models/software/SoftwareObjectIsManifestationOfSoftwareVersion';
@@ -186,7 +180,6 @@ export const sequelize = new Sequelize({
 		ChipSet,
 		ColorDepth,
 		ComputingEnvironment,
-		ComputingEnvironmentHasEvent,
 		ConfiguredAudioDevice,
 		ConfiguredDisk,
 		ConfiguredDiskHasPartition,
@@ -194,15 +187,12 @@ export const sequelize = new Sequelize({
 		ConfiguredGpuDeviceHasDisplayDevice,
 		ConfiguredKeyboardDevice,
 		ConfiguredMachine,
-		ConfiguredMachineHasEvent,
 		ConfiguredNetwork,
 		ConfiguredNetworkDevice,
 		ConfiguredNetworkEmulatesNetworkService,
 		ConfiguredNetworkHasConfiguredMachine,
-		ConfiguredNetworkHasEvent,
 		ConfiguredNetworkMachineExpectedNetworkService,
 		ConfiguredOS,
-		ConfiguredOSHasEvent,
 		ConfiguredOSHasUserInformation,
 		ConfiguredOSLanguage,
 		ConfiguredPointerDevice,
@@ -287,14 +277,12 @@ export const sequelize = new Sequelize({
 		Region,
 		SoftwareEnvironment,
 		SoftwareEnvironmentHasDiskImage,
-		SoftwareEnvironmentHasEvent,
 		SoftwareEnvironmentHasPartConfiguredSoftware,
 		SoftwareFamilyVersionHasSoftwareProduct,
 		SoftwareFamilyVersionHasSoftwareVersion,
 		SoftwareLicense,
 		SoftwareObject,
 		SoftwareObjectHasAlternateID,
-		SoftwareObjectHasEvent,
 		SoftwareObjectHasObjectFile,
 		SoftwareObjectIsManifestationOfSoftwareVersion,
 		SoftwareProduct,
