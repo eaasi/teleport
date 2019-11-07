@@ -38,7 +38,11 @@ export default [
 
 	/* Admin
 	============================================*/
-
+	{
+		path: '/admin',
+		name: 'User Management',
+		component: UserManagement
+	},
 	{
 		path: '/admin/users',
 		name: 'User Management',
