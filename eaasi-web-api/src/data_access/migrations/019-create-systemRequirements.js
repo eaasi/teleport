@@ -8,9 +8,10 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			id: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
 			summary: {
 				type: Sq.TEXT,
@@ -50,7 +51,8 @@ module.exports = {
 			},
 			isInternetAccessRequired: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			},
 			minimumNetworkBitRate: {
 				type: Sq.DECIMAL,

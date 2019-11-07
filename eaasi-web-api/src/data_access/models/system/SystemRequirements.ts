@@ -19,68 +19,68 @@ export default class SystemRequirements extends Model<SystemRequirements> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.TEXT,
 		allowNull: true,
 	})
-	symmary: string
+	summary: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	minimumRAM: number
+	minimumRAM: number;
 
 	@Column({
 		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
-	minimumRAMUnitName: string
+	minimumRAMUnitName: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	minimumDiskVolume: number
+	minimumDiskVolume: number;
 
 	@Column({
 		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
-	minimumDiskVolumeUnitName: string
+	minimumDiskVolumeUnitName: string;
 
 	@ForeignKey(() => ColorDepth)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	minimumColorDepthID: number
+	minimumColorDepthID: number;
 
 	@ForeignKey(() => DisplayResolution)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	minimumDisplayResolutionID: number
+	minimumDisplayResolutionID: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true,
+		allowNull: false,
+		defaultValue: false
 	})
-	isInternetAccessRequired: boolean
-
+	isInternetAccessRequired: boolean;
 
 	@Column({
 		type: DataTypes.DECIMAL,
 		allowNull: true,
 	})
-	minimumNetworkBitRate: number
+	minimumNetworkBitRate: number;
 
 	@Column({
 		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
-	minimumNetworkBitRateUnitName: string
+	minimumNetworkBitRateUnitName: string;
 }
