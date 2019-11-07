@@ -18,12 +18,12 @@ export default class ProcessorDeviceHasDriverSoftware extends Model<ProcessorDev
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	processorDeviceID: number
+	processorDeviceID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }

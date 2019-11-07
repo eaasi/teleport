@@ -18,18 +18,19 @@ export default class ConfiguredDiskHasPartition extends Model<ConfiguredDiskHasP
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareEnvironmentID: number
+	softwareEnvironmentID: number;
 
 	@ForeignKey(() => FileSystem)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	fileSystemID: number
+	fileSystemID: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true
+		allowNull: false,
+		defaultValue: false
 	})
-	isStartupDisk: boolean
+	isStartupDisk: boolean;
 }

@@ -17,35 +17,35 @@ export default class ProcessorDevice extends Model<ProcessorDevice> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	name: string
+	name: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	frequency: number
+	frequency: number;
 
 	@Column({
 		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
-	frequencyUnit: string
+	frequencyUnit: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	cpuArchitecture: string
+	cpuArchitecture: string;
 }

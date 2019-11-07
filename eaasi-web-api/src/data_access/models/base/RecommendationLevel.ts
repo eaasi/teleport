@@ -17,11 +17,11 @@ export default class RecommendationLevel extends Model<RecommendationLevel> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(32),
 		allowNull: false,
 	})
-	label: string
+	label: string;
 }

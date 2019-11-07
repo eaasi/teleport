@@ -18,10 +18,10 @@ export default class Emulator extends Model<Emulator> implements IEmulator {
     	primaryKey: true,
     	autoIncrement: true
     })
-    readonly id: number
+    readonly id: number;
 
     @Column({
-    	type: DataTypes.STRING,
+    	type: DataTypes.STRING(64),
     	allowNull: false,
     	unique: true
     })

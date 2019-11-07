@@ -7,23 +7,23 @@ module.exports = {
 		return queryInterface.createTable('machine_interface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			machineInterfaceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			machineInterfaceQID: {
-				type: Sq.STRING(45),
+			qid: {
+				type: Sq.STRING(64),
 			},
-			machineInterfaceLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 			},
-			machineInterfaceBandwidth: {
+			bandwidth: {
 				type: Sq.INTEGER,
 			},
-			machineInterfaceBandwidthUnit: {
-				type: Sq.STRING,
+			bandwidthUnit: {
+				type: Sq.STRING(12),
 			},
 		});
 	},

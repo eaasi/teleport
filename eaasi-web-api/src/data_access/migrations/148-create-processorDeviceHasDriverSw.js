@@ -8,12 +8,20 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			processorDeviceID: {
-				type: Sq.STRING(45),
+				type: Sq.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'processor_device',
+					key: 'id'
+				}
 			},
-			processorDevice_driverSoftwareID: {
-				type: Sq.STRING,
+			driverSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'software_version',
+					key: 'id'
+				}
 			}
 		});
 	},

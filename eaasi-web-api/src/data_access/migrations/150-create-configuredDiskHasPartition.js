@@ -7,21 +7,26 @@ module.exports = {
 		return queryInterface.createTable('configured_disk_has_partition', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredDiskPartition_diskImageFileID: {
+			softwareEnvironmentID: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'software_environment',
+					key: 'id'
+				}
 			},
-			configuredDiskPartition_softwareEnvironmentID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			configuredDiskPartition_fileSystemID: {
+			fileSystemID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: false,
+				references: {
+					model: 'file_system',
+					key: 'id'
+				}
 			},
-			configuredDiskPartition_startupDisk: {
+			isStartupDisk: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			},
 		});
 	},

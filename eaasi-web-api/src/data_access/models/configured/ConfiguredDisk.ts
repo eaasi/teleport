@@ -20,56 +20,56 @@ export default class ConfiguredDisk extends Model<ConfiguredDisk> {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	diskImageFileID: number
+	diskImageFileID: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => StorageDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	storageDeviceID: number
+	storageDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	uses_machineInterfaceID: number
+	uses_machineInterfaceID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	diskVolume: number
+	diskVolume: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	remainingVolume: number
+	remainingVolume: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(12),
 		allowNull: true
 	})
-	volumeUnit: string
-
-	@Column({
-		type: DataTypes.INTEGER,
-		allowNull: true
-	})
-	bootOrder: number
+	volumeUnit: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	irq: number
+	bootOrder: number;
+
+	@Column({
+		type: DataTypes.STRING(64),
+		allowNull: true
+	})
+	irq: string;
 }

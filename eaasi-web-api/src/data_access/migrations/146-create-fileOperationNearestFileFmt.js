@@ -7,13 +7,16 @@ module.exports = {
 		return queryInterface.createTable('file_operation_nearest_file_format', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileOperation_fileOperationID: {
-				type: Sq.STRING,
+			fileOperationID: {
+				type: Sq.INTEGER,
 				allowNull: true
 			},
-			fileOperation_fileFormatID: {
-				type: Sq.STRING,
-				allowNull: true
+			fileFormatID: {
+				type: Sq.STRING(64),
+				allowNull: true,
+				references: {
+					model: 'file_format',
+				}
 			},
 		});
 	},

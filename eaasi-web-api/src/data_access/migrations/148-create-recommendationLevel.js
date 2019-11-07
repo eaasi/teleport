@@ -7,9 +7,14 @@ module.exports = {
 		return queryInterface.createTable('recommendation_level', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			recommendationLevelLabel: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				primaryKey: true,
+				autoIncrement: true,
+				allowNull: false
+			},
+			label: {
+				type: Sq.STRING(32),
 				allowNull: false
 			},
 		});

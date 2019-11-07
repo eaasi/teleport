@@ -12,7 +12,7 @@ module.exports = {
 				allowNull: false,
 				primaryKey: true,
 			},
-			configuredDisk_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -20,7 +20,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredDisk_storageDeviceID: {
+			storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -28,7 +28,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredDisk_uses_machineInterfaceID: {
+			machineInterfaceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -36,24 +36,24 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredDisk_diskVolume: {
+			diskVolume: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredDisk_remainingVolume: {
+			remainingVolume: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredDisk_volumeUnit: {
-				type: Sq.STRING,
+			volumeUnit: {
+				type: Sq.STRING(12),
 				allowNull: true
 			},
-			configuredDisk_bootOrder: {
+			bootOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredDisk_irq: {
-				type: Sq.INTEGER,
+			irq: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 		});

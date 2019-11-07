@@ -18,12 +18,12 @@ export default class ProcessorDeviceHasMachineInterface extends Model<ProcessorD
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	processorDeviceID
+	processorDeviceID;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	machineInterfaceID
+	machineInterfaceID;
 }

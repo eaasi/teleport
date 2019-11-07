@@ -35,7 +35,7 @@ module.exports = {
 				columnName: 'last_name'
 			},
 			email: {
-				type: Sq.STRING(200),
+				type: Sq.STRING(128),
 				allowNull: false,
 				columnName: 'email'
 			},

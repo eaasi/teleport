@@ -7,13 +7,21 @@ module.exports = {
 		return queryInterface.createTable('file_operation_has_file_extension', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileOperation_fileOperationID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			fileOperation_fileExtensionID: {
+			fileOperationID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: false,
+				references: {
+					model: 'file_operation',
+					key: 'id'
+				}
+			},
+			fileExtensionID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'file_extension',
+					key: 'id'
+				}
 			},
 		});
 	},

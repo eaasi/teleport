@@ -12,20 +12,20 @@ export default class ApplicationLog extends Model<ApplicationLog> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(16),
 		allowNull: false
 	})
-	level: string
+	level: string;
 
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: false
+		type: DataTypes.STRING(64),
+		allowNull: true
 	})
-	source: string
+	source: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(1028),
 		allowNull: false
 	})
-	message: string
+	message: string;
 }

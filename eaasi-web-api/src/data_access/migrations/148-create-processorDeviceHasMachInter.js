@@ -8,12 +8,20 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			processorDeviceID: {
-				type: Sq.STRING(45),
-				allowNull: false,
-			},
-			processorDevice_machineInterfaceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'processor_device',
+					key: 'id'
+				}
+			},
+			machineInterfaceID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
 		});
 	},

@@ -18,12 +18,12 @@ export default class FileOperationNearestFileFormat extends Model<FileOperationN
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	fileOperationID: number
+	fileOperationID: number;
 
 	@ForeignKey(() => FileFormat)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	fileExtensionID: string
+	fileExtensionID: string;
 }

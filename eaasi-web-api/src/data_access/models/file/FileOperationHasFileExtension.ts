@@ -18,12 +18,12 @@ export default class FileOperationHasFileExtension extends Model<FileOperationHa
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	fileOperationID: number
+	fileOperationID: number;
 
 	@ForeignKey(() => FileExtension)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	fileExtensionID: number
+	fileExtensionID: number;
 }

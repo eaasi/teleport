@@ -18,7 +18,7 @@ export default class EaasiUser extends Model<EaasiUser> {
     	primaryKey: true,
     	autoIncrement: true,
     })
-    id: number
+    id: number;
 
     @Column({
     	allowNull: false,
@@ -40,7 +40,7 @@ export default class EaasiUser extends Model<EaasiUser> {
 
     @Column({
     	allowNull: true,
-    	type: DataTypes.STRING(200)
+    	type: DataTypes.STRING(128)
     })
     email: string;
 

@@ -17,28 +17,28 @@ export default class MachineInterface extends Model<MachineInterface> {
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	label: string
+	label: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	bandwidth: number
+	bandwidth: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(12),
 		allowNull: true
 	})
 	bandwidthUnit: string
