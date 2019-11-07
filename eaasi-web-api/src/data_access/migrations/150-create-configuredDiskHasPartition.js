@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareEnvironmentID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_environment',

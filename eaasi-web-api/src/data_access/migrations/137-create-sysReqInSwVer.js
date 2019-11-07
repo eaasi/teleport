@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			softwareVersionID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

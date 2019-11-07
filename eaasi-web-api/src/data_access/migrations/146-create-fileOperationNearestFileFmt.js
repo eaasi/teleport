@@ -9,13 +9,18 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			fileOperationID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'file_operation',
+					key: 'id'
+				}
 			},
 			fileFormatID: {
 				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'file_format',
+					key: 'qid'
 				}
 			},
 		});
