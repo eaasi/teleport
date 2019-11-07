@@ -18,12 +18,12 @@ export default class FileOperation extends Model<FileOperation> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@ForeignKey(() => MimeType)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	associatedMIMEType: string
+	associatedMimeTypeQid: string;
 }

@@ -18,12 +18,12 @@ export default class NetworkDeviceHasMachineInterface extends Model<NetworkDevic
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	networkDeviceID: number
+	networkDeviceID: number;
 
     @ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	machineInterfaceID: number
+	machineInterfaceID: number;
 }

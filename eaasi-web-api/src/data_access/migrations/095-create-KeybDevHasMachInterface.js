@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('keyboard_device_has_machine_interface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			keyboardDevice_keyboardDeviceID: {
+			keyboardDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			keyboardDevice_machineInterfaceID: {
+			machineInterfaceID: {
 				type: Sq.INTEGER,
 				allowNull: false
 			}

@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('keyboard_device_has_language', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			keyboardDevice_keyboardDeviceID: {
+			keyboardDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,9 +15,13 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			keyboardDevice_languageQID: {
+			languageQid: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'language',
+					key: 'qid'
+				}
 			}
 		});
 	},

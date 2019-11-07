@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('keyboard_device_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			keyboardDevice_keyboardDeviceID: {
+			keyboardDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -15,8 +15,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			keyboardDevice_driverSoftware: {
-				type: Sq.STRING,
+			driverSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

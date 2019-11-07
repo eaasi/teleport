@@ -18,12 +18,12 @@ export default class DisplayDeviceHasDisplayResolution extends Model<DisplayDevi
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayDeviceID: number
+	displayDeviceID: number;
 
 	@ForeignKey(() => DisplayResolution)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	displayResolutionID: number
+	displayResolutionID: number;
 }

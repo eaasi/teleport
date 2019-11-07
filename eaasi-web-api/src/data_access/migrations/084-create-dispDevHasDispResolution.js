@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('display_device_has_display_resolution', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			displayDevice_displayDeviceID: {
+			displayDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			availableDisplayResolution: {
+			displayResolutionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

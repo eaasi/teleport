@@ -17,12 +17,12 @@ export default class GpuDeviceHasEquivalent extends Model<GpuDeviceHasEquivalent
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	gpuDeviceID: number
+	gpuDeviceID: number;
 
 	@ForeignKey(() => GpuDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	equivalentGpuDeviceID: number
+	equivalentGpuDeviceID: number;
 }

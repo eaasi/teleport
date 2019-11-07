@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('network_device_has_machine_interface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			networkDevice_networkDeviceID: {
+			networkDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,9 +15,13 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			networkDevice_machineInterfaceID: {
+			machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
 		});
 	},

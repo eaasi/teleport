@@ -18,12 +18,12 @@ export default class GpuDeviceHasMachineInterface extends Model<GpuDeviceHasMach
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	gpuDeviceID: number
+	gpuDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	machineInterfaceID: number
+	machineInterfaceID: number;
 }

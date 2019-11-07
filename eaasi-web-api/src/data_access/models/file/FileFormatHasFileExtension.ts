@@ -18,12 +18,12 @@ export default class FileFormatHasFileExtension extends Model<FileFormatHasFileE
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	fileFormatQID: number
+	fileFormatQid: number;
 
     @ForeignKey(() => FileExtension)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	fileExtensionID: string
+	fileExtensionID: number;
 }

@@ -15,11 +15,11 @@ export default class NetworkDeviceHasDriverSoftware extends Model<NetworkDeviceH
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	networkDeviceID: number
+	networkDeviceID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }

@@ -17,13 +17,13 @@ export default class OsVersionHasAlternateID extends Model<OsVersionHasAlternate
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => OsVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionAlternateID: number
+	osVersionAlternateID: number;
 }
 

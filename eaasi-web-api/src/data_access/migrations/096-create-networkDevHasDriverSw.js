@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('networkDevice_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			networkDevice_networkDeviceID: {
+			networkDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -15,8 +15,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			driverSoftware_driverSoftware: {
-				type: Sq.STRING,
+			driverSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_version',

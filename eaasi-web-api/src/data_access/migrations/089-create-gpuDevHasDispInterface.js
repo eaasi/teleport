@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('gpu_device_has_display_interface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			gpuDevice_gpuDeviceID: {
+			gpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,9 +15,13 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			displayInterface_displayInterfaceID: {
+			displayInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'display_interface',
+					key: 'id'
+				}
 			}
 		});
 	},

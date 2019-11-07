@@ -7,17 +7,21 @@ module.exports = {
 		return queryInterface.createTable('os_version_has_alternate_id', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'os_version',
 					key: 'id'
 				}
 			},
-			osVersion_alternativeID: {
-				type: Sq.STRING,
-				allowNull: false
+			osVersionAlternateID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'os_version',
+					key: 'id'
+				}
 			}
 		});
 	},

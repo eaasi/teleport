@@ -16,9 +16,13 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			associatedMIMEType: {
+			associatedMimeTypeQid: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'mime_type',
+					key: 'qid'
+				}
 			},
 		});
 	},

@@ -12,15 +12,15 @@ export default class MimeType extends Model<MimeType> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 		primaryKey: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	label: string
+	label: string;
 }

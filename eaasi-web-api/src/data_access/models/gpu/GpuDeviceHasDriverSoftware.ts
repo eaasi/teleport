@@ -18,12 +18,12 @@ export default class GpuDeviceHasDriverSoftware extends Model<GpuDeviceHasDriver
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	gpuDeviceID: number
+	gpuDeviceID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true
+		allowNull: false
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }

@@ -18,12 +18,12 @@ export default class KeyboardDeviceHasMachineInterface extends Model<KeyboardDev
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	keyboardDeviceID: number
+	keyboardDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true
+		allowNull: false
 	})
-	machineInterfaceID: number
+	machineInterfaceID: number;
 }

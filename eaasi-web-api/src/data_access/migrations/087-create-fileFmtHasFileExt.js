@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('file_format_has_file_extension', {
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
-			fileFormat_fileFormatID: {
+			fileFormatQid: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			fileExtension_fileExtensionID: {
+			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

@@ -18,12 +18,12 @@ export default class KeyboardDeviceHasDriverSoftware extends Model<KeyboardDevic
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	keyboardDeviceID: number
+	keyboardDeviceID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }
