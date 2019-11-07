@@ -17,11 +17,11 @@ export default class MachineType extends Model<MachineType> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	label: string
+	label: string;
 }

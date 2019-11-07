@@ -18,42 +18,42 @@ export default class SoftwareVersion extends Model<SoftwareVersion> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	name: string
+	name: string;
 
 	@Column({
 		type: DataTypes.TEXT,
 		allowNull: true,
 	})
-	helpText: string
+	helpText: string;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	versionNumber: string
+	versionNumber: string;
 
 	@Column({
 		type: DataTypes.DATE,
 		allowNull: true,
 	})
-	publicationDate: Date
+	publicationDate: Date;
 
 	@ForeignKey(() => SoftwareProduct)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	isVersionOf_softwareProduct: Date
+	isVersionOf_softwareProduct: number;
 }

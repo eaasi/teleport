@@ -7,10 +7,9 @@ module.exports = {
 		return queryInterface.createTable('configured_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredSoftwareVersionID: {
+			softwareVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
-				primaryKey: true,
 				references: {
 					model: 'software_version',
 					key: 'id'
@@ -45,11 +44,11 @@ module.exports = {
 				}
 			},
 			hasSource_contentObjectLocalID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'content_object',
-					key: 'id'
+					key: 'localID'
 				}
 			},
 			manifestationOf_softwareVersion: {

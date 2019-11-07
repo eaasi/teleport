@@ -2,11 +2,11 @@ const data = require('../data/file');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('File.ts', data);
+		return queryInterface.bulkInsert('file', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('File.ts', {}, {});
+		return queryInterface.bulkDelete('file', {}, {});
 	}
 };
 

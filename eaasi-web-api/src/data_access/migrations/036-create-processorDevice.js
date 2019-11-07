@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('processor_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			processorDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
@@ -31,7 +31,11 @@ module.exports = {
 			},
 			cpuArchitecture: {
 				type: Sq.STRING(64),
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'cpu_architecture',
+					key: 'qid'
+				}
 			},
 		});
 	},

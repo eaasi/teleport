@@ -16,11 +16,11 @@ export default class CpuArchitecture extends Model<CpuArchitecture> {
 		primaryKey: true,
 		allowNull: false,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	label: string
+	label: string;
 }

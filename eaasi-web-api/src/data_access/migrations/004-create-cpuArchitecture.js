@@ -7,13 +7,10 @@ module.exports = {
 		return queryInterface.createTable('cpu_architecture', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			id: {
-				type: Sequelize.INTEGER,
-				primaryKey: true
-			},
 			qid: {
 				type: Sq.STRING(64),
 				allowNull: false,
+				primaryKey: true
 			},
 			label: {
 				type: Sq.STRING(64),
