@@ -62,14 +62,14 @@ export default class DashboardHeader extends Vue { }
 
 <style lang="scss">
 .dh-welcome {
-
+	margin: 0 1.2rem;
 	#dh-eaasi-hexagon {
 		margin: 0 1.2rem;
 	}
 
 	#dh-eaasi-welcome {
+		max-width: 50rem;
 		padding: 2.4rem;
-		width: 20vw;
 
 		h3 {
 			font-size: 3.4rem;
@@ -99,6 +99,7 @@ export default class DashboardHeader extends Vue { }
 }
 
 .dh-quick-links {
+	margin: 0 1.2rem;
 	padding: 2rem 0 4rem 0;
 
 	a {
