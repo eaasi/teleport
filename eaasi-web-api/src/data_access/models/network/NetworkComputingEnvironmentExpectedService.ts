@@ -19,25 +19,25 @@ export default class NetworkComputingEnvironmentExpectedService extends Model<Ne
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	networkEnvironmentID: number
+	networkEnvironmentID: number;
 
 	@ForeignKey(() => ComputingEnvironment)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	computingEnvironmentID: string
+	computingEnvironmentID: number;
 
 	@ForeignKey(() => NetworkService)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	expectedNetworkServiceID: string
+	expectedNetworkServiceID: number;
 
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: false,
+		type: DataTypes.STRING(12),
+		allowNull: true,
 	})
 	expectedServicePort: string
 }

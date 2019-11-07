@@ -18,18 +18,18 @@ export default class Bookmark extends Model<Bookmark> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@ForeignKey(() => EaasiUser)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	userId: number
+	userId: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: false,
 	})
-	resourceId: string
+	resourceId: string;
 }

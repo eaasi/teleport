@@ -12,21 +12,21 @@ export default class Country extends Model<Country> {
 	readonly updatedAt: Date = new Date();
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		primaryKey: true,
 		allowNull: false,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	label: string
+	label: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(32),
 		allowNull: true
 	})
-	iso31661_numeric_code: string
+	iso31661_numeric_code: string;
 }

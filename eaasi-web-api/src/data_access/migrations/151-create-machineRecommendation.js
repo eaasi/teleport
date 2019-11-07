@@ -7,24 +7,32 @@ module.exports = {
 		return queryInterface.createTable('machine_recommendation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			machineRecommendation_softwareVersionID: {
+			softwareVersionID: {
+				type: Sq.STRING,
+				allowNull: true,
+				references: {
+					model: 'software_version',
+					key: 'id'
+				}
+			},
+			emulatorProjectID: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			machineRecommendation_emulatorProjectID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			machineRecommendation_recommendedMachineID: {
+			recommendedMachineID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
 			},
-			machineRecommendation_recommendationLevel: {
+			recommendationLevel: {
 				type: Sq.STRING,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'recommendation_level',
+					key: 'id'
+				}
 			},
-			machineRecommendation_description: {
-				type: Sq.STRING,
+			description: {
+				type: Sq.STRING(256),
 				allowNull: true
 			},
 		});

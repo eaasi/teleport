@@ -12,10 +12,14 @@ module.exports = {
 			},
 			userID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'eaasi_user',
+					key: 'id'
+				}
 			},
 			resourceID: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: false
 			},
 			createdAt: Sq.DATE,

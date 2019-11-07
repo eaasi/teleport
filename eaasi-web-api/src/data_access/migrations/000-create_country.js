@@ -7,15 +7,15 @@ module.exports = {
 		return queryInterface.createTable('country', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			countryQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				primaryKey: true,
 			},
-			countryLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 			},
-			iso31661_numericCode: {
-				type: Sq.STRING,
+			iso31661_numeric_code: {
+				type: Sq.STRING(32),
 			}
 		});
 	},

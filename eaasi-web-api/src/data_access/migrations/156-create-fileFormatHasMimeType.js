@@ -7,12 +7,12 @@ module.exports = {
 		return queryInterface.createTable('file_format_has_mime_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileFormatID: {
+			fileFormatQid: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
 					model: 'file_format',
-					key: 'id'
+					key: 'qid'
 				}
 			},
 			mimeTypeQid: {
@@ -20,7 +20,7 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'mime_type',
-					key: 'id'
+					key: 'qid'
 				}
 			}
 		});

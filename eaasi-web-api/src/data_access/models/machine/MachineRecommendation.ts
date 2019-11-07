@@ -19,7 +19,7 @@ export default class MachineRecommendation extends Model<MachineRecommendation> 
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
@@ -32,24 +32,24 @@ export default class MachineRecommendation extends Model<MachineRecommendation> 
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	emulatorProjectID: number
+	emulatorProjectID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	recommendedMachineID: number
+	recommendedMachineID: number;
 
 	@ForeignKey(() => RecommendationLevel)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	recommendationLevelID: number
+	recommendationLevelID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: true
 	})
-	description: string
+	description: string;
 }
