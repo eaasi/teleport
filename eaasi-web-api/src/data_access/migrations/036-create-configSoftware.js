@@ -7,6 +7,12 @@ module.exports = {
 		return queryInterface.createTable('configured_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
+			id: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
 			softwareVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,

@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('configured_software_has_user_information', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredSoftwareVersionID: {
+			configuredSoftwareID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

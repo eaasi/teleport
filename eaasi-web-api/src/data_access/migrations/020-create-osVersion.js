@@ -7,26 +7,26 @@ module.exports = {
 		return queryInterface.createTable('os_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersionID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
 			qid: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 			name: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: true
 			},
 			description: {
-				type: Sq.STRING,
+				type: Sq.STRING(256),
 				allowNull: true
 			},
-			number: {
-				type: Sq.STRING,
+			versionNumber: {
+				type: Sq.STRING(16),
 				allowNull: true
 			},
 			publicationDate: {

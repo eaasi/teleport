@@ -15,6 +15,14 @@ export default class ConfiguredSoftware extends Model<ConfiguredSoftware> {
 	@UpdatedAt
 	readonly updatedAt: Date = new Date();
 
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
+	})
+	id: number;
+
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,

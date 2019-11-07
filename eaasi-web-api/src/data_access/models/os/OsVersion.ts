@@ -18,48 +18,48 @@ export default class OsVersion extends Model<OsVersion> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
-	name: string
+	name: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: true,
 	})
-	description: string
+	description: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
-	versionNumber: string
+	versionNumber: string;
 
 	@Column({
 		type: DataTypes.DATE,
 		allowNull: true,
 	})
-	publicationDate: Date
+	publicationDate: Date;
 
 	@ForeignKey(() => SystemRequirements)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	systemRequirementsId: number
+	systemRequirementsId: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	isVersionOf_osProduct: number
+	isVersionOf_osProduct: number;
 }
