@@ -26,7 +26,7 @@ module.exports = {
 				allowNull: true,
 				references: {
 					model: 'keyboard_layout',
-					key: 'id'
+					key: 'qid'
 				}
 			},
 			languageQid: {

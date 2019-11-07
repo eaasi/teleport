@@ -26,11 +26,11 @@ module.exports = {
 				allowNull: true
 			},
 			fileFormatID: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'file_format',
-					key: 'id'
+					key: 'qid'
 				}
 			},
 			size: {
