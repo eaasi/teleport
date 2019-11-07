@@ -43,7 +43,7 @@ export default class ConfiguredGpuDevice extends Model<ConfiguredGpuDevice> {
 	memoryBytes: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
 	irq: string;

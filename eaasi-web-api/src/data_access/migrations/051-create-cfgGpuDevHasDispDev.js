@@ -7,11 +7,7 @@ module.exports = {
 		return queryInterface.createTable('configured_gpu_device_has_display_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredMachine_machineID: {
-				type: Sq.INTEGER,
-				allowNull: false
-			},
-			configuredGpuDevice_gpuDeviceID: {
+			configuredGpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -19,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredGpuDevice_displayDeviceID: {
+			displayDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -27,10 +23,6 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			displayDevice_usesDisplayInterface: {
-				type: Sq.INTEGER,
-				allowNull: false
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {

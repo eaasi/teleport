@@ -34,7 +34,7 @@ module.exports = {
 				allowNull: true
 			},
 			irq: {
-				type: Sq.STRING,
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 			uses_machineInterfaceID: {

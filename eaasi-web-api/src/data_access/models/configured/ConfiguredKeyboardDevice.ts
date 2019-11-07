@@ -19,20 +19,20 @@ export default class ConfiguredKeyboardDevice extends Model<ConfiguredKeyboardDe
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => KeyboardDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	keyboardDeviceID: number
+	keyboardDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	uses_machineInterfaceID: number
+	uses_machineInterfaceID: number;
 }
 

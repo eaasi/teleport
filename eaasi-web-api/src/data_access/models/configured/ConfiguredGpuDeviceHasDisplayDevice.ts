@@ -18,7 +18,7 @@ export default class ConfiguredGpuDeviceHasDisplayDevice extends Model<Configure
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	configuredGpuDeviceID: number
+	configuredGpuDeviceID: number;
 
 	@ForeignKey(() => DisplayDevice)
 	@Column({

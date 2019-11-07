@@ -7,21 +7,21 @@ module.exports = {
 		return queryInterface.createTable('keyboard_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			keyboardDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			keyboardDeviceQID: {
+			qid: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			keyboardDeviceName: {
+			name: {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			keyboardDevice_keyboardLayout: {
+			keyboardLayoutID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -29,7 +29,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			keyboardDevice_keyboardLanguage: {
+			languageQid: {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {

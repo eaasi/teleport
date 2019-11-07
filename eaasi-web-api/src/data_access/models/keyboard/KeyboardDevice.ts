@@ -1,5 +1,6 @@
 import Language from '@/data_access/models/base/Language';
 import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
+import KeyboardLayout from '@/data_access/models/keyboard/KeyboardLayout';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
@@ -20,31 +21,32 @@ export default class KeyboardDevice extends Model<KeyboardDevice> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	qid: number
+	qid: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	name: number
+	name: number;
 
+	@ForeignKey(() => KeyboardLayout)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	layout: number
+	keyboardLayoutID: number;
 
 	@ForeignKey(() => Language)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	languageQID: number
+	languageQID: number;
 }
 
