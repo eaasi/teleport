@@ -2,10 +2,10 @@ const data = require('../data/systemRequirements_requiresNetworkDevice');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('systemRequirements_requires_networkDevice', data);
+		return queryInterface.bulkInsert('system_requirements_requires_network_device', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('systemRequirements_requires_networkDevice', {}, {});
+		return queryInterface.bulkDelete('system_requirements_requires_network_device', {}, {});
 	}
 };

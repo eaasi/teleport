@@ -2,10 +2,10 @@ const data = require('../data/timezonelabel');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('timezoneLabel', data);
+		return queryInterface.bulkInsert('timezone_label', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('timezoneLabel', {}, {});
+		return queryInterface.bulkDelete('timezone_label', {}, {});
 	}
 };

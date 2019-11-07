@@ -2,10 +2,10 @@ const data = require('../data/recommendationlevel');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('recommendationLevel', data);
+		return queryInterface.bulkInsert('recommendation_level', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('recommendationLevel', {}, {});
+		return queryInterface.bulkDelete('recommendation_level', {}, {});
 	}
 };

@@ -2,10 +2,10 @@ const data = require('../data/softwareObject');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('softwareObject', data);
+		return queryInterface.bulkInsert('software_object', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('softwareObject', {}, {});
+		return queryInterface.bulkDelete('software_object', {}, {});
 	}
 };

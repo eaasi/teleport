@@ -2,10 +2,10 @@ const data = require('../data/softwareVersion_hasAlternateName');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('softwareVersion_has_alternateName', data);
+		return queryInterface.bulkInsert('software_version_has_alternate_name', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('softwareVersion_has_alternateName', {}, {});
+		return queryInterface.bulkDelete('software_version_has_alternate_name', {}, {});
 	}
 };

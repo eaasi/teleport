@@ -2,10 +2,10 @@ const data = require('../data/systemRequirements_requiresGpuDevice');
 
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('systemRequirements_requires_gpuDevice', data);
+		return queryInterface.bulkInsert('system_requirements_requires_gpu_device', data);
 	},
 
 	down: (queryInterface) => {
-		return queryInterface.bulkDelete('systemRequirements_requires_gpuDevice', {}, {});
+		return queryInterface.bulkDelete('system_requirements_requires_gpu_device', {}, {});
 	}
 };
