@@ -10,6 +10,7 @@ export interface IEaasiResource {
 	title: string
 	resourceType: ResourceType;
 	description?: string;
+	envId?: string;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {

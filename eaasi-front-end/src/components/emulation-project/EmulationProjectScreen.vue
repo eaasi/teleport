@@ -21,13 +21,13 @@
 			<div>
 				<section-heading title="Base Environment" icon="fa-box" />
 				<base-environment-wizard />
-				<div class="divider-border"></div>
+				<div class="divider-border container-xs"></div>
 			</div>
 
 			<div class="container-xs">
 				<section-heading title="Software Resources" icon="fa-box" />
 				<software-resources-wizard />
-				<div class="divider-border"></div>
+				<div class="divider-border container-xs"></div>
 			</div>
 
 			<div class="container-xs">

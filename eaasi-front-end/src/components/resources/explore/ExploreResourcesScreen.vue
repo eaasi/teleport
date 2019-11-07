@@ -205,12 +205,12 @@ export default class ExploreResourcesScreen extends Vue {
     async search() {
 		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
     	await this.$store.dispatch('resource/searchResources');
-    }
+	}
+	
     async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
     	await this.search();
-
     	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
 
@@ -239,21 +239,12 @@ export default class ExploreResourcesScreen extends Vue {
     ============================================*/
 
     mounted() {
-    	let keyword = this.$route.query && this.$route.query.q;
-    	this.query.keyword = keyword as string;
 		this.search();
     }
 
-    destroyed() {
-    	this.selectedResources = [];
-	}
-
-    @Watch('$route.query')
-    onRouteChanged(newQuery, oldQuery) {
-    	if(newQuery.q !== oldQuery.q) {
-    		this.query.keyword = newQuery.q as string;
-    		this.search();
-    	}
+    beforeDestroy() {
+		this.$store.dispatch('resource/clearSearchQuery');
+		this.selectedResources = [];
 	}
 
 }

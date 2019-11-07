@@ -85,4 +85,21 @@ export default class EaasiBookmarkController extends BaseController {
 		return await res.status(HttpResponseCode.OK).send(deleteResponse);
 	}
 
+	async deleteAll(req: Request, res: Response) {
+		const userID = req.query.userID;
+		if (userID == null) {
+			return await res
+				.status(HttpResponseCode.BAD_REQUEST)
+				.send(build_400_response(req.query));
+		}
+
+		let deleteResponse = await this.bookmarkService.destroyAll(userID);
+
+		if (deleteResponse.hasError) {
+			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
+		}
+
+		return await res.status(HttpResponseCode.OK).send(deleteResponse);
+	}
+
 }

@@ -90,6 +90,10 @@ const actions = {
 		return result;
 	},
 
+	clearSearchQuery({ commit, state }: Store<ResourceState>) {
+		commit('SET_QUERY', new ResourceSearchQuery());
+	},
+
 	// this will map results and generate facets
 	populateSearchFacets({ state, commit }: Store<ResourceState>) {
 		const { environments, software, content } = state.result;
