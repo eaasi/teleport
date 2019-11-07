@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersionID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_version',
@@ -24,7 +24,7 @@ module.exports = {
 				allowNull: true,
 			},
 			recommendationLevel: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'recommendation_level',
