@@ -18,12 +18,12 @@ export default class OsVersionColorDepthSettings extends Model<OsVersionColorDep
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 
 	@ForeignKey(() => ColorDepth)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	colorDepthID: number
+	colorDepthID: number;
 }

@@ -7,11 +7,13 @@ module.exports = {
 		return queryInterface.createTable('content_environment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentEnvironmentID: {
-				type: Sq.TEXT,
+			id: {
+				type: Sq.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
 				allowNull: false,
 			},
-			contentEnvironment_computingEnvironmentID: {
+			computingEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -19,7 +21,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			contentEnvironmentHelpText: {
+			helpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			}

@@ -18,18 +18,18 @@ export default class ContentEnvironment extends Model<ContentEnvironment> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@ForeignKey(() => ComputingEnvironment)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	computingEnvironmentId: number
+	computingEnvironmentId: number;
 
 	@Column({
 		type: DataTypes.TEXT,
-		allowNull: false
+		allowNull: true
 	})
-	helpText: string
+	helpText: string;
 }
