@@ -20,19 +20,19 @@ export default class UserInformation extends Model<UserInformation> {
 	id: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	username: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
 	password: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	organization: string
@@ -41,5 +41,5 @@ export default class UserInformation extends Model<UserInformation> {
 		type: DataTypes.BOOLEAN,
 		allowNull: true,
 	})
-	admin: boolean
+	isAdmin: boolean
 }

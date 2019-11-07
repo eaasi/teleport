@@ -20,13 +20,13 @@ export default class StorageDeviceType extends Model<StorageDeviceType> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true
 	})
 	label: string

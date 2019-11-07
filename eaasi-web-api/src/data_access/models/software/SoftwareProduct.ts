@@ -20,20 +20,21 @@ export default class SoftwareProduct extends Model<SoftwareProduct> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
 	name: string
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true,
+		allowNull: false,
+		defaultValue: false
 	})
 	isOperatingSystem: boolean
 }

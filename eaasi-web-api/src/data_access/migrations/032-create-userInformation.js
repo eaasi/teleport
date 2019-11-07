@@ -7,25 +7,25 @@ module.exports = {
 		return queryInterface.createTable('user_information', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			userInformationID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
 			username: {
-				type: Sq.STRING,
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 			password: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: true
 			},
 			organization: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			admin: {
+			isAdmin: {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			}

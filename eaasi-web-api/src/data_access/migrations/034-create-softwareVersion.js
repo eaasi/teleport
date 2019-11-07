@@ -7,36 +7,37 @@ module.exports = {
 		return queryInterface.createTable('software_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersionID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			softwareVersionQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			softwareVersionName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(128),
 				allowNull: false
 			},
-			softwareVersionHelpText: {
-				type: Sq.STRING,
+			helpText: {
+				type: Sq.TEXT,
 				allowNull: false
 			},
-			softwareVersionNumber: {
-				type: Sq.STRING,
+			versionNumber: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			softwareVersionPublicationDate: {
-				type: Sq.STRING,
+			publicationDate: {
+				type: Sq.DATE,
 				allowNull: true
 			},
 			isVersionOf_softwareProduct: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'softwareProduct',
+					model: 'software_product',
 					key: 'id'
 				}
 			}

@@ -12,11 +12,11 @@ module.exports = {
 				allowNull: false,
 				primaryKey: true,
 			},
-			softwareLicenseQID: {
+			qid: {
 				type: Sq.STRING,
 				allowNull: true,
 			},
-			softwareLicenseLabel: {
+			label: {
 				type: Sq.STRING,
 				allowNull: false
 			}

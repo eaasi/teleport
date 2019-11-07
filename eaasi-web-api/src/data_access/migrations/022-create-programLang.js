@@ -5,18 +5,18 @@ const Sq = require('sequelize');
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('programming_language', {
-			programmingLanguageID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true
 			},
-			programmingLanguageQID: {
-				type: Sq.STRING,
-				allowNull: true,
-			},
-			programmingLanguageLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(128),
 				allowNull: false
+			},
+			qid: {
+				type: Sq.STRING(64),
+				allowNull: true,
 			}
 		});
 	},

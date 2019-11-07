@@ -21,9 +21,10 @@ export default class SoftwareObject extends Model<SoftwareObject> {
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true,
+		allowNull: false,
+		defaultValue: false
 	})
-	inNetwork: boolean;
+	isInNetwork: boolean;
 
 	@Column({
 		type: DataTypes.INTEGER,

@@ -14,13 +14,13 @@ export default class TimezoneLabel extends Model<TimezoneLabel> {
 
 	@ForeignKey(() => Timezone)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	timezoneQid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: false,
 	})
 	label: string

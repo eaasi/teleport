@@ -20,7 +20,7 @@ export default class ReadWriteStatus extends Model<ReadWriteStatus> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	name: string

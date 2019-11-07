@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('software_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareTypeQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false,
 				primaryKey: true
 			},
-			softwareTypeName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});

@@ -7,17 +7,18 @@ module.exports = {
 		return queryInterface.createTable('software_product', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareProductID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			softwareProductQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			softwareProductName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(128),
 				allowNull: false
 			},
 			isOperatingSystem: {

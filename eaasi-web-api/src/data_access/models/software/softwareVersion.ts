@@ -55,5 +55,5 @@ export default class SoftwareVersion extends Model<SoftwareVersion> {
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	is_version_of_softwareProduct: Date
+	isVersionOf_softwareProduct: Date
 }

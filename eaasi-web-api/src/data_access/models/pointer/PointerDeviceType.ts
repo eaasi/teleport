@@ -20,14 +20,14 @@ export default class PointerDeviceType extends Model<PointerDeviceType> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: true,
-	})
-	qid: string
-
-	@Column({
-		type: DataTypes.INTEGER,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
 	label: number
+
+	@Column({
+		type: DataTypes.STRING(64),
+		allowNull: true,
+	})
+	qid: string
 }
