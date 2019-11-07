@@ -72,6 +72,7 @@ export default class SearchFacetWrapper extends Vue {
 
 .sfw-header {
 	cursor: pointer;
+	font-size: 1.4rem;
 	user-select: none;
 
 	&:hover {
