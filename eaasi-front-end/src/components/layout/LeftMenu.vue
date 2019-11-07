@@ -73,9 +73,9 @@ export default class LeftMenu extends Vue {
 }
 
 #headerLogo {
+	cursor: pointer;
 	height: $headerHeight;
 	width: $leftSidebarWidth;
-	cursor: pointer;
 
 	img {
 		width: 6.3rem;
