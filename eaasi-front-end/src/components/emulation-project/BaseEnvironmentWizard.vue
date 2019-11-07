@@ -1,51 +1,52 @@
 <template>
 	<div class="base-env-wiz-container">
-		<div class="row">
-			<div class="col-md-4">
-				<options-box title="Find a Base" header="Recommended">
-					Find an existing base environment.
-					<div slot="footer" class="flex justify-between">
-						<ui-button
-							sub-label="...node or network saved resources"
-							@click="searchForEnvironment"
-						>
-							Search/Browse
-						</ui-button>
+		<div class="flex justify-between">
+			<div class="row container-xs">
+				<div class="col-md-6">
+					<options-box title="Find a Base" header="Recommended">
+						Find an existing base environment.
+						<div slot="footer" class="flex justify-between">
+							<ui-button
+								style="max-width: 17.5rem;"
+								sub-label="...node or network saved resources"
+								@click="searchForEnvironment"
+							>
+								Search/Browse
+							</ui-button>
 
-						<ui-button
-							sub-label="...imported or bookmarked resources"
-							@click="openMyResources"
-						>
-							My Resources
-						</ui-button>
-					</div>
-				</options-box>
-			</div>
-
-			<div class="col-md-4">
-				<options-box
-					title="Start from Scratch"
-					header="Less Common"
-				>
-					Use a system template with no configured operating system or software.
-					<div slot="footer">
-						<ui-button
-							block
-							sub-label="...from your node's system templates"
-							@click="chooseTemplate"
-						>
-							Choose Template
-						</ui-button>
-					</div>
-				</options-box>
-			</div>
-
-			<div class="col-md-4">
-				<div v-if="showTips">
-					<tips-card>
-						You will need at least a base environment to run an emulation project
-					</tips-card>
+							<ui-button
+								style="max-width: 17.5rem;"
+								sub-label="...imported or bookmarked resources"
+								@click="openMyResources"
+							>
+								My Resources
+							</ui-button>
+						</div>
+					</options-box>
 				</div>
+
+				<div class="col-md-6">
+					<options-box
+						title="Start from Scratch"
+						header="Less Common"
+					>
+						Use a system template with no configured operating system or software.
+						<div slot="footer">
+							<ui-button
+								block
+								sub-label="...from your node's system templates"
+								@click="chooseTemplate"
+							>
+								Choose Template
+							</ui-button>
+						</div>
+					</options-box>
+				</div>
+			</div>
+			<div v-if="showTips">
+				<tips-card>
+					You will need at least a base environment to run an emulation project
+				</tips-card>
 			</div>
 		</div>
 		<create-base-env-modal v-if="isChooseTemplateOpen" @close="closeChooseTemplate" />

@@ -2,18 +2,23 @@
 	<div class="mbs-wrapper">
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
-				<p style="margin: 0;">
+				<p v-if="bookmarks.length">
 					These resources will be bookmarked until you remove the bookmark.
+				</p>
+				<p style="margin: 0;" v-else>
+					No Bookmarks Found
 				</p>
 			</div>
 			<div class="btn-section">
-				<ui-button secondary @click="clearBookmarks">
+				<ui-button secondary @click="clearBookmarks" v-if="bookmarks.length">
 					Clear ALL Bookmarks
+				</ui-button>
+				<ui-button secondary @click="$router.push('explore')" v-else>
+					Add Bookmarks
 				</ui-button>
 			</div>
 		</div>
-
-		<div class="resource-results" v-if="bentoResult">
+		<div class="resource-results" v-if="bentoResult && bookmarks.length">
 			<resource-facets />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">

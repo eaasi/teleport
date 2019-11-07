@@ -78,6 +78,8 @@ export default class DashboardLinks extends Vue { }
 <style lang="scss">
 	.db-links-container {
 		background-color: lighten($light-neutral, 80%);
+		padding-left: 2.4rem;
+		padding-right: 2.4rem;
 
 		.db-links-column {
 			display: flex;

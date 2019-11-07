@@ -1,6 +1,6 @@
 <template>
 	<nav class="left-menu" role="navigation">
-		<div id="headerLogo" class="flex flex-center">
+		<div id="headerLogo" class="flex flex-center" @click="$router.push('/dashboard')">
 			<img src="@/assets/header-logo.png" alt="Eaasi Logo" class="left-menu-logo" />
 		</div>
 		<left-menu-item
@@ -73,6 +73,7 @@ export default class LeftMenu extends Vue {
 }
 
 #headerLogo {
+	cursor: pointer;
 	height: $headerHeight;
 	width: $leftSidebarWidth;
 

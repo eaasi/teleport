@@ -5,7 +5,6 @@
 			<ui-chip 
 				v-for="facetValue in selectedValues" 
 				:key="facetValue.label" 
-				style="margin-bottom: 0.5rem; margin-right: 0.5rem;" 
 				close 
 				@close="$emit('deselect', facetValue)"
 			>
