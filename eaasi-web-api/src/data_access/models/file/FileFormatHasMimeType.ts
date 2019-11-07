@@ -18,12 +18,12 @@ export default class FileFormatHasMimeType extends Model<FileFormatHasMimeType> 
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	fileFormatQID: number
+	fileFormatQid: number;
 
 	@ForeignKey(() => MimeType)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	mimeTypeQID: string
+	mimeTypeQid: string;
 }

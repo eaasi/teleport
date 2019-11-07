@@ -27,10 +27,10 @@ export default class SoftwareObjectHasAlternateID extends Model<SoftwareObjectHa
 	softwareObjectAlternateID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
-	softwareObjectAlternateIDSource: number;
+	alternateIdSource: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,

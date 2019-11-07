@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('software_object_has_alternate_id', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObject_softwareObjectID: {
+			softwareObjectID: {
 				type: Sq.STRING,
 				allowNull: true,
 				references: {
@@ -15,15 +15,19 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			softwareObject_alternateID: {
-				type: Sq.STRING,
+			softwareObjectAlternateID: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'software_object',
+					key: 'id'
+				}
+			},
+			alternateIdSource: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			softwareObject_alternateIDSource: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			softwareObject_localID: {
+			isLocalID: {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			}

@@ -7,25 +7,29 @@ module.exports = {
 		return queryInterface.createTable('software_version_has_file_operation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersion_softwareVersionID: {
-				type: Sq.STRING,
+			softwareVersionID: {
+				type: Sq.INTEGER,
 				references: {
 					model: 'software_version',
 					key: 'id'
 				}
 			},
-			softwareVersion_fileOperationID: {
-				type: Sq.STRING,
+			fileOperationID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 				references: {
 					model: 'file_operation',
 					key: 'id'
 				}
 			},
-			softwareVersion_operationType: {
+			fileOperationType: {
 				type: Sq.STRING,
+				allowNull: true
 			},
-			defaultOperation: {
+			isDefaultOperation: {
 				type: Sq.BOOLEAN,
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},

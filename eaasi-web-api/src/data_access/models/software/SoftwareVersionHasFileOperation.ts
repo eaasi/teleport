@@ -18,26 +18,26 @@ export default class SoftwareVersionHasFileOperation extends Model<SoftwareVersi
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => FileOperation)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true,
+		allowNull: false,
 	})
-	fileOperationID: number
+	fileOperationID: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	fileOperationType: string
+	fileOperationType: string;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: false
 	})
-	isDefaultOperation: boolean
+	isDefaultOperation: boolean;
 }
 

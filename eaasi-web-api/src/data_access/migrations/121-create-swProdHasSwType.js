@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('software_product_has_software_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareProduct_softwareProductID: {
+			softwareProductID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			softwareProduct_softwareTypeQID: {
+			softwareTypeQid: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {

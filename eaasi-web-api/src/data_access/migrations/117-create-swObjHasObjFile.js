@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('software_object_has_object_file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObject_softwareObjectID: {
+			softwareObjectID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			softwareObjectFileID: {
+			fileID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
@@ -23,15 +23,15 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			softwareObjectFileLabel: {
+			label: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			softwareObjectFile_mediaTypeName: {
+			mediaTypeName: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			softwareObjectFile_order: {
+			fileOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},

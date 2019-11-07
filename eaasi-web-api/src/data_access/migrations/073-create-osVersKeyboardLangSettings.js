@@ -17,7 +17,11 @@ module.exports = {
 			},
 			languageQid: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'language',
+					key: 'qid'
+				}
 			}
 		});
 	},

@@ -16,11 +16,11 @@ export default class FileFormat extends Model<FileFormat> {
 		allowNull: false,
 		primaryKey: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	label: string
+	label: string;
 }

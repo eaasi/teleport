@@ -1,4 +1,5 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
@@ -11,15 +12,16 @@ export default class SoftwareProductHasAlternateName extends Model<SoftwareProdu
 	@UpdatedAt
 	readonly updatedAt: Date = new Date();
 
+	@ForeignKey(() => SoftwareProduct)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareProductID: string
+	softwareProductID: string;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	alternateName: string
+	alternateName: string;
 }

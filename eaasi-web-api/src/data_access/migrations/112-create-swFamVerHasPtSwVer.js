@@ -8,15 +8,15 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareFamilyVersionID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',
 					key: 'id'
 				}
 			},
-			hasPart_softwareVersion: {
-				type: Sq.STRING,
+			hasPart_softwareVersionID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

@@ -31,17 +31,17 @@ export default class SoftwareObjectHasObjectFile extends Model<SoftwareObjectHas
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	softwareObjectFileLabel: string;
+	label: string;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	softwareObjectFileMediaTypeName: string;
+	mediaTypeName: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	softwareObjectFileOrder: number;
+	fileOrder: number;
 }

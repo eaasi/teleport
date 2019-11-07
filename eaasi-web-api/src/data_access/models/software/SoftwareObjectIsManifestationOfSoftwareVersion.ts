@@ -16,14 +16,14 @@ export default class SoftwareObjectIsManifestationOfSoftwareVersion extends Mode
 	@ForeignKey(() => SoftwareObject)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true,
+		allowNull: false,
 	})
 	softwareObjectID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true,
+		allowNull: false,
 	})
 	softwareVersionID: number;
 }

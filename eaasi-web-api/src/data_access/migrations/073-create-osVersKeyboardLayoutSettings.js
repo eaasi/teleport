@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('file_format_has_mime_type', {
+		return queryInterface.createTable('os_version_keyboard_layout_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileFormatID: {
-				type: Sq.STRING,
+			osVersionID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'file_format',
+					model: 'os_version',
 					key: 'id'
 				}
 			},
-			mimeTypeQid: {
+			keyboardLayoutQid: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'mime_type',
-					key: 'id'
+					model: 'keyboard_layout',
+					key: 'qid'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('file_format_has_mime_type');
+		return queryInterface.dropTable('os_version_keyboard_language_settings');
 	}
 };

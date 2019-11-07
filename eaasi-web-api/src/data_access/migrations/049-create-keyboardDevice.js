@@ -21,8 +21,8 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false
 			},
-			keyboardLayoutID: {
-				type: Sq.INTEGER,
+			keyboardLayoutQid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'keyboard_layout',

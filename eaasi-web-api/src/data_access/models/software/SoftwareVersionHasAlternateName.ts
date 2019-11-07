@@ -17,11 +17,11 @@ export default class SoftwareVersionHasAlternateName extends Model<SoftwareVersi
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
-	alternateName: string
+	alternateName: string;
 }

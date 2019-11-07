@@ -17,7 +17,7 @@ export default class SoftwareFamilyVersionHasSoftwareVersion extends Model<Softw
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareFamilyID: number;
+	softwareFamilyVersionID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({

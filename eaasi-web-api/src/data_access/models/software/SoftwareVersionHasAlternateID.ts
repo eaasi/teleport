@@ -17,24 +17,25 @@ export default class SoftwareVersionHasAlternateID extends Model<SoftwareVersion
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionAlternateID: number
+	softwareVersionAlternateID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	softwareVersionIDSource: string
+	softwareVersionIdSource: string;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true,
+		allowNull: false,
+		defaultValue: false
 	})
-	isLocalID: boolean
+	isLocalID: boolean;
 }

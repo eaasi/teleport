@@ -18,12 +18,12 @@ export default class SoftwareProductHasSoftwareType extends Model<SoftwareProduc
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareProductID: number
+	softwareProductID: number;
 
 	@ForeignKey(() => SoftwareType)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	softwareTypeQID: string
+	softwareTypeQid: string;
 }

@@ -12,17 +12,10 @@ export default class KeyboardLayout extends Model<KeyboardLayout> {
 	@UpdatedAt
 	readonly updatedAt: Date = new Date();
 
-	@Column({
-		type: DataTypes.INTEGER,
-		allowNull: false,
-		primaryKey: true,
-		autoIncrement: true
-	})
-	id: number;
-
 	@ForeignKey(() => Language)
 	@Column({
 		type: DataTypes.STRING(64),
+		primaryKey: true,
 		allowNull: true
 	})
 	qid: string;

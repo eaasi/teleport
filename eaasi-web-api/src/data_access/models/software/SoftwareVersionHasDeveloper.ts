@@ -18,13 +18,13 @@ export default class SoftwareVersionHasDeveloper extends Model<SoftwareVersionHa
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => Developer)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	developerQID: string
+	developerQid: string;
 }
 

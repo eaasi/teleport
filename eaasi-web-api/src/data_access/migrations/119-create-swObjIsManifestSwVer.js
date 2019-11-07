@@ -7,16 +7,16 @@ module.exports = {
 		return queryInterface.createTable('software_object_is_manifestation_of_software_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObject_softwareObjectID: {
-				type: Sq.STRING,
+			softwareObjectID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_object',
 					key: 'id'
 				}
 			},
-			softwareObject_softwareVersionID: {
-				type: Sq.STRING,
+			softwareVersionID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

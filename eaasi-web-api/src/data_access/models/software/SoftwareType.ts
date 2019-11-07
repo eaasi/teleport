@@ -16,11 +16,11 @@ export default class SoftwareType extends Model<SoftwareType> {
 		allowNull: false,
 		primaryKey: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	name: string
+	name: string;
 }

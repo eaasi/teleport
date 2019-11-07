@@ -40,7 +40,7 @@ export default class KeyboardDevice extends Model<KeyboardDevice> {
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	keyboardLayoutID: number;
+	keyboardLayoutQid: number;
 
 	@ForeignKey(() => Language)
 	@Column({

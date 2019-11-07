@@ -22,7 +22,7 @@ export default class SoftwareVersionHasLanguageSettings extends Model<SoftwareVe
 
 	@ForeignKey(() => Language)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	languageQid: string;
