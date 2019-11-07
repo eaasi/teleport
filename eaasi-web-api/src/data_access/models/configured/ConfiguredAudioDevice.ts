@@ -19,25 +19,25 @@ export default class ConfiguredAudioDevice extends Model<ConfiguredAudioDevice> 
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	audioDeviceID: number
+	audioDeviceID: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	irq: string
+	irq: string;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	uses_machineInterfaceID: string
+	uses_machineInterfaceID: string;
 }

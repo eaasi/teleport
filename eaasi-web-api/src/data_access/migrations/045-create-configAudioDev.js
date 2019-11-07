@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredAudioDevice_audioDeviceID: {
+			audioDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -23,15 +23,18 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredAudioDevice_irq: {
-				type: Sq.STRING,
+			irq: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			configuredAudioDevice_usesMachineInterface: {
+			uses_MachineInterface: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
-
 		});
 	},
 	down: (queryInterface, Sequelize) => {

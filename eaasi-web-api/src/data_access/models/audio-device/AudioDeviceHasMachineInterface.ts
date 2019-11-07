@@ -25,5 +25,5 @@ export default class AudioDeviceHasMachineInterface extends Model<AudioDeviceHas
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	machineInterfaceID: string;
+	machineInterfaceID: number;
 }

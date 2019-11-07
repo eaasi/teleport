@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('configured_gpu_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredGpuDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			configuredMachine_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -21,7 +21,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredGpuDevice_gpuDeviceID: {
+			gpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -29,17 +29,21 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredGpuDevice_memoryBytes: {
+			memoryBytes: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredGpuDevice_irq: {
+			irq: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			configuredGpuDevice_usesMachineInterface: {
+			uses_machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
 		});
 	},

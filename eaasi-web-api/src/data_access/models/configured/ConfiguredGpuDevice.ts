@@ -20,38 +20,38 @@ export default class ConfiguredGpuDevice extends Model<ConfiguredGpuDevice> {
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => GpuDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	gpuDeviceID: number
+	gpuDeviceID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	memoryBytes: number
+	memoryBytes: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	irq: string
+	irq: string;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	uses_machineInterfaceID: string
+	uses_machineInterfaceID: number;
 }

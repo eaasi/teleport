@@ -17,17 +17,17 @@ export default class GpuDevice extends Model<GpuDevice> {
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	name: string
+	name: string;
 }
