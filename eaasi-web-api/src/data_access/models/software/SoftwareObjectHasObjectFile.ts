@@ -28,13 +28,13 @@ export default class SoftwareObjectHasObjectFile extends Model<SoftwareObjectHas
 	fileID: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
 	label: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
 	mediaTypeName: string;

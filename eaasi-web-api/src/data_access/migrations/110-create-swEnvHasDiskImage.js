@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			diskImageID: {
-				type: Sq.NUMBER,
+				type: Sq.INTEGER,
 				allowNull: true
 			},
 			mountPoint: {

@@ -22,7 +22,7 @@ export default class SoftwareVersionHasDeveloper extends Model<SoftwareVersionHa
 
 	@ForeignKey(() => Developer)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	developerQid: string;

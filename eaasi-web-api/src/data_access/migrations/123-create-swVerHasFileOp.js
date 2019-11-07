@@ -35,6 +35,5 @@ module.exports = {
 	},
 	down: (queryInterface, Sequelize) => {
 		return queryInterface.dropTable('software_version_has_file_operation');
-
 	}
 };

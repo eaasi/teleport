@@ -20,9 +20,15 @@ export default class FileOperation extends Model<FileOperation> {
 	})
 	id: number;
 
+	@Column({
+		type: DataTypes.STRING(128),
+		allowNull: false,
+	})
+	label: number;
+
 	@ForeignKey(() => MimeType)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	associatedMimeTypeQid: string;

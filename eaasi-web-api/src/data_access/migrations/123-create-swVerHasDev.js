@@ -14,8 +14,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			softwareDeveloperQid: {
-				type: Sq.STRING,
+			developerQid: {
+				type: Sq.STRING(64),
 				references: {
 					model: 'developer',
 					key: 'qid'
@@ -25,6 +25,5 @@ module.exports = {
 	},
 	down: (queryInterface, Sequelize) => {
 		return queryInterface.dropTable('software_version_has_developer');
-
 	}
 };

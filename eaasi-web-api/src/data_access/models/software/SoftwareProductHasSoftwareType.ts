@@ -22,7 +22,7 @@ export default class SoftwareProductHasSoftwareType extends Model<SoftwareProduc
 
 	@ForeignKey(() => SoftwareType)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	softwareTypeQid: string;

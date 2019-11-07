@@ -7,13 +7,10 @@ module.exports = {
 		return queryInterface.createTable('developer', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			id: {
-				type: Sq.INTEGER,
-				allowNull: false,
-				primaryKey: true
-			},
 			qid: {
 				type: Sq.STRING(64),
+				primaryKey: true,
+				allowNull: false
 			},
 			label: {
 				type: Sq.STRING(64),

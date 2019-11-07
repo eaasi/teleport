@@ -9,8 +9,8 @@ module.exports = {
 			updatedAt: Sq.DATE,
 			id: {
 				type: Sq.INTEGER,
-				allowNull: false,
 				primaryKey: true,
+				allowNull: false,
 				autoIncrement: true
 			},
 			name: {

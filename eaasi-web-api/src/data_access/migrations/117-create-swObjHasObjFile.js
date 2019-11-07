@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareObjectID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_object',
@@ -16,7 +16,7 @@ module.exports = {
 				}
 			},
 			fileID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'file',
@@ -24,11 +24,11 @@ module.exports = {
 				}
 			},
 			label: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: true
 			},
 			mediaTypeName: {
-				type: Sq.STRING,
+				type: Sq.STRING(128),
 				allowNull: true
 			},
 			fileOrder: {

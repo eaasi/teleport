@@ -15,12 +15,13 @@ export default class Developer extends Model<Developer> {
 		type: DataTypes.STRING(64),
 		primaryKey: true,
 		allowNull: false,
+		unique: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false
 	})
-	label: string
+	label: string;
 }

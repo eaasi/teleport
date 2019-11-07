@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('file_operation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileOperationID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 			},
-			fileOperationText: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
 			associatedMimeTypeQid: {
