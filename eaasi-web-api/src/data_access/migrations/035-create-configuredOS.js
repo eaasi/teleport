@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('configured_os', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredOperatingSystemID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			configuredDisplayResolution: {
+			displayResolutionID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -21,7 +21,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredColorDepth: {
+			colorDepthID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -29,16 +29,16 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredRegion: {
-				type: Sq.STRING,
+			regionQid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'region',
 					key: 'qid'
 				}
 			},
-			configuredTimezone: {
-				type: Sq.STRING,
+			timezoneQid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'timezone',
@@ -50,14 +50,14 @@ module.exports = {
 				allowNull: true
 			},
 			hasSource_softwareObjectID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_object',
 					key: 'id'
 				}
 			},
-			manifestationOf_osVersion: {
+			manifestationOf_osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: true
 			}

@@ -14,18 +14,18 @@ module.exports = {
 				autoIncrement: true
 			},
 			name: {
-				type: Sq.STRING,
-				allowNull: true
+				type: Sq.STRING(128),
+				allowNull: false
 			},
 			description: {
-				type: Sq.STRING,
+				type: Sq.STRING(512),
 				allowNull: true
 			},
 			helpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			},
-			derivedFrom_softwareEnvironment: {
+			derivedFrom_softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -33,7 +33,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			hasPart_configuredOS: {
+			hasPart_configuredOsID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

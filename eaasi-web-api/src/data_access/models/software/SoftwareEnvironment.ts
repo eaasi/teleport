@@ -21,20 +21,20 @@ export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: false,
 	})
 	name: string;
 
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: false,
+		type: DataTypes.STRING(512),
+		allowNull: true,
 	})
 	description: string;
 
 	@Column({
 		type: DataTypes.TEXT,
-		allowNull: false,
+		allowNull: true,
 	})
 	helpText: string;
 
@@ -43,12 +43,12 @@ export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	derivedFrom_SoftwareEnvironment: number;
+	derivedFrom_SoftwareEnvironmentID: number;
 
 	@ForeignKey(() => ConfiguredOS)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	hasPart_configuredOS: number;
+	hasPart_configuredOsID: number;
 }

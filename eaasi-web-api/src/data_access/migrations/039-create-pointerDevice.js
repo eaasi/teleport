@@ -7,21 +7,25 @@ module.exports = {
 		return queryInterface.createTable('pointer_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			pointerDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			pointerDeviceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			pointerDeviceLabel: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			pointerDeviceType: {
+			label: {
+				type: Sq.STRING(64),
+				allowNull: false
+			},
+			pointerDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

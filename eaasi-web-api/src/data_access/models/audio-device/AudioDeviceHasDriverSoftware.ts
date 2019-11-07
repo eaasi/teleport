@@ -18,12 +18,12 @@ export default class AudioDeviceHasDriverSoftware extends Model<AudioDeviceHasDr
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	audioDeviceId: number
+	audioDeviceID: number
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	driverSoftwareId: string
+	driverSoftwareID: string
 }

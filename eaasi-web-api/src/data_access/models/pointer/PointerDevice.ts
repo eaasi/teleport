@@ -18,30 +18,30 @@ export default class PointerDevice extends Model<PointerDevice> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	name: string
+	name: string;
 
 	@Column({
-		type: DataTypes.INTEGER,
-		allowNull: true,
+		type: DataTypes.STRING(64),
+		allowNull: false,
 	})
-	label: number
+	label: string;
 
 	@ForeignKey(() => PointerDeviceType)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	pointerDeviceType: number
+	pointerDeviceTypeID: number;
 }

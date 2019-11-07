@@ -13,15 +13,15 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			computingEnvironment_hasSourceOrg: {
+			sourceOrg: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			computingEnvironment_inNetwork: {
+			isInNetwork: {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			},
-			computingEnvironment_configuredNetworkID: {
+			configuredNetworkID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

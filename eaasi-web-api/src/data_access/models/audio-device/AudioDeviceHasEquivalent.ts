@@ -17,12 +17,12 @@ export default class AudioDeviceHasEquivalent extends Model<AudioDeviceHasEquiva
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	audioDeviceId: number
+	audioDeviceId: number;
 
 	@ForeignKey(() => AudioDevice)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	audioDeviceEquivalentId: string
+	equivalentAudioDeviceID: string;
 }

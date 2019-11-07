@@ -20,13 +20,13 @@ export default class ProcessorDevice extends Model<ProcessorDevice> {
 	id: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	qid: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
 	name: string
@@ -38,13 +38,13 @@ export default class ProcessorDevice extends Model<ProcessorDevice> {
 	frequency: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(16),
 		allowNull: true,
 	})
 	frequencyUnit: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
 	cpuArchitecture: string

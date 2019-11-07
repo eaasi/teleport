@@ -7,33 +7,34 @@ module.exports = {
 		return queryInterface.createTable('file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			fileLocation: {
-				type: Sq.STRING,
+			location: {
+				type: Sq.STRING(256),
 				allowNull: true
 			},
-			fileName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(256),
 				allowNull: true
 			},
-			fileChecksum: {
-				type: Sq.STRING,
+			checkSum: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			fileFormat: {
-				type: Sq.STRING,
+			fileFormatID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'file_format',
 					key: 'id'
 				}
 			},
-			fileSize: {
-				type: Sq.STRING,
+			size: {
+				type: Sq.STRING(32),
 				allowNull: true
 			}
 		});

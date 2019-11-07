@@ -19,32 +19,32 @@ export default class ComputingEnvironment extends Model<ComputingEnvironment> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	sourceOrg: number
+	sourceOrg: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: false
 	})
-	isInNetwork: boolean
+	isInNetwork: boolean;
 
     @ForeignKey(() => ConfiguredNetwork)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	configuredNetworkId: number
+	configuredNetworkID: number;
 
 	@ForeignKey(() => SoftwareEnvironment)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-    softwareEnvironmentId: number
+    softwareEnvironmentID: number;
 }

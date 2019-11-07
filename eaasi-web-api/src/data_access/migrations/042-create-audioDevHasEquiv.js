@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('audio_device_has_equivalent', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			audioDevice_audioDeviceID: {
+			audioDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			audioDevice_equivalentAudioDevice: {
+			equivalentAudioDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false
 			}

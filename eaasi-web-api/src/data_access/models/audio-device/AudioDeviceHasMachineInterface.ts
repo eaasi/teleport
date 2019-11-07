@@ -18,12 +18,12 @@ export default class AudioDeviceHasMachineInterface extends Model<AudioDeviceHas
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	audioDeviceID: number
+	audioDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	machineInterfaceID: string
+	machineInterfaceID: string;
 }

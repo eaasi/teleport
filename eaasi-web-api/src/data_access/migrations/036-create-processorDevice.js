@@ -8,28 +8,29 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			processorDeviceID: {
-				type: Sq.STRING(45),
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			processorDeviceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			processorDeviceName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			processorDeviceFrequency: {
+			frequency: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			processorDeviceFrequencyUnit: {
-				type: Sq.STRING,
+			frequencyUnit: {
+				type: Sq.STRING(16),
 				allowNull: true
 			},
-			processorDeviceCpuArchitecture: {
-				type: Sq.STRING,
+			cpuArchitecture: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 		});

@@ -8,7 +8,7 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredSoftwareVersionID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				references: {
@@ -17,23 +17,27 @@ module.exports = {
 				}
 			},
 			executableLocation: {
-				type: Sq.STRING,
+				type: Sq.STRING(256),
 				allowNull: true
 			},
 			executableSyntax: {
-				type: Sq.STRING,
+				type: Sq.STRING(32),
 				allowNull: true
 			},
 			saveLocation: {
-				type: Sq.STRING,
+				type: Sq.STRING(256),
 				allowNull: true
 			},
-			configuredLanguage: {
-				type: Sq.INTEGER,
-				allowNull: true
+			languageQid: {
+				type: Sq.STRING(64),
+				allowNull: true,
+				references: {
+					model: 'language',
+					key: 'qid'
+				}
 			},
 			hasSource_softwareObjectID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_object',

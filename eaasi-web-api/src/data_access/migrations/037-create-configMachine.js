@@ -8,29 +8,29 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 
-			configuredMachineID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
 
-			configuredMachineName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
 
-			configuredMachineDescription: {
-				type: Sq.STRING,
+			description: {
+				type: Sq.STRING(256),
 				allowNull: false
 			},
 
-			configuredMachineDateTime: {
+			datetime: {
 				type: Sq.DATE,
 				allowNull: false
 			},
 
-			configuredMachineType: {
+			machineTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -39,21 +39,21 @@ module.exports = {
 				}
 			},
 
-			configuredMachineRAM: {
+			ram: {
 				type: Sq.INTEGER,
 			},
 
-			configuredMachineRAMUnit: {
-				type: Sq.STRING,
+			ramUnit: {
+				type: Sq.STRING(64),
 			},
 
-			configuredMachineCpuCores: {
-				type: Sq.STRING,
+			cpuCores: {
+				type: Sq.INTEGER,
 				allowNull: true
 			},
 
-			configuredMachine_emulatorSoftwareID: {
-				type: Sq.STRING,
+			emulatorSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_version',
@@ -61,8 +61,8 @@ module.exports = {
 				}
 			},
 
-			configuredMachineProcessor: {
-				type: Sq.STRING,
+			processorDeviceID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'processor_device',
@@ -70,7 +70,7 @@ module.exports = {
 				}
 			},
 
-			configuredMachineChipset: {
+			chipsetID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -79,8 +79,8 @@ module.exports = {
 				}
 			},
 
-			configuredMachine_romFileID: {
-				type: Sq.STRING,
+			romFileID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 			}
 		});

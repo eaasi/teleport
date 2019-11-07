@@ -30,14 +30,14 @@ export default class ConfiguredOS extends Model<ConfiguredOS> {
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	displayResolutionId: number
+	displayResolutionID: number
 
 	@ForeignKey(() => ColorDepth)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	colorDepthId: number
+	colorDepthID: number
 
 	@ForeignKey(() => Region)
 	@Column({
@@ -61,15 +61,15 @@ export default class ConfiguredOS extends Model<ConfiguredOS> {
 
 	@ForeignKey(() => SoftwareObject)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	has_source_softwareObjectID: string
+	hasSource_softwareObjectID: number
 
 	@ForeignKey(() => OsVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	manifestation_of_osVersionId: number
+	manifestationOf_osVersionID: number
 }

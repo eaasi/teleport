@@ -18,36 +18,36 @@ export default class File extends Model<File> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: false,
 	})
-	location: string
+	location: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: false,
 	})
-	name: string
+	name: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	checkSum: string
+	checkSum: string;
 
     @ForeignKey(() => FileFormat)
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: false,
+		type: DataTypes.INTEGER,
+		allowNull: true,
 	})
-	fileFormatId: string
+	fileFormatID: string;
 
 	@Column({
-		type: DataTypes.STRING,
-		allowNull: false,
+		type: DataTypes.STRING(32),
+		allowNull: true,
 	})
-    size: string
+    size: string;
 }

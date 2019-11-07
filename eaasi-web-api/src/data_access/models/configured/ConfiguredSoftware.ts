@@ -23,19 +23,19 @@ export default class ConfiguredSoftware extends Model<ConfiguredSoftware> {
 	softwareVersionID: number
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: true,
 	})
 	executableLocation: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(32),
 		allowNull: true,
 	})
 	executableSyntax: string
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(256),
 		allowNull: true,
 	})
 	saveLocation: string
@@ -45,21 +45,21 @@ export default class ConfiguredSoftware extends Model<ConfiguredSoftware> {
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	configuredLanguageQid: string
+	languageQid: string
 
 	@ForeignKey(() => SoftwareObject)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	has_source_softwareObjectID: number
+	hasSource_softwareObjectID: number
 
 	@ForeignKey(() => ContentObject)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	has_source_contentObjectLocalID: number
+	hasSource_contentObjectLocalID: number
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
