@@ -18,7 +18,7 @@ export default class SystemRequirementsRequiresGpuDevice extends Model<SystemReq
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => GpuDevice)
 	@Column({

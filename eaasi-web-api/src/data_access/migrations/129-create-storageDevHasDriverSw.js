@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('storage_device_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			storageDevice_storageDeviceID: {
+			storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,8 +15,8 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			storageDevice_driverSoftwareID: {
-				type: Sq.STRING,
+			driverSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'software_version',

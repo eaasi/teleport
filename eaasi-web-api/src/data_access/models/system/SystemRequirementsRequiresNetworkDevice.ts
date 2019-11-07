@@ -18,13 +18,13 @@ export default class SystemRequirementsRequiresNetworkDevice extends Model<Syste
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => NetworkDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	networkDeviceID: number
+	networkDeviceID: number;
 }
 

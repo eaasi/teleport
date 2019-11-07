@@ -17,13 +17,13 @@ export default class SoftwareVersionIncludesSoftwareVersion extends Model<Softwa
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	includes_softwareVersion: number
+	includes_softwareVersionID: number;
 }
 

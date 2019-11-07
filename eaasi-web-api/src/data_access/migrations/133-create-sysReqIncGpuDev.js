@@ -7,26 +7,22 @@ module.exports = {
 		return queryInterface.createTable('system_requirements_requires_gpu_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sq.STRING,
-				allowNull: false
-			},
-			systemRequirements_requiresGpuDeviceID: {
+			systemRequirementsID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
+				references: {
+					model: 'system_requirements',
+					key: 'id'
+				}
+			},
+			gpuDeviceID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 				references: {
 					model: 'gpu_device',
 					key: 'id'
 				}
 			},
-			systemRequirements_minimumGpuRAM: {
-				type: Sq.DECIMAL,
-				allowNull: true
-			},
-			systemRequirements_minimumGpuRAMUnit: {
-				type: Sq.STRING,
-				allowNull: true
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {

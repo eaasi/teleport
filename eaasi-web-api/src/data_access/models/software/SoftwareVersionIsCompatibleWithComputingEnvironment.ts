@@ -18,13 +18,13 @@ export default class SoftwareVersionIsCompatibleWithComputingEnvironment extends
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => ComputingEnvironment)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	computingEnvironmentID: number
+	computingEnvironmentID: number;
 }
 

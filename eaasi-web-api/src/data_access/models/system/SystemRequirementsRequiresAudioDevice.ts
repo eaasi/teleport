@@ -18,12 +18,12 @@ export default class SystemRequirementsRequiresAudioDevice extends Model<SystemR
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => AudioDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	audioDeviceID: number
+	audioDeviceID: number;
 }

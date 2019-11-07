@@ -18,13 +18,13 @@ export default class SystemRequirementsRequiresStorageDeviceType extends Model<S
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => StorageDeviceType)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	storageDeviceTypeID: number
+	storageDeviceTypeID: number;
 }
 

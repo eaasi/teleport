@@ -17,18 +17,18 @@ export default class EaasiRole extends Model<EaasiRole> {
     	primaryKey: true,
     	autoIncrement: true,
     })
-    id: number
+    id: number;
 
     @Column({
-    	type: DataTypes.STRING,
+    	type: DataTypes.STRING(32),
     	allowNull: false,
     	unique: true
     })
-    roleName: string
+    roleName: string;
 
     @Column({
     	type: DataTypes.STRING(100),
     	allowNull: false
     })
-    roleDescription: string
+    roleDescription: string;
 }

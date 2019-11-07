@@ -18,14 +18,14 @@ export default class SystemRequirementsRequiresOsVersion extends Model<SystemReq
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => OsVersion)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true,
+		allowNull: false,
 	})
-	osVersionID: number
+	osVersionID: number;
 }
 
 

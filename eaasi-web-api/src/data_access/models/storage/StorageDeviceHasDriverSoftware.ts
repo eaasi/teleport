@@ -18,12 +18,12 @@ export default class StorageDeviceHasDriverSoftware extends Model<StorageDeviceH
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	storageDeviceID: string
+	storageDeviceID: string;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	driverSoftwareID: number
+	driverSoftwareID: number;
 }

@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('system_requirements_requires_os_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sq.STRING,
+			systemRequirementsID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'system_requirements',
 					key: 'id'
 				}
 			},
-			systemRequirements_requiresOSVersionID: {
-				type: Sq.STRING,
-				allowNull: true,
+			oSVersionID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 			}
 		});
 	},

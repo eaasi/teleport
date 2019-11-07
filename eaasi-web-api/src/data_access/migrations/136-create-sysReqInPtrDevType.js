@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('system_requirements_requires_pointer_device_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sq.STRING,
+			systemRequirementsID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'system_requirements',
 					key: 'id'
 				}
 			},
-			systemRequirements_requiresPointerDeviceTypeID: {
+			pointerDeviceTypeID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
 					model: 'pointer_device_type',
 					key: 'id'

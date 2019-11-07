@@ -18,7 +18,7 @@ export default class SystemRequirementsRequiresKeyboardDevice extends Model<Syst
     	type: DataTypes.INTEGER,
     	allowNull: false,
     })
-    systemRequirementsID: number
+    systemRequirementsID: number;
 
     @ForeignKey(() => KeyboardDevice)
     @Column({

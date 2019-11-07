@@ -19,27 +19,27 @@ export default class SoftwareVersionHasFormatImplementation extends Model<Softwa
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => FormatImplementation)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	formatImplementationID: number
+	formatImplementationID: number;
 
 	@ForeignKey(() => FormatOperation)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	formatOperationID: number
+	formatOperationID: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: false
 	})
-	isDefaultOperation: boolean
+	isDefaultImplementation: boolean;
 }
 

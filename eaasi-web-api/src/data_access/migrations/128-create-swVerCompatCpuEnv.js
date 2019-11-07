@@ -7,15 +7,15 @@ module.exports = {
 		return queryInterface.createTable('software_version_is_compatible_with_computing_environment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			software_version_softwareVersionID: {
-				type: Sq.STRING,
+			softwareVersionID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'software_version',
 					key: 'id'
 				}
 			},
-			compatibleComputing_environmentID: {
+			computingEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

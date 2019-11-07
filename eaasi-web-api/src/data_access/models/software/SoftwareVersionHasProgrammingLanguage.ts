@@ -18,13 +18,13 @@ export default class SoftwareVersionHasProgrammingLanguage extends Model<Softwar
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 
 	@ForeignKey(() => ProgrammingLanguage)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	programmingLanguageID: number
+	programmingLanguageID: number;
 }
 

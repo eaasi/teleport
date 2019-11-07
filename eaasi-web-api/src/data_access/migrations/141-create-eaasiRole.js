@@ -20,7 +20,7 @@ module.exports = {
 				autoIncrement: true
 			},
 			roleName: {
-				type: Sq.STRING,
+				type: Sq.STRING(32),
 				allowNull: false,
 				columnName: 'role_name',
 				unique: true,

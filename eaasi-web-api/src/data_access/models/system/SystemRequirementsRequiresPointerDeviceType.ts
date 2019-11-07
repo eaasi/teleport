@@ -18,12 +18,12 @@ export default class SystemRequirementsRequiresPointerDeviceType extends Model<S
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => PointerDeviceType)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	pointerDeviceTypeID: number
+	pointerDeviceTypeID: number;
 }

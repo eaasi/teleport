@@ -18,12 +18,12 @@ export default class StorageDeviceTypeHasMachineInterface extends Model<StorageD
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	storageDeviceID: number
+	storageDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: true
+		allowNull: false
 	})
-	machineInterfaceID: number
+	machineInterfaceID: number;
 }

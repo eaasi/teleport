@@ -17,17 +17,17 @@ export default class PointerDeviceType extends Model<PointerDeviceType> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(128),
 		allowNull: true,
 	})
-	label: number
+	label: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true,
 	})
-	qid: string
+	qid: string;
 }

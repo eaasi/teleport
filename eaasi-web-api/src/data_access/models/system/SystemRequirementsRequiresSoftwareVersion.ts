@@ -18,12 +18,12 @@ export default class SystemRequirementsRequiresSoftwareVersion extends Model<Sys
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	softwareVersionID: number
+	softwareVersionID: number;
 }

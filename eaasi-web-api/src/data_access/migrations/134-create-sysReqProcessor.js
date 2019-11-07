@@ -7,28 +7,28 @@ module.exports = {
 		return queryInterface.createTable('system_requirements_requires_processor', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sq.STRING,
+			systemRequirementsID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'system_requirements',
 					key: 'id'
 				}
 			},
-			systemRequirements_requiresProcessorID: {
-				type: Sq.STRING,
+			processorDeviceID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'processor_device',
 					key: 'id'
 				}
 			},
-			systemRequirements_minimumFrequency: {
+			minimumFrequency: {
 				type: Sq.INTEGER,
 				allowNull: true,
 			},
-			systemRequirements_minimumFrequencyUnit: {
-				type: Sq.STRING,
+			minimumFrequencyUnit: {
+				type: Sq.STRING(12),
 				allowNull: true,
 			}
 		});

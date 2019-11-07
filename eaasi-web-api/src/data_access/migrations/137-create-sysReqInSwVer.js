@@ -7,15 +7,15 @@ module.exports = {
 		return queryInterface.createTable('system_requirements_requires_software_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sq.STRING,
+			systemRequirementsID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'system_requirements',
 					key: 'id'
 				}
 			},
-			systemRequirements_requiresSoftwareVersionID: {
+			softwareVersionID: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {

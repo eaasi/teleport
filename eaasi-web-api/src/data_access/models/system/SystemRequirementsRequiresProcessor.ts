@@ -18,24 +18,24 @@ export default class SystemRequirementsRequiresProcessor extends Model<SystemReq
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	systemRequirementsID: number
+	systemRequirementsID: number;
 
 	@ForeignKey(() => ProcessorDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	processorDeviceID: number
+	processorDeviceID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	minimumFrequency: number
+	minimumFrequency: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(12),
 		allowNull: true,
 	})
-	minimumFrequencyUnit: string
+	minimumFrequencyUnit: string;
 }
