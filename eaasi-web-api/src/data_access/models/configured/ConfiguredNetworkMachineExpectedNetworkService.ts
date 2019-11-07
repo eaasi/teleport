@@ -19,25 +19,25 @@ export default class ConfiguredNetworkMachineExpectedNetworkService extends Mode
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredNetworkID: number
+	configuredNetworkID: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => NetworkService)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	expectedNetworkServiceID: number
+	expectedNetworkServiceID: number;
 
 	@Column({
 		type: DataTypes.STRING,
-		allowNull: false,
+		allowNull: true,
 	})
-	servicePortExpected: string
+	servicePortExpected: string;
 }

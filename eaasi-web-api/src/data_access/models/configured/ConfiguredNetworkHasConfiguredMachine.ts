@@ -18,20 +18,20 @@ export default class ConfiguredNetworkHasConfiguredMachine extends Model<Configu
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredNetworkID: number
+	configuredNetworkID: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	bootOrder: number
+	bootOrder: number;
 
 	@Column({
 		type: DataTypes.STRING,

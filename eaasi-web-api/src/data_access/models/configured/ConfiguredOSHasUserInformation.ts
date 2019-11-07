@@ -18,12 +18,12 @@ export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHa
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredOsID: number
+	configuredOsID: number;
 
 	@ForeignKey(() => UserInformation)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	userInformationID: number
+	userInformationID: number;
 }

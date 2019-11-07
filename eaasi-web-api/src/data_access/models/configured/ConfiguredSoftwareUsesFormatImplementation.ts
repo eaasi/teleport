@@ -19,19 +19,19 @@ export default class ConfiguredSoftwareUsesFormatImplementation extends Model<Co
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredSoftwareVersionID: number
+	configuredSoftwareVersionID: number;
 
 	@ForeignKey(() => FormatImplementation)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	formatImplementationID: number
+	formatImplementationID: number;
 
 	@ForeignKey(() => FormatOperation)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	formatOperationID: number
+	formatOperationID: number;
 }

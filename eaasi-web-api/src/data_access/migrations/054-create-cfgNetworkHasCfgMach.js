@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('configured_network_has_configured_machine', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredNetwork_configuredNetworkID: {
+			configuredNetworkID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredNetwork_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -25,7 +25,7 @@ module.exports = {
 			},
 			bootOrder: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: true
 			},
 			staticIpAddress: {
 				type: Sq.STRING,

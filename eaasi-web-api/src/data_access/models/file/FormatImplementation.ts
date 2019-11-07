@@ -18,18 +18,18 @@ export default class FormatImplementation extends Model<FormatImplementation> {
 		allowNull: false,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(32),
 		allowNull: false
 	})
-	name: string
+	name: string;
 
 	@ForeignKey(() => FileExtension)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	extension: string
+	fileExtensionID: number;
 }

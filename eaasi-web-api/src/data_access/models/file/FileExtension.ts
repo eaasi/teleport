@@ -17,11 +17,11 @@ export default class FileExtension extends Model<FileExtension> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	label: string
+	label: string;
 }

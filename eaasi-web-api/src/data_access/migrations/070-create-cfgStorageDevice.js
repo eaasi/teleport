@@ -7,7 +7,13 @@ module.exports = {
 		return queryInterface.createTable('configured_storage_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredMachine_machineID: {
+			id: {
+				type: Sq.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+				allowNull: false
+			},
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +21,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configureStorageDevice_storageDeviceID: {
+			storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -23,13 +29,25 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredStorageDevice_usesMachineInterface: {
+			memoryBytes: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredStorageDevice_idBootOrder: {
+			irq: {
+				type: Sq.STRING,
+				allowNull: true
+			},
+			uses_machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
+			},
+			bootOrder: {
+				type: Sq.INTEGER,
+				allowNull: true
 			}
 		});
 	},

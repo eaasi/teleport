@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('configured_os_has_user_information', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredOS_configuredOperatingSystemID: {
+			configuredOsID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			userInformation_userInformationID: {
+			userInformationID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

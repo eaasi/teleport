@@ -17,17 +17,17 @@ export default class StorageDeviceType extends Model<StorageDeviceType> {
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(128),
 		allowNull: true
 	})
-	label: string
+	label: string;
 }

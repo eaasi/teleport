@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('configured_os_language', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredOS_configuredOperatingSystemID: {
+			configuredOsID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -15,13 +15,14 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredOs_languageQID: {
-				type: Sq.STRING,
+			languageQid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			configuredOS_primaryLanguage: {
+			isPrimaryLanguage: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},

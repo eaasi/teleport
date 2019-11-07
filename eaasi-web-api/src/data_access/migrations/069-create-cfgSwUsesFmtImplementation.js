@@ -7,15 +7,15 @@ module.exports = {
 		return queryInterface.createTable('configured_software_uses_format_implementation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredSoftware_configuredSoftwareManifestationID: {
-				type: Sq.STRING,
+			configuredSoftwareVersionID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'configured_software',
 					key: 'id'
 				}
 			},
-			configuredSoftware_formatImplementation: {
+			formatImplementationID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -23,7 +23,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredFormatOperation: {
+			formatOperationID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

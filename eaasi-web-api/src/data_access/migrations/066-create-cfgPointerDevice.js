@@ -7,7 +7,7 @@ module.exports = {
 		return queryInterface.createTable('configured_pointer_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredMachine_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -15,7 +15,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredPointerDevice_pointerDeviceID: {
+			pointerDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -23,9 +23,13 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			configuredPointerDevice_usesMachineInterface: {
+			uses_machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
 		});
 	},

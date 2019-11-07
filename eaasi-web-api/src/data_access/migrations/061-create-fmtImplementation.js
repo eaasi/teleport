@@ -7,17 +7,17 @@ module.exports = {
 		return queryInterface.createTable('format_implementation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			formatImplementationID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			formatImplementationName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(32),
 				allowNull: false
 			},
-			implementationExtension: {
+			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {

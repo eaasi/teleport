@@ -18,26 +18,26 @@ export default class ConfiguredNetworkDevice extends Model<ConfiguredNetworkDevi
 		type: DataTypes.STRING,
 		allowNull: true,
 	})
-	macAddress: number
+	macAddress: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => NetworkDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	networkDeviceID: number
+	networkDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	uses_machineInterfaceID: number
+	uses_machineInterfaceID: number;
 }

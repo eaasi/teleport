@@ -19,19 +19,19 @@ export default class ConfiguredPointerDevice extends Model<ConfiguredPointerDevi
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => PointerDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	pointerDeviceID: string
+	pointerDeviceID: number;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.INTEGER,
-		allowNull: false,
+		allowNull: true,
 	})
-	uses_machineInterfaceID: boolean
+	uses_machineInterfaceID: boolean;
 }

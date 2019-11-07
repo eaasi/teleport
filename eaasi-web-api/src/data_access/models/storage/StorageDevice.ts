@@ -18,36 +18,38 @@ export default class StorageDevice extends Model<StorageDevice> {
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(128),
 		allowNull: true
 	})
-	label: string
+	label: string;
 
 	@ForeignKey(() => StorageDeviceType)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	storageDeviceTypeID: number
+	storageDeviceTypeID: number;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true,
+		allowNull: false,
+		defaultValue: false
 	})
-	isReadable: boolean
+	isReadable: boolean;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
-		allowNull: true,
+		allowNull: false,
+		defaultValue: false
 	})
-	isWritable: boolean
+	isWritable: boolean;
 }

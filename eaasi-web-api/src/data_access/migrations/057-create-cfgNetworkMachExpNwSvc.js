@@ -7,30 +7,34 @@ module.exports = {
 		return queryInterface.createTable('configured_network_machine_expected_network_service', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredNetworkMachine_configuredNetworkID: {
+			configuredNetworkID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: false,
+				references: {
+					model: 'configured_network',
+					key: 'id'
+				}
 			},
-			servicePortExpected: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			configuredNetworkMachine_expectedNetworkServiceID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
+				references: {
+					model: 'configured_machine',
+					key: 'id'
+				}
+			},
+			expectedNetworkServiceID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 				references: {
 					model: 'network_service',
 					key: 'id'
 				}
 			},
-			configuredNetworkMachine_configuredMachineID: {
-				type: Sq.INTEGER,
-				allowNull: true,
-				// references: {
-				// 	model: 'configuredNetwork_has_configuredMachine',
-				// 	key: 'configuredNetwork_machineID'
-				// }
-			}
+			servicePortExpected: {
+				type: Sq.STRING,
+				allowNull: true
+			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {

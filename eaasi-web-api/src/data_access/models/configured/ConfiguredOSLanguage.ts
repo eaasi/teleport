@@ -18,19 +18,19 @@ export default class ConfiguredOSLanguage extends Model<ConfiguredOSLanguage> {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredOsID: number
+	configuredOsID: number;
 
 	@ForeignKey(() => Language)
 	@Column({
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	languageQid: string
+	languageQid: string;
 
 	@Column({
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: false
 	})
-	isPrimaryLanguage: boolean
+	isPrimaryLanguage: boolean;
 }

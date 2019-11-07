@@ -20,44 +20,44 @@ export default class ConfiguredStorageDevice extends Model<ConfiguredStorageDevi
 		autoIncrement: true,
 		allowNull: false,
 	})
-	id: number
+	id: number;
 
 	@ForeignKey(() => ConfiguredMachine)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	configuredMachineID: number
+	configuredMachineID: number;
 
 	@ForeignKey(() => StorageDevice)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false
 	})
-	storageDeviceID: number
+	storageDeviceID: number;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	memoryBytes: number
+	memoryBytes: number;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	irq: string
+	irq: string;
 
 	@ForeignKey(() => MachineInterface)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: true
 	})
-	uses_machineInterfaceID: string
+	uses_machineInterfaceID: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true
 	})
-	bootOrder: number
+	bootOrder: number;
 }

@@ -7,21 +7,21 @@ module.exports = {
 		return queryInterface.createTable('storage_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			storageDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			storageDeviceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			storageDeviceLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(128),
 				allowNull: false
 			},
-			storageDeviceType: {
+			storageDeviceTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
@@ -29,13 +29,15 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			storageDeviceReadable: {
+			isReadable: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			},
-			storageDeviceWritable: {
+			isWritable: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			},
 		});
 	},

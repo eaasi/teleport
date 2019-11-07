@@ -18,12 +18,12 @@ export default class ConfiguredSoftwareHasUserInformation extends Model<Configur
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	configuredSoftwareVersionID: number
+	configuredSoftwareVersionID: number;
 
 	@ForeignKey(() => UserInformation)
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: true,
 	})
-	userInformation: number
+	userInformationID: number;
 }
