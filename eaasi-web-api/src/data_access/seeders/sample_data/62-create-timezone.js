@@ -1,4 +1,4 @@
-const data = require('../../data/timezone');
+const data = require('../../data/sample_data/timezone');
 
 module.exports = {
 	up: (queryInterface) => {

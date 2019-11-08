@@ -1,4 +1,4 @@
-const data = require('../../data/softwareObject_hasAlternateID');
+const data = require('../../data/sample_data/softwareObject_hasAlternateID');
 
 module.exports = {
 	up: (queryInterface) => {

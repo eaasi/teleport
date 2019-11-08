@@ -1,4 +1,4 @@
-const data = require('../../data/fileformat_hasmimetype');
+const data = require('../../data/sample_data/fileformat_hasmimetype');
 
 module.exports = {
 	up: (queryInterface) => {

@@ -1,4 +1,4 @@
-const data = require('../../data/recommendationlevel');
+const data = require('../../data/sample_data/recommendationlevel');
 
 module.exports = {
 	up: (queryInterface) => {

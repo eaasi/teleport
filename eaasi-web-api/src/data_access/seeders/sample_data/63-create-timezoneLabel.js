@@ -1,4 +1,4 @@
-const data = require('../../data/timezonelabel');
+const data = require('../../data/sample_data/timezonelabel');
 
 module.exports = {
 	up: (queryInterface) => {

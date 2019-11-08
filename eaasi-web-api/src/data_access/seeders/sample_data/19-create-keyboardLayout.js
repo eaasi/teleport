@@ -1,4 +1,4 @@
-const data = require('../../data/keyboardLayout');
+const data = require('../../data/sample_data/keyboardLayout');
 
 module.exports = {
 	up: (queryInterface) => {

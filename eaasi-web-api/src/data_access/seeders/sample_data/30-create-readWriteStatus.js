@@ -1,4 +1,4 @@
-const data = require('../../data/readWriteStatus');
+const data = require('../../data/sample_data/readWriteStatus');
 
 module.exports = {
 	up: (queryInterface) => {

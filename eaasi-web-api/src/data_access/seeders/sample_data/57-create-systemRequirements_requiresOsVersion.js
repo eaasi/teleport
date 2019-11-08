@@ -1,4 +1,4 @@
-const data = require('../../data/systemRequirements_requiresOSVersion');
+const data = require('../../data/sample_data/systemRequirements_requiresOSVersion');
 
 module.exports = {
 	up: (queryInterface) => {

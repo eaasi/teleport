@@ -1,4 +1,4 @@
-const data = require('../../data/operationtype');
+const data = require('../../data/sample_data/operationtype');
 
 module.exports = {
 	up: (queryInterface) => {

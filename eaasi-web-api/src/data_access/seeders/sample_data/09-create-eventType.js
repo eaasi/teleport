@@ -1,4 +1,4 @@
-const data = require('../../data/eventType');
+const data = require('../../data/sample_data/eventType');
 
 module.exports = {
 	up: (queryInterface) => {

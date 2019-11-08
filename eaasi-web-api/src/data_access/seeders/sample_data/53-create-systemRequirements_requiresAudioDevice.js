@@ -1,4 +1,4 @@
-const data = require('../../data/systemRequirements_requiresAudioDevice');
+const data = require('../../data/sample_data/systemRequirements_requiresAudioDevice');
 
 module.exports = {
 	up: (queryInterface) => {

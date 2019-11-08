@@ -1,4 +1,4 @@
-const data = require('../../data/gpudevice');
+const data = require('../../data/sample_data/gpudevice');
 
 module.exports = {
 	up: (queryInterface) => {

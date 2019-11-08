@@ -1,4 +1,4 @@
-const data = require('../../data/keyboardDevice');
+const data = require('../../data/sample_data/keyboardDevice');
 
 module.exports = {
 	up: (queryInterface) => {

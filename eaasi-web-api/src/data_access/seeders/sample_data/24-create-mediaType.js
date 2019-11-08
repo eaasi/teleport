@@ -1,4 +1,4 @@
-const data = require('../../data/mediaType');
+const data = require('../../data/sample_data/mediaType');
 
 module.exports = {
 	up: (queryInterface) => {

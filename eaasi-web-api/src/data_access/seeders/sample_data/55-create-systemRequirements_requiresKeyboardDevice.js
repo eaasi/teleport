@@ -1,4 +1,4 @@
-const data = require('../../data/systemRequirements_requiresKeyboardDevice');
+const data = require('../../data/sample_data/systemRequirements_requiresKeyboardDevice');
 
 module.exports = {
 	up: (queryInterface) => {

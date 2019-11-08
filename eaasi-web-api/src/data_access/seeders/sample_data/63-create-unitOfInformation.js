@@ -1,4 +1,4 @@
-const data = require('../../data/unitofinformation');
+const data = require('../../data/sample_data/unitofinformation');
 
 module.exports = {
 	up: (queryInterface) => {

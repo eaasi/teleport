@@ -1,4 +1,4 @@
-const data = require('../../data/systemRequirements_requiresNetworkDevice');
+const data = require('../../data/sample_data/systemRequirements_requiresNetworkDevice');
 
 module.exports = {
 	up: (queryInterface) => {

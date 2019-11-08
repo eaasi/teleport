@@ -1,4 +1,4 @@
-const data = require('../../data/language');
+const data = require('../../data/sample_data/language');
 
 module.exports = {
 	up: (queryInterface) => {

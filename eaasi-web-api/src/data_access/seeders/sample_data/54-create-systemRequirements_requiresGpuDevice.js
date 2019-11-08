@@ -1,4 +1,4 @@
-const data = require('../../data/systemRequirements_requiresGpuDevice');
+const data = require('../../data/sample_data/systemRequirements_requiresGpuDevice');
 
 module.exports = {
 	up: (queryInterface) => {

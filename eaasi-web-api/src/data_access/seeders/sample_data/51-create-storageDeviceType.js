@@ -1,4 +1,4 @@
-const data = require('../../data/storageDeviceType');
+const data = require('../../data/sample_data/storageDeviceType');
 
 module.exports = {
 	up: (queryInterface) => {

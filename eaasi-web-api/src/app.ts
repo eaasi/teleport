@@ -46,7 +46,7 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync().then(() => {
 	/**
 	 * Create HTTP server.
 	 */

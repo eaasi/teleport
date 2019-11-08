@@ -1,4 +1,4 @@
-const data = require('../../data/systemRequirements_requiresProcessorDevice');
+const data = require('../../data/sample_data/systemRequirements_requiresProcessorDevice');
 
 module.exports = {
 	up: (queryInterface) => {

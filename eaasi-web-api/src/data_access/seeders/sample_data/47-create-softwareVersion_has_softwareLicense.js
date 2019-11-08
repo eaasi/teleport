@@ -1,4 +1,4 @@
-const data = require('../../data/softwareVersion_hasSoftwareLicense');
+const data = require('../../data/sample_data/softwareVersion_hasSoftwareLicense');
 
 module.exports = {
 	up: (queryInterface) => {

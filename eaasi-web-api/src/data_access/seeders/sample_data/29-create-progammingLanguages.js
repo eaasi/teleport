@@ -1,4 +1,4 @@
-const data = require('../../data/programmingLanguages');
+const data = require('../../data/sample_data/programmingLanguages');
 
 module.exports = {
 	up: (queryInterface) => {

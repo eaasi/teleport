@@ -1,4 +1,4 @@
-const data = require('../../data/fileOperation');
+const data = require('../../data/sample_data/fileOperation');
 
 module.exports = {
 	up: (queryInterface) => {
