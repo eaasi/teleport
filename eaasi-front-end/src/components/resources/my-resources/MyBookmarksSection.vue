@@ -165,9 +165,14 @@ export default class  extends Vue {
     async search() {
         await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
         await this.$store.dispatch('resource/searchResources', this.bookmarks);
+        this.populateFacets();
+    }
+
+    populateFacets() {
         const facets = populateFacets(this.refinedEnvironment, this.refinedSoftware, this.refinedContent);
 		this.query = {...this.query, selectedFacets: facets};
     }
+
     async getAll(types) {
         this.query.types = types;
         this.query.limit = 5000;
@@ -211,6 +216,13 @@ export default class  extends Vue {
         this.selectedResources = [];
         this.query = {...this.query, keyword: null};
     }
+
+    /* Watcher
+	============================================*/
+	@Watch('bookmarks')
+	onBookmarksChange() {
+		this.populateFacets();
+	}
 
 }
 </script>
