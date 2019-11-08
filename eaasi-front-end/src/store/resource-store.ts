@@ -7,6 +7,7 @@ import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
+import { resourceTypes } from '@/utils/constants';
 
 /*============================================================
  == State
@@ -58,21 +59,31 @@ const actions = {
 	 * @param _store Store<ResourceState>
 	 * @param environment: instance that satisfies IEnvironment
 	 */
-	async saveEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment) : Promise<EaasiTask> {
-		let taskState = await _svc.saveEnvironment(environment.envId);
-		if (!taskState) return null;
-		let environmentTitle = environment.title;
+	async saveEnvironment({ state, dispatch }: Store<ResourceState>): Promise<EaasiTask> {
+		const environment = state.selectedResources[0];
+		if (!environment) return;
 
-		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`);
+		let result = await _svc.saveEnvironment(environment.envId);
+		if (!result) return null;
+		dispatch('generateTask', { result, environment });
+	},
 
+	generateTask({ state, commit }: Store<ResourceState>, { result, environment }) {
+		const { title, envId } = environment;
+		let task = new EaasiTask(result.taskList[0], `Save Environment: ${title}`);
 		commit('ADD_OR_UPDATE_TASK', task, { root: true });
-		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, environment.envId]);
+		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, envId]);
 
 		let taskMap = state.saveEnvironmentTaskMap;
-		taskMap[environment.envId] = task;
+		taskMap[envId] = task;
 		commit('SET_SAVE_ENVIRONMENT_TASK_MAP', taskMap);
 
 		return task;
+	},
+
+	async deleteSelectedResource({ state, commit }: Store<ResourceState>) {
+		// TODO: Deleting an environment is currently not working on the back end.
+		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
@@ -115,6 +126,14 @@ const getters = {
 		software && lengthArr.push(software.result.length);
 		content && lengthArr.push(content.result.length);
 		return lengthArr.filter(length => length > 0).length === 1;
+	},
+	environmentIsSelected(state) {
+		return state.selectedResources
+				.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
+	},
+	softwareIsSelected(state) {
+		return state.selectedResources
+				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
 	}
 };
 

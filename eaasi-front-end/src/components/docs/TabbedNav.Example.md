@@ -18,6 +18,7 @@ function updateSelected(newValue) {
     <tabbed-nav 
         :tabs="tabs" 
         v-model="selected" 
-        v-on:input="updateSelected"/>
+        v-on:input="updateSelected"
+    />
 </div>
 ```
