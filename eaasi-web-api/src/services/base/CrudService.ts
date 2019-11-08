@@ -13,12 +13,8 @@ export default class CrudService<T extends Model> extends BaseService implements
 	protected model: any;
 
 	constructor(model: new () => T) {
-		console.log('--- In CrudService ---');
 		super();
 		this.model = model;
-		console.log('--- this.model ---');
-		console.log(this.model);
-		console.log('/--- this.model ---');
     	this.MAX_GET_ALL_PAGE_SIZE = 100;
 	}
 
