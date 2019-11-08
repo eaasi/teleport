@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('fileFormat_has_fileExtension', {
+		return queryInterface.createTable('file_format_has_file_extension', {
 			createdAt: Sequelize.DATE,
 			updatedAt: Sequelize.DATE,
-			fileFormat_fileFormatID: {
+			fileFormatQid: {
 				type: Sq.STRING,
 				allowNull: false,
 				references: {
-					model: 'fileFormat',
-					key: 'fileFormatID'
+					model: 'file_format',
+					key: 'qid'
 				}
 			},
-			fileExtension_fileExtensionID: {
+			fileExtensionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'fileExtension',
-					key: 'fileExtensionID'
+					model: 'file_extension',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('fileFormat_has_fileExtension');
+		return queryInterface.dropTable('file_format_has_file_extension');
 	}
 };

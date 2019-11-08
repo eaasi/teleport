@@ -4,24 +4,21 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('cpuArchitecture', {
+		return queryInterface.createTable('cpu_architecture', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			cpuArchitectureID: {
-				type: Sequelize.INTEGER,
+			qid: {
+				type: Sq.STRING(64),
+				allowNull: false,
 				primaryKey: true
 			},
-			cpuArchitectureQID: {
-				type: Sq.STRING,
-				allowNull: false,
-			},
-			cpuArchitectureLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('cpuArchitecture');
+		return queryInterface.dropTable('cpu_architecture');
 	}
 };

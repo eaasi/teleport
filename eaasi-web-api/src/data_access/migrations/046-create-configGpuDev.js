@@ -4,46 +4,50 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredGpuDevice', {
+		return queryInterface.createTable('configured_gpu_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredGpuDeviceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			configuredMachine_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
-			configuredGpuDevice_gpuDeviceID: {
+			gpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'gpuDevice',
-					key: 'gpuDeviceID'
+					model: 'gpu_device',
+					key: 'id'
 				}
 			},
-			configuredGpuDevice_memoryBytes: {
+			memoryBytes: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredGpuDevice_irq: {
-				type: Sq.STRING,
+			irq: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			configuredGpuDevice_usesMachineInterface: {
+			uses_machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredGpuDevice');
+		return queryInterface.dropTable('configured_gpu_device');
 	}
 };

@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('region', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			regionQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false,
 				primaryKey: true
 			},
-			regionName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
 			iso31661_numericCode: {

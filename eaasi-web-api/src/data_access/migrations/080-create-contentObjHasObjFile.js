@@ -4,40 +4,44 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('contentObject_has_objectFile', {
+		return queryInterface.createTable('content_object_has_object_file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentObject_contentObjectLocalID: {
-				type: Sq.STRING,
+			contentObjectLocalID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'contentObject',
-					key: 'contentObjectLocalID'
+					model: 'content_object',
+					key: 'localID'
 				}
 			},
-			contentObjectFileID: {
-				type: Sq.STRING,
+			fileID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'file',
-					key: 'fileID'
+					key: 'id'
 				}
 			},
-			contentObjectFileLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			contentObjectFile_mediaTypeName: {
-				type: Sq.STRING,
+			mediaTypeName: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			contentObjectFile_order: {
+			productKey: {
+				type: Sq.STRING(1028),
+				allowNull: true
+			},
+			fileOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('contentObject_has_objectFile');
+		return queryInterface.dropTable('content_object_has_object_file');
 	}
 };

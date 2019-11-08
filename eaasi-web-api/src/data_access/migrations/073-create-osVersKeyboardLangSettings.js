@@ -4,24 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('osVersion_keyboardLanguageSettings', {
+		return queryInterface.createTable('os_version_keyboard_language_settings', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
+					model: 'os_version',
+					key: 'id'
 				}
 			},
-			osVersion_keyboardLanguageQID: {
+			languageQid: {
 				type: Sq.STRING,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'language',
+					key: 'qid'
+				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('osVersion_keyboardLanguageSettings');
+		return queryInterface.dropTable('os_version_keyboard_language_settings');
 	}
 };

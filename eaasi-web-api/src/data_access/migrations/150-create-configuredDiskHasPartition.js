@@ -4,28 +4,33 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredDisk_has_partition', {
+		return queryInterface.createTable('configured_disk_has_partition', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredDiskPartition_diskImageFileID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			configuredDiskPartition_softwareEnvironmentID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			configuredDiskPartition_fileSystemID: {
+			softwareEnvironmentID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'software_environment',
+					key: 'id'
+				}
 			},
-			configuredDiskPartition_startupDisk: {
+			fileSystemID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'file_system',
+					key: 'id'
+				}
+			},
+			isStartupDisk: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredDisk_has_partition');
+		return queryInterface.dropTable('configured_disk_has_partition');
 	}
 };

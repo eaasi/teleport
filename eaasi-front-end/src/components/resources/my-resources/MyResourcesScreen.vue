@@ -38,7 +38,7 @@ export default class MyResourcesScreen extends Vue {
 		}
 	]
 	activeTab: IEaasiTab = this.tabs[0];
-	
+
 }
 
 </script>

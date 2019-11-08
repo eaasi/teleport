@@ -4,24 +4,24 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('systemRequirements_requires_osVersion', {
+		return queryInterface.createTable('system_requirements_requires_os_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			systemRequirements_systemRequirementsID: {
-				type: Sq.STRING,
+			systemRequirementsID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'systemRequirements',
-					key: 'systemRequirementsID'
+					model: 'system_requirements',
+					key: 'id'
 				}
 			},
-			systemRequirements_requiresOSVersionID: {
-				type: Sq.STRING,
-				allowNull: true,
+			oSVersionID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('systemRequirements_requires_osVersion');
+		return queryInterface.dropTable('system_requirements_requires_os_version');
 	}
 };

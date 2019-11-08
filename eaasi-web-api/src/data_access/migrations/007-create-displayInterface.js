@@ -4,26 +4,26 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('displayInterface', {
+		return queryInterface.createTable('display_interface', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			displayInterfaceID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			displayInterfaceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			displayInterfaceLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('displayInterface');
+		return queryInterface.dropTable('display_interface');
 	}
 };

@@ -1,9 +1,9 @@
+import Emulator from '@/data_access/models/app/Emulator';
 import EmilBaseService from '@/services/eaas/emil/EmilBaseService';
-import ICrudService from '../interfaces/ICrudService';
 import CrudService from '../base/CrudService';
-const { Emulator } = require('@/data_access/models');
 import CrudQuery from '../base/CrudQuery';
 import BaseService from '../base/BaseService';
+import ICrudService from '../interfaces/ICrudService';
 import { EmulatorNamedIndexes, AliasEntry, EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 import { IEmulatorViewModel, IEmulator } from '@/types/admin/Emulator';
 import { TaskState } from '@/types/emil/Emil';
@@ -15,12 +15,12 @@ import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
  */
 export default class EmulatorAdminService extends BaseService {
 
-	private readonly _emulatorAdminCrudService: ICrudService;
+	private readonly _emulatorAdminCrudService: ICrudService<Emulator>;
 	private readonly _emilContService: EmilBaseService;
 	private readonly _emilEnvService: EmilBaseService;
 
 	constructor(
-		emulatorAdminCrudSvc: ICrudService = new CrudService(Emulator),
+		emulatorAdminCrudSvc: ICrudService<Emulator> = new CrudService<Emulator>(Emulator),
 		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
 		emilContService: EmilBaseService = new EmilBaseService('EmilContainerData')
 	) {

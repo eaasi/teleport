@@ -4,32 +4,40 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('machineRecommendation', {
+		return queryInterface.createTable('machine_recommendation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			machineRecommendation_softwareVersionID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			machineRecommendation_emulatorProjectID: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			machineRecommendation_recommendedMachineID: {
+			softwareVersionID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'software_version',
+					key: 'id'
+				}
 			},
-			machineRecommendation_recommendationLevel: {
+			emulatorProjectID: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			machineRecommendation_description: {
-				type: Sq.STRING,
+			recommendedMachineID: {
+				type: Sq.INTEGER,
+				allowNull: true,
+			},
+			recommendationLevel: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'recommendation_level',
+					key: 'id'
+				}
+			},
+			description: {
+				type: Sq.STRING(256),
 				allowNull: true
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('machineRecommendation');
+		return queryInterface.dropTable('machine_recommendation');
 	}
 };

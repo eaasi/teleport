@@ -4,37 +4,42 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('processorDevice', {
+		return queryInterface.createTable('processor_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			processorDeviceID: {
-				type: Sq.STRING(45),
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			processorDeviceQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			processorDeviceName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			processorDeviceFrequency: {
+			frequency: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			processorDeviceFrequencyUnit: {
-				type: Sq.STRING,
+			frequencyUnit: {
+				type: Sq.STRING(16),
 				allowNull: true
 			},
-			processorDeviceCpuArchitecture: {
-				type: Sq.STRING,
-				allowNull: true
+			cpuArchitecture: {
+				type: Sq.STRING(64),
+				allowNull: true,
+				references: {
+					model: 'cpu_architecture',
+					key: 'qid'
+				}
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('processorDevice');
+		return queryInterface.dropTable('processor_device');
 	}
 };

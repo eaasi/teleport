@@ -30,7 +30,7 @@ module.exports = {
 				columnName: 'source'
 			},
 			message: {
-				type: Sq.STRING,
+				type: Sq.STRING(1028),
 				allowNull: false,
 				columnName: 'message'
 			}
