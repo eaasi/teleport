@@ -8,10 +8,15 @@ export default class EmilContainerService extends EmilBaseService {
 		super('EmilContainerData', httpService);
 	}
 
+	/**
+	 * Gets the Container Task State for a given taskID
+	 * @param taskID
+	 */
 	async getTaskState(taskID: number | string): Promise<TaskState> {
-		if(isNaN(Number(taskID))) throw `taskID must be a string or number. Received ${taskID}`;
+		if (isNaN(Number(taskID))) {
+			throw `taskID must be a string or number. Received ${taskID}`;
+		}
 		let response = await this.get(`taskState?taskId=${taskID}`);
 		return await response.json() as TaskState;
 	}
-
 }

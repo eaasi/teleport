@@ -15,6 +15,10 @@ export default class EmilEnvironmentService extends EmilBaseService {
 		return await this.get('getNameIndexes');
 	}
 
+	/**
+	 * Gets the Environment Task State for a given taskID
+	 * @param taskID
+	 */
 	async getEnvironmentTaskState(taskID: number | string): Promise<TaskState> {
 		if (isNaN(Number(taskID))) {
 			throw `taskID must be a string or number. Received ${taskID}`;
