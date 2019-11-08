@@ -25,11 +25,11 @@ export default class Bookmark extends Model<Bookmark> {
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	userId: number;
+	userID: number;
 
 	@Column({
 		type: DataTypes.STRING(128),
 		allowNull: false,
 	})
-	resourceId: string;
+	resourceID: string;
 }

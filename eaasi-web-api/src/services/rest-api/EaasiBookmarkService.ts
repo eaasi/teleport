@@ -16,6 +16,8 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 	 * @param userID: number PK for the User
 	 */
 	async getByUserID(userID: number): Promise<ICrudServiceResult<Bookmark>> {
+		console.log('gettin ready to find all');
+		console.log(this.model);
 		return await this.model
     		.findAll({
 				where: {

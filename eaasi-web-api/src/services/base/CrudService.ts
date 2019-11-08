@@ -15,7 +15,7 @@ export default class CrudService<T extends Model> extends BaseService implements
 	constructor(model: new () => T) {
 		console.log('--- In CrudService ---');
 		super();
-		this.model = new model();
+		this.model = model;
 		console.log('--- this.model ---');
 		console.log(this.model);
 		console.log('/--- this.model ---');
