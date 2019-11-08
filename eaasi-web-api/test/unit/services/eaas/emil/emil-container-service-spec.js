@@ -23,7 +23,7 @@ describe('Emil Container Service', () => {
 		let httpService = new MockHtmlService();
 		let sut = new EmilContainerService(httpService);
 		sut.getTaskState(-29348);
-		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilEnvironmentData/taskState?taskId=-29348'));
+		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilContainerData/taskState?taskId=-29348'));
 	});
 
 	it('when getTaskState is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
