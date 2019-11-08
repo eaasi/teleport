@@ -1,6 +1,7 @@
 <template>
 	<div id="exploreResources" v-if="bentoResult">
-		<div class="resource-results">
+		<no-search-result v-if="noResult" />
+		<div v-else class="resource-results">
 			<resource-facets />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
@@ -51,16 +52,17 @@
 
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
-import ResourceSlideMenu from '../ResourceSlideMenu.vue';
-import ResourceFacets from '../search/ResourceFacets.vue';
-import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
-import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import User from '../../../models/admin/User';
 import { IBookmark } from '@/types/Bookmark';
+import ResourceSlideMenu from '../ResourceSlideMenu.vue';
+import ResourceFacets from '../search/ResourceFacets.vue';
+import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
+import ResourceList from '../ResourceList.vue';
+import NoSearchResult from '../search/NoSearchResult.vue';
 
 @Component({
 	name: 'ExploreResourcesScreen',
@@ -68,7 +70,8 @@ import { IBookmark } from '@/types/Bookmark';
 		AppliedSearchFacets,
 		ResourceFacets,
 		ResourceList,
-		ResourceSlideMenu
+		ResourceSlideMenu,
+		NoSearchResult
 	}
 })
 export default class ExploreResourcesScreen extends Vue {
@@ -93,6 +96,12 @@ export default class ExploreResourcesScreen extends Vue {
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[]
+
+	get noResult() {
+		return this.refinedContent.result.length === 0 
+		&& this.refinedSoftware.result.length === 0 
+		&& this.refinedEnvironment.result.length === 0 
+	}
 
 	get hasActiveResources() {
 		return this.selectedResources.length > 0;
