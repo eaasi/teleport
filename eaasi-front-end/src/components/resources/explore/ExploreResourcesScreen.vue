@@ -231,11 +231,12 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
     async deleteSelected() {
-    	// TODO: Deleting an environment is currently not working on the back end.
+    	// TODO: Deleting an environment is currently not working in all cases on the back end.
 		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
 		let environment = this.selectedResources[0];
 		if (environment) {
-			await this.$store.dispatch('resource/deleteEnvironment', environment.envId);
+			await this.$store.dispatch('resource/deleteEnvironment', environment.envId)
+				.finally(() => this.search());
 			this.isDeleteModalVisible = false;
 		}
 	}
