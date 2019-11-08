@@ -91,7 +91,6 @@ export default class ResourceAdminService extends BaseService {
 	 * @param id: environmentId
 	 */
 	async deleteEnvironment(id: string) {
-		console.log('In ResourceAdminService::deleteEnvironment - STARTED', id);
 		let environmentToDelete = {
 			'envId': id,
 			'deleteMetaData': true,
@@ -99,8 +98,6 @@ export default class ResourceAdminService extends BaseService {
 			'force': true
 		};
 		let res = await this._emilEnvSvc.post('delete', environmentToDelete);
-		console.log(res);
-		console.log('In ResourceAdminService::deleteEnvironment - DONE');
 		return await res.json();
 	}
 
