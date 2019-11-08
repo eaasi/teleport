@@ -5,12 +5,12 @@ const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/emil';
 
 export default class EmilBaseService implements IHttpService {
 
-	protected readonly _path: string
-	private readonly _svc: HttpJSONService
+	protected readonly _path: string;
+	private readonly _svc: IHttpService;
 
-	constructor(servicePath: string) {
+	constructor(servicePath: string, service: IHttpService = new HttpJSONService()) {
 		this._path = servicePath;
-		this._svc = new HttpJSONService();
+		this._svc = service;
 	}
 
 	public async get(methodName: string) {

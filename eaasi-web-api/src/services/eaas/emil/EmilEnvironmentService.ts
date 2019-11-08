@@ -1,10 +1,11 @@
 import {TaskState} from '@/types/emil/Emil';
+import {MockHtmlService} from '../../../../test/helpers/doubles/mock-http-service';
 import EmilBaseService from './EmilBaseService';
 
 export default class EmilEnvironmentService extends EmilBaseService {
 
-	constructor() {
-		super('EmilEnvironmentData');
+	constructor(htmlService = new MockHtmlService()) {
+		super('EmilEnvironmentData', htmlService);
 	}
 
 	/**
@@ -15,7 +16,9 @@ export default class EmilEnvironmentService extends EmilBaseService {
 	}
 
 	async getEnvironmentTaskState(taskID: number | string): Promise<TaskState> {
-		if (isNaN(Number(taskID))) throw `taskID must be a string or number. Received ${taskID}`;
+		if (isNaN(Number(taskID))) {
+			throw `taskID must be a string or number. Received ${taskID}`;
+		}
 		let response = await this.get(`taskState?taskId=${taskID}`);
 		return await response.json() as TaskState;
 	}
