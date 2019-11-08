@@ -36,9 +36,9 @@ export default class MyResourcesScreen extends Vue {
 			label: 'My Contributions',
 			disabled: true
 		}
-	]
+	];
+
 	activeTab: IEaasiTab = this.tabs[0];
-	
 }
 
 </script>

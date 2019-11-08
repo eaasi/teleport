@@ -1,7 +1,6 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/ResourceService';
-import _bookmarkService from '@/services/BookmarkService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -62,7 +61,6 @@ const actions = {
 		let taskState = await _svc.saveEnvironment(environment.envId);
 		if (!taskState) return null;
 		let environmentTitle = environment.title;
-
 		let task = new EaasiTask(taskState.taskList[0], `Save Environment: ${environmentTitle}`);
 
 		commit('ADD_OR_UPDATE_TASK', task, { root: true });
@@ -70,9 +68,14 @@ const actions = {
 
 		let taskMap = state.saveEnvironmentTaskMap;
 		taskMap[environment.envId] = task;
+
 		commit('SET_SAVE_ENVIRONMENT_TASK_MAP', taskMap);
 
 		return task;
+	},
+
+	async deleteEnvironment({ state, commit }: Store<ResourceState>, environmentId: string) {
+		return await _svc.deleteEnvironment(environmentId);
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {

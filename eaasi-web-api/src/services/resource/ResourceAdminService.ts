@@ -87,6 +87,17 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/**
+	 * Delete an Environment from local storage
+	 * @param id: environmentId
+	 */
+	deleteEnvironment(id: string) {
+		console.log('DELETING ENVIRONMENT', id);
+		let res = await this._emilEnvSvc.post('', id);
+		console.log(res);
+		return await res.json();
+	}
+
+	/**
 	 * Searches  for all environments using the provided IEaasiSearchQuery
 	 * @param query
 	 * @private

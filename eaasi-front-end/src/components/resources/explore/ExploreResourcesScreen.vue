@@ -206,7 +206,7 @@ export default class ExploreResourcesScreen extends Vue {
 		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
     	await this.$store.dispatch('resource/searchResources');
 	}
-	
+
     async getAll(types) {
     	this.query.types = types;
     	this.query.limit = 5000;
@@ -233,6 +233,11 @@ export default class ExploreResourcesScreen extends Vue {
     async deleteSelected() {
     	// TODO: Deleting an environment is currently not working on the back end.
 		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
+		let environment = this.selectedResources[0];
+		if (environment) {
+			await this.$store.dispatch('resource/deleteEnvironment', environment.envId);
+			this.isDeleteModalVisible = false;
+		}
 	}
 
     /* Lifecycle Hooks

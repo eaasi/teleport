@@ -24,7 +24,7 @@ class ResourceService extends BaseHttpService {
 	}
 
 	/**
-	 * Makes a request save (replicate) an Environment to local storage
+	 * Makes a POST request to save (replicate) an Environment to local storage
 	 * Response object contains task ID that can be used to query status
 	 * @param environmentId: string
 	 */
@@ -42,6 +42,17 @@ class ResourceService extends BaseHttpService {
 		return res.result as ISaveEnvironmentResponse;
 	}
 
+	/**
+	 * Makes a DELETE request to delete an Environment from local node
+	 * @param environmentId: string
+	 */
+	async deleteEnvironment(environmentId: string) {
+		console.log('deleting...', environmentId);
+		let res = await this.delete<any>(
+			'/resource/delete/' + environmentId
+		);
+		return res.result;
+	}
 }
 
 export default new ResourceService();
