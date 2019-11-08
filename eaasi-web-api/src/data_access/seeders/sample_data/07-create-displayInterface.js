@@ -1,4 +1,4 @@
-const data = require('../../data/displayinterface');
+const data = require('../../data/sample_data/displayinterface');
 
 module.exports = {
 	up: (queryInterface) => {

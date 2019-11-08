@@ -10,7 +10,7 @@ export default class Bookmark extends Model<Bookmark> {
 	readonly createdAt: Date = new Date();
 
 	@UpdatedAt
-	readonly updatedAt: Date = new Date();
+	updatedAt: Date = new Date();
 
 	@Column({
 		type: DataTypes.INTEGER,

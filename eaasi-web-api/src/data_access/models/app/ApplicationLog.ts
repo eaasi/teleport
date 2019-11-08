@@ -9,7 +9,7 @@ export default class ApplicationLog extends Model<ApplicationLog> {
 	readonly createdAt: Date = new Date();
 
 	@UpdatedAt
-	readonly updatedAt: Date = new Date();
+	updatedAt: Date = new Date();
 
 	@Column({
 		type: DataTypes.STRING(16),

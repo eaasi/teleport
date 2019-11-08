@@ -1,4 +1,4 @@
-const developer = require('../../data/audiodevice');
+const developer = require('../../data/sample_data/audiodevice');
 
 module.exports = {
 	up: (queryInterface) => {

@@ -1,4 +1,4 @@
-const colorDepth = require('../../data/colorDepth');
+const colorDepth = require('../../data/sample_data/colorDepth');
 
 module.exports = {
 	up: (queryInterface) => {

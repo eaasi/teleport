@@ -1,4 +1,4 @@
-const data = require('../../data/displayresolution');
+const data = require('../../data/sample_data/displayresolution');
 
 module.exports = {
 	up: (queryInterface) => {

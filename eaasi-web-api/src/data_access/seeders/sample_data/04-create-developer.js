@@ -1,4 +1,4 @@
-const developer = require('../../data/developer');
+const developer = require('../../data/sample_data/developer');
 
 module.exports = {
 	up: (queryInterface) => {

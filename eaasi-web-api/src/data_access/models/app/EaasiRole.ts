@@ -9,7 +9,7 @@ export default class EaasiRole extends Model<EaasiRole> {
 	readonly createdAt: Date = new Date();
 
     @UpdatedAt
-    readonly updatedAt: Date = new Date();
+    updatedAt: Date = new Date();
 
     @Column({
     	type: DataTypes.INTEGER,

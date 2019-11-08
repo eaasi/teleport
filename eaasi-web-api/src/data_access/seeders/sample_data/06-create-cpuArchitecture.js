@@ -1,4 +1,4 @@
-const cpuArch = require('../../data/cpuArchitecture');
+const cpuArch = require('../../data/sample_data/cpuArchitecture');
 
 module.exports = {
 	up: (queryInterface) => {

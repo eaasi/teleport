@@ -7,10 +7,10 @@ import { IEmulator } from '@/types/admin/Emulator';
 })
 export default class Emulator extends Model<Emulator> implements IEmulator {
     @CreatedAt
-	createdAt: Date;
+	readonly createdAt: Date = new Date();
 
     @UpdatedAt
-    updatedAt: Date;
+    updatedAt: Date = new Date();
 
     @Column({
     	type: DataTypes.INTEGER,
