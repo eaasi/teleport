@@ -40,8 +40,8 @@ export default [
 	============================================*/
 	{
 		path: '/admin',
-		name: 'User Management',
-		component: UserManagement
+		name: 'Emulators',
+		component: EmulatorManagement
 	},
 	{
 		path: '/admin/users',
