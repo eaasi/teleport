@@ -4,88 +4,88 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredMachine', {
+		return queryInterface.createTable('configured_machine', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 
-			configuredMachineID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
 
-			configuredMachineName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
 
-			configuredMachineDescription: {
-				type: Sq.STRING,
+			description: {
+				type: Sq.STRING(256),
 				allowNull: false
 			},
 
-			configuredMachineDateTime: {
+			datetime: {
 				type: Sq.DATE,
 				allowNull: false
 			},
 
-			configuredMachineType: {
+			machineTypeID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'machineType',
-					key: 'machineTypeID'
+					model: 'machine_type',
+					key: 'id'
 				}
 			},
 
-			configuredMachineRAM: {
+			ram: {
 				type: Sq.INTEGER,
 			},
 
-			configuredMachineRAMUnit: {
-				type: Sq.STRING,
+			ramUnit: {
+				type: Sq.STRING(64),
 			},
 
-			configuredMachineCpuCores: {
-				type: Sq.STRING,
+			cpuCores: {
+				type: Sq.INTEGER,
 				allowNull: true
 			},
 
-			configuredMachine_emulatorSoftwareID: {
-				type: Sq.STRING,
+			emulatorSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
 
-			configuredMachineProcessor: {
-				type: Sq.STRING,
+			processorDeviceID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'processorDevice',
-					key: 'processorDeviceID'
+					model: 'processor_device',
+					key: 'id'
 				}
 			},
 
-			configuredMachineChipset: {
+			chipsetID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
 					model: 'chipset',
-					key: 'chipsetID'
+					key: 'id'
 				}
 			},
 
-			configuredMachine_romFileID: {
-				type: Sq.STRING,
+			romFileID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredMachine');
+		return queryInterface.dropTable('configured_machine');
 	}
 };

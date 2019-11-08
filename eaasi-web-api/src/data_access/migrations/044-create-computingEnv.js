@@ -4,42 +4,42 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('computingEnvironment', {
+		return queryInterface.createTable('computing_environment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			computingEnvironmentID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			computingEnvironment_hasSourceOrg: {
+			sourceOrg: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			computingEnvironment_inNetwork: {
+			isInNetwork: {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			},
-			computingEnvironment_configuredNetworkID: {
+			configuredNetworkID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredNetwork',
-					key: 'configuredNetworkID'
+					model: 'configured_network',
+					key: 'id'
 				}
 			},
 			computingEnvironment_softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'softwareEnvironment',
-					key: 'softwareEnvironmentID'
+					model: 'software_environment',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('computingEnvironment');
+		return queryInterface.dropTable('computing_environment');
 	}
 };

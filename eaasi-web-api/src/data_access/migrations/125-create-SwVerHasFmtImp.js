@@ -4,40 +4,41 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersion_has_formatImplementation', {
+		return queryInterface.createTable('softwareVersion_has_format_implementation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersion_softwareVersionID: {
-				type: Sq.STRING,
-				allowNull: false,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
-			},
-			softwareVersion_formatImplementationID: {
+			softwareVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'formatImplementation',
-					key: 'formatImplementationID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
-			softwareVersion_implementationOperation: {
+			formatImplementationID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'format_implementation',
+					key: 'id'
+				}
+			},
+			formatOperationID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'formatOperation',
-					key: 'operationID'
+					model: 'format_operation',
+					key: 'id'
 				}
 			},
-			defaultImplementation: {
+			isDefaultImplementation: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareVersion_has_formatImplementation');
+		return queryInterface.dropTable('software_version_has_format_implementation');
 	}
 };

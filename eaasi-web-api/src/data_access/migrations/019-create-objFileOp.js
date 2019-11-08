@@ -4,21 +4,21 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('objectFileOperation', {
+		return queryInterface.createTable('object_file_operation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			operationID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true
 			},
-			operationName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('objectFileOperation');
+		return queryInterface.dropTable('object_file_operation');
 	}
 };

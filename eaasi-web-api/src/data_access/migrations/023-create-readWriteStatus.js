@@ -4,19 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('readWriteStatus', {
+		return queryInterface.createTable('read_write_status', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			readWriteStatusID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
 			},
-			readWriteStatusName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('readWriteStatus');
+		return queryInterface.dropTable('read_write_status');
 	}
 };

@@ -4,17 +4,17 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('displayResolution', {
+		return queryInterface.createTable('display_resolution', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			displayResolutionID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			displayResolutionLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
 			displayResolutionWidth: {
@@ -28,6 +28,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('displayResolution');
+		return queryInterface.dropTable('display_resolution');
 	}
 };

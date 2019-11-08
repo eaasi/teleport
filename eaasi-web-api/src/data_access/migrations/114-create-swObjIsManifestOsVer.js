@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareObject_isManifestationOf_osVersion', {
+		return queryInterface.createTable('software_object_is_manifestation_of_software_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObject_softwareObjectID: {
-				type: Sq.STRING,
-				allowNull: true,
+			softwareObjectID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'software_object',
+					key: 'id'
 				}
 			},
-			softwareObject_osVersionID: {
+			softwareVersionID: {
 				type: Sq.INTEGER,
-				allowNull: true,
+				allowNull: false,
 				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareObject_isManifestationOf_osVersion');
+		return queryInterface.dropTable('software_object_is_manifestation_of_software_version');
 	}
 };

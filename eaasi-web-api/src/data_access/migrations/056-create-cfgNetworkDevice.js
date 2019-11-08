@@ -4,36 +4,40 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredNetworkDevice', {
+		return queryInterface.createTable('configured_network_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredMachine_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
 			configuredNetworkDevice_networkDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'networkDevice',
-					key: 'networkDeviceID'
+					model: 'network_device',
+					key: 'id'
 				}
 			},
-			configuredNetworkDevice_macAddress: {
+			macAddress: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredNetworkDevice_usesMachineInterface: {
+			uses_machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredNetworkDevice');
+		return queryInterface.dropTable('configured_network_device');
 	}
 };

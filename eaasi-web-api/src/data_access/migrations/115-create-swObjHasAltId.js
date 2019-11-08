@@ -4,32 +4,36 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareObject_has_alternateID', {
+		return queryInterface.createTable('software_object_has_alternate_id', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObject_softwareObjectID: {
-				type: Sq.STRING,
+			softwareObjectID: {
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'software_object',
+					key: 'id'
 				}
 			},
-			softwareObject_alternateID: {
-				type: Sq.STRING,
+			softwareObjectAlternateID: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'software_object',
+					key: 'id'
+				}
+			},
+			alternateIdSource: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			softwareObject_alternateIDSource: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			softwareObject_localID: {
+			isLocalID: {
 				type: Sq.BOOLEAN,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareObject_has_alternateID');
+		return queryInterface.dropTable('software_object_has_alternate_id');
 	}
 };

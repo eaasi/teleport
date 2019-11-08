@@ -4,45 +4,45 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredOS', {
+		return queryInterface.createTable('configured_os', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredOperatingSystemID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			configuredDisplayResolution: {
+			displayResolutionID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'displayResolution',
-					key: 'displayResolutionID'
+					model: 'display_resolution',
+					key: 'id'
 				}
 			},
-			configuredColorDepth: {
+			colorDepthID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'colorDepth',
-					key: 'colorDepthID'
+					model: 'color_depth',
+					key: 'id'
 				}
 			},
-			configuredRegion: {
-				type: Sq.STRING,
+			regionQid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'region',
-					key: 'regionQID'
+					key: 'qid'
 				}
 			},
-			configuredTimezone: {
-				type: Sq.STRING,
+			timezoneQid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
 					model: 'timezone',
-					key: 'timezoneQID'
+					key: 'qid'
 				}
 			},
 			configuredDateTime: {
@@ -50,20 +50,20 @@ module.exports = {
 				allowNull: true
 			},
 			hasSource_softwareObjectID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'software_object',
+					key: 'id'
 				}
 			},
-			manifestationOf_osVersion: {
+			manifestationOf_osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredOS');
+		return queryInterface.dropTable('configured_os');
 	}
 };

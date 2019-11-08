@@ -1,7 +1,7 @@
 'use strict';
 
+import ApplicationLog from '@/data_access/models/app/ApplicationLog';
 import Transport from 'winston-transport';
-const { ApplicationLog } = require('../data_access/models');
 
 /**
  * Custom Winston Transport for persisting logs to database via ORM

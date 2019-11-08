@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredOS_has_userInformation', {
+		return queryInterface.createTable('configured_os_has_user_information', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredOS_configuredOperatingSystemID: {
+			configuredOsID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredOS',
-					key: 'configuredOperatingSystemID'
+					model: 'configured_os',
+					key: 'id'
 				}
 			},
-			userInformation_userInformationID: {
+			userInformationID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'userInformation',
-					key: 'userInformationID'
+					model: 'user_information',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredOS_has_userInformation');
+		return queryInterface.dropTable('configured_os_has_user_information');
 	}
 };

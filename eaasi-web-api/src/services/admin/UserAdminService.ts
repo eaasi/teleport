@@ -1,11 +1,10 @@
+import EaasiRole from '@/data_access/models/app/EaasiRole';
+import EaasiUser from '@/data_access/models/app/EaasiUser';
 import BaseService from '@/services/base/BaseService';
 import CrudQuery from '@/services/base/CrudQuery';
 import CrudService from '@/services/base/CrudService';
 import ICrudService from '@/services/interfaces/ICrudService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
-
-const { EaasiUser } = require('@/data_access/models');
-const { EaasiRole } = require('@/data_access/models');
 
 
 /**
@@ -13,12 +12,12 @@ const { EaasiRole } = require('@/data_access/models');
  */
 export default class UserAdminService extends BaseService {
 
-	private readonly _userCrudService: ICrudService;
-	private readonly _roleCrudService: ICrudService;
+	private readonly _userCrudService: ICrudService<EaasiUser>;
+	private readonly _roleCrudService: ICrudService<EaasiRole>;
 
 	constructor(
-		userCrudService: ICrudService = new CrudService(EaasiUser),
-		roleCrudService: ICrudService = new CrudService(EaasiRole)
+		userCrudService: ICrudService<EaasiUser> = new CrudService<EaasiUser>(EaasiUser),
+		roleCrudService: ICrudService<EaasiRole> = new CrudService<EaasiRole>(EaasiRole)
 	) {
 		super();
 		this._userCrudService = userCrudService;
@@ -84,7 +83,8 @@ export default class UserAdminService extends BaseService {
 	 * @param user: User instance
 	 */
 	async saveUser(id: number, user: object) {
-		let result: ICrudServiceResult;
+		let result: ICrudServiceResult<EaasiUser>;
+
 		if (id) {
 			result = await this._userCrudService.update(id, user);
 		} else {
@@ -104,7 +104,10 @@ export default class UserAdminService extends BaseService {
 	 */
 	async setUserLastLogin(userId: number) {
 		let now = Date.now();
-		return await this._userCrudService.update(userId, {lastLogin: now});
+		if (await this._userCrudService.getByPk(userId)) {
+			return await this._userCrudService.update(userId, {lastLogin: now});
+		}
+		return null;
 	}
 
 	/**

@@ -20,7 +20,7 @@ module.exports = {
 				autoIncrement: true
 			},
 			name: {
-				type: Sq.STRING,
+				type: Sq.STRING(64),
 				allowNull: false,
 				columnName: 'name',
 				unique: true,

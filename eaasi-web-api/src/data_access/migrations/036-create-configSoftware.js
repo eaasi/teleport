@@ -4,48 +4,57 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredSoftware', {
+		return queryInterface.createTable('configured_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredSoftwareVersionID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
+			},
+			softwareVersionID: {
+				type: Sq.INTEGER,
+				allowNull: false,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
 			executableLocation: {
-				type: Sq.STRING,
+				type: Sq.STRING(256),
 				allowNull: true
 			},
 			executableSyntax: {
-				type: Sq.STRING,
+				type: Sq.STRING(32),
 				allowNull: true
 			},
 			saveLocation: {
-				type: Sq.STRING,
+				type: Sq.STRING(256),
 				allowNull: true
 			},
-			configuredLanguage: {
-				type: Sq.INTEGER,
-				allowNull: true
-			},
-			hasSource_softwareObjectID: {
-				type: Sq.STRING,
+			languageQid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'language',
+					key: 'qid'
+				}
+			},
+			hasSource_softwareObjectID: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'software_object',
+					key: 'id'
 				}
 			},
 			hasSource_contentObjectLocalID: {
-				type: Sq.STRING,
+				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'contentObject',
-					key: 'contentObjectLocalID'
+					model: 'content_object',
+					key: 'localID'
 				}
 			},
 			manifestationOf_softwareVersion: {
@@ -55,6 +64,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredSoftware');
+		return queryInterface.dropTable('configured_software');
 	}
 };

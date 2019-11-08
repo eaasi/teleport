@@ -4,34 +4,35 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareObject', {
+		return queryInterface.createTable('software_object', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObjectID: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
+				autoIncrement: true
 			},
-			softwareObject_inNetwork: {
+			isInNetwork: {
 				type: Sq.BOOLEAN,
 				allowNull: false,
 				defaultValue: false
 			},
-			softwareObject_hasSourceOrg: {
+			hasSourceOrg: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			softwareObjectProductKey: {
+			productKey: {
 				type: Sq.STRING,
 				allowNull: true
 			},
-			softwareObjectHelpText: {
+			helpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareObject');
+		return queryInterface.dropTable('software_object');
 	}
 };

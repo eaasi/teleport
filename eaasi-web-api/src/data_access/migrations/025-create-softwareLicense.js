@@ -4,25 +4,25 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareLicense', {
+		return queryInterface.createTable('software_license', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareLicenseID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 			},
-			softwareLicenseQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true,
 			},
-			softwareLicenseLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(128),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareLicense');
+		return queryInterface.dropTable('software_license');
 	}
 };
