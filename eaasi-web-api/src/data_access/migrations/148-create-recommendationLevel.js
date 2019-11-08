@@ -4,17 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('recommendationLevel', {
+		return queryInterface.createTable('recommendation_level', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			recommendationLevelLabel: {
-				type: Sq.STRING,
+			id: {
+				type: Sq.INTEGER,
 				primaryKey: true,
+				autoIncrement: true,
+				allowNull: false
+			},
+			label: {
+				type: Sq.STRING(32),
 				allowNull: false
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('recommendationLevel');
+		return queryInterface.dropTable('recommendation_level');
 	}
 };

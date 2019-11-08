@@ -1,5 +1,5 @@
+import EaasiUser from '@/data_access/models/app/EaasiUser';
 import CrudService from '../base/CrudService';
-const { EaasiUser } = require('@/data_access/models');
 
 /**
  * Handles CRUD operations for EaasIUser domain

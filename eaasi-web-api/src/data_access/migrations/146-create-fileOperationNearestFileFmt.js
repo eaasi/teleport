@@ -4,20 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('fileOperation_nearestFileFormat', {
+		return queryInterface.createTable('file_operation_nearest_file_format', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileOperation_fileOperationID: {
-				type: Sq.STRING,
-				allowNull: true
+			fileOperationID: {
+				type: Sq.INTEGER,
+				allowNull: true,
+				references: {
+					model: 'file_operation',
+					key: 'id'
+				}
 			},
-			fileOperation_fileFormatID: {
-				type: Sq.STRING,
-				allowNull: true
+			fileFormatID: {
+				type: Sq.STRING(64),
+				allowNull: true,
+				references: {
+					model: 'file_format',
+					key: 'qid'
+				}
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('fileOperation_nearestFileFormat');
+		return queryInterface.dropTable('file_operation_nearest_file_format');
 	}
 };

@@ -4,46 +4,46 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareEnvironment', {
+		return queryInterface.createTable('software_environment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareEnvironmentID: {
+			id: {
 				type: Sq.INTEGER,
-				allowNull: false,
 				primaryKey: true,
+				allowNull: false,
 				autoIncrement: true
 			},
-			softwareEnvironmentName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(128),
+				allowNull: false
+			},
+			description: {
+				type: Sq.STRING(512),
 				allowNull: true
 			},
-			softwareEnvironmentDescription: {
-				type: Sq.STRING,
-				allowNull: true
-			},
-			softwareEnvironmentHelpText: {
+			helpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			},
-			derivedFrom_softwareEnvironment: {
+			derivedFrom_softwareEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'softwareEnvironment',
-					key: 'softwareEnvironmentID'
+					model: 'software_environment',
+					key: 'id'
 				}
 			},
-			softwareEnvironment_hasPart_configuredOS: {
+			hasPart_configuredOsID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredOS',
-					key: 'configuredOperatingSystemID'
+					model: 'configured_os',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareEnvironment');
+		return queryInterface.dropTable('software_environment');
 	}
 };

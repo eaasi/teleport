@@ -11,10 +11,10 @@ const controller = new EaasiBookmarkController();
  * @apiName Get All User Bookmarks
  * @apiGroup Bookmark
  * @apiPermission Any
- * 
+ *
  * @apiParam {Number} userID User PK identifier
  * @apiSampleRequest http://localhost:8081/api/bookmark?userID=282
- * 
+ *
  * @apiSuccess (200) {[]Bookmark} result Array of Bookmark objects
  */
 router.get('/', (req, res) => controller.getByUserID(req, res))
@@ -25,13 +25,13 @@ router.get('/', (req, res) => controller.getByUserID(req, res))
  * @apiName Create a Bookmark
  * @apiGroup Bookmark
  * @apiPermission Any
- * 
+ *
  * @apiParamExample {json} Request-Example:
  *     {
  *          resourceID: "some_resource_id"
  *          userID: 282
  *     }
- * 
+ *
  * @apiSuccess (201) {Bookmark} result Bookmark objects
  */
 router.post('/', (req, res) => controller.create(req, res))
@@ -42,10 +42,10 @@ router.post('/', (req, res) => controller.create(req, res))
  * @apiName Delete a Bookmark
  * @apiGroup Bookmark
  * @apiPermission Any
- * 
+ *
  * @apiParam {Number} id Bookmark PK identifier
  * @apiSampleRequest http://localhost:8081/api/bookmark?id=282
- * 
+ *
  * @apiSuccess (200) {CrudServiceResult} result CrudServiceResult object
  * @apiSuccessExample {json<CrudServiceResult>} Success-Response:
  *     HTTP/1.1 200 OK
@@ -63,10 +63,10 @@ router.delete('/', (req, res) => controller.delete(req, res))
  * @apiName Get All EaasiRoles
  * @apiGroup Bookmark
  * @apiPermission Any
- * 
+ *
  * @apiParam {Number} userID User PK identifier
  * @apiSampleRequest http://localhost:8081/api/bookmark/all?userID=282
- * 
+ *
  * @apiSuccess (200) {CrudServiceResult} result CrudServiceResult object
  * @apiSuccessExample {json<CrudServiceResult>} Success-Response:
  *     HTTP/1.1 200 OK

@@ -4,22 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('formatOperation', {
+		return queryInterface.createTable('format_operation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			operationID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			operationName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('formatOperation');
+		return queryInterface.dropTable('format_operation');
 	}
 };

@@ -1,0 +1,29 @@
+import SoftwareLicense from '@/data_access/models/software/SoftwareLicense';
+import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+
+@Table({
+	tableName: 'software_version_has_software_license'
+})
+export default class SoftwareVersionHasSoftwareLicense extends Model<SoftwareVersionHasSoftwareLicense> {
+	@CreatedAt
+	readonly createdAt: Date = new Date();
+
+	@UpdatedAt
+	readonly updatedAt: Date = new Date();
+
+	@ForeignKey(() => SoftwareVersion)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareVersionID: number;
+
+	@ForeignKey(() => SoftwareLicense)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	softwareLicenseID: number;
+}

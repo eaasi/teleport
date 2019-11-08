@@ -4,26 +4,26 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredNetwork', {
+		return queryInterface.createTable('configured_network', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredNetworkID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			configuredNetworkName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			configuredNetworkDescription: {
-				type: Sq.STRING,
+			description: {
+				type: Sq.STRING(256),
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredNetwork');
+		return queryInterface.dropTable('configured_network');
 	}
 };

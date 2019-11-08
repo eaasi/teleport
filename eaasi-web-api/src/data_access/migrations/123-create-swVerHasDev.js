@@ -4,27 +4,26 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersion_has_developer', {
+		return queryInterface.createTable('software_version_has_developer', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersion_softwareVersionID: {
-				type: Sq.STRING,
-				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
-				}
-			},
-			softwareVersion_softwareDeveloperID: {
+			softwareVersionID: {
 				type: Sq.INTEGER,
 				references: {
+					model: 'software_version',
+					key: 'id'
+				}
+			},
+			developerQid: {
+				type: Sq.STRING(64),
+				references: {
 					model: 'developer',
-					key: 'developerID'
+					key: 'qid'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareVersion_has_developer');
-
+		return queryInterface.dropTable('software_version_has_developer');
 	}
 };

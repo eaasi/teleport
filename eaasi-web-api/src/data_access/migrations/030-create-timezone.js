@@ -7,13 +7,13 @@ module.exports = {
 		return queryInterface.createTable('timezone', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			timezoneQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false,
 				primaryKey: true
 			},
 			utcOffset: {
-				type: Sq.STRING,
+				type: Sq.STRING(64),
 				allowNull: true
 			}
 		});
