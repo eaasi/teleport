@@ -42,68 +42,13 @@
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
-			:resources="selectedResources"
-			:is-tab-visible="hasActiveResources"
 			@toggle="toggleSideMenu"
-			@show-save-modal="showSaveModal"
-			@show-delete-modal="showDeleteModal"
 		/>
-
-		<!-- Modals -->
-		<!-- Save To My Node Modal -->
-		<confirm-modal
-			title="Save To My Node"
-			confirm-label="Save Environment"
-			@click:cancel="isSaveModalVisible=false"
-			@click:confirm="saveEnvironment"
-			@close="isSaveModalVisible=false"
-			v-if="isSaveModalVisible"
-		>
-			<alert type="info">
-				<span class="ers-rep-msg">
-					Saving to your node will copy all environment data and files to local storage.
-					Environments copied from the EaaSI Network cannot be easily deleted once saved.
-				</span>
-				<span class="ers-rep-msg">
-					Do you want to save this environment to your node?
-				</span>
-			</alert>
-		</confirm-modal>
-
-		<!-- Delete Resource Modal -->
-		<confirm-modal
-			title="Delete Resources"
-			confirm-label="Delete"
-			@click:cancel="isDeleteModalVisible=false"
-			@click:confirm="deleteSelected"
-			@close="isDeleteModalVisible=false"
-			v-if="isDeleteModalVisible"
-		>
-			<alert type="warning" v-if="softwareIsSelected">
-				<span class="ers-rep-msg">
-					Deleting this software resource will remove all associated data from your node
-					and it will no longer be available for use.
-				</span>
-			</alert>
-			<alert type="warning" v-if="environmentIsSelected">
-				<span class="ers-rep-msg">
-					Deleting this environment will hide its metadata from all users in your node
-					but related disk images will be retained for use in emulation of derivative
-					environments.
-				</span>
-				<span v-if="selectedResources.length === 1">
-					Do you want to delete this resource?
-				</span>
-				<span v-if="selectedResources.length > 1">
-					Do you want to delete the selected resources?
-				</span>
-			</alert>
-		</confirm-modal>
 	</div>
 </template>
 
 <script lang="ts">
-import {resourceTypes} from '@/utils/constants';
+
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
@@ -169,22 +114,10 @@ export default class ExploreResourcesScreen extends Vue {
 		return this.refinedResult(this.bentoResult.environments);
 	}
 
-	get environmentIsSelected() {
-		return this.selectedResources
-			.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
-	}
-
-	get softwareIsSelected() {
-		return this.selectedResources
-			.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
-	}
-
 	/* Data
     ============================================*/
 
     isMenuOpenRequest: boolean = true;
-    isSaveModalVisible: boolean = false;
-	isDeleteModalVisible: boolean = false;
 
     /* Methods
 	============================================*/
@@ -213,27 +146,6 @@ export default class ExploreResourcesScreen extends Vue {
     	await this.search();
     	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
     }
-
-    showSaveModal() {
-    	this.isSaveModalVisible = true;
-    }
-
-	showDeleteModal() {
-		this.isDeleteModalVisible = true;
-	}
-
-    async saveEnvironment() {
-    	let environment = this.selectedResources[0];
-    	if (environment) {
-    		await this.$store.dispatch('resource/saveEnvironment', environment);
-    		this.isSaveModalVisible = false;
-    	}
-	}
-
-    async deleteSelected() {
-    	// TODO: Deleting an environment is currently not working on the back end.
-		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
-	}
 
     /* Lifecycle Hooks
     ============================================*/

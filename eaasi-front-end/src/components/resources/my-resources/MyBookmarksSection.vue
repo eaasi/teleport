@@ -129,22 +129,9 @@ export default class  extends Vue {
         return {...searchResult, result};
     }
 
-    get environmentIsSelected() {
-        return this.selectedResources
-            .filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
-    }
-
-    get softwareIsSelected() {
-        return this.selectedResources
-            .filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
-    }
-
     /* Data
     ============================================*/
 
-    isMenuOpenRequest: boolean = true;
-    isSaveModalVisible: boolean = false;
-    isDeleteModalVisible: boolean = false;
 
     /* Methods
     ============================================*/
@@ -156,10 +143,6 @@ export default class  extends Vue {
             env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
         );
         return {...bentoResult, result};
-    }
-
-    toggleSideMenu() {
-        this.isMenuOpenRequest = !this.isMenuOpenRequest;
     }
 
     async search() {
@@ -180,27 +163,6 @@ export default class  extends Vue {
         this.$router.push('explore');
     }
 
-    showSaveModal() {
-        this.isSaveModalVisible = true;
-    }
-
-    showDeleteModal() {
-        this.isDeleteModalVisible = true;
-    }
-
-    async saveEnvironment() {
-        let environment = this.selectedResources[0];
-        if (environment) {
-            await this.$store.dispatch('resource/saveEnvironment', environment);
-            this.isSaveModalVisible = false;
-        }
-    }
-
-    async deleteSelected() {
-        // TODO: Deleting an environment is currently not working on the back end.
-        // Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
-    }
-
     async clearBookmarks() {
         await this.$store.dispatch('bookmark/clearBookmarks', this.user.id);
     }
@@ -218,10 +180,11 @@ export default class  extends Vue {
     }
 
     /* Watcher
-	============================================*/
+    ============================================*/
+    
 	@Watch('bookmarks')
 	onBookmarksChange() {
-		this.populateFacets();
+        if(this.bentoResult) this.populateFacets();
 	}
 
 }

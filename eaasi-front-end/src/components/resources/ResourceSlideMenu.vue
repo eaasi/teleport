@@ -1,54 +1,107 @@
 <template>
-	<slide-menu
-		class="resource-slide-menu"
-		:open="open"
-		@toggle="toggleSlide"
-	>
-		<div v-if="resources">
-			<div class="rsm-header">
-				<div class="rsm-resource-title flex-row">
-					<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
-						({{ resources.length }}) Resources Selected
-					</span>
-					<span v-else-if="resources.length === 1" class="flex-adapt">
-						{{ resources[0].title }}
-					</span>
-					<i class="fas fa-times" @click="$emit('close')"></i>
+	<div>
+		<slide-menu
+			class="resource-slide-menu"
+			:open="open"
+			@toggle="toggleSlide"
+		>
+			<div v-if="resources">
+				<div class="rsm-header">
+					<div class="rsm-resource-title flex-row">
+						<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
+							({{ resources.length }}) Resources Selected
+						</span>
+						<span v-else-if="resources.length === 1" class="flex-adapt">
+							{{ resources[0].title }}
+						</span>
+						<i class="fas fa-times" @click="$emit('close')"></i>
+					</div>
+					<tabbed-nav
+						v-if="hasDetails"
+						v-model="activeTab"
+						:tabs="tabs"
+					/>
 				</div>
-				<tabbed-nav
-					v-if="hasDetails"
-					v-model="tab"
-					:tabs="tabs"
+
+				<labeled-item-list
+					v-if="activeTab === 'Details'"
+					class="rsm-details"
+					:labeled-items="detailsItems"
 				/>
-			</div>
 
-			<labeled-item-list
-				v-if="tab === 'Details'"
-				class="rsm-details"
-				:labeled-items="detailsItems"
-			/>
+				<div v-if="activeTab === 'Actions'">
+					<div class="rsm-local-actions">
+						<resource-action
+							v-for="action in localActionsForSelected"
+							:action="action"
+							:key="action.label"
+							@click="doAction(action)"
+						/>
+					</div>
 
-			<div v-if="tab === 'Actions'">
-				<div class="rsm-local-actions">
-					<resource-action
-						v-for="action in localActionsForSelected"
-						:action="action"
-						:key="action.label"
-						@click="doAction(action)"
-					/>
-				</div>
-
-				<div class="rsm-node-actions">
-					<resource-action
-						v-for="action in nodeActionsForSelected"
-						:action="action"
-						:key="action.label"
-						@click="doAction(action)"
-					/>
+					<div class="rsm-node-actions">
+						<resource-action
+							v-for="action in nodeActionsForSelected"
+							:action="action"
+							:key="action.label"
+							@click="doAction(action)"
+						/>
+					</div>
 				</div>
 			</div>
-		</div>
-	</slide-menu>
+		</slide-menu>
+
+		<!-- Modals -->
+		<!-- Save To My Node Modal -->
+		<confirm-modal
+			title="Save To My Node"
+			confirm-label="Save Environment"
+			@click:cancel="confirmAction = null"
+			@click:confirm="saveEnvironment"
+			@close="confirmAction = null"
+			v-if="confirmAction === 'save'"
+		>
+			<alert type="info">
+				<span class="ers-rep-msg">
+					Saving to your node will copy all environment data and files to local storage.
+					Environments copied from the EaaSI Network cannot be easily deleted once saved.
+				</span>
+				<span class="ers-rep-msg">
+					Do you want to save this environment to your node?
+				</span>
+			</alert>
+		</confirm-modal>
+
+		<!-- Delete Resource Modal -->
+		<confirm-modal
+			title="Delete Resources"
+			confirm-label="Delete"
+			@click:cancel="confirmAction = null"
+			@click:confirm="$emit('delete');confirmAction = null;"
+			@close="confirmAction = null"
+			v-if="confirmAction === 'delete'"
+		>
+			<alert type="warning" v-if="softwareIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this software resource will remove all associated data from your node
+					and it will no longer be available for use.
+				</span>
+			</alert>
+			<alert type="warning" v-if="environmentIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this environment will hide its metadata from all users in your node
+					but related disk images will be retained for use in emulation of derivative
+					environments.
+				</span>
+				<span v-if="resources.length === 1">
+					Do you want to delete this resource?
+				</span>
+				<span v-if="resources.length > 1">
+					Do you want to delete the selected resources?
+				</span>
+			</alert>
+		</confirm-modal>
+	</div>
 </template>
 
 <script lang="ts">
@@ -86,9 +139,6 @@
 		@Prop({type: Boolean, required: true})
 		readonly open: boolean
 
-		@Prop({type: Array as () => IEaasiResource[]})
-		readonly resources: IEaasiResource[]
-
 		/* Computed
         ============================================*/
 
@@ -96,11 +146,16 @@
 		readonly environment: IEnvironment
 
 		@Sync('resource/selectedResources')
-		selectedResources: IEaasiResource[]
+		resources: IEaasiResource[]
 
 		@Get('loggedInUser')
 		user: IEaasiUser
 
+		@Get('resource/environmentIsSelected')
+		environmentIsSelected: boolean;
+
+		@Get('resource/softwareIsSelected')
+		softwareIsSelected: boolean;
 
 		get onlySelectedResource() : IEaasiResource {
 			if (this.resources.length === 1) return this.resources[0];
@@ -120,7 +175,7 @@
 			if (this.resources.length > 1) {
 				// If we are showing the Details tab when multiple are selected,
 				// We should change to the Actions tab.
-				this.tab = 'Actions';
+				this.activeTab ='Actions';
 				return true;
 			};
 			return false;
@@ -131,7 +186,7 @@
 		 */
 		get localActionsForSelected() {
 			return menuService.getLocalActions(
-				this.selectedResources as IEnvironment[],
+				this.resources as IEnvironment[],
 				this.user.roleId
 			);
 		}
@@ -141,7 +196,7 @@
 		 */
 		get nodeActionsForSelected() {
 			return menuService.getNodeActions(
-				this.selectedResources as IEnvironment[],
+				this.resources as IEnvironment[],
 				this.user.roleId
 			);
 		}
@@ -199,14 +254,24 @@
 				label: 'Actions'
 			}
 		]
-
-		tab: string = 'Actions'
+		activeTab: string = this.tabs[1].label;
+		confirmAction : string = null;
 
 		/* Methods
         ============================================*/
 
 		toggleSlide() {
 			this.$emit('toggle');
+		}
+
+		async saveEnvironment() {
+			this.confirmAction = null;
+			await this.$store.dispatch('resource/saveEnvironment');
+		}
+
+		async deleteSelectedResource() {
+			this.confirmAction = null;
+			await this.$store.dispatch('resource/deleteSelectedResource');
 		}
 
 		doAction(action: IAction) {
@@ -230,15 +295,11 @@
 						params: {resource: JSON.stringify(this.onlySelectedResource)}});
 				}
 					break;
-				case 'save': {
-					// When Save is clicked, we show the Save (Replicate) Modal to confirm
-					this.$emit('show-save-modal');
-				}
+				case 'save':
+					this.confirmAction = 'save';
 					break;
-				case 'delete': {
-					// When Delete is clicked, we show the Delete Modal to confirm
-					this.$emit('show-delete-modal');
-				}
+				case 'delete':
+					this.confirmAction = 'delete';
 					break;
 				default: break;
 			}
