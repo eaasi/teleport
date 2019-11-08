@@ -1,10 +1,10 @@
+import HttpJSONService from '@/services/base/HttpJSONService';
 import {TaskState} from '@/types/emil/Emil';
-import {MockHtmlService} from '../../../../test/helpers/doubles/mock-http-service';
 import EmilBaseService from './EmilBaseService';
 
 export default class EmilEnvironmentService extends EmilBaseService {
 
-	constructor(htmlService = new MockHtmlService()) {
+	constructor(htmlService = new HttpJSONService()) {
 		super('EmilEnvironmentData', htmlService);
 	}
 
