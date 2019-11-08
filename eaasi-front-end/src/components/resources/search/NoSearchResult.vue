@@ -8,9 +8,9 @@
 			</p>
 			<p>Don’t give up! Try a new search or you can…</p>
 			<div class="flex flex-row">
-				<ui-button size="md" secondary>
+				<!-- <ui-button size="md" secondary>
 					Browse Your Node
-				</ui-button>
+				</ui-button> -->
 				<ui-button size="md" secondary style="margin-left: 3rem;" @click="clearSearch">
 					Browse All Resources
 				</ui-button>
@@ -41,7 +41,11 @@ export default class  extends Vue {
     async clearSearch() {
         this.query = new ResourceSearchQuery();
         await this.$store.dispatch('resource/searchResources');
-    }
+	}
+	
+	// getNodeResources() {
+		// TODO: Search for all resources with archiveID === public
+	// }
 
 }
 </script>
