@@ -4,22 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('machineType', {
+		return queryInterface.createTable('machine_type', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			machineTypeID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			machineTypeLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('machineType');
+		return queryInterface.dropTable('machine_type');
 	}
 };

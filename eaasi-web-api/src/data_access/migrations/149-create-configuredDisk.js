@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredDisk', {
+		return queryInterface.createTable('configured_disk', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredDisk_diskImageFileID: {
@@ -12,53 +12,53 @@ module.exports = {
 				allowNull: false,
 				primaryKey: true,
 			},
-			configuredDisk_machineID: {
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
-			configuredDisk_storageDeviceID: {
+			storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'storageDevice',
-					key: 'storageDeviceID'
+					model: 'storage_device',
+					key: 'id'
 				}
 			},
-			configuredDisk_uses_machineInterfaceID: {
+			machineInterfaceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'machineInterface',
-					key: 'machineInterfaceID'
+					model: 'machine_interface',
+					key: 'id'
 				}
 			},
-			configuredDisk_diskVolume: {
+			diskVolume: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredDisk_remainingVolume: {
+			remainingVolume: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredDisk_volumeUnit: {
-				type: Sq.STRING,
+			volumeUnit: {
+				type: Sq.STRING(12),
 				allowNull: true
 			},
-			configuredDisk_bootOrder: {
+			bootOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredDisk_irq: {
-				type: Sq.INTEGER,
+			irq: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredDisk');
+		return queryInterface.dropTable('configured_disk');
 	}
 };

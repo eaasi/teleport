@@ -4,22 +4,22 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('fileExtension', {
+		return queryInterface.createTable('file_extension', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			fileExtensionID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			fileExtensionLabel: {
-				type: Sequelize.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('fileExtension');
+		return queryInterface.dropTable('file_extension');
 	}
 };

@@ -4,36 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredGpuDevice_has_displayDevice', {
+		return queryInterface.createTable('configured_gpu_device_has_display_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredMachine_machineID: {
-				type: Sq.INTEGER,
-				allowNull: false
-			},
-			configuredGpuDevice_gpuDeviceID: {
+			configuredGpuDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredGpuDevice',
-					key: 'configuredGpuDeviceID'
+					model: 'configured_gpu_device',
+					key: 'id'
 				}
 			},
-			configuredGpuDevice_displayDeviceID: {
+			displayDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'displayDevice',
-					key: 'displayDeviceID'
+					model: 'display_device',
+					key: 'id'
 				}
 			},
-			displayDevice_usesDisplayInterface: {
-				type: Sq.INTEGER,
-				allowNull: false
-			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredGpuDevice_has_DisplayDevice');
+		return queryInterface.dropTable('configured_gpu_device_has_display_device');
 	}
 };

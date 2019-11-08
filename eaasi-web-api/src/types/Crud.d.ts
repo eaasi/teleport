@@ -1,7 +1,7 @@
-import { Model } from 'sequelize';
+import { Model } from 'sequelize-typescript';
 
-export interface IPaginatedResult {
-	results: Model[];
+export interface IPaginatedResult<T extends Model> {
+	result: T[];
 	count: number;
 	totalResults: number;
 }

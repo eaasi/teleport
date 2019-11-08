@@ -4,28 +4,29 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredOS_language', {
+		return queryInterface.createTable('configured_os_language', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredOS_configuredOperatingSystemID: {
+			configuredOsID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredOS',
-					key: 'configuredOperatingSystemID'
+					model: 'configured_os',
+					key: 'id'
 				}
 			},
-			configuredOs_languageQID: {
-				type: Sq.STRING,
+			languageQid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			configuredOS_primaryLanguage: {
+			isPrimaryLanguage: {
 				type: Sq.BOOLEAN,
-				allowNull: true
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredOS_language');
+		return queryInterface.dropTable('configured_os_language');
 	}
 };

@@ -4,38 +4,41 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredAudioDevice', {
+		return queryInterface.createTable('configured_audio_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			configuredMachine_machineID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
-			configuredAudioDevice_audioDeviceID: {
+			audioDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: true,
 				references: {
-					model: 'audioDevice',
-					key: 'audioDeviceID'
+					model: 'audio_device',
+					key: 'id'
 				}
 			},
-			configuredAudioDevice_irq: {
-				type: Sq.STRING,
+			irq: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			configuredAudioDevice_usesMachineInterface: {
+			uses_MachineInterface: {
 				type: Sq.INTEGER,
-				allowNull: true
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
 			}
-
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredAudioDevice');
+		return queryInterface.dropTable('configured_audio_device');
 	}
 };
 
