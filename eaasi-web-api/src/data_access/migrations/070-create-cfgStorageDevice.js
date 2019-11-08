@@ -4,36 +4,54 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('configuredStorageDevice', {
+		return queryInterface.createTable('configured_storage_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			configuredMachine_machineID: {
+			id: {
+				type: Sq.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+				allowNull: false
+			},
+			configuredMachineID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'configuredMachine',
-					key: 'configuredMachineID'
+					model: 'configured_machine',
+					key: 'id'
 				}
 			},
-			configureStorageDevice_storageDeviceID: {
+			storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'storageDevice',
-					key: 'storageDeviceID'
+					model: 'storage_device',
+					key: 'id'
 				}
 			},
-			configuredStorageDevice_usesMachineInterface: {
+			memoryBytes: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
-			configuredStorageDevice_idBootOrder: {
+			irq: {
+				type: Sq.STRING,
+				allowNull: true
+			},
+			uses_machineInterfaceID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: true,
+				references: {
+					model: 'machine_interface',
+					key: 'id'
+				}
+			},
+			bootOrder: {
+				type: Sq.INTEGER,
+				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configuredStorageDevice');
+		return queryInterface.dropTable('configured_storage_device');
 	}
 };

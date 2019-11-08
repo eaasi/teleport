@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('osVersion_has_programmingLanguage', {
+		return queryInterface.createTable('os_version_has_programming_language', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersion_osVersionID: {
+			osVersionID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'osVersion',
-					key: 'osVersionID'
+					model: 'os_version',
+					key: 'id'
 				}
 			},
-			osVersion_programmingLanguageID: {
+			programmingLanguageID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'programmingLanguage',
-					key: 'programmingLanguageID'
+					model: 'programming_language',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('osVersion_has_programmingLanguage');
+		return queryInterface.dropTable('os_version_has_programming_language');
 	}
 };

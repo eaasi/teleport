@@ -4,38 +4,42 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('osVersion', {
+		return queryInterface.createTable('os_version', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			osVersionID: {
+			id: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 				autoIncrement: true
 			},
-			osVersionQID: {
-				type: Sq.INTEGER,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: true
 			},
-			osVersionName: {
-				type: Sq.STRING,
+			name: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			osVersionDescription: {
-				type: Sq.STRING,
+			description: {
+				type: Sq.STRING(256),
 				allowNull: true
 			},
-			osVersionNumber: {
-				type: Sq.STRING,
+			versionNumber: {
+				type: Sq.STRING(16),
 				allowNull: true
 			},
-			osVersionPublicationDate: {
+			publicationDate: {
 				type: Sq.DATE,
 				allowNull: true
 			},
-			osVersionSystemRequirements: {
+			systemRequirementsID: {
 				type: Sq.INTEGER,
-				allowNull: false
+				allowNull: false,
+				references: {
+					model: 'system_requirements',
+					key: 'id'
+				}
 			},
 			isVersionOf_osProduct: {
 				type: Sq.INTEGER,

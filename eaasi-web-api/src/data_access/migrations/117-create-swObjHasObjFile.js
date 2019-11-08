@@ -4,40 +4,40 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareObject_has_objectFile', {
+		return queryInterface.createTable('software_object_has_object_file', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareObject_softwareObjectID: {
-				type: Sq.STRING,
+			softwareObjectID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'softwareObject',
-					key: 'softwareObjectID'
+					model: 'software_object',
+					key: 'id'
 				}
 			},
-			softwareObjectFileID: {
-				type: Sq.STRING,
+			fileID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'file',
-					key: 'fileID'
+					key: 'id'
 				}
 			},
-			softwareObjectFileLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			softwareObjectFile_mediaTypeName: {
-				type: Sq.STRING,
+			mediaTypeName: {
+				type: Sq.STRING(128),
 				allowNull: true
 			},
-			softwareObjectFile_order: {
+			fileOrder: {
 				type: Sq.INTEGER,
 				allowNull: true
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareObject_has_objectFile');
+		return queryInterface.dropTable('software_object_has_object_file');
 	}
 };

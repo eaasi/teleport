@@ -1,0 +1,32 @@
+'use strict';
+
+const Sq = require('sequelize');
+
+module.exports = {
+	up: (queryInterface, Sequelize) => {
+		return queryInterface.createTable('bookmark', {
+			id: {
+				type: Sq.INTEGER,
+				primaryKey: true,
+				autoIncrement: true
+			},
+			userID: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'eaasi_user',
+					key: 'id'
+				}
+			},
+			resourceID: {
+				type: Sq.STRING(128),
+				allowNull: false
+			},
+			createdAt: Sq.DATE,
+			updatedAt: Sq.DATE
+		})
+	},
+	down: (queryInterface, Sequelize) => {
+		return queryInterface.dropTable('bookmark');
+	}
+};

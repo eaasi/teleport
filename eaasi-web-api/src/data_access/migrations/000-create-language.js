@@ -7,12 +7,12 @@ module.exports = {
 		return queryInterface.createTable('language', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			languageQID: {
-				type: Sq.STRING,
+			qid: {
+				primaryKey: true,
+				type: Sq.STRING(64),
 				allowNull: false,
-				primaryKey: true
 			},
-			languageLabel: {
+			label: {
 				type: Sq.STRING,
 				allowNull: false
 			}

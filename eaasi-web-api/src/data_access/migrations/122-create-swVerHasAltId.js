@@ -4,33 +4,37 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersion_has_alternateID', {
+		return queryInterface.createTable('software_version_has_alternate_id', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			softwareVersion_softwareVersionID: {
-				type: Sq.STRING,
+			softwareVersionID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			},
-			softwareVersion_alternateID: {
-				type: Sq.STRING,
+			alternateID: {
+				type: Sq.INTEGER,
 				allowNull: false,
-				unique: true
+				references: {
+					model: 'software_version',
+					key: 'id'
+				}
 			},
-			softwareVersion_idSource: {
-				type: Sq.STRING,
+			softwareVersionIdSource: {
+				type: Sq.STRING(64),
 				allowNull: false
 			},
-			softwareVersion_localID: {
+			isLocalID: {
 				type: Sq.BOOLEAN,
-				allowNull: false
+				allowNull: false,
+				defaultValue: false
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareVersion_has_alternateID');
+		return queryInterface.dropTable('software_version_has_alternate_id');
 	}
 };

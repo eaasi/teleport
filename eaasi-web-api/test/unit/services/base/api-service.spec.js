@@ -54,22 +54,6 @@ describe('API Service', () => {
 		expect(response.hasError).toBe(false);
 	});
 
-	it('on getAll catches and responds with error if findAll Promise is rejected', async () => {
-		let modelFake = new SequelizeModelFake('fakeModel', 10);
-
-		// Force reject the findAll Promise
-		const rejectedPromise = Promise.reject('findAll broke');
-		modelFake.findAll = () => rejectedPromise;
-
-		let sut = new CrudService(modelFake);
-		const response = await sut.getAll(2, 3);
-
-		const expectedError = new CrudServiceResult('findAll broke');
-
-		// Use toStrictEqual for deep equality comparison
-		expect(response).toStrictEqual(expectedError);
-	});
-
 	it('on getAll catches and responds with error if findAndCountAll Promise is rejected', async () => {
 		let modelFake = new SequelizeModelFake('fakeModel', 10);
 

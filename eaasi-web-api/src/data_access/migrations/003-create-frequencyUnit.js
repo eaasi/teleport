@@ -4,21 +4,21 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('frequencyUnit', {
+		return queryInterface.createTable('frequency_unit', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			frequencyUnitLabel: {
-				type: Sq.STRING,
+			label: {
+				type: Sq.STRING(64),
 				allowNull: false,
 				primaryKey: true
 			},
-			frequencyUnitQID: {
-				type: Sq.STRING,
+			qid: {
+				type: Sq.STRING(64),
 				allowNull: false,
 			},
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('frequencyUnit');
+		return queryInterface.dropTable('frequency_unit');
 	}
 };

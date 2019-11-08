@@ -4,28 +4,28 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('storageDevice_has_driverSoftware', {
+		return queryInterface.createTable('storage_device_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			storageDevice_storageDeviceID: {
+			storageDeviceID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'storageDevice',
-					key: 'storageDeviceID'
+					model: 'storage_device',
+					key: 'id'
 				}
 			},
-			storageDevice_driverSoftwareID: {
-				type: Sq.STRING,
+			driverSoftwareID: {
+				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'softwareVersion',
-					key: 'softwareVersionID'
+					model: 'software_version',
+					key: 'id'
 				}
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('storageDevice_has_driverSoftware');
+		return queryInterface.dropTable('storage_device_has_driver_software');
 	}
 };

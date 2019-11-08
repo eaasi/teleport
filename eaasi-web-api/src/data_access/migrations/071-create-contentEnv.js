@@ -4,29 +4,31 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('contentEnvironment', {
+		return queryInterface.createTable('content_environment', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
-			contentEnvironmentID: {
-				type: Sq.TEXT,
+			id: {
+				type: Sq.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
 				allowNull: false,
 			},
-			contentEnvironment_computingEnvironmentID: {
+			computingEnvironmentID: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
-					model: 'computingEnvironment',
-					key: 'computingEnvironmentID'
+					model: 'computing_environment',
+					key: 'id'
 				}
 			},
-			contentEnvironmentHelpText: {
+			helpText: {
 				type: Sq.TEXT,
 				allowNull: true
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('contentEnvironment');
+		return queryInterface.dropTable('content_environment');
 	}
 };
 
