@@ -4,8 +4,8 @@ import EmilBaseService from './EmilBaseService';
 
 export default class EmilEnvironmentService extends EmilBaseService {
 
-	constructor(htmlService = new HttpJSONService()) {
-		super('EmilEnvironmentData', htmlService);
+	constructor(httpService = new HttpJSONService()) {
+		super('EmilEnvironmentData', httpService);
 	}
 
 	/**

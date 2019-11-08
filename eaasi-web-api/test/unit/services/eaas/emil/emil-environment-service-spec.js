@@ -2,7 +2,6 @@ import EmilEnvironmentService from '../../../../../src/services/eaas/emil/EmilEn
 import {MockHtmlService} from '../../../../helpers/doubles/mock-http-service';
 
 describe('Emil Environment Service', () => {
-	// Constructor Tests
 
 	it('on initialization can assign HtmlService instance via ctor', () => {
 		let httpService = new MockHtmlService();

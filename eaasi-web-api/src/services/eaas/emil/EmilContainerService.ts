@@ -1,10 +1,11 @@
+import HttpJSONService from '@/services/base/HttpJSONService';
 import EmilBaseService from './EmilBaseService';
 import { TaskState } from '@/types/emil/Emil';
 
 export default class EmilContainerService extends EmilBaseService {
 
-	constructor() {
-		super('EmilContainerData');
+	constructor(httpService = new HttpJSONService()) {
+		super('EmilContainerData', httpService);
 	}
 
 	async getTaskState(taskID: number | string): Promise<TaskState> {
