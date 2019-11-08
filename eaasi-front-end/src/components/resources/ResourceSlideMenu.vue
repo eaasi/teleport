@@ -211,7 +211,6 @@
 
 		doAction(action: IAction) {
 			if (!action.isEnabled) return;
-			console.log(action);
 
 			switch (action.shortName) {
 				case 'run': {

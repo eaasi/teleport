@@ -58,6 +58,6 @@ router.post('/save', (req, res) => controller.saveEnvironment(req, res));
  * @apiGroup Resources
  * @apiDescription Deletes a resource from the local Node
  */
-router.delete('/', (req, res) => controller.deleteEnvironment(req, res));
+router.delete('/environment', (req, res) => controller.deleteEnvironment(req, res));
 
 module.exports = router;

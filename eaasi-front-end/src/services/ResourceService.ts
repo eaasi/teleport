@@ -38,7 +38,6 @@ class ResourceService extends BaseHttpService {
 			return null;
 		}
 
-		console.log('ResourceService RES.RESULT', res.result);
 		return res.result as ISaveEnvironmentResponse;
 	}
 
@@ -47,9 +46,8 @@ class ResourceService extends BaseHttpService {
 	 * @param environmentId: string
 	 */
 	async deleteEnvironment(environmentId: string) {
-		console.log('deleting...', environmentId);
 		let res = await this.delete<any>(
-			'/resource/delete/' + environmentId
+			`/resource/environment/?id=${environmentId}`
 		);
 		return res.result;
 	}
