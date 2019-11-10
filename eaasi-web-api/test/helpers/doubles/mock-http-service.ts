@@ -1,8 +1,8 @@
 /**
- * HTMLService Test Mock
+ * HTTPService Test Mock
  */
 
-export class MockHtmlService {
+export class MockHttpService {
 	getCount: number = 0;
 	postCount: number = 0;
 	getUrl: string = '';

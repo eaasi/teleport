@@ -1,10 +1,10 @@
 import EmilEnvironmentService from '../../../../../src/services/eaas/emil/EmilEnvironmentService';
-import {MockHtmlService} from '../../../../helpers/doubles/mock-http-service';
+import {MockHttpService} from '../../../../helpers/doubles/mock-http-service';
 
 describe('Emil Environment Service', () => {
 
 	it('on initialization can assign HtmlService instance via ctor', () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		expect(sut._svc).toBe(httpService);
 	});
@@ -20,28 +20,28 @@ describe('Emil Environment Service', () => {
 	});
 
 	it('when getEnvironmentTaskState is called invokes `get` using the IHttpService implementation to query the expected URL', async () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		sut.getEnvironmentTaskState(-900_900);
 		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilEnvironmentData/taskState?taskId=-900900'));
 	});
 
 	it('when getEnvironmentTaskState is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		sut.getEnvironmentTaskState(73086);
 		expect(httpService.getCount).toEqual(1);
 	});
 
 	it('when getNameIndexes is called invokes `get` using the IHttpService implementation to query the expected URL', async () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		sut.getNameIndexes();
 		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilEnvironmentData/getNameIndexes'));
 	});
 
 	it('when getNameIndexes is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		sut.getNameIndexes();
 		expect(httpService.getCount).toEqual(1);

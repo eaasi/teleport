@@ -1,10 +1,10 @@
-import {MockHtmlService} from '../../../../helpers/doubles/mock-http-service';
+import {MockHttpService} from '../../../../helpers/doubles/mock-http-service';
 import EmilContainerService from '../../../../../src/services/eaas/emil/EmilContainerService';
 
 describe('Emil Container Service', () => {
 
 	it('on initialization can assign HtmlService instance via ctor', () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilContainerService(httpService);
 		expect(sut._svc).toBe(httpService);
 	});
@@ -20,14 +20,14 @@ describe('Emil Container Service', () => {
 	});
 
 	it('when getTaskState is called invokes `get` using the IHttpService implementation to query the expected URL', async () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilContainerService(httpService);
 		sut.getTaskState(-29348);
 		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilContainerData/taskState?taskId=-29348'));
 	});
 
 	it('when getTaskState is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
-		let httpService = new MockHtmlService();
+		let httpService = new MockHttpService();
 		let sut = new EmilContainerService(httpService);
 		sut.getTaskState(19);
 		expect(httpService.getCount).toEqual(1);

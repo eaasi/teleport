@@ -7,8 +7,8 @@ export default class HarvesterService {
 
 	private readonly _svc: HttpJSONService
 
-	constructor() {
-		this._svc = new HttpJSONService();
+	constructor(service = new HttpJSONService()) {
+		this._svc = service;
 	}
 
 	public async getHarvesters(): Promise<string[]> {
