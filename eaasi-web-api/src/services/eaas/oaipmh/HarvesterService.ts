@@ -7,8 +7,8 @@ export default class HarvesterService {
 
 	private readonly _svc: HttpJSONService
 
-	constructor() {
-		this._svc = new HttpJSONService();
+	constructor(service = new HttpJSONService()) {
+		this._svc = service;
 	}
 
 	public async getHarvesters(): Promise<string[]> {
@@ -23,7 +23,7 @@ export default class HarvesterService {
 
 	public async syncHarvester(name: string, full: boolean = false): Promise<HarvesterSyncResult> {
 		let url = `harvesters/${name}`;
-		if(full) url += '?from=1970-01-01T00:00:00.000Z';
+		if (full) url += '?from=1970-01-01T00:00:00.000Z';
 		let res = await this.post(url, null);
 		return await res.json() as HarvesterSyncResult;
 	}

@@ -81,4 +81,16 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	/**
+	 * Deletes a resource
+	 */
+	async deleteEnvironment(req: Request, res: Response) {
+		try {
+			let id = req.query.id;
+			let result = await this._svc.deleteEnvironment(id);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
 }

@@ -8,7 +8,7 @@ export default class HttpJSONService implements IHttpService {
 			'Content-Type': 'application/json',
 			'Accept': 'application/json'
 		},
-	}
+	};
 
 	/**
 	 * Makes a GET request using Fetch
@@ -63,5 +63,4 @@ export default class HttpJSONService implements IHttpService {
 			...options
 		};
 	}
-
 }
