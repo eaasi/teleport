@@ -1,6 +1,7 @@
 <template>
 	<div class="software-metadata">
 		<div v-if="step > 1" class="sm-summary">
+			<select-list></select-list>
 			<text-input
 				readonly
 				label="Name"
@@ -14,7 +15,7 @@
 				Back To Metadata
 			</ui-button>
 		</div>
-		<div v-if="step == 1">
+		<div v-if="step === 1">
 			<div v-if="importPath === 'Fast'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<software-general-info-form />

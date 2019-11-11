@@ -76,11 +76,9 @@ export default class BaseEnvironmentWizard extends Vue {
 	showTips: Boolean = true;
 
 	searchForEnvironment() {
-		console.log('Search for Environment');
 	}
 
 	openMyResources() {
-		console.log('Open My Resources');
 	}
 
 	/**
