@@ -4,9 +4,15 @@
 		<import-progress />
 		<section class="import-wrapper flex">
 			<div class="import-content">
-				<import-select v-if="step >= 0" />
-				<import-metadata v-if="step >= 1" />
-				<import-files v-if="step >= 2" />
+				<import-select
+					v-if="step >= 0"
+				/>
+				<import-metadata
+					v-if="step >= 1"
+				/>
+				<import-files
+					v-if="step >= 2"
+				/>
 				<configure-hardware
 					class="padded"
 					v-if="showConfigureHardware"
@@ -44,13 +50,13 @@ export default class ImportResourceScreen extends Vue {
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	@Sync('import/importPath')
-	importPath: ResourceImportPath
+	importPath: ResourceImportPath;
 
 	@Sync('import/importType')
-	type: ImportType
+	type: ImportType;
 
 	get showConfigureHardware() {
 		return this.type === 'environment' && this.step >= 3;

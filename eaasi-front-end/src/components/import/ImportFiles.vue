@@ -7,9 +7,11 @@
 					<div class="irf-option">
 						<span class="text-center">URL</span>
 						<text-input
-							label="File Location"
+							@change="checkUrl"
+							label="File URL"
 							rules="url"
 							v-model="fileUrl"
+							ref="urlField"
 						/>
 					</div>
 				</div>
@@ -83,13 +85,18 @@
 </template>
 
 <script lang="ts">
+import {isValidUrl} from '@/helpers/UrlHelper';
+import BaseHttpService from '@/services/BaseHttpService';
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { Get, Sync } from 'vuex-pathify';
+import { Component, Watch } from 'vue-property-decorator';
+import { Sync } from 'vuex-pathify';
+// noinspection TypeScriptCheckImport
 import Draggable from 'vuedraggable';
 import ResourceFileListItem from './ResourceFileListItem.vue';
 import ResourceImportFile from '@/models/import/ResourceImportFile';
 import { ImportType } from '@/types/Import';
+
+let http = new BaseHttpService();
 
 @Component({
 	name: 'ImportFiles',
@@ -104,13 +111,24 @@ export default class ImportFiles extends Vue {
 	============================================*/
 
 	@Sync('import/filestoUpload')
-	files: ResourceImportFile[]
+	files: ResourceImportFile[];
 
 	@Sync('import/importType')
-	importType: ImportType
+	importType: ImportType;
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
+
+	/**
+	 * Returns true if the string in the URL field is a valid URL
+	 */
+	get isUrlSource(): boolean {
+		return isValidUrl(this.fileUrl);
+	}
+
+	get isValidUrl():boolean {
+		return this.fileUrl && isValidUrl(this.fileUrl);
+	}
 
 	get filesAreAdded(): boolean {
 		return !!this.files.length;
@@ -131,9 +149,23 @@ export default class ImportFiles extends Vue {
 	============================================*/
 
 	fileUrl: string = '';
+	isActiveUrl: boolean = false;
 
 	/* Methods
 	============================================*/
+
+	checkUrl() {
+		// noinspection TypeScriptUnresolvedVariable
+		this.$refs.urlField['canValidate'] = true;
+		// noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
+		let validate = this.$refs.urlField['validate'];
+		validate();
+		if (this.isUrlSource) {
+			this.step = 3;
+		} else {
+			this.step = 2;
+		}
+	}
 
 	addFiles(fileList: File[]) {
 		let startingSortIndex = this.files.length + 1;

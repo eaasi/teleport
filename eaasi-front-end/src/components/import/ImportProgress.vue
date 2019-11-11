@@ -55,13 +55,13 @@ export default class ImportProgress extends Vue {
 			stepNumber: 3,
 			description: 'FINISH'
 		},
-	]
+	];
 
 	/* Computed
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	get nextButtonLabel() {
 		if(this.step == this.steps.length) return 'Finish Import';
