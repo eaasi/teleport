@@ -168,6 +168,7 @@ import TimezoneLabel from '@/data_access/models/timezone/TimezoneLabel';
 import { Sequelize } from 'sequelize-typescript';
 
 export const sequelize = new Sequelize({
+	host: config.host,
 	database: config.database,
 	username: config.username,
 	password: config.password,
