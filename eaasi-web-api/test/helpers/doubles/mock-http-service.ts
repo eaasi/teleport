@@ -5,8 +5,12 @@
 export class MockHttpService {
 	getCount: number = 0;
 	postCount: number = 0;
+	deleteCount: number= 0;
+
 	getUrl: string = '';
 	postUrl: string = '';
+	deleteUrl: string = '';
+
 	postData: object = {};
 
 	constructor() {
@@ -31,6 +35,17 @@ export class MockHttpService {
 		this.postCount += 1;
 		this.postUrl = url;
 		this.postData = data;
+		return new Promise((resolve, reject) => {});
+	}
+
+	/**
+	 * delete method spy
+	 * @param url
+	 * @param data
+	 */
+	async delete(url: string) {
+		this.deleteCount += 1;
+		this.deleteUrl = url;
 		return new Promise((resolve, reject) => {});
 	}
 }
