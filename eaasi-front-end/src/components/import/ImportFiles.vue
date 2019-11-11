@@ -110,7 +110,7 @@ export default class ImportFiles extends Vue {
 	/* Computed
 	============================================*/
 
-	@Sync('import/filestoUpload')
+	@Sync('import/filesToUpload')
 	files: ResourceImportFile[];
 
 	@Sync('import/importType')
@@ -124,10 +124,6 @@ export default class ImportFiles extends Vue {
 	 */
 	get isUrlSource(): boolean {
 		return isValidUrl(this.fileUrl);
-	}
-
-	get isValidUrl():boolean {
-		return this.fileUrl && isValidUrl(this.fileUrl);
 	}
 
 	get filesAreAdded(): boolean {
@@ -160,6 +156,7 @@ export default class ImportFiles extends Vue {
 		// noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
 		let validate = this.$refs.urlField['validate'];
 		validate();
+
 		if (this.isUrlSource) {
 			this.step = 3;
 		} else {

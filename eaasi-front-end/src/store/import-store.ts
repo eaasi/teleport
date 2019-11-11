@@ -15,7 +15,7 @@ class ImportState {
 	importStep: number = 1;
 	importType: ImportType = 'software';
 	software: SoftwareImportResource = new SoftwareImportResource();
-	filestoUpload: IResourceImportFile[] = [];
+	filesToUpload: IResourceImportFile[] = [];
 }
 
 const state = new ImportState();
@@ -29,7 +29,7 @@ const mutations = make.mutations(state);
 mutations.RESET = (state) => {
 	state.importStep = 0;
 	state.importType = null;
-	state.filestoUpload = [];
+	state.filesToUpload = [];
 	state.importPath = 'Unselected';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
@@ -38,7 +38,7 @@ mutations.RESET = (state) => {
 
 mutations.INIT_FOR_TYPE = (state) => {
 	state.importStep = 1;
-	state.filestoUpload = [];
+	state.filesToUpload = [];
 	state.importPath = 'Unselected';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();

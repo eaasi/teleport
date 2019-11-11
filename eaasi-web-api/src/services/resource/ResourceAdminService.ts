@@ -163,6 +163,24 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/*============================================================
+	 == Templates and Patches
+	/============================================================*/
+
+	/**
+	 * Gets a list of all available environment templates
+	 */
+	async getEnvironmentTemplates() {
+		return await this._emilEnvSvc.get('getEnvironmentTemplates');
+	}
+
+	/**
+	 * Gets a list of all available patches
+	 */
+	async getPatches() {
+		return await this._emilEnvSvc.get('getPatches');
+	}
+
+	/*============================================================
 	 == Helpers
 	/============================================================*/
 
@@ -197,5 +215,4 @@ export default class ResourceAdminService extends BaseService {
 	private _paginate(query: IEaasiSearchQuery, results: IEaasiResource[]) {
 		return results.slice((query.page - 1) * query.limit, query.page * query.limit);
 	}
-
 }

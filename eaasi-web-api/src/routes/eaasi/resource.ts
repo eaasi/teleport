@@ -24,6 +24,35 @@ router.post('/search', (req, res) => controller.search(req, res));
 router.get('/environment', (req, res) => controller.getEnvironment(req, res));
 
 /**
+ * @api {get} resource/environmentTemplates get all environment templates
+ * @apiVersion 1.0.0
+ * @apiName Environment Templates
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets an object containing data about all environment templates
+ */
+router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTemplates(req, res));
+
+/**
+ * @api {get} resource/patches get all patches
+ * @apiVersion 1.0.0
+ * @apiName Patches
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets an object containing data about all environment templates
+ */
+router.get('/patches', (req, res) => controller.getPatches(req, res));
+
+/**
+ * @api {post} resource/ Delete a resource
+ * @apiVersion 1.0.0
+ * @apiName Deletes a Resource from local Node
+ * @apiGroup Resources
+ * @apiDescription Deletes a resource from the local Node
+ */
+router.delete('/environment', (req, res) => controller.deleteEnvironment(req, res));
+
+/**
  * @api {get} resource/software Search All Software Resources
  * @apiVersion 1.0.0
  * @apiName Software Resource Package Description
@@ -34,15 +63,6 @@ router.get('/environment', (req, res) => controller.getEnvironment(req, res));
 router.get('/software', (req, res) => controller.getSoftwarePackageDescription(req, res));
 
 /**
- * @api {post} resource/search Search Request
- * @apiVersion 1.0.0
- * @apiName Search Resources
- * @apiGroup Resources
- * @apiDescription Searches all resources
- */
-router.post('/search', (req, res) => controller.search(req, res));
-
-/**
  * @api {post} resource/software Save to local Node
  * @apiVersion 1.0.0
  * @apiName Save Resource to Node
@@ -50,14 +70,5 @@ router.post('/search', (req, res) => controller.search(req, res));
  * @apiDescription Saves a resource to the local Node
  */
 router.post('/save', (req, res) => controller.saveEnvironment(req, res));
-
-/**
- * @api {post} resource/ Delete a resource
- * @apiVersion 1.0.0
- * @apiName Deletes a Resource from local Node
- * @apiGroup Resources
- * @apiDescription Deletes a resource from the local Node
- */
-router.delete('/environment', (req, res) => controller.deleteEnvironment(req, res));
 
 module.exports = router;
