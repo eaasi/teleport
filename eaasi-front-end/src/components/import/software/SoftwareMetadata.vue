@@ -105,9 +105,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import ImportPathSelect from '../ImportPathSelect.vue';
-import { IEaasiResource } from '@/types/Resource';
 import { ResourceImportPath } from '@/types/Import';
 import SoftwareGeneralInfoForm from '@/components/import/software/SoftwareGeneralInfoForm.vue';
 import SoftwareProductMetadataForm from '@/components/import/software/SoftwareProductMetadataForm.vue';
@@ -153,36 +152,34 @@ export default class SoftwareMetadata extends Vue {
 		})[0];
 	}
 
-	get chosenTemplateEmulator() {
-		// TODO: The structure and naming of the serialized data coming from the API is not ideal.
-		/* ie:
-		{
-            id: "qemu-win98",
-            label: "Windows 98 (USB pointer)",
-            properties: [
-                {
-                    name: "Architecture",            <-- why name keys "name" and "value"?
-                    value: "x86_64"
-                },
-                {
-                    name: "EmulatorContainer",
-                    value: "Qemu"
-                }
-            ]
-        },
+	// TODO: The structure and naming of the serialized data coming from the API is not ideal.
+	/* ie:
+    {
+        id: "qemu-win98",
+        label: "Windows 98 (USB pointer)",
+        properties: [
+            {
+                name: "Architecture",            <-- why name keys "name" and "value"?
+                value: "x86_64"
+            },
+            {
+                name: "EmulatorContainer",
+                value: "Qemu"
+            }
+        ]
+    },
 
-        // TODO: Suggestion - serialize to the interface that already seems to exist -
-            properties: { architecture: 'foo', emulatorContainer: 'bar' }
-		*/
-		console.log('choesen:', this.chosenTemplate);
+    // TODO: Suggestion - serialize to the interface that already seems to exist -
+        properties: { architecture: 'foo', emulatorContainer: 'bar' }
+    */
+
+	get chosenTemplateEmulator() {
 		return this.chosenTemplateData.properties.filter(obj => {
 			return obj['name'] === 'EmulatorContainer';
 		})[0]['value'];
 	}
 
 	get chosenTemplateArchitecture() {
-		console.log('choesen:', this.chosenTemplate);
-		// TODO: The structure and naming of the serialized data coming from the API is not ideal.
 		return this.chosenTemplateData.properties.filter(obj => {
 			return obj['name'] === 'Architecture';
 		})[0]['value'];

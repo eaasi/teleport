@@ -13,17 +13,11 @@ import { resourceTypes } from '@/utils/constants';
 /============================================================*/
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
-
 	selectedResources: IEaasiResource[] = [];
-
 	query: IResourceSearchQuery = new ResourceSearchQuery();
-
 	result: IResourceSearchResponse = null;
-
 	savingEnvironments: string[] = [];
-
 	saveEnvironmentTaskMap: object = {};
-
 	availableTemplates: any[] = [];
 }
 
@@ -58,7 +52,6 @@ const actions = {
 	/**
 	 * Triggers request to save an Environment to local storage
 	 * @param _store Store<ResourceState>
-	 * @param environment: instance that satisfies IEnvironment
 	 */
 	async saveEnvironment({ state, dispatch }: Store<ResourceState>): Promise<EaasiTask> {
 		const environment = state.selectedResources[0];

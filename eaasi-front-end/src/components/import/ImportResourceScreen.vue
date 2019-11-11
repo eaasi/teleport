@@ -68,7 +68,6 @@ export default class ImportResourceScreen extends Vue {
 			this.type === 'software'
 		);
 	}
-
 }
 
 </script>
