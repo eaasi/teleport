@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import EaasiBookmarkController from '@/controllers/rest-api/EaasiBookmarkController.ts';
+import EaasiBookmarkController from '@/controllers/rest-api/EaasiBookmarkController';
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ const controller = new EaasiBookmarkController();
  *
  * @apiSuccess (200) {[]Bookmark} result Array of Bookmark objects
  */
-router.get('/', (req, res) => controller.getByUserID(req, res))
+router.get('/', (req, res) => controller.getByUserID(req, res));
 
 /**
  * @api {post} api/bookmark Create a new Bookmark
@@ -34,7 +34,7 @@ router.get('/', (req, res) => controller.getByUserID(req, res))
  *
  * @apiSuccess (201) {Bookmark} result Bookmark objects
  */
-router.post('/', (req, res) => controller.create(req, res))
+router.post('/', (req, res) => controller.create(req, res));
 
 /**
  * @api {get} api/bookmark:id Delete a Bookmark
@@ -55,7 +55,7 @@ router.post('/', (req, res) => controller.create(req, res))
  *          result: 1
  *     }
  */
-router.delete('/', (req, res) => controller.delete(req, res))
+router.delete('/', (req, res) => controller.delete(req, res));
 
 /**
  * @api {get} api/bookmark/all:userID Delete All User Bookmarks
@@ -76,6 +76,6 @@ router.delete('/', (req, res) => controller.delete(req, res))
  *          result: 3
  *     }
  */
-router.delete('/all', (req, res) => controller.deleteAll(req, res))
+router.delete('/all', (req, res) => controller.deleteAll(req, res));
 
 module.exports = router;
