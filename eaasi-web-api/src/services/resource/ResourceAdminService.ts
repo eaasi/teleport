@@ -170,7 +170,9 @@ export default class ResourceAdminService extends BaseService {
 	 * Gets a list of all available environment templates
 	 */
 	async getEnvironmentTemplates() {
-		return await this._emilEnvSvc.get('getEnvironmentTemplates');
+		console.log('calling on emil to getEnvironmentTe,plates in resourceadminService');
+		let res = await this._emilEnvSvc.get('getEnvironmentTemplates');
+		return res.json();
 	}
 
 	/**

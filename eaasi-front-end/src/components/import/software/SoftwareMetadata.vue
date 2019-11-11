@@ -1,12 +1,28 @@
 <template>
 	<div class="software-metadata">
 		<div v-if="step > 1" class="sm-summary">
-			<select-list></select-list>
 			<text-input
 				readonly
 				label="Name"
 				v-model="title"
 			/>
+
+			<select-list
+				v-model="chosenTemplate"
+				placholder="Choose a System"
+				class="no-mb flex-adapt"
+				label="Choose a System"
+				rules="required"
+			>
+				<option
+					v-for="template in availableTemplates"
+					:key="template.id"
+					:value="template.id"
+				>
+					{{ template.label }}
+				</option>
+			</select-list>
+
 			<ui-button
 				secondary
 				icon="chevron-left"
@@ -97,24 +113,28 @@ export default class SoftwareMetadata extends Vue {
 
 	$refs!: {
 		_form: EaasiForm
-	}
+	};
 
 	/* Computed
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	@Get('import/software@title')
-	readonly title: string
+	readonly title: string;
 
 	@Sync('import/importPath')
-	importPath: ResourceImportPath
+	importPath: ResourceImportPath;
+
+	@Get('resource/availableTemplates')
+	readonly availableTemplates: any[];
 
 	/* Data
 	============================================*/
 
-	versions: any[] = [{id: 1}] // TODO:
+	versions: any[] = [{id: 1}]; // TODO
+	chosenTemplate: any;
 
 
 	/* Methods
@@ -138,6 +158,9 @@ export default class SoftwareMetadata extends Vue {
 
 	/* Lifecycle Hooks
 	============================================*/
+	created() {
+		this.$store.dispatch('resource/getTemplates');
+	}
 
 	/* Watchers
 	============================================*/

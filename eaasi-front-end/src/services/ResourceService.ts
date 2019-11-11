@@ -51,6 +51,16 @@ class ResourceService extends BaseHttpService {
 		);
 		return res.result;
 	}
+
+	/**
+	 * Makes a GET request to get available system templates
+	 */
+	async getTemplates() {
+		let res = await this.get<any>(
+			'/resource/environmentTemplates'
+		);
+		return res.result['systems'];
+	}
 }
 
 export default new ResourceService();
