@@ -87,6 +87,21 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/**
+	 * Delete an Environment from local storage
+	 * @param id: environmentId
+	 */
+	async deleteEnvironment(id: string) {
+		let environmentToDelete = {
+			'envId': id,
+			'deleteMetaData': true,
+			'deleteImage': true,
+			'force': true
+		};
+		let res = await this._emilEnvSvc.post('delete', environmentToDelete);
+		return await res.json();
+	}
+
+	/**
 	 * Searches  for all environments using the provided IEaasiSearchQuery
 	 * @param query
 	 * @private
