@@ -5,6 +5,7 @@
 				readonly
 				label="Name"
 				v-model="title"
+				rules="required"
 			/>
 
 			<select-list
@@ -22,6 +23,22 @@
 					{{ template.label }}
 				</option>
 			</select-list>
+
+			<text-input
+				v-if="chosenTemplate"
+				readonly
+				label="System Architecture"
+				v-model="chosenTemplateArchitecture"
+				rules="required"
+			/>
+
+			<text-input
+				v-if="chosenTemplate"
+				readonly
+				label="Emulator"
+				v-model="chosenTemplateEmulator"
+				rules="required"
+			/>
 
 			<ui-button
 				secondary
@@ -130,12 +147,52 @@ export default class SoftwareMetadata extends Vue {
 	@Get('resource/availableTemplates')
 	readonly availableTemplates: any[];
 
+	get chosenTemplateData() {
+		return this.availableTemplates.filter(template => {
+			return template['id'] === this.chosenTemplate;
+		})[0];
+	}
+
+	get chosenTemplateEmulator() {
+		// TODO: The structure and naming of the serialized data coming from the API is not ideal.
+		/* ie:
+		{
+            id: "qemu-win98",
+            label: "Windows 98 (USB pointer)",
+            properties: [
+                {
+                    name: "Architecture",            <-- why name keys "name" and "value"?
+                    value: "x86_64"
+                },
+                {
+                    name: "EmulatorContainer",
+                    value: "Qemu"
+                }
+            ]
+        },
+
+        // TODO: Suggestion - serialize to the interface that already seems to exist -
+            properties: { architecture: 'foo', emulatorContainer: 'bar' }
+		*/
+		console.log('choesen:', this.chosenTemplate);
+		return this.chosenTemplateData.properties.filter(obj => {
+			return obj['name'] === 'EmulatorContainer';
+		})[0]['value'];
+	}
+
+	get chosenTemplateArchitecture() {
+		console.log('choesen:', this.chosenTemplate);
+		// TODO: The structure and naming of the serialized data coming from the API is not ideal.
+		return this.chosenTemplateData.properties.filter(obj => {
+			return obj['name'] === 'Architecture';
+		})[0]['value'];
+	}
+
 	/* Data
 	============================================*/
 
 	versions: any[] = [{id: 1}]; // TODO
-	chosenTemplate: any;
-
+	chosenTemplate: string = null;
 
 	/* Methods
 	============================================*/
