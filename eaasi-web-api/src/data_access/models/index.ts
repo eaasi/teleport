@@ -1,5 +1,6 @@
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
+
 import Bookmark from '@/data_access/models/app/Bookmark';
 import EaasiRole from '@/data_access/models/app/EaasiRole';
 import EaasiUser from '@/data_access/models/app/EaasiUser';
