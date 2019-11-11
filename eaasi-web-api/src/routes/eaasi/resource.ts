@@ -32,7 +32,32 @@ router.get('/environment', (req, res) => controller.getEnvironment(req, res));
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
  */
 router.get('/software', (req, res) => controller.getSoftwarePackageDescription(req, res));
+
+/**
+ * @api {post} resource/search Search Request
+ * @apiVersion 1.0.0
+ * @apiName Search Resources
+ * @apiGroup Resources
+ * @apiDescription Searches all resources
+ */
 router.post('/search', (req, res) => controller.search(req, res));
+
+/**
+ * @api {post} resource/software Save to local Node
+ * @apiVersion 1.0.0
+ * @apiName Save Resource to Node
+ * @apiGroup Resources
+ * @apiDescription Saves a resource to the local Node
+ */
 router.post('/save', (req, res) => controller.saveEnvironment(req, res));
+
+/**
+ * @api {post} resource/ Delete a resource
+ * @apiVersion 1.0.0
+ * @apiName Deletes a Resource from local Node
+ * @apiGroup Resources
+ * @apiDescription Deletes a resource from the local Node
+ */
+router.delete('/environment', (req, res) => controller.deleteEnvironment(req, res));
 
 module.exports = router;
