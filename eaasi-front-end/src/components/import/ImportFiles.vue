@@ -119,6 +119,9 @@ export default class ImportFiles extends Vue {
 	@Sync('import/importStep')
 	step: number;
 
+	@Sync('import/software@urlSource')
+	fileUrl: string;
+
 	/**
 	 * Returns true if the string in the URL field is a valid URL
 	 */
@@ -143,8 +146,6 @@ export default class ImportFiles extends Vue {
 
 	/* Data
 	============================================*/
-
-	fileUrl: string = '';
 	isActiveUrl: boolean = false;
 
 	/* Methods

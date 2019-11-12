@@ -25,10 +25,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { NumberedSteps, UiButton } from '@/components/global';
-import { INumberedStep } from '../../types/NumberedStep';
+import { INumberedStep } from '@/types/NumberedStep';
 
 @Component({
 	name: 'ImportProgress',
@@ -64,7 +64,7 @@ export default class ImportProgress extends Vue {
 	step: number;
 
 	get nextButtonLabel() {
-		if(this.step == this.steps.length) return 'Finish Import';
+		if (this.step == this.steps.length) return 'Finish Import';
 		return 'Next';
 	}
 

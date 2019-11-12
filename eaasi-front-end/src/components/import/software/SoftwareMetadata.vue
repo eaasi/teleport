@@ -40,6 +40,14 @@
 				rules="required"
 			/>
 
+			<text-input
+				v-if="chosenTemplate"
+				readonly
+				label="Config"
+				v-model="chosenTemplateNativeConfig"
+				rules="required"
+			/>
+
 			<ui-button
 				secondary
 				icon="chevron-left"
@@ -133,6 +141,8 @@ export default class SoftwareMetadata extends Vue {
 
 	/* Computed
 	============================================*/
+	@Sync('import/importPath')
+	importPath: ResourceImportPath;
 
 	@Sync('import/importStep')
 	step: number;
@@ -140,11 +150,14 @@ export default class SoftwareMetadata extends Vue {
 	@Get('import/software@title')
 	readonly title: string;
 
-	@Sync('import/importPath')
-	importPath: ResourceImportPath;
+	@Sync('import/chosenTemplate')
+	chosenTemplate: string;
 
 	@Get('resource/availableTemplates')
 	readonly availableTemplates: any[];
+
+	@Sync('import/software@nativeConfig')
+	nativeConfig: string;
 
 	get chosenTemplateData() {
 		return this.availableTemplates.filter(template => {
@@ -185,11 +198,16 @@ export default class SoftwareMetadata extends Vue {
 		})[0]['value'];
 	}
 
+	get chosenTemplateNativeConfig() {
+		let config = this.chosenTemplateData['native_config'];
+		this.nativeConfig = config;
+		return config;
+	}
+
 	/* Data
 	============================================*/
 
 	versions: any[] = [{id: 1}]; // TODO
-	chosenTemplate: string = null;
 
 	/* Methods
 	============================================*/

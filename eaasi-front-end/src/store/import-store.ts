@@ -1,20 +1,24 @@
+import EaasiTask from '@/models/task/EaasiTask';
+import {ITaskState} from '@/types/Task';
 import { make } from 'vuex-pathify';
-import { ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
+import {IImageImport, ImportType, IResourceImportFile, ResourceImportPath} from '@/types/Import';
 import { Store } from 'vuex';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+import _importService from '@/services/ImportService';
 
 /*============================================================
  == State
 /============================================================*/
 
 class ImportState {
+	chosenTemplate: string = '';
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
+	filesToUpload: IResourceImportFile[] = [];
 	importPath: ResourceImportPath = 'Unselected';
 	importStep: number = 1;
 	importType: ImportType = 'software';
 	software: SoftwareImportResource = new SoftwareImportResource();
-	filesToUpload: IResourceImportFile[] = [];
 }
 
 const state = new ImportState();
@@ -30,6 +34,7 @@ mutations.RESET = (state) => {
 	state.importType = null;
 	state.filesToUpload = [];
 	state.importPath = 'Unselected';
+	state.chosenTemplate = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 };
@@ -39,6 +44,7 @@ mutations.INIT_FOR_TYPE = (state) => {
 	state.importStep = 1;
 	state.filesToUpload = [];
 	state.importPath = 'Unselected';
+	state.chosenTemplate = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 };
@@ -48,9 +54,30 @@ mutations.INIT_FOR_TYPE = (state) => {
 /============================================================*/
 
 const actions = {
-	import(store: Store<ImportState>) {
-		console.log('Import Started');
-		// TODO:
+	/**
+	 * Triggers an import
+	 * @param store
+	 * @param imageImport
+	 */
+	async import(store: Store<ImportState>) {
+		let imageImport = {
+			nativeConfig: store.state.software.nativeConfig,
+			patchId: store.state.software.patchId,
+			templateId: store.state.chosenTemplate,
+			urlString: store.state.software.urlSource
+		};
+
+		console.log('::: import-store ::: Import from URL Started');
+		console.log('::: import-store ::: imageImport:', imageImport);
+
+		let taskState = await _importService.importImageFromUrl(imageImport) as ITaskState;
+
+		if (!taskState) {
+			console.log('::: import-store ::: No Task Received in Response');
+		}
+
+		let task = new EaasiTask(taskState.taskId, `::: import-store ::: Image import from URL: ${imageImport.urlString}`);
+		store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
 	}
 };
 

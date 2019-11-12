@@ -27,7 +27,7 @@ export default class TaskModal extends Vue {
 	 * The active task
 	 */
 	@Prop({type: Object as () => EaasiTask, required: false})
-	readonly task: EaasiTask
+	readonly task: EaasiTask;
 
 	/* Data
 	============================================*/
@@ -52,11 +52,14 @@ export default class TaskModal extends Vue {
 		let self = this;
 		if (self.timer) clearInterval(self.timer);
 		self.timer = setInterval(async () => {
+			console.log('POLLING FOR TASK: ', self.task);
 			let taskState = await self.$store.dispatch('getTaskState', self.task.taskId) as ITaskState;
 			if (!taskState || taskState.isDone) {
+				console.log('TASK IS DONE: ', self.task);
 				self.success = true;
 			}
 			else if (taskState.message && taskState.status == '1') {
+				console.log('TASK ERROR: ', self.task);
 				clearInterval(self.timer);
 				self.error = taskState.message;
 			}

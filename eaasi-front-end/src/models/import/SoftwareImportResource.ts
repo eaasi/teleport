@@ -6,8 +6,11 @@ export default class SoftwareImportResource implements IEaasiResource {
 	localIdentifier: string = '';
 	localIdentifierSource: string = '';
 	version: string = '';
-	resourceType = null;
+	resourceType: any = null;
+	nativeConfig: string = '';
 	isUrlSource: boolean = false;
+	patchId: string = '';
 	urlSource: string = '';
 	eaasiID: string = '';
+	chosenTemplateId: string = '';
 }
