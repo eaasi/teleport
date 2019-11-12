@@ -64,6 +64,7 @@ export default class OptionsBox extends Vue {
 .options-box {
 	background-color: lighten($light-neutral, 80%);
 	border-radius: 1rem;
+	height: 100%;
 	overflow: hidden;
 	position: relative;
 

@@ -3,7 +3,7 @@
 		<h1>My Resources</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<my-bookmarks-section v-if="activeTab === 'My Bookmarks'" />
-
+		
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
@@ -63,6 +63,7 @@ export default class MyResourcesScreen extends Vue {
 	toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
     }
+	
 }
 
 </script>

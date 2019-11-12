@@ -98,9 +98,9 @@ export default class ExploreResourcesScreen extends Vue {
 	bookmarks: IBookmark[]
 
 	get noResult() {
-		return this.refinedContent.result.length === 0
-		&& this.refinedSoftware.result.length === 0
-		&& this.refinedEnvironment.result.length === 0;
+		return this.refinedContent.result.length === 0 
+		&& this.refinedSoftware.result.length === 0 
+		&& this.refinedEnvironment.result.length === 0; 
 	}
 
 	get hasActiveResources() {

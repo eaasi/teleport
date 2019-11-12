@@ -40,6 +40,7 @@ import TextInput from './forms/TextInput.vue';
 import TipsCard from '@/components/global/TipsCard.vue';
 import UiButton from './UiButton.vue';
 import UiChip from './UiChip.vue';
+import DualToggle from './DualToggle.vue';
 import ViewHeader from './ViewHeader.vue';
 import { VueConstructor } from 'vue';
 
@@ -50,6 +51,7 @@ import { VueConstructor } from 'vue';
 export default {
 	install(Vue: VueConstructor) {
 		Vue.component('Alert', Alert);
+		Vue.component('DualToggle', DualToggle);
 		Vue.component('AlertCard', AlertCard);
 		Vue.component('AttachResourceCard', AttachResourceCard);
 		Vue.component('Autocomplete', Autocomplete);
@@ -135,6 +137,7 @@ export {
 	SelectList,
 	SmallBookmark,
 	SortHeader,
+	DualToggle,
 	Tag,
 	TagGroup,
 	TextAreaInput,
