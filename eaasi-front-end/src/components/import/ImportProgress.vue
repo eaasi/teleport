@@ -72,7 +72,9 @@ export default class ImportProgress extends Vue {
 	============================================*/
 
 	doImport() {
-		this.$store.dispatch('import/import');
+		let task = this.$store.dispatch('import/import');
+		if (!task) return;
+		this.$store.commit('SET_ACTIVE_TASK', task);
 	}
 
 	reset() {

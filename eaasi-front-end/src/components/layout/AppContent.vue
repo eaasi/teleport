@@ -44,16 +44,16 @@ export default class AppContent extends Vue {
 	/* Computed
 	============================================*/
 	@Sync('adminMenuOpen')
-	adminMenuOpen: boolean
+	adminMenuOpen: boolean;
 
 	@Sync('activeTask')
-	activeTask: EaasiTask
+	activeTask: EaasiTask;
 
 	@Get('hideLeftMenu')
-	hideLeftMenu: boolean
+	hideLeftMenu: boolean;
 
 	@Get('hideAppHeader')
-	hideAppHeader: boolean
+	hideAppHeader: boolean;
 
 	@Sync('showLoader')
 	showLoader: boolean;
