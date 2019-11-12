@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { NumberedSteps, UiButton } from '@/components/global';
 import { INumberedStep } from '@/types/NumberedStep';
@@ -63,6 +63,9 @@ export default class ImportProgress extends Vue {
 	@Sync('import/importStep')
 	step: number;
 
+	@Sync('activeTaskResult')
+	activeTaskResult: any;
+
 	get nextButtonLabel() {
 		if (this.step == this.steps.length) return 'Finish Import';
 		return 'Next';
@@ -81,6 +84,13 @@ export default class ImportProgress extends Vue {
 		this.$store.commit('import/RESET');
 	}
 
+	/* Watchers
+	============================================*/
+
+	@Watch('activeTaskResult')
+	onTaskSuccess(taskSuccess) {
+		console.log('::: ImportProgress ::: task successful', taskSuccess);
+	}
 }
 
 </script>

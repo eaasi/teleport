@@ -15,6 +15,7 @@ import User from '@/models/admin/User';
 
 class GlobalState {
 	activeTask: EaasiTask = null;
+	activeTaskResult: any = null;
 	runningTasks: EaasiTask[] = [];
 	adminMenuOpen: boolean = false;
 	emulatorIsRunning: boolean = false;

@@ -12,6 +12,7 @@
 		<task-modal
 			:task="activeTask"
 			@close="activeTask = null"
+			@success="setTaskSuccessResult"
 		/>
 		<div id="globalLoader" v-if="showLoader">
 			<loader-overlay />
@@ -75,6 +76,10 @@ export default class AppContent extends Vue {
 	removeBusListeners() {
 		eventBus.$off('ajaxStart');
 		eventBus.$off('ajaxEnd');
+	}
+
+	setTaskSuccessResult(taskResult: EaasiTask) {
+		this.$store.commit('SET_ACTIVE_TASK_RESULT', taskResult);
 	}
 
 	/* Lifecycle Hooks

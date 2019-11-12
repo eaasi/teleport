@@ -169,7 +169,7 @@ export default class ImportFiles extends Vue {
 		let startingSortIndex = this.files.length + 1;
 		for(let i=0; i<fileList.length; i++) {
 			let f = fileList[i];
-			if(this.files.some(x => x.name === f.name)) continue;
+			if (this.files.some(x => x.name === f.name)) continue;
 			this.files.push(new ResourceImportFile(f, startingSortIndex + i));
 		}
 		this.step = 3;
@@ -183,10 +183,10 @@ export default class ImportFiles extends Vue {
 		this.files = files;
 	}
 
-	@Watch('filesAreAdded')
+	@Watch('filesAreAdded', { immediate: true })
 	onFilesAreAddedChange(filesAreAdded) {
 		// Ensure user are on the final step if files have been added
-		if(filesAreAdded && this.step !== 3) this.step = 3;
+		if (filesAreAdded && this.step !== 3) this.step = 3;
 	}
 
 }

@@ -66,6 +66,7 @@
 				if (!taskState || taskState.isDone) {
 					clearInterval(this.timer);
 					self.success = true;
+					this.$emit('success', self.task);
 				}
 				else if (taskState.message && taskState.status == '1') {
 					clearInterval(self.timer);
