@@ -6,7 +6,7 @@ import EmilBaseService from '../eaas/emil/EmilBaseService';
  */
 export default class ImageService extends BaseService {
 
-	private readonly _emilEnvService : EmilBaseService;
+	private readonly _emilEnvService: EmilBaseService;
 
 	constructor(
 		imageService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
@@ -19,6 +19,7 @@ export default class ImageService extends BaseService {
 	 * Posts Image Import Data to trigger import task from a URL
 	 */
 	async importImageFromUrl(importData: any) {
-		return await this._emilEnvService.post('importImage', importData);
+		let res = await this._emilEnvService.post('importImage', importData);
+		return await res.json();
 	}
 }

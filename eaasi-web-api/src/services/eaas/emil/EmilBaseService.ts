@@ -20,6 +20,9 @@ export default class EmilBaseService implements IHttpService {
 	}
 
 	public async post(methodName: string, data: any) {
+		let url = this._createUrl(methodName);
+		console.log('::: EmilBaseService ::: making POST request to URL:', url);
+		console.log('::: EmilBaseService ::: post body is:', data);
 		return await this._svc.post(this._createUrl(methodName), data);
 	}
 

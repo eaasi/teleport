@@ -55,14 +55,13 @@ mutations.INIT_FOR_TYPE = (state) => {
 
 const actions = {
 	/**
-	 * Triggers an import
+	 * Triggers an image import
 	 * @param store
-	 * @param imageImport
 	 */
 	async import(store: Store<ImportState>) {
 		let imageImport = {
 			nativeConfig: store.state.software.nativeConfig,
-			patchId: store.state.software.patchId,
+			patchId: null,
 			templateId: store.state.chosenTemplate,
 			urlString: store.state.software.urlSource
 		};
