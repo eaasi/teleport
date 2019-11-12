@@ -65,11 +65,11 @@ const actions = {
 	},
 
 	async initSession({commit, state}) {
-		if(state.loggedInUser) return true;
+		if (state.loggedInUser) return true;
 		let token = Cookies.get(config.JWT_NAME);
-		if(!token) return false;
+		if (!token) return false;
 		let user = await _authService.getUserData();
-		if(!user) return false;
+		if (!user) return false;
 		commit('SET_LOGGED_IN_USER', new User(user));
 		return true;
 	},
@@ -79,7 +79,7 @@ const actions = {
 
 	async getTaskState(store: Store<GlobalState>, taskID: number | string) {
 		let res = await _taskService.getTaskState(taskID);
-		if(!res) return null;
+		if (!res) return null;
 		res.taskId = taskID;
 		store.commit('ADD_OR_UPDATE_TASK', res);
 		return res;
@@ -87,7 +87,7 @@ const actions = {
 
 	async getEnvironmentTaskState(store: Store<GlobalState>, taskID: number | string) {
 		let res = await _taskService.getEnvironmentTaskState(taskID);
-		if(!res) return null;
+		if (!res) return null;
 		res.taskId = taskID;
 		store.commit('ADD_OR_UPDATE_TASK', res);
 		return res;

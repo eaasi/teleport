@@ -47,9 +47,6 @@ export default class AppContent extends Vue {
 	@Sync('adminMenuOpen')
 	adminMenuOpen: boolean;
 
-	@Sync('activeTask')
-	activeTask: EaasiTask;
-
 	@Get('hideLeftMenu')
 	hideLeftMenu: boolean;
 
@@ -58,6 +55,9 @@ export default class AppContent extends Vue {
 
 	@Sync('showLoader')
 	showLoader: boolean;
+
+	@Sync('activeTask')
+	activeTask: EaasiTask;
 
 	/* Methods
 	============================================*/

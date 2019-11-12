@@ -13,19 +13,14 @@ class ImportService extends BaseHttpService {
 	 * @param imageImport: IImageImport object specifying image data
 	 */
 	async importImageFromUrl(imageImport: IImageImport) : Promise<EaasiTask> {
-		console.log('::: ImportService ::: importing image from URL');
-
 		const res = await this.post<IImageImport>(
 			'/image/importFromUrl', imageImport
 		);
-
 		if (!res.ok) {
 			console.log('Response returned error: ', res);
 			return null;
 		}
-
 		console.log('::: ImportService res.result :::', res.result);
-
 		return res.result as EaasiTask;
 	}
 

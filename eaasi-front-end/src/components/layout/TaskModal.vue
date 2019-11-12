@@ -22,6 +22,7 @@
 	import EaasiTask from '@/models/task/EaasiTask';
 	import { ITaskState } from '@/types/Task';
 	import { jsonEquals } from '@/utils/functions';
+	import {Sync} from 'vuex-pathify';
 
 	@Component({
 		name: 'TaskModal'
@@ -34,12 +35,19 @@
 		@Prop({type: Object as () => EaasiTask, required: false})
 		readonly task: EaasiTask;
 
+
 		/* Data
         ============================================*/
 
 		timer: number = null;
 		error: string = null;
 		success: boolean = false;
+
+		/* Computed
+        ============================================*/
+
+		@Sync('activeTask')
+		activeTask: EaasiTask;
 
 		/* Methods
         ============================================*/
@@ -60,20 +68,24 @@
 			if (!this.task) return;
 			let self = this;
 			if (self.timer) clearInterval(self.timer);
-
+			let activeTask = await self.activeTask;
+			let taskId = activeTask.taskId;
 			self.timer = setInterval(async () => {
-				let taskState = await self.$store.dispatch('getTaskState', self.task.taskId) as ITaskState;
+				console.log('polling taskId', taskId);
+				let taskState = await self.$store.dispatch('getTaskState', taskId) as ITaskState;
+				console.log(taskState);
 				if (!taskState || taskState.isDone) {
+					console.log('::: TaskModal :::', taskState);
+					this.$emit('success', taskState);
 					clearInterval(this.timer);
 					self.success = true;
-					this.$emit('success', self.task);
 				}
 				else if (taskState.message && taskState.status == '1') {
 					clearInterval(self.timer);
 					self.error = taskState.message;
 				}
 				return;
-			}, self.task.pollingInterval || 3000);
+			}, self.activeTask.pollingInterval || 3000);
 		}
 
 		/**

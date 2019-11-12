@@ -17,6 +17,7 @@ export default class TaskController extends BaseController {
 	async getEmilContainerTaskState(req: Request, res: Response) {
 		try {
 			let taskID = req.query.id;
+			console.log('::: TaskController getEmilContainerTaskState ::: taskID', taskID);
 			let taskState = await this.emilContainerService.getTaskState(taskID);
 			res.send(taskState);
 		} catch(e) {
@@ -27,7 +28,7 @@ export default class TaskController extends BaseController {
 	async getEmilEnvironmentTaskState(req: Request, res: Response) {
 		try {
 			let taskID = req.query.id;
-			let environmentService = new EmilEnvironmentService()
+			let environmentService = new EmilEnvironmentService();
 			let taskState = await environmentService.getEnvironmentTaskState(taskID);
 			res.send(taskState);
 		} catch(e) {

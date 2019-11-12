@@ -69,7 +69,7 @@ const actions = {
 		let taskState = await _importService.importImageFromUrl(imageImport) as ITaskState;
 		if (!taskState) console.log('No Task Received in Response');
 		let task = new EaasiTask(taskState.taskId, `Image Import from URL: ${imageImport.urlString}`);
-		store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
+		await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
 		return task;
 	}
 };
