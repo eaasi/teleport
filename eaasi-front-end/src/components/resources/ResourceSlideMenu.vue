@@ -276,23 +276,26 @@
 
 		doAction(action: IAction) {
 			if (!action.isEnabled) return;
-
+			const isEnvironment = this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT;
+			const isSoftware = this.onlySelectedResource.resourceType === resourceTypes.SOFTWARE;
+			
 			switch (action.shortName) {
-				case 'run': {
+				case 'run':
 					// When Run is clicked, we send to Access Interface @ environmentId
-					if (this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT) {
+					if (isEnvironment) {
 						let environment = this.onlySelectedResource as IEnvironment;
 						this.$router.push(`/access-interface/${environment.envId}`);
 					}
 					break;
-				}
-				case 'viewDetails': {
+				case 'viewDetails':
 					// When View Details is clicked, we send to Resource Detail view
-					// with the (only) selected resource
-					this.$router.push({
-						name: 'Resource Detail',
-						params: {resource: JSON.stringify(this.onlySelectedResource)}});
-				}
+					if (isEnvironment) {
+						const resourceId = this.onlySelectedResource.envId.toString();
+						this.$router.push({ path:'/resources/environment', query: { resourceId } });
+					} else if (isSoftware) {
+						const resourceId = this.onlySelectedResource.id.toString();
+						this.$router.push({ path:'/resources/software', query: { resourceId } });
+					}
 					break;
 				case 'save':
 					this.confirmAction = 'save';

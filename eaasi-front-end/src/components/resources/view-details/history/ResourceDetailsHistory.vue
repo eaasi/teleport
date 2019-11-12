@@ -1,7 +1,7 @@
 <template>
 	<section id="edHistory">
 		<div class="padded">
-			<environment-details-revision-list
+			<resource-details-revision-list
 				:revisions="revisions"
 				@rowClick="openRevisionDetails"
 			/>
@@ -10,19 +10,19 @@
 </template>
 
 <script lang="ts">
-import EnvironmentDetailsRevisionList
-	from '@/components/resources/view-details/history/EnvironmentDetailsRevisionList.vue';
+import ResourceDetailsRevisionList
+	from '@/components/resources/view-details/history/ResourceDetailsRevisionList.vue';
 import {IEnvironmentRevision} from '@/types/Resource';
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component({
-	name: 'EnvironmentDetailsHistory',
+	name: 'ResourceDetailsHistory',
 	components: {
-		EnvironmentDetailsRevisionList
+		ResourceDetailsRevisionList
 	}
 })
-export default class EnvironmentDetailsHistory extends Vue {
+export default class ResourceDetailsHistory extends Vue {
 	/* Data
     ============================================*/
 

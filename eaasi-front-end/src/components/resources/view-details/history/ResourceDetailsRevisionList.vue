@@ -59,12 +59,12 @@ import { IEaasiSearchQuery } from '@/types/Search';
 import SortHeader from '@/components/global/tables/SortHeader.vue';
 
 @Component({
-	name: 'EnvironmentDetailsRevisionList',
+	name: 'ResourceDetailsRevisionList',
 	components: {
 		SortHeader
 	}
 })
-export default class EnvironmentDetailsRevisionList extends Vue {
+export default class ResourceDetailsRevisionList extends Vue {
 
     /* Props
     ============================================*/
