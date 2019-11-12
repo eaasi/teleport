@@ -77,10 +77,10 @@ export default class ImportSelect extends Vue {
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	@Sync('import/importType')
-	type: ImportType
+	type: ImportType;
 
 	/* Methods
 	============================================*/

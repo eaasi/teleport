@@ -24,9 +24,11 @@
 </template>
 
 <script lang="ts">
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+import {ISoftwareResource} from '@/types/Resource';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
-import { Sync } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import { NumberedSteps, UiButton } from '@/components/global';
 import { INumberedStep } from '@/types/NumberedStep';
 
@@ -66,6 +68,18 @@ export default class ImportProgress extends Vue {
 	@Sync('activeTaskResult')
 	activeTaskResult: any;
 
+	@Get('import/software')
+	software: EnvironmentImportResource;
+
+	@Get('import/software@chosenTemplateId')
+	chosenTemplateId:  string;
+
+	@Sync('import/software@eaasiID')
+	eaasiID: string;
+
+	@Sync('import/software@isUrlSource')
+	isUrlSource: boolean;
+
 	get nextButtonLabel() {
 		if (this.step == this.steps.length) return 'Finish Import';
 		return 'Next';
@@ -88,8 +102,16 @@ export default class ImportProgress extends Vue {
 	============================================*/
 
 	@Watch('activeTaskResult')
-	onTaskSuccess(taskSuccess) {
-		console.log('::: ImportProgress ::: task successful', taskSuccess);
+	onTaskComplete(taskResult: any) {
+		// When an import task is complete, get the environmentId and save a new ImportedResource
+		this.eaasiID = taskResult.userData.environmentId;
+		this.isUrlSource = true;
+
+		let importedResource = {
+			eaasiID: taskResult.userData.environmentId,
+			environmentTemplateId: this.chosenTemplateId,
+			urlSource: this.software.urlSource
+		};
 	}
 }
 

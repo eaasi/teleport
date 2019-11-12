@@ -71,11 +71,8 @@
 			let activeTask = await self.activeTask;
 			let taskId = activeTask.taskId;
 			self.timer = setInterval(async () => {
-				console.log('polling taskId', taskId);
 				let taskState = await self.$store.dispatch('getTaskState', taskId) as ITaskState;
-				console.log(taskState);
 				if (!taskState || taskState.isDone) {
-					console.log('::: TaskModal :::', taskState);
 					this.$emit('success', taskState);
 					clearInterval(this.timer);
 					self.success = true;

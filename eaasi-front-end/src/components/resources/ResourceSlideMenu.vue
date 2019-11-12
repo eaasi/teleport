@@ -137,19 +137,19 @@
         ============================================*/
 
 		@Prop({type: Boolean, required: true})
-		readonly open: boolean
+		readonly open: boolean;
 
 		/* Computed
         ============================================*/
 
 		@Sync('resource/activeEnvironment')
-		readonly environment: IEnvironment
+		readonly environment: IEnvironment;
 
 		@Sync('resource/selectedResources')
-		resources: IEaasiResource[]
+		resources: IEaasiResource[];
 
 		@Get('loggedInUser')
-		user: IEaasiUser
+		user: IEaasiUser;
 
 		@Get('resource/environmentIsSelected')
 		environmentIsSelected: boolean;

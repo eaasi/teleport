@@ -12,7 +12,7 @@ import _importService from '@/services/ImportService';
 /============================================================*/
 
 class ImportState {
-	chosenTemplate: string = '';
+	chosenTemplateId: string = '';
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	filesToUpload: IResourceImportFile[] = [];
 	importPath: ResourceImportPath = 'Unselected';
@@ -34,7 +34,7 @@ mutations.RESET = (state) => {
 	state.importType = null;
 	state.filesToUpload = [];
 	state.importPath = 'Unselected';
-	state.chosenTemplate = '';
+	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 };
@@ -44,7 +44,7 @@ mutations.INIT_FOR_TYPE = (state) => {
 	state.importStep = 1;
 	state.filesToUpload = [];
 	state.importPath = 'Unselected';
-	state.chosenTemplate = '';
+	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 };
@@ -62,7 +62,7 @@ const actions = {
 		let imageImport = {
 			nativeConfig: store.state.software.nativeConfig,
 			patchId: null,
-			templateId: store.state.chosenTemplate,
+			templateId: store.state.software.chosenTemplateId,
 			urlString: store.state.software.urlSource
 		};
 

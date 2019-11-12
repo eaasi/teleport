@@ -20,12 +20,11 @@ class ImportService extends BaseHttpService {
 			console.log('Response returned error: ', res);
 			return null;
 		}
-		console.log('::: ImportService res.result :::', res.result);
 		return res.result as EaasiTask;
 	}
 
 	async saveImportImageRecord(imageImport: IImageImport) : Promise<any> {
-		const res = await this.post<IImageImport>(`${config.REST_API_URL}/bookmark`, imageImport);
+		const res = await this.post<IImageImport>(`${config.REST_API_URL}/importedImage`, imageImport);
 	}
 }
 

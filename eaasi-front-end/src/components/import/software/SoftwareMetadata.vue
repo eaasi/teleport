@@ -112,8 +112,9 @@
 </template>
 
 <script lang="ts">
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import ImportPathSelect from '../ImportPathSelect.vue';
 import { ResourceImportPath } from '@/types/Import';
 import SoftwareGeneralInfoForm from '@/components/import/software/SoftwareGeneralInfoForm.vue';
@@ -150,7 +151,7 @@ export default class SoftwareMetadata extends Vue {
 	@Get('import/software@title')
 	readonly title: string;
 
-	@Sync('import/chosenTemplate')
+	@Sync('import/software@chosenTemplateId')
 	chosenTemplate: string;
 
 	@Get('resource/availableTemplates')
@@ -158,6 +159,9 @@ export default class SoftwareMetadata extends Vue {
 
 	@Sync('import/software@nativeConfig')
 	nativeConfig: string;
+
+	@Sync('import/software')
+	software: EnvironmentImportResource;
 
 	get chosenTemplateData() {
 		return this.availableTemplates.filter(template => {
@@ -237,6 +241,10 @@ export default class SoftwareMetadata extends Vue {
 	/* Watchers
 	============================================*/
 
+	// @Watch('chosenTemplate')
+	// onTemplateChanged(result: string) {
+	// 	this.software.chosenTemplateId = result;
+	// }
 }
 
 </script>

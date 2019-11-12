@@ -4,15 +4,9 @@
 		<import-progress />
 		<section class="import-wrapper flex">
 			<div class="import-content">
-				<import-select
-					v-if="step >= 0"
-				/>
-				<import-metadata
-					v-if="step >= 1"
-				/>
-				<import-files
-					v-if="step >= 2"
-				/>
+				<import-select v-if="step >= 0" />
+				<import-metadata v-if="step >= 1" />
+				<import-files v-if="step >= 2" />
 				<configure-hardware
 					class="padded"
 					v-if="showConfigureHardware"
@@ -25,7 +19,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { ResourceImportPath, ImportType } from '@/types/Import';
 import ConfigureHardware from './environment/EnvironmentConfigureHardware.vue';
