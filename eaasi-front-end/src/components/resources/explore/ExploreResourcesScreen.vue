@@ -80,27 +80,27 @@ export default class ExploreResourcesScreen extends Vue {
     ============================================*/
 
     @Sync('resource/selectedResources')
-    selectedResources: IEaasiResource[]
+    selectedResources: IEaasiResource[];
 
     @Sync('resource/query')
     query: ResourceSearchQuery;
 
     @Get('resource/result')
-	bentoResult: IResourceSearchResponse
+	bentoResult: IResourceSearchResponse;
 
 	@Sync('resource/query@selectedFacets')
-	selectedFacets: IResourceSearchFacet[]
+	selectedFacets: IResourceSearchFacet[];
 
 	@Get('loggedInUser')
 	user: User;
 
 	@Get('bookmark/bookmarks')
-	bookmarks: IBookmark[]
+	bookmarks: IBookmark[];
 
 	get noResult() {
-		return this.refinedContent.result.length === 0 
-		&& this.refinedSoftware.result.length === 0 
-		&& this.refinedEnvironment.result.length === 0; 
+		return this.refinedContent.result.length === 0
+		&& this.refinedSoftware.result.length === 0
+		&& this.refinedEnvironment.result.length === 0;
 	}
 
 	get hasActiveResources() {
