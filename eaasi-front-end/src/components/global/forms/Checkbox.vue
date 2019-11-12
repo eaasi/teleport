@@ -1,5 +1,8 @@
 <template>
-	<form-field-wrapper :class="['eaasi-checkbox', {'no-label': !label}]" v-bind="wrapperPropsExtended">
+	<form-field-wrapper 
+		:class="['eaasi-checkbox', { 'no-label': !label }]" 
+		v-bind="wrapperPropsExtended"
+	>
 		<label>
 			<span>{{ label }}</span>
 			<input
@@ -7,8 +10,9 @@
 				v-bind="$attrs"
 				:checked="value"
 				@change="handleChange"
+				:disabled="disabled"
 			/>
-			<span :class="['checkmark', {checked: value}]"></span>
+			<span :class="['checkmark', { checked: value, disabled }]"></span>
 		</label>
 	</form-field-wrapper>
 </template>
@@ -33,9 +37,13 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 export default class Checkbox extends BaseFormField {
 
 	@Prop({type: Boolean, required: true})
-	readonly value: boolean
+	readonly value: boolean;
+
+	@Prop({ type: Boolean })
+	readonly disabled: boolean;
 
 	handleChange(event) {
+		if (this.disabled) return;
 		this.$emit('change', event);
 		this.$emit('input', !this.value);
 	}
@@ -97,6 +105,9 @@ $checkboxSize: 18px;
 
 	label input:checked ~ .checkmark {
 		background-color: $dark-blue;
+		&.disabled {
+			opacity: 0.4;
+		}
 	}
 
 	.checkmark::after {
