@@ -51,6 +51,7 @@ export default class TaskModal extends Vue {
 		if (!this.task) return;
 		let self = this;
 		if (self.timer) clearInterval(self.timer);
+
 		self.timer = setInterval(async () => {
 			console.log('POLLING FOR TASK: ', self.task);
 			let taskState = await self.$store.dispatch('getTaskState', self.task.taskId) as ITaskState;
@@ -70,7 +71,7 @@ export default class TaskModal extends Vue {
 	 * Reset to default state
 	 */
 	reset() {
-		if(this.timer) clearInterval(this.timer);
+		if (this.timer) clearInterval(this.timer);
 		this.error = null;
 		this.success = false;
 	}
@@ -88,8 +89,8 @@ export default class TaskModal extends Vue {
 
 	@Watch('task')
 	onTaskUpdated(newTask: EaasiTask | null, oldTask: EaasiTask | null) {
-		if(!newTask) this.cancel();
-		if(jsonEquals(newTask, oldTask)) return;
+		if (!newTask) this.cancel();
+		if (jsonEquals(newTask, oldTask)) return;
 		this.reset();
 		this.pollTask();
 	}

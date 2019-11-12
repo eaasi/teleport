@@ -66,16 +66,14 @@ const actions = {
 			urlString: store.state.software.urlSource
 		};
 
-		console.log('::: import-store ::: Import from URL Started');
-		console.log('::: import-store ::: imageImport:', imageImport);
-
 		let taskState = await _importService.importImageFromUrl(imageImport) as ITaskState;
 
 		if (!taskState) {
-			console.log('::: import-store ::: No Task Received in Response');
+			console.log('No Task Received in Response');
 		}
 
-		let task = new EaasiTask(taskState.taskId, `::: import-store ::: Image import from URL: ${imageImport.urlString}`);
+		let task = new EaasiTask(taskState.taskId, `Image Import from URL: ${imageImport.urlString}`);
+
 		store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
 	}
 };
