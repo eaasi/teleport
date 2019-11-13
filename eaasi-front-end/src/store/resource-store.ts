@@ -1,12 +1,12 @@
-import EaasiTask from '@/models/task/EaasiTask';
-import { make } from 'vuex-pathify';
-import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import {populateFacets} from '@/helpers/ResourceSearchFacetHelper';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { Store } from 'vuex';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
-import { resourceTypes } from '@/utils/constants';
+import EaasiTask from '@/models/task/EaasiTask';
+import _svc from '@/services/ResourceService';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {IResourceSearchQuery, IResourceSearchResponse} from '@/types/Search';
+import {resourceTypes} from '@/utils/constants';
+import {Store} from 'vuex';
+import {make} from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -93,9 +93,7 @@ const actions = {
 		}
 		if (!id) return;
 
-		let result = await _svc.deleteEnvironment(resource.envId);
-
-		return result;
+		return await _svc.deleteEnvironment(resource.envId);
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
