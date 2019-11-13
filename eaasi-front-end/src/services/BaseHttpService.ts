@@ -114,7 +114,6 @@ export default class BaseHttpService {
 		try {
 			// Let Vue know that an ajax request has been initiated
 			eventBus.$emit('ajaxStart', !options.suppressSpinner);
-			console.log('::: BaseHttpService _makeRequest ::: request :', request);
 			let res = await fetch(request);
 
 			// Let Vue know that an ajax request has been completed
