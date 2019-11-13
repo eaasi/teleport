@@ -21,19 +21,19 @@
 </template>
 
 <script lang="ts">
-    import ResourceService from '@/services/ResourceService';
+	import Vue from 'vue';
 	import {
 		IEaasiEnvironmentCardSummary,
 		IEaasiResourceSummary,
 		IEnvironment
 	} from '@/types/Resource.d.ts';
+	import { Component, Prop } from 'vue-property-decorator';
+	import { Get, Sync } from 'vuex-pathify';
+	import ResourceService from '@/services/ResourceService';
 	import { ITaskState } from '@/types/Task';
+	import { IBookmark } from '@/types/Bookmark';
     import { resourceTypes } from '@/utils/constants';
 	import StringCleaner from '@/utils/string-cleaner';
-    import Vue from 'vue';
-    import { Component, Prop } from 'vue-property-decorator';
-	import { Get, Sync } from 'vuex-pathify';
-	import { IBookmark } from '../../types/Bookmark';
 
     let resourceSvc = ResourceService;
 

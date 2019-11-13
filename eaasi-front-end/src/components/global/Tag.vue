@@ -28,19 +28,19 @@ export default class Tag extends Vue {
 	 * The text displayed in the Tag
 	 */
     @Prop({type: String, required: true})
-    readonly text: string
+    readonly text: string;
 
     /**
 	 * The FontAwesome icon name displayed in the Tag
 	 */
     @Prop({type: String, required: false})
-    readonly icon: string
+    readonly icon: string;
 
     /**
 	 * The color of the Tag
 	 */
     @Prop({type: String, required: false})
-    readonly color: string
+    readonly color: string;
 }
 </script>
 
@@ -58,7 +58,7 @@ export default class Tag extends Vue {
 		padding: 0 8px;
 
 		i {
-			color: rgba(0, 0, 0, 0.4);
+			color: rgba(0, 0, 0, 0.5);
 			margin-right: 0.4em;
 		}
 
