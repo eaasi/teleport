@@ -51,7 +51,7 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
@@ -98,9 +98,9 @@ export default class ExploreResourcesScreen extends Vue {
 	bookmarks: IBookmark[]
 
 	get noResult() {
-		return this.refinedContent.result.length === 0 
-		&& this.refinedSoftware.result.length === 0 
-		&& this.refinedEnvironment.result.length === 0; 
+		return this.refinedContent.result.length === 0
+		&& this.refinedSoftware.result.length === 0
+		&& this.refinedEnvironment.result.length === 0;
 	}
 
 	get hasActiveResources() {

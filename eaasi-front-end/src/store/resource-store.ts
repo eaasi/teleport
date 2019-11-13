@@ -56,7 +56,6 @@ const actions = {
 	/**
 	 * Triggers request to save an Environment to local storage
 	 * @param _store Store<ResourceState>
-	 * @param environment: instance that satisfies IEnvironment
 	 */
 	async saveEnvironment({ state, dispatch }: Store<ResourceState>): Promise<EaasiTask> {
 		const environment = state.selectedResources[0];
@@ -80,9 +79,23 @@ const actions = {
 		return task;
 	},
 
-	async deleteSelectedResource({ state, commit }: Store<ResourceState>) {
+	async deleteSelectedResource({ state, commit, dispatch }: Store<ResourceState>) {
 		// TODO: Deleting an environment is currently not working on the back end.
 		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
+		const resource = state.selectedResources[0];
+		if (!resource) return;
+
+		let id: string | number;
+		if (resource.envId) {
+			id = resource.envId;
+		} else if (resource.id) {
+			id = resource.id;
+		}
+		if (!id) return;
+
+		let result = await _svc.deleteEnvironment(resource.envId);
+
+		return result;
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {

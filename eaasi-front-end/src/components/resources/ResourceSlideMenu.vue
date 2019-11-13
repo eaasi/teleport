@@ -77,7 +77,7 @@
 			title="Delete Resources"
 			confirm-label="Delete"
 			@click:cancel="confirmAction = null"
-			@click:confirm="$emit('delete');confirmAction = null;"
+			@click:confirm="deleteSelectedResource"
 			@close="confirmAction = null"
 			v-if="confirmAction === 'delete'"
 		>
@@ -278,7 +278,7 @@
 			if (!action.isEnabled) return;
 			const isEnvironment = this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT;
 			const isSoftware = this.onlySelectedResource.resourceType === resourceTypes.SOFTWARE;
-			
+
 			switch (action.shortName) {
 				case 'run':
 					// When Run is clicked, we send to Access Interface @ environmentId
