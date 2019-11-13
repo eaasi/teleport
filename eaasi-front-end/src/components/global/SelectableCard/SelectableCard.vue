@@ -145,7 +145,7 @@ export default class SelectableCard extends Vue {
 		.bookmark {
 			position: absolute;
 			right: 0;
-			top: 1px;
+			top: 2px;
 		}
 	}
 
