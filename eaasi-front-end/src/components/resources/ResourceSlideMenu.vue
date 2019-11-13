@@ -137,19 +137,19 @@
         ============================================*/
 
 		@Prop({type: Boolean, required: true})
-		readonly open: boolean
+		readonly open: boolean;
 
 		/* Computed
         ============================================*/
 
 		@Sync('resource/activeEnvironment')
-		readonly environment: IEnvironment
+		readonly environment: IEnvironment;
 
 		@Sync('resource/selectedResources')
-		resources: IEaasiResource[]
+		resources: IEaasiResource[];
 
 		@Get('loggedInUser')
-		user: IEaasiUser
+		user: IEaasiUser;
 
 		@Get('resource/environmentIsSelected')
 		environmentIsSelected: boolean;
@@ -253,7 +253,7 @@
 			{
 				label: 'Actions'
 			}
-		]
+		];
 		activeTab: string = this.tabs[1].label;
 		confirmAction : string = null;
 
@@ -271,7 +271,8 @@
 
 		async deleteSelectedResource() {
 			this.confirmAction = null;
-			await this.$store.dispatch('resource/deleteSelectedResource');
+			await this.$store.dispatch('resource/deleteSelectedResource')
+				.then(() => this.$emit('resource-updated'));
 		}
 
 		doAction(action: IAction) {

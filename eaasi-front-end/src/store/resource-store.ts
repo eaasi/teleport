@@ -13,15 +13,10 @@ import {make} from 'vuex-pathify';
 /============================================================*/
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
-
 	selectedResources: IEaasiResource[] = [];
-
 	query: IResourceSearchQuery = new ResourceSearchQuery();
-
 	result: IResourceSearchResponse = null;
-
 	savingEnvironments: string[] = [];
-
 	saveEnvironmentTaskMap: object = {};
 }
 
