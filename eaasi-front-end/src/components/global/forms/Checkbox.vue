@@ -82,8 +82,8 @@ $checkboxSize: 18px;
 		}
 
 		span {
-			margin: auto;
 			height: $checkboxSize;
+			margin: auto;
 			text-transform: capitalize;
 		}
 	}
