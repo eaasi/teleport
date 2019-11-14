@@ -14,6 +14,7 @@ import User from '@/models/admin/User';
 /============================================================*/
 
 class GlobalState {
+	readonly appVersion: string = config.APP_VERSION;
 	activeTask: EaasiTask = null;
 	runningTasks: EaasiTask[] = [];
 	adminMenuOpen: boolean = false;
