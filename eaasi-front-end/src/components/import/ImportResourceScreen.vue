@@ -53,7 +53,9 @@ export default class ImportResourceScreen extends Vue {
 	type: ImportType;
 
 	get showConfigureHardware() {
-		return this.type === 'environment' && this.step >= 3;
+		return false;
+		// TODO: When metadata integration is enabled
+		//  return this.type === 'environment' && this.step >= 3;
 	}
 
 	get showPathSelect() {

@@ -2,8 +2,8 @@
 	<div class="rdm-container">
 		<div class="row">
 			<div class="col-md-4">
-				<resource-details-summary 
-					:summary-data="resource" 
+				<resource-details-summary
+					:summary-data="resource"
 					:readonly="readonly"
 				/>
 			</div>
@@ -69,9 +69,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEnvironment, IEaasiResource } from '@/types/Resource';
-import { resourceTypes } from '@/utils/constants';
+import { Component, Prop } from 'vue-property-decorator';
+import { IEnvironment} from '@/types/Resource';
 import { ILabeledItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from './EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '@/components/resources/view-details/metadata/ResourceDetailsSummary.vue';
@@ -94,7 +93,7 @@ export default class EnvironmentMetadataSection extends Vue {
 
     @Prop({ type: Boolean })
     readonly: Boolean;
-    
+
     /* Computed
     ============================================*/
 
@@ -134,14 +133,14 @@ export default class EnvironmentMetadataSection extends Vue {
 
 		return emuItems;
     }
-    
+
     /**
 	 * Parses the environment data for emulator-specific properties
 	 */
 	get drives() {
         return this.resource.drives ? this.resource.drives : [];
     }
-    
+
 	get configMachineLabeledItems() : ILabeledItem[] {
 		return [];
 	}
@@ -174,7 +173,7 @@ export default class EnvironmentMetadataSection extends Vue {
 
     /* Methods
     ============================================*/
-    
+
     _createFileSystemLabel(fileSystem: string): string {
 		if (!fileSystem) fileSystem = 'Not specified';
 		return `File System: ${fileSystem}`;

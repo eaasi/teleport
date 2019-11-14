@@ -8,46 +8,6 @@
 				rules="required"
 			/>
 
-			<select-list
-				v-model="chosenTemplate"
-				placholder="Choose a System"
-				class="no-mb flex-adapt"
-				label="Choose a System"
-				rules="required"
-			>
-				<option
-					v-for="template in availableTemplates"
-					:key="template.id"
-					:value="template.id"
-				>
-					{{ template.label }}
-				</option>
-			</select-list>
-
-			<text-input
-				v-if="chosenTemplate"
-				readonly
-				label="System Architecture"
-				v-model="chosenTemplateArchitecture"
-				rules="required"
-			/>
-
-			<text-input
-				v-if="chosenTemplate"
-				readonly
-				label="Emulator"
-				v-model="chosenTemplateEmulator"
-				rules="required"
-			/>
-
-			<text-input
-				v-if="chosenTemplate"
-				readonly
-				label="Config"
-				v-model="chosenTemplateNativeConfig"
-				rules="required"
-			/>
-
 			<ui-button
 				secondary
 				icon="chevron-left"
@@ -151,62 +111,8 @@ export default class SoftwareMetadata extends Vue {
 	@Get('import/software@title')
 	readonly title: string;
 
-	@Sync('import/software@chosenTemplateId')
-	chosenTemplate: string;
-
-	@Get('resource/availableTemplates')
-	readonly availableTemplates: any[];
-
-	@Sync('import/software@nativeConfig')
-	nativeConfig: string;
-
 	@Sync('import/software')
 	software: EnvironmentImportResource;
-
-	get chosenTemplateData() {
-		return this.availableTemplates.filter(template => {
-			return template['id'] === this.chosenTemplate;
-		})[0];
-	}
-
-	// TODO: The structure and naming of the serialized data coming from the API is not ideal.
-	/* ie:
-    {
-        id: "qemu-win98",
-        label: "Windows 98 (USB pointer)",
-        properties: [
-            {
-                name: "Architecture",            <-- why name keys "name" and "value"?
-                value: "x86_64"
-            },
-            {
-                name: "EmulatorContainer",
-                value: "Qemu"
-            }
-        ]
-    },
-
-    // TODO: Suggestion - serialize to the interface that already seems to exist -
-        properties: { architecture: 'foo', emulatorContainer: 'bar' }
-    */
-
-	get chosenTemplateEmulator() {
-		return this.chosenTemplateData.properties.filter(obj => {
-			return obj['name'] === 'EmulatorContainer';
-		})[0]['value'];
-	}
-
-	get chosenTemplateArchitecture() {
-		return this.chosenTemplateData.properties.filter(obj => {
-			return obj['name'] === 'Architecture';
-		})[0]['value'];
-	}
-
-	get chosenTemplateNativeConfig() {
-		let config = this.chosenTemplateData['native_config'];
-		this.nativeConfig = config;
-		return config;
-	}
 
 	/* Data
 	============================================*/
@@ -231,20 +137,6 @@ export default class SoftwareMetadata extends Vue {
 		let form: any = this.$refs._form;
 		form.submit();
 	}
-
-	/* Lifecycle Hooks
-	============================================*/
-	created() {
-		this.$store.dispatch('resource/getTemplates');
-	}
-
-	/* Watchers
-	============================================*/
-
-	// @Watch('chosenTemplate')
-	// onTemplateChanged(result: string) {
-	// 	this.software.chosenTemplateId = result;
-	// }
 }
 
 </script>

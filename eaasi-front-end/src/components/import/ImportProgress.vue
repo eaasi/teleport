@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
-import {ISoftwareResource} from '@/types/Resource';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
@@ -103,15 +102,11 @@ export default class ImportProgress extends Vue {
 
 	@Watch('activeTaskResult')
 	onTaskComplete(taskResult: any) {
-		// When an import task is complete, get the environmentId and save a new ImportedResource
+		// TODO: Distinguish between Environment / Software / Content Import
+		// Environment Import
+		// When an import task is complete, get the environmentId and push into Access Interface
 		this.eaasiID = taskResult.userData.environmentId;
-		this.isUrlSource = true;
-
-		let importedResource = {
-			eaasiID: taskResult.userData.environmentId,
-			environmentTemplateId: this.chosenTemplateId,
-			urlSource: this.software.urlSource
-		};
+		this.$router.push(`/access-interface/${this.eaasiID}`);
 	}
 }
 
