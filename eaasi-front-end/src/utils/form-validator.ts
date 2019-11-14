@@ -23,7 +23,7 @@ export default {
 					return 'Please enter a valid email address';
 				}
 				break;
-			case 'creditcart':
+			case 'creditcard':
 			case 'cc':
 				if (!self.validateCC(value)) {
 					return 'Please enter a valid credit card number';

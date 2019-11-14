@@ -31,19 +31,19 @@ export default class FormFieldWrapper extends Vue {
 
 	// Hides the label when try
 	@Prop({type: Boolean, required: false})
-	readonly hideLabel: boolean
+	readonly hideLabel: boolean;
 
 	// The label to display above the field
 	@Prop({type: String, required: false})
-	readonly label: string
+	readonly label: string;
 
 	// An error message to display
 	@Prop({type: String, required: false})
-	readonly error: string
+	readonly error: string;
 
 	// Whether or not the wrapped field is required
 	@Prop({type: Boolean, required: false})
-	readonly required: boolean
+	readonly required: boolean;
 
 
 }

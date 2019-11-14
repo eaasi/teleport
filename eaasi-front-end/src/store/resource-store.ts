@@ -1,28 +1,24 @@
-import EaasiTask from '@/models/task/EaasiTask';
-import { make } from 'vuex-pathify';
-import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import {populateFacets} from '@/helpers/ResourceSearchFacetHelper';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { Store } from 'vuex';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
-import { resourceTypes } from '@/utils/constants';
+import EaasiTask from '@/models/task/EaasiTask';
+import _svc from '@/services/ResourceService';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {IResourceSearchQuery, IResourceSearchResponse} from '@/types/Search';
+import {resourceTypes} from '@/utils/constants';
+import {Store} from 'vuex';
+import {make} from 'vuex-pathify';
 
 /*============================================================
  == State
 /============================================================*/
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
-
 	selectedResources: IEaasiResource[] = [];
-
 	query: IResourceSearchQuery = new ResourceSearchQuery();
-
 	result: IResourceSearchResponse = null;
-
 	savingEnvironments: string[] = [];
-
 	saveEnvironmentTaskMap: object = {};
+	availableTemplates: any[] = [];
 }
 
 const state = new ResourceState();
@@ -56,7 +52,6 @@ const actions = {
 	/**
 	 * Triggers request to save an Environment to local storage
 	 * @param _store Store<ResourceState>
-	 * @param environment: instance that satisfies IEnvironment
 	 */
 	async saveEnvironment({ state, dispatch }: Store<ResourceState>): Promise<EaasiTask> {
 		const environment = state.selectedResources[0];
@@ -80,9 +75,21 @@ const actions = {
 		return task;
 	},
 
-	async deleteSelectedResource({ state, commit }: Store<ResourceState>) {
+	async deleteSelectedResource({ state, commit, dispatch }: Store<ResourceState>) {
 		// TODO: Deleting an environment is currently not working on the back end.
 		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
+		const resource = state.selectedResources[0];
+		if (!resource) return;
+
+		let id: string | number;
+		if (resource.envId) {
+			id = resource.envId;
+		} else if (resource.id) {
+			id = resource.id;
+		}
+		if (!id) return;
+
+		return await _svc.deleteEnvironment(resource.envId);
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
@@ -109,6 +116,11 @@ const actions = {
 		const { environments, software, content } = state.result;
 		const facets = populateFacets(environments, software, content);
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
+	},
+
+	async getTemplates({ state, commit }) {
+		let result = await _svc.getTemplates();
+		commit('SET_AVAILABLE_TEMPLATES', result);
 	}
 };
 

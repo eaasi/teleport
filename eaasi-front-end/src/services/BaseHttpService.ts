@@ -63,6 +63,7 @@ export default class BaseHttpService {
 	 == Helper Methods
 	/============================================================*/
 
+	// noinspection JSMethodCanBeStatic
 	/**
 	 * Appends query parameters to a URL based on a search query object
 	 *
@@ -135,6 +136,7 @@ export default class BaseHttpService {
 	/**
 	 * Handles non-200 Fetch responses
 	 *
+	 * @param {Request} request - The fetch request object
 	 * @param {Response} response - The fetch response object
 	 * @param {boolean} suppressError - When true, will not alert the user of an error
 	 */

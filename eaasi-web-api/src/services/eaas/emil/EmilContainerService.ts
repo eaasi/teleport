@@ -1,11 +1,15 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
-import EmilBaseService from './EmilBaseService';
+import IHttpService from '@/services/interfaces/IHttpService';
 import { TaskState } from '@/types/emil/Emil';
 
-export default class EmilContainerService extends EmilBaseService {
+const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/emil';
+
+export default class EmilContainerService {
+
+	private readonly _svc: IHttpService;
 
 	constructor(httpService = new HttpJSONService()) {
-		super('EmilContainerData', httpService);
+		this._svc = httpService;
 	}
 
 	/**
@@ -13,10 +17,11 @@ export default class EmilContainerService extends EmilBaseService {
 	 * @param taskID
 	 */
 	async getTaskState(taskID: number | string): Promise<TaskState> {
+		console.log('::: EmilContainerService calling getTaskState for taskID :::', taskID);
 		if (isNaN(Number(taskID))) {
 			throw `taskID must be a string or number. Received ${taskID}`;
 		}
-		let response = await this.get(`taskState?taskId=${taskID}`);
+		let response = await this._svc.get(`${BASE_URL}/tasks/${taskID}`);
 		return await response.json() as TaskState;
 	}
 }

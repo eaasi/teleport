@@ -18,6 +18,7 @@ export default class HttpJSONService implements IHttpService {
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
 	public async get(url: string, options?: RequestInit): Promise<Response> {
+		console.log('::: HttpJSONService GET request for :::', url);
 		let requestInit = this._createRequestInit('GET', null, options);
 		return await fetch(url, requestInit);
 	}
@@ -26,6 +27,7 @@ export default class HttpJSONService implements IHttpService {
 	 * Makes a POST request with a JSON body using Fetch
 	 *
 	 * @param {string} url - The request URL
+	 * @param {any} data - request data
 	 * @param {RequestInit} [options] - Request options
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */

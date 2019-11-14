@@ -48,120 +48,155 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Get, Sync } from 'vuex-pathify';
-import { Component } from 'vue-property-decorator';
-import { jsonCopy } from '@/utils/functions';
-import Emulator from './Emulator.vue';
-import eventBus from '@/utils/event-bus';
-import { IEnvironment } from '@/types/Resource';
-import { Route } from 'vue-router';
-import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
-import EnvironmentMenu from './EnvironmentMenu.vue';
+	import {jsonCopy} from '@/utils/functions';
+	import Vue from 'vue';
+	import {Component} from 'vue-property-decorator';
+	import {Route} from 'vue-router';
+	import {Get, Sync} from 'vuex-pathify';
+	import {IEnvironment} from '../../types/Resource';
+	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
+	import Emulator from './Emulator.vue';
+	import EnvironmentMenu from './EnvironmentMenu.vue';
 
-@Component({
-	name: 'AccessInterfaceScreen',
-	components: {
-		AccessInterfaceHeader,
-		EnvironmentMenu,
-		Emulator
+	@Component({
+		name: 'AccessInterfaceScreen',
+		components: {
+			AccessInterfaceHeader,
+			EnvironmentMenu,
+			Emulator
+		}
+	})
+	export default class AccessInterfaceScreen extends Vue {
+
+		$refs!: {
+			_emulator: Emulator
+		};
+
+		/* Computed
+        ============================================*/
+
+		@Sync('resource/activeEnvironment')
+		environment: IEnvironment;
+
+		@Get('emulatorIsRunning')
+		readonly emulatorIsRunning: boolean;
+
+		@Sync('hideLeftMenu')
+		hideLeftMenu: boolean;
+
+		@Sync('hideAppHeader')
+		hideAppHeader: boolean;
+
+		@Get('import/environment@title')
+		importedTitle: string;
+
+		/* Data
+        ============================================*/
+
+		showConfirmExitModal: boolean = false;
+		showConfirmRestartModal: boolean = false;
+
+		/* Methods
+        ============================================*/
+
+		async getEnvironment(envId: string) {
+			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
+			if (!environment) return;
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
+		}
+
+		async getImportedEnvironment(envId: string) {
+			let environment = {
+				archive: 'default',
+				envId: envId,
+				keyboardLayout: 'us',
+				keyboardModel: 'pc105',
+				object: null,
+				objectArchive: null,
+				software: null,
+				title: this.importedTitle,
+				type: 'machine'
+			};
+			console.log('enviroment:', environment);
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
+		}
+
+		async exit() {
+			this.showConfirmExitModal = false;
+			await this.stop();
+			this.$router.go(-1);
+		}
+
+		async restart() {
+			let vm = this;
+			vm.showConfirmRestartModal = false;
+			if (!vm.$refs._emulator) return;
+			let environment = jsonCopy(vm.environment) as IEnvironment;
+			await vm.$refs._emulator.stopEnvironment();
+			vm.environment = null;
+			vm.$nextTick(() => {
+				vm.environment = environment;
+			});
+		}
+
+		save() {
+			// TODO:
+		}
+
+		async stop() {
+			if (!this.$refs._emulator) return;
+			await this.$refs._emulator.stopEnvironment();
+			return true;
+		}
+
+		/* Lifecycle Hooks
+        ============================================*/
+
+		beforeRouteEnter(to: Route, from: Route, next: Function) {
+			next(vm => {
+				let isImportedEnvironment = from.name === 'Import Resource';
+
+				if (isImportedEnvironment) {
+					vm.getImportedEnvironment(to.params.envId);
+				} else {
+					vm.getEnvironment(to.params.envId);
+				}
+
+				vm.hideAppHeader = true;
+				vm.hideLeftMenu = true;
+			});
+		}
+
+		beforeRouteLeave(to: Route, from: Route, next: Function) {
+			this.hideAppHeader = false;
+			this.hideLeftMenu = false;
+			this.stop().then(() => {
+				next();
+			});
+		}
+
+		async stop() {
+			if (!this.$refs._emulator) return;
+			await this.$refs._emulator.stopEnvironment();
+			return true;
+		}
 	}
-})
-export default class AccessInterfaceScreen extends Vue {
-
-	$refs!: {
-		_emulator: Emulator
-	};
-
-	/* Computed
-	============================================*/
-
-	@Sync('resource/activeEnvironment')
-	environment: IEnvironment;
-
-	@Get('emulatorIsRunning')
-	readonly emulatorIsRunning: boolean;
-
-	@Sync('hideLeftMenu')
-	hideLeftMenu: boolean;
-
-	@Sync('hideAppHeader')
-	hideAppHeader: boolean;
-
-	/* Data
-	============================================*/
-
-	showConfirmExitModal: boolean = false;
-	showConfirmRestartModal: boolean = false;
-
-	/* Methods
-	============================================*/
-
-	async getEnvironment(envId: string) {
-		let environment = await this.$store.dispatch('resource/getEnvironment', envId);
-		if(!environment) return;
-		this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
-	}
-
-	async exit() {
-		this.showConfirmExitModal = false;
-		await this.stop();
-		this.$router.go(-1);
-	}
-
-	async restart() {
-		let vm = this;
-		vm.showConfirmRestartModal = false;
-		if(!vm.$refs._emulator) return;
-		let environment = jsonCopy(vm.environment) as IEnvironment;
-		await vm.$refs._emulator.stopEnvironment();
-		vm.environment = null;
-		vm.$nextTick(() => {
-			vm.environment = environment;
-		});
-	}
-
-	async stop() {
-		if(!this.$refs._emulator) return;
-		await this.$refs._emulator.stopEnvironment();
-		return true;
-	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	beforeRouteEnter(to: Route, from: Route, next: Function) {
-		next(vm => {
-			vm.getEnvironment(to.params.envId);
-			vm.hideAppHeader = true;
-			vm.hideLeftMenu = true;
-		});
-	}
-
-	beforeRouteLeave(to: Route, from: Route, next: Function) {
-		this.hideAppHeader = false;
-		this.hideLeftMenu = false;
-		this.stop().then(() => {
-			next();
-		});
-	}
-}
 
 </script>
 
 <style lang="scss">
-#accessInterface {
-	background-color: darken($teal, 72%);
-	min-height: 100vh;
-}
+	#accessInterface {
+		background-color: darken($teal, 72%);
+		min-height: 100vh;
+	}
 
-.ai-content {
-	margin-top: $accessHeaderHeight;
-	text-align: center;
-}
+	.ai-content {
+		margin-top: $accessHeaderHeight;
+		text-align: center;
+	}
 
-.ai-emulator {
-	display: inline-block;
-	margin: 0 auto;
-}
+	.ai-emulator {
+		display: inline-block;
+		margin: 0 auto;
+	}
 </style>

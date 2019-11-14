@@ -12,6 +12,7 @@
 		<task-modal
 			:task="activeTask"
 			@close="activeTask = null"
+			@success="setTaskSuccessResult"
 		/>
 		<div id="globalLoader" v-if="showLoader">
 			<loader-overlay />
@@ -44,19 +45,19 @@ export default class AppContent extends Vue {
 	/* Computed
 	============================================*/
 	@Sync('adminMenuOpen')
-	adminMenuOpen: boolean
-
-	@Sync('activeTask')
-	activeTask: EaasiTask
+	adminMenuOpen: boolean;
 
 	@Get('hideLeftMenu')
-	hideLeftMenu: boolean
+	hideLeftMenu: boolean;
 
 	@Get('hideAppHeader')
-	hideAppHeader: boolean
+	hideAppHeader: boolean;
 
 	@Sync('showLoader')
 	showLoader: boolean;
+
+	@Sync('activeTask')
+	activeTask: EaasiTask;
 
 	/* Methods
 	============================================*/
@@ -75,6 +76,10 @@ export default class AppContent extends Vue {
 	removeBusListeners() {
 		eventBus.$off('ajaxStart');
 		eventBus.$off('ajaxEnd');
+	}
+
+	setTaskSuccessResult(taskResult: EaasiTask) {
+		this.$store.commit('SET_ACTIVE_TASK_RESULT', taskResult);
 	}
 
 	/* Lifecycle Hooks

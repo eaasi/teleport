@@ -1,6 +1,9 @@
 import BaseHttpService from './BaseHttpService';
 import { ITaskState } from '@/types/Task';
 
+/**
+ * Handles requests related to container and environment tasks
+ */
 class TaskService extends BaseHttpService {
 	/**
 	 * Gets the state of a Container Task

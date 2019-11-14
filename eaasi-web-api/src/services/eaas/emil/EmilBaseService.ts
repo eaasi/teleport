@@ -15,16 +15,17 @@ export default class EmilBaseService implements IHttpService {
 
 	public async get(methodName: string) {
 		let url = this._createUrl(methodName);
-		console.log('Making Request to URL:', url);
-		return await this._svc.get(this._createUrl(methodName));
+		console.log('Making GET Request to URL:', url);
+		return await this._svc.get(url);
 	}
 
 	public async post(methodName: string, data: any) {
-		return await this._svc.post(this._createUrl(methodName), data);
+		let url = this._createUrl(methodName);
+		console.log('Making POST Request to URL:', url);
+		return await this._svc.post(url, data);
 	}
 
 	private _createUrl(methodName: string): string {
-		let url = `${BASE_URL}/${this._path}/${methodName}`;
-		return url
+		return `${BASE_URL}/${this._path}/${methodName}`
 	}
 }

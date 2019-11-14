@@ -1,14 +1,13 @@
 import Emulator from '@/data_access/models/app/Emulator';
 import EmilBaseService from '@/services/eaas/emil/EmilBaseService';
-import CrudService from '../base/CrudService';
-import CrudQuery from '../base/CrudQuery';
+import {IEmulator, IEmulatorViewModel} from '@/types/admin/Emulator';
+import {TaskState} from '@/types/emil/Emil';
+import {IEmulatorImportRequest} from '@/types/emil/EmilContainerData';
+import {AliasEntry, EmulatorEntry, EmulatorNamedIndexes} from '@/types/emil/EmilEnvironmentData';
 import BaseService from '../base/BaseService';
+import CrudQuery from '../base/CrudQuery';
+import CrudService from '../base/CrudService';
 import ICrudService from '../interfaces/ICrudService';
-import { EmulatorNamedIndexes, AliasEntry, EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
-import { IEmulatorViewModel, IEmulator } from '@/types/admin/Emulator';
-import { TaskState } from '@/types/emil/Emil';
-import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
-
 
 /**
  * Handles business logic related to working with Emulator (Administration) data
@@ -47,8 +46,7 @@ export default class EmulatorAdminService extends BaseService {
 
 		if (response.ok) {
 			let indexes = await response.json() as EmulatorNamedIndexes;
-			let emulators = this._createEmulatorViewModels(dbList, indexes);
-			return emulators;
+			return this._createEmulatorViewModels(dbList, indexes);
 		} else {
 			throw 'Could not get named emulator indexes from emil';
 		}
