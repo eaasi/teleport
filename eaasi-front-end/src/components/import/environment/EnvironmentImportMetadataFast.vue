@@ -68,8 +68,7 @@
 </template>
 
 <script lang="ts">
-import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
-import Vue from 'vue';
+	import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 
@@ -85,7 +84,7 @@ export default class EnvironmentImportMetadataFast extends Vue {
 	 * Pass-through as readonly attribute to all form fields
 	 */
 	@Prop({type: Boolean, required: false})
-	readonly readonly: boolean
+	readonly readonly: boolean;
 
 	/* Computed
 	============================================*/
@@ -93,14 +92,11 @@ export default class EnvironmentImportMetadataFast extends Vue {
 	@Sync('import/environment@title')
 	title: string;
 
-	@Sync('import/software@chosenTemplateId')
+	@Sync('import/environment@chosenTemplateId')
 	chosenTemplate: string;
 
-	@Sync('import/software@nativeConfig')
+	@Sync('import/environment@nativeConfig')
 	nativeConfig: string;
-
-	@Sync('import/software')
-	software: EnvironmentImportResource;
 
 	@Get('resource/availableTemplates')
 	readonly availableTemplates: any[];
@@ -111,7 +107,7 @@ export default class EnvironmentImportMetadataFast extends Vue {
 		})[0];
 	}
 
-	// TODO: The structure and naming of the serialized data coming from the API is not ideal.
+	// TODO: Request update to structure the serialized data coming from the OpenSLX Eaasi API.
 	/* ie:
     {
         id: "qemu-win98",
@@ -128,7 +124,7 @@ export default class EnvironmentImportMetadataFast extends Vue {
         ]
     },
 
-    // TODO: Suggestion - serialize to the interface that already seems to exist -
+    // TODO: Suggestion - serialize to the interface that already implicitly exists -
         properties: { architecture: 'foo', emulatorContainer: 'bar' }
     */
 

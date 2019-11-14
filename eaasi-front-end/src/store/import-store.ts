@@ -55,20 +55,22 @@ mutations.INIT_FOR_TYPE = (state) => {
 
 const actions = {
 	/**
-	 * Triggers an image import
+	 * Triggers a resource import
 	 * @param store
 	 */
 	async import(store: Store<ImportState>) {
+		console.log('::: import store environment :::', store.state.environment);
+		// TODO: Separate Import Environment / Software / Content
 		let imageImport = {
-			nativeConfig: store.state.software.nativeConfig,
 			patchId: null,
-			templateId: store.state.software.chosenTemplateId,
-			urlString: store.state.software.urlSource
+			nativeConfig: store.state.environment.nativeConfig,
+			templateId: store.state.environment.chosenTemplateId,
+			urlString: store.state.environment.urlSource
 		};
 
 		let taskState = await _importService.importImageFromUrl(imageImport) as ITaskState;
 		if (!taskState) console.log('No Task Received in Response');
-		let task = new EaasiTask(taskState.taskId, `Image Import from URL: ${imageImport.urlString}`);
+		let task = new EaasiTask(taskState.taskId, `Environment Import from URL: ${imageImport.urlString}`);
 		await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
 		return task;
 	}

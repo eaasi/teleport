@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
@@ -68,15 +69,18 @@ export default class ImportProgress extends Vue {
 	activeTaskResult: any;
 
 	@Get('import/software')
-	software: EnvironmentImportResource;
+	software: SoftwareImportResource;
 
-	@Get('import/software@chosenTemplateId')
+	@Get('import/environment')
+	environment: EnvironmentImportResource;
+
+	@Get('import/environment@chosenTemplateId')
 	chosenTemplateId:  string;
 
-	@Sync('import/software@eaasiID')
+	@Sync('import/environment@eaasiID')
 	eaasiID: string;
 
-	@Sync('import/software@isUrlSource')
+	@Sync('import/environment@isUrlSource')
 	isUrlSource: boolean;
 
 	get nextButtonLabel() {

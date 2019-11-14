@@ -119,7 +119,9 @@ export default class ImportFiles extends Vue {
 	@Sync('import/importStep')
 	step: number;
 
-	@Sync('import/software@urlSource')
+	// TODO: urlSource could be on import globally so it can be reused for different import types?
+	// TODO: Or structure imports using separate store depending on type (Software, Env, Content?)
+	@Sync('import/environment@urlSource')
 	fileUrl: string;
 
 	/**
