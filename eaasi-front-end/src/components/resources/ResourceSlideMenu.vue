@@ -253,7 +253,7 @@
 			{
 				label: 'Actions'
 			}
-		]
+		];
 		activeTab: string = this.tabs[1].label;
 		confirmAction : string = null;
 
@@ -271,7 +271,8 @@
 
 		async deleteSelectedResource() {
 			this.confirmAction = null;
-			await this.$store.dispatch('resource/deleteSelectedResource');
+			await this.$store.dispatch('resource/deleteSelectedResource')
+				.then(() => this.$emit('resource-updated'));
 		}
 
 		doAction(action: IAction) {

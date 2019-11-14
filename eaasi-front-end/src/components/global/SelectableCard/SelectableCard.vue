@@ -1,10 +1,10 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle]">
 		<div v-if="bookmark && !isLoading">
-			<bookmark 
-				class="bookmark" 
-				:init-state="isBookmarkSelected" 
-				@bookmarked="isActive => $emit('bookmarked', isActive)" 
+			<bookmark
+				class="bookmark"
+				:init-state="isBookmarkSelected"
+				@bookmarked="isActive => $emit('bookmarked', isActive)"
 			/>
 		</div>
 
@@ -63,26 +63,26 @@ export default class SelectableCard extends Vue {
 		/* Props
         ============================================*/
 		@Prop({type: Object as () => IEaasiResourceSummary, required: true})
-		data: IEaasiResourceSummary
+		data: IEaasiResourceSummary;
 
 		@Prop({type: Boolean, required: false, default: false})
-		bookmark: boolean
+		bookmark: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-		footer: boolean
+		footer: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-		isLoading: boolean
-		
+		isLoading: boolean;
+
 		@Prop({ type: Boolean, default: false })
-		isBookmarkSelected: boolean
+		isBookmarkSelected: boolean;
 
 		/* Data
         ============================================*/
-		title: string = ''
-		isSelected: boolean = false
-		contentData: object = {}
-		subContentData: object = {}
+		title: string = '';
+		isSelected: boolean = false;
+		contentData: object = {};
+		subContentData: object = {};
         error = {};
 
         /* Computed
@@ -145,13 +145,13 @@ export default class SelectableCard extends Vue {
 		.bookmark {
 			position: absolute;
 			right: 0;
-			top: 1px;
+			top: 2px;
 		}
 	}
 
 	.panel-left {
 		background-color: lighten($light-blue, 70%);
-		padding: 0.3rem;
+		padding: 0.5rem;
 
 		&.selected {
 			background-color: lighten($light-blue, 50%);
@@ -172,6 +172,7 @@ export default class SelectableCard extends Vue {
 			color: $dark-blue;
 			font-size: 1.6rem;
 			line-height: 2rem;
+			padding-right: 4.5rem;
 
 			.loading-icon {
 				margin-left: 1rem;

@@ -3,11 +3,12 @@
 		<h1>My Resources</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<my-bookmarks-section v-if="activeTab === 'My Bookmarks'" />
-		
+
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
+			@resource-updated="search"
 		/>
 	</div>
 </template>
@@ -16,11 +17,10 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
-import { Get, Sync } from 'vuex-pathify';
+import { Sync } from 'vuex-pathify';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import MyBookmarksSection from './MyBookmarksSection.vue';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
-import User from '@/models/admin/User';
 
 @Component({
 	name: 'MyResourcesScreen',
@@ -63,7 +63,7 @@ export default class MyResourcesScreen extends Vue {
 	toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
     }
-	
+
 }
 
 </script>

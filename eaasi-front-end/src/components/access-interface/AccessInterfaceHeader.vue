@@ -2,7 +2,7 @@
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
 			<div class="ah-logo">
-				<img src="@/assets/header-logo.png" alt="Eaasi Logo" />
+				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 			<div>
 				<ui-button size="sm" icon="times" @click="$emit('click:exit')">
@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 
 @Component({
@@ -81,11 +81,16 @@ export default class AccessInterfaceHeader extends Vue {
 
 .ah-logo {
 	background-color: darken($teal, 50%);
-	border: solid 6px darken($teal, 50%);
+	border: solid 7px darken($teal, 50%);
 	border-radius: 50%;
 	left: 1rem;
 	position: absolute;
 	top: 0.3rem;
+
+	#eaasi-ah-logo {
+		position: relative;
+		top: 2px;
+	}
 }
 
 .ah-alert {

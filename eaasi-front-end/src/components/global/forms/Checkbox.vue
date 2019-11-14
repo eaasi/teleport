@@ -1,6 +1,6 @@
 <template>
-	<form-field-wrapper 
-		:class="['eaasi-checkbox', { 'no-label': !label }]" 
+	<form-field-wrapper
+		:class="['eaasi-checkbox', { 'no-label': !label }]"
 		v-bind="wrapperPropsExtended"
 	>
 		<label>
@@ -66,7 +66,7 @@ $checkboxSize: 18px;
 
 	label {
 		cursor: pointer;
-		display: block;
+		display: flex;
 		font-size: 1.4rem;
 		height: $checkboxSize + 6px;
 		padding-left: $checkboxSize + 10px;
@@ -83,9 +83,8 @@ $checkboxSize: 18px;
 
 		span {
 			height: $checkboxSize;
-			position: relative;
+			margin: auto;
 			text-transform: capitalize;
-			top: 7px;
 		}
 	}
 
@@ -136,7 +135,7 @@ $checkboxSize: 18px;
 
 	label {
 		height: $checkboxSize + 2px; // account for border
-		padding-left: $checkboxSize + 2px;
+		padding-left: $checkboxSize + 4px;
 	}
 
 	.checkmark {

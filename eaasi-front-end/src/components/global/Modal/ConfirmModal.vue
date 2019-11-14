@@ -30,13 +30,13 @@ import Modal from '@/components/global/Modal/Modal.vue';
 import UiButton from '@/components/global/UiButton.vue';
 
 @Component({
-	name: 'InfoModal',
+	name: 'ConfirmModal',
 	components: {
 		Modal,
 		UiButton
 	}
 })
-export default class InfoModal extends Vue {
+export default class ConfirmModal extends Vue {
 
 	/* Props
 	============================================*/

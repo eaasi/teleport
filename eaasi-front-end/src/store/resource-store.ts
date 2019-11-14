@@ -1,12 +1,12 @@
-import EaasiTask from '@/models/task/EaasiTask';
-import { make } from 'vuex-pathify';
-import _svc from '@/services/ResourceService';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import {populateFacets} from '@/helpers/ResourceSearchFacetHelper';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { Store } from 'vuex';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
-import { resourceTypes } from '@/utils/constants';
+import EaasiTask from '@/models/task/EaasiTask';
+import _svc from '@/services/ResourceService';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {IResourceSearchQuery, IResourceSearchResponse} from '@/types/Search';
+import {resourceTypes} from '@/utils/constants';
+import {Store} from 'vuex';
+import {make} from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -75,9 +75,21 @@ const actions = {
 		return task;
 	},
 
-	async deleteSelectedResource({ state, commit }: Store<ResourceState>) {
+	async deleteSelectedResource({ state, commit, dispatch }: Store<ResourceState>) {
 		// TODO: Deleting an environment is currently not working on the back end.
 		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
+		const resource = state.selectedResources[0];
+		if (!resource) return;
+
+		let id: string | number;
+		if (resource.envId) {
+			id = resource.envId;
+		} else if (resource.id) {
+			id = resource.id;
+		}
+		if (!id) return;
+
+		return await _svc.deleteEnvironment(resource.envId);
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {

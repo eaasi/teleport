@@ -15,12 +15,12 @@
 			/>
 			<span class="facet-total">({{ v.total }})</span>
 		</div>
-		<ui-button 
-			v-if="facet.values.length > maxDisplayLimit" 
-			size="sm" 
-			secondary 
+		<ui-button
+			v-if="facet.values.length > maxDisplayLimit"
+			size="sm"
+			secondary
 			style="display: block; margin-top: 1rem;"
-			@click="$emit('expand', facet)" 
+			@click="$emit('expand', facet)"
 		>
 			See All {{ facet.name }} <i class="fas fa-chevron-right"></i>
 		</ui-button>
@@ -56,11 +56,13 @@ export default class CheckboxFacet extends Vue {
 
 <style lang="scss">
 .checkbox-facet {
+	align-content: center;
 
 	.facet-total {
 		color: lighten($grey, 10%);
 		font-size: 1.2rem;
-		margin-left: 0.4rem;
+		margin-bottom: 1rem;
+		margin-left: 0.6rem;
 	}
 }
 </style>

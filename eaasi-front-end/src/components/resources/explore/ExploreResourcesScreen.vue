@@ -44,6 +44,7 @@
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
+			@resource-updated="search"
 		/>
 	</div>
 </template>
@@ -51,7 +52,7 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
