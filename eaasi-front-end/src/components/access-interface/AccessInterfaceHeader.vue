@@ -1,9 +1,11 @@
 <template>
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
+
 			<div class="ah-logo">
 				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
+
 			<div>
 				<ui-button size="sm" icon="times" @click="$emit('click:exit')">
 					Exit Emulation
@@ -11,18 +13,22 @@
 				<ui-button size="sm" @click="$emit('click:restart')">
 					Restart Emulation
 				</ui-button>
-				<ui-button size="sm" disabled @click="$emit('click:save')">
+				<ui-button size="sm" disabled @click="saveEnvironment">
 					Save Environment
 				</ui-button>
 			</div>
+
 			<div class="ah-alert flex-row" v-if="emulatorIsRunning">
 				<i class="far fa-exclamation-triangle"></i>
 				<span class="ah-warning-message">
 					Emulated computer must be shut down before saving.
 				</span>
 			</div>
+
 		</div>
+
 		<div class="ah-bottom">
+
 			<div class="ah-options-left">
 				<ui-button
 					white
@@ -99,6 +105,9 @@
 
 		emitSendCtrlAltDelete() {
 			eventBus.$emit('emulator:send:ctrlAltDelete');
+		}
+
+		saveEnvironment() {
 		}
 	}
 

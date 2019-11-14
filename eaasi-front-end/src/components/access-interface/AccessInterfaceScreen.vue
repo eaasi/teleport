@@ -3,10 +3,6 @@
 		<access-interface-header
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
-			@click:save="save"
-			@click:takeScreenShot="takeScreenShot"
-			@click:sendEscape="sendEscape"
-			@click:sendCtrlAltDelete="sendCtrlAltDelete"
 		/>
 
 		<environment-menu
