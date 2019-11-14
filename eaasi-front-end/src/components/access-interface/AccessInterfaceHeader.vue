@@ -123,14 +123,14 @@
 	}
 
 	.ah-top {
-		border-bottom: 3px solid $teal;
+		border-bottom: 3px solid lighten($teal, 10%);
 		height: $accessHeaderHeight - 4rem;
 		padding-left: 14rem;
 		position: relative;
 	}
 
 	.ah-bottom {
-		background-color: darken($teal, 25%);
+		background-color: darken($teal, 20%);
 		display: flex;
 		height: 42px;
 		padding-left: $accessMenuWidth;
@@ -153,16 +153,16 @@
 	}
 
 	.ah-logo {
-		background-color: darken($teal, 50%);
-		border: solid 7px darken($teal, 50%);
+		background-color: darken($teal, 28%);
+		border: 4px solid darken($teal, 42%);
 		border-radius: 50%;
 		left: 1rem;
 		position: absolute;
-		top: 0.3rem;
+		top: 1.2rem;
 
 		#eaasi-ah-logo {
 			position: relative;
-			top: 2px;
+			top: 1px;
 		}
 	}
 
