@@ -4,6 +4,9 @@
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
 			@click:save="save"
+			@click:takeScreenShot="takeScreenShot"
+			@click:sendEscape="sendEscape"
+			@click:sendCtrlAltDelete="sendCtrlAltDelete"
 		/>
 
 		<environment-menu
@@ -51,13 +54,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Get, Sync } from 'vuex-pathify';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
+import { jsonCopy } from '@/utils/functions';
 import Emulator from './Emulator.vue';
-import { IEnvironment } from '../../types/Resource';
+import { IEnvironment } from '@/types/Resource';
 import { Route } from 'vue-router';
 import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 import EnvironmentMenu from './EnvironmentMenu.vue';
-import { jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'AccessInterfaceScreen',
@@ -71,22 +74,22 @@ export default class AccessInterfaceScreen extends Vue {
 
 	$refs!: {
 		_emulator: Emulator
-	}
+	};
 
 	/* Computed
 	============================================*/
 
 	@Sync('resource/activeEnvironment')
-	environment: IEnvironment
+	environment: IEnvironment;
 
 	@Get('emulatorIsRunning')
 	readonly emulatorIsRunning: boolean;
 
 	@Sync('hideLeftMenu')
-	hideLeftMenu: boolean
+	hideLeftMenu: boolean;
 
 	@Sync('hideAppHeader')
-	hideAppHeader: boolean
+	hideAppHeader: boolean;
 
 	/* Data
 	============================================*/
@@ -123,6 +126,15 @@ export default class AccessInterfaceScreen extends Vue {
 
 	save() {
 		// TODO:
+	}
+
+	takeScreenShot() {
+	}
+
+	sendEscape() {
+	}
+
+	sendCtrlAltDelete() {
 	}
 
 	async stop() {

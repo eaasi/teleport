@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IMenuItem } from 'eaasi-nav';
 import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';

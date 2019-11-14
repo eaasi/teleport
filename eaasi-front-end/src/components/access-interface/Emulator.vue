@@ -1,34 +1,5 @@
 <template>
 	<div>
-		<div class="emulator-actions" v-show="isStarted">
-			<div class="header">EMULATOR ACTIONS</div>
-			<div class="flex-row justify-between">
-				<ui-button
-					icon="camera"
-					green
-					size="sm"
-					@click="takeScreenShot()"
-				>
-					Save Screen Image
-				</ui-button>
-				<ui-button
-					icon="keyboard"
-					green
-					size="sm"
-					@click="sendEscape()"
-				>
-					Esc
-				</ui-button>
-				<ui-button
-					icon="keyboard"
-					green
-					size="sm"
-					@click="sendCtrlAltDelete()"
-				>
-					Ctrl/Alt/Del
-				</ui-button>
-			</div>
-		</div>
 		<section id="emulatorWrapper" ref="_wrapper">
 			<!-- Do not change this div's ID, eaas-client looks for '#emulator-container' -->
 			<div ref="_container" id="emulator-container"></div>
@@ -61,13 +32,13 @@
 		$refs!: {
 			_wrapper: HTMLElement,
 			_container: HTMLElement
-		}
+		};
 
 		/* Props
         ============================================*/
 
 		@Prop({type: Object as () => IEnvironment, required: true})
-		readonly environment: IEnvironment
+		readonly environment: IEnvironment;
 
 		/* Computed
         ============================================*/
@@ -76,7 +47,7 @@
 		loading: boolean;
 
 		@Sync('appError')
-		error: IAppError
+		error: IAppError;
 
 		@Sync('emulatorIsRunning')
 		isStarted: boolean;

@@ -20,84 +20,120 @@
 				<span class="ah-warning-message">Emulated computer must be shut down before saving.</span>
 			</div>
 		</div>
-		<div class="ah-options">
-			<!-- TODO -->
+		<div class="ah-bottom">
+			<div class="ah-options-left">
+			</div>
+			<div class="ah-options-right">
+				<ui-button
+					icon="camera"
+					white
+					size="sm"
+					@click="$emit('click:takeScreenShot')"
+				>
+					Save Screen Image
+				</ui-button>
+				<ui-button
+					icon="keyboard"
+					white
+					size="sm"
+					@click="$emit('click:sendEscape')"
+				>
+					Esc
+				</ui-button>
+				<ui-button
+					icon="keyboard"
+					white
+					size="sm"
+					@click="$emit('click:sendCtrlAltDelete')"
+				>
+					Ctrl/Alt/Del
+				</ui-button>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-import { Get } from 'vuex-pathify';
+	import Vue from 'vue';
+	import { Component } from 'vue-property-decorator';
+	import { Get } from 'vuex-pathify';
 
-@Component({
-	name: 'AccessInterfaceHeader',
-})
-export default class AccessInterfaceHeader extends Vue {
+	@Component({
+		name: 'AccessInterfaceHeader',
+	})
+	export default class AccessInterfaceHeader extends Vue {
 
-	/* Computed
-	============================================*/
+		/* Computed
+        ============================================*/
 
-	@Get('emulatorIsRunning')
-	readonly emulatorIsRunning: boolean;
+		@Get('emulatorIsRunning')
+		readonly emulatorIsRunning: boolean;
 
-}
+	}
 
 </script>
 
 <style lang="scss">
-#accessHeader {
-	background-color: lighten($teal, 60%);
-	left: 0;
-	position: fixed;
-	right: 0;
-	top: 0;
-	z-index: 2;
+	#accessHeader {
+		background-color: lighten($teal, 60%);
+		left: 0;
+		position: fixed;
+		right: 0;
+		top: 0;
+		z-index: 2;
 
-	.eaasi-button {
-		margin-right: 2rem;
+		.eaasi-button {
+			margin-right: 2rem;
+		}
+
+		.ah-warning-message {
+			font-size: 1.5rem;
+		}
 	}
 
-	.ah-warning-message {
-		font-size: 1.5rem;
-	}
-}
-
-.ah-top,
-.ah-options {
-	padding-left: 14rem;
-}
-
-.ah-top {
-	height: $accessHeaderHeight - 4rem;
-	position: relative;
-}
-
-.ah-options {
-	background-color: $teal;
-	height: 4rem;
-}
-
-.ah-logo {
-	background-color: darken($teal, 50%);
-	border: solid 7px darken($teal, 50%);
-	border-radius: 50%;
-	left: 1rem;
-	position: absolute;
-	top: 0.3rem;
-
-	#eaasi-ah-logo {
+	.ah-top {
+		border-bottom: 3px solid $teal;
+		height: $accessHeaderHeight - 4rem;
+		padding-left: 14rem;
 		position: relative;
-		top: 2px;
 	}
-}
 
-.ah-alert {
-	i {
-		color: darken($orange, 12%);
-		font-size: 2.5rem;
-		margin-right: 1rem;
+	.ah-bottom {
+		align-items: center;
+		background-color: darken($teal, 25%);
+		display: flex;
+		height: 4rem;
+		padding-left: $accessMenuWidth;
+
+		.ah-options-left {
+			border-right: 3px solid darken($teal, 20%);
+			padding: 0 3rem;
+		}
+
+		.ah-options-right {
+			flex-direction: column;
+		}
 	}
-}
+
+	.ah-logo {
+		background-color: darken($teal, 50%);
+		border: solid 7px darken($teal, 50%);
+		border-radius: 50%;
+		left: 1rem;
+		position: absolute;
+		top: 0.3rem;
+
+		#eaasi-ah-logo {
+			position: relative;
+			top: 2px;
+		}
+	}
+
+	.ah-alert {
+		i {
+			color: darken($orange, 12%);
+			font-size: 2.5rem;
+			margin-right: 1rem;
+		}
+	}
 </style>
