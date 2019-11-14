@@ -17,18 +17,35 @@
 			</div>
 			<div class="ah-alert flex-row" v-if="emulatorIsRunning">
 				<i class="far fa-exclamation-triangle"></i>
-				<span class="ah-warning-message">Emulated computer must be shut down before saving.</span>
+				<span class="ah-warning-message">
+					Emulated computer must be shut down before saving.
+				</span>
 			</div>
 		</div>
 		<div class="ah-bottom">
 			<div class="ah-options-left">
+				<ui-button
+					white
+					size="sm"
+					disabled
+				>
+					Software Resource Disks
+				</ui-button>
+				<ui-button
+					white
+					size="sm"
+					disabled
+				>
+					Downloadable Assets
+				</ui-button>
 			</div>
+			<div class="ah-options-border"></div>
 			<div class="ah-options-right">
 				<ui-button
 					icon="camera"
 					white
 					size="sm"
-					@click="$emit('click:takeScreenShot')"
+					@click="emitTakeScreenshot"
 				>
 					Save Screen Image
 				</ui-button>
@@ -36,7 +53,7 @@
 					icon="keyboard"
 					white
 					size="sm"
-					@click="$emit('click:sendEscape')"
+					@click="emitSendEscape"
 				>
 					Esc
 				</ui-button>
@@ -44,7 +61,7 @@
 					icon="keyboard"
 					white
 					size="sm"
-					@click="$emit('click:sendCtrlAltDelete')"
+					@click="emitSendCtrlAltDelete"
 				>
 					Ctrl/Alt/Del
 				</ui-button>
@@ -54,6 +71,7 @@
 </template>
 
 <script lang="ts">
+	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
 	import { Component } from 'vue-property-decorator';
 	import { Get } from 'vuex-pathify';
@@ -69,6 +87,19 @@
 		@Get('emulatorIsRunning')
 		readonly emulatorIsRunning: boolean;
 
+		/* Methods
+        ============================================*/
+		emitTakeScreenshot() {
+			eventBus.$emit('emulator:takeScreenshot');
+		}
+
+		emitSendEscape() {
+			eventBus.$emit('emulator:send:escape');
+		}
+
+		emitSendCtrlAltDelete() {
+			eventBus.$emit('emulator:send:ctrlAltDelete');
+		}
 	}
 
 </script>
@@ -99,19 +130,25 @@
 	}
 
 	.ah-bottom {
-		align-items: center;
 		background-color: darken($teal, 25%);
 		display: flex;
-		height: 4rem;
+		height: 42px;
 		padding-left: $accessMenuWidth;
 
 		.ah-options-left {
-			border-right: 3px solid darken($teal, 20%);
-			padding: 0 3rem;
+			margin-bottom: auto;
+			margin-top: auto;
+			padding: 0 1rem;
+		}
+
+		.ah-options-border {
+			border-right: 3px solid darken($teal, 50%);
 		}
 
 		.ah-options-right {
-			flex-direction: column;
+			margin-bottom: auto;
+			margin-top: auto;
+			padding: 0 3rem;
 		}
 	}
 

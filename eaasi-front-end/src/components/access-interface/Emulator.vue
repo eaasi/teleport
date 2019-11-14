@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
 	import config from '@/config';
 	import { saveAs } from 'file-saver';
@@ -176,15 +177,35 @@
 			canvas.toBlob(blob => saveAs(blob, filename));
 		}
 
+		saveEmulator() {
+			console.log('TODO: saveEmulator');
+		}
+
+		initBusListeners() {
+			eventBus.$on('emulator:save', () => this.saveEmulator());
+			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
+			eventBus.$on('emulator:send:escape', () => this.sendEscape());
+			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
+		}
+
+		removeBusListeners() {
+			eventBus.$off('emulator:save');
+			eventBus.$off('emulator:takeScreenshot');
+			eventBus.$off('emulator:send:escape');
+			eventBus.$off('emulator:send:ctrlAltDelete');
+		}
+
 		/* Lifecycle Hooks
         ============================================*/
 
 		mounted() {
 			this.init();
+			this.initBusListeners();
 		}
 
 		beforeDestroy() {
 			this.stopEnvironment();
+			this.removeBusListeners();
 			this.isStarted = false;
 		}
 

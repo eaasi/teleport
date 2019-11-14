@@ -57,6 +57,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
 import { jsonCopy } from '@/utils/functions';
 import Emulator from './Emulator.vue';
+import eventBus from '@/utils/event-bus';
 import { IEnvironment } from '@/types/Resource';
 import { Route } from 'vue-router';
 import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
@@ -124,19 +125,6 @@ export default class AccessInterfaceScreen extends Vue {
 		});
 	}
 
-	save() {
-		// TODO:
-	}
-
-	takeScreenShot() {
-	}
-
-	sendEscape() {
-	}
-
-	sendCtrlAltDelete() {
-	}
-
 	async stop() {
 		if(!this.$refs._emulator) return;
 		await this.$refs._emulator.stopEnvironment();
@@ -161,7 +149,6 @@ export default class AccessInterfaceScreen extends Vue {
 			next();
 		});
 	}
-
 }
 
 </script>
