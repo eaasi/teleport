@@ -76,6 +76,7 @@
 					this.$emit('success', taskState);
 					clearInterval(this.timer);
 					self.success = true;
+					setTimeout(() => this.$emit('close'), 2500);
 				}
 				else if (taskState.message && taskState.status == '1') {
 					clearInterval(self.timer);
