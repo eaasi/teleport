@@ -86,6 +86,7 @@ export interface IEnvironment extends IEaasiResource {
 	containerVersion?: string;
 	drives: IDrive[];
 	error?: string;
+	isImport: Boolean;
 }
 
 export interface IEaasiEnvironmentCardSummary {

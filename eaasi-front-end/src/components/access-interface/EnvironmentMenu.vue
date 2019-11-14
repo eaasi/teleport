@@ -3,9 +3,11 @@
 		<div class="em-header">
 			<div class="em-tags">
 				<tag text="Environment" icon="fa-box" />
+				<tag v-if="environment.isImport" text="New Import" icon="fa-upload" color="yellow" />
 			</div>
 			<h2>{{ environment.title }}</h2>
-			<p v-if="environment.description">{{ environment.description | stripHtml }}</p>
+			<p v-if="environment.isImport"></p>
+			<p v-else-if="environment.description">{{ environment.description | stripHtml }}</p>
 			<p v-else>No description for this environment was provided.</p>
 		</div>
 		<tabbed-nav
@@ -65,6 +67,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
+import {Get} from 'vuex-pathify';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -76,22 +79,28 @@ export default class EnvironmentMenu extends Vue {
 	/* Props
 	============================================*/
 
-	@Prop({type: Object as () => IEnvironment, required: true})
-	readonly environment: IEnvironment
+	@Get('resource/activeEnvironment')
+	readonly environment: IEnvironment;
 
 	/* Data
 	============================================*/
 
-	tabs: IEaasiTab[] = [
-		{
-			label: 'Saved Metadata'
-		},
-		{
-			label: 'Configure New'
+	get tabs(): IEaasiTab[] {
+		if (this.environment.isImport) {
+			return [];
 		}
-	];
+		return [
+			{ label: 'Saved Metadata' },
+			{ label: 'Configure New' }
+		];
+	}
 
-	tab: string = 'Configure New';
+	get tab(): string {
+		if (this.environment.isImport) {
+			return 'New Import';
+		}
+		return 'Configure New';
+	};
 
 	/* Computed
 	============================================*/
@@ -109,7 +118,7 @@ export default class EnvironmentMenu extends Vue {
 
 	doAction(action: IAction) {
 		console.log(`Action clicked: ${action.label}`);
-		if(action.label === 'Run in Emulator') {
+		if (action.label === 'Run in Emulator') {
 			if(this.environment) {
 				this.$router.push(`/access-interface/${this.environment.envId}`);
 			}

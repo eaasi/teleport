@@ -5,10 +5,7 @@
 			@click:restart="showConfirmRestartModal = true"
 		/>
 
-		<environment-menu
-			v-if="environment"
-			:environment="environment"
-		/>
+		<environment-menu v-if="environment" />
 
 		<div class="flex-adapt padded ai-content">
 			<div class="ai-emulator">
@@ -115,9 +112,9 @@
 				objectArchive: null,
 				software: null,
 				title: this.importedTitle,
-				type: 'machine'
+				type: 'machine',
+				isImport: true,
 			};
-			console.log('enviroment:', environment);
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
 		}
 
