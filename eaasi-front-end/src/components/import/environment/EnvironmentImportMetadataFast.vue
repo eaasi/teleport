@@ -91,19 +91,19 @@ export default class EnvironmentImportMetadataFast extends Vue {
 	============================================*/
 
 	@Sync('import/environment@title')
-	readonly title: string
+	title: string;
 
 	@Sync('import/software@chosenTemplateId')
 	chosenTemplate: string;
-
-	@Get('resource/availableTemplates')
-	readonly availableTemplates: any[];
 
 	@Sync('import/software@nativeConfig')
 	nativeConfig: string;
 
 	@Sync('import/software')
 	software: EnvironmentImportResource;
+
+	@Get('resource/availableTemplates')
+	readonly availableTemplates: any[];
 
 	get chosenTemplateData() {
 		return this.availableTemplates.filter(template => {

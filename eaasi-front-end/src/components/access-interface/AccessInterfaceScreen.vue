@@ -77,7 +77,7 @@
         ============================================*/
 
 		@Sync('resource/activeEnvironment')
-		environment: any // IEnvironment;
+		environment: IEnvironment;
 
 		@Get('emulatorIsRunning')
 		readonly emulatorIsRunning: boolean;
@@ -87,6 +87,9 @@
 
 		@Sync('hideAppHeader')
 		hideAppHeader: boolean;
+
+		@Get('import/environment@title')
+		importedTitle: string;
 
 		/* Data
         ============================================*/
@@ -98,15 +101,12 @@
         ============================================*/
 
 		async getEnvironment(envId: string) {
-			console.log('Getting Normal Environment');
 			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
-			console.log('enviroment:', environment);
 			if (!environment) return;
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
 		}
 
 		async getImportedEnvironment(envId: string) {
-			console.log('Getting Imported Environment');
 			let environment = {
 				archive: 'default',
 				envId: envId,
@@ -115,6 +115,7 @@
 				object: null,
 				objectArchive: null,
 				software: null,
+				title: this.importedTitle,
 				type: 'machine'
 			};
 			console.log('enviroment:', environment);
