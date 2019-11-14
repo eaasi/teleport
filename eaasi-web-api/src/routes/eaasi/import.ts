@@ -1,13 +1,13 @@
-import ImageController from '@/controllers/ImageController';
+import ImportController from '@/controllers/ImportController';
 import express from 'express';
 
 const router = express.Router();
-const controller = new ImageController();
+const controller = new ImportController();
 
 /**
  * @api {get} image/importFromUrl Import an Image from a URL
  * @apiVersion 1.0.0
- * @apiGroup Image Import
+ * @apiGroup Import Resources
  * @apiPermission System Administrator only
  * @apiDescription Triggers an image import from a URL string
  */

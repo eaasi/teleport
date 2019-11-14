@@ -1,7 +1,6 @@
 <template>
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
-
 			<div class="ah-logo">
 				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
@@ -24,11 +23,9 @@
 					Emulated computer must be shut down before saving.
 				</span>
 			</div>
-
 		</div>
 
 		<div class="ah-bottom">
-
 			<div class="ah-options-left">
 				<ui-button
 					white
