@@ -25,6 +25,7 @@ class ImportState {
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	componentId: string = '';
+	saveDescription: string = '';
 }
 
 const state = new ImportState();
@@ -43,6 +44,8 @@ mutations.RESET = (state) => {
 	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
+	state.componentId= '';
+	state.saveDescription = '';
 };
 
 
@@ -53,6 +56,8 @@ mutations.INIT_FOR_TYPE = (state) => {
 	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
+	state.componentId= '';
+	state.saveDescription = '';
 };
 
 /*============================================================

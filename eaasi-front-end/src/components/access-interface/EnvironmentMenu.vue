@@ -10,10 +10,30 @@
 			<p v-else-if="environment.description">{{ environment.description | stripHtml }}</p>
 			<p v-else>No description for this environment was provided.</p>
 		</div>
+
 		<tabbed-nav
+			v-if="!environment.isImport"
 			:tabs="tabs"
 			v-model="tab"
 		/>
+
+		<div v-if="tab === 'New Import'" class="em-configure">
+			<h3 class="divider-header">New Environment Import</h3>
+			<collapsable
+				title="Describe the new Environment Import"
+				secondary
+				class="white-bg"
+			>
+				<eaasi-form>
+					<text-area-input
+						label="New Environment Description"
+						rules="required"
+						v-model="newImportDescription"
+					/>
+					<ui-button block @click="saveImport">Save Environment Import</ui-button>
+				</eaasi-form>
+			</collapsable>
+		</div>
 
 		<div v-if="tab === 'Configure New'" class="em-configure">
 			<h3 class="divider-header">New Configuration</h3>
@@ -63,11 +83,12 @@
 </template>
 
 <script lang="ts">
+import eventBus from '@/utils/event-bus';
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
-import {Get} from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -76,14 +97,13 @@ import {Get} from 'vuex-pathify';
 })
 export default class EnvironmentMenu extends Vue {
 
-	/* Props
+	/* Computed
 	============================================*/
+	@Sync('import/saveDescription')
+	newImportDescription: string = '';
 
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment;
-
-	/* Data
-	============================================*/
 
 	get tabs(): IEaasiTab[] {
 		if (this.environment.isImport) {
@@ -102,9 +122,6 @@ export default class EnvironmentMenu extends Vue {
 		return 'Configure New';
 	};
 
-	/* Computed
-	============================================*/
-
 	/**
 	 * Computes whether or not to show the details tab
 	 */
@@ -115,16 +132,12 @@ export default class EnvironmentMenu extends Vue {
 
 	/* Methods
 	============================================*/
-
-	doAction(action: IAction) {
-		console.log(`Action clicked: ${action.label}`);
-		if (action.label === 'Run in Emulator') {
-			if(this.environment) {
-				this.$router.push(`/access-interface/${this.environment.envId}`);
-			}
-		}
+	/**
+	 * Emits an event to save an imported environment
+	 */
+	saveImport() {
+		eventBus.$emit('emulator:saveEnvironmentImport');
 	}
-
 }
 
 </script>

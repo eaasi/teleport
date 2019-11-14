@@ -181,11 +181,10 @@
 			console.log('TODO: saveEmulator');
 		}
 
-		saveEnviromentImport() {
-			let saveResult = this.$store.dispatch('import/saveEnvironment');
-			if (!saveResult) return;
-			this.$router.push('resources/my-resources');
-
+		saveEnvironmentImport() {
+			// let saveResult = this.$store.dispatch('import/saveEnvironment');
+			// if (!saveResult) return;
+			// this.$router.push('resources/my-resources');
 		}
 
 		initBusListeners() {
