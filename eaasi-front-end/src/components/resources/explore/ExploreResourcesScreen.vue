@@ -44,6 +44,7 @@
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
+			@resource-updated="search"
 		/>
 	</div>
 </template>
@@ -51,7 +52,7 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
@@ -80,27 +81,27 @@ export default class ExploreResourcesScreen extends Vue {
     ============================================*/
 
     @Sync('resource/selectedResources')
-    selectedResources: IEaasiResource[]
+    selectedResources: IEaasiResource[];
 
     @Sync('resource/query')
     query: ResourceSearchQuery;
 
     @Get('resource/result')
-	bentoResult: IResourceSearchResponse
+	bentoResult: IResourceSearchResponse;
 
 	@Sync('resource/query@selectedFacets')
-	selectedFacets: IResourceSearchFacet[]
+	selectedFacets: IResourceSearchFacet[];
 
 	@Get('loggedInUser')
 	user: User;
 
 	@Get('bookmark/bookmarks')
-	bookmarks: IBookmark[]
+	bookmarks: IBookmark[];
 
 	get noResult() {
-		return this.refinedContent.result.length === 0 
-		&& this.refinedSoftware.result.length === 0 
-		&& this.refinedEnvironment.result.length === 0; 
+		return this.refinedContent.result.length === 0
+		&& this.refinedSoftware.result.length === 0
+		&& this.refinedEnvironment.result.length === 0;
 	}
 
 	get hasActiveResources() {
