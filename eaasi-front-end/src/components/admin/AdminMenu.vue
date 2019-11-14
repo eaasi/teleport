@@ -5,13 +5,17 @@
 		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Node User Administration</h2>
 		<admin-menu-item v-for="i in userMenuItems" :key="i.route" :item="i" />
+		<div class="menu-divider"></div>
+		<h2 class="admin-menu-heading">Application Version</h2>
+		<div class="app-version">{{ appVersion }}</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IMenuItem } from 'eaasi-nav';
+import {Get} from 'vuex-pathify';
 import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';
 
@@ -47,7 +51,7 @@ export default class AdminMenu extends Vue {
 			label: 'Running Tasks',
 			route: '/admin/running-tasks'
 		},
-	]
+	];
 
 	userMenuItems: IMenuItem[] = [
 		{
@@ -61,7 +65,13 @@ export default class AdminMenu extends Vue {
 			label: 'Manage Users',
 			route: '/admin/users'
 		},
-	]
+	];
+
+	/* Computed
+	============================================*/
+
+	@Get('appVersion')
+	readonly appVersion: string;
 
 	/* Methods
 	============================================*/
@@ -70,7 +80,6 @@ export default class AdminMenu extends Vue {
 		this.$router.push('/admin/user');
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
 	}
-
 }
 
 </script>
