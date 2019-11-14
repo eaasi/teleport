@@ -19,6 +19,7 @@ class ResourceState {
 	savingEnvironments: string[] = [];
 	saveEnvironmentTaskMap: object = {};
 	availableTemplates: any[] = [];
+	clientComponentId: string = '';
 }
 
 const state = new ResourceState();

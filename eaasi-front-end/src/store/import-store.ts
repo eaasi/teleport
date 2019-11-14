@@ -88,11 +88,12 @@ const actions = {
 
 	/**
 	 * Triggers a snapshot of an imported environment
-	 * @param store
+	 * @param store: Store<ImportState>
+	 * @param componentId: string componentId corresponding with the environment to import
 	 */
-	async saveEnvironmentImport(store: Store<ImportState>) {
+	async saveEnvironmentImport(store: Store<ImportState>, componentId: string) {
 		let snapshot: IEnvironmentImportSnapshot = {
-			componentId: store.state.componentId,
+            componentId: componentId,
 			environmentId: store.state.environment.eaasiID,
 			importSaveDescription:store.state.environment.saveDescription,
 			isRelativeMouse: false,
@@ -102,9 +103,11 @@ const actions = {
 			userId: null
 		};
 
-		let result = await _importService.saveEnvironment(snapshot) as ITaskState;
-		if (!result) console.log('No save result provided by snapshot response');
-		return result;
+		console.log('::: ImportStore ::: snapshot', snapshot);
+
+		// let result = await _importService.saveEnvironment(snapshot) as ITaskState;
+		// if (!result) console.log('No save result provided by snapshot response');
+		// return result;
 	}
 };
 

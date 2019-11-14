@@ -1,8 +1,7 @@
-import { IEnvironment } from './Resource';
-
 export interface IEaasClient {
 	guac: any, // Guacamole.Client
 	params?: IEaasClientParamaters;
+	componentId: string;
 	connect(): Promise<void>;
 	changeMedia(postObj: any, onChangeDone: Function): void;
 	checkpoint(requestData: any): Promise<void>;
@@ -24,7 +23,7 @@ export interface IEaasClient {
 	release(): Promise<any>;
 	sendCtrlAltDel(): Promise<void>;
 	sendEsc(): void;
-	snashot(postObj: any, onChangeDone: Function, errorFn: Function);
+	snapshot(postObj: any, onChangeDone: Function, errorFn: Function);
 	start(componentw: IEaasStartObject[], args?: IStartEnvironmentParams, attachId?: string): Promise<void>;
 	startAndAttach(components: IEaasStartObject[], args?: IStartEnvironmentParams, attachId?: string): Promise<void>;
 	startContainer(containerId: string, args?: any): Promise<void>;
