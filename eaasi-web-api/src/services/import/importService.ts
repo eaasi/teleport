@@ -27,4 +27,23 @@ export default class ImportService extends BaseService {
 		let res = await this._emilEnvService.post('importImage', importData);
 		return await res.json();
 	}
+
+	/**
+	 * Posts Snapshot data to trigger saving an imported resource
+	 */
+	async snapshotImage(snapshotData: any) {
+		let componentId = snapshotData.componentId;
+		let snapshot = {
+			envId: snapshotData.environmentId,
+			isRelativeMouse: snapshotData.isRelativeMouse,
+			message: snapshotData.importSaveDescription,
+			title: snapshotData.title,
+			objectId: null,
+			softwareId: null,
+			type: 'saveImport',
+			userId: null
+		};
+		let res = await this._httpService.post(`/components/${componentId}/snapshot`, snapshot);
+		return await res.json();
+	}
 }

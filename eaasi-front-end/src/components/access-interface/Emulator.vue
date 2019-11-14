@@ -181,8 +181,16 @@
 			console.log('TODO: saveEmulator');
 		}
 
+		saveEnviromentImport() {
+			let saveResult = this.$store.dispatch('import/saveEnvironment');
+			if (!saveResult) return;
+			this.$router.push('resources/my-resources');
+
+		}
+
 		initBusListeners() {
 			eventBus.$on('emulator:save', () => this.saveEmulator());
+			eventBus.$on('emulator:saveEnvironmentImport', () => this.saveEnvironmentImport());
 			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
 			eventBus.$on('emulator:send:escape', () => this.sendEscape());
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
@@ -190,6 +198,7 @@
 
 		removeBusListeners() {
 			eventBus.$off('emulator:save');
+			eventBus.$off('emulator:saveEnvironmentImport');
 			eventBus.$off('emulator:takeScreenshot');
 			eventBus.$off('emulator:send:escape');
 			eventBus.$off('emulator:send:ctrlAltDelete');

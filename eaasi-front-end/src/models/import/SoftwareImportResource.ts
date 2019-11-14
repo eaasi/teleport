@@ -13,4 +13,5 @@ export default class SoftwareImportResource implements IEaasiResource {
 	urlSource: string = '';
 	eaasiID: string = '';
 	chosenTemplateId: string = '';
+	saveDescription: string = '';
 }
