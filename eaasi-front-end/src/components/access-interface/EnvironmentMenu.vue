@@ -64,8 +64,7 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IAction, IEaasiTab } from 'eaasi-nav';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import { Get } from 'vuex-pathify';
+import { IEnvironment } from '@/types/Resource';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -90,9 +89,9 @@ export default class EnvironmentMenu extends Vue {
 		{
 			label: 'Configure New'
 		}
-	]
+	];
 
-	tab: string = 'Configure New'
+	tab: string = 'Configure New';
 
 	/* Computed
 	============================================*/
@@ -127,7 +126,7 @@ export default class EnvironmentMenu extends Vue {
 	height: calc(100vh - #{$accessHeaderHeight});
 	margin-top: $accessHeaderHeight;
 	overflow-y: scroll;
-	width: 43rem;
+	width: $accessMenuWidth;
 	.fa-times {
 		cursor: pointer;
 	}

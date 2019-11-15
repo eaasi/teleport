@@ -1,34 +1,5 @@
 <template>
 	<div>
-		<div class="emulator-actions" v-show="isStarted">
-			<div class="header">EMULATOR ACTIONS</div>
-			<div class="flex-row justify-between">
-				<ui-button
-					icon="camera"
-					green
-					size="sm"
-					@click="takeScreenShot()"
-				>
-					Save Screen Image
-				</ui-button>
-				<ui-button
-					icon="keyboard"
-					green
-					size="sm"
-					@click="sendEscape()"
-				>
-					Esc
-				</ui-button>
-				<ui-button
-					icon="keyboard"
-					green
-					size="sm"
-					@click="sendCtrlAltDelete()"
-				>
-					Ctrl/Alt/Del
-				</ui-button>
-			</div>
-		</div>
 		<section id="emulatorWrapper" ref="_wrapper">
 			<!-- Do not change this div's ID, eaas-client looks for '#emulator-container' -->
 			<div ref="_container" id="emulator-container"></div>
@@ -37,6 +8,7 @@
 </template>
 
 <script lang="ts">
+	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
 	import config from '@/config';
 	import { saveAs } from 'file-saver';
@@ -61,13 +33,13 @@
 		$refs!: {
 			_wrapper: HTMLElement,
 			_container: HTMLElement
-		}
+		};
 
 		/* Props
         ============================================*/
 
 		@Prop({type: Object as () => IEnvironment, required: true})
-		readonly environment: IEnvironment
+		readonly environment: IEnvironment;
 
 		/* Computed
         ============================================*/
@@ -76,7 +48,7 @@
 		loading: boolean;
 
 		@Sync('appError')
-		error: IAppError
+		error: IAppError;
 
 		@Sync('emulatorIsRunning')
 		isStarted: boolean;
@@ -205,15 +177,35 @@
 			canvas.toBlob(blob => saveAs(blob, filename));
 		}
 
+		saveEmulator() {
+			console.log('TODO: saveEmulator');
+		}
+
+		initBusListeners() {
+			eventBus.$on('emulator:save', () => this.saveEmulator());
+			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
+			eventBus.$on('emulator:send:escape', () => this.sendEscape());
+			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
+		}
+
+		removeBusListeners() {
+			eventBus.$off('emulator:save');
+			eventBus.$off('emulator:takeScreenshot');
+			eventBus.$off('emulator:send:escape');
+			eventBus.$off('emulator:send:ctrlAltDelete');
+		}
+
 		/* Lifecycle Hooks
         ============================================*/
 
 		mounted() {
 			this.init();
+			this.initBusListeners();
 		}
 
 		beforeDestroy() {
 			this.stopEnvironment();
+			this.removeBusListeners();
 			this.isStarted = false;
 		}
 
