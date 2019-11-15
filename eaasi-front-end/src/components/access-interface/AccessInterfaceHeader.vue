@@ -24,10 +24,6 @@
 				</span>
 			</div>
 		</div>
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 		<div class="ah-bottom">
 			<div class="ah-options-left">
 				<ui-button
