@@ -102,9 +102,9 @@ export default class EnvironmentImportMetadataFast extends Vue {
 	readonly availableTemplates: any[];
 
 	get chosenTemplateData() {
-		return this.availableTemplates.filter(template => {
+		return this.availableTemplates.find(template => {
 			return template['id'] === this.chosenTemplate;
-		})[0];
+		});
 	}
 
 	// TODO: Request update to structure the serialized data coming from the OpenSLX Eaasi API.
@@ -129,15 +129,15 @@ export default class EnvironmentImportMetadataFast extends Vue {
     */
 
 	get chosenTemplateEmulator() {
-		return this.chosenTemplateData.properties.filter(obj => {
-			return obj['name'] === 'EmulatorContainer';
-		})[0]['value'];
+		const result = this.chosenTemplateData.properties
+			.find(obj => obj['name'] === 'EmulatorContainer')['value'];
+		return result ? result : null;
 	}
 
 	get chosenTemplateArchitecture() {
-		return this.chosenTemplateData.properties.filter(obj => {
-			return obj['name'] === 'Architecture';
-		})[0]['value'];
+		const result = this.chosenTemplateData.properties
+			.find(obj => obj['name'] === 'Architecture')['value'];
+		return result ? result : null;
 	}
 
 	get chosenTemplateNativeConfig() {

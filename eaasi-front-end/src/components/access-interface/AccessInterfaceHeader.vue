@@ -24,7 +24,10 @@
 				</span>
 			</div>
 		</div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 		<div class="ah-bottom">
 			<div class="ah-options-left">
 				<ui-button
@@ -118,6 +121,11 @@
 		right: 0;
 		top: 0;
 		z-index: 2;
+
+		.eaasi-button {
+			margin-right: 2rem;
+		}
+
 
 		.eaasi-button {
 			margin-right: 2rem;

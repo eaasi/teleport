@@ -120,8 +120,8 @@
 
 		async exit() {
 			this.showConfirmExitModal = false;
-			await this.stop();
-			this.$router.go(-1);
+			const result = await this.stop();
+			if (result) this.$router.go(-1);
 		}
 
 		async restart() {
@@ -151,14 +151,8 @@
 
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
 			next(vm => {
-				let isImportedEnvironment = from.name === 'Import Resource';
-
-				if (isImportedEnvironment) {
-					vm.getImportedEnvironment(to.params.envId);
-				} else {
-					vm.getEnvironment(to.params.envId);
-				}
-
+				const { envId } = to.params;
+				from.name === 'Import Resource' ? vm.getImportedEnvironment((envId)) : vm.getEnvironment(envId);
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
 			});
@@ -170,12 +164,6 @@
 			this.stop().then(() => {
 				next();
 			});
-		}
-
-		async stop() {
-			if (!this.$refs._emulator) return;
-			await this.$refs._emulator.stopEnvironment();
-			return true;
 		}
 	}
 
