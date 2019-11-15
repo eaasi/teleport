@@ -4,6 +4,9 @@
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
 			@click:save="save"
+			@click:takeScreenShot="takeScreenShot"
+			@click:sendEscape="sendEscape"
+			@click:sendCtrlAltDelete="sendCtrlAltDelete"
 		/>
 
 		<environment-menu
@@ -144,7 +147,7 @@
 		}
 
 		async stop() {
-			if(!this.$refs._emulator) return;
+			if (!this.$refs._emulator) return;
 			await this.$refs._emulator.stopEnvironment();
 			return true;
 		}
@@ -168,9 +171,7 @@
 				next();
 			});
 		}
-
 	}
-
 </script>
 
 <style lang="scss">

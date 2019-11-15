@@ -9,7 +9,7 @@ import {IAction} from 'eaasi-nav';
  */
 export default class SlideMenuActionResolver {
 	selectedResources: IEnvironment[];
-	userRoleId: number
+	userRoleId: number;
 	action: IAction;
 
 	constructor(selectedResources: IEnvironment[], roleId: number) {
@@ -33,6 +33,11 @@ export default class SlideMenuActionResolver {
 	isSinglePublicResource() : boolean {
 		return this.isSingleSelected()
 			&& this.selectedResources[0].archive === 'public';
+	}
+
+	isSingleDefaultResource() : boolean {
+		return this.isSingleSelected()
+			&& this.selectedResources[0].archive === 'default';
 	}
 
 	isSingleRemoteResource() {
