@@ -113,12 +113,10 @@
 			let vm = this;
 			try {
 				let container = vm.$refs._container;
-				console.log('::: Emulator.vue ::: container', container);
 				let EaasClient = (window as any).EaasClient || null;
 				if (!EaasClient) return;
 				if (!vm.client) {
-					let init = await fetch(config.EAASI_HOST + '/EmilEnvironmentData/init');
-					console.log('::: Emulator.vue ::: init', init);
+					await fetch(config.EAASI_HOST + '/EmilEnvironmentData/init');
 					vm.client = new EaasClient.Client(config.EAASI_HOST, container);
 				}
 				if (!vm.bwfla) {
@@ -126,8 +124,6 @@
 				}
 				vm.setupListeners();
 				vm.startEnvironment();
-
-				console.log('::: Emulator.vue ::: this.client', this.client);
 
 			} catch(e) {
 				this.handleError(e);
@@ -140,16 +136,13 @@
 			try {
 				let data = new MachineComponentRequest(vm.environment);
 				let params = new StartEnvironmentParams(vm.environment);
-
-				console.log('::: Emulator.vue ::: data:', data);
-				console.log('::: Emulator.vue ::: params:', params);
-
 				let keyboardPrefs = vm.getKeyboardPreferences();
 				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
 				await vm.client.start([{data, vizualize: true}], params);
 				vm.isStarted = true;
 				await vm.client.connect();
 				vm.attachUserControls();
+				this.clientComponentId = vm.client['componentId'];
 			} catch(e) {
 				vm.handleError(e);
 			}
@@ -197,7 +190,6 @@
 
 		saveEnvironmentImport() {
 			let saveResult = this.$store.dispatch('import/saveEnvironmentImport', this.clientComponentId);
-			console.log('::: Emulator ::: this.clientComponentId', this.clientComponentId);
 			if (!saveResult) return;
 			// this.$router.push('resources/my-resources');
 		}

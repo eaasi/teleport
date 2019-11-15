@@ -95,7 +95,7 @@ const actions = {
 		let snapshot: IEnvironmentImportSnapshot = {
             componentId: componentId,
 			environmentId: store.state.environment.eaasiID,
-			importSaveDescription:store.state.environment.saveDescription,
+			importSaveDescription: store.state.saveDescription,
 			isRelativeMouse: false,
 			objectId: null,
 			softwareId: null,
