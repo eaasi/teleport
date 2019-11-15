@@ -3,13 +3,13 @@ import config from '@/config';
 import Cookies from 'js-cookie';
 
 export default class EaasiApiRequestInit implements RequestInit {
-	readonly body?: any
-	readonly method: string
-	readonly credentials: RequestCredentials
-	readonly mode: RequestMode = 'cors'
-	options: IEaasiApiRequestOptions
-	headers: HeadersInit
-	url: string
+	readonly body?: any;
+	readonly method: string;
+	readonly credentials: RequestCredentials;
+	readonly mode: RequestMode = 'cors';
+	options: IEaasiApiRequestOptions;
+	headers: HeadersInit;
+	url: string;
 
 	constructor(url: string, method: string, data: any = null, options?: IEaasiApiRequestOptions) {
 		let token = Cookies.get(config.JWT_NAME);

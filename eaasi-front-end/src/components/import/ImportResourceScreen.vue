@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { ResourceImportPath, ImportType } from '@/types/Import';
 import ConfigureHardware from './environment/EnvironmentConfigureHardware.vue';
@@ -44,16 +44,18 @@ export default class ImportResourceScreen extends Vue {
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	@Sync('import/importPath')
-	importPath: ResourceImportPath
+	importPath: ResourceImportPath;
 
 	@Sync('import/importType')
-	type: ImportType
+	type: ImportType;
 
 	get showConfigureHardware() {
-		return this.type === 'environment' && this.step >= 3;
+		return false;
+		// TODO: When metadata integration is enabled
+		//  return this.type === 'environment' && this.step >= 3;
 	}
 
 	get showPathSelect() {
@@ -62,7 +64,6 @@ export default class ImportResourceScreen extends Vue {
 			this.type === 'software'
 		);
 	}
-
 }
 
 </script>

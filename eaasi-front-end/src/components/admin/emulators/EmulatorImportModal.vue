@@ -34,7 +34,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
-import { ITaskState } from '../../../types/Task';
+import { ITaskState } from '@/types/Task';
 
 @Component({
 	name: 'EmulatorModal'
@@ -62,7 +62,6 @@ export default class EmulatorImportModal extends Vue {
 		this.$store.commit('SET_ACTIVE_TASK', task);
 		this.$emit('close');
 	}
-
 }
 
 </script>

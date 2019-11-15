@@ -25,41 +25,41 @@ export default class BaseFormField extends Vue {
 	 * Hides the label when try
 	 */
 	@Prop({type: Boolean, required: false})
-	readonly hideLabel: boolean
+	readonly hideLabel: boolean;
 
 	/**
 	 * The label to display above the field
 	 */
 	@Prop({type: String, required: false})
-	readonly label: string
+	readonly label: string;
 
 	/**
 	 * Pipe "|" delimited validation rules
 	 */
 	@Prop({type: [String, Function], required: false})
-	readonly rules: string | Function
+	readonly rules: string | Function;
 
 	/**
 	 * The value of the field
 	 */
 	@Prop({required: true})
-	readonly value: any
+	readonly value: any;
 
 	/* Data
 	============================================*/
 
-	canValidate: boolean = false
-	error: string | null = null
+	canValidate: boolean = false;
+	error: string | null = null;
 	id: string = Math.random().toString(36).substr(2, 10);
-	warning: string | null = null
+	warning: string | null = null;
 
 	/* Computed
 	============================================*/
 
 	get fieldStatus(): string {
-		if(this.error !== null) return 'error';
-		if(this.warning !== null) return 'warning';
-		if(this.isValid) return 'valid';
+		if (this.error !== null) return 'error';
+		if (this.warning !== null) return 'warning';
+		if (this.isValid) return 'valid';
 		return '';
 	}
 
@@ -112,19 +112,19 @@ export default class BaseFormField extends Vue {
 	validate(): string | null {
 		let error = null;
 
-		if(!this.canValidate || !this.rules) {
+		if (!this.canValidate || !this.rules) {
 			return error;
 		}
 
-		if(typeof this.rules === 'string') {
+		if (typeof this.rules === 'string') {
 			error = validator.validate(this.rules, this.value, this.label);
 		}
 
-		else if(typeof this.rules === 'function') {
+		else if (typeof this.rules === 'function') {
 			error = this.rules(this.value);
 		}
 
-		if(error !== null) {
+		if (error !== null) {
 			this.$emit('error', error);
 		}
 
@@ -138,14 +138,14 @@ export default class BaseFormField extends Vue {
 
 	@Watch('value')
 	onValueUpdated(newVal: any, oldVal: any) {
-		if(newVal !== oldVal) {
+		if (newVal !== oldVal) {
 			this.validate();
 		}
 	}
 
 	@Watch('rules')
 	onRulesUpdated(newVal: any, oldVal: any) {
-		if(newVal !== oldVal) {
+		if (newVal !== oldVal) {
 			this.validate();
 		}
 	}

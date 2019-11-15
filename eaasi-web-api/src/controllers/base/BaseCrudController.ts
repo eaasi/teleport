@@ -13,9 +13,11 @@ import BaseController from './BaseController';
  */
 export default class BaseCrudController extends BaseController implements ICrudController {
 
-	private _crudService: CrudService;
+	//eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private _crudService: CrudService<any>;
 
-	constructor(crudService: CrudService) {
+	//eslint-disable-next-line @typescript-eslint/no-explicit-any
+	constructor(crudService: CrudService<any>) {
 		super();
 		this._crudService = crudService;
 	}

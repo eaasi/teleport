@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 import { Sync } from 'vuex-pathify';
 
@@ -51,17 +51,16 @@ export default class SoftwareGeneralInfoForm extends Vue {
 	============================================*/
 
 	@Sync('import/software@title')
-	title: string
+	title: string;
 
 	@Sync('import/software@localIdentifier')
-	localIdentifier: string
+	localIdentifier: string;
 
 	@Sync('import/software@localIdentifierSource')
-	localIdentifierSource: string
+	localIdentifierSource: string;
 
 	@Sync('import/software@version')
-	version: string
-
+	version: string;
 }
 
 </script>
