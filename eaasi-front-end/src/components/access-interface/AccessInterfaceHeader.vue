@@ -122,10 +122,6 @@
 			margin-right: 2rem;
 		}
 
-		.eaasi-button {
-			margin-right: 2rem;
-		}
-
 		.ah-warning-message {
 			font-size: 1.5rem;
 		}
