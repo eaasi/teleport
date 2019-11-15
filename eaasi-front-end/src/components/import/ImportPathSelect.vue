@@ -30,11 +30,6 @@
 		<div v-if="value !== 'Unselected'">
 			<div class="flex-row justify-between">
 				<h3>About This Resource</h3>
-				<dual-toggle
-					:options="['Fast', 'Detailed']"
-					:value="value"
-					@input="$emit('input', $event)"
-				/>
 			</div>
 		</div>
 	</div>

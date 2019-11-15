@@ -40,7 +40,7 @@ export default [
 	============================================*/
 	{
 		path: '/admin',
-		name: 'Emulators',
+		name: 'Admin',
 		component: EmulatorManagement
 	},
 	{
@@ -93,12 +93,12 @@ export default [
 	},
 	{
 		path: '/resources/software',
-		name: 'Resource Detail',
+		name: 'Software Resource Detail',
 		component: ResourceDetailsScreen
 	},
 	{
 		path: '/resources/environment',
-		name: 'Resource Detail',
+		name: 'Environment Resource Detail',
 		component: ResourceDetailsScreen
 	},
 	{

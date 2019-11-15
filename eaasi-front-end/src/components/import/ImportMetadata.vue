@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import ContentImportMetadata from '@/components/import/content/ContentImportMetadata.vue';
 import EnvironmentImportMetadata from '@/components/import/environment/EnvironmentImportMetadata.vue';
 import ImportPathSelect from './ImportPathSelect.vue';
@@ -34,10 +34,10 @@ export default class ImportMetadata extends Vue {
 	============================================*/
 
 	@Get('import/importType')
-	readonly type: ImportType
+	readonly type: ImportType;
 
 	@Sync('import/importPath')
-	readonly path: ResourceImportPath
+	readonly path: ResourceImportPath;
 
 }
 

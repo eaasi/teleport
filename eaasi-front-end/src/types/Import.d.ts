@@ -14,3 +14,10 @@ export interface IResourceImportFile extends ISortable {
 	file: File,
 	name: string
 }
+
+export interface IImageImport {
+	nativeConfig?: string,
+	patchId?: string,
+	templateId?: string,
+	urlString?: string
+}

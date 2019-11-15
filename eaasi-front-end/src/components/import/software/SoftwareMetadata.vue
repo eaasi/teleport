@@ -5,7 +5,9 @@
 				readonly
 				label="Name"
 				v-model="title"
+				rules="required"
 			/>
+
 			<ui-button
 				secondary
 				icon="chevron-left"
@@ -14,7 +16,7 @@
 				Back To Metadata
 			</ui-button>
 		</div>
-		<div v-if="step == 1">
+		<div v-if="step === 1">
 			<div v-if="importPath === 'Fast'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<software-general-info-form />
@@ -70,10 +72,10 @@
 </template>
 
 <script lang="ts">
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import ImportPathSelect from '../ImportPathSelect.vue';
-import { IEaasiResource } from '@/types/Resource';
 import { ResourceImportPath } from '@/types/Import';
 import SoftwareGeneralInfoForm from '@/components/import/software/SoftwareGeneralInfoForm.vue';
 import SoftwareProductMetadataForm from '@/components/import/software/SoftwareProductMetadataForm.vue';
@@ -96,25 +98,26 @@ export default class SoftwareMetadata extends Vue {
 
 	$refs!: {
 		_form: EaasiForm
-	}
+	};
 
 	/* Computed
 	============================================*/
+	@Sync('import/importPath')
+	importPath: ResourceImportPath;
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	@Get('import/software@title')
-	readonly title: string
+	readonly title: string;
 
-	@Sync('import/importPath')
-	importPath: ResourceImportPath
+	@Sync('import/software')
+	software: EnvironmentImportResource;
 
 	/* Data
 	============================================*/
 
-	versions: any[] = [{id: 1}] // TODO:
-
+	versions: any[] = [{id: 1}]; // TODO
 
 	/* Methods
 	============================================*/
@@ -134,13 +137,6 @@ export default class SoftwareMetadata extends Vue {
 		let form: any = this.$refs._form;
 		form.submit();
 	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
-
 }
 
 </script>

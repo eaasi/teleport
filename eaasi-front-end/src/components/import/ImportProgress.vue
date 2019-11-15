@@ -24,11 +24,13 @@
 </template>
 
 <script lang="ts">
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { Sync } from 'vuex-pathify';
+import {Component, Watch} from 'vue-property-decorator';
+import {Get, Sync} from 'vuex-pathify';
 import { NumberedSteps, UiButton } from '@/components/global';
-import { INumberedStep } from '../../types/NumberedStep';
+import { INumberedStep } from '@/types/NumberedStep';
 
 @Component({
 	name: 'ImportProgress',
@@ -55,30 +57,61 @@ export default class ImportProgress extends Vue {
 			stepNumber: 3,
 			description: 'FINISH'
 		},
-	]
+	];
 
 	/* Computed
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
+
+	@Sync('activeTaskResult')
+	activeTaskResult: any;
+
+	@Get('import/software')
+	software: SoftwareImportResource;
+
+	@Get('import/environment')
+	environment: EnvironmentImportResource;
+
+	@Get('import/environment@chosenTemplateId')
+	chosenTemplateId:  string;
+
+	@Sync('import/environment@eaasiID')
+	eaasiID: string;
+
+	@Sync('import/environment@isUrlSource')
+	isUrlSource: boolean;
 
 	get nextButtonLabel() {
-		if(this.step == this.steps.length) return 'Finish Import';
+		if (this.step == this.steps.length) return 'Finish Import';
 		return 'Next';
 	}
 
 	/* Methods
 	============================================*/
 
-	doImport() {
-		this.$store.dispatch('import/import');
+	async doImport() {
+		let task = await this.$store.dispatch('import/import');
+		if (!task) return;
+		this.$store.commit('SET_ACTIVE_TASK', task);
 	}
 
 	reset() {
 		this.$store.commit('import/RESET');
 	}
 
+	/* Watchers
+	============================================*/
+
+	@Watch('activeTaskResult')
+	onTaskComplete(taskResult: any) {
+		// TODO: Distinguish between Environment / Software / Content Import
+		// Environment Import
+		// When an import task is complete, get the environmentId and push into Access Interface
+		this.eaasiID = taskResult.userData.environmentId;
+		this.$router.push(`/access-interface/${this.eaasiID}`);
+	}
 }
 
 </script>

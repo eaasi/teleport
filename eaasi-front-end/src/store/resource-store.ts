@@ -18,6 +18,7 @@ class ResourceState {
 	result: IResourceSearchResponse = null;
 	savingEnvironments: string[] = [];
 	saveEnvironmentTaskMap: object = {};
+	availableTemplates: any[] = [];
 }
 
 const state = new ResourceState();
@@ -115,6 +116,11 @@ const actions = {
 		const { environments, software, content } = state.result;
 		const facets = populateFacets(environments, software, content);
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
+	},
+
+	async getTemplates({ state, commit }) {
+		let result = await _svc.getTemplates();
+		commit('SET_AVAILABLE_TEMPLATES', result);
 	}
 };
 

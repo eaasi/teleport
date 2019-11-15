@@ -41,9 +41,7 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEmulator, IEmulatorEntry } from 'eaasi-admin';
-import { Get } from 'vuex-pathify';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
-import { ITaskState } from '../../../types/Task';
 import EaasiTask from '@/models/task/EaasiTask';
 
 @Component({
@@ -55,7 +53,7 @@ export default class EmulatorModal extends Vue {
 	============================================*/
 
 	@Prop({type: Object as () => IEmulator, required: true})
-	readonly emulator: IEmulator
+	readonly emulator: IEmulator;
 
 	get title() {
 		return `${this.emulator.name.toUpperCase()} Images`;

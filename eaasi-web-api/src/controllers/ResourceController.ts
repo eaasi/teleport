@@ -93,4 +93,28 @@ export default class ResourceController extends BaseController {
 			this.sendError(e.message, res);
 		}
 	}
+
+	/**
+	 * Gets available environment templates object
+	 */
+	async getEnvironmentTemplates(req: Request, res: Response) {
+		try {
+			let result = await this._svc.getEnvironmentTemplates();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Gets available patches object
+	 */
+	async getPatches(req: Request, res: Response) {
+		try {
+			let result = await this._svc.getPatches();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
 }
