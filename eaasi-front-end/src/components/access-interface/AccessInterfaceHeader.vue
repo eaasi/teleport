@@ -122,7 +122,6 @@
 			margin-right: 2rem;
 		}
 
-
 		.eaasi-button {
 			margin-right: 2rem;
 		}
