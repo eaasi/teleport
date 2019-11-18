@@ -28,7 +28,6 @@
 					<text-area-input
 						label="New Environment Description"
 						rules="required"
-						@change="logDesc"
 						v-model="newImportDescription"
 					/>
 					<ui-button block @click="saveImport">Save Environment Import</ui-button>
@@ -86,7 +85,7 @@
 <script lang="ts">
 import eventBus from '@/utils/event-bus';
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
 import {Get, Sync} from 'vuex-pathify';
@@ -97,18 +96,14 @@ import {Get, Sync} from 'vuex-pathify';
 	}
 })
 export default class EnvironmentMenu extends Vue {
+	/* Data
+	============================================*/
+	newImportDescription: string;  // TODO: this will become an object when more metadata is available
 
 	/* Computed
 	============================================*/
-	@Sync('import/saveDescription')
-	newImportDescription: string = '';
-
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment;
-
-	logDesc() {
-		console.log(this.newImportDescription);
-	}
 
 	get tabs(): IEaasiTab[] {
 		if (this.environment.isImport) {
@@ -141,7 +136,7 @@ export default class EnvironmentMenu extends Vue {
 	 * Emits an event to save an imported environment
 	 */
 	saveImport() {
-		eventBus.$emit('emulator:saveEnvironmentImport');
+		eventBus.$emit('emulator:saveEnvironmentImport', this.newImportDescription);
 	}
 }
 

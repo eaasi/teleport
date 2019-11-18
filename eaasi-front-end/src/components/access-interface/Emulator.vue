@@ -11,7 +11,9 @@
 	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
 	import config from '@/config';
+	// noinspection TypeScriptCheckImport
 	import { saveAs } from 'file-saver';
+	// noinspection TypeScriptCheckImport
 	import cookies from 'js-cookie';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
@@ -188,15 +190,24 @@
 			console.log('TODO: saveEmulator');
 		}
 
-		saveEnvironmentImport() {
-			let saveResult = this.$store.dispatch('import/saveEnvironmentImport', this.clientComponentId);
+		async saveEnvironmentImport(importDesc: string) {  // TODO: arg will be object when metadata is ready
+			let importData = {
+				saveDesc: importDesc,
+				componentId: this.clientComponentId
+			};
+
+			let saveResult = this.$store.dispatch('import/saveEnvironmentImport', importData);
+
 			if (!saveResult) return;
-			// this.$router.push('resources/my-resources');
+
+			await this.stopEnvironment();
+
+			this.$router.push('/resources/my-resources');
 		}
 
 		initBusListeners() {
 			eventBus.$on('emulator:save', () => this.saveEmulator());
-			eventBus.$on('emulator:saveEnvironmentImport', () => this.saveEnvironmentImport());
+			eventBus.$on('emulator:saveEnvironmentImport', (importDesc) => this.saveEnvironmentImport(importDesc));
 			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
 			eventBus.$on('emulator:send:escape', () => this.sendEscape());
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());

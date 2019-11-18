@@ -3,6 +3,8 @@ import IHttpService from '@/services/interfaces/IHttpService';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 
+const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL;
+
 /**
  * Handles resource import processes
  */
@@ -32,18 +34,33 @@ export default class ImportService extends BaseService {
 	 * Posts Snapshot data to trigger saving an imported resource
 	 */
 	async snapshotImage(snapshotData: any) {
+		console.log('::: importService ::: snapshotImage', snapshotData);
+
 		let componentId = snapshotData.componentId;
+
 		let snapshot = {
 			envId: snapshotData.environmentId,
 			isRelativeMouse: snapshotData.isRelativeMouse,
 			message: snapshotData.importSaveDescription,
-			title: snapshotData.title,
 			objectId: null,
 			softwareId: null,
+			title: snapshotData.title,
 			type: 'saveImport',
 			userId: null
 		};
-		let res = await this._httpService.post(`/components/${componentId}/snapshot`, snapshot);
-		return await res.json();
+
+		console.log('::: importService ::: snapshot', snapshot);
+
+		let url = `${BASE_URL}/emil/components/${componentId}/snapshot`;
+
+		console.log('::: importService ::: url', url);
+
+		let res = await this._httpService.post(url, snapshot);
+
+		let response = await res.json();
+
+		console.log('::: importService ::: response.json', response);
+
+		return await response;
 	}
 }

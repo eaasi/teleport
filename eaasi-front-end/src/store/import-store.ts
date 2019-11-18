@@ -25,7 +25,6 @@ class ImportState {
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	componentId: string = '';
-	saveDescription: string = '';
 }
 
 const state = new ImportState();
@@ -45,7 +44,6 @@ mutations.RESET = (state) => {
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 	state.componentId= '';
-	state.saveDescription = '';
 };
 
 
@@ -57,7 +55,6 @@ mutations.INIT_FOR_TYPE = (state) => {
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 	state.componentId= '';
-	state.saveDescription = '';
 };
 
 /*============================================================
@@ -89,13 +86,13 @@ const actions = {
 	/**
 	 * Triggers a snapshot of an imported environment
 	 * @param store: Store<ImportState>
-	 * @param componentId: string componentId corresponding with the environment to import
+	 * @param importData: any object containing environment metadata to import
 	 */
-	async saveEnvironmentImport(store: Store<ImportState>, componentId: string) {
+	async saveEnvironmentImport(store: Store<ImportState>, importData: any) {
 		let snapshot: IEnvironmentImportSnapshot = {
-            componentId: componentId,
+            componentId: importData.componentId,
 			environmentId: store.state.environment.eaasiID,
-			importSaveDescription: store.state.saveDescription,
+			importSaveDescription: importData.saveDesc,
 			isRelativeMouse: false,
 			objectId: null,
 			softwareId: null,
@@ -105,9 +102,9 @@ const actions = {
 
 		console.log('::: ImportStore ::: snapshot', snapshot);
 
-		// let result = await _importService.saveEnvironment(snapshot) as ITaskState;
-		// if (!result) console.log('No save result provided by snapshot response');
-		// return result;
+		let result = await _importService.saveEnvironment(snapshot) as ITaskState;
+		if (!result) console.log('No save result provided by snapshot response');
+		return result;
 	}
 };
 

@@ -31,6 +31,7 @@ export default class ImportController extends BaseController {
 	 * Makes a request to import a resource from a URL
 	 */
 	async saveImportEnvironment(req: Request, res: Response) {
+		console.log('::: ImportController ::: saveImportEnvironment req.body', req.body);
 		try {
 			if (!req.body) this.sendClientError('Request to snapshot environment import requires request body', res);
 			let result = await this._svc.snapshotImage(req.body);
