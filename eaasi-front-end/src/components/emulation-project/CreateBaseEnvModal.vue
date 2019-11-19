@@ -50,7 +50,7 @@
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
-				<ui-button @click="$emit('close')" secondary>Cancel</ui-button>
+				<ui-button @click="$emit('close')" color-preset="light-blue">Cancel</ui-button>
 			</div>
 			<div class="justify-end buttons-right">
 				<ui-button @click="$emit('save')">Save</ui-button>

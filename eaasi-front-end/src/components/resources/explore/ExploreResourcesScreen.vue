@@ -44,7 +44,7 @@
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
-			@resource-updated="search"
+			@bookmarks-updated="search"
 		/>
 	</div>
 </template>

@@ -8,10 +8,7 @@
 			</p>
 			<p>Don’t give up! Try a new search or you can…</p>
 			<div class="flex flex-row">
-				<!-- <ui-button size="md" secondary>
-					Browse Your Node
-				</ui-button> -->
-				<ui-button size="md" secondary style="margin-left: 3rem;" @click="clearSearch">
+				<ui-button size="md" color-preset="light-blue" style="margin-left: 3rem;" @click="clearSearch">
 					Browse All Resources
 				</ui-button>
 			</div>
@@ -42,7 +39,7 @@ export default class  extends Vue {
         this.query = new ResourceSearchQuery();
         await this.$store.dispatch('resource/searchResources');
 	}
-	
+
 	// getNodeResources() {
 		// TODO: Search for all resources with archiveID === public
 	// }

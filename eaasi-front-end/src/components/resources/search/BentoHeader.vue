@@ -16,7 +16,7 @@
 				@click="$emit('click:all')"
 				icon="chevron-right"
 				icon-right
-				secondary
+				color-preset="light-blue"
 				size="sm"
 				v-if="result.result.length < result.totalResults"
 			>
@@ -25,7 +25,7 @@
 			<ui-button
 				@click="$emit('clear-search')"
 				icon-right
-				secondary
+				color-preset="light-blue"
 				size="sm"
 				v-if="result.result.length === result.totalResults && result.result.length"
 			>

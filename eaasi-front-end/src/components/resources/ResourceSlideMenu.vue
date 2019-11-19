@@ -14,7 +14,7 @@
 						<span v-else-if="resources.length === 1" class="flex-adapt">
 							{{ resources[0].title }}
 						</span>
-						<i class="fas fa-times" @click="$emit('close')"></i>
+						<i class="fas fa-times" @click="$emit('toggle')"></i>
 					</div>
 					<tabbed-nav
 						v-if="hasDetails"
@@ -105,6 +105,7 @@
 </template>
 
 <script lang="ts">
+	import {MultiBookmarkRequest} from '@/types/Bookmark';
 	import Vue from 'vue';
 	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 	import SlideMenu from '@/components/layout/SlideMenu.vue';
@@ -213,6 +214,10 @@
 
 			if (this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT) {
 				await resourceService.getEnvironment(resource.envId).then((env) => {
+
+					let enableInternet = env.enableInternet.toString() || 'false';
+					let enablePrinting = env.enablePrinting.toString() || 'false';
+
 					let detailsItems = [
 						{
 							label: 'Description',
@@ -220,11 +225,11 @@
 						},
 						{
 							label: 'Internet Enabled',
-							value: env.enableInternet.toString()
+							value: enableInternet
 						},
 						{
 							label: 'Printing Enabled',
-							value: env.enablePrinting.toString()
+							value: enablePrinting
 						},
 						{
 							label: 'Operating System',
@@ -275,10 +280,16 @@
 			if (result) this.$emit('resource-updated');
 		}
 
+		// TODO: Refactor doAction and multiple / single selected resource logic
+
 		doAction(action: IAction) {
 			if (!action.isEnabled) return;
-			const isEnvironment = this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT;
-			const isSoftware = this.onlySelectedResource.resourceType === resourceTypes.SOFTWARE;
+
+            const isEnvironment = this.resources.length === 1
+				&& this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT;
+
+            const isSoftware = this.resources.length === 1
+				&& this.onlySelectedResource.resourceType === resourceTypes.SOFTWARE;
 
 			switch (action.shortName) {
 				case 'run':
@@ -297,6 +308,23 @@
 						const resourceId = this.onlySelectedResource.id.toString();
 						this.$router.push({ path:'/resources/software', query: { resourceId } });
 					}
+					break;
+				case 'bookmark':
+					// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
+					let resourceIds = this.resources.map(resource =>
+						resource.resourceType === resourceTypes.ENVIRONMENT
+							? resource.envId
+							: resource.id
+					);
+
+					let bookmarksRequest: MultiBookmarkRequest = {
+						userID: this.user.id,
+						resourceIDs: resourceIds as string[]
+					};
+
+					this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
+						this.$emit('bookmarks-updated');
+					});
 					break;
 				case 'save':
 					this.confirmAction = 'save';

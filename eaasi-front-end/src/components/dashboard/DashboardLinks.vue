@@ -12,7 +12,7 @@
 							@click="$emit('click:new-resources')"
 							icon="chevron-right"
 							icon-right
-							secondary
+							color-preset="light-blue"
 							block
 							size="md"
 						>
@@ -32,7 +32,7 @@
 							@click="$emit('click:network')"
 							icon="chevron-right"
 							icon-right
-							secondary
+							color-preset="light-blue"
 							block
 							size="md"
 						>
@@ -52,7 +52,7 @@
 							@click="$emit('click:my-resources')"
 							icon="chevron-right"
 							icon-right
-							secondary
+							color-preset="light-blue"
 							block
 							size="md"
 						>

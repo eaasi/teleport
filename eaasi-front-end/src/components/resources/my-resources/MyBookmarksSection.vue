@@ -10,10 +10,10 @@
 				</p>
 			</div>
 			<div class="btn-section">
-				<ui-button secondary @click="clearBookmarks" v-if="bookmarks.length">
-					Clear ALL Bookmarks
+				<ui-button color-preset="light-blue" @click="raiseClearBookmarksModal" v-if="bookmarks.length">
+					Clear All Bookmarks
 				</ui-button>
-				<ui-button secondary @click="$router.push('explore')" v-else>
+				<ui-button color-preset="light-blue" @click="$router.push('explore')" v-else>
 					Add Bookmarks
 				</ui-button>
 			</div>
@@ -56,11 +56,23 @@
 				</div>
 			</div>
 		</div>
+		<confirm-modal
+			cancel-label="Cancel"
+			confirm-label="Clear All Bookmarks"
+			title="Clear All Bookmarks"
+			v-if="isClearBookmarksModalVisible"
+			@close="closeClearBookmarksModal"
+			@click:confirm="clearBookmarks"
+		>
+			<alert-card type="warning">
+				You are about to clear all of your bookmarks! Your bookmarked environments will no longer appear under "My Bookmarks." This action cannot be undone.
+			</alert-card>
+		</confirm-modal>
 	</div>
 </template>
 
 <script lang="ts">
-import { resourceTypes } from '@/utils/constants';
+import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
@@ -73,7 +85,7 @@ import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import User from '../../../models/admin/User';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 
 @Component({
     name: 'MyBookmarksScreen',
@@ -81,31 +93,31 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 		AppliedSearchFacets,
 		ResourceFacets,
 		ResourceList,
-		ResourceSlideMenu
+		ResourceSlideMenu,
+		ConfirmModal
 	}
 })
 export default class  extends Vue {
-
     /* Computed
     ============================================*/
 
     @Sync('resource/selectedResources')
-    selectedResources: IEaasiResource[]
+    selectedResources: IEaasiResource[];
 
     @Sync('resource/query')
     query: ResourceSearchQuery;
 
     @Get('resource/result')
-    bentoResult: IResourceSearchResponse
+    bentoResult: IResourceSearchResponse;
 
     @Sync('resource/query@selectedFacets')
-    selectedFacets: IResourceSearchFacet[]
+    selectedFacets: IResourceSearchFacet[];
 
     @Get('loggedInUser')
     user: User;
 
     @Get('bookmark/bookmarks')
-    bookmarks: IBookmark[]
+    bookmarks: IBookmark[];
 
     get hasSelectedFacets() {
         return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
@@ -129,8 +141,9 @@ export default class  extends Vue {
         return {...searchResult, result};
     }
 
-    /* Data
+	/* Data
     ============================================*/
+	isClearBookmarksModalVisible: boolean = false;
 
 
     /* Methods
@@ -163,8 +176,17 @@ export default class  extends Vue {
         this.$router.push('explore');
     }
 
+	raiseClearBookmarksModal() {
+    	this.isClearBookmarksModalVisible = true;
+	}
+
+	closeClearBookmarksModal() {
+    	this.isClearBookmarksModalVisible = false;
+	}
+
     async clearBookmarks() {
         await this.$store.dispatch('bookmark/clearBookmarks', this.user.id);
+        this.isClearBookmarksModalVisible = false;
     }
 
     /* Lifecycle Hooks
@@ -181,7 +203,7 @@ export default class  extends Vue {
 
     /* Watcher
     ============================================*/
-    
+
 	@Watch('bookmarks')
 	onBookmarksChange() {
         if(this.bentoResult) this.populateFacets();

@@ -11,7 +11,7 @@
 						<ui-button :disabled="!isReadyToRun">Run</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button secondary>Clear Project</ui-button>
+						<ui-button color-preset="light-blue">Clear Project</ui-button>
 					</div>
 				</div>
 			</template>

@@ -1,16 +1,16 @@
 <template>
 	<div class="applied-facets-wrapper flex-row">
 		<div class="applied-facets flex-row flex-wrap">
-			<div 
-				v-for="facet in selectedFacets" 
-				:key="facet.name" 
+			<div
+				v-for="facet in selectedFacets"
+				:key="facet.name"
 				class="active-facet flex-row"
 			>
 				<facet-chip-group :facet="facet" @deselect="deselectFacetValue" />
 			</div>
 		</div>
 		<div class="btn-section">
-			<ui-button secondary @click="deselectAllFacetValues">
+			<ui-button color-preset="light-blue" @click="deselectAllFacetValues">
 				Clear ALL Filters
 			</ui-button>
 		</div>

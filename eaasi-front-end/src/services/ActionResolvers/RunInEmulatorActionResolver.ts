@@ -15,7 +15,6 @@ export default class RunInEmulatorActionResolver extends SlideMenuActionResolver
 	 */
 	get action() : IAction {
 		// Disabled if resource is int a single public resource
-		console.log('action!');
 		return {
 			shortName: 'run',
 			label: 'Run in Emulator',

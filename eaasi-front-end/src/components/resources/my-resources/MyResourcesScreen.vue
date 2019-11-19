@@ -8,7 +8,6 @@
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
-			@resource-updated="search"
 		/>
 	</div>
 </template>
