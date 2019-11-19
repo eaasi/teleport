@@ -45,7 +45,6 @@ export default class ImportMetadata extends Vue {
 
 <style lang="scss">
 .import-metadata {
-	background-color: lighten($light-neutral, 80%);
 	border-bottom: solid 2px darken($light-neutral, 10%);
 }
 </style>
