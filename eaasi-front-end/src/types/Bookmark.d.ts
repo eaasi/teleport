@@ -10,3 +10,8 @@ export interface BookmarkRequest {
     resourceID: string;
     userID: number;
 }
+
+export interface MultiBookmarkRequest {
+	resourceIDs: string[];
+	userID: number;
+}

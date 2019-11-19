@@ -1,7 +1,8 @@
+import {IEaasiResource} from '@/types/Resource';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/BookmarkService';
 import { Store } from 'vuex';
-import { IBookmark, BookmarkRequest } from '@/types/Bookmark';
+import {IBookmark, BookmarkRequest, MultiBookmarkRequest} from '@/types/Bookmark';
 
 /*============================================================
  == State
@@ -52,8 +53,24 @@ const actions = {
         const result = await _svc.clearBookmarks(userID);
         if (!result) return;
         commit('SET_BOOKMARKS', []);
-    }
+    },
 
+	/**
+	 * // TODO: Update API endpoint to accept a post request with a list of bookmarks
+	 * Bookmarks many resourceIDs
+	 * @param state
+	 * @param dispatch
+	 * @param bookmarksRequest
+	 */
+	async bookmarkMany({ state, dispatch }: Store<BookmarkStore>, bookmarksRequest: MultiBookmarkRequest) {
+    	const userId = bookmarksRequest.userID;
+    	const resourceIds = bookmarksRequest.resourceIDs;
+    	resourceIds.map(id => {
+    		if (!state.bookmarks.find(bm => bm.resourceID === id)) {
+    			dispatch('createBookmark', { userID: userId, resourceID: id});
+			}
+		});
+	}
 };
 
 /*============================================================

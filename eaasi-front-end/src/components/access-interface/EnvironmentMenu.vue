@@ -19,7 +19,7 @@
 			<collapsable
 				title="Did you change OS settings?"
 				open-title="I made these changes to OS settings..."
-				secondary
+				color-preset="light-blue"
 				:collapsed="true"
 				class="white-bg"
 			>
@@ -32,7 +32,7 @@
 			<collapsable
 				title="Did you install new software?"
 				open-title="I installed the following software.."
-				secondary
+				color-preset="light-blue"
 				:collapsed="true"
 				class="white-bg"
 			>
@@ -46,7 +46,7 @@
 			<collapsable
 				title="Did you make software changes?"
 				open-title="I made these software changes.."
-				secondary
+				color-preset="light-blue"
 				:collapsed="true"
 				class="white-bg"
 			>

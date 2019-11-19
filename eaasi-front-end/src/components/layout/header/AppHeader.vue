@@ -3,7 +3,7 @@
 		<div id="headerSearch" class="flex-grow">
 			<form @submit.prevent="search">
 				<search-bar
-					placeholder="Enter a search term..."
+					placeholder="Search resources..."
 					:border-color="searchBorderColor"
 					v-model="searchKeyword"
 					name="q"

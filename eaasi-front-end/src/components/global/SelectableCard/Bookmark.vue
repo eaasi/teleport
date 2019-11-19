@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
+	import {Component, Prop, Watch} from 'vue-property-decorator';
 import Vue from 'vue';
 
 	/**
@@ -81,7 +81,16 @@ import Vue from 'vue';
 			this.isActive = !this.isActive;
 			this.$emit('bookmarked', this.isActive);
 		}
-}
+
+		/* Watcherss
+        ============================================*/
+		@Watch('initState')
+		onWatchChange(newValue, oldValue) {
+			if (oldValue !== newValue) {
+				this.isActive = this.initState;
+			}
+		}
+	}
 
 </script>
 

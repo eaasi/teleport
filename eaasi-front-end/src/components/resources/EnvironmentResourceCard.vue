@@ -45,7 +45,7 @@
 		/* Props
         ============================================*/
 		@Prop({type: Object as () => IEnvironment, required: true})
-		readonly environment: IEnvironment
+		readonly environment: IEnvironment;
 
 		/* Data
         ============================================*/

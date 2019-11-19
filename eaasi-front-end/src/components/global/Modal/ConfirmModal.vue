@@ -45,25 +45,25 @@ export default class ConfirmModal extends Vue {
      * Confirm button text
      */
     @Prop({type: String, required: false, default: 'Cancel'})
-	readonly cancelLabel: string
+	readonly cancelLabel: string;
 
     /**
      * Confirm button text
      */
     @Prop({type: String, required: false, default: 'Confirm'})
-	readonly confirmLabel: string
+	readonly confirmLabel: string;
 
     /**
      * The user-facing title at the top of the modal
      */
     @Prop({type: String, required: true})
-    readonly title: string
+    readonly title: string;
 
 	 /**
      * Alternative size of the modal. Accepts 'sm, small, lg, or large'
      */
     @Prop({type: String, default: 'small'})
-	readonly size: string
+	readonly size: string;
 
     /* Methods
 	============================================*/
