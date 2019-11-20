@@ -1,5 +1,5 @@
 import { KeyValuePair } from './Emil';
-import { IEaasiResource } from '../resource/Resource';
+import {ArchiveType, IEaasiResource} from '../resource/Resource';
 
 /*============================================================
  == Emulators
@@ -50,7 +50,7 @@ export interface EmulatorNamedIndexes {
 /============================================================*/
 
 export interface IEnvironment extends IEaasiResource {
-	archive: string;
+	archive: ArchiveType;
 	author?: any;
 	canProcessAdditionalFiles: boolean;
 	connectEnvs: boolean;

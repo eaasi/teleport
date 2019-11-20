@@ -2,7 +2,7 @@
 	<div class="mbs-wrapper">
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
-				<p v-if="imports.length">
+				<p v-if="bentoResult">
 					These resources have been imported to your Node.
 				</p>
 				<p style="margin: 0;" v-else>
@@ -12,7 +12,7 @@
 			<div class="btn-section">
 			</div>
 		</div>
-		<div class="resource-results" v-if="bentoResult && imports.length">
+		<div class="resource-results" v-if="bentoResult">
 			<resource-facets />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
@@ -97,9 +97,6 @@
 		@Get('loggedInUser')
 		user: User;
 
-		@Get('resource/imports')
-		imports: IEaasiResource[];
-
 		get hasSelectedFacets() {
 			return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 		}
@@ -144,14 +141,6 @@
 			this.query.limit = 5000;
 			this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
 			this.$router.push('explore');
-		}
-
-		raiseClearBookmarksModal() {
-			this.isClearBookmarksModalVisible = true;
-		}
-
-		closeClearBookmarksModal() {
-			this.isClearBookmarksModalVisible = false;
 		}
 
 		/* Lifecycle Hooks

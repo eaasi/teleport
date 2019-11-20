@@ -7,6 +7,7 @@ export interface IEaasiResource {
 	id: number | string;
 	title: string;
 	resourceType: ResourceType;
+	archive: ArchiveType;
 }
 
 /*============================================================

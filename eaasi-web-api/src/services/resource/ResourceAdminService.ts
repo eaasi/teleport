@@ -43,32 +43,48 @@ export default class ResourceAdminService extends BaseService {
 		let conReq;
 
 		if (query.types && query.types.length > 0) {
+			// Search specific types
 			query.types.forEach(t => {
 				if (t === resourceTypes.ENVIRONMENT) envReq = this._searchEnvironments(q);
 				else if (t === resourceTypes.SOFTWARE) sofReq = this._searchSoftware(q);
 				else if (t === resourceTypes.CONTENT) conReq = this._searchContent(q);
 			});
 		} else {
+			// Search all types
 			envReq = this._searchEnvironments(q);
 			sofReq = this._searchSoftware(q);
 			conReq = this._searchContent(q);
-		}
-
-		if (query.archives && query.archives.length > 0) {
-			query.archives.forEach(archive => {
-				this._filterByArchive(envReq, archive);
-				this._filterByArchive(sofReq, archive);
-				this._filterByArchive(conReq, archive);
-			});
 		}
 
 		result.environments = envReq ? await envReq : { result: [], totalResults: 0 };
 		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
 		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
 
-		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
-		result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
-		result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
+		// TODO: Refactor
+		if (query.archives && query.archives.length > 0) {
+			let archiveFilteredResources = [];
+
+			result.environments.result.forEach(env => {
+				if (query.archives.includes(env.archive)) {
+					archiveFilteredResources.push(env)
+				}
+			});
+
+			result.environments.result = archiveFilteredResources;
+
+			result.software.result = result.software.result.filter(sw => {
+				query.archives.some(arc => arc === sw.archive)
+			});
+
+			result.content.result = result.content.result.filter(content => {
+				query.archives.some(arc => arc === content.archive)
+			});
+
+		} else {
+			result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+			result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
+			result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
+		}
 
 		return result;
 	}
@@ -244,7 +260,8 @@ export default class ResourceAdminService extends BaseService {
 		return results.slice((query.page - 1) * query.limit, query.page * query.limit);
 	}
 
-	private _filterByArchive(envReq: IEaasiSearchResponse<IEnvironment>, archive: string) {
-		return envReq.result.filter(r => r.archive === archive);
+	private _filterByArchive(resources: any[], archive: string) {
+		console.log('::: ResourceAdminService._filterByArchive ::: envReq => ', resources);
+		return resources.filter(r => r.archive === archive);
 	}
 }
