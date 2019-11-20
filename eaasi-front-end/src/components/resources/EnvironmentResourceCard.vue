@@ -3,15 +3,18 @@
 		<selectable-card
 			v-if="cardSummary"
 			bookmark
-			:data="cardSummary"
 			footer
+			:disable-select="disableSelect"
+			:data="cardSummary"
 			:is-loading="isSaving"
 			:is-bookmark-selected="isBookmarkSelected"
+			:is-clickable="isClickable"
 			@bookmarked="isActive => $emit('bookmarked', isActive)"
 			@change="setActiveEnvironment"
+			@click:header="goToDetailsPage"
 		>
 			<template v-slot:tagsLeft>
-				<tag :text="environmentResourceType" icon="fa-box" color="blue" />
+				<tag-group position="left" :tags="resourceTypeTags" />
 			</template>
 			<template v-slot:tagsRight>
 				<tag-group v-if="cardSummary" position="right" :tags="cardSummary.tagGroup" />
@@ -21,6 +24,7 @@
 </template>
 
 <script lang="ts">
+	import {ITag} from '@/types/Tag';
 	import Vue from 'vue';
 	import {
 		IEaasiEnvironmentCardSummary,
@@ -47,6 +51,12 @@
 		@Prop({type: Object as () => IEnvironment, required: true})
 		readonly environment: IEnvironment;
 
+		@Prop({type: Boolean, required: false, default: false})
+		readonly disableSelect: boolean;
+
+		@Prop({type: Boolean, required: false, default: false})
+		readonly isClickable: boolean;
+
 		/* Data
         ============================================*/
 		environmentCardSummary?: IEaasiEnvironmentCardSummary;
@@ -54,8 +64,16 @@
 		cardSummary: IEaasiResourceSummary = null;
 		timer: number = null;
 
+		resourceTypeTags: ITag[] =  [
+			{
+				text:this.environmentResourceType,
+				icon:'fa-box',
+				color:'blue'
+			}
+		];
+
 		/* Computed
-	============================================*/
+        ============================================*/
 		@Sync('resource/savingEnvironments')
 		savingEnvironments: string[];
 
@@ -153,6 +171,7 @@
 			} as IEaasiResourceSummary;
 
 			for (let key in this.environment) {
+
 				let val = this.environment[key];
 
 				if (key.toLowerCase() === 'archive') {
@@ -163,10 +182,28 @@
 							text: 'Saved'
 						});
 					}
+
+					else if (this.environment[key].toLowerCase() === 'default') {
+						summary.tagGroup.push({
+							icon: 'fa-cloud-download-alt',
+							color: 'yellow',
+							text: 'Private'
+						});
+					}
 				}
 
 				if (key.toLowerCase() === 'owner') {
 					summary.subContent[key] = val;
+				}
+
+				if (key.toLowerCase() === 'envtype') {
+					if (val === 'base') {
+						this.resourceTypeTags.push({
+							icon: 'fa-box',
+							color: 'blue',
+							text: 'Base'
+						});
+					}
 				}
 			}
 
@@ -212,6 +249,10 @@
 				this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', null);
 			}
 			this.$emit('change', isChecked);
+		}
+
+		goToDetailsPage() {
+			this.$router.push({ path:'/resources/environment', query: { resourceId: this.environment.envId.toString()} });
 		}
 
 		/* Lifecycle Hooks

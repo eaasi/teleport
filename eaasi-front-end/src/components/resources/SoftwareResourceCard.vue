@@ -2,9 +2,12 @@
 	<selectable-card
 		bookmark
 		:data="summary"
-		@change="$emit('change', $event)"
+		:disable-select="disableSelect"
 		:is-bookmark-selected="isBookmarkSelected"
+		:is-clickable="isClickable"
+		@change="$emit('change', $event)"
 		@bookmarked="isActive => $emit('bookmarked', isActive)"
+		@click:header="goToDetailsPage"
 	/>
 </template>
 
@@ -16,14 +19,20 @@ import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 
 @Component({
-	name: 'Software',
+	name: 'SoftwareResourceCard',
 })
-export default class Software extends Vue {
+export default class SoftwareResourceCard extends Vue {
 
 	/* Props
 	============================================*/
 	@Prop({type: Object as () => ISoftwarePackage, required: true})
-	readonly software: ISoftwarePackage
+	readonly software: ISoftwarePackage;
+
+	@Prop({type: Boolean, required: false, default: false})
+	readonly disableSelect: boolean;
+
+	@Prop({type: Boolean, required: false, default: false})
+	readonly isClickable: boolean;
 
 	/* Data
 	============================================*/
@@ -54,6 +63,10 @@ export default class Software extends Vue {
 
 	/* Methods
 	============================================*/
+
+	goToDetailsPage() {
+		this.$router.push({ path:'/resources/software', query: { resourceId: this.software.id.toString()} });
+	}
 
 	/* Lifecycle Hooks
 	============================================*/

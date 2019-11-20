@@ -5,7 +5,7 @@
 				<div class="db-links-column">
 					<h2>My Node Activity</h2>
 					<div class="db-links-subheading">
-						New and updated resources from your Node
+						Local resources
 					</div>
 					<div class="db-links-btn">
 						<ui-button
@@ -19,6 +19,32 @@
 							See ALL Node Resources
 						</ui-button>
 					</div>
+					<dashboard-resource-list
+						:result="nodeResources"
+					/>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="db-links-column">
+					<h2>My Resources</h2>
+					<div class="db-links-subheading">
+						Bookmarked and Imported Resources
+					</div>
+					<div class="db-links-btn">
+						<ui-button
+							@click="goToMyResources"
+							icon="chevron-right"
+							icon-right
+							color-preset="light-blue"
+							block
+							size="md"
+						>
+							See ALL My Resources
+						</ui-button>
+					</div>
+					<dashboard-resource-list
+						:result="myResources"
+					/>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -35,28 +61,9 @@
 							color-preset="light-blue"
 							block
 							size="md"
+							disabled
 						>
 							See ALL Network Resources
-						</ui-button>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="db-links-column">
-					<h2>My Resources</h2>
-					<div class="db-links-subheading">
-						Resources available on your Node
-					</div>
-					<div class="db-links-btn">
-						<ui-button
-							@click="$emit('click:my-resources')"
-							icon="chevron-right"
-							icon-right
-							color-preset="light-blue"
-							block
-							size="md"
-						>
-							See ALL My Resources
 						</ui-button>
 					</div>
 				</div>
@@ -66,18 +73,74 @@
 </template>
 
 <script lang="ts">
+import User from '@/models/admin/User';
+import DashboardResourceList from '@/components/dashboard/DashboardResourceList.vue';
+import ResourceList from '@/components/resources/ResourceList.vue';
+import { IBookmark } from '@/types/Bookmark';
+import { IResourceSearchResponse } from '@/types/Search';
 import { Component, Vue } from 'vue-property-decorator';
-import {IEaasiResourceSummary} from '@/types/Resource';
+import { Get, Sync } from 'vuex-pathify';
 
 @Component({
-	name: 'DashboardLinks'
+	name: 'DashboardLinks',
+	components: {
+		ResourceList,
+		DashboardResourceList
+	}
 })
-export default class DashboardLinks extends Vue { }
+export default class DashboardLinks extends Vue {
+	goToMyResources() {
+		this.$router.push({ name: 'My Resources' });
+	}
+
+	@Get('loggedInUser')
+	user: User;
+
+	@Get('resource/result')
+	bentoResult: IResourceSearchResponse;
+
+	@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];
+
+	async search() {
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
+		await this.$store.dispatch('resource/searchResources', this.bookmarks);
+	}
+
+	get myResources() {
+		if (this.bentoResult) {
+			let envResults = this.bentoResult.environments;
+			let swResults = this.bentoResult.software;
+
+			let envs = envResults.result.filter(r => this.bookmarks.some(b => b.resourceID === r.envId));
+			let software = swResults.result.filter(s => this.bookmarks.some(b => b.resourceID === s.id));
+			let myResources = [...envs, ...software];
+
+			return { result: myResources };
+		}
+		return {};
+	}
+
+	get nodeResources() {
+		if (this.bentoResult) {
+			let envResults = this.bentoResult.environments;
+			let envs = envResults.result.filter(r => r.archive === 'default');
+			let myResources = [...envs,];
+
+			return { result: myResources };
+		}
+		return {};
+	}
+
+	mounted() {
+		this.search();
+	}
+}
 </script>
 
 <style lang="scss">
 	.db-links-container {
-		background-color: lighten($light-neutral, 80%);
+		background-color: lighten($light-neutral, 82%);
 		padding-left: 2.4rem;
 		padding-right: 2.4rem;
 

@@ -8,12 +8,12 @@
 			/>
 		</div>
 
-		<div :class="['panel-left', selectStyle]">
+		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
 			<checkbox :value="isSelected" @input="toggleSelected" />
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
-			<div class="header">
+			<div :class="['header', { clickable: isClickable }]" @click="handleClick">
 				{{ title }}
 			</div>
 
@@ -77,6 +77,12 @@ export default class SelectableCard extends Vue {
 		@Prop({ type: Boolean, default: false })
 		isBookmarkSelected: boolean;
 
+        @Prop({type: Boolean, required: false, default: false})
+        disableSelect: boolean;
+
+        @Prop({type: Boolean, required: false, default: false})
+        isClickable: boolean;
+
 		/* Data
         ============================================*/
 		title: string = '';
@@ -115,6 +121,12 @@ export default class SelectableCard extends Vue {
         	}
         }
 
+        handleClick() {
+        	if (this.isClickable) {
+				this.$emit('click:header');
+			}
+		}
+
         /* Lifecycle Hooks
 		============================================*/
 
@@ -132,7 +144,8 @@ export default class SelectableCard extends Vue {
 	}
 
 	.resource-object-container {
-		border: solid 2px #FFFFFF;
+		background-color: #FFFFFF;
+		border: 2px solid lighten($light-blue, 70%);
 		margin-bottom: 1.5rem;
 		min-height: 8rem;
 		position: relative;
@@ -159,7 +172,6 @@ export default class SelectableCard extends Vue {
 	}
 
 	.panel-right {
-		border: 2px solid lighten($light-blue, 70%);
 		border-left: none;
 		padding: 10px;
 		width: 100%;

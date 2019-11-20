@@ -33,7 +33,7 @@ export default class MyResourcesScreen extends Vue {
 	============================================*/
 
 	@Sync('resource/selectedResources')
-    selectedResources: IEaasiResource[]
+    selectedResources: IEaasiResource[];
 
 	get hasActiveResources() {
 		return this.selectedResources.length > 0;
