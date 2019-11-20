@@ -60,31 +60,16 @@ export default class ResourceAdminService extends BaseService {
 		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
 		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
 
-		// TODO: Refactor
 		if (query.archives && query.archives.length > 0) {
-			let archiveFilteredResources = [];
+			result.environments.result = result.environments.result.filter(env => query.archives.includes(env.archive));
+			result.software.result = result.software.result.filter(sw => query.archives.includes(sw.archive));
+			result.content.result = result.content.result.filter(content => query.archives.includes(content.archive));
 
-			result.environments.result.forEach(env => {
-				if (query.archives.includes(env.archive)) {
-					archiveFilteredResources.push(env)
-				}
-			});
-
-			result.environments.result = archiveFilteredResources;
-
-			result.software.result = result.software.result.filter(sw => {
-				query.archives.some(arc => arc === sw.archive)
-			});
-
-			result.content.result = result.content.result.filter(content => {
-				query.archives.some(arc => arc === content.archive)
-			});
-
-		} else {
-			result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
-			result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
-			result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 		}
+
+		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+		result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
+		result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 
 		return result;
 	}
