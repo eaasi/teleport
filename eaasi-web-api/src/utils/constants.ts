@@ -7,13 +7,13 @@ export const resourceTypes: IResourceTypes = {
 };
 
 export enum userRoles {
-    ADMIN = 1,
-    MANAGER = 2,
-    CONTRIBUTOR = 3
+	ADMIN = 1,
+	MANAGER = 2,
+	CONTRIBUTOR = 3
 }
 
 interface IResourceTypes {
-    ENVIRONMENT: ResourceType
-    SOFTWARE: ResourceType
-    CONTENT: ResourceType
+	ENVIRONMENT: ResourceType;
+	SOFTWARE: ResourceType;
+	CONTENT: ResourceType;
 }

@@ -33,28 +33,43 @@ export default class ResourceAdminService extends BaseService {
 	 * @param query
 	 */
 	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
+		// TODO: Refactor
+
 		let q = new EaasiSearchQuery(query.keyword, query.limit);
 		let result = new ResourceSearchResponse();
+
 		let envReq;
 		let sofReq;
 		let conReq;
+
 		if (query.types && query.types.length > 0) {
 			query.types.forEach(t => {
-				if (t === 'Environment') envReq = this._searchEnvironments(q);
-				else if (t === 'Software') sofReq = this._searchSoftware(q);
-				else if (t === 'Content') conReq = this._searchContent(q);
-			})
+				if (t === resourceTypes.ENVIRONMENT) envReq = this._searchEnvironments(q);
+				else if (t === resourceTypes.SOFTWARE) sofReq = this._searchSoftware(q);
+				else if (t === resourceTypes.CONTENT) conReq = this._searchContent(q);
+			});
 		} else {
 			envReq = this._searchEnvironments(q);
 			sofReq = this._searchSoftware(q);
 			conReq = this._searchContent(q);
 		}
+
+		if (query.archives && query.archives.length > 0) {
+			query.archives.forEach(archive => {
+				this._filterByArchive(envReq, archive);
+				this._filterByArchive(sofReq, archive);
+				this._filterByArchive(conReq, archive);
+			});
+		}
+
 		result.environments = envReq ? await envReq : { result: [], totalResults: 0 };
 		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
 		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
+
 		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
 		result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
 		result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
+
 		return result;
 	}
 
@@ -227,5 +242,9 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	private _paginate(query: IEaasiSearchQuery, results: IEaasiResource[]) {
 		return results.slice((query.page - 1) * query.limit, query.page * query.limit);
+	}
+
+	private _filterByArchive(envReq: IEaasiSearchResponse<IEnvironment>, archive: string) {
+		return envReq.result.filter(r => r.archive === archive);
 	}
 }

@@ -140,7 +140,15 @@ const actions = {
 	},
 
 	async getImports({ commit }) {
-		const result = await _svc.getImports();
+		const importQuery: IResourceSearchQuery = {
+			keyword: '',
+			limit: 0,
+			selectedFacets: [],
+			types: [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT, resourceTypes.CONTENT],
+			archives: ['default'] // Imports are stored in 'default' -- // Todo: more specific distinction?
+		};
+		console.log('SEARCHING FOR IMPORTS');
+		const result = await _svc.searchResources(importQuery);
 		if (!result) return;
 		commit('SET_IMPORTS', result);
 	}

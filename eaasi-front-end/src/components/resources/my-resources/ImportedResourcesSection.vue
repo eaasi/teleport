@@ -55,7 +55,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { Component, Watch } from 'vue-property-decorator';
+	import { Component } from 'vue-property-decorator';
 	import { Get, Sync } from 'vuex-pathify';
 	import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 	import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -130,8 +130,7 @@
 		}
 
 		async search() {
-			// await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-			// await this.$store.dispatch('resource/searchResources', this.bookmarks);
+			await this.$store.dispatch('resource/getImports');
 			this.populateFacets();
 		}
 
