@@ -4,9 +4,9 @@
 			<h3>Filter {{ facet.name }}</h3>
 		</template>
 		<div class="filter-wrapper flex-row">
-			<div 
-				v-for="att in attributes" 
-				:key="att.label" 
+			<div
+				v-for="att in attributes"
+				:key="att.label"
 				@click="filterFacetValues(att)"
 				:class="['filter-item', { disabled: att.facetValues.length < 1 }]"
 			>
@@ -14,9 +14,9 @@
 			</div>
 		</div>
 		<div class="facet-grid flex-column">
-			<div 
-				v-for="facetValue in activeAttribute.facetValues" 
-				:key="facetValue.label" 
+			<div
+				v-for="facetValue in activeAttribute.facetValues"
+				:key="facetValue.label"
 				class="flex-row checkbox-facet"
 			>
 				<checkbox
@@ -27,14 +27,14 @@
 			</div>
 		</div>
 		<div class="clear-btn-wrapper">
-			<ui-button @click="$emit('deselect', facet)" secondary>
+			<ui-button @click="$emit('deselect', facet)" color-preset="light-blue">
 				Clear ALL Filters
 			</ui-button>
 		</div>
 		<template #footer>
 			<div class="footer-btns-wrapper">
 				<div class="footer-btns flex-row">
-					<ui-button @click="$emit('close')" secondary>
+					<ui-button @click="$emit('close')" color-preset="light-blue">
 						Cancel
 					</ui-button>
 					<ui-button @click="$emit('apply')">
@@ -76,7 +76,7 @@ export default class SearchFacetModal extends Vue {
     initAttributes() {
     	const attributeLabels: string[] = 'abcdefghijklmnopqrstuvwxyz'.split('');
     	const defaultAttribute: IResourceSearchFacetAttribute = {
-    		label: '#', 
+    		label: '#',
     		facetValues: this.facet.values
     	};
     	const attributes: IResourceSearchFacetAttribute[] = attributeLabels.map(attLabel => {

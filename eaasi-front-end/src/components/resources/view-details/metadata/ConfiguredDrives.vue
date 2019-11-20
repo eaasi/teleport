@@ -25,7 +25,7 @@
 		<ui-button
 			v-if="!readonly"
 			size="sm"
-			secondary
+			color-preset="light-blue"
 			icon="plus"
 			@click="add"
 		>
@@ -37,7 +37,7 @@
 		<ui-button
 			v-if="editable"
 			size="sm"
-			secondary
+			color-preset="light-blue"
 			icon="plus"
 			@click="add"
 		>
@@ -60,7 +60,7 @@ export default class ConfiguredDrives extends Vue {
     ============================================*/
 	@Prop({ type: Array as () => IDrive[], required: true })
 	drives: IDrive[]
-    
+
     @Prop({ type: Boolean })
     readonly: Boolean;
 

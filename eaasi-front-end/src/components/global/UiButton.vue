@@ -1,7 +1,7 @@
 <template>
 	<span class="ui-btn-container">
 		<button
-			:class="['eaasi-button', size, {collapse, secondary, white, block}]"
+			:class="['eaasi-button', `${colorPreset}`, size, {collapse, block}]"
 			v-on="$listeners"
 			v-bind="$attrs"
 		>
@@ -44,16 +44,10 @@ export default class UiButton extends Vue {
 	readonly collapse: boolean;
 
 	/**
-	 * Use secondary styles
+	 * Optional color preset
 	 */
-	@Prop({type: Boolean, required: false})
-	readonly secondary: boolean;
-
-	/**
-	 * Use white style
-	 */
-	@Prop({type: Boolean, required: false})
-	readonly white: boolean;
+	@Prop({type: String, required: false})
+	readonly colorPreset: String;
 
 	/**
 	 * Font icon name
@@ -144,7 +138,22 @@ export default class UiButton extends Vue {
 		background-color: darken($dark-blue, 20%);
 	}
 
-	&.secondary {
+	&.collapse {
+		min-width: 0;
+	}
+
+	.eb-icon {
+		margin-right: 0.4em;
+	}
+
+	.eb-icon-right {
+		margin-left: 0.4rem;
+	}
+
+	/**
+	Color presets
+	 */
+	&.light-blue {
 		background-color: lighten($light-blue, 80%);
 		border: solid 2px $light-blue;
 		color: $dark-blue;
@@ -168,18 +177,6 @@ export default class UiButton extends Vue {
 			background-color: $light-blue;
 			color: #FFFFFF;
 		}
-	}
-
-	&.collapse {
-		min-width: 0;
-	}
-
-	.eb-icon {
-		margin-right: 0.4em;
-	}
-
-	.eb-icon-right {
-		margin-left: 0.4rem;
 	}
 }
 </style>

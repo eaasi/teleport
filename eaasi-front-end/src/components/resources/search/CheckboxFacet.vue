@@ -18,7 +18,7 @@
 		<ui-button
 			v-if="facet.values.length > maxDisplayLimit"
 			size="sm"
-			secondary
+			color-preset="light-blue"
 			style="display: block; margin-top: 1rem;"
 			@click="$emit('expand', facet)"
 		>

@@ -27,7 +27,7 @@ export default class AlertCard extends Vue {
 	 * The type / level of the alert
 	 */
 	@Prop({validator: isValidAlert, required: true})
-	readonly type: AlertType
+	readonly type: AlertType;
 
 	/* Getters
 	============================================*/
@@ -52,7 +52,7 @@ export default class AlertCard extends Vue {
 <style lang="scss">
 .card-container {
 	border-top: 2px solid #DDDDDD;
-	max-width: 230px;
+	min-width: 230px;
 	padding: 16px;
 
 	&.red {

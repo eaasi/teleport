@@ -3,6 +3,7 @@
 		<access-interface-header
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
+			@click:save="save"
 		/>
 
 		<environment-menu v-if="environment" />
@@ -45,12 +46,12 @@
 </template>
 
 <script lang="ts">
-	import {jsonCopy} from '@/utils/functions';
+	import { jsonCopy } from '@/utils/functions';
 	import Vue from 'vue';
-	import {Component} from 'vue-property-decorator';
-	import {Route} from 'vue-router';
-	import {Get, Sync} from 'vuex-pathify';
-	import {IEnvironment} from '../../types/Resource';
+	import { Component } from 'vue-property-decorator';
+	import { Route } from 'vue-router';
+	import { Get, Sync } from 'vuex-pathify';
+	import { IEnvironment } from '@/types/Resource';
 	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';

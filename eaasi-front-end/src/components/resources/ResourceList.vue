@@ -25,7 +25,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import BentoHeader from '@/components/resources/search/BentoHeader.vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResource, ResourceType } from '@/types/Resource';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import EnvironmentResourceCard from './EnvironmentResourceCard.vue';
@@ -47,19 +47,19 @@ export default class ResourceList extends Vue {
 	============================================*/
 
 	@Prop({type: Object as () => IEaasiSearchResponse<IEaasiResource>, required: true})
-	readonly result: IEaasiSearchResponse<IEaasiResource>
+	readonly result: IEaasiSearchResponse<IEaasiResource>;
 
 	@Prop({type: Object as () => IResourceSearchQuery, required: true})
-	readonly query: IResourceSearchQuery
+	readonly query: IResourceSearchQuery;
 
 	@Prop({type: String, required: true})
-	readonly type: ResourceType
+	readonly type: ResourceType;
 
 	/* Computed
 	============================================*/
 
 	@Sync('resource/selectedResources')
-	selectedResources: IEaasiResource[]
+	selectedResources: IEaasiResource[];
 
 	@Get('loggedInUser')
 	user: User;
@@ -87,7 +87,7 @@ export default class ResourceList extends Vue {
 
 	async handleBookmark(resourceID: number, isActive: boolean) {
 		const bookmarkRequest = { userID: this.user.id, resourceID };
-		return isActive 
+		return isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);
 	}

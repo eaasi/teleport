@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<div class="mtb-container">
-			<dual-toggle 
+			<dual-toggle
 				v-if="canUserToggle"
-				:options="toggleOptions" 
+				:options="toggleOptions"
 				:value="toggleValue"
-				@input="onToggleValueChange" 
+				@input="onToggleValueChange"
 			/>
 			<div class="flex-center flex-row justify-between" style="flex: 1; margin-left: 2rem;">
 				<div v-if="!canUserToggle" class="read-only-message no-select">
@@ -16,7 +16,7 @@
 						Edit resource metadata and save changes.
 					</span>
 					<div>
-						<ui-button secondary size="md" style="margin-right: 1rem;">
+						<ui-button color-preset="light-blue" size="md" style="margin-right: 1rem;">
 							Cancel Changes
 						</ui-button>
 						<ui-button primary size="md">
@@ -25,13 +25,13 @@
 					</div>
 				</div>
 				<div v-else>
-					Visit this published resource on 
+					Visit this published resource on
 					<a href="">Wikidata for Digital Preservation</a>
 					to initiate metadata changes.
 				</div>
 			</div>
 		</div>
-		<environment-metadata-section 
+		<environment-metadata-section
 			v-if="isEnvironment"
 			:resource="resource"
 			:readonly="!isEditMode"
@@ -86,17 +86,17 @@ export default class ResourceDetailsMetadata extends Vue {
 	showEditConfirmModal: Boolean = false;
 	toggleOptions = ['Review Mode', 'Edit Mode'];
 	toggleValue: string = this.toggleOptions[0];
-	
+
 	/* Computed
 	============================================*/
-	
+
 	@Get('loggedInUser')
 	loggedInUser: User
-	
+
 	get isEnvironment() {
 		return this.$route.path.indexOf('environment') > 0;
 	}
-	
+
 	get isSoftware() {
 		return this.$route.path.indexOf('software') > 0;
 	}
@@ -118,8 +118,8 @@ export default class ResourceDetailsMetadata extends Vue {
 	}
 
 	onToggleValueChange(val) {
-		val === this.toggleOptions[1] && !this.editable 
-			? this.showEditConfirmModal = true 
+		val === this.toggleOptions[1] && !this.editable
+			? this.showEditConfirmModal = true
 			: this.toggleValue = val;
 	}
 
