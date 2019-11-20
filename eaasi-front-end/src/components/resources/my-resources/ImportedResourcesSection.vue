@@ -146,7 +146,7 @@
 		/* Lifecycle Hooks
         ============================================*/
 
-		mounted() {
+		created() {
 			this.search();
 		}
 

@@ -78,9 +78,9 @@ const actions = {
 
 		let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
 		if (!taskState) console.log('No Task Received in Response');
-		let task = new EaasiTask(taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
-		await store.commit('ADD_OR_UPDATE_TASK', await task, {root: true});
-		return await task;
+		let task = new EaasiTask(await taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
+		await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
+		return task;
 	},
 
 	/**

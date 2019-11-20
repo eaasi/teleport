@@ -89,7 +89,7 @@ export default class EnvironmentImportMetadata extends Vue {
 	/* Data
 	============================================*/
 
-	versions: any[] = [{id: 1}]  // TODO:
+	versions: any[] = [{id: 1}];  // TODO
 
 
 	/* Methods
