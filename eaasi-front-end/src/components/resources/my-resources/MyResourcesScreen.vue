@@ -36,7 +36,7 @@ export default class MyResourcesScreen extends Vue {
 	/* Props
 	============================================*/
 	@Prop({ type: String, required: false, default: 'My Bookmarks' })
-	activeTab: string;
+	defaultTab: string;
 
 	/* Computed
 	============================================*/
@@ -50,6 +50,7 @@ export default class MyResourcesScreen extends Vue {
 
 	/* Data
 	============================================*/
+	activeTab: string = 'My Bookmarks';
 
 	tabs: IEaasiTab[] = [
 		{
@@ -68,10 +69,19 @@ export default class MyResourcesScreen extends Vue {
 
 	isMenuOpenRequest: boolean = true;
 
+	/* Methods
+	============================================*/
 	toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
     }
 
+	/* Lifecycle Hooks
+	============================================*/
+	mounted() {
+		if (this.defaultTab !== this.activeTab) {
+			this.activeTab = this.defaultTab;
+		}
+	}
 }
 
 </script>

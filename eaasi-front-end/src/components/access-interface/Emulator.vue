@@ -201,7 +201,7 @@
 				await this.stopEnvironment();
 			});
 
-			this.$router.push('/resources/my-resources');
+			this.$router.push({ name: 'My Resources', params: { defaultTab: 'My Imports'}});
 		}
 
 		initBusListeners() {
