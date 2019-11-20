@@ -34,8 +34,6 @@ export default class ImportService extends BaseService {
 	 * Posts Snapshot data to trigger saving an imported resource
 	 */
 	async snapshotImage(snapshotData: any) {
-		console.log('::: importService ::: snapshotImage', snapshotData);
-
 		let componentId = snapshotData.componentId;
 
 		let snapshot = {
@@ -49,17 +47,9 @@ export default class ImportService extends BaseService {
 			userId: null
 		};
 
-		console.log('::: importService ::: snapshot', snapshot);
-
 		let url = `${BASE_URL}/emil/components/${componentId}/snapshot`;
-
-		console.log('::: importService ::: url', url);
-
 		let res = await this._httpService.post(url, snapshot);
-
 		let response = await res.json();
-
-		console.log('::: importService ::: response.json', response);
 
 		return await response;
 	}
