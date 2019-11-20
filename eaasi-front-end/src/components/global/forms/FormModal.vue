@@ -1,5 +1,5 @@
 <template>
-	<modal @close="$emit('close')">
+	<modal @close="$emit('close')" :size="size">
 		<div class="eaasi-form-modal-title" slot="header">
 			<h2 v-if="title">{{ title }}</h2>
 			<div class="eaasi-form-modal-subtitle">
@@ -16,7 +16,7 @@
 				<slot name="buttonsLeft"></slot>
 				<slot name="buttonsRight">
 					<div class="justify-end buttons-right">
-						<ui-button @click="$emit('close')" secondary>{{ cancelText }}</ui-button>
+						<ui-button @click="$emit('close')" color-preset="light-blue">{{ cancelText }}</ui-button>
 						<ui-button @click="$refs._form.submit()">{{ saveText }}</ui-button>
 					</div>
 				</slot>
@@ -70,7 +70,13 @@ export default class FormModal extends Vue {
      * Cancel button text
      */
     @Prop({type: String, required: false, default: 'Cancel'})
-    readonly cancelText: string
+	readonly cancelText: string
+	
+	/**
+     * Alternative size of the modal. Accepts 'sm, small, lg, or large'
+     */
+    @Prop({type: String, default: 'medium'})
+    readonly size: string
 
 }
 

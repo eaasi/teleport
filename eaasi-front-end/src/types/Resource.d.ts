@@ -81,12 +81,18 @@ export interface IEnvironment extends IEaasiResource {
 	visible: boolean;
 	permissions: IEaasPermissions;
 	timestamp: Date;
-	networking: any;
+	networking: INetwork;
 	containerName?: string;
 	containerVersion?: string;
 	drives: IDrive[];
 	error?: string;
 	isImport: Boolean;
+	useWebRTC: boolean;
+	containerEmulatorName?: string;
+	containerEmulatorVersion?: string;
+	isLinuxRuntime?: boolean;
+	processAdditionalFiles?: boolean;
+	time?: Date;
 }
 
 export interface IEaasiEnvironmentCardSummary {
@@ -120,6 +126,21 @@ export interface IDrive {
 	type: string;
 	boot: boolean;
 	plugged: boolean;
+}
+
+export interface INetwork {
+	connectEnvs: boolean;
+	enableInternet: boolean;
+	serverMode: boolean;
+	enableSocks: boolean;
+	localServerMode: boolean;
+	serverIp: string;
+	serverPort: string;
+	helpText: string;
+}
+
+export interface IEditableDrive extends IDrive {
+	uid?: string;
 }
 
 /*============================================================

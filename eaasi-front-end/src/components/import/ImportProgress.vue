@@ -17,7 +17,7 @@
 				>
 					{{ nextButtonLabel }}
 				</ui-button>
-				<ui-button secondary @click="reset">Cancel</ui-button>
+				<ui-button color-preset="light-blue" @click="reset">Cancel</ui-button>
 			</div>
 		</div>
 	</div>

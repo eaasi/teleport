@@ -3,6 +3,7 @@ import BaseHttpService from './BaseHttpService';
 import { IResourceSearchQuery } from '@/types/Search';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchResponse } from '@/types/Search';
+import { IEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
 
 
 class ResourceService extends BaseHttpService {
@@ -41,6 +42,16 @@ class ResourceService extends BaseHttpService {
 		return res.result as ISaveEnvironmentResponse;
 	}
 
+	async updateEnvironmentDetails(environment: IEnvironmentUpdateRequest) {
+		const res = await this.post<any>('/resource/update-environment', { environment });
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+
+		return res.result;
+	}
+
 	/**
 	 * Makes a DELETE request to delete an Environment from local node
 	 * @param environmentId: string
@@ -60,6 +71,16 @@ class ResourceService extends BaseHttpService {
 			'/resource/environmentTemplates'
 		);
 		return res.result['systems'];
+	}
+
+	async getNameIndexes() {
+		let res = await this.get<any>('/resource/nameIndexes');
+		return res.result;
+	}
+
+	async operatingSystemMetadata() {
+		let res = await this.get<any>('/resource/operatingSystemMetadata');
+		return res.result;
 	}
 }
 

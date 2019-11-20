@@ -1,6 +1,7 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import {TaskState} from '@/types/emil/Emil';
 import EmilBaseService from './EmilBaseService';
+import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 
 export default class EmilEnvironmentService extends EmilBaseService {
 
@@ -25,5 +26,11 @@ export default class EmilEnvironmentService extends EmilBaseService {
 		}
 		let response = await this.get(`taskState?taskId=${taskID}`);
 		return await response.json() as TaskState;
+	}
+
+	async updateDescription(env: IEnvironment) {
+		const response = await this.post('updateDescription', env);
+		const result = await response.json();
+		return result;
 	}
 }

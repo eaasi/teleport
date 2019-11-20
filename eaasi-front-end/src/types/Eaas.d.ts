@@ -87,7 +87,7 @@ export interface ITCPGatewayConfig {
 	serverIp: string;
 }
 
-export interface ILinuxRuntimeData {
+export interface IisLinuxRuntimeData {
 	userContainerEnvironment: any,
 	userContainerArchive: any,
 	isDHCPenabled: boolean
