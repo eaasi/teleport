@@ -15,11 +15,7 @@ class ResourceService extends BaseHttpService {
 	}
 
 	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
-		let res = await this.post<IResourceSearchResponse>(
-			'/resource/search',
-			query
-		);
-
+		let res = await this.post<IResourceSearchResponse>('/resource/search', query);
 		if (!res.ok) return null;
 		return res.result;
 	}
