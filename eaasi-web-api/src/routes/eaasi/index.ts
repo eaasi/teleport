@@ -9,6 +9,6 @@ router.use('/auth', require('./auth'));
 router.use('/blog', require('./blog'));
 router.use('/task', jwtAuth, require('./task'));
 router.use('/resource', jwtAuth, require('./resource'));
-router.use('/image', jwtAuth, require('./image'));
+router.use('/import', jwtAuth, require('./import'));
 
 module.exports = router;

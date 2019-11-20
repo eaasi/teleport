@@ -17,7 +17,6 @@ export default class TaskController extends BaseController {
 	async getEmilContainerTaskState(req: Request, res: Response) {
 		try {
 			let taskID = req.query.id;
-			console.log('::: TaskController getEmilContainerTaskState ::: taskID', taskID);
 			let taskState = await this.emilContainerService.getTaskState(taskID);
 			res.send(taskState);
 		} catch(e) {

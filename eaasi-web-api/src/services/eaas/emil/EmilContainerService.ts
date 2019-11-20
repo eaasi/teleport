@@ -17,7 +17,6 @@ export default class EmilContainerService {
 	 * @param taskID
 	 */
 	async getTaskState(taskID: number | string): Promise<TaskState> {
-		console.log('::: EmilContainerService calling getTaskState for taskID :::', taskID);
 		if (isNaN(Number(taskID))) {
 			throw `taskID must be a string or number. Received ${taskID}`;
 		}

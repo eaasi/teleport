@@ -1,4 +1,4 @@
-import { IEnvironment, IDrive } from '../types/Resource';
+import { IEnvironment, IDrive } from '@/types/Resource';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;

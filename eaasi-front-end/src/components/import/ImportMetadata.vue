@@ -38,7 +38,6 @@ export default class ImportMetadata extends Vue {
 
 	@Sync('import/importPath')
 	readonly path: ResourceImportPath;
-
 }
 
 </script>

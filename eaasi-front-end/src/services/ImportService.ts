@@ -1,7 +1,6 @@
 import EaasiTask from '@/models/task/EaasiTask';
-import {IImageImport} from '@/types/Import';
+import {IEnvironmentImportSnapshot, IResourceImport} from '@/types/Import';
 import BaseHttpService from './BaseHttpService';
-import config from '@/config';
 
 
 /**
@@ -9,12 +8,12 @@ import config from '@/config';
  */
 class ImportService extends BaseHttpService {
 	/**
-	 * Imports an image from a URL string
-	 * @param imageImport: IImageImport object specifying image data
+	 * Imports a resource from a URL string
+	 * @param resourceImport: IResourceImport object specifying image data
 	 */
-	async importImageFromUrl(imageImport: IImageImport) : Promise<EaasiTask> {
-		const res = await this.post<IImageImport>(
-			'/image/importFromUrl', imageImport
+	async importFromUrl(resourceImport: IResourceImport) : Promise<EaasiTask> {
+		const res = await this.post<IResourceImport>(
+			'/import/url', resourceImport
 		);
 		if (!res.ok) {
 			console.log('Response returned error: ', res);
@@ -23,8 +22,15 @@ class ImportService extends BaseHttpService {
 		return res.result as EaasiTask;
 	}
 
-	async saveImportImageRecord(imageImport: IImageImport) : Promise<any> {
-		await this.post<IImageImport>(`${config.REST_API_URL}/importedImage`, imageImport);
+	async saveEnvironment(snapshot: IEnvironmentImportSnapshot) : Promise<any> {
+		const res = await this.post<IResourceImport>(
+			'/import/saveEnvironment', snapshot
+		);
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+		return res.result;
 	}
 }
 
