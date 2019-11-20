@@ -165,7 +165,7 @@
 		get hasDetails() {
 			// If more than one resource is selected, we do not show Details tab.
 			if (!this.onlySelectedResource) return false;
-			if (this.onlySelectedResource.description !== null) {
+			if (this.onlySelectedResource.description) {
 				this.setDetailsItems();
 				return true;
 			}
@@ -205,7 +205,20 @@
 		/* Data
         ============================================*/
 		detailsItems: ILabeledItem[] = [];
+		tabs: IEaasiTab[] = [
+			{
+				label: 'Details'
+			},
+			{
+				label: 'Actions'
+			}
+		]
+		activeTab: string = this.tabs[1].label;
+		confirmAction : string = null;
 
+		/* Methods
+		============================================*/
+		
 		async setDetailsItems() : Promise<void> {
 
 			if (!this.onlySelectedResource) return;
@@ -250,20 +263,6 @@
 				});
 			}
 		};
-
-		tabs: IEaasiTab[] = [
-			{
-				label: 'Details'
-			},
-			{
-				label: 'Actions'
-			}
-		];
-		activeTab: string = this.tabs[1].label;
-		confirmAction : string = null;
-
-		/* Methods
-        ============================================*/
 
 		toggleSlide() {
 			this.$emit('toggle');

@@ -87,7 +87,7 @@ export default class EmulatorModal extends Vue {
 		return e.version === this.emulator.latestVersion;
 	}
 
-	async makeDefault(entry: IEmulatorEntry) {
+	async makeDefault(entry: IEmulatorEntry) {		
 		let previousVersion = this.emulator.latestVersion;
 		// Assume this will succeed and update the checkbox immediately
 		this.emulator.latestVersion = entry.version;

@@ -20,7 +20,7 @@
 					:icon="icon"
 					@click="$refs._input.click()"
 					href="javascript:void(0)"
-					:secondary="secondary"
+					:color-preset="secondary ? 'light-blue' : 'white'"
 				>
 					{{ buttonLabel }}
 				</ui-button>

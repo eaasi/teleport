@@ -1,17 +1,27 @@
 <template>
 	<div class="vds-container">
-		<section-heading
-			v-if="readonly"
-			:title="summaryData.title"
-			size="large"
+		<div v-if="readonly" :class="{ 'changed': titleChanged }">
+			<section-heading
+				:title="summaryData.title"
+				size="large"
+				:class="{ 'changed': titleChanged }"
+			/>
+		</div>
+		<text-input 
+			v-else-if="!readonly"
+			v-model="summaryData.title"
+			:class="{ 'changed': titleChanged }"
 		/>
-		<text-input v-else v-model="summaryData.title" />
 		<div class="vds-description">
-			<span v-if="summaryData.description && readonly">
+			<span 
+				v-if="summaryData.description && readonly" 
+				:class="{ 'changed': descriptionChanged }"
+			>
 				{{ summaryData.description | stripHtml }}
 			</span>
 			<span v-else-if="!readonly">
 				<text-area-input
+					:class="{ 'changed': descriptionChanged }"
 					v-model="summaryData.description"
 				/>
 			</span>
@@ -22,9 +32,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary } from '@/types/Resource';
-import { Sync } from 'vuex-pathify';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'ResourceDetailsSummary',
@@ -39,6 +49,21 @@ export default class ResourceDetailsSummary extends Vue {
 	@Prop({ type: Boolean})
 	readonly: Boolean;
 	
+	/* Props
+	============================================*/
+	get titleChanged() {
+		return this.localTitle !== this.summaryData.title;
+	}
+
+	get descriptionChanged() {
+		return this.localDescription !== this.summaryData.description;
+	}
+
+	/* Data
+	============================================*/
+	localTitle = jsonCopy(this.summaryData.title);
+	localDescription = jsonCopy(this.summaryData.description);
+
 }
 
 </script>
@@ -46,6 +71,12 @@ export default class ResourceDetailsSummary extends Vue {
 <style lang="scss">
 	.vds-container {
 		width: 33vw;
+		.eaasi-input {
+			background: transparent;
+		}
+		.changed {
+			background: lighten($yellow, 60%);
+		}
 
 		.vds-description {
 			color: $dark-neutral;

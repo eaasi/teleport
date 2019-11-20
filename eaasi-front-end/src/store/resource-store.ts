@@ -1,12 +1,13 @@
-import {populateFacets} from '@/helpers/ResourceSearchFacetHelper';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/ResourceService';
-import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import { IEaasiResource, IEnvironment, ISoftwarePackage } from '@/types/Resource';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import { Store } from 'vuex';
+import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
+import { resourceTypes } from '@/utils/constants';
+import { mapEnvironmentToEnvironmentUpdateRequest, IEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
 import {IResourceSearchQuery, IResourceSearchResponse} from '@/types/Search';
-import {resourceTypes} from '@/utils/constants';
-import {Store} from 'vuex';
-import {make} from 'vuex-pathify';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -107,6 +108,11 @@ const actions = {
 		return result;
 	},
 
+	async updateEnvironmentDetails(_, environment) {
+		const envRequest: IEnvironmentUpdateRequest = mapEnvironmentToEnvironmentUpdateRequest(environment);
+		return await _svc.updateEnvironmentDetails(envRequest);
+	},
+
 	clearSearchQuery({ commit, state }: Store<ResourceState>) {
 		commit('SET_QUERY', new ResourceSearchQuery());
 	},
@@ -121,6 +127,14 @@ const actions = {
 	async getTemplates({ state, commit }) {
 		let result = await _svc.getTemplates();
 		commit('SET_AVAILABLE_TEMPLATES', result);
+	},
+
+	async getNameIndexes(_) {
+		return await _svc.getNameIndexes();
+	},
+
+	async getOperatingSystemMetadata(_) {
+		return await _svc.operatingSystemMetadata();
 	}
 };
 

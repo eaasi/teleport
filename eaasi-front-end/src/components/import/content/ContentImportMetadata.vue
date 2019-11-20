@@ -7,7 +7,7 @@
 				v-model="content.title"
 			/>
 			<ui-button
-				secondary
+				color-preset="light-blue"
 				icon="chevron-left"
 				@click="step = 1"
 			>

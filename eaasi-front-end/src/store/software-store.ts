@@ -32,6 +32,10 @@ const actions = {
 		return await _svc.getSoftware(softwareId);
 	},
 
+	async getSoftwareObject(_store: Store<SoftwareState>, softwareId: string) {
+		return await _svc.getSoftwareObject(softwareId);
+	},
+
 	async searchSoftware({ state, commit }: Store<SoftwareState>) {
 		let result = await _svc.searchSoftware(state.query);
 		if(!result) return;

@@ -50,42 +50,54 @@ export interface EmulatorNamedIndexes {
 /============================================================*/
 
 export interface IEnvironment extends IEaasiResource {
-	parentEnvId: string;
-	envId: string;
-	title: string;
-	description: string;
-	version?: string;
-	emulator: string;
-	helpText?: string;
-	enableRelativeMouse: boolean;
-	enablePrinting: boolean;
-	shutdownByOs: boolean;
-	timeContext?: any;
-	serverMode: boolean;
-	localServerMode: boolean;
-	enableSocks: boolean;
-	serverPort?: any;
-	serverIp?: any;
-	gwPrivateIp?: any;
-	gwPrivateMask?: any;
-	enableInternet: boolean;
-	connectEnvs: boolean;
+	archive: string;
 	author?: any;
 	canProcessAdditionalFiles: boolean;
-	archive: string;
-	xpraEncoding?: any;
-	owner: string;
-	revisions: IEnvironmentRevision[];
-	installedSoftwareIds: string[];
-	userTag?: string;
-	os?: string;
-	nativeConfig: string;
-	useXpra: boolean;
+	connectEnvs: boolean;
+	description: string;
+	drives: IDrive[];
+	emulator: string;
+	enableInternet: boolean;
+	enablePrinting: boolean;
+	enableRelativeMouse: boolean;
+	enableSocks: boolean;
+	envId: string;
 	envType: string;
+	gwPrivateIp?: any;
+	gwPrivateMask?: any;
+	helpText?: string;
+	installedSoftwareIds: string[];
+	localServerMode: boolean;
+	nativeConfig: string;
+	os?: string;
+	owner: string;
+	parentEnvId: string;
+	revisions: IEnvironmentRevision[];
+	serverIp?: any;
+	serverMode: boolean;
+	serverPort?: any;
+	shutdownByOs: boolean;
+	timeContext?: any;
+	title: string;
+	userTag?: string;
+	useXpra: boolean;
+	version?: string;
+	xpraEncoding?: any;
 }
 
 export interface IEnvironmentRevision {
 	id: string;
 	text: string;
 	archive: string;
+}
+
+export interface IDrive {
+	data: string;
+	iface: string;
+	filesystem: string;
+	bus: string;
+	unit: string;
+	type: string;
+	boot: boolean;
+	plugged: boolean;
 }

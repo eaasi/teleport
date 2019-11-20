@@ -179,7 +179,18 @@ export default class ResourceAdminService extends BaseService {
 	 * Gets a list of all available patches
 	 */
 	async getPatches() {
-		return await this._emilEnvSvc.get('getPatches');
+		let res = await this._emilEnvSvc.get('getPatches');
+		return res.json();
+	}
+
+	async getOperatingSystemMetadata() {
+		let res = await this._emilEnvSvc.get('operatingSystemMetadata');
+		return res.json();
+	}
+
+	async getNameIndexes() {
+		let res = await this._emilEnvSvc.get('getNameIndexes');
+		return res.json();
 	}
 
 	/*============================================================

@@ -1,13 +1,19 @@
 <template>
 	<div id="myResources">
-		<h1 v-if="isEnvironment">Environment Details</h1>
-		<h1 v-else-if="isSoftware">Software Details</h1>
+		<h1>{{ screenTitle }}</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<div class="vrd-content" v-if="activeResource">
-			<resource-details-metadata
-				v-if="activeTab === 'Metadata'" 
-				:resource="activeResource"
-			/>
+			<div v-if="activeTab === 'Metadata'">
+				<environment-metadata-section 
+					v-if="isEnvironment"
+					:resource="activeResource"
+					@reset="init"
+				/>
+				<software-metadata-section
+					v-else-if="isSoftware"
+					:resource="activeResource"
+				/>
+			</div>
 			<resource-details-history
 				v-else-if="activeTab === 'History'" 
 				:revisions="activeResource.revisions" 
@@ -22,28 +28,34 @@ import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment, ISoftwarePackage } from '@/types/Resource';
 import ResourceDetailsHistory from '@/components/resources/view-details/history/ResourceDetailsHistory.vue';
-import ResourceDetailsMetadata from '@/components/resources/view-details/metadata/ResourceDetailsMetadata.vue';
+import SoftwareMetadataSection from './metadata/SoftwareMetadataSection.vue';
+import EnvironmentMetadataSection from './metadata/EnvironmentMetadataSection.vue';
 
 @Component({
 	name: 'ResourceDetailsScreen',
 	components: {
-		ResourceDetailsMetadata,
-		ResourceDetailsHistory
+		ResourceDetailsHistory,
+		SoftwareMetadataSection,
+		EnvironmentMetadataSection
 	}
 })
 export default class ResourceDetailsScreen extends Vue {
 
     /* Data
 	============================================*/
-	activeResource: IEnvironment | ISoftwarePackage = null;
     tabs: IEaasiTab[] = [
     	{ label: 'Metadata', disabled: false },
     	{ label: 'History', disabled: false },
 	];
-	activeTab: string = this.tabs[0].label;
+	activeTab: string = this.tabs.find(t => t.label === 'Metadata').label;
+	activeResource: IEnvironment | ISoftwarePackage = null;
 
     /* Computed
 	============================================*/
+
+	get screenTitle() {
+		return this.isEnvironment ? 'Environment Details' : 'Software Details';
+	}
 
 	get isEnvironment() {
 		return this.$route.path.indexOf('environment') > 0;

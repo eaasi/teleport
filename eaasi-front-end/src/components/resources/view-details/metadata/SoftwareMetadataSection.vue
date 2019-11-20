@@ -58,9 +58,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEnvironment, IEaasiResource } from '@/types/Resource';
-import { resourceTypes } from '@/utils/constants';
+import { Component, Prop } from 'vue-property-decorator';
+import { IEaasiResourceSummary, IEnvironment } from '@/types/Resource';
 import { ILabeledItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from './EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '@/components/resources/view-details/metadata/ResourceDetailsSummary.vue';

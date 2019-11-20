@@ -1,19 +1,18 @@
 <template>
-	<div
-		v-if="labeledItems.length > 0"
-		class="lil-container"
-	>
-		<div
-			v-for="(item, index) in labeledItems"
-			:key="index"
-		>
+	<div v-if="labeledItems.length > 0" class="lil-container">
+		<div v-for="(item, index) in labeledItems" :key="index">
 			<editable-text-item
-				v-if="editType === 'text-input'"
+				v-if="item.editType === 'text-input'"
 				:item="item"
 				:readonly="readonly"
 			/>
 			<editable-checkbox-item
-				v-else-if="editType === 'checkbox'"
+				v-else-if="item.editType === 'checkbox'"
+				:item="item"
+				:readonly="readonly"
+			/>
+			<editable-select-list
+				v-else-if="item.editType === 'select'"
 				:item="item"
 				:readonly="readonly"
 			/>
@@ -30,11 +29,13 @@ import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledItem } from '@/types/ILabeledItem';
 import EditableTextItem from './EditableTextItem.vue';
 import EditableCheckboxItem from './EditableCheckboxItem.vue';
+import EditableSelectList from './EditableSelectList.vue';
 
 @Component({
     name: 'EditableLabeledItemList',
     components: {
-        EditableTextItem,
+		EditableTextItem,
+		EditableSelectList,
         EditableCheckboxItem
     }
 })
@@ -47,21 +48,6 @@ export default class EditableLabeledItemList extends Vue {
     
     @Prop({ type: Boolean })
     readonly: Boolean;
-    
-    @Prop({ type: String })
-    editType: String;
-
-    /* Computed
-    ============================================*/
-
-    /* Data
-    ============================================*/
-
-    /* Methods
-    ============================================*/
-
-    /* Lifecycle Hooks
-    ============================================*/
 
 }
 </script>

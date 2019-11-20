@@ -34,6 +34,17 @@ router.get('/environment', (req, res) => controller.getEnvironment(req, res));
 router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTemplates(req, res));
 
 /**
+ * @api {get} resource/software Search All Software Objects
+ * @apiVersion 1.0.0
+ * @apiName Software Resource Object
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets software object
+ */
+router.get('/software-object', (req, res) => controller.getSoftwareObject(req, res));
+
+/**
+ * @api {post} resource/search Search Request
  * @api {get} resource/patches get all patches
  * @apiVersion 1.0.0
  * @apiName Patches
@@ -42,6 +53,12 @@ router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTempl
  * @apiDescription Gets an object containing data about all environment templates
  */
 router.get('/patches', (req, res) => controller.getPatches(req, res));
+
+
+router.get('/operatingSystemMetadata', (req, res) => controller.getOperatingSystemMetadata(req, res));
+
+ 
+router.get('/nameIndexes', (req, res) => controller.getNameIndexes(req, res));
 
 /**
  * @api {post} resource/ Delete a resource
@@ -53,6 +70,16 @@ router.get('/patches', (req, res) => controller.getPatches(req, res));
 router.delete('/environment', (req, res) => controller.deleteEnvironment(req, res));
 
 /**
+ * @api {post} updates environment description
+ * @apiVersion 1.0.0
+ * @apiName Update Environment Description
+ * @apiGroup Resources
+ * @apiDescription Updates Environment Description
+ */
+router.post('/update-environment', (req, res) => controller.updateEnvironmentDetails(req, res));
+
+/**
+ * @api {post} resource/ Delete a resource
  * @api {get} resource/software Search All Software Resources
  * @apiVersion 1.0.0
  * @apiName Software Resource Package Description
