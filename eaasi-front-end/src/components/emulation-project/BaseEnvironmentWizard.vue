@@ -10,6 +10,7 @@
 								style="max-width: 17.5rem;"
 								sub-label="...node or network saved resources"
 								@click="searchForEnvironment"
+								disabled
 							>
 								Search/Browse
 							</ui-button>
@@ -18,6 +19,7 @@
 								style="max-width: 17.5rem;"
 								sub-label="...imported or bookmarked resources"
 								@click="openMyResources"
+								disabled
 							>
 								My Resources
 							</ui-button>
@@ -36,6 +38,7 @@
 								block
 								sub-label="...from your node's system templates"
 								@click="chooseTemplate"
+								disabled
 							>
 								Choose Template
 							</ui-button>
@@ -54,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import CreateBaseEnvModal from '@/components/emulation-project/CreateBaseEnvModal.vue';
 import Vue from 'vue';
 

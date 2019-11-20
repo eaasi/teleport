@@ -11,7 +11,9 @@
 	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
 	import config from '@/config';
+	// noinspection TypeScriptCheckImport
 	import { saveAs } from 'file-saver';
+	// noinspection TypeScriptCheckImport
 	import cookies from 'js-cookie';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
@@ -41,6 +43,10 @@
 		@Prop({type: Object as () => IEnvironment, required: true})
 		readonly environment: IEnvironment;
 
+		/* Data
+        ============================================*/
+		clientComponentId: string;
+
 		/* Computed
         ============================================*/
 
@@ -52,6 +58,7 @@
 
 		@Sync('emulatorIsRunning')
 		isStarted: boolean;
+
 
 		/* Data
         ============================================*/
@@ -119,6 +126,7 @@
 				}
 				vm.setupListeners();
 				vm.startEnvironment();
+
 			} catch(e) {
 				this.handleError(e);
 			}
@@ -136,6 +144,7 @@
 				vm.isStarted = true;
 				await vm.client.connect();
 				vm.attachUserControls();
+				this.clientComponentId = vm.client['componentId'];
 			} catch(e) {
 				vm.handleError(e);
 			}
@@ -181,8 +190,23 @@
 			console.log('TODO: saveEmulator');
 		}
 
+		async saveEnvironmentImport(importDesc: string) {  // TODO: arg will be object when metadata is ready
+			let importData = {
+				saveDesc: importDesc,
+				componentId: this.clientComponentId
+			};
+
+			// TODO: Handle saveResult failure modes
+			let saveResult = await this.$store.dispatch('import/saveEnvironmentImport', importData).then(async () => {
+				await this.stopEnvironment();
+			});
+
+			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources'}});
+		}
+
 		initBusListeners() {
 			eventBus.$on('emulator:save', () => this.saveEmulator());
+			eventBus.$on('emulator:saveEnvironmentImport', (importDesc) => this.saveEnvironmentImport(importDesc));
 			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
 			eventBus.$on('emulator:send:escape', () => this.sendEscape());
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
@@ -190,6 +214,7 @@
 
 		removeBusListeners() {
 			eventBus.$off('emulator:save');
+			eventBus.$off('emulator:saveEnvironmentImport');
 			eventBus.$off('emulator:takeScreenshot');
 			eventBus.$off('emulator:send:escape');
 			eventBus.$off('emulator:send:ctrlAltDelete');

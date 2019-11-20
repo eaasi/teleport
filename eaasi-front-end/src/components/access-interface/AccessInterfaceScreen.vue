@@ -6,10 +6,7 @@
 			@click:save="save"
 		/>
 
-		<environment-menu
-			v-if="environment"
-			:environment="environment"
-		/>
+		<environment-menu v-if="environment" />
 
 		<div class="flex-adapt padded ai-content">
 			<div class="ai-emulator">
@@ -49,12 +46,12 @@
 </template>
 
 <script lang="ts">
-	import {jsonCopy} from '@/utils/functions';
+	import { jsonCopy } from '@/utils/functions';
 	import Vue from 'vue';
-	import {Component} from 'vue-property-decorator';
-	import {Route} from 'vue-router';
-	import {Get, Sync} from 'vuex-pathify';
-	import {IEnvironment} from '../../types/Resource';
+	import { Component } from 'vue-property-decorator';
+	import { Route } from 'vue-router';
+	import { Get, Sync } from 'vuex-pathify';
+	import { IEnvironment } from '@/types/Resource';
 	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';
@@ -116,7 +113,8 @@
 				objectArchive: null,
 				software: null,
 				title: this.importedTitle,
-				type: 'machine'
+				type: 'machine',
+				isImport: true,
 			};
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
 		}
@@ -130,7 +128,7 @@
 		async restart() {
 			let vm = this;
 			vm.showConfirmRestartModal = false;
-			if(!vm.$refs._emulator) return;
+			if (!vm.$refs._emulator) return;
 			let environment = jsonCopy(vm.environment) as IEnvironment;
 			await vm.$refs._emulator.stopEnvironment();
 			vm.environment = null;
@@ -140,7 +138,7 @@
 		}
 
 		save() {
-			// TODO:
+			console.log('TODO: ::: AccessInterfaceScreen ::: save');
 		}
 
 		async stop() {
@@ -169,6 +167,7 @@
 			});
 		}
 	}
+
 </script>
 
 <style lang="scss">

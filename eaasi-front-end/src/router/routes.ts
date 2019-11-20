@@ -84,7 +84,8 @@ export default [
 	{
 		path: '/resources/my-resources',
 		name: 'My Resources',
-		component: MyResourcesScreen
+		component: MyResourcesScreen,
+		props: true
 	},
 	{
 		path: '/resources/explore',

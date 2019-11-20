@@ -1,5 +1,6 @@
 import { ResourceType, IEnvironment, IEaasiResource } from './Resource';
-import { IBookmark } from './Bookmark';
+
+export type ResourceArchive = 'remote' | 'public' | 'default';
 
 export interface IEaasiSearchResponse<T> {
 	result: T[],
@@ -22,6 +23,7 @@ export interface IResourceSearchQuery {
 	selectedFacets: IResourceSearchFacet[];
 	types: ResourceType[];
 	keyword: string;
+	archives: ResourceArchive[];
 	limit: number;
 }
 

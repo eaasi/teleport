@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { ResourceImportPath } from '@/types/Import';
 import { Get, Sync } from 'vuex-pathify';
 import GeneralMetadata from './EnvironmentImportGeneralMetadata.vue';
@@ -81,15 +81,15 @@ export default class EnvironmentImportMetadata extends Vue {
 	============================================*/
 
 	@Get('import/importPath')
-	readonly importPath: ResourceImportPath
+	readonly importPath: ResourceImportPath;
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	/* Data
 	============================================*/
 
-	versions: any[] = [{id: 1}] // TODO:
+	versions: any[] = [{id: 1}];  // TODO
 
 
 	/* Methods

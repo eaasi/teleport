@@ -18,7 +18,6 @@ export default class HttpJSONService implements IHttpService {
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
 	public async get(url: string, options?: RequestInit): Promise<Response> {
-		console.log('::: HttpJSONService GET request for :::', url);
 		let requestInit = this._createRequestInit('GET', null, options);
 		return await fetch(url, requestInit);
 	}

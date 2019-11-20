@@ -3,15 +3,37 @@
 		<div class="em-header">
 			<div class="em-tags">
 				<tag text="Environment" icon="fa-box" />
+				<tag v-if="environment.isImport" text="New Import" icon="fa-upload" color="yellow" />
 			</div>
 			<h2>{{ environment.title }}</h2>
-			<p v-if="environment.description">{{ environment.description | stripHtml }}</p>
+			<p v-if="environment.isImport"></p>
+			<p v-else-if="environment.description">{{ environment.description | stripHtml }}</p>
 			<p v-else>No description for this environment was provided.</p>
 		</div>
+
 		<tabbed-nav
+			v-if="!environment.isImport"
 			:tabs="tabs"
 			v-model="tab"
 		/>
+
+		<div v-if="tab === 'New Import'" class="em-configure">
+			<h3 class="divider-header">New Environment Import</h3>
+			<collapsable
+				title="Describe the new Environment Import"
+				secondary
+				class="white-bg"
+			>
+				<eaasi-form>
+					<text-area-input
+						label="New Environment Description"
+						rules="required"
+						v-model="newImportDescription"
+					/>
+					<ui-button block @click="saveImport">Save Environment Import</ui-button>
+				</eaasi-form>
+			</collapsable>
+		</div>
 
 		<div v-if="tab === 'Configure New'" class="em-configure">
 			<h3 class="divider-header">New Configuration</h3>
@@ -61,10 +83,12 @@
 </template>
 
 <script lang="ts">
+import eventBus from '@/utils/event-bus';
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { IAction, IEaasiTab } from 'eaasi-nav';
+import { Component } from 'vue-property-decorator';
+import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -72,29 +96,31 @@ import { IEnvironment } from '@/types/Resource';
 	}
 })
 export default class EnvironmentMenu extends Vue {
-
-	/* Props
-	============================================*/
-
-	@Prop({type: Object as () => IEnvironment, required: true})
-	readonly environment: IEnvironment
-
 	/* Data
 	============================================*/
-
-	tabs: IEaasiTab[] = [
-		{
-			label: 'Saved Metadata'
-		},
-		{
-			label: 'Configure New'
-		}
-	];
-
-	tab: string = 'Configure New';
+	newImportDescription: string;  // TODO: this will become an object when more metadata is available
 
 	/* Computed
 	============================================*/
+	@Get('resource/activeEnvironment')
+	readonly environment: IEnvironment;
+
+	get tabs(): IEaasiTab[] {
+		if (this.environment.isImport) {
+			return [];
+		}
+		return [
+			{ label: 'Saved Metadata' },
+			{ label: 'Configure New' }
+		];
+	}
+
+	get tab(): string {
+		if (this.environment.isImport) {
+			return 'New Import';
+		}
+		return 'Configure New';
+	};
 
 	/**
 	 * Computes whether or not to show the details tab
@@ -106,16 +132,12 @@ export default class EnvironmentMenu extends Vue {
 
 	/* Methods
 	============================================*/
-
-	doAction(action: IAction) {
-		console.log(`Action clicked: ${action.label}`);
-		if(action.label === 'Run in Emulator') {
-			if(this.environment) {
-				this.$router.push(`/access-interface/${this.environment.envId}`);
-			}
-		}
+	/**
+	 * Emits an event to save an imported environment
+	 */
+	saveImport() {
+		eventBus.$emit('emulator:saveEnvironmentImport', this.newImportDescription);
 	}
-
 }
 
 </script>

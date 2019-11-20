@@ -1,11 +1,13 @@
 import { IEnvironment } from '../emil/EmilEnvironmentData';
 
 export type ResourceType = 'Environment' | 'Software' | 'Content';
+export type ArchiveType = 'public' | 'default' | 'remote';
 
 export interface IEaasiResource {
 	id: number | string;
 	title: string;
 	resourceType: ResourceType;
+	archive: ArchiveType;
 }
 
 /*============================================================
@@ -24,6 +26,7 @@ export interface ISaveEnvironmentResponse {
 export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	selectedFacets: IResourceSearchFacet[];
 	types: ResourceType[];
+	archives: ArchiveType[];
 	keyword: string;
 }
 

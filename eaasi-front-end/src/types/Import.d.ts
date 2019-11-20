@@ -15,9 +15,20 @@ export interface IResourceImportFile extends ISortable {
 	name: string
 }
 
-export interface IImageImport {
+export interface IResourceImport {
 	nativeConfig?: string,
 	patchId?: string,
 	templateId?: string,
 	urlString?: string
+}
+
+export interface IEnvironmentImportSnapshot {
+	componentId: string;
+	environmentId: string,
+	isRelativeMouse?: boolean,
+	importSaveDescription: string,
+	title: string,
+	objectId?: string,
+	softwareId?: string,
+	userId?: string
 }

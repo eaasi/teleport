@@ -97,7 +97,7 @@ import { Component, Watch } from 'vue-property-decorator';
 		ConfirmModal
 	}
 })
-export default class  extends Vue {
+export default class MyBookmarksSection extends Vue {
     /* Computed
     ============================================*/
 

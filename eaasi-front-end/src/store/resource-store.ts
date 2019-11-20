@@ -20,6 +20,8 @@ class ResourceState {
 	savingEnvironments: string[] = [];
 	saveEnvironmentTaskMap: object = {};
 	availableTemplates: any[] = [];
+	clientComponentId: string = '';
+	imports: IEaasiResource[] = [];
 }
 
 const state = new ResourceState();
@@ -135,6 +137,30 @@ const actions = {
 
 	async getOperatingSystemMetadata(_) {
 		return await _svc.operatingSystemMetadata();
+	},
+
+	async getImports({ commit, dispatch }) {
+		const importQuery: IResourceSearchQuery = {
+			keyword: '',
+			selectedFacets: [],
+			limit: 5000,
+			types: [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT, resourceTypes.CONTENT],
+			archives: ['default'] // Imports are stored in 'default' -- // Todo: more specific distinction?
+		};
+
+		const result = await _svc.searchResources(importQuery);
+		if (!result) return;
+
+		let envs = await result.environments.result;
+		let software = await result.software.result;
+		let content = await result.content.result;
+
+		let imports = [...envs, ...software, ...content];
+
+		commit('SET_RESULT', result);
+		// generates facets based on the result received in searchResources.
+		// eventually won't need to do this, because facets will come with a result from the backend
+		if (result) dispatch('populateSearchFacets');
 	}
 };
 

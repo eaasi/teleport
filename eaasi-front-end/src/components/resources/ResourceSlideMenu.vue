@@ -275,8 +275,8 @@
 
 		async deleteSelectedResource() {
 			this.confirmAction = null;
-			const result = await this.$store.dispatch('resource/deleteSelectedResource');
-			if (result) this.$emit('resource-updated');
+			await this.$store.dispatch('resource/deleteSelectedResource')
+				.then(() => this.$emit('resource-updated'));
 		}
 
 		// TODO: Refactor doAction and multiple / single selected resource logic

@@ -11,6 +11,7 @@
 				<ui-button
 					sub-label="...node or network saved resources"
 					@btnClicked="searchForEnvironment"
+					disabled
 				>
 					Search/Browse
 				</ui-button>
@@ -18,6 +19,7 @@
 				<ui-button
 					sub-label="...imported or bookmarked resources"
 					@btnClicked="openMyResources"
+					disabled
 				>
 					My Resources
 				</ui-button>
