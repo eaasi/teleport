@@ -123,28 +123,33 @@ export default class MyBookmarksSection extends Vue {
         return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
     }
 
-    get refinedContent() {
-        const searchResult = this.refinedResult(this.bentoResult.content);
-        const result = searchResult.result.filter(r => this.bookmarks.some(b => b.resourceID === r.id));
-        return {...searchResult, result};
-    }
+	get refinedContent() {
+		const searchResult = this.refinedResult(this.bentoResult.content);
+		const result = searchResult.result
+			.filter(r => this.bookmarks
+				.some(b => b.resourceID === r.id));
+		return {...searchResult, result};
+	}
 
-    get refinedSoftware() {
-        const searchResult = this.refinedResult(this.bentoResult.software);
-        const result = searchResult.result.filter(r => this.bookmarks.some(b => b.resourceID === r.id));
-        return {...searchResult, result};
-    }
+	get refinedSoftware() {
+		const searchResult = this.refinedResult(this.bentoResult.software);
+		const result = searchResult.result
+			.filter(r => this.bookmarks
+				.some(b => b.resourceID === r.id));
+		return {...searchResult, result};
+	}
 
-    get refinedEnvironment() {
-        const searchResult = this.refinedResult(this.bentoResult.environments);
-        const result = searchResult.result.filter(r => this.bookmarks.some(b => b.resourceID === r.envId));
-        return {...searchResult, result};
+	get refinedEnvironment() {
+		const searchResult = this.refinedResult(this.bentoResult.environments);
+		const result = searchResult.result
+			.filter(r => this.bookmarks
+				.some(b => b.resourceID === r.envId));
+		return {...searchResult, result};
     }
 
 	/* Data
     ============================================*/
 	isClearBookmarksModalVisible: boolean = false;
-
 
     /* Methods
     ============================================*/
@@ -153,7 +158,9 @@ export default class MyBookmarksSection extends Vue {
         if (!bentoResult) return { result: [], totalResults: 0 };
         if (!this.hasSelectedFacets) return bentoResult;
         const result = bentoResult.result.filter(
-            env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
+            env => this.selectedFacets
+				.some(f => f.values
+					.some(v => env[f.name] === v.label && v.isSelected ))
         );
         return {...bentoResult, result};
     }
