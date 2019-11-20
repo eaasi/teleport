@@ -6,6 +6,7 @@
 					label="Name"
 					placeholder="Enter a name or title for this resource"
 					:readonly="readonly"
+					value=""
 					v-model="title"
 				/>
 			</div>
@@ -33,6 +34,7 @@
 					label="Operating System Version"
 					placeholder="Select OS Version..."
 					:readonly="readonly"
+					value=""
 					disabled
 				/>
 			</div>
@@ -44,6 +46,7 @@
 					readonly
 					label="System Architecture"
 					v-model="chosenTemplateArchitecture"
+					value=""
 					rules="required"
 				/>
 
@@ -52,6 +55,7 @@
 					readonly
 					label="Emulator"
 					v-model="chosenTemplateEmulator"
+					value=""
 					rules="required"
 				/>
 
@@ -60,6 +64,7 @@
 					readonly
 					label="Config"
 					v-model="chosenTemplateNativeConfig"
+					value=""
 					rules="required"
 				/>
 			</div>
