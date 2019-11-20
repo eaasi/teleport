@@ -40,7 +40,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ResourceType } from '@/types/Resource';
 import { IEaasiResource } from '@/types/Resource';
-import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
+import { IEaasiSearchResponse } from '@/types/Search';
 
 @Component({
 	name: 'BentoHeader',
@@ -51,10 +51,10 @@ export default class BentoHeader extends Vue {
 	============================================*/
 
 	@Prop({type: String, required: true})
-	readonly type: ResourceType
+	readonly type: ResourceType;
 
 	@Prop({type: Object as () => IEaasiSearchResponse<IEaasiResource>, required: true})
-	readonly result: IEaasiSearchResponse<IEaasiResource>
+	readonly result: IEaasiSearchResponse<IEaasiResource>;
 
 	/* Data
 	============================================*/
