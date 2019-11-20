@@ -21,6 +21,7 @@ class ResourceState {
 	saveEnvironmentTaskMap: object = {};
 	availableTemplates: any[] = [];
 	clientComponentId: string = '';
+	imports: IEaasiResource[] = [];
 }
 
 const state = new ResourceState();
@@ -136,6 +137,12 @@ const actions = {
 
 	async getOperatingSystemMetadata(_) {
 		return await _svc.operatingSystemMetadata();
+	},
+
+	async getImports({ commit }) {
+		const result = await _svc.getImports();
+		if (!result) return;
+		commit('SET_IMPORTS', result);
 	}
 };
 

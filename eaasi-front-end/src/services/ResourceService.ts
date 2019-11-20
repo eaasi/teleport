@@ -82,6 +82,14 @@ class ResourceService extends BaseHttpService {
 		let res = await this.get<any>('/resource/operatingSystemMetadata');
 		return res.result;
 	}
+
+	/**
+	 * Makes a GET request to get imported resources
+	 */
+	async getImports() {
+		let res = await this.get<any>('/resource/imports');
+		return res.result;
+	}
 }
 
 export default new ResourceService();

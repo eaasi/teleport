@@ -3,6 +3,7 @@
 		<h1>My Resources</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<my-bookmarks-section v-if="activeTab === 'My Bookmarks'" />
+		<imported-resources-section v-if="activeTab === 'Imported Resources'" />
 
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
@@ -14,26 +15,34 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-import { IEaasiTab } from 'eaasi-nav';
+import {Component, Prop} from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
+import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import MyBookmarksSection from './MyBookmarksSection.vue';
-import ResourceSlideMenu from '../ResourceSlideMenu.vue';
+import MyBookmarksSection from '@/components/resources/my-resources/MyBookmarksSection.vue';
+import ImportedResourcesSection from '@/components/resources/my-resources/ImportedResourcesSection.vue';
+import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
-		MyBookmarksSection, ResourceSlideMenu
+		MyBookmarksSection,
+		ResourceSlideMenu,
+		ImportedResourcesSection
 	}
 })
 export default class MyResourcesScreen extends Vue {
+
+	/* Props
+	============================================*/
+	@Prop({ type: String, required: false, default: 'My Bookmarks' })
+	activeTab: string;
 
 	/* Computed
 	============================================*/
 
 	@Sync('resource/selectedResources')
-    selectedResources: IEaasiResource[]
+    selectedResources: IEaasiResource[];
 
 	get hasActiveResources() {
 		return this.selectedResources.length > 0;
@@ -49,14 +58,14 @@ export default class MyResourcesScreen extends Vue {
 		},
 		{
 			label: 'Imported Resources',
-			disabled: true
+			disabled: false
 		},
 		{
 			label: 'My Contributions',
 			disabled: true
 		}
 	];
-	activeTab: string = this.tabs[0].label;
+
 	isMenuOpenRequest: boolean = true;
 
 	toggleSideMenu() {

@@ -196,11 +196,10 @@
 				componentId: this.clientComponentId
 			};
 
-			let saveResult = this.$store.dispatch('import/saveEnvironmentImport', importData);
-
-			if (!saveResult) return;
-
-			await this.stopEnvironment();
+			// TODO: Handle saveResult failure modes
+			let saveResult = await this.$store.dispatch('import/saveEnvironmentImport', importData).then(async () => {
+				await this.stopEnvironment();
+			});
 
 			this.$router.push('/resources/my-resources');
 		}
