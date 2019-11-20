@@ -85,10 +85,10 @@
 <script lang="ts">
 import eventBus from '@/utils/event-bus';
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
-import {Get, Sync} from 'vuex-pathify';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'EnvironmentMenu',
