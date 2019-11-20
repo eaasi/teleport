@@ -10,6 +10,12 @@ class SoftwareService extends BaseHttpService {
 		return res.result;
 	}
 
+	async getSoftwareObject(softwareId : string): Promise<ISoftwarePackage> {
+		let res = await this.get<ISoftwarePackage>(`/resource/software-object?id=${softwareId}`);
+		if(!res.ok) return null;
+		return res.result;
+	}
+
 	async searchSoftware(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
 		let res = await this.post<IResourceSearchResponse>('/resource/search', query);
 		if (!res.ok) return null;

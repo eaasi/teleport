@@ -1,4 +1,4 @@
-import { IComponentInputMedium, IMachineComponentRequest, ILinuxRuntimeData } from '@/types/Eaas';
+import { IComponentInputMedium, IMachineComponentRequest } from '@/types/Eaas';
 import { IEnvironment } from '@/types/Resource';
 
 export default class MachineComponentRequest implements IMachineComponentRequest {

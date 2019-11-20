@@ -1,12 +1,13 @@
 <template>
 	<div :class="['li-container', 'editable-container', { readonly }]">
 		<div class="li-label">
-			{{ localItem.label }}
+			{{ item.label }}
 		</div>
 		<text-input
+			:class="['input-wrapper', { changed }]"
 			style="margin-bottom: 1rem;"
-			v-model="localItem.value"
-			:readonly="readonly"
+			v-model="item.value"
+			:readonly="item.readonly || readonly"
 		/>
 	</div>
 </template>
@@ -14,18 +15,18 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { ILabeledItem } from '@/types/ILabeledItem';
-import { jsonEquals, jsonCopy } from '../../../../utils/functions';
+import { ILabeledEditableItem } from '@/types/ILabeledItem';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
     name: 'EditableTextItem'
 })
-export default class  extends Vue {
+export default class EditableTextItem extends Vue {
 
     /* Props
     ============================================*/
-    @Prop({ type: Object as () => ILabeledItem })
-    item: ILabeledItem;
+    @Prop({ type: Object as () => ILabeledEditableItem })
+    item: ILabeledEditableItem;
 
     @Prop({ type: Boolean })
     readonly: Boolean;
@@ -38,13 +39,7 @@ export default class  extends Vue {
 
     /* Data
     ============================================*/
-    localItem: ILabeledItem = jsonCopy(this.item);
-
-    /* Methods
-    ============================================*/
-
-    /* Lifecycle Hooks
-    ============================================*/
+    localItem: ILabeledEditableItem = jsonCopy(this.item);
 
 }
 </script>
@@ -68,7 +63,7 @@ export default class  extends Vue {
 		}
 	}
 
-	.li-value {
+	.input-wrapper {
 
 		&.changed {
 			background: lighten($yellow, 60%);

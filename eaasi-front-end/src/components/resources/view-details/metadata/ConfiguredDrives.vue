@@ -1,58 +1,69 @@
 <template>
-	<div
-		v-if="drives.length > 0"
-		class="lil-container"
-	>
-		<div
-			v-for="(drive, index) in drives"
-			:key="index"
-		>
-			<div class="li-container">
-				<div class="li-label">
-					{{ drive.type }}
+	<div>
+		<div v-if="drivesWithIds.length > 0" class="lil-container">
+			<div v-for="drive in drivesWithIds" :key="drive.uid">
+				<div class="li-container">
+					<div class="li-label">
+						{{ drive.type }}
+					</div>
+					<p class="li-value flex-row justify-between">
+						<span style="display: block; max-width: 24.5rem;">
+							Filesystem: {{ drive.filesystem ? drive.filesystem : 'Not specified' }}
+						</span>
+						<span v-if="!readonly" class="icon-wrapper flex-row">
+							<i 
+								class="fas fa-edit dark-blue"
+								style="margin-right: 0.5rem;"
+								@click="edit(drive)"
+							></i>
+							<i class="fas fa-times red" @click="remove(drive)"></i>
+						</span>
+					</p>
 				</div>
-				<p class="li-value flex-row justify-between">
-					<span style="display: block; max-width: 24.5rem;">
-						Filesystem: {{ drive.filesystem ? drive.filesystem : 'Not specified' }}
-					</span>
-					<span v-if="!readonly" class="icon-wrapper flex-row" style="float: right;">
-						<i class="fas fa-edit dark-blue" style="margin-right: 0.5rem;" @click="edit(index)"></i>
-						<i class="fas fa-times red" @click="remove(index)"></i>
-					</span>
-				</p>
 			</div>
+			<ui-button
+				v-if="!readonly"
+				size="sm"
+				color-preset="light-blue"
+				icon="plus"
+				@click="add"
+			>
+				Add Drive
+			</ui-button>
 		</div>
-		<ui-button
-			v-if="!readonly"
-			size="sm"
-			color-preset="light-blue"
-			icon="plus"
-			@click="add"
-		>
-			Add Drive
-		</ui-button>
-	</div>
-	<div v-else class="lil-container">
-		<span class="lil-no-data">No Data</span>
-		<ui-button
-			v-if="editable"
-			size="sm"
-			color-preset="light-blue"
-			icon="plus"
-			@click="add"
-		>
-			Add Drive
-		</ui-button>
+		<div v-else class="lil-container">
+			<span class="lil-no-data">No Data</span>
+			<ui-button
+				v-if="!readonly"
+				size="sm"
+				color-preset="light-blue"
+				icon="plus"
+				@click="add"
+			>
+				Add Drive
+			</ui-button>
+		</div>
+		<drive-edit-modal
+			v-if="activeDrive"
+			:drive="activeDrive"
+			@cancel="closeModal"
+			@save="save"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IDrive } from '@/types/Resource';
+import { Component, Prop } from 'vue-property-decorator';
+import { IDrive, IEditableDrive } from '@/types/Resource';
+import DriveEditModal from './DriveEditModal.vue';
+import { generateId, jsonCopy } from '@/utils/functions';
 
 @Component({
-    name: 'ConfiguredDrives'
+	name: 'ConfiguredDrives',
+	components: {
+		DriveEditModal
+	}
 })
 export default class ConfiguredDrives extends Vue {
 
@@ -65,28 +76,55 @@ export default class ConfiguredDrives extends Vue {
     readonly: Boolean;
 
     /* Computed
-    ============================================*/
+	============================================*/
+	get drivesWithIds(): IEditableDrive[] {
+		return this.drives.map(d => {
+			return {...d, uid: generateId()};
+		});
+	}
 
     /* Data
     ============================================*/
-    localDrives: IDrive[] = this.drives;
+	activeDrive: IEditableDrive = null;
 
     /* Methods
     ============================================*/
-    remove(index: number) {
-        this.drives = this.drives.splice(index, 1);
-    }
-
-    edit(index: number) {
-
+    remove(drive: IEditableDrive) {
+		const updatedDrives = this.drivesWithIds.filter(d => d.uid != drive.uid);
+		this.$emit('update-drives', updatedDrives);
     }
 
     add() {
+		this.activeDrive = {
+			uid: generateId(),
+			data: '',
+			iface: '',
+			filesystem: '',
+			bus: '',
+			unit: '',
+			type: 'floppy',
+			boot: false,
+			plugged: false,
+		} as IEditableDrive;
+	}
+	
+	save(drive: IEditableDrive) {
+		let updatedDrives: IEditableDrive[] = this.drivesWithIds;
+		this.drivesWithIds.some(d => d.uid === drive.uid)
+			? updatedDrives = this.drivesWithIds.map(d => d.uid === drive.uid ? drive : d)
+			: updatedDrives.push(drive);
 
-    }
+		this.$emit('update-drives', updatedDrives);
+		this.closeModal();
+	}
 
-    /* Lifecycle Hooks
-    ============================================*/
+	closeModal() {
+		this.activeDrive = null;
+	}
+
+	edit(drive: IEditableDrive) {
+		this.activeDrive = jsonCopy(drive);
+	}
 
 }
 </script>
@@ -94,6 +132,10 @@ export default class ConfiguredDrives extends Vue {
 <style lang='scss' scoped>
 .lil-container {
 	position: relative;
+	.changed {
+		background: lighten($yellow, 60%);
+	}
+
 	.fas {
 		cursor: pointer;
 		display: block;

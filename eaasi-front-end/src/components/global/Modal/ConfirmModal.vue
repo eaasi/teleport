@@ -10,7 +10,7 @@
 			<div class="flex-row justify-end">
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
-						<ui-button @click="cancel" secondary>
+						<ui-button @click="cancel" color-preset="light-blue">
 							{{ cancelLabel }}
 						</ui-button>
 						<ui-button @click="$emit('click:confirm')">

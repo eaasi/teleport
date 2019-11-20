@@ -20,7 +20,7 @@
 					</div>
 					<ui-button
 						block
-						secondary
+						color-preset="light-blue"
 						icon="plus"
 						@click="addSoftwareVersion"
 					>
@@ -44,7 +44,7 @@
 		<div v-if="step > 1">
 			<metadata-fast readonly class="mb-lg" />
 			<ui-button
-				secondary
+				color-preset="light-blue"
 				icon="chevron-left"
 				@click="step = 1"
 			>

@@ -8,7 +8,7 @@
 			<div class="flex-row justify-end">
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
-						<ui-button @click="$emit('close')" secondary>{{ buttonText }}</ui-button>
+						<ui-button @click="$emit('close')" color-preset="light-blue">{{ buttonText }}</ui-button>
 					</div>
 				</slot>
 			</div>

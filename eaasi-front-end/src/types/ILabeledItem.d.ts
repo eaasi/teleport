@@ -1,12 +1,14 @@
 export interface ILabeledItem {
 	label: string,
-	value: string | number | boolean
+	value: any
 }
 
 export interface ILabeledEditableItem extends ILabeledItem {
-	editable: boolean;
+	readonly: boolean;
 	editType: EditType;
 	changed: boolean;
+	property?: string;
+	data?: any;
 }
 
-export type EditType = 'text-input' | 'configured-drives' | 'checkbox';
+export type EditType = 'text-input' | 'configured-drives' | 'checkbox' | 'text-area' | 'select' | 'date';

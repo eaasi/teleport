@@ -9,7 +9,7 @@
 			/>
 
 			<ui-button
-				secondary
+				color-preset="light-blue"
 				icon="chevron-left"
 				@click="step = 1"
 			>
@@ -42,7 +42,7 @@
 						</div>
 						<ui-button
 							block
-							secondary
+							color-preset="light-blue"
 							icon="plus"
 							@click="addSoftwareVersion"
 						>

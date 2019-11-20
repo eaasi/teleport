@@ -1,9 +1,6 @@
 <template>
 	<div class="li-container flex-row">
-		<checkbox
-			v-model="item.value"
-			:disabled="readonly"
-		/>
+		<checkbox v-model="item.value" :disabled="readonly" />
 		<p :class="['li-value', 'text-bold', { changed }]">
 			{{ item.label }}
 		</p>
@@ -14,12 +11,12 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledItem } from '@/types/ILabeledItem';
-import { jsonCopy } from '../../../../utils/functions';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
     name: 'EditableTextItem'
 })
-export default class  extends Vue {
+export default class EditableTextItem extends Vue {
 
     /* Props
     ============================================*/
@@ -37,7 +34,7 @@ export default class  extends Vue {
 
     /* Data
     ============================================*/
-    localItem: ILabeledItem = jsonCopy(this.item);
+	localItem: ILabeledItem = jsonCopy(this.item);
 
 }
 </script>

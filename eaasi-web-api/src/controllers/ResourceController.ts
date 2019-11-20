@@ -2,6 +2,7 @@ import BaseController from './base/BaseController';
 import { Request, Response } from 'express';
 import { IResourceSearchQuery } from '@/types/resource/Resource';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
+import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
 
 /**
  * Handles requests related to Resource entities
@@ -67,6 +68,21 @@ export default class ResourceController extends BaseController {
 			this.sendError(e.message, res);
 		}
 	}
+	
+	/**
+	 * Updates Environment description
+	 */
+	async updateEnvironmentDetails(req: Request, res: Response) {
+        try {
+			const { environment } = req.body;
+			if (!environment) return this.sendError("no environment", res);
+            const emilEnvironmentService = new EmilEnvironmentService()
+			const result = await emilEnvironmentService.updateDescription(environment);
+			res.send(result);
+        } catch(e) {
+            this.sendError(e.message, res);
+        }
+    }
 
 	/**
 	 * Searches for resources using the request body as IResourceSearchQuery
@@ -116,5 +132,23 @@ export default class ResourceController extends BaseController {
 		} catch(e) {
 			this.sendError(e.message, res);
 		}
+	}
+
+	async getOperatingSystemMetadata(req: Request, res: Response) {
+		try {
+			let result = await this._svc.getOperatingSystemMetadata();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}	
+	}
+
+	async getNameIndexes(req: Request, res: Response) {
+		try {
+			let result = await this._svc.getNameIndexes();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}	
 	}
 }
