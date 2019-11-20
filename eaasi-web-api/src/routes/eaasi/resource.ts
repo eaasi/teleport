@@ -55,9 +55,22 @@ router.get('/software-object', (req, res) => controller.getSoftwareObject(req, r
 router.get('/patches', (req, res) => controller.getPatches(req, res));
 
 
+/**
+ * @api {get} resource/operatingSystemMetadata Gets OS metadata
+ * @apiVersion 1.0.0
+ * @apiName Gets OS metadata
+ * @apiGroup Resources
+ * @apiDescription Gets OS metadata
+ */
 router.get('/operatingSystemMetadata', (req, res) => controller.getOperatingSystemMetadata(req, res));
 
- 
+/**
+ * @api {get} resource/nameIndexes Gets name Indexes
+ * @apiVersion 1.0.0
+ * @apiName Gets name indexes
+ * @apiGroup Resources
+ * @apiDescription Gets name indexes
+ */
 router.get('/nameIndexes', (req, res) => controller.getNameIndexes(req, res));
 
 /**

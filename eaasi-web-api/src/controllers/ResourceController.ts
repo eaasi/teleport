@@ -68,21 +68,21 @@ export default class ResourceController extends BaseController {
 			this.sendError(e.message, res);
 		}
 	}
-	
+
 	/**
 	 * Updates Environment description
 	 */
 	async updateEnvironmentDetails(req: Request, res: Response) {
-        try {
+		try {
 			const { environment } = req.body;
-			if (!environment) return this.sendError("no environment", res);
-            const emilEnvironmentService = new EmilEnvironmentService()
+			if (!environment) return this.sendError('no environment', res);
+			const emilEnvironmentService = new EmilEnvironmentService()
 			const result = await emilEnvironmentService.updateDescription(environment);
 			res.send(result);
-        } catch(e) {
-            this.sendError(e.message, res);
-        }
-    }
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
 
 	/**
 	 * Searches for resources using the request body as IResourceSearchQuery
@@ -140,7 +140,7 @@ export default class ResourceController extends BaseController {
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
-		}	
+		}
 	}
 
 	async getNameIndexes(req: Request, res: Response) {
@@ -149,6 +149,6 @@ export default class ResourceController extends BaseController {
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
-		}	
+		}
 	}
 }
