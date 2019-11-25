@@ -27,20 +27,20 @@ export default class SortHeader extends Vue {
 	 * The name of the Sequelize model property to sort on
 	 */
 	@Prop({type: String, required: true})
-	readonly sortCol: string
+	readonly sortCol: string;
 
 	/**
 	 * The search query containing the current sort rule
 	 */
 	@Prop({type: Object, required: true})
-	readonly query: IEaasiSearchQuery
+	readonly query: IEaasiSearchQuery;
 
 	/**
 	 * The optional width of the header item (px)
 	 * Used to ensure constant width on dynamic change
 	 */
 	@Prop({type: Number, required: false})
-	readonly width: number
+	readonly width: number;
 
 	/* Computed
 	============================================*/

@@ -32,31 +32,31 @@ export default class Collapsable extends Vue {
 	 * The icon to display as the dropdown trigger
 	 */
 	@Prop({type: String, required: false, default: 'chevron-down'})
-	readonly icon: string = 'chevron-down'
+	readonly icon: string = 'chevron-down';
 
 	/**
 	 * Optional title to display when open is true
 	 */
 	@Prop({type: String, required: false})
-	readonly openTitle: string
+	readonly openTitle: string;
 
 	/**
 	 * Content will mount collapsed when true
 	 */
 	@Prop({type: Boolean, required: false, default: false})
-	readonly collapsed: boolean
+	readonly collapsed: boolean;
 
 	/**
 	 * Use secondary styles
 	 */
 	@Prop({type: Boolean, required: false})
-	readonly secondary: boolean
+	readonly secondary: boolean;
 
 	/**
 	 * The default title to display
 	 */
 	@Prop({type: String, required: true})
-	readonly title: string
+	readonly title: string;
 
 	/* Data
 	============================================*/
