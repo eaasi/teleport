@@ -71,7 +71,7 @@ export default class TabbedNav extends Vue {
 		transition: background-color $animation-time, color $animation-time;
 
 		span {
-			background-color: lighten($light-neutral, 80%);
+			background-color: lighten($light-neutral, 50%);
 			border-radius: 6px;
 			box-sizing: border-box;
 			color: $dark-blue;

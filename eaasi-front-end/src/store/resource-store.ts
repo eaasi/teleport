@@ -1,6 +1,6 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/ResourceService';
-import { IEaasiResource, IEnvironment, ISoftwarePackage } from '@/types/Resource';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';

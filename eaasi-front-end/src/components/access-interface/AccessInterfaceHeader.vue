@@ -1,7 +1,7 @@
 <template>
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
-			<div class="ah-logo">
+			<div class="ah-logo clickable" @click="goToDashboard">
 				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 
@@ -104,6 +104,11 @@
 		}
 
 		saveEnvironment() {
+			console.log('TODO: Implement AccessInterfaceHeader.saveEnvironment');
+		}
+
+		goToDashboard() {
+			this.$router.push({ 'name': 'Dashboard' });
 		}
 	}
 

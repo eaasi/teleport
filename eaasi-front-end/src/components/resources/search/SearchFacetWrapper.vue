@@ -3,8 +3,8 @@
 		<div :class="['sfw-header', 'flex-row', 'justify-between', { collapsed: isCollapsed }]" @click="isCollapsed = !isCollapsed">
 			<div class="sfw-label">{{ label }}</div>
 			<div :class="['sfw-collapse', 'flex', 'flex-center', { chevdark: isCollapsed }]" v-if="collapsable">
-				<i class="fal fa-chevron-up" v-show="!isCollapsed"></i>
-				<i class="fal fa-chevron-down" v-show="isCollapsed"></i>
+				<i class="fas fa-chevron-up" v-show="!isCollapsed"></i>
+				<i class="fas fa-chevron-down" v-show="isCollapsed"></i>
 			</div>
 		</div>
 		<div class="sfw-content" v-show="!isCollapsed">
