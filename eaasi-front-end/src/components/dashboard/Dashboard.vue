@@ -11,13 +11,15 @@ import { Component, Vue } from 'vue-property-decorator';
 import DashboardHeader from '@/components/dashboard/DashboardHeader.vue';
 import DashboardLinks from '@/components/dashboard/DashboardLinks.vue';
 import DashboardBlogFeed from '@/components/dashboard/DashboardBlogFeed.vue';
+import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
 
 @Component({
 	name: 'Dashboard',
 	components: {
 		DashboardHeader,
 		DashboardLinks,
-		DashboardBlogFeed
+		DashboardBlogFeed,
+		EaasiIcon,
 	}
 })
 export default class Dashboard extends Vue {

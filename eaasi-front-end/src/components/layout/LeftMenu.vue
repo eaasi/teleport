@@ -41,6 +41,12 @@ export default class LeftMenu extends Vue {
 			route: '/resources/my-resources'
 		},
 		{
+			icon: '',
+			label: '',
+			route: '',
+			isDivider: true
+		},
+		{
 			icon: 'atom',
 			label: 'Emulation Project',
 			route: '/emulation-project'
@@ -51,7 +57,13 @@ export default class LeftMenu extends Vue {
 			route: '/import-resource'
 		},
 		{
-			icon: 'cog',
+			icon: '',
+			label: '',
+			route: '',
+			isDivider: true
+		},
+		{
+			icon: 'manage',
 			label: 'Manage Node',
 			route: '/admin/users'
 		}
@@ -63,7 +75,7 @@ export default class LeftMenu extends Vue {
 
 <style lang="scss">
 .left-menu {
-	background-color: darken($teal, 70%);
+	background-color: darken($teal, 60%);
 	bottom: 0;
 	color: #FFFFFF;
 	left: 0;
