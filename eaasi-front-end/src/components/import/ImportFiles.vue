@@ -1,5 +1,6 @@
 <template>
 	<div class="import-resource-files padded">
+		<!-- No Files Added -->
 		<div v-if="!filesAreAdded">
 			<h3>{{ headline }}</h3>
 			<div class="row">
@@ -26,7 +27,32 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="filesAreAdded && !isEnvImport">
+
+		<!-- Files Added, Non-Environment Import -->
+		<div v-if="filesAreAdded && !isEnvImport" class="if-attached">
+			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length">
+				<UiButton icon="check" color-preset="light-blue" @click="selectAllFiles">
+					Select All
+				</UiButton>
+				<UiButton
+					icon="times"
+					color-preset="light-blue"
+					@click="selectNoFiles"
+					:disabled="!selectedFiles.length"
+				>
+					Select None
+				</UiButton>
+				<UiButton
+					icon="trash"
+					color-preset="light-blue"
+					@click="removeSelectedFiles"
+					class="if-trash-file"
+					:disabled="!selectedFiles.length"
+				>
+					Remove Selected Files
+				</UiButton>
+			</div>
+
 			<div class="flex-row justify-between mb-lg">
 				<h3 class="no-mb">{{ files.length }} files attached to this resource.</h3>
 				<file-upload-button
@@ -38,6 +64,8 @@
 				/>
 			</div>
 		</div>
+
+		<!-- Files Added, Environment Import -->
 		<div v-if="filesAreAdded && isEnvImport">
 			<div class="flex-row justify-between mb-lg">
 				<text-input
@@ -56,7 +84,10 @@
 				</ui-button>
 			</div>
 		</div>
+
 		<br />
+
+		<!-- Non-Environment Import Only -->
 		<div class="row" v-if="!isEnvImport">
 			<div class="col-md-12">
 				<div class="software-file-uploader">
@@ -112,6 +143,9 @@ export default class ImportFiles extends Vue {
 
 	@Sync('import/filesToUpload')
 	files: ResourceImportFile[];
+
+	@Sync('import/selectedFiles')
+	selectedFiles: ResourceImportFile[];
 
 	@Sync('import/importType')
 	importType: ImportType;
@@ -169,7 +203,7 @@ export default class ImportFiles extends Vue {
 
 	addFiles(fileList: File[]) {
 		let startingSortIndex = this.files.length + 1;
-		for(let i=0; i<fileList.length; i++) {
+		for (let i=0; i<fileList.length; i++) {
 			let f = fileList[i];
 			if (this.files.some(x => x.name === f.name)) continue;
 			this.files.push(new ResourceImportFile(f, startingSortIndex + i));
@@ -179,10 +213,26 @@ export default class ImportFiles extends Vue {
 
 	sorted() {
 		let files = [...this.files];
-		for(let i=0; i<files.length; i++) {
+		for (let i=0; i<files.length; i++) {
 			files[i].sortIndex = i + 1;
 		}
 		this.files = files;
+	}
+
+	selectAllFiles() {
+		this.$store.commit('import/SET_SELECTED_FILES', this.files);
+	}
+
+	selectNoFiles() {
+		this.$store.commit('import/SET_SELECTED_FILES', []);
+	}
+
+	removeSelectedFiles() {
+		const namesToRemove = this.selectedFiles.map(f => f.name);
+		const namesToUpload = this.files.map(f=>f.name).filter(f => !namesToRemove.includes(f));
+		const filesToUpload = this.files.filter(f=> namesToUpload.includes(f.name));
+		this.files = filesToUpload;
+		this.selectNoFiles();
 	}
 
 	@Watch('filesAreAdded', { immediate: true })
@@ -198,11 +248,10 @@ export default class ImportFiles extends Vue {
 <style lang="scss">
 
 	.import-resource-files {
-		background-color: #FFFFFF;
+		background-color: lighten($light-neutral, 80%);
 	}
 
 	.irf-option {
-		background-color: lighten($light-neutral, 70%);
 		height: 9.5rem;
 		padding: 2rem;
 		> span {
@@ -211,6 +260,12 @@ export default class ImportFiles extends Vue {
 			font-size: 1.6rem;
 			font-weight: bold;
 			margin-bottom: 1.7rem;
+		}
+	}
+
+	.if-file-buttons {
+		button {
+			margin-right: 0.5rem;
 		}
 	}
 </style>
