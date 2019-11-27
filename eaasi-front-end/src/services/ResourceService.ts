@@ -69,11 +69,17 @@ class ResourceService extends BaseHttpService {
 		return res.result['systems'];
 	}
 
+	/**
+	 * Makes a GET request to retrieve Name Indexes
+	 */
 	async getNameIndexes() {
 		let res = await this.get<any>('/resource/nameIndexes');
 		return res.result;
 	}
 
+	/**
+	 * Makes a GET request to retrieve operatingSystemMetadata
+	 */
 	async operatingSystemMetadata() {
 		let res = await this.get<any>('/resource/operatingSystemMetadata');
 		return res.result;

@@ -1,13 +1,13 @@
-import EaasiTask from '@/models/task/EaasiTask';
-import _svc from '@/services/ResourceService';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
-import { resourceTypes } from '@/utils/constants';
-import { mapEnvironmentToEnvironmentUpdateRequest, IEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
-import {IResourceSearchQuery, IResourceSearchResponse} from '@/types/Search';
 import { make } from 'vuex-pathify';
+import { resourceTypes } from '@/utils/constants';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
+import EaasiTask from '@/models/task/EaasiTask';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import { mapEnvironmentToEnvironmentUpdateRequest, IEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
+import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
+import _svc from '@/services/ResourceService';
 
 /*============================================================
  == State
@@ -185,6 +185,9 @@ const getters = {
 	softwareIsSelected(state) {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
+	},
+	onlySelectedResource(state) : IEaasiResource {
+		if (state.selectedResources.length === 1) return  state.selectedResources[0];
 	}
 };
 
