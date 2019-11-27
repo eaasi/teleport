@@ -1,7 +1,7 @@
 <template>
 	<div :class="['software-file-list-item flex', { selected }]">
 		<div class="sfl-check">
-			<checkbox v-model="selected" />
+			<checkbox v-model="selected" @input="onToggle" />
 		</div>
 		<div class="sfl-info flex-adapt">
 			<div class="sfl-name">{{ file.name }}</div>
@@ -23,6 +23,7 @@
 					<option value="Floppy Disk">Floppy Disk</option>
 					<option value="CD-ROM">CD-ROM</option>
 					<option value="Disk">Disk</option>
+					<option value="Disk">File</option>
 				</select-list>
 				<text-input
 					label="File Label"
@@ -42,6 +43,7 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import ResourceImportFile from '@/models/import/ResourceImportFile';
+import {Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'SoftwareFileListItem',
@@ -52,12 +54,27 @@ export default class SoftwareFileListItem extends Vue {
 	============================================*/
 
 	@Prop({type: Object as () => File, required: true})
-	readonly file: ResourceImportFile
+	readonly file: ResourceImportFile;
 
 	/* Data
 	============================================*/
 
-	selected: boolean = false;
+
+	/* Computed
+	============================================*/
+
+	@Sync('import/selectedFiles')
+	selectedFiles: ResourceImportFile[];
+
+	get selected(): boolean {
+		return !!this.selectedFiles.find(f => f.name === this.file.name);
+    }
+
+    set selected(isSelected: boolean) {
+		if (isSelected) {
+			this.selectedFiles.push(this.file);
+		}
+	}
 
 	/* Methods
 	============================================*/
@@ -67,6 +84,11 @@ export default class SoftwareFileListItem extends Vue {
 		this.$emit('sort', i);
 	}
 
+	onToggle(isChecked: boolean) {
+		if (!isChecked) {
+			this.selectedFiles = this.selectedFiles.filter(f => f.name !== this.file.name);
+		}
+	}
 }
 
 </script>

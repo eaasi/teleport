@@ -1,3 +1,4 @@
+import ResourceImportFile from '@/models/import/ResourceImportFile';
 import EaasiTask from '@/models/task/EaasiTask';
 import {ITaskState} from '@/types/Task';
 import { make } from 'vuex-pathify';
@@ -25,6 +26,7 @@ class ImportState {
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	componentId: string = '';
+	selectedFiles: ResourceImportFile[] = [];
 }
 
 const state = new ImportState();
@@ -44,6 +46,7 @@ mutations.RESET = (state) => {
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 	state.componentId= '';
+	state.selectedFiles = [];
 };
 
 
@@ -55,6 +58,7 @@ mutations.INIT_FOR_TYPE = (state) => {
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
 	state.componentId= '';
+	state.selectedFiles = [];
 };
 
 /*============================================================
@@ -103,6 +107,10 @@ const actions = {
 		let result = await _importService.saveEnvironment(snapshot) as ITaskState;
 		if (!result) console.log('No save result provided by snapshot response');
 		return result;
+	},
+
+	async clearFiles(store: Store<ImportState>) {
+		store.commit('SET_SELECTED_FILES', []);
 	}
 };
 
