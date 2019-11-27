@@ -11,6 +11,7 @@ declare module 'eaasi-nav' {
 		label: string;
 		route?: string;
 		onClick?(): void;
+		isDivider?: boolean;
 	}
 
 	export interface IEaasiTab {
