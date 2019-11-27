@@ -11,8 +11,8 @@
 						<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
 							({{ resources.length }}) Resources Selected
 						</span>
-						<span v-else-if="resources.length === 1" class="flex-adapt">
-							{{ resources[0].title }}
+						<span v-else-if="onlySelectedResource" class="flex-adapt">
+							{{ onlySelectedResource.title }}
 						</span>
 						<i class="fas fa-times" @click="$emit('toggle')"></i>
 					</div>
@@ -105,21 +105,21 @@
 </template>
 
 <script lang="ts">
-	import {MultiBookmarkRequest} from '@/types/Bookmark';
 	import Vue from 'vue';
-	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-	import SlideMenu from '@/components/layout/SlideMenu.vue';
+	import {Component, Prop} from 'vue-property-decorator';
+	import {Get, Sync} from 'vuex-pathify';
 	import ResourceService from '@/services/ResourceService';
 	import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
-	import {ILabeledItem} from '@/types/ILabeledItem';
-	import {IEaasiResource, IEnvironment} from '@/types/Resource';
 	import {resourceTypes} from '@/utils/constants';
 	import {IEaasiUser} from 'eaasi-admin';
 	import {IAction, IEaasiTab} from 'eaasi-nav';
-	import {Component, Prop} from 'vue-property-decorator';
-	import {Get, Sync} from 'vuex-pathify';
+	import {MultiBookmarkRequest} from '@/types/Bookmark';
+	import {ILabeledItem} from '@/types/ILabeledItem';
+	import {IEaasiResource, IEnvironment} from '@/types/Resource';
 	import ResourceAction from './ResourceAction.vue';
-	import stringCleaner from '../../utils/string-cleaner';
+	import stringCleaner from '@/utils/string-cleaner';
+	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+	import SlideMenu from '@/components/layout/SlideMenu.vue';
 
 	let menuService = new ResourceSlideMenuService();
 	let resourceService = ResourceService;
@@ -158,17 +158,22 @@
 		@Get('resource/softwareIsSelected')
 		softwareIsSelected: boolean;
 
-		get onlySelectedResource() : IEaasiResource {
-			if (this.resources.length === 1) return this.resources[0];
-		}
+		@Get('resource/onlySelectedResource')
+		onlySelectedResource: IEaasiResource;
 
 		get hasDetails() {
+			// Reset this.detailsItems when hasDetails is checked
+			this.detailsItems = [];
 			// If more than one resource is selected, we do not show Details tab.
-			if (!this.onlySelectedResource) return false;
-			if (this.onlySelectedResource.description) {
+			if (!this.onlySelectedResource) {
+				return false;
+			}
+
+			if (this.onlySelectedResource.title) {
 				this.setDetailsItems();
 				return true;
 			}
+
 			return false;
 		}
 
@@ -218,23 +223,27 @@
 
 		/* Methods
 		============================================*/
-		
+
 		async setDetailsItems() : Promise<void> {
-
 			if (!this.onlySelectedResource) return;
-
 			let resource = this.onlySelectedResource as IEnvironment;
-
 			if (this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT) {
-				await resourceService.getEnvironment(resource.envId).then((env) => {
 
-					let enableInternet = env.enableInternet.toString() || 'false';
-					let enablePrinting = env.enablePrinting.toString() || 'false';
+				resourceService.getEnvironment(resource.envId).then((env) => {
+					let enableInternet = 'false';
+					let enablePrinting = 'false';
+
+					if (env.enableInternet) {
+						enableInternet = env.enableInternet.toString();
+					}
+					if (env.enablePrinting) {
+						enablePrinting = env.enablePrinting.toString();
+					}
 
 					let detailsItems = [
 						{
 							label: 'Description',
-							value: stringCleaner.stripHTML(env.description)
+							value: stringCleaner.stripHTML(env.title)
 						},
 						{
 							label: 'Internet Enabled',
@@ -250,7 +259,7 @@
 						},
 					];
 
-					if (env.drives.length) {
+					if (env.drives && env.drives.length) {
 						for (let i = 0; i < env.drives.length; i++) {
 							detailsItems.push({
 								label: `Drive (${i + 1})`,
