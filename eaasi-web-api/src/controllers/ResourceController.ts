@@ -151,4 +151,13 @@ export default class ResourceController extends BaseController {
 			this.sendError(e.message, res);
 		}
 	}
+
+	async getObjectArchive(req: Request, res: Response) {
+		try {
+			let result = await this._svc.getObjectArchive();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
 }

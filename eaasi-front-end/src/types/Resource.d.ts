@@ -153,8 +153,4 @@ export interface ISoftwarePackage extends IEaasiResource {
 	label: string;
 }
 
-export interface ISoftwareResource extends IEaasiResource {
-	//TODO:
-}
-
-export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'Disk';
+export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'disk' | 'Files';

@@ -44,7 +44,7 @@ export default class FileUploadButton extends Vue {
 
 	$refs!: {
 		_input: HTMLFormElement
-	}
+	};
 
 	/* Props
 	============================================*/
@@ -52,8 +52,8 @@ export default class FileUploadButton extends Vue {
 	/**
 	 * String of valid file extensions
 	 */
-	@Prop({type: String, required: false })
-	readonly accept: string
+	@Prop({type: String, required: false, default: '*/*' })
+	readonly accept: string;
 
 	/**
 	 * The label of the browse button
@@ -71,7 +71,7 @@ export default class FileUploadButton extends Vue {
 	 * The max number of files that can be added at a time
 	 */
 	@Prop({type: Number, required: false})
-	readonly limit: number
+	readonly limit: number;
 
 	/**
 	 * Use secondary styles
@@ -134,7 +134,6 @@ export default class FileUploadButton extends Vue {
 	color: #666666;
 	cursor: pointer;
 	display: inline-block;
-	font-size: 14px;
 	font-size: 1.25em;
 	font-weight: normal;
 	width: 100%;

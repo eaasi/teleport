@@ -31,18 +31,18 @@
 		<!-- Files Added, Non-Environment Import -->
 		<div v-if="filesAreAdded && !isEnvImport" class="if-attached">
 			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length">
-				<UiButton icon="check" color-preset="light-blue" @click="selectAllFiles">
+				<ui-button icon="check" color-preset="light-blue" @click="selectAllFiles">
 					Select All
-				</UiButton>
-				<UiButton
+				</ui-button>
+				<ui-button
 					icon="times"
 					color-preset="light-blue"
 					@click="selectNoFiles"
 					:disabled="!selectedFiles.length"
 				>
 					Select None
-				</UiButton>
-				<UiButton
+				</ui-button>
+				<ui-button
 					icon="trash"
 					color-preset="light-blue"
 					@click="removeSelectedFiles"
@@ -50,7 +50,7 @@
 					:disabled="!selectedFiles.length"
 				>
 					Remove Selected Files
-				</UiButton>
+				</ui-button>
 			</div>
 
 			<div class="flex-row justify-between mb-lg">
@@ -193,12 +193,7 @@ export default class ImportFiles extends Vue {
 		// noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
 		let validate = this.$refs.urlField['validate'];
 		validate();
-
-		if (this.isUrlSource) {
-			this.step = 3;
-		} else {
-			this.step = 2;
-		}
+		this.step = this.isUrlSource ? 3 : 2;
 	}
 
 	addFiles(fileList: File[]) {
@@ -206,7 +201,8 @@ export default class ImportFiles extends Vue {
 		for (let i=0; i<fileList.length; i++) {
 			let f = fileList[i];
 			if (this.files.some(x => x.name === f.name)) continue;
-			this.files.push(new ResourceImportFile(f, startingSortIndex + i));
+			let newFile = new ResourceImportFile(f, startingSortIndex + i);
+			this.files.push(newFile);
 		}
 		this.step = 3;
 	}
@@ -240,7 +236,6 @@ export default class ImportFiles extends Vue {
 		// Ensure user are on the final step if files have been added
 		if (filesAreAdded && this.step !== 3) this.step = 3;
 	}
-
 }
 
 </script>

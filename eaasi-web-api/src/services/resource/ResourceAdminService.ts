@@ -1,6 +1,7 @@
 import {ResourceSearchResponse} from '@/models/resource/ResourceSearchResponse';
 import SaveEnvironmentRequest from '@/models/resource/SaveEnvironmentRequest';
 import {EaasiSearchQuery} from '@/models/search/EaasiSearchQuery.';
+import {IContentItem} from '@/types/emil/EmilContentData';
 import {IEnvironment} from '@/types/emil/EmilEnvironmentData';
 import {ISoftwarePackageDescription, ISoftwarePackageDescriptionsList} from '@/types/emil/EmilSoftwareData';
 import {
@@ -18,14 +19,17 @@ export default class ResourceAdminService extends BaseService {
 
 	private readonly _emilEnvSvc: EmilBaseService;
 	private readonly _emilSofSvc: EmilBaseService;
+	private readonly _emilContentSvc: EmilBaseService;
 
 	constructor(
 		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
-		emilSofService: EmilBaseService = new EmilBaseService('EmilSoftwareData')
+		emilSofService: EmilBaseService = new EmilBaseService('EmilSoftwareData'),
+		emilContentService: EmilBaseService = new EmilBaseService('objects'),
 	) {
 		super();
 		this._emilEnvSvc = emilEnvService;
 		this._emilSofSvc = emilSofService;
+		this._emilContentSvc = emilContentService;
 	}
 
 	/**
@@ -174,8 +178,21 @@ export default class ResourceAdminService extends BaseService {
 	 * @private
 	 */
 	private async _searchContent(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
-		let content = []; // TODO
-		return this._filterResults<IEnvironment>(query, content);
+		// TODO: do not hard code 'zero conf'
+		let res = await this._emilContentSvc.get('zero%20conf');
+		console.log('::: ResourceAdminService ::: _searchContent ::: res:', res);
+		let contentItems = await res.json() as IContentItem[];
+		return this._filterResults<IContentItem>(query, contentItems);
+	}
+
+	async getObjectArchive() {
+		let res = await this._emilContentSvc.get('archives');
+		return res.json();
+	}
+
+	async getObjectArchiveItems(archiveId: string) {
+		let res = await this._emilContentSvc.get(archiveId);
+		return res.json();
 	}
 
 	/*============================================================

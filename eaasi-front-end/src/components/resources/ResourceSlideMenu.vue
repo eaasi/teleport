@@ -164,16 +164,10 @@
 		get hasDetails() {
 			// Reset this.detailsItems when hasDetails is checked
 			this.detailsItems = [];
-			// If more than one resource is selected, we do not show Details tab.
-			if (!this.onlySelectedResource) {
-				return false;
-			}
-
-			if (this.onlySelectedResource.title) {
+			if (this.onlySelectedResource && this.onlySelectedResource.title) {
 				this.setDetailsItems();
 				return true;
 			}
-
 			return false;
 		}
 
@@ -225,52 +219,44 @@
 		============================================*/
 
 		async setDetailsItems() : Promise<void> {
-			if (!this.onlySelectedResource) return;
+			if (!this.onlySelectedResource
+				|| this.onlySelectedResource.resourceType !== resourceTypes.ENVIRONMENT) return;
+
 			let resource = this.onlySelectedResource as IEnvironment;
-			if (this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT) {
 
-				resourceService.getEnvironment(resource.envId).then((env) => {
-					let enableInternet = 'false';
-					let enablePrinting = 'false';
+			const env = await resourceService.getEnvironment(resource.envId);
+			let enableInternet = env.enableInternet ? env.enableInternet.toString() : 'false';
+			let enablePrinting = env.enablePrinting ? env.enablePrinting.toString() : 'false';
 
-					if (env.enableInternet) {
-						enableInternet = env.enableInternet.toString();
-					}
-					if (env.enablePrinting) {
-						enablePrinting = env.enablePrinting.toString();
-					}
+			let detailsItems = [
+				{
+					label: 'Description',
+					value: stringCleaner.stripHTML(env.title)
+				},
+				{
+					label: 'Internet Enabled',
+					value: enableInternet
+				},
+				{
+					label: 'Printing Enabled',
+					value: enablePrinting
+				},
+				{
+					label: 'Operating System',
+					value: env.os
+				},
+			];
 
-					let detailsItems = [
-						{
-							label: 'Description',
-							value: stringCleaner.stripHTML(env.title)
-						},
-						{
-							label: 'Internet Enabled',
-							value: enableInternet
-						},
-						{
-							label: 'Printing Enabled',
-							value: enablePrinting
-						},
-						{
-							label: 'Operating System',
-							value: env.os
-						},
-					];
-
-					if (env.drives && env.drives.length) {
-						for (let i = 0; i < env.drives.length; i++) {
-							detailsItems.push({
-								label: `Drive (${i + 1})`,
-								value: env.drives[i].type
-							});
-						}
-					}
-
-					this.detailsItems = detailsItems;
-				});
+			if (env.drives && env.drives.length) {
+				for (let i = 0; i < env.drives.length; i++) {
+					detailsItems.push({
+						label: `Drive (${i + 1})`,
+						value: env.drives[i].type
+					});
+				}
 			}
+
+			this.detailsItems = detailsItems;
 		};
 
 		toggleSlide() {

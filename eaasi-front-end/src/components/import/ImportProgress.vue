@@ -24,95 +24,110 @@
 </template>
 
 <script lang="ts">
-import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
-import SoftwareImportResource from '@/models/import/SoftwareImportResource';
-import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
-import {Get, Sync} from 'vuex-pathify';
-import { NumberedSteps, UiButton } from '@/components/global';
-import { INumberedStep } from '@/types/NumberedStep';
+	import { ImportType } from '@/types/Import';
+	import { resourceTypes } from '@/utils/constants';
+	import Vue from 'vue';
+	import { Component, Watch } from 'vue-property-decorator';
+	import { Get, Sync } from 'vuex-pathify';
+	import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+	import SoftwareImportResource from '@/models/import/SoftwareImportResource';
+	import { NumberedSteps, UiButton } from '@/components/global';
+	import { INumberedStep } from '@/types/NumberedStep';
 
-@Component({
-	name: 'ImportProgress',
-	components: {
-		NumberedSteps,
-		UiButton
+	@Component({
+		name: 'ImportProgress',
+		components: {
+			NumberedSteps,
+			UiButton
+		}
+	})
+	export default class ImportProgress extends Vue {
+
+		/* Data
+        ============================================*/
+
+		steps: INumberedStep[] = [
+			{
+				stepNumber: 1,
+				description: 'METADATA'
+			},
+			{
+				stepNumber: 2,
+				description: 'FILES'
+			},
+			{
+				stepNumber: 3,
+				description: 'FINISH'
+			},
+		];
+
+		/* Computed
+        ============================================*/
+
+		@Sync('import/importStep')
+		step: number;
+
+		@Sync('import/importType')
+		importType: ImportType;
+
+		@Sync('activeTaskResult')
+		activeTaskResult: any;
+
+		@Get('import/software')
+		software: SoftwareImportResource;
+
+		@Get('import/environment')
+		environment: EnvironmentImportResource;
+
+		@Get('import/environment@chosenTemplateId')
+		chosenTemplateId:  string;
+
+		@Sync('import/environment@eaasiID')
+		environmentEaasiID: string;
+
+		@Sync('import/environment@isUrlSource')
+		isUrlSource: boolean;
+
+		get nextButtonLabel() {
+			if (this.step == this.steps.length) return 'Finish Import';
+			return 'Next';
+		}
+
+		/* Methods
+        ============================================*/
+
+		/**
+		 *  Starts the import process for Environment, Software, or Content resource(s)
+		 **/
+		async doImport() {
+			let task = await this.$store.dispatch('import/import');
+			if (!task) return;
+			this.$store.commit('SET_ACTIVE_TASK', task);
+		}
+
+		reset() {
+			this.$store.commit('import/RESET');
+		}
+
+		/* Watchers
+        ============================================*/
+
+		@Watch('activeTaskResult')
+		onTaskComplete(taskResult: any) {
+			// Environment Import
+			let environmentType = resourceTypes.ENVIRONMENT.toLowerCase();
+			let contentType = resourceTypes.CONTENT.toLowerCase();
+			let softwareType = resourceTypes.SOFTWARE.toLowerCase();
+
+			if (this.importType === environmentType) {
+				// When an import task is complete, get the environmentId and push into Access Interface
+				this.environmentEaasiID = taskResult.userData.environmentId;
+				this.$router.push(`/access-interface/${this.environmentEaasiID}`);
+			} else if ([contentType, softwareType].includes(this.importType)) {
+				this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources'}});
+			}
+		}
 	}
-})
-export default class ImportProgress extends Vue {
-
-	/* Data
-	============================================*/
-
-	steps: INumberedStep[] = [
-		{
-			stepNumber: 1,
-			description: 'METADATA'
-		},
-		{
-			stepNumber: 2,
-			description: 'FILES'
-		},
-		{
-			stepNumber: 3,
-			description: 'FINISH'
-		},
-	];
-
-	/* Computed
-	============================================*/
-
-	@Sync('import/importStep')
-	step: number;
-
-	@Sync('activeTaskResult')
-	activeTaskResult: any;
-
-	@Get('import/software')
-	software: SoftwareImportResource;
-
-	@Get('import/environment')
-	environment: EnvironmentImportResource;
-
-	@Get('import/environment@chosenTemplateId')
-	chosenTemplateId:  string;
-
-	@Sync('import/environment@eaasiID')
-	eaasiID: string;
-
-	@Sync('import/environment@isUrlSource')
-	isUrlSource: boolean;
-
-	get nextButtonLabel() {
-		if (this.step == this.steps.length) return 'Finish Import';
-		return 'Next';
-	}
-
-	/* Methods
-	============================================*/
-
-	doImport() {
-		let task = this.$store.dispatch('import/import');
-		if (!task) return;
-		this.$store.commit('SET_ACTIVE_TASK', task);
-	}
-
-	reset() {
-		this.$store.commit('import/RESET');
-	}
-
-	/* Watchers
-	============================================*/
-
-	@Watch('activeTaskResult')
-	onTaskComplete(taskResult: any) {
-		// TODO: Distinguish between Environment / Software / Content Import
-		// Environment Import
-		// When an import task is complete, get the environmentId and push into Access Interface
-		this.eaasiID = taskResult.userData.environmentId;
-		this.$router.push(`/access-interface/${this.eaasiID}`);
-	}
-}
 
 </script>
 

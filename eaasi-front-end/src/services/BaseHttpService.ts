@@ -1,8 +1,9 @@
 import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiSearchQuery } from '@/types/Search';
-import eventBus from '@/utils/event-bus';
 import { IEaasiApiResponse, IEaasiApiRequestOptions } from 'eaasi-http';
+import eventBus from '@/utils/event-bus';
 import config from '@/config';
+import Cookies from 'js-cookie';
 
 export default class BaseHttpService {
 
@@ -35,6 +36,21 @@ export default class BaseHttpService {
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 		return this._makeRequest(url, 'POST', data, options);
+	}
+
+	/**
+	 * Makes a POST request for uploading files using Fetch
+	 *
+	 * @param {string} url - The request URL
+	 * @param data
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
+	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
+	 */
+	async postUpload<T>(
+		url: string,
+		data: FormData,
+	): Promise<IEaasiApiResponse<T>> {
+		return this._makeUploadRequest(url, 'POST', data);
 	}
 
 	/**
@@ -108,12 +124,14 @@ export default class BaseHttpService {
 		let self = this;
 		let requestInit = new EaasiApiRequestInit(url, method, data, options);
 		let request = new Request(url, requestInit);
+
 		let response: IEaasiApiResponse<T>;
 		options = options || requestInit.options;
 
 		try {
 			// Let Vue know that an ajax request has been initiated
 			eventBus.$emit('ajaxStart', !options.suppressSpinner);
+
 			let res = await fetch(request);
 
 			// Let Vue know that an ajax request has been completed
@@ -130,6 +148,53 @@ export default class BaseHttpService {
 			eventBus.$emit('ajaxEnd');
 			e.request = options;
 			self._handleError(e, options.suppressErrors);
+		}
+	}
+
+	/**
+	 * Makes an AJAX request using the fetch API for an upload and handles the response
+	 *
+	 * @param {string} url - The request URL
+	 * @param {string} method  - The request method type
+	 * @param data
+	 * @param {IEaasiApiRequestOptions} [options] - Request options
+	 * @return {Promise<IEaasiApiResponse<T>>} - A parsed API response
+	 */
+	private async _makeUploadRequest<T>(
+		url: string,
+		method: string,
+		data: FormData,
+	): Promise<IEaasiApiResponse<T>> {
+		if (url.indexOf('://') === -1) url = config.SERVICE_URL + url;
+		let response: IEaasiApiResponse<T>;
+		try {
+			eventBus.$emit('ajaxStart', true);
+
+			let headers = {
+				'Accept': '*/*',
+			};
+
+			let res = await fetch(url, {
+				method: method,
+				headers: headers,
+				body: data
+			});
+
+			eventBus.$emit('ajaxEnd', true);
+			response = res as IEaasiApiResponse<T>;
+
+			// If 200 response, parse the body as the generic type
+			if (res.ok) {
+				response.result = await res.json();
+			}
+
+			// TODO: Handle non-200 responses
+
+			return response;
+
+		} catch (e) {
+			console.log(e);
+			eventBus.$emit('ajaxEnd');
 		}
 	}
 

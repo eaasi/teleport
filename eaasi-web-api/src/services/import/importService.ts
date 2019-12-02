@@ -1,5 +1,7 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import IHttpService from '@/services/interfaces/IHttpService';
+import {IImportObjectRequest, IUploadRequest} from '@/types/emil/Emil';
+import {Request} from 'express';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 
@@ -52,5 +54,29 @@ export default class ImportService extends BaseService {
 		let response = await res.json();
 
 		return await response;
+	}
+
+	/**
+	 * Posts Object Import Request data
+	 * @param req : Request with req.body
+	 */
+	async importResourceFromFile(req: IImportObjectRequest) {
+		let url = `${BASE_URL}/emil/objects/import`;
+		let res = await this._httpService.post(url, req);
+		return await res.json();
+	}
+
+	/***
+	 * Posts form data containing files
+	 * @param req : Request with req.files
+	 */
+	async uploadFiles(req: IUploadRequest) {
+		let url = `${BASE_URL}/emil/upload`;
+		let responses = [];
+		req.files.forEach(async file => {
+			let res = await this._httpService.postUpload(url, file);
+			responses.push(res);
+		});
+		return responses;
 	}
 }

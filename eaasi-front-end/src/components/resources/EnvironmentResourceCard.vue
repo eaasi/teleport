@@ -26,18 +26,14 @@
 <script lang="ts">
 	import {ITag} from '@/types/Tag';
 	import Vue from 'vue';
-	import {
-		IEaasiEnvironmentCardSummary,
-		IEaasiResourceSummary,
-		IEnvironment
-	} from '@/types/Resource.d.ts';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { Get, Sync } from 'vuex-pathify';
 	import ResourceService from '@/services/ResourceService';
+	import StringCleaner from '@/utils/string-cleaner';
+	import { resourceTypes } from '@/utils/constants';
 	import { ITaskState } from '@/types/Task';
 	import { IBookmark } from '@/types/Bookmark';
-    import { resourceTypes } from '@/utils/constants';
-	import StringCleaner from '@/utils/string-cleaner';
+	import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment } from '@/types/Resource.d.ts';
 
     let resourceSvc = ResourceService;
 
@@ -48,6 +44,7 @@
 
 		/* Props
         ============================================*/
+
 		@Prop({type: Object as () => IEnvironment, required: true})
 		readonly environment: IEnvironment;
 
@@ -59,6 +56,7 @@
 
 		/* Data
         ============================================*/
+
 		environmentCardSummary?: IEaasiEnvironmentCardSummary;
 		hasNoDetails: boolean = false;
 		cardSummary: IEaasiResourceSummary = null;
@@ -74,6 +72,7 @@
 
 		/* Computed
         ============================================*/
+
 		@Sync('resource/savingEnvironments')
 		savingEnvironments: string[];
 

@@ -92,8 +92,7 @@ router.delete('/environment', (req, res) => controller.deleteEnvironment(req, re
 router.post('/update-environment', (req, res) => controller.updateEnvironmentDetails(req, res));
 
 /**
- * @api {post} resource/ Delete a resource
- * @api {get} resource/software Search All Software Resources
+ * @api {get} gets software package description
  * @apiVersion 1.0.0
  * @apiName Software Resource Package Description
  * @apiGroup Resources
@@ -110,5 +109,25 @@ router.get('/software', (req, res) => controller.getSoftwarePackageDescription(r
  * @apiDescription Saves a resource to the local Node
  */
 router.post('/save', (req, res) => controller.saveEnvironment(req, res));
+
+/**
+ * @api {get} gets software package description
+ * @apiVersion 1.0.0
+ * @apiName Software Resource Package Description
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
+ */
+router.get('/objectArchive', (req, res) => controller.getObjectArchive(req, res));
+
+/**
+ * @api {get} gets software package description
+ * @apiVersion 1.0.0
+ * @apiName Software Resource Package Description
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
+ */
+router.get('/objectArchiveData', (req, res) => controller.getObjectArchive(req, res));
 
 module.exports = router;
