@@ -22,7 +22,7 @@
 			</div>
 
 			<div v-if="hasSubContent">
-				<hr />
+				<hr class="subcontent-divider" />
 				<selectable-card-content :content-data="subContentData" />
 			</div>
 
@@ -201,7 +201,11 @@ export default class SelectableCard extends Vue {
 		bottom: 8px;
 		display: flex;
 		justify-content: space-between;
-		padding-top: 10px;
+		padding-top: 1.2rem;
+	}
+
+	.subcontent-divider {
+		margin-top: 1.4rem;
 	}
 
 </style>

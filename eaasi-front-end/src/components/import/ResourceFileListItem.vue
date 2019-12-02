@@ -19,11 +19,10 @@
 					label="Physical Format"
 					class="sfl-format"
 				>
-					<!-- TODO: confirm these options -->
-					<option value="Floppy Disk">Floppy Disk</option>
-					<option value="CD-ROM">CD-ROM</option>
-					<option value="Disk">Disk</option>
-					<option value="Disk">File</option>
+					<option value="Q495265">ISO</option>
+					<option value="Q493576">Floppy</option>
+					<option value="disk">Disk</option>
+					<option value="Q82753">File</option>
 				</select-list>
 				<text-input
 					label="File Label"
@@ -52,13 +51,8 @@ export default class SoftwareFileListItem extends Vue {
 
 	/* Props
 	============================================*/
-
 	@Prop({type: Object as () => File, required: true})
 	readonly file: ResourceImportFile;
-
-	/* Data
-	============================================*/
-
 
 	/* Computed
 	============================================*/
@@ -78,7 +72,6 @@ export default class SoftwareFileListItem extends Vue {
 
 	/* Methods
 	============================================*/
-
 	updateSortIndex(sortIndex: string | number) {
 		let i = Number(sortIndex);
 		this.$emit('sort', i);

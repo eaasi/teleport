@@ -2,7 +2,7 @@ import { IResourceImportFile } from '@/types/Import';
 import { PhysicalFormat } from '@/types/Resource';
 
 export default class ResourceImportFile implements IResourceImportFile {
-	physicalFormat: PhysicalFormat = 'Disk';
+	physicalFormat: PhysicalFormat = 'disk';
 	fileLabel?: string;
 	file: File;
 	sortIndex: number;

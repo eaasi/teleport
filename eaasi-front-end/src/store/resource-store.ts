@@ -44,7 +44,7 @@ const actions = {
 
 	async searchResources({ state, commit, dispatch }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
-		if(!result) return;
+		if (!result) return;
 		commit('SET_RESULT', result);
 		// generates facets based on the result received in searchResources.
     	// eventually won't need to do this, because facets will come with a result from the backend
@@ -102,7 +102,7 @@ const actions = {
 	async clearSearch({ commit, dispatch }) {
 		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
 		let result = await _svc.searchResources(clearSearchQuery);
-		if(!result) return;
+		if (!result) return;
 		commit('SET_RESULT', result);
 		// generates facets based on the result received in searchResources.
     	// eventually won't need to do this, because facets will come with a result from the backend
@@ -170,7 +170,7 @@ const actions = {
 
 const getters = {
 	isSingleResult(state) {
-		if(!state.result) return false;
+		if (!state.result) return false;
 		const { environments, software, content } = state.result;
 		const lengthArr: number[] = [];
 		environments && lengthArr.push(environments.result.length);
@@ -178,10 +178,12 @@ const getters = {
 		content && lengthArr.push(content.result.length);
 		return lengthArr.filter(length => length > 0).length === 1;
 	},
+
 	environmentIsSelected(state) {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
 	},
+
 	softwareIsSelected(state) {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;

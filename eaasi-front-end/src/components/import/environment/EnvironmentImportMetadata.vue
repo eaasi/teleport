@@ -1,6 +1,6 @@
 <template>
 	<div class="environment-import-metadata">
-		<eaasi-form ref="_form" @submit="step++" v-if="step == 1">
+		<eaasi-form ref="_form" @submit="step++" v-if="step === 1">
 			<div v-if="importPath === 'Fast'">
 				<metadata-fast />
 			</div>

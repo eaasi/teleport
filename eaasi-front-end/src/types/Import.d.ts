@@ -11,8 +11,8 @@ export type ResourceImportPath = 'Fast' | 'Detailed' | 'Unselected';
 export interface IResourceImportFile extends ISortable {
 	physicalFormat?: PhysicalFormat,
 	fileLabel?: string,
+	name: string,
 	file: File,
-	name: string
 }
 
 export interface IResourceImport {
@@ -31,4 +31,21 @@ export interface IEnvironmentImportSnapshot {
 	objectId?: string,
 	softwareId?: string,
 	userId?: string
+}
+
+/**
+ * Used when a content or software object import request is made
+ */
+export interface IImportObjectRequest {
+	files: IFileImport[];
+	label: string;
+}
+
+/**
+ * Used in a software or object request
+ */
+export interface IFileImport {
+	filename: string;
+	deviceId: string;
+	url: string;
 }

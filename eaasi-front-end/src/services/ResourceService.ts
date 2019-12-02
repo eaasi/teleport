@@ -1,5 +1,5 @@
+import BaseHttpService from '@/services/BaseHttpService';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
-import BaseHttpService from './BaseHttpService';
 import { IResourceSearchQuery } from '@/types/Search';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchResponse } from '@/types/Search';
@@ -14,6 +14,10 @@ class ResourceService extends BaseHttpService {
 		return res.result;
 	}
 
+	/**
+	 * Makes a POST request to search all available resources
+	 * @param { IResourceSearchQuery } query
+	 */
 	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
 		let res = await this.post<IResourceSearchResponse>('/resource/search', query);
 		if (!res.ok) return null;
@@ -23,7 +27,7 @@ class ResourceService extends BaseHttpService {
 	/**
 	 * Makes a POST request to save (replicate) an Environment to local storage
 	 * Response object contains task ID that can be used to query status
-	 * @param environmentId: string
+	 * @param {string} environmentId
 	 */
 	async saveEnvironment(environmentId: string) : Promise<ISaveEnvironmentResponse> {
 		let res = await this.post<any>(
@@ -31,17 +35,21 @@ class ResourceService extends BaseHttpService {
 		);
 
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.error('Response returned error: ', res);
 			return null;
 		}
 
 		return res.result as ISaveEnvironmentResponse;
 	}
 
+	/**
+	 * Makes a POST request to update Environment details.
+	 * @param {IEnvironmentUpdateRequest} environment update request
+	 */
 	async updateEnvironmentDetails(environment: IEnvironmentUpdateRequest) {
 		const res = await this.post<any>('/resource/update-environment', { environment });
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.error('Response returned error: ', res);
 			return null;
 		}
 
@@ -50,7 +58,7 @@ class ResourceService extends BaseHttpService {
 
 	/**
 	 * Makes a DELETE request to delete an Environment from local node
-	 * @param environmentId: string
+	 * @param {string} environmentId
 	 */
 	async deleteEnvironment(environmentId: string) {
 		let res = await this.delete<any>(
@@ -82,6 +90,14 @@ class ResourceService extends BaseHttpService {
 	 */
 	async operatingSystemMetadata() {
 		let res = await this.get<any>('/resource/operatingSystemMetadata');
+		return res.result;
+	}
+
+	/**
+	 * Makes a GET request to retrieve list of object archives
+	 */
+	async getObjectArchives() {
+		let res = await this.get<any>('/resource/objectArchive');
 		return res.result;
 	}
 }

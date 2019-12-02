@@ -5,7 +5,9 @@ declare module 'eaasi-http' {
 
 	export interface IEaasiApiRequestOptions {
 		suppressErrors?: boolean,
-		suppressSpinner?: boolean
+		suppressSpinner?: boolean,
+		acceptHeader?: string,
+		contentType?: string,
+		noSniff?: boolean,
 	}
-
 }

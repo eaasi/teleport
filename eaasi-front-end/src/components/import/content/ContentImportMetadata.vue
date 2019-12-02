@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 
 @Component({
@@ -66,7 +66,7 @@ export default class ContentImportMetadata extends Vue {
 	============================================*/
 
 	@Sync('import/importStep')
-	step: number
+	step: number;
 
 	/* Data
 	============================================*/
@@ -76,7 +76,7 @@ export default class ContentImportMetadata extends Vue {
 		title: '',
 		localIdentifier: '',
 		localIdentifierSource: ''
-	}
+	};
 
 	/* Methods
 	============================================*/
@@ -86,7 +86,6 @@ export default class ContentImportMetadata extends Vue {
 		let form: any = this.$refs._form;
 		form.submit();
 	}
-
 }
 
 </script>

@@ -104,3 +104,11 @@ export interface IbwflaController {
 	requestPointerLock(target: any, event)
 	unregisterEventCallback(target: any, eventName: string, callback: Function): void;
 }
+
+/**
+ * Provided as a response from [POST] /emil/upload
+ */
+export interface IEmilUploadResponse {
+	status: string;
+	uploads: string[];
+}

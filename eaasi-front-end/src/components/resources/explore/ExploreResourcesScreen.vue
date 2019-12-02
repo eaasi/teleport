@@ -53,17 +53,17 @@
 
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import User from '../../../models/admin/User';
 import { IBookmark } from '@/types/Bookmark';
-import ResourceSlideMenu from '../ResourceSlideMenu.vue';
-import ResourceFacets from '../search/ResourceFacets.vue';
-import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
-import ResourceList from '../ResourceList.vue';
-import NoSearchResult from '../search/NoSearchResult.vue';
+import { IEaasiResource } from '@/types/Resource.d.ts';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import User from '@/models/admin/User';
+import ResourceList from '@/components/resources/ResourceList.vue';
+import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
+import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
+import NoSearchResult from '@/components/resources/search/NoSearchResult.vue';
+import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 
 @Component({
 	name: 'ExploreResourcesScreen',
@@ -80,14 +80,14 @@ export default class ExploreResourcesScreen extends Vue {
 	/* Computed
     ============================================*/
 
+	@Get('resource/result')
+	bentoResult: IResourceSearchResponse;
+
+	@Sync('resource/query')
+	query: ResourceSearchQuery;
+
     @Sync('resource/selectedResources')
     selectedResources: IEaasiResource[];
-
-    @Sync('resource/query')
-    query: ResourceSearchQuery;
-
-    @Get('resource/result')
-	bentoResult: IResourceSearchResponse;
 
 	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[];
@@ -97,6 +97,18 @@ export default class ExploreResourcesScreen extends Vue {
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
+
+	get refinedContent() {
+		return this.refinedResult(this.bentoResult.content);
+	}
+
+	get refinedSoftware() {
+		return this.refinedResult(this.bentoResult.software);
+	}
+
+	get refinedEnvironment() {
+		return this.refinedResult(this.bentoResult.environments);
+	}
 
 	get noResult() {
 		return this.refinedContent.result.length === 0
@@ -110,18 +122,6 @@ export default class ExploreResourcesScreen extends Vue {
 
 	get hasSelectedFacets() {
 		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
-	}
-
-	get refinedContent() {
-		return this.refinedResult(this.bentoResult.content);
-	}
-
-	get refinedSoftware() {
-		return this.refinedResult(this.bentoResult.software);
-	}
-
-	get refinedEnvironment() {
-		return this.refinedResult(this.bentoResult.environments);
 	}
 
 	/* Data

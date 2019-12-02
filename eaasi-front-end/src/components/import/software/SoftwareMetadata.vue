@@ -1,5 +1,6 @@
 <template>
 	<div class="software-metadata">
+		<!-- User has completed Step 1 -->
 		<div v-if="step > 1" class="sm-summary">
 			<text-input
 				readonly
@@ -16,6 +17,8 @@
 				Back To Metadata
 			</ui-button>
 		</div>
+
+		<!-- User is on Step 1 -->
 		<div v-if="step === 1">
 			<div v-if="importPath === 'Fast'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
@@ -29,6 +32,7 @@
 					</ui-button>
 				</eaasi-form>
 			</div>
+
 			<div v-if="importPath === 'Detailed'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<collapsable title="General" class="mb-lg white-bg">
@@ -74,7 +78,7 @@
 <script lang="ts">
 import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import ImportPathSelect from '../ImportPathSelect.vue';
 import { ResourceImportPath } from '@/types/Import';
 import SoftwareGeneralInfoForm from '@/components/import/software/SoftwareGeneralInfoForm.vue';

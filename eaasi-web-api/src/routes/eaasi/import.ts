@@ -5,7 +5,7 @@ const router = express.Router();
 const controller = new ImportController();
 
 /**
- * @api {get} import/importFromUrl Import a resource from a URL
+ * @api {get} import/url Import a resource from a URL
  * @apiVersion 1.0.0
  * @apiGroup Import Resources
  * @apiPermission System Administrator only
@@ -14,7 +14,16 @@ const controller = new ImportController();
 router.post('/url', (req, res) => controller.importFromUrl(req, res));
 
 /**
- * @api {get} import/saveImport take snapshot of imported environment
+ * @api {get} import/importFiles Import a resource from files
+ * @apiVersion 1.0.0
+ * @apiGroup Import Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Triggers file import
+ */
+router.post('/files', (req, res) => controller.importFiles(req, res));
+
+/**
+ * @api {get} import/saveEnvironment snapshot of imported environment
  * @apiVersion 1.0.0
  * @apiGroup Import Resources
  * @apiPermission System Administrator only

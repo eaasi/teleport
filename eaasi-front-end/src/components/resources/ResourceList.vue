@@ -19,26 +19,34 @@
 				v-if="type === 'Software'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
+			<content-resource-card
+				:content="resource"
+				@change="setActiveResource(resource, $event)"
+				v-if="type === 'Content'"
+				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
+			/>
 		</div>
 	</div>
 </template>
 <script lang="ts">
+import User from '@/models/admin/User';
 import Vue from 'vue';
-import BentoHeader from '@/components/resources/search/BentoHeader.vue';
 import { Component, Prop } from 'vue-property-decorator';
+import { Get, Sync } from 'vuex-pathify';
 import { IEaasiResource, ResourceType } from '@/types/Resource';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
-import EnvironmentResourceCard from './EnvironmentResourceCard.vue';
-import SoftwareResourceCard from './SoftwareResourceCard.vue';
-import { Get, Sync } from 'vuex-pathify';
-import User from '../../models/admin/User';
+import BentoHeader from '@/components/resources/search/BentoHeader.vue';
+import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
+import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
+import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 
 @Component({
 	name: 'ResourceList',
 	components: {
 		BentoHeader,
 		EnvironmentResourceCard,
-		SoftwareResourceCard
+		SoftwareResourceCard,
+		ContentResourceCard,
 	}
 })
 export default class ResourceList extends Vue {
