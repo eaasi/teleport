@@ -3,6 +3,7 @@ import _svc from '@/services/SoftwareService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
+import { IObjectClassificationRequest, ISoftwareObject } from '@/types/Resource';
 
 /*============================================================
  == State
@@ -28,12 +29,24 @@ const mutations = make.mutations(state);
 
 const actions = {
 
-	async getSoftware(_store: Store<SoftwareState>, softwareId: string) {
+	async getSoftware(_: Store<SoftwareState>, softwareId: string) {
 		return await _svc.getSoftware(softwareId);
 	},
 
-	async getSoftwareObject(_store: Store<SoftwareState>, softwareId: string) {
+	async getSoftwareObject(_: Store<SoftwareState>, softwareId: string) {
 		return await _svc.getSoftwareObject(softwareId);
+	},
+
+	async classify(_: Store<SoftwareState>, classificationRequest: IObjectClassificationRequest) {
+		return await _svc.classify(classificationRequest);
+	},
+
+	async getSoftwareMetadata(_: Store<SoftwareState>, softwareId: string) {
+		return await _svc.getSoftwareMetadata(softwareId);
+	},
+
+	async saveSoftwareObject(_: Store<SoftwareState>, softwareObject: ISoftwareObject) {
+		return await _svc.saveSoftwareObject(softwareObject);
 	},
 
 	async searchSoftware({ state, commit }: Store<SoftwareState>) {

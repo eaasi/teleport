@@ -75,12 +75,12 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, IEnvironment, IEaasiResource, IDrive, IEditableDrive } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
-import EditableLabeledItemList from './EditableLabeledItemList.vue';
-import ResourceDetailsSummary from '@/components/resources/view-details/metadata/ResourceDetailsSummary.vue';
+import EditableLabeledItemList from '../EditableLabeledItemList.vue';
+import ResourceDetailsSummary from '../ResourceDetailsSummary.vue';
 import ConfiguredDrives from './ConfiguredDrives.vue';
 import ConfigureNetwork from './ConfigureNetwork.vue';
 import ConfigureEmulator from './ConfigureEmulator.vue';
-import ModeToggle from './ModeToggle.vue';
+import ModeToggle from '../ModeToggle.vue';
 
 @Component({
     name: 'EnvironmentMetadataSection',

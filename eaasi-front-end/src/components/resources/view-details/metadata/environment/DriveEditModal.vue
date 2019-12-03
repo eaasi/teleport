@@ -67,7 +67,3 @@ export default class DriveEditModal extends Vue {
 
 }
 </script>
-
-<style lang='scss' scoped>
-
-</style>

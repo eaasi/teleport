@@ -12,9 +12,9 @@
 			v-model="summaryData.title"
 			:class="{ 'changed': titleChanged }"
 		/>
-		<div class="vds-description">
+		<div class="vds-description" v-if="summaryData.description">
 			<span 
-				v-if="summaryData.description && readonly" 
+				v-if="readonly" 
 				:class="{ 'changed': descriptionChanged }"
 			>
 				{{ summaryData.description | stripHtml }}
@@ -62,7 +62,7 @@ export default class ResourceDetailsSummary extends Vue {
 	/* Data
 	============================================*/
 	localTitle = jsonCopy(this.summaryData.title);
-	localDescription = jsonCopy(this.summaryData.description);
+	localDescription = this.summaryData.description ? jsonCopy(this.summaryData.description) : null;
 
 }
 

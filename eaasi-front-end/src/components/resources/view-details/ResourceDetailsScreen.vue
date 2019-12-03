@@ -12,6 +12,7 @@
 				<software-metadata-section
 					v-else-if="isSoftware"
 					:resource="activeResource"
+					:software-metadata="softwareMetadata"
 				/>
 			</div>
 			<resource-details-history
@@ -26,10 +27,10 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
-import { IEnvironment, ISoftwarePackage } from '@/types/Resource';
-import ResourceDetailsHistory from '@/components/resources/view-details/history/ResourceDetailsHistory.vue';
-import SoftwareMetadataSection from './metadata/SoftwareMetadataSection.vue';
-import EnvironmentMetadataSection from './metadata/EnvironmentMetadataSection.vue';
+import { IEnvironment, ISoftwareObject } from '@/types/Resource';
+import ResourceDetailsHistory from './history/ResourceDetailsHistory.vue';
+import SoftwareMetadataSection from './metadata/software/SoftwareMetadataSection.vue';
+import EnvironmentMetadataSection from './metadata/environment/EnvironmentMetadataSection.vue';
 
 @Component({
 	name: 'ResourceDetailsScreen',
@@ -48,7 +49,8 @@ export default class ResourceDetailsScreen extends Vue {
     	{ label: 'History', disabled: false },
 	];
 	activeTab: string = this.tabs.find(t => t.label === 'Metadata').label;
-	activeResource: IEnvironment | ISoftwarePackage = null;
+	activeResource: IEnvironment | ISoftwareObject = null;
+	softwareMetadata = null;
 
     /* Computed
 	============================================*/
@@ -73,7 +75,8 @@ export default class ResourceDetailsScreen extends Vue {
 		if (this.isEnvironment) {
 			this.activeResource = await this.$store.dispatch('resource/getEnvironment', resourceId);
 		} else if (this.isSoftware) {
-			this.activeResource = await this.$store.dispatch('software/getSoftware', resourceId);
+			this.softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', resourceId);
+			this.activeResource = await this.$store.dispatch('software/getSoftwareObject', resourceId);
 			this.tabs[1].disabled = true;
 		}
 	}

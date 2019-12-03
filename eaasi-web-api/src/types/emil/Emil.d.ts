@@ -32,3 +32,10 @@ export interface IImportObjectRequest {
 export interface IUploadRequest extends Request {
 	files: Blob[];
 }
+
+export interface IObjectClassificationRequest {
+	archiveId: string;
+	objectId: string;
+	updateClassification: boolean;
+	updateProposal: boolean;
+}

@@ -10,3 +10,15 @@ export interface ISoftwarePackageDescription extends IEaasiResource {
 	isOperatingSystem: boolean;
 	label: string;
 }
+
+export interface ISoftwareObject {
+	allowedInstances: number;
+	archiveId: string;
+	exportFMTs: any[];
+	importFMTs: any[];
+	isOperatingSystem: Boolean;
+	licenseInformation: string;
+	nativeFMTs: string[];
+	objectId: string;
+	qid: string;
+}

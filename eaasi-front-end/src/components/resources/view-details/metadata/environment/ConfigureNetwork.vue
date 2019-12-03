@@ -54,8 +54,8 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
-import EditableTextItem from './EditableTextItem.vue';
-import EditableCheckboxItem from './EditableCheckboxItem.vue';
+import EditableTextItem from '../EditableTextItem.vue';
+import EditableCheckboxItem from '../EditableCheckboxItem.vue';
 
 @Component({
     name: 'ConfigureNetwork',

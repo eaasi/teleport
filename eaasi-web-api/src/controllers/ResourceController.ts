@@ -3,6 +3,9 @@ import { Request, Response } from 'express';
 import { IResourceSearchQuery } from '@/types/resource/Resource';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
+import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
+import { IObjectClassificationRequest } from '@/types/emil/Emil';
+import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 
 /**
  * Handles requests related to Resource entities
@@ -44,6 +47,19 @@ export default class ResourceController extends BaseController {
 	}
 
 	/**
+	 * Saves a Software Object
+	 */
+	async saveSoftwareObject(req: Request, res: Response) {
+		try {
+			let softwareObject = req.body as ISoftwareObject;
+			let result = await this._svc.saveSoftwareObject(softwareObject);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
 	 * Gets information about a Software Package by `id` on the request query
 	 */
 	async getSoftwarePackageDescription(req: Request, res: Response) {
@@ -63,6 +79,19 @@ export default class ResourceController extends BaseController {
 		try {
 			let id = req.query.id;
 			let result = await this._svc.getSoftwareObject(id);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Gets a Software Metadata by `id` on the request query
+	 */
+	async getSoftwareMetadata(req: Request, res: Response) {
+		try {
+			let id = req.query.id;
+			let result = await this._svc.getSoftwareMetadata(id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
@@ -128,6 +157,20 @@ export default class ResourceController extends BaseController {
 	async getPatches(req: Request, res: Response) {
 		try {
 			let result = await this._svc.getPatches();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Detects environments that uses requested software object
+	 */
+	async classify(req: Request, res: Response) {
+		try {
+			let classifyRequest = req.body as IObjectClassificationRequest;
+			var emilContainerSvc = new EmilContainerService();
+			let result = await emilContainerSvc.classify(classifyRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
