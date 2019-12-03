@@ -40,9 +40,9 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
-import EditableCheckboxItem from './EditableCheckboxItem.vue';
-import EditableSelectList from './EditableSelectList.vue';
-import EditableTextItem from './EditableTextItem.vue';
+import EditableCheckboxItem from '../EditableCheckboxItem.vue';
+import EditableSelectList from '../EditableSelectList.vue';
+import EditableTextItem from '../EditableTextItem.vue';
 
 @Component({
     name: 'ConfigureEmulator',

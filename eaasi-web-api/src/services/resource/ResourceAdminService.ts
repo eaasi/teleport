@@ -3,7 +3,7 @@ import SaveEnvironmentRequest from '@/models/resource/SaveEnvironmentRequest';
 import {EaasiSearchQuery} from '@/models/search/EaasiSearchQuery.';
 import {IContentItem} from '@/types/emil/EmilContentData';
 import {IEnvironment} from '@/types/emil/EmilEnvironmentData';
-import {ISoftwarePackageDescription, ISoftwarePackageDescriptionsList} from '@/types/emil/EmilSoftwareData';
+import {ISoftwarePackageDescription, ISoftwarePackageDescriptionsList, ISoftwareObject} from '@/types/emil/EmilSoftwareData';
 import {
 	IEaasiResource,
 	IEaasiSearchQuery,
@@ -13,7 +13,11 @@ import {
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
+import IHttpService from '@/services/interfaces/IHttpService';
 import { resourceTypes } from '@/utils/constants';
+import HttpJSONService from '../base/HttpJSONService';
+
+const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL;
 
 export default class ResourceAdminService extends BaseService {
 
@@ -135,6 +139,14 @@ export default class ResourceAdminService extends BaseService {
 	/*============================================================
 	 == Software
 	/============================================================*/
+	/**
+	 * Saves software object
+	 * @param softwareObject: ISoftwareObject with req.body
+	 */
+	async saveSoftwareObject(softwareObject: ISoftwareObject) {
+		let res = await this._emilSofSvc.post(`saveSoftwareObject`, softwareObject);
+		return await res.json();
+	}
 
 	/**
 	 * Gets a Software Object by ID
@@ -142,6 +154,18 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async getSoftwareObject(id: string): Promise<any> {
 		let res = await this._emilSofSvc.get(`getSoftwareObject?softwareId=${id}`);
+		return await res.json();
+	}
+
+
+	/**
+	 * Posts Object Import Request data
+	 * @param req : Request with req.body
+	 */
+	async getSoftwareMetadata(id: string) {
+		let httpSvc: IHttpService = new HttpJSONService();
+		let url = `${BASE_URL}/emil/objects/Remote%20Objects/${id}`;
+		let res = await httpSvc.get(url);
 		return await res.json();
 	}
 

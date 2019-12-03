@@ -33,8 +33,19 @@ router.get('/environment', (req, res) => controller.getEnvironment(req, res));
  */
 router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTemplates(req, res));
 
+
 /**
- * @api {get} resource/software Search All Software Objects
+ * @api {post} resource/software-object Saves Software Objects
+ * @apiVersion 1.0.0
+ * @apiName Save Software Resource Object
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Saves software object
+ */
+router.post('/save-software-object', (req, res) => controller.saveSoftwareObject(req, res));
+
+/**
+ * @api {get} resource/software-object Get Software Objects by software id
  * @apiVersion 1.0.0
  * @apiName Software Resource Object
  * @apiGroup Resources
@@ -42,6 +53,16 @@ router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTempl
  * @apiDescription Gets software object
  */
 router.get('/software-object', (req, res) => controller.getSoftwareObject(req, res));
+
+/**
+ * @api {get} resource/software-metadata Get Software Metadata by software id
+ * @apiVersion 1.0.0
+ * @apiName Software Resource Metadata
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets software metadata
+ */
+router.get('/software-metadata', (req, res) => controller.getSoftwareMetadata(req, res));
 
 /**
  * @api {post} resource/search Search Request
@@ -72,6 +93,15 @@ router.get('/operatingSystemMetadata', (req, res) => controller.getOperatingSyst
  * @apiDescription Gets name indexes
  */
 router.get('/nameIndexes', (req, res) => controller.getNameIndexes(req, res));
+
+/**
+ * @api {post} resource/classify creates a task to detect environments that uses requested software
+ * @apiVersion 1.0.0
+ * @apiName Detect environments that uses requested software
+ * @apiGroup Resources
+ * @apiDescription Gets name indexes
+ */
+router.post('/classify', (req, res) => controller.classify(req, res));
 
 /**
  * @api {post} resource/ Delete a resource

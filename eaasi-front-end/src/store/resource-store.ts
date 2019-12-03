@@ -115,7 +115,7 @@ const actions = {
 		return await _svc.updateEnvironmentDetails(envRequest);
 	},
 
-	clearSearchQuery({ commit, state }: Store<ResourceState>) {
+	clearSearchQuery({ commit }: Store<ResourceState>) {
 		commit('SET_QUERY', new ResourceSearchQuery());
 	},
 
@@ -126,7 +126,7 @@ const actions = {
 		commit('SET_QUERY', {...state.query, selectedFacets: facets});
 	},
 
-	async getTemplates({ state, commit }) {
+	async getTemplates({ commit }) {
 		let result = await _svc.getTemplates();
 		commit('SET_AVAILABLE_TEMPLATES', result);
 	},

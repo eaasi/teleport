@@ -11,4 +11,4 @@ export interface ILabeledEditableItem extends ILabeledItem {
 	data?: any;
 }
 
-export type EditType = 'text-input' | 'configured-drives' | 'checkbox' | 'text-area' | 'select' | 'date';
+export type EditType = 'text-input' | 'configured-drives' | 'checkbox' | 'text-area' | 'select' | 'date' | 'custom';

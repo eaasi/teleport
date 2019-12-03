@@ -153,4 +153,32 @@ export interface ISoftwarePackage extends IEaasiResource {
 	label: string;
 }
 
+export interface ISoftwareObject {
+	allowedInstances: number;
+	archiveId: string;
+	exportFMTs: any[];
+	importFMTs: any[];
+	isOperatingSystem: Boolean;
+	licenseInformation: string;
+	nativeFMTs: string[];
+	objectId: string;
+	qid: string;
+}
+
+export interface IOsItem {
+	id: string;
+	puids: IPuid[];
+}
+
+export interface IPuid {
+	puid: string;
+}
+
+export interface IObjectClassificationRequest {
+	archiveId: string;
+	objectId: string;
+	updateClassification: boolean;
+	updateProposal: boolean;
+}
+
 export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'disk' | 'Files';

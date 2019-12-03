@@ -1,6 +1,6 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import IHttpService from '@/services/interfaces/IHttpService';
-import { TaskState } from '@/types/emil/Emil';
+import { TaskState, IObjectClassificationRequest } from '@/types/emil/Emil';
 
 const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/emil';
 
@@ -23,4 +23,20 @@ export default class EmilContainerService {
 		let response = await this._svc.get(`${BASE_URL}/tasks/${taskID}`);
 		return await response.json() as TaskState;
 	}
+
+	/**
+	 * creates a task to detect environments that uses requested software
+	 * @param classifyRequest: {
+	 * 	archiveId: string;
+	 *  objectId: string;
+	 *  updateClassification: boolean;
+	 *  updateProposal: boolean;
+	 * }
+	 */
+	async classify(classifyRequest: IObjectClassificationRequest) {
+		if(!classifyRequest) throw `Did not receive Classification Request.`;
+		let response = await this._svc.post(`${BASE_URL}/classification`, classifyRequest);
+		return await response.json();
+	}
+	
 }

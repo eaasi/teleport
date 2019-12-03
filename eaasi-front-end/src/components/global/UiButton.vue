@@ -46,7 +46,7 @@ export default class UiButton extends Vue {
 	/**
 	 * Optional color preset
 	 */
-	@Prop({type: String, required: false})
+	@Prop({type: String, required: false, default: 'default'})
 	readonly colorPreset: String;
 
 	/**
@@ -92,10 +92,7 @@ export default class UiButton extends Vue {
 
 .eaasi-button {
 	appearance: none;
-	background-color: $dark-blue;
-	border: solid 2px darken($dark-blue, 20%);
 	border-radius: 0.4rem;
-	color: #FFFFFF;
 	cursor: pointer;
 	font-size: 1.6rem;
 	font-weight: 600;
@@ -134,10 +131,6 @@ export default class UiButton extends Vue {
 		opacity: 0.5;
 	}
 
-	&:hover {
-		background-color: darken($dark-blue, 20%);
-	}
-
 	&.collapse {
 		min-width: 0;
 	}
@@ -153,6 +146,16 @@ export default class UiButton extends Vue {
 	/**
 	Color presets
 	 */
+	&.default {
+		background-color: $dark-blue;
+		border: solid 2px darken($dark-blue, 20%);
+		color: #FFFFFF;
+
+		&:hover {
+			background-color: darken($dark-blue, 20%);
+		}
+	}
+
 	&.light-blue {
 		background-color: lighten($light-blue, 80%);
 		border: solid 2px $light-blue;

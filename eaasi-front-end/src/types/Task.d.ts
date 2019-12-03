@@ -3,4 +3,5 @@ export interface ITaskState {
 	status?: string;
 	taskId: string | number;
 	message?: string;
+	object?: string;
 }
