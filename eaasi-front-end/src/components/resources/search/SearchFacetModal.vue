@@ -34,7 +34,7 @@
 		<!--suppress HtmlUnknownAttribute -->
 		<template #footer>
 			<div class="footer-btns-wrapper">
-				<div class="footer-btns flex-row">
+				<div class="footer-btns flex-row pull-right">
 					<ui-button @click="$emit('close')" color-preset="light-blue">
 						Cancel
 					</ui-button>
@@ -150,7 +150,6 @@ export default class SearchFacetModal extends Vue {
 	border-top: 2px solid darken($light-neutral, 10%);
 }
 .footer-btns {
-	float: right;
 	justify-content: space-between;
 	max-width: 50%;
 	padding: 2rem;

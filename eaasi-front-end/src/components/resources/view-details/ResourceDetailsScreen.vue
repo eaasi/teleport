@@ -1,13 +1,21 @@
 <template>
 	<div id="myResources">
-		<ui-button 
-			v-if="readOnlyMode" 
-			size="md" 
-			@click="confirmAction = 'replicate'" 
-			style="float: right; margin: 1.2rem;"
-		>
-			Replicate
-		</ui-button>
+		<div class="pull-right" style="margin: 1.2rem;">
+			<ui-button 
+				v-if="!readOnlyMode" 
+				size="md" 
+				@click="addingSoftware = true" 
+			>
+				Add Software
+			</ui-button>
+			<ui-button 
+				v-else-if="readOnlyMode" 
+				size="md" 
+				@click="confirmAction = 'replicate'" 
+			>
+				Replicate
+			</ui-button>
+		</div>
 		<h1>{{ screenTitle }}</h1>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<div class="vrd-content" v-if="activeResource">
@@ -30,6 +38,7 @@
 				:revisions="activeResource.revisions" 
 			/>
 		</div>
+		<!-- Modals -->
 		<confirm-modal
 			title="Replicate To My Node"
 			confirm-label="Replicate"
@@ -48,6 +57,7 @@
 				</span>
 			</alert>
 		</confirm-modal>
+		<!-- Loading Modal -->
 		<modal v-if="loading || errorMessage || success" @close="reset">
 			<alert-card v-if="errorMessage" type="error">
 				<strong>Error: </strong>
@@ -70,6 +80,11 @@
 				<loader />
 			</div>
 		</modal>
+		<add-software
+			v-if="addingSoftware"
+			@cancel="addingSoftware = null"
+			@run-in-emulator="runInEmulator"
+		/>
 	</div>
 </template>
 
@@ -77,10 +92,11 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
-import { IEnvironment, ISoftwareObject } from '@/types/Resource';
+import { IEnvironment, ISoftwareObject, ISoftwarePackage } from '@/types/Resource';
 import ResourceDetailsHistory from './history/ResourceDetailsHistory.vue';
 import SoftwareMetadataSection from './metadata/software/SoftwareMetadataSection.vue';
 import EnvironmentMetadataSection from './metadata/environment/EnvironmentMetadataSection.vue';
+import AddSoftware from '../AddSoftwareModal.vue';
 import { ITaskState } from '@/types/Task';
 import EaasiTask from '@/models/task/EaasiTask';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
@@ -88,6 +104,7 @@ import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 @Component({
 	name: 'ResourceDetailsScreen',
 	components: {
+		AddSoftware,
 		ResourceDetailsHistory,
 		SoftwareMetadataSection,
 		EnvironmentMetadataSection
@@ -109,6 +126,7 @@ export default class ResourceDetailsScreen extends Vue {
 	errorMessage: string = null;
 	success: boolean = false;
 	timer: any = null;
+	addingSoftware: boolean = false;
 
     /* Computed
 	============================================*/
@@ -139,10 +157,13 @@ export default class ResourceDetailsScreen extends Vue {
         this.timer = setInterval(async () => await this.handleTask(task.taskId), task.pollingInterval);
 	}
 
+	async runInEmulator(softwareId: string) {
+		if (!softwareId) return;
+		const { envId } = this.activeResource as IEnvironment;
+		this.$router.push(`/access-interface/${envId}?softwareId=${softwareId}`);
+	}
+
 	async handleTask(taskId: string | number) {
-		clearInterval(this.timer);
-		this.success = true;
-		return;
 		let taskState = await this.$store.dispatch('getTaskState', taskId);
 		if (taskState.message && taskState.status == '1') {
 			clearInterval(this.timer);

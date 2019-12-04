@@ -138,6 +138,8 @@
 			try {
 				let data = new MachineComponentRequest(vm.environment);
 				let params = new StartEnvironmentParams(vm.environment);
+				const { softwareId } = vm.$route.query;
+				if (softwareId) data.software = softwareId as string;
 				let keyboardPrefs = vm.getKeyboardPreferences();
 				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
 				await vm.client.start([{data, vizualize: true}], params);

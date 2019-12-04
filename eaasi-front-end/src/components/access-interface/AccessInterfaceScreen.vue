@@ -151,9 +151,9 @@
         ============================================*/
 
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
-			next(vm => {
+			next(async vm => {
 				const { envId } = to.params;
-				from.name === 'Import Resource' ? vm.getImportedEnvironment((envId)) : vm.getEnvironment(envId);
+				from.name === 'Import Resource' ? await vm.getImportedEnvironment(envId) : await vm.getEnvironment(envId);
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
 			});
