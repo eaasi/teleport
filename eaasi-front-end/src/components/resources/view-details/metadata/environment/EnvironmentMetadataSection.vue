@@ -57,12 +57,18 @@
 						:labeled-items="uiOptionLabeledItems"
 					/>
 				</div>
-				<div class="col-md-4" v-if="!isLinuxRuntimeSelected">
+				<div v-if="!isLinuxRuntimeSelected" class="col-md-4">
 					<section-heading title="Networking" size="large" />
 					<configure-network
 						:readonly="!isEditMode"
 						:network-items="networkLabeledItems"
 					/>
+				</div>
+			</div>
+			<div class="row">
+				<div v-if="installedSoftware.length" class="col-md-4">
+					<section-heading title="Configured software" size="large" />
+					<labeled-item-list :labeled-items="installedSoftware" />
 				</div>
 			</div>
 		</div>
@@ -72,14 +78,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEnvironment, IEaasiResource, IDrive, IEditableDrive } from '@/types/Resource';
+import { IEaasiResourceSummary, IEnvironment, IEaasiResource, IDrive, IEditableDrive, ISoftwareObject } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
-import { ILabeledEditableItem } from '@/types/ILabeledItem';
+import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../ResourceDetailsSummary.vue';
 import ConfiguredDrives from './ConfiguredDrives.vue';
 import ConfigureNetwork from './ConfigureNetwork.vue';
 import ConfigureEmulator from './ConfigureEmulator.vue';
+import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import ModeToggle from '../ModeToggle.vue';
 import { jsonEquals } from '@/utils/functions';
 
@@ -87,7 +94,8 @@ import { jsonEquals } from '@/utils/functions';
     name: 'EnvironmentMetadataSection',
     components: {
         EditableLabeledItemList,
-        ResourceDetailsSummary,
+		ResourceDetailsSummary,
+		LabeledItemList,
 		ConfiguredDrives,
 		ConfigureNetwork,
 		ConfigureEmulator,
@@ -131,6 +139,7 @@ export default class EnvironmentMetadataSection extends Vue {
 	osLabeledItems: ILabeledEditableItem[] = [];
 	uiOptionLabeledItems: ILabeledEditableItem[] = [];
 	networkLabeledItems: ILabeledEditableItem[] = [];
+	installedSoftware: ILabeledItem[] = [];
 
     /* Methods
 	============================================*/
@@ -159,10 +168,12 @@ export default class EnvironmentMetadataSection extends Vue {
 	}
 
 	async init() {
+		if (!this.resource) return;
 		await this._populateEmulatorConfig();
 		this._populateOperatingSystemConfig();
 		this._populateUIOptions();
 		this._populateNetworkOptions();
+		this._populateInstalledSoftware();
 		if (!this.readOnlyMode) {
 			this.toggleOptions.push('Edit Mode');
 		}
@@ -178,6 +189,16 @@ export default class EnvironmentMetadataSection extends Vue {
 
 	 /* Helpers
 	============================================*/
+
+	_populateInstalledSoftware() {
+		if(!this.resource.installedSoftwareIds) return [];
+		this.installedSoftware = this.resource.installedSoftwareIds.map(id => {
+			return {
+				label: '',
+				value: id
+			} as ILabeledItem;
+		});
+	}
 
 	async _populateEmulatorConfig() {
 		const nameIndexes = await this.$store.dispatch('resource/getNameIndexes');
