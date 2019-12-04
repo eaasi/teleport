@@ -2,7 +2,7 @@
 	<div class="arc-container">
 		<div class="arc-title">
 			<div>
-				<i :class="`fas fa-paperclip`"></i>
+				<span :class="`fas fa-paperclip`"></span>
 				Attach <span class="uppercase">{{ title }}</span> Resource from...
 			</div>
 		</div>

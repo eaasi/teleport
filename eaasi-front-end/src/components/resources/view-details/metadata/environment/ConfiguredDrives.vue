@@ -11,12 +11,12 @@
 							Filesystem: {{ drive.filesystem ? drive.filesystem : 'Not specified' }}
 						</span>
 						<span v-if="!readonly" class="icon-wrapper flex-row">
-							<i 
+							<span
 								class="fas fa-edit dark-blue"
 								style="margin-right: 0.5rem;"
 								@click="edit(drive)"
-							></i>
-							<i class="fas fa-times red" @click="remove(drive)"></i>
+							></span>
+							<span class="fas fa-times red" @click="remove(drive)"></span>
 						</span>
 					</p>
 				</div>
@@ -107,7 +107,7 @@ export default class ConfiguredDrives extends Vue {
 			plugged: false,
 		} as IEditableDrive;
 	}
-	
+
 	save(drive: IEditableDrive) {
 		let updatedDrives: IEditableDrive[] = this.drivesWithIds;
 		this.drivesWithIds.some(d => d.uid === drive.uid)

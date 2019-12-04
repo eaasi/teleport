@@ -5,10 +5,10 @@ describe('UiChip.vue', () => {
 	it('Renders chip text passed into slot', () => {
 		const wrapper = shallowMount(UiChip, {
 			slots: {
-				default: 'Default'
+				default: 'Default!'
 			}
 		});
-		expect(wrapper.find('.applied-facets-wrapper').text()).toBe('Default!');
+		expect(wrapper.find('.ui-chip-content').text()).toBe('Default!');
 	});
 
 	it('Renders close icon if passed', () => {
@@ -22,5 +22,4 @@ describe('UiChip.vue', () => {
 		});
 		expect(wrapper.find('.fa-times').exists()).toBeTruthy();
 	});
-    
 });

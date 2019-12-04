@@ -14,7 +14,7 @@ class TaskService extends BaseHttpService {
 			suppressSpinner: true
 		});
 		if (!response) return null;
-		return response.result as ITaskState;
+		return response.result;
 	}
 
 	/**
@@ -26,7 +26,7 @@ class TaskService extends BaseHttpService {
 			suppressSpinner: true
 		});
 		if (!response) return null;
-		return response.result as ITaskState;
+		return response.result;
 	}
 }
 

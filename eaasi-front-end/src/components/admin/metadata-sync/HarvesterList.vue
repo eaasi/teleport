@@ -1,14 +1,13 @@
 <template>
 	<div class="harvester-list">
 		<table class="eaasi-table">
+			<caption>Lists available OAIPMH Harvester endpoints</caption>
 			<thead>
 				<tr>
-					<th>
-						Endpoint Name
-					</th>
-					<th style="width: 200px;"></th>
-					<th style="width: 150px;"></th>
-					<th style="width: 100px;"></th>
+					<th scope="col">Endpoint Name</th>
+					<th scope="col" style="width: 200px;"></th>
+					<th scope="col" style="width: 150px;"></th>
+					<th scope="col" style="width: 100px;"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -40,7 +39,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { Get, Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'HarvesterList'
@@ -51,7 +49,7 @@ export default class HarvesterList extends Vue {
 	============================================*/
 
 	@Prop({type: Array, required: true})
-	readonly list: string[]
+	readonly list: string[];
 
 	/* Data
 	============================================*/
@@ -65,15 +63,10 @@ export default class HarvesterList extends Vue {
 		this.$store.dispatch('admin/syncHarvester', { name, full });
 	}
 
-	sort(rule) {
-		// TODO:
-	}
-
-	removeEndpoint() {
-		this.$store.dispatch('admin/deleteHarvester', this.harvesterToDelete);
+	async removeEndpoint() {
+		await this.$store.dispatch('admin/deleteHarvester', this.harvesterToDelete);
 		this.harvesterToDelete = null;
 	}
-
 }
 
 </script>

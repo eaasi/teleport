@@ -14,8 +14,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import { Get } from 'vuex-pathify';
 import { IMenuItem } from 'eaasi-nav';
-import {Get} from 'vuex-pathify';
 import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';
 

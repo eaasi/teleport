@@ -35,7 +35,7 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sq) => {
+	down: (queryInterface, Sequelize) => {
 		return queryInterface.dropTable('pointer_device');
 	}
 };

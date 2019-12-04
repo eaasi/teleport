@@ -1,10 +1,39 @@
-import { shallowMount } from '@vue/test-utils';
+import Vuex from 'vuex';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import AdminMenuItem from '@/components/admin/AdminMenuItem.vue';
+import pathify from 'vuex-pathify';
+import globalStore from '@/store/global-store';
+import localAdminStore from '@/store/admin-store';
+
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 describe('AdminMenu.vue', () => {
+	let store;
+	let mutations;
+
+	beforeEach(() => {
+		mutations = {
+			SET_ACTIVE_USER: jest.fn()
+		};
+
+		store = new Vuex.Store({
+			modules: {
+				// @ts-ignore
+				admin: localAdminStore,
+				// @ts-ignore
+				global: globalStore
+			},
+			state: {
+				appVersion: ''
+			},
+			plugins: [pathify.plugin]
+		});
+	});
+
 	it('Displays all menu items', () => {
-		const wrapper = shallowMount(AdminMenu, {});
+		const wrapper = shallowMount(AdminMenu, { store, localVue });
 		const userMenuItems = wrapper.vm.$data['userMenuItems'];
 		const menuItems = wrapper.vm.$data['menuItems'];
 		const allItems = userMenuItems.concat(menuItems);
@@ -12,12 +41,12 @@ describe('AdminMenu.vue', () => {
 	});
 
 	it('Contains Node Management section', () => {
-		const wrapper = shallowMount(AdminMenu, {});
+		const wrapper = shallowMount(AdminMenu, { store, localVue });
 		expect(wrapper.contains('Node Management'));
 	});
 
 	it('Contains Node User Administration section', () => {
-		const wrapper = shallowMount(AdminMenu, {});
+		const wrapper = shallowMount(AdminMenu, { store, localVue });
 		expect(wrapper.contains('Node User Administration'));
 	});
 });

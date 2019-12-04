@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
 import LeftMenu from './components/layout/LeftMenu.vue';
 import AppHeader from './components/layout/header/AppHeader.vue';

@@ -20,33 +20,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 
 @Component({
 	name: 'SoftwareProductMetadataForm',
 })
-export default class SoftwareProductMetadataForm extends Vue {
-
-	/* Props
-	============================================*/
-
-	/* Data
-	============================================*/
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
-
-}
+export default class SoftwareProductMetadataForm extends Vue { }
 
 </script>
 

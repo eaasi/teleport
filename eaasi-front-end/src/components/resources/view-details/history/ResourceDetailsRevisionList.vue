@@ -1,6 +1,9 @@
 <template>
 	<div class="user-list">
 		<table class="eaasi-table clickable">
+			<caption>
+				Resource Details Revisions with date, changes, and details of the resource change
+			</caption>
 			<thead>
 				<tr>
 					<sort-header sort-col="date" :query="query" @sort="sort">
@@ -41,7 +44,7 @@
 								DETAILS
 							</span>
 							<span class="edrl-details-heading encircled" v-else>
-								<i class="fas fa-fw fa-chevron-up"></i>
+								<span class="fas fa-fw fa-chevron-up"></span>
 							</span>
 						</td>
 					</tr>

@@ -5,9 +5,9 @@
 			v-on="$listeners"
 			v-bind="$attrs"
 		>
-			<i :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></i>
+			<span :class="`fas fa-${icon} eb-icon`" v-if="icon && !iconRight"></span>
 			<slot></slot>
-			<i :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></i>
+			<span :class="`fas fa-${icon} eb-icon-right`" v-if="icon && iconRight"></span>
 		</button>
 		<span class="labeled-btn-label" v-if="subLabel">
 			{{ subLabel }}

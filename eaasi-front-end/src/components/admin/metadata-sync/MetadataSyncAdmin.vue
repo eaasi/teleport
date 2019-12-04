@@ -36,16 +36,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import AdminScreen from '../AdminScreen.vue';
-import { Component, Prop } from 'vue-property-decorator';
-import Emulator from '@/models/admin/Emulator';
+import { Component } from 'vue-property-decorator';
 import HarvesterList from './HarvesterList.vue';
 import AddHarvesterModal from './AddHarvesterModal.vue';
-import EmulatorImportModal from './EmulatorImportModal.vue';
-import { Get, Sync } from 'vuex-pathify';
-import { IEmulator } from 'eaasi-admin';
-import { IEaasiSearchResponse, IEaasiSearchQuery } from '@/types/Search';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'EmulatorManagement',
@@ -92,9 +87,7 @@ export default class EmulatorManagement extends AdminScreen {
 	mounted() {
 		this.$store.dispatch('admin/getHarvesters');
 	}
-
 }
-
 </script>
 
 <style lang="scss">

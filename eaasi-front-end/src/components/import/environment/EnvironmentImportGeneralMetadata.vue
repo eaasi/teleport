@@ -37,8 +37,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { Get, Sync } from 'vuex-pathify';
+import { Component } from 'vue-property-decorator';
+import { Sync } from 'vuex-pathify';
 import EaasiForm from '@/components/global/forms/EaasiForm.vue';
 import { IRadioOption } from '@/types/Forms';
 
@@ -49,16 +49,16 @@ export default class EnvironmentImportGeneralMetadata extends Vue {
 
 	$refs!: {
 		_form: EaasiForm
-	}
+	};
 
 	/* Computed
 	============================================*/
 
 	@Sync('import/environment@title')
-	readonly title: string
+	readonly title: string;
 
 	@Sync('import/environment@type')
-	readonly environmentType: number
+	readonly environmentType: number;
 
 	/* Data
 	============================================*/
@@ -75,7 +75,6 @@ export default class EnvironmentImportGeneralMetadata extends Vue {
 			description: 'Image of a hard drive with an OS & content files'
 		}
 	]
-
 }
 
 </script>

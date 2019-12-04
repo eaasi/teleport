@@ -14,7 +14,7 @@ import User from '@/models/admin/User';
 /============================================================*/
 
 class GlobalState {
-	readonly appVersion: string = config.APP_VERSION;
+	appVersion: string = config.APP_VERSION;
 	activeTask: EaasiTask = null;
 	activeTaskResult: any = null;
 	runningTasks: EaasiTask[] = [];

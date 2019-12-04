@@ -9,13 +9,13 @@
 					:id="id"
 				/>
 				<span class="eaasi-field-icon">
-					<i :class="`far fa-${icon}`"></i>
+					<span :class="`far fa-${icon}`"></span>
 				</span>
 			</div>
 		</div>
 		<div class="ac-list" v-show="listVisible" ref="_list">
 			<div v-if="loading" class="ac-loading">
-				<i class="fas fa-cog fa-spin"></i>
+				<span class="fas fa-cog fa-spin"></span>
 				<span> Searching...</span>
 			</div>
 			<div v-if="results && !loading">

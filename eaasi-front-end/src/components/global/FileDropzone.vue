@@ -6,8 +6,8 @@
 		@dragleave="dragover = false"
 	>
 		<div class="dfu-icon" @dragenter="dragover = true">
-			<i class="fas fa-upload"></i>
-			<div ckass="dfu-content">
+			<span class="fas fa-upload"></span>
+			<div class="dfu-content">
 				{{ label }}
 			</div>
 		</div>

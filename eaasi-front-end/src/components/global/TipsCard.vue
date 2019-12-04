@@ -1,7 +1,7 @@
 <template functional>
 	<div class="tips-card-container">
 		<div class="tips-title">
-			<i class="fas fa-lightbulb"></i>
+			<span class="fas fa-lightbulb"></span>
 			<span class="tips">TIPS</span>
 		</div>
 		<div class="tips-content">
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 /**
  * Provides a card for communicating tips to the user

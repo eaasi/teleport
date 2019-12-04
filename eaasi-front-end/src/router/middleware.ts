@@ -42,4 +42,4 @@ export function updateMeta(to: Route) {
 	} else {
 		document.title = 'Eaasi | Emulation as a Service Infrastructure';
 	}
-};
+}

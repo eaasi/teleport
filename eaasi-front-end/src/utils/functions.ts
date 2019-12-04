@@ -77,7 +77,7 @@ export function debounce(func: Function, wait: number, immediate: boolean) {
 		timeout = setTimeout(later, wait);
 		if (callNow) func.apply(context, args);
 	};
-};
+}
 
 /*============================================================
  == Positioning
@@ -134,7 +134,7 @@ export function getPageOffset(el: HTMLElement) {
 export function getParameterByName(name) {
 	let match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 	return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-};
+}
 
 /*============================================================
  == Scripts
@@ -146,7 +146,7 @@ export function appendScript(scriptText: string) {
 	script.type  = 'text/javascript';
 	script.text  = scriptText;
 	document.body.appendChild(script);
-};
+}
 
 /*============================================================
  == String Manipulation
@@ -178,4 +178,3 @@ export function generateId(): string {
 		return v.toString(16);
 	});
 }
-  

@@ -6,7 +6,7 @@
 		data-test="admin-menu-item"
 	>
 		<div class="admin-menu-icon" @click="() => handleClick()">
-			<i :class="`fas fa-fw fa-${item.icon}`"></i>
+			<span :class="`fas fa-fw fa-${item.icon}`"></span>
 		</div>
 		<p class="txt-sm no-mb" @click="() => handleClick()">
 			{{ item.label }}
@@ -58,7 +58,7 @@ a.admin-menu-item {
 		}
 	}
 
-	i.fas {
+	span.fas {
 		color: $teal;
 		font-size: 2.2rem;
 		margin-right: 5px;

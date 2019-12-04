@@ -7,12 +7,13 @@
 	>
 		<div class="emulator-images">
 			<table class="eaasi-table">
+				<caption>Lists available emulators with User Version, Source URL, DockerTag, and Is Default</caption>
 				<thead>
-					<th>User Version</th>
-					<th>OCI Source URL</th>
-					<th style="width: 95px;">Docker Tag</th>
-					<th style="width: 220px;"></th>
-					<th style="width: 30px;" v-if="hasMultipleImages">Default</th>
+					<th scope="col">User Version</th>
+					<th scope="col">OCI Source URL</th>
+					<th scope="col" style="width: 95px;">Docker Tag</th>
+					<th scope="col" style="width: 220px;"></th>
+					<th scope="col" style="width: 30px;" v-if="hasMultipleImages">Default</th>
 				</thead>
 				<tbody>
 					<tr v-for="e in emulator.entries" :key="e.image.id">
@@ -20,7 +21,7 @@
 						<td>{{ e.provenance.ociSourceUrl }}</td>
 						<td class="nb">
 							<span v-if="isLatest(e)" class="e-latest">
-								<i class="fas fa-check-circle"></i>
+								<span class="fas fa-check-circle"></span>
 							</span>
 							<span>{{ e.provenance.versionTag }}</span>
 						</td>
@@ -87,7 +88,7 @@ export default class EmulatorModal extends Vue {
 		return e.version === this.emulator.latestVersion;
 	}
 
-	async makeDefault(entry: IEmulatorEntry) {		
+	async makeDefault(entry: IEmulatorEntry) {
 		let previousVersion = this.emulator.latestVersion;
 		// Assume this will succeed and update the checkbox immediately
 		this.emulator.latestVersion = entry.version;

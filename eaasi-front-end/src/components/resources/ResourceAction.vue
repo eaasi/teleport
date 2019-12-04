@@ -4,14 +4,14 @@
 		@click="emitClickEvent"
 	>
 		<div class="ra-icon">
-			<i :class="`fas fa-fw fa-${action.icon}`"></i>
+			<span :class="`fas fa-fw fa-${action.icon}`"></span>
 		</div>
 		<div class="ra-info flex-adapt">
-			<b>{{ action.label }}</b>
+			<strong>{{ action.label }}</strong>
 			<p class="no-mb" v-if="action.description">{{ action.description }}</p>
 		</div>
 		<div class="ra-arrow flex flex-center">
-			<i class="fas fa-chevron-right" v-if="action.isEnabled"></i>
+			<span class="fas fa-chevron-right" v-if="action.isEnabled"></span>
 		</div>
 	</div>
 </template>
@@ -29,7 +29,7 @@ export default class ResourceAction extends Vue {
 	/* Props
 	============================================*/
 	@Prop({type: Object as () => IAction, required: true})
-	readonly action: IAction
+	readonly action: IAction;
 
 	emitClickEvent() {
 		this.$emit('click');
@@ -80,7 +80,7 @@ export default class ResourceAction extends Vue {
 	height: 2.8rem;
 	width: 2.8rem;
 
-	i.fas {
+	span.fas {
 		font-size: 1.2rem;
 	}
 }

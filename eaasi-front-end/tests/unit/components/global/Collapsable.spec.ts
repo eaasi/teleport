@@ -5,7 +5,8 @@ describe('Collapsable.vue', () => {
 	it('Does not show slot content when closed', () => {
 		const wrapper = shallowMount(Collapsable, {
 			propsData: {
-				collapsed: true
+				collapsed: true,
+				title: 'Alrighty'
 			},
 			slots: {
 				default: '<div class="slot-content">I am the content></div>'
@@ -17,7 +18,8 @@ describe('Collapsable.vue', () => {
 	it('Opens and displays slot content when title is clicked', () => {
 		const wrapper = shallowMount(Collapsable, {
 			propsData: {
-				collapsed: true
+				collapsed: true,
+				title: 'Alrighty'
 			},
 			slots: {
 				default: '<div class="slot-content">I am the content></div>'

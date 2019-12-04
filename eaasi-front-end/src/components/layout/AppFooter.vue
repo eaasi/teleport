@@ -13,7 +13,7 @@
 			<div class="footer-social">
 				<div class="inline-block">
 					<a href="mailto:eaasi@yale.edu" id="eaasiEmail">
-						<i class="fas fa-envelope-open eb-icon teal"></i>
+						<span class="fas fa-envelope-open eb-icon teal"></span>
 						<span class="footer-email">
 							eaasi@yale.edu
 						</span>
@@ -21,15 +21,15 @@
 				</div>
 
 				<div class="inline-block social-link">
-					<i class="fab fa-instagram eb-icon"></i>
+					<span class="fab fa-instagram eb-icon"></span>
 				</div>
 
 				<div class="inline-block social-link">
-					<i class="fab fa-twitter eb-icon"></i>
+					<span class="fab fa-twitter eb-icon"></span>
 				</div>
 
 				<div class="inline-block social-link">
-					<i class="fab fa-facebook-f eb-icon"></i>
+					<span class="fab fa-facebook-f eb-icon"></span>
 				</div>
 			</div>
 
@@ -37,6 +37,7 @@
 				<a
 					href="http://www.softwarepreservationnetwork.org/eaasi"
 					target="_blank"
+					rel="noopener noreferrer"
 				>
 					www.softwarepreservationnetwork.org/eaasi
 				</a>
@@ -48,17 +49,17 @@
 				<div class="footer-principal-label">
 					Principal Partner:
 				</div>
-				<img src="@/assets/yale-white.png" />
+				<img src="@/assets/yale-white.png" alt="Yale University Logo" />
 			</div>
 			<div class="footer-sponsor-container">
 				<div class="footer-sponsor-label block">
 					Made Possible By
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="@/assets/andrew-w-mellon-white.png" class="md" />
+					<img src="@/assets/andrew-w-mellon-white.png" class="md" alt="The Andrew W. Mellon Foundation logo" />
 				</div>
 				<div class="footer-sponsor-img inline-block">
-					<img src="@/assets/sloan-logo-primary-white.png" class="lg" />
+					<img src="@/assets/sloan-logo-primary-white.png" class="lg" alt="The Alfred P. Sloan Foundation logo" />
 				</div>
 			</div>
 		</div>

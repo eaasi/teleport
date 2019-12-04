@@ -32,7 +32,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 
 		// todo: investigate more robust query string validation, add sortCol validation
 		if (!areAllValidIntegerParams([query.limit, query.page])) {
-			return await res
+			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(JSON.stringify(req.query)));
 		}
@@ -40,12 +40,12 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		let response = await this._crudService.getAll(req.query);
 
 		if (response.hasError) {
-			return await res
+			return res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
 		}
 
-		return await res.send(response.result);
+		return res.send(response.result);
 	}
 
 	/**
@@ -59,7 +59,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 
 		// @ts-ignore
 		if (req.params.id == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				// @ts-ignore
 				.send(build_400_response(req.params));
@@ -68,18 +68,18 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		let response = await this._crudService.getByPk(id);
 
 		if (response.hasError) {
-			return await res
+			return res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
 		}
 
 		if (response.result == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
 
-		return await res.status(HttpResponseCode.OK).send(response.result);
+		return res.status(HttpResponseCode.OK).send(response.result);
 	}
 
 	/**
@@ -91,7 +91,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		const newObject = req.body;
 
 		if (newObject == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.body));
 		}
@@ -99,12 +99,12 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		let response = await this._crudService.create(newObject);
 
 		if (response.hasError) {
-			return await res
+			return res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
 		}
 
-		return await res.status(HttpResponseCode.CREATED).send(response.result);
+		return res.status(HttpResponseCode.CREATED).send(response.result);
 	}
 
 	/**
@@ -122,7 +122,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 			return BaseCrudController._handleUpdateError(req, res, updateResponse);
 		}
 
-		return await res.status(HttpResponseCode.OK).send(updateResponse);
+		return res.status(HttpResponseCode.OK).send(updateResponse);
 	}
 
 	/**
@@ -139,7 +139,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 
-		return await res.status(HttpResponseCode.OK).send(deleteResponse);
+		return res.status(HttpResponseCode.OK).send(deleteResponse);
 	}
 
 	/**
@@ -165,7 +165,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		}
 
 		this._logger.log.error(errorMessage);
-		await res.send(build_400_response(errorMessage));
+		res.send(build_400_response(errorMessage));
 	}
 
 	/**
@@ -178,12 +178,12 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 */
 	static async _handleUpdateError(req: Request, res: Response, updateResponse: any) {
 		if (updateResponse.error === 'notFound') {
-			return await res
+			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
 
-		return await res
+		return res
 			.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(updateResponse.error));
 	}
@@ -198,12 +198,12 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 */
 	static async _handleDeleteError(req: Request, res: Response, deleteResponse: any) {
 		if (deleteResponse.error === 'notFound') {
-			return await res
+			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
 
-		return await res
+		return res
 			.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(deleteResponse.error));
 	}

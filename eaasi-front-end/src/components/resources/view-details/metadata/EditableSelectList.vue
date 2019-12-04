@@ -5,9 +5,9 @@
 		</div>
 		<p v-if="readonly" :class="['input-wrapper', { changed }]">{{ selectedValue }}</p>
 		<select-list v-else-if="!readonly" v-model="item.value" :class="['input-wrapper', { changed }]" readonly>
-			<option 
-				v-for="(option, index) in item.data" 
-				:key="index" 
+			<option
+				v-for="(option, index) in item.data"
+				:key="index"
 				:value="option[anchor]"
 			>
 				{{ option[label] }}
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import { jsonCopy } from '@/utils/functions';
 

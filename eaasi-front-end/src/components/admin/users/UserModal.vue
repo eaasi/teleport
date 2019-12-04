@@ -53,16 +53,21 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
 import { Get } from 'vuex-pathify';
-import FormModal from '@/components/global/forms/FormModal.vue';
-import TextInput from '@/components/global/forms/TextInput.vue';
+import { IEaasiUser, IEaasiRole } from 'eaasi-admin';
 import { IRadioOption } from '@/types/Forms';
+import FormModal from '@/components/global/forms/FormModal.vue';
+import DescriptiveRadios from '@/components/global/forms/DescriptiveRadios.vue';
+import TextInput from '@/components/global/forms/TextInput.vue';
+import Modal from '@/components/global/Modal/Modal.vue';
 
 @Component({
 	name: 'UserModal',
 	components: {
-		FormModal
+		FormModal,
+		DescriptiveRadios,
+		TextInput,
+		Modal
 	}
 })
 export default class UserModal extends Vue {
@@ -77,7 +82,7 @@ export default class UserModal extends Vue {
 	============================================*/
 
 	@Get('admin/roles')
-	roles: IEaasiRole[]
+	roles: IEaasiRole[];
 
 	get isNew() {
 		return !this.user.id;
@@ -102,7 +107,7 @@ export default class UserModal extends Vue {
 	============================================*/
 
 	/**
-	 * Posts or puts the user via REST API and retreives update user list
+	 * Posts or puts the user via REST API and retrieves update user list
 	 */
 	async saveUser() {
 		let success = await this.$store.dispatch('admin/saveUser', this.user);

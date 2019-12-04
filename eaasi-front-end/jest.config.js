@@ -17,5 +17,7 @@ module.exports = {
 		'ts-jest': {
 			babelConfig: true,
 		},
-	}
+	},
+	collectCoverage: true,
+	coverageReporters: ['lcov'],
 };

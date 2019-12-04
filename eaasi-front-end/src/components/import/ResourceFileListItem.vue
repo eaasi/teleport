@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div class="sfl-handle flex flex-center">
-			<i class="fas fa-bars"></i>
+			<span class="fas fa-bars"></span>
 		</div>
 	</div>
 </template>

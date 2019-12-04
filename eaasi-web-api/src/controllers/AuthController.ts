@@ -8,10 +8,10 @@ import BaseController from './base/BaseController';
 import UserAdminService from '@/services/admin/UserAdminService';
 import AppLogger from '@/logging/appLogger';
 
-const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH as string;
-const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH as string;
-const CLIENT_URL = process.env.EAASI_CLIENT_URL as string;
-const SAML_LOGOUT_URL = process.env.SAML_LOGOUT_URL as string;
+const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH;
+const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH;
+const CLIENT_URL = process.env.EAASI_CLIENT_URL;
+const SAML_LOGOUT_URL = process.env.SAML_LOGOUT_URL;
 
 export default class EaasiAuthController extends BaseController {
 

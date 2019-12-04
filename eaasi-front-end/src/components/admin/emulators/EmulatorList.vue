@@ -1,15 +1,14 @@
 <template>
 	<div class="emulator-list">
 		<table class="eaasi-table clickable">
+			<caption>
+				Lists available emulators by name, number of entries, and provides details link
+			</caption>
 			<thead>
 				<tr>
-					<th>
-						Name
-					</th>
-					<th>
-						Number of Images
-					</th>
-					<th style="width: 100px;"></th>
+					<th scope="col"> Name </th>
+					<th scope="col"> Number of Images </th>
+					<th scope="col" style="width: 100px;"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -28,8 +27,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
-import { Get, Sync } from 'vuex-pathify';
 import { IEmulator } from 'eaasi-admin';
 
 @Component({
@@ -42,14 +39,6 @@ export default class EmulatorList extends Vue {
 
 	@Prop({type: Array, required: true})
 	readonly list: IEmulator[]
-
-	/* Methods
-	============================================*/
-
-	sort(rule) {
-
-	}
-
 }
 
 </script>

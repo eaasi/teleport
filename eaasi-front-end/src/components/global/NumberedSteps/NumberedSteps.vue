@@ -38,13 +38,13 @@ export default class NumberSteps extends Vue {
 	 * An array of steps to complete
 	 */
 	@Prop({type: Array, required: true})
-	readonly steps: INumberedStep[]
+	readonly steps: INumberedStep[];
 
 	/**
 	 * The current step number
 	 */
 	@Prop({type: Number, required: true})
-	readonly value: number
+	readonly value: number;
 
 }
 </script>

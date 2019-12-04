@@ -9,23 +9,23 @@ const stubSteps = [
 	{
 		stepNumber: 1,
 		description: faker.hacker.verb(),
-		isComplete: true
+		isComplete: true,
 	}, {
 		stepNumber: 2,
 		description: faker.hacker.verb(),
-		isComplete: false
+		isComplete: false,
 	}, {
 		stepNumber: 3,
 		description: faker.hacker.verb(),
-		isComplete: true
+		isComplete: true,
 	}, {
 		stepNumber: 4,
 		description: faker.hacker.verb(),
-		isComplete: false
+		isComplete: false,
 	}, {
 		stepNumber: 5,
 		description: faker.hacker.verb(),
-		isComplete: true
+		isComplete: true,
 	}
 ];
 
@@ -37,7 +37,8 @@ function getSteps(count: number): INumberedStep[] {
 describe('NumberedSteps.vue', () => {
 	it('When 0 steps passed as props => renders 3 Numbered Step components', () => {
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
-			steps: []
+			steps: [],
+            value: 91
 		}});
 		expect(wrapper.findAll(NumberedStep).exists()).toBe(false);
 	});
@@ -45,7 +46,8 @@ describe('NumberedSteps.vue', () => {
 	it('When 1 step passed as props => renders 1 Numbered Step components', () => {
 		const testSteps = getSteps(1);
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
-			steps: testSteps
+			steps: testSteps,
+            value: 24
 		}});
 		expect(wrapper.findAll(NumberedStep).length).toBe(1);
 	});
@@ -53,7 +55,8 @@ describe('NumberedSteps.vue', () => {
 	it('When 3 steps passed as props => renders 3 Numbered Step components', () => {
 		const testSteps = getSteps(3);
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
-			steps: testSteps
+			steps: testSteps,
+			value: 2
 		}});
 		expect(wrapper.findAll(NumberedStep).length).toBe(3);
 	});
@@ -61,7 +64,8 @@ describe('NumberedSteps.vue', () => {
 	it('When 5 steps passed as props => renders 5 Numbered Step components', () => {
 		const testSteps = getSteps(5);
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
-			steps: testSteps
+			steps: testSteps,
+			value: 213
 		}});
 		expect(wrapper.findAll(NumberedStep).length).toBe(5);
 	});

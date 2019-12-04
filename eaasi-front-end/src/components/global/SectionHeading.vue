@@ -1,7 +1,7 @@
 <template functional>
 	<div class="heading-container">
 		<span v-if="props.icon" class="heading-icon">
-			<i :class="['fa', `fas ${props.icon}`]"></i>
+			<span :class="['fa', `fas ${props.icon}`]"></span>
 		</span>
 		<span :class="['heading-text', props.size]">
 			{{ props.title }}

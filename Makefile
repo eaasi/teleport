@@ -10,7 +10,7 @@ DEV_COMPOSE_FILE := ./docker-compose.yml
 RELEASE_PROJECT := $(PROJECT_NAME)$(BUILD_ID)
 DEV_PROJECT := $(RELEASE_PROJECT)_dev
 
-.PHONY: test build clean run clean
+.PHONY: test build clean run clean sonar
 
 clean-build:
 	echo "running test stage"
@@ -23,6 +23,12 @@ test:
 
 build:
 	sudo docker-compose build --no-cache
+
+sonar:
+	sonar-scanner \
+	  -Dsonar.projectBaseDir=./eaasi-front-end \
+	&& sonar-scanner \
+	  -Dsonar.projectBaseDir=./eaasi-web-api
 
 echo:
 	echo "running release stage"

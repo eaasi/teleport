@@ -14,7 +14,7 @@
 						<span v-else-if="onlySelectedResource" class="flex-adapt">
 							{{ onlySelectedResource.title }}
 						</span>
-						<i class="fas fa-times" @click="$emit('toggle')"></i>
+						<span class="fas fa-times" @click="$emit('toggle')"></span>
 					</div>
 					<tabbed-nav
 						v-if="hasDetails"

@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { ImportType } from '@/types/Import';
 

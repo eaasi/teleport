@@ -1,7 +1,7 @@
 <template>
 	<div :class="`eaasi-alert ${color}`">
 		<div class="icon">
-			<i :class="`fas fa-${icon}`"></i>
+			<span :class="`fas fa-${icon}`"></span>
 		</div>
 		<div class="content">
 			<slot></slot>

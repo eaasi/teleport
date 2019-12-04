@@ -19,7 +19,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 
 @Component({
