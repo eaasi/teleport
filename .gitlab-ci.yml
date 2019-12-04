@@ -1,18 +1,34 @@
 # image: cypress/base:10
 image: node:latest
 
+before_script:
+    # Install ssh-agent
+    - echo '========= Starting SSH Stage ========='
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    # Run ssh-agent in the build environment
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$BUILD_AGENT_PRIVATE_KEY" | base64 -d)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+    # Add git user
+    - git config --global user.email "wes@portalmedia.com"
+    - git config --global user.name "Wes"
+
+
 stages:
     - build
     - test
-    - merge
+    - deploy
 
 cache:
     paths:
         - .eaasi-web-api/node_modules/
         - .eaasi-front-end/node_modules/
 
-# Build Jobs
-install_vue_npm_packages:
+build:front-end:
     stage: build
     script:
         - cd ./eaasi-front-end
@@ -21,7 +37,7 @@ install_vue_npm_packages:
     only:
         - merge_requests
 
-install_web_api_npm_packages:
+build:api:
     stage: build
     script:
         - cd ./eaasi-web-api
@@ -31,10 +47,22 @@ install_web_api_npm_packages:
     only:
         - merge_requests
 
-# Test Runner Jobs
-
-run_api_unit_tests:
+test:front-end:
     stage: test
+    dependencies:
+        - build:front-end
+    script:
+        - cd ./eaasi-front-end
+        - npm install -g jest
+        - npm install
+        - npm run test:unit
+    only:
+        - merge_requests
+
+test:api:
+    stage: test
+    dependencies:
+        - build:api
     script:
         - cd ./eaasi-web-api
         - npm install -g jest
@@ -43,12 +71,10 @@ run_api_unit_tests:
     only:
         - merge_requests
 
-run_vue_unit_tests:
-    stage: test
+deploy:all:
+    stage: deploy
     script:
-        - cd ./eaasi-front-end
-        - npm install -g jest
-        - npm install
-        - npm run test:unit
+        - ssh portalmedia@eaasi.portalmedia.com -tt -p "$SSH_PORT" \
+              "cd eaasi/eaasi-client-dev && git pull origin master && docker-compose down -v && docker-compose up -d --build && exit"
     only:
         - merge_requests
