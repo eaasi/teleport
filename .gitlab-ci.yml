@@ -42,3 +42,13 @@ run_api_unit_tests:
         - jest --verbose --detectOpenHandles --logHeapUsage --coverage
     only:
         - merge_requests
+
+run_vue_unit_tests:
+    stage: test
+    script:
+        - cd ./eaasi-front-end
+        - npm install -g jest
+        - npm install
+        - npm run test:unit
+    only:
+        - merge_requests

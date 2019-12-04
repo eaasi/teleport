@@ -45,6 +45,7 @@ import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
 import Tag from '../Tag.vue';
 import Bookmark from './Bookmark.vue';
 import SelectableCardContent from './SelectableCardContent.vue';
+import Checkbox from '@/components/global/forms/Checkbox.vue';
 
 /**
  * A Card for displaying information that can be selected or bookmarked
@@ -56,6 +57,7 @@ import SelectableCardContent from './SelectableCardContent.vue';
 		SelectableCardContent,
 		Bookmark,
 		Tag,
+		Checkbox
 	}
 })
 export default class SelectableCard extends Vue {

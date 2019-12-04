@@ -23,17 +23,6 @@ export default {
 					return 'Please enter a valid email address';
 				}
 				break;
-			case 'creditcard':
-			case 'cc':
-				if (!self.validateCC(value)) {
-					return 'Please enter a valid credit card number';
-				}
-				break;
-			case 'exp':
-				if (!self.validateCCExpiration(value)) {
-					return 'Please enter a valid expiration MMYY';
-				}
-				break;
 			case 'phone':
 				if (!self.validatePhone(value) && value !== '') {
 					return 'Please enter a valid US phone number';

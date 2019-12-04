@@ -13,8 +13,7 @@ export class MockHttpService {
 
 	postData: object = {};
 
-	constructor() {
-	}
+	constructor() { }
 
 	/**
 	 * get method spy

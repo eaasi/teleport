@@ -51,9 +51,17 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IResourceSearchFacet, IResourceSearchFacetAttribute, IResourceSearchFacetValue } from '@/types/Search.d.ts';
+import Checkbox from '@/components/global/forms/Checkbox.vue';
+import Modal from '@/components/global/Modal/Modal.vue';
+import UiButton from '@/components/global/UiButton.vue';
 
 @Component({
-	name: 'SearchFacetModal'
+	name: 'SearchFacetModal',
+	components: {
+		Checkbox,
+		Modal,
+		UiButton,
+	}
 })
 export default class SearchFacetModal extends Vue {
 
@@ -70,7 +78,7 @@ export default class SearchFacetModal extends Vue {
     /* Methods
     ============================================*/
     filterFacetValues(attribute) {
-    	if(attribute.facetValues.length < 1) return;
+    	if (attribute.facetValues.length < 1) return;
     	this.activeAttribute = attribute;
     }
 
@@ -83,7 +91,7 @@ export default class SearchFacetModal extends Vue {
     	const attributes: IResourceSearchFacetAttribute[] = attributeLabels.map(attLabel => {
     		let facetValues: IResourceSearchFacetValue[] = [];
     		this.facet.values.forEach(facetValue => {
-    			if(facetValue.label.charAt(0).toLowerCase() === attLabel) {
+    			if (facetValue.label.charAt(0).toLowerCase() === attLabel) {
     				facetValues.push(facetValue);
     			}
     		});
