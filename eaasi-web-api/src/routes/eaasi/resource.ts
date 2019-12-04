@@ -45,6 +45,26 @@ router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTempl
 router.post('/save-software-object', (req, res) => controller.saveSoftwareObject(req, res));
 
 /**
+ * @api {post} replicates an image
+ * @apiVersion 1.0.0
+ * @apiName Environment Replicate
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Replicates a list of images to the requested archive
+ */
+router.post('/replicate-image', (req, res) => controller.replicateImage(req, res));
+
+/**
+ * @api {post} resource/software-object Saves Software Objects
+ * @apiVersion 1.0.0
+ * @apiName Save Software Resource Object
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Saves software object
+ */
+router.post('/save-software-object', (req, res) => controller.saveSoftwareObject(req, res));
+
+/**
  * @api {get} resource/software-object Get Software Objects by software id
  * @apiVersion 1.0.0
  * @apiName Software Resource Object
@@ -74,7 +94,6 @@ router.get('/software-metadata', (req, res) => controller.getSoftwareMetadata(re
  * @apiDescription Gets an object containing data about all environment templates
  */
 router.get('/patches', (req, res) => controller.getPatches(req, res));
-
 
 /**
  * @api {get} resource/operatingSystemMetadata Gets OS metadata

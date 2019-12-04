@@ -21,6 +21,13 @@ export type IEnvironmentUpdateRequest = {
     xpraEncoding: string;
 }
 
+export type IReplicateImageRequest = {
+    destArchive: Archive;
+    replicateList: string[];
+}
+
+type Archive = 'remote' | 'public' | 'private';
+
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {
     return {
         containerEmulatorName: environment.containerEmulatorName,

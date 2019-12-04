@@ -28,6 +28,10 @@ export default class EmilEnvironmentService extends EmilBaseService {
 		return await response.json() as TaskState;
 	}
 
+	/**
+	 * Updates environment description
+	 * @param env: IEnvironment from req.body
+	 */
 	async updateDescription(env: IEnvironment) {
 		const response = await this.post('updateDescription', env);
 		const result = await response.json();

@@ -154,6 +154,7 @@ export interface ISoftwarePackage extends IEaasiResource {
 }
 
 export interface ISoftwareObject {
+	title?: string;
 	allowedInstances: number;
 	archiveId: string;
 	exportFMTs: any[];

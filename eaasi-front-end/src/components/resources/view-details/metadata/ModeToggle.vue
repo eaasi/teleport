@@ -7,8 +7,8 @@
 				:value="toggleValue"
 				@input="onToggleValueChange" 
 			/>
-			<div class="flex-center flex-row justify-between" style="flex: 1; margin-left: 2rem;">
-				<div v-if="!userCanEdit" class="read-only-message no-select">
+			<div class="flex-center flex-row" style="flex: 1; justify-content: flex-start; margin-left: 2rem;">
+				<div v-if="!userCanEdit" class="read-only-message no-select" style="margin-right: 2rem;">
 					{{ toggleOptions[0] }} Only
 				</div>
 				<div v-else-if="isEditMode" class="flex-center flex-row justify-between" style="flex: 1;">
@@ -29,7 +29,7 @@
 						</ui-button>
 					</div>
 				</div>
-				<div v-else>
+				<div v-if="!isEditMode || !userCanEdit">
 					Visit this published resource on 
 					<a href="">Wikidata for Digital Preservation</a>
 					to initiate metadata changes.
@@ -75,7 +75,7 @@ export default class ModeToggle extends Vue {
     loggedInUser: User;
     
     get userCanEdit() {
-		return this.loggedInUser.userHasEditPermissions;
+		return this.loggedInUser.userHasEditPermissions && this.toggleOptions.length > 1;
 	}
 	
 	get isEditMode() {
