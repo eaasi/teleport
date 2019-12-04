@@ -11,7 +11,7 @@
 					<slot></slot>
 				</select>
 				<span class="eaasi-field-icon">
-					<i class="fas fa-chevron-down"></i>
+					<span class="fas fa-chevron-down"></span>
 				</span>
 			</div>
 		</div>

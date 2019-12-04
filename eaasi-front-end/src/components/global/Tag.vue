@@ -1,7 +1,7 @@
 <template functional>
 	<div :class="['eaasi-tag', props.color]">
 		<span v-if="props.icon" class="tag-icon">
-			<i :class="['fas', props.icon]"></i>
+			<span :class="['icon', 'fas', props.icon]"></span>
 		</span>
 		<span class="tag-text">
 			{{ props.text }}
@@ -57,7 +57,7 @@ export default class Tag extends Vue {
 		margin: 0 1px;
 		padding: 0 8px;
 
-		i {
+		.icon {
 			color: rgba(0, 0, 0, 0.5);
 			margin-right: 0.4em;
 		}

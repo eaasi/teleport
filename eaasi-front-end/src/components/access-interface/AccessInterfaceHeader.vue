@@ -2,6 +2,7 @@
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
 			<div class="ah-logo clickable" @click="goToDashboard">
+				<!--suppress HtmlUnknownTarget -->
 				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 
@@ -18,7 +19,7 @@
 			</div>
 
 			<div class="ah-alert flex-row" v-if="emulatorIsRunning">
-				<i class="far fa-exclamation-triangle"></i>
+				<span class="far fa-exclamation-triangle"></span>
 				<span class="ah-warning-message">
 					Emulated computer must be shut down before saving.
 				</span>

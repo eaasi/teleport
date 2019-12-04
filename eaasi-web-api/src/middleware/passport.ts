@@ -23,7 +23,7 @@ passport.use(new passportJWT.Strategy({
  == SAML
 /============================================================*/
 
-const USER_EMAIL_CLAIM = process.env.USER_EMAIL_CLAIM_PROPERTY as string;
+const USER_EMAIL_CLAIM = process.env.USER_EMAIL_CLAIM_PROPERTY;
 
 passport.use(new SamlStrategy(samlConfig, function(profile: any, done: any) {
 	let svc = new UserAdminService();

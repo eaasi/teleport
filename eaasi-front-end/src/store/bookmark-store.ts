@@ -1,4 +1,3 @@
-import {IEaasiResource} from '@/types/Resource';
 import { make } from 'vuex-pathify';
 import _svc from '@/services/BookmarkService';
 import { Store } from 'vuex';
@@ -65,7 +64,7 @@ const actions = {
 	async bookmarkMany({ state, dispatch }: Store<BookmarkStore>, bookmarksRequest: MultiBookmarkRequest) {
     	const userId = bookmarksRequest.userID;
     	const resourceIds = bookmarksRequest.resourceIDs;
-    	resourceIds.map(id => {
+    	resourceIds.forEach(id => {
     		if (!state.bookmarks.find(bm => bm.resourceID === id)) {
     			dispatch('createBookmark', { userID: userId, resourceID: id});
 			}

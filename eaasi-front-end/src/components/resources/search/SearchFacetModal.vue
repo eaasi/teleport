@@ -31,6 +31,7 @@
 				Clear ALL Filters
 			</ui-button>
 		</div>
+		<!--suppress HtmlUnknownAttribute -->
 		<template #footer>
 			<div class="footer-btns-wrapper">
 				<div class="footer-btns flex-row">
@@ -48,7 +49,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { IResourceSearchFacet, IResourceSearchFacetAttribute, IResourceSearchFacetValue } from '@/types/Search.d.ts';
 
 @Component({
@@ -59,12 +60,12 @@ export default class SearchFacetModal extends Vue {
     /* Props
     ============================================*/
     @Prop({type: Object as () => IResourceSearchFacet, required: true})
-    readonly facet: IResourceSearchFacet
+    readonly facet: IResourceSearchFacet;
 
     /* Data
     ============================================*/
-    attributes: IResourceSearchFacetAttribute[] = []
-    activeAttribute: IResourceSearchFacetAttribute = null
+    attributes: IResourceSearchFacetAttribute[] = [];
+    activeAttribute: IResourceSearchFacetAttribute = null;
 
     /* Methods
     ============================================*/

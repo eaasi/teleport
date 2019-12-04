@@ -1,11 +1,11 @@
 <template>
-	<div v-if="selectedValues.length > 0" class="chip-group-wrapper flex-row"> 
+	<div v-if="selectedValues.length > 0" class="chip-group-wrapper flex-row">
 		<span class="facet-name">{{ facet.displayLabel }}:</span>
 		<div class="flex-row flex-wrap">
-			<ui-chip 
-				v-for="facetValue in selectedValues" 
-				:key="facetValue.label" 
-				close 
+			<ui-chip
+				v-for="facetValue in selectedValues"
+				:key="facetValue.label"
+				close
 				@close="$emit('deselect', facetValue)"
 			>
 				<div>{{ facetValue.label }}</div>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { IResourceSearchFacet } from '@/types/Search.d.ts';
 
 @Component({
@@ -28,7 +28,7 @@ export default class FacetChipGroup extends Vue {
     ============================================*/
 
 	@Prop({type: Object as () => IResourceSearchFacet, required: true})
-	readonly facet: IResourceSearchFacet
+	readonly facet: IResourceSearchFacet;
 
 	/* Computed
     ============================================*/
@@ -36,7 +36,6 @@ export default class FacetChipGroup extends Vue {
 	get selectedValues() {
 		return this.facet.values.filter(v => v.isSelected);
 	}
-
 }
 </script>
 

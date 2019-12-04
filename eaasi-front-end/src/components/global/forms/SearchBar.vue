@@ -4,7 +4,7 @@
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<div classs="sb-content-left">
 					<slot name="left">
-						<i class="fal fa-search"></i>
+						<span class="fal fa-search"></span>
 					</slot>
 				</div>
 				<input
@@ -14,7 +14,7 @@
 					:id="id"
 				/>
 				<span class="eaasi-field-icon" @click="$emit('search')">
-					<i :class="`fas fa-chevron-circle-right`"></i>
+					<span :class="`fas fa-chevron-circle-right`"></span>
 				</span>
 			</div>
 		</div>

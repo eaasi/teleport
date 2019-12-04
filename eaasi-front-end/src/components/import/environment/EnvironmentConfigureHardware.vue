@@ -22,17 +22,17 @@
 
 		<div class="checkbox-lane flex-row justify-between">
 			<checkbox label="Relative Mouse" />
-			<i class="far fa-info-circle"></i>
+			<span class="far fa-info-circle"></span>
 		</div>
 
 		<div class="checkbox-lane flex-row justify-between">
 			<checkbox label="Emulator Can Print" />
-			<i class="far fa-info-circle"></i>
+			<span class="far fa-info-circle"></span>
 		</div>
 
 		<div class="checkbox-lane flex-row justify-between">
 			<checkbox label="High End Hardware" />
-			<i class="far fa-info-circle"></i>
+			<span class="far fa-info-circle"></span>
 		</div>
 
 		<div class="mb-lg"></div>
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 @Component({
 	name: 'EnvironmentConfigureHardware'
@@ -77,19 +77,6 @@ export default class EnvironmentConfigureHardware extends Vue {
 			value: 3
 		}
 	]
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
-
 }
 
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<div class="bento-header" v-if="result">
 		<div class="bh-label flex-row">
-			<i :class="`fal fa-${icon}`"></i>
+			<span :class="`fal fa-${icon}`"></span>
 			<span>{{ label }}</span>
 		</div>
 		<div class="bh-description">

@@ -19,7 +19,7 @@
 
 			<div id="debugErrorRequest" class="error-section" v-if="error.request">
 				<p>Response Info</p>
-				<b>URL: </b>{{ error.request.url }}
+				<strong>URL: </strong>{{ error.request.url }}
 			</div>
 
 			<div class="error-section">
@@ -63,10 +63,10 @@ export default class ErrorModal extends Vue {
 	}
 
 	@Sync('appError')
-	error: string
+	error: string;
 
 	@Get('showDebugErrors')
-	showDebugErrors: boolean
+	showDebugErrors: boolean;
 
 	/* Methods
 	============================================*/

@@ -2,7 +2,7 @@
 	<div class="numbered-step-container flex-row">
 		<span v-if="props.complete">
 			<span class="step-number fill-bg flex flex-center">
-				<i class="icon-label fas fa-check"></i>
+				<span class="icon-label fas fa-check"></span>
 			</span>
 		</span>
 		<span v-else>

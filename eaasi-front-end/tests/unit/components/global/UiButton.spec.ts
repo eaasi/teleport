@@ -6,7 +6,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				secondary: false,
+				colorPreset: 'light-blue',
 				icon: 'file',
 				iconRight: ''
 			},
@@ -21,7 +21,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				secondary: false,
+				colorPreset: 'light-blue',
 				icon: 'whatever',
 				iconRight: ''
 			},
@@ -36,7 +36,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				secondary: false,
+				colorPreset: 'light-blue',
 				icon: 'whatever',
 				iconRight: true
 			},
@@ -47,11 +47,11 @@ describe('UiButton.vue', () => {
 		expect(wrapper.find('.eb-icon-right').exists()).toBeTruthy();
 	});
 
-	it('Renders secondary class when passed as props', () => {
+	it('Renders colorPreset class when passed as props', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				secondary: true,
+				colorPreset: 'light-blue',
 				icon: 'bread',
 				iconRight: true
 			},
@@ -59,14 +59,13 @@ describe('UiButton.vue', () => {
 				default: '<div>its all good</div>'
 			}
 		});
-		expect(wrapper.find('.secondary').exists()).toBeTruthy();
+		expect(wrapper.find('.light-blue').exists()).toBeTruthy();
 	});
 
 	it('Renders block class when passed as props', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				secondary: true,
 				icon: 'bread',
 				iconRight: false,
 			},

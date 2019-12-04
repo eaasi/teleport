@@ -8,7 +8,7 @@ import BaseController from '../base/BaseController';
 export default class EaasiBookmarkController extends BaseController {
 
 	readonly bookmarkService: EaasiBookmarkService;
-	
+
 	constructor(bookmarkService = new EaasiBookmarkService()) {
 		super();
 		this.bookmarkService = bookmarkService;
@@ -22,7 +22,7 @@ export default class EaasiBookmarkController extends BaseController {
 	async getByUserID(req: Request, res: Response) {
 		const userID = req.query.userID;
 		if (userID == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.query));
 		}
@@ -30,18 +30,18 @@ export default class EaasiBookmarkController extends BaseController {
 		let response = await this.bookmarkService.getByUserID(userID);
 
 		if (response.hasError) {
-			return await res
+			return res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
 		}
 
 		if (response.result == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
 
-		return await res.status(HttpResponseCode.OK).send(response.result);
+		return res.status(HttpResponseCode.OK).send(response.result);
 	}
 
 	/**
@@ -53,7 +53,7 @@ export default class EaasiBookmarkController extends BaseController {
 		const newObject = req.body;
 
 		if (newObject == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.body));
 		}
@@ -61,12 +61,12 @@ export default class EaasiBookmarkController extends BaseController {
 		let response = await this.bookmarkService.create(newObject);
 
 		if (response.hasError) {
-			return await res
+			return res
 				.status(HttpResponseCode.SERVER_ERROR)
 				.send(build_500_response(response.error));
 		}
 
-		return await res.status(HttpResponseCode.CREATED).send(response.result);
+		return res.status(HttpResponseCode.CREATED).send(response.result);
 	}
 
 	/**
@@ -82,13 +82,13 @@ export default class EaasiBookmarkController extends BaseController {
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 
-		return await res.status(HttpResponseCode.OK).send(deleteResponse);
+		return res.status(HttpResponseCode.OK).send(deleteResponse);
 	}
 
 	async deleteAll(req: Request, res: Response) {
 		const userID = req.query.userID;
 		if (userID == null) {
-			return await res
+			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.query));
 		}
@@ -99,7 +99,6 @@ export default class EaasiBookmarkController extends BaseController {
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 
-		return await res.status(HttpResponseCode.OK).send(deleteResponse);
+		return res.status(HttpResponseCode.OK).send(deleteResponse);
 	}
-
 }

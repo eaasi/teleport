@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<mode-toggle 
+		<mode-toggle
 			:editable="isEditMode"
 			@mode-change="onModeChange"
 			@save="saveDetails"
@@ -11,8 +11,8 @@
 		<div class="rdm-container">
 			<div class="row">
 				<div class="col-md-4">
-					<resource-details-summary 
-						:summary-data="resource" 
+					<resource-details-summary
+						:summary-data="resource"
 						:readonly="!isEditMode"
 					/>
 				</div>
@@ -59,7 +59,7 @@
 				</div>
 				<div class="col-md-4" v-if="!isLinuxRuntimeSelected">
 					<section-heading title="Networking" size="large" />
-					<configure-network 
+					<configure-network
 						:readonly="!isEditMode"
 						:network-items="networkLabeledItems"
 					/>
@@ -72,8 +72,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEnvironment, IEaasiResource, IDrive, IEditableDrive } from '@/types/Resource';
-import { resourceTypes } from '@/utils/constants';
+import { IEnvironment, IDrive, IEditableDrive } from '@/types/Resource';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../ResourceDetailsSummary.vue';
@@ -109,7 +108,7 @@ export default class EnvironmentMetadataSection extends Vue {
 	get drives(): IDrive[] {
         return this.resource.drives ? this.resource.drives : [];
     }
-    
+
 	get configMachineLabeledItems() : ILabeledEditableItem[] {
 		return [];
 	}
@@ -150,8 +149,8 @@ export default class EnvironmentMetadataSection extends Vue {
 		this.resource.drives = drives;
 	}
 
-	resetResource() {
-		this.init();
+	async resetResource() {
+		await this.init();
 		this.$emit('reset');
 	}
 
@@ -201,12 +200,12 @@ export default class EnvironmentMetadataSection extends Vue {
 				changed: false
 			},
 			{
-				label: 'Linux Runtime', 
-				value: this.resource.isLinuxRuntime, 
-				readonly: false, 
-				property: 'isLinuxRuntime', 
-				editType: 'checkbox', 
-				changed: false 
+				label: 'Linux Runtime',
+				value: this.resource.isLinuxRuntime,
+				readonly: false,
+				property: 'isLinuxRuntime',
+				editType: 'checkbox',
+				changed: false
 			}
 		];
 		if (nameIndexes) {
@@ -232,176 +231,176 @@ export default class EnvironmentMetadataSection extends Vue {
 			});
 		}
 	}
-	
+
 	_populateOperatingSystemConfig(): void {
 		this.osLabeledItems = [
-			{ 
-				label: 'Resource Name', 
-				value: this.resource.title.split('-')[0].trim(), 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Resource Name',
+				value: this.resource.title.split('-')[0].trim(),
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Display Resolution', 
-				value: '800x600', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Display Resolution',
+				value: '800x600',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Color Depth', 
-				value: 'True Color', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Color Depth',
+				value: 'True Color',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Region', 
-				value: 'U.S.', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Region',
+				value: 'U.S.',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Time Zone', 
-				value: 'Eastern Standard Time', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Time Zone',
+				value: 'Eastern Standard Time',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Date/Time', 
-				value: '1:19PM 5/3/2019', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Date/Time',
+				value: '1:19PM 5/3/2019',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Language', 
-				value: 'English', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Language',
+				value: 'English',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Login Name', 
-				value: '<username>', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Login Name',
+				value: '<username>',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Login password', 
-				value: '<password>', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Login password',
+				value: '<password>',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
 		];
 	}
 
 	_populateUIOptions() {
 		this.uiOptionLabeledItems = [
-			{ 
-				label: 'Environment can print', 
-				value: this.resource.enablePrinting, 
-				property: 'enablePrinting', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Environment can print',
+				value: this.resource.enablePrinting,
+				property: 'enablePrinting',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Relative Mouse (Pointerlock)', 
-				value: this.resource.enableRelativeMouse, 
-				property: 'enableRelativeMouse', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Relative Mouse (Pointerlock)',
+				value: this.resource.enableRelativeMouse,
+				property: 'enableRelativeMouse',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'WebRTC Audio (Beta)', 
-				value: this.resource.useWebRTC, 
-				property: 'useWebRTC', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'WebRTC Audio (Beta)',
+				value: this.resource.useWebRTC,
+				property: 'useWebRTC',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Requires clean shutdown', 
-				value: this.resource.shutdownByOs, 
-				property: 'shutdownByOs', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Requires clean shutdown',
+				value: this.resource.shutdownByOs,
+				property: 'shutdownByOs',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
 		];
 	}
 
 	_populateNetworkOptions() {
 		this.networkLabeledItems = [
-			{ 
-				label: 'Enable Networking', 
-				value: this.resource.networking.connectEnvs, 
-				property: 'connectEnvs', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Enable Networking',
+				value: this.resource.networking.connectEnvs,
+				property: 'connectEnvs',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Enable Internet Access', 
-				value: this.resource.networking.enableInternet, 
-				property: 'enableInternet', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Enable Internet Access',
+				value: this.resource.networking.enableInternet,
+				property: 'enableInternet',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Enable Server Mode', 
-				value: this.resource.networking.serverMode, 
-				property: 'serverMode', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Enable Server Mode',
+				value: this.resource.networking.serverMode,
+				property: 'serverMode',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Use SOCKS5', 
-				value: this.resource.networking.enableSocks, 
-				property: 'enableSocks', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Use SOCKS5',
+				value: this.resource.networking.enableSocks,
+				property: 'enableSocks',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Enable Local Mode', 
-				value: this.resource.networking.localServerMode, 
-				property: 'localServerMode', 
-				changed: false, 
-				readonly: false, 
-				editType: 'checkbox' 
+			{
+				label: 'Enable Local Mode',
+				value: this.resource.networking.localServerMode,
+				property: 'localServerMode',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
 			},
-			{ 
-				label: 'Internal Server IP', 
-				value: this.resource.networking.serverIp, 
-				property: 'serverIp', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Internal Server IP',
+				value: this.resource.networking.serverIp,
+				property: 'serverIp',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Internal Server Port', 
-				value: this.resource.networking.serverPort, 
-				property: 'serverPort', 
-				changed: false, 
-				readonly: false, 
-				editType: 'text-input' 
+			{
+				label: 'Internal Server Port',
+				value: this.resource.networking.serverPort,
+				property: 'serverPort',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
 			},
-			{ 
-				label: 'Help Text for the Network', 
-				value: this.resource.networking.helpText, 
-				property: 'helpText', 
-				changed: false, 
-				readonly: false, 
+			{
+				label: 'Help Text for the Network',
+				value: this.resource.networking.helpText,
+				property: 'helpText',
+				changed: false,
+				readonly: false,
 				editType: 'text-area'
 			}
 		];

@@ -1,4 +1,4 @@
-import { make, commit } from 'vuex-pathify';
+import { make } from 'vuex-pathify';
 import _svc from '@/services/SoftwareService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -12,7 +12,6 @@ import { IObjectClassificationRequest, ISoftwareObject } from '@/types/Resource'
 class SoftwareState {
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
-	activeSoftware: any = null;
 }
 
 const state = new SoftwareState();

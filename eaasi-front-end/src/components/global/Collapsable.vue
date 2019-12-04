@@ -3,7 +3,7 @@
 		<div class="flex-row justify-between collapse-title" @click="open = !open">
 			<span>{{ activeTitle }}</span>
 			<div class="collapse-icon flex flex-center">
-				<i :class="`fas fa-${activeIcon}`"></i>
+				<span :class="`fas fa-${activeIcon}`"></span>
 			</div>
 		</div>
 		<div class="collapse-content" v-if="open">
@@ -29,6 +29,12 @@ export default class Collapsable extends Vue {
 	============================================*/
 
 	/**
+	 * The default title to display
+	 */
+	@Prop({type: String, required: true})
+	readonly title: string;
+
+	/**
 	 * The icon to display as the dropdown trigger
 	 */
 	@Prop({type: String, required: false, default: 'chevron-down'})
@@ -51,12 +57,6 @@ export default class Collapsable extends Vue {
 	 */
 	@Prop({type: Boolean, required: false})
 	readonly secondary: boolean;
-
-	/**
-	 * The default title to display
-	 */
-	@Prop({type: String, required: true})
-	readonly title: string;
 
 	/* Data
 	============================================*/
@@ -82,7 +82,6 @@ export default class Collapsable extends Vue {
 	beforeMount() {
 		if(this.collapsed) this.open = false;
 	}
-
 }
 
 </script>
@@ -108,7 +107,7 @@ export default class Collapsable extends Vue {
 		font-weight: bold;
 		user-select: none;
 
-		i.fas {
+		span.fas {
 			position: relative;
 			top: 2px;
 		}

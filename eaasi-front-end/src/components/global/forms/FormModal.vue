@@ -28,7 +28,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import EaasiForm from './EaasiForm.vue';
+import EaasiForm from '@/components/global/forms/EaasiForm.vue';
+import UiButton from '@/components/global/UiButton.vue';
+import Modal from '@/components/global/Modal/Modal.vue';
 
 /**
  * A Modal with a title, subtitle, slot for content, close, and save button
@@ -36,14 +38,16 @@ import EaasiForm from './EaasiForm.vue';
 @Component({
 	name: 'FormModal',
 	components: {
-		EaasiForm
+		EaasiForm,
+		UiButton,
+		Modal
 	}
 })
 export default class FormModal extends Vue {
 
 	$refs!: {
 		_form: EaasiForm
-	}
+	};
 
 	/* Props
     ============================================*/
@@ -71,7 +75,7 @@ export default class FormModal extends Vue {
      */
     @Prop({type: String, required: false, default: 'Cancel'})
 	readonly cancelText: string
-	
+
 	/**
      * Alternative size of the modal. Accepts 'sm, small, lg, or large'
      */

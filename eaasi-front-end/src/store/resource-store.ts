@@ -139,7 +139,7 @@ const actions = {
 		return await _svc.operatingSystemMetadata();
 	},
 
-	async getImports({ commit, dispatch }) {
+	async getImports({ state, commit, dispatch }) {
 		const importQuery: IResourceSearchQuery = {
 			keyword: '',
 			selectedFacets: [],
@@ -151,11 +151,12 @@ const actions = {
 		const result = await _svc.searchResources(importQuery);
 		if (!result) return;
 
-		let envs = await result.environments.result;
-		let software = await result.software.result;
-		let content = await result.content.result;
+		let envs = result.environments.result;
+		let software = result.software.result;
+		let content = result.content.result;
 
-		let imports = [...envs, ...software, ...content];
+		const imports = [...envs, ...software, ...content];
+		commit('SET_IMPORTS', imports);
 
 		commit('SET_RESULT', result);
 		// generates facets based on the result received in searchResources.

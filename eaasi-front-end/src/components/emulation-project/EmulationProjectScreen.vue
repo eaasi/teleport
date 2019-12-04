@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from '@/components/emulation-project/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from '@/components/emulation-project/SoftwareResourcesWizard.vue';
@@ -53,11 +53,7 @@ import ContentResourcesWizard from '@/components/emulation-project/ContentResour
 		ContentResourcesWizard
 	}
 })
-export default class EmulationProjectScreen extends Vue {
-	isReadyToRun() {
-		return false;
-	}
-}
+export default class EmulationProjectScreen extends Vue { }
 
 </script>
 

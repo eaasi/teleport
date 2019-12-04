@@ -23,7 +23,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import config from '@/config';
 @Component({
 	name: 'LoginScreen'
@@ -34,19 +34,16 @@ export default class LoginScreen extends Vue {
 	============================================*/
 
 	@Get('nodeName')
-	nodeName: string
+	nodeName: string;
 
 	@Get('loginError')
-	loginError: string
+	loginError: string;
 
 
 	/* Data
 	============================================*/
 
 	loginUrl: string = config.SERVICE_URL + '/auth/login';
-
-	created() {
-	}
 }
 
 </script>

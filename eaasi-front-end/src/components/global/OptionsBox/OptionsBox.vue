@@ -6,7 +6,7 @@
 
 		<div class="ob-content">
 			<div class="ob-name text-center">
-				<i :class="`fal fa-${icon}`" v-if="icon"></i>
+				<span :class="`fal fa-${icon}`" v-if="icon"></span>
 				<span v-if="title">{{ title }}</span>
 			</div>
 
@@ -27,7 +27,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import OptionsBoxFooter from '@/components/global/OptionsBox/OptionsBoxFooter.vue';
 
 /**
  * A reusable styled content wrapper
@@ -43,15 +42,15 @@ export default class OptionsBox extends Vue {
 
 	// Optional header text
 	@Prop({type: String, required: false})
-	readonly header: String
+	readonly header: String;
 
 	// Optional name text
 	@Prop({type: String, required: false})
-	readonly title: String
+	readonly title: String;
 
 	// Optional icon name
 	@Prop({type: String, required: false})
-	readonly icon: String
+	readonly icon: String;
 
 	hasFooter() {
 		return this.$slots.footer;

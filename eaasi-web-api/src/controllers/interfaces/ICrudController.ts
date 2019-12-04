@@ -4,4 +4,4 @@ export default interface ICrudController {
 	create(req: Express.Request, res: Express.Response): Express.Response;
 	update(req: Express.Request, res: Express.Response): Express.Response;
 	delete(req: Express.Request, res: Express.Response): Express.Response;
-};
+}

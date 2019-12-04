@@ -2,6 +2,7 @@
 	<div class="dh-container">
 		<div class="dh-welcome flex-row">
 			<div id="dh-eaasi-hexagon">
+				<!--suppress HtmlUnknownTarget -->
 				<img src="@/assets/eaasi_logos/EaaSI_hexGraphic.png" alt="EaaSI Logo" />
 			</div>
 			<div id="dh-eaasi-welcome">
@@ -24,7 +25,7 @@
 			</div>
 		</div>
 		<div class="dh-quick-links flex-row">
-			<a href="https://www.softwarepreservationnetwork.org/eaasi-sandbox/" target="_blank">
+			<a href="https://www.softwarepreservationnetwork.org/eaasi-sandbox/" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Open source software sandbox with access to EaaSI service."
 					icon="box"
@@ -32,7 +33,7 @@
 				/>
 			</a>
 
-			<a href="https://eaasi.gitlab.io/eaasi_user_handbook/" target="_blank">
+			<a href="https://eaasi.gitlab.io/eaasi_user_handbook/" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="User guides, training resources, and support for EaaSI users."
 					icon="graduation-cap"
@@ -40,7 +41,7 @@
 				/>
 			</a>
 
-			<a href="https://groups.google.com/forum/#!forum/eaasi-tech-talk" target="_blank">
+			<a href="https://groups.google.com/forum/#!forum/eaasi-tech-talk" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Connect to other EaaSI users for support and collaboration."
 					icon="comments"

@@ -85,32 +85,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 @Component({
 	name: 'EnvironmentImportOSMetadata',
 })
-export default class EnvironmentImportOSMetadata extends Vue {
-
-	/* Props
-	============================================*/
-
-	/* Data
-	============================================*/
-
-	/* Computed
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
-
-}
+export default class EnvironmentImportOSMetadata extends Vue { }
 
 </script>
 

@@ -7,10 +7,10 @@
 			:facet="availableFacets[i]"
 			@expand="expandSearchFacet(f)"
 		/>
-		<search-facet-modal 
-			v-if="activeSearchFacet" 
-			:facet="activeSearchFacet" 
-			@close="closeSearchFacetModal" 
+		<search-facet-modal
+			v-if="activeSearchFacet"
+			:facet="activeSearchFacet"
+			@close="closeSearchFacetModal"
 			@apply="applySearchFacetValues"
 			@deselect="deselectAllFacetValues"
 		/>
@@ -20,9 +20,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Sync } from 'vuex-pathify';
-import { Component, Watch } from 'vue-property-decorator';
-import { IResourceSearchFacet, IResourceSearchResponse, IResourceSearchQuery } from '@/types/Search.d.ts';
-import { jsonCopy, jsonEquals } from '@/utils/functions';
+import { Component } from 'vue-property-decorator';
+import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'ResourceFacets'
@@ -33,7 +33,7 @@ export default class ResourceFacets extends Vue {
 	============================================*/
 
     @Sync('resource/query@selectedFacets')
-	facets: IResourceSearchFacet[]
+	facets: IResourceSearchFacet[];
 
     get availableFacets() {
     	return this.facets.filter(f => f.values.length > 0);

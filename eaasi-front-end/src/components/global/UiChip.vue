@@ -4,14 +4,14 @@
 			<slot></slot>
 		</span>
 		<div class="close-icon-container" v-if="close" @click="$emit('close')">
-			<i class="fas fa-times"></i>
+			<span class="fas fa-times"></span>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 
 /**
  * A general chip for UI interaction
@@ -30,19 +30,6 @@ export default class UiChip extends Vue {
 	 */
 	@Prop({type: Boolean, required: false, default: false})
     readonly close: boolean;
-
-	/* Computed
-    ============================================*/
-
-	/* Data
-    ============================================*/
-
-	/* Methods
-    ============================================*/
-
-	/* Lifecycle Hooks
-    ============================================*/
-
 }
 </script>
 

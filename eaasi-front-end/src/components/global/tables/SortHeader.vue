@@ -1,8 +1,8 @@
 <template>
-	<th :class="['sort-header', { sorted }]" :style="{width: thWidth}" @click="sort">
+	<th scope="col" :class="['sort-header', { sorted }]" :style="{width: thWidth}" @click="sort">
 		<slot></slot>
 		<span class="sh-arrow">
-			<i :class="`fas fa-fw fa-${icon}`"></i>
+			<span :class="`fas fa-fw fa-${icon}`"></span>
 		</span>
 	</th>
 </template>

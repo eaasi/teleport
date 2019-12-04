@@ -79,7 +79,7 @@ import ResourceList from '@/components/resources/ResourceList.vue';
 import { IBookmark } from '@/types/Bookmark';
 import { IResourceSearchResponse } from '@/types/Search';
 import { Component, Vue } from 'vue-property-decorator';
-import { Get, Sync } from 'vuex-pathify';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'DashboardLinks',

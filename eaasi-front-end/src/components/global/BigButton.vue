@@ -6,7 +6,7 @@
 			@click="$emit('click')"
 		>
 			<div class="eb-icon" v-if="icon">
-				<i :class="`fas fa-${icon}`"></i>
+				<span :class="`fas fa-${icon}`"></span>
 			</div>
 			<label>{{ label }}</label>
 			<div v-if="subLabel" class="eb-sublabel">

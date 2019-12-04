@@ -16,7 +16,7 @@ export const populateFacets = (
 	facets.forEach(facet => {
 		if (environments) facet = getFacet(environments, facet);
 		if (software) facet = getFacet(software, facet);
-		if (content) facet = getFacet(content, facet);
+		if (content) getFacet(content, facet);
 	});
 	return facets;
 };
@@ -29,4 +29,4 @@ function getFacet(resource: IEaasiSearchResponse<IEaasiResource>, facet: IResour
 			: facet.values.push({ label: r[facet.name], total: 1, isSelected: false });
 	});
 	return facet;
-};
+}

@@ -4,7 +4,7 @@
 			<div :class="['eaasi-modal', 'size-' + size]">
 				<div class="eaasi-modal-header">
 					<div class="eaasi-modal-close" @click="$emit('close')">
-						<i class="fal fa-times"></i>
+						<span class="fal fa-times"></span>
 					</div>
 					<slot name="header"></slot>
 				</div>

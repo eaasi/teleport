@@ -161,9 +161,9 @@
 			vm.isStarted = false;
 		}
 
-		sendCtrlAltDelete() {
+		async sendCtrlAltDelete() {
 			if (!this.client) return;
-			this.client.sendCtrlAltDel();
+			await this.client.sendCtrlAltDel();
 		}
 
 		sendEscape() {
@@ -223,13 +223,13 @@
 		/* Lifecycle Hooks
         ============================================*/
 
-		mounted() {
-			this.init();
+		async mounted() {
+			await this.init();
 			this.initBusListeners();
 		}
 
-		beforeDestroy() {
-			this.stopEnvironment();
+		async beforeDestroy() {
+			await this.stopEnvironment();
 			this.removeBusListeners();
 			this.isStarted = false;
 		}

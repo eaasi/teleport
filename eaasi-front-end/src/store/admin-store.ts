@@ -1,4 +1,4 @@
-import { make, commit } from 'vuex-pathify';
+import { make } from 'vuex-pathify';
 import { Store } from 'vuex';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiRole, IEmulator, IEmulatorEntry } from 'eaasi-admin';
@@ -49,7 +49,7 @@ const actions = {
 	},
 
 	async importEmulator(store: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
-		let taskState = await _svc.importEmulator(req) as ITaskState;;
+		let taskState = await _svc.importEmulator(req);
 		if (!taskState) return null;
 		let description = req.update ? 'Updating' : 'Importing';
 		let task = new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);

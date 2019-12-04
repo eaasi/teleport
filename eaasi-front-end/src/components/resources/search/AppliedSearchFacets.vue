@@ -20,8 +20,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Get, Sync } from 'vuex-pathify';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search.d.ts';
+import { Component } from 'vue-property-decorator';
+import { IResourceSearchFacet} from '@/types/Search.d.ts';
 import FacetChipGroup from './FacetChipGroup.vue';
 
 @Component({

@@ -18,7 +18,8 @@ export default class BlogFeedController extends BaseController {
 			return await this._blogService.getFeed(RSS_FEED_URL)
 				.then(feed => res.send(feed));
 		} catch(e) {
-			return await this.sendError(e.message, res);
+			this.sendError(e.message, res);
+			return null;
 		}
 	}
 }

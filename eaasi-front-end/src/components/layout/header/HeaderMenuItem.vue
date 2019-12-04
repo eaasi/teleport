@@ -1,10 +1,7 @@
 <template functional>
 	<div class="header-menu-item flex-row" @click="listeners.click">
 		<span>{{ props.label }}</span>
-		<i v-if="props.icon" :class="`icon fas fa-fw fa-${props.icon}`"></i>
-		<!-- May bring this back later if these become drop-menus
-			<i class="down-arrow fas fa-chevron-down"></i>
-		-->
+		<span v-if="props.icon" :class="`icon fas fa-fw fa-${props.icon}`"></span>
 	</div>
 </template>
 

@@ -1,17 +1,16 @@
 <template>
 	<div class="running-task-list">
 		<table class="eaasi-table clickable" v-if="runningTasks.length">
+			<caption>List of currently running Tasks</caption>
 			<thead>
 				<tr>
-					<th>
-						Tasks
-					</th>
+					<th scope="col">Tasks</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="task in runningTasks" :key="task.taskId">
 					<td>
-						<i :class="`task-spinner fas fa-fw fa-circle-notch fa-spin`"></i>
+						<span :class="`task-spinner fas fa-fw fa-circle-notch fa-spin`"></span>
 						{{ task.description }}
 					</td>
 				</tr>

@@ -86,7 +86,7 @@ export interface IEnvironment extends IEaasiResource {
 	containerVersion?: string;
 	drives: IDrive[];
 	error?: string;
-	isImport: Boolean;
+	isImport: boolean;
 	useWebRTC: boolean;
 	containerEmulatorName?: string;
 	containerEmulatorVersion?: string;

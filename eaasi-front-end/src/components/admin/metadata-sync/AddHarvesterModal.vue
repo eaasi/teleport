@@ -29,10 +29,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import EaasiTask from '@/models/task/EaasiTask';
-import { Get } from 'vuex-pathify';
-import config from '@/config';
+import { Component } from 'vue-property-decorator';
 import AddHarvesterRequest from '@/models/eaas/oaipmh/AddHarvesterRequest';
 
 @Component({

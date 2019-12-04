@@ -14,7 +14,7 @@ class AdminService extends BaseHttpService {
 	async getEmulators(): Promise<IEmulator[]> {
 		let res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
-		return res.result as IEmulator[];
+		return res.result;
 	}
 
 	async importEmulator(req: EmulatorImportRequest): Promise<ITaskState> {
@@ -36,7 +36,7 @@ class AdminService extends BaseHttpService {
 		let url = this.createQueryUrl('/admin/users/list', query);
 		let res = await this.get<IEaasiSearchResponse<User>>(url);
 		if (!res.ok) return null;
-		return res.result as IEaasiSearchResponse<User>;
+		return res.result;
 	}
 
 	async saveUser(user: User): Promise<boolean> {
@@ -56,7 +56,7 @@ class AdminService extends BaseHttpService {
 		let url = this.createQueryUrl('/admin/users/roles');
 		let res = await this.get<IEaasiSearchResponse<IEaasiRole>>(url);
 		if (!res.ok) return null;
-		return res.result as IEaasiSearchResponse<IEaasiRole>;
+		return res.result;
 	}
 
 	/* OAI-PMH Harvesters

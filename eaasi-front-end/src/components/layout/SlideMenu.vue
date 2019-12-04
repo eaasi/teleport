@@ -28,19 +28,19 @@ export default class SlideMenu extends Vue {
 	 * The CSS easing rule for the open animation
 	 */
 	@Prop({type: String, required: false, default: 'ease-out'})
-	readonly easing: string
+	readonly easing: string;
 
 	/**
 	 * Opens the menu when true
 	 */
 	@Prop({type: Boolean, required: true})
-	readonly open: boolean
+	readonly open: boolean;
 
 	/**
 	 * The open/close animation speed in seconds
 	 */
 	@Prop({type: Number, default: 0.4, required: false})
-	readonly speed: number
+	readonly speed: number;
 
 	/* Computed
 	============================================*/

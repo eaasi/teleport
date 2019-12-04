@@ -14,20 +14,18 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 	let store;
 
 	beforeEach(() => {
-		// Show the modal, force showDebugErrors => true
-		// @ts-ignore
-		globalStore.state.showDebugErrors = true;
-
-		globalStore.state.appError = {
-			message: 'Abort, Retry, Fail?',
-			info: 'Critical Error'
-		};
-
 		store = new Vuex.Store({
 			actions: {},
 			modules: {
 				// @ts-ignore
 				global: globalStore
+			},
+			state: {
+				appError: {
+					message: 'Abort, Retry, Fail?',
+					info: 'Critical Error'
+				},
+				showDebugErrors: false
 			},
 			plugins: [pathify.plugin]
 		});

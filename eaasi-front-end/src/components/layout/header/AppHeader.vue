@@ -13,7 +13,6 @@
 			</form>
 		</div>
 		<div id="headerRight" class="flex flex-end">
-			<!-- TODO: What does the user item do? -->
 			<header-menu-item
 				:label="nodeName"
 				icon="cog"
@@ -34,7 +33,6 @@ import Component from 'vue-class-component';
 import HeaderMenuItem from './HeaderMenuItem.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { IResourceSearchQuery } from '@/types/Search';
 import authService from '@/services/AuthService';
 
 

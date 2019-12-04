@@ -42,81 +42,78 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import AdminScreen from '../AdminScreen.vue';
-import { Component, Prop } from 'vue-property-decorator';
-import Emulator from '@/models/admin/Emulator';
-import EmulatorList from './EmulatorList.vue';
-import EmulatorDetailsModal from './EmulatorDetailsModal.vue';
-import EmulatorImportModal from './EmulatorImportModal.vue';
-import { Get, Sync } from 'vuex-pathify';
-import { IEmulator } from 'eaasi-admin';
-import { IEaasiSearchResponse, IEaasiSearchQuery } from '@/types/Search';
+	import AdminScreen from '../AdminScreen.vue';
+	import { Component } from 'vue-property-decorator';
+	import EmulatorList from './EmulatorList.vue';
+	import EmulatorDetailsModal from './EmulatorDetailsModal.vue';
+	import EmulatorImportModal from './EmulatorImportModal.vue';
+	import { Get, Sync } from 'vuex-pathify';
+	import { IEmulator } from 'eaasi-admin';
 
-@Component({
-	name: 'EmulatorManagement',
-	components: {
-		EmulatorList,
-		EmulatorDetailsModal,
-		EmulatorImportModal
+	@Component({
+		name: 'EmulatorManagement',
+		components: {
+			EmulatorList,
+			EmulatorDetailsModal,
+			EmulatorImportModal
+		}
+	})
+	export default class EmulatorManagement extends AdminScreen {
+
+		/* Computed
+        ============================================*/
+
+		@Sync('admin/activeEmulator')
+		activeEmulator: IEmulator;
+
+		@Get('admin/emulators')
+		list: IEmulator[];
+
+		get result() {
+			if (!this.list || !this.list.length) return [];
+			return this.list.filter(x => x.name.indexOf(this.keyword) > -1);
+		}
+
+		/* Data
+        ============================================*/
+
+		keyword: string = '';
+		showImportModal: boolean = false;
+
+
+		/* Methods
+        ============================================*/
+
+		addEmulator() {
+			this.showImportModal = true;
+		}
+
+		search(keyword) {
+			this.keyword = keyword;
+		}
+
+		showDetails(emulator) {
+			this.activeEmulator = emulator;
+		}
+
+		/* Lifecycle Hooks
+        ============================================*/
+
+		mounted() {
+			this.$store.dispatch('admin/getEmulators');
+		}
+
 	}
-})
-export default class EmulatorManagement extends AdminScreen {
-
-	/* Computed
-	============================================*/
-
-	@Sync('admin/activeEmulator')
-	activeEmulator: IEmulator
-
-	@Get('admin/emulators')
-	list: IEmulator[]
-
-	get result() {
-		if (!this.list || !this.list.length) return [];
-		return this.list.filter(x => x.name.indexOf(this.keyword) > -1);
-	}
-
-	/* Data
-	============================================*/
-
-	keyword: string = '';
-	showImportModal: boolean = false;
-
-
-	/* Methods
-	============================================*/
-
-	addEmulator() {
-		this.showImportModal = true;
-	}
-
-	search(keyword) {
-		this.keyword = keyword;
-	}
-
-	showDetails(emulator) {
-		this.activeEmulator = emulator;
-	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	mounted() {
-		this.$store.dispatch('admin/getEmulators');
-	}
-
-}
 
 </script>
 
 <style lang="scss">
-.emulator-search {
-	background-color: lighten($light-neutral, 60%);
-	padding-bottom: 2.5rem;
+	.emulator-search {
+		background-color: lighten($light-neutral, 60%);
+		padding-bottom: 2.5rem;
 
-	h1 {
-		font-size: 1.8rem;
+		h1 {
+			font-size: 1.8rem;
+		}
 	}
-}
 </style>

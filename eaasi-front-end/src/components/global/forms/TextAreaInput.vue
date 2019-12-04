@@ -11,7 +11,7 @@
 				>
 				</textarea>
 				<span class="eaasi-field-icon">
-					<i :class="`far fa-${icon}`"></i>
+					<span :class="`far fa-${icon}`"></span>
 				</span>
 			</div>
 		</div>
