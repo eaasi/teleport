@@ -9,7 +9,7 @@ import {
 	IEaasiSearchQuery,
 	IEaasiSearchResponse,
 	IResourceSearchQuery,
-	IResourceSearchResponse, ISaveEnvironmentResponse
+	IResourceSearchResponse, ISaveEnvironmentResponse, IReplicateImageRequest
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
@@ -126,6 +126,18 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/**
+	 * Replicates a list of images to the requested archive
+	 * @param {
+	 *   destArchive: 'remote' | 'public' | 'private';
+	 *   replicateList: Array<string>;
+	 * }: IReplicateImageRequest
+	 */
+	async replicateImage(replicateRequest: IReplicateImageRequest) {
+		let res = await this._emilEnvSvc.post('replicateImage', replicateRequest);
+		return await res.json();
+	}
+
+	/**
 	 * Searches  for all environments using the provided IEaasiSearchQuery
 	 * @param query
 	 * @private
@@ -144,7 +156,7 @@ export default class ResourceAdminService extends BaseService {
 	 * @param softwareObject: ISoftwareObject with req.body
 	 */
 	async saveSoftwareObject(softwareObject: ISoftwareObject) {
-		let res = await this._emilSofSvc.post(`saveSoftwareObject`, softwareObject);
+		let res = await this._emilSofSvc.post('saveSoftwareObject', softwareObject);
 		return await res.json();
 	}
 

@@ -3,7 +3,8 @@ import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IResourceSearchQuery } from '@/types/Search';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchResponse } from '@/types/Search';
-import { IEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
+import { IEnvironmentUpdateRequest, IReplicateImageRequest } from '@/helpers/ResourceHelper';
+import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 
 
 class ResourceService extends BaseHttpService {
@@ -40,6 +41,16 @@ class ResourceService extends BaseHttpService {
 		}
 
 		return res.result as ISaveEnvironmentResponse;
+	}
+
+	async replicateImage(replicateRequest: IReplicateImageRequest): Promise<IEaasiTaskListStatus> {
+		const res = await this.post<IEaasiTaskListStatus>('/resource/replicate-image', replicateRequest);
+		if (!res.ok) {
+			console.error('Response returned error: ', res);
+			return null;
+		}
+		
+		return res.result;
 	}
 
 	/**

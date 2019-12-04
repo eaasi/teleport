@@ -114,6 +114,19 @@ export default class ResourceController extends BaseController {
 	}
 
 	/**
+	 * Replicates a list of images to the requested archive
+	 */
+	async replicateImage(req: Request, res: Response) {
+		try {
+			let replicateRequest = req.body;
+			let result = await this._svc.replicateImage(replicateRequest);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
 	 * Searches for resources using the request body as IResourceSearchQuery
 	 */
 	async search(req: Request, res: Response) {

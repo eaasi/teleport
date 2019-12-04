@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="env-metadata-wrapper">
 		<mode-toggle
 			:editable="isEditMode"
 			@mode-change="onModeChange"
@@ -71,8 +71,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { IEnvironment, IDrive, IEditableDrive } from '@/types/Resource';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+import { IEaasiResourceSummary, IEnvironment, IEaasiResource, IDrive, IEditableDrive } from '@/types/Resource';
+import { resourceTypes } from '@/utils/constants';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../ResourceDetailsSummary.vue';
@@ -80,6 +81,7 @@ import ConfiguredDrives from './ConfiguredDrives.vue';
 import ConfigureNetwork from './ConfigureNetwork.vue';
 import ConfigureEmulator from './ConfigureEmulator.vue';
 import ModeToggle from '../ModeToggle.vue';
+import { jsonEquals } from '@/utils/functions';
 
 @Component({
     name: 'EnvironmentMetadataSection',
@@ -97,14 +99,13 @@ export default class EnvironmentMetadataSection extends Vue {
     /* Props
     ============================================*/
 	@Prop({ type: Object as () => IEnvironment, required: true })
-    resource: IEnvironment;
+	resource: IEnvironment;
+	
+	@Prop({ type: Boolean })
+	readOnlyMode: Boolean;
 
     /* Computed
     ============================================*/
-
-    /**
-	 * Parses the environment data for emulator-specific properties
-	 */
 	get drives(): IDrive[] {
         return this.resource.drives ? this.resource.drives : [];
     }
@@ -114,7 +115,7 @@ export default class EnvironmentMetadataSection extends Vue {
 	}
 
 	get isEditMode(): boolean {
-		return this.toggleValue === 'Edit Mode';
+		return this.toggleValue === 'Edit Mode' && !this.readOnlyMode;
 	}
 
 	get isLinuxRuntimeSelected(): boolean {
@@ -124,7 +125,7 @@ export default class EnvironmentMetadataSection extends Vue {
 
 	/* Data
 	============================================*/
-	toggleOptions = ['Review Mode', 'Edit Mode'];
+	toggleOptions = ['Review Mode'];
 	toggleValue: string = this.toggleOptions[0];
 	emulatorLabeledItems : ILabeledEditableItem[] = [];
 	osLabeledItems: ILabeledEditableItem[] = [];
@@ -142,7 +143,10 @@ export default class EnvironmentMetadataSection extends Vue {
 		this.uiOptionLabeledItems.forEach(el => this.resource[el.property] = el.value);
 		this.networkLabeledItems.forEach(el => this.resource.networking[el.property] = el.value);
 		const result = await this.$store.dispatch('resource/updateEnvironmentDetails', this.resource);
-		if (result && result.id) this.toggleValue = this.toggleOptions[0];
+		if (result && result.id) {
+			this.toggleValue = this.toggleOptions[0];
+			this.$emit('refresh', result.id);
+		}
 	}
 
 	updateDrives(drives: IEditableDrive[]) {
@@ -159,13 +163,17 @@ export default class EnvironmentMetadataSection extends Vue {
 		this._populateOperatingSystemConfig();
 		this._populateUIOptions();
 		this._populateNetworkOptions();
+		if (!this.readOnlyMode) {
+			this.toggleOptions.push('Edit Mode');
+		}
 	}
 
     /* Lifecycle Hooks
 	============================================*/
 
-	beforeMount() {
-		this.init();
+	@Watch('resource', { immediate: true })
+	async onResourceChange(cur, prev) {
+		return jsonEquals(cur, prev) ? null : await this.init();
 	}
 
 	 /* Helpers
@@ -338,6 +346,9 @@ export default class EnvironmentMetadataSection extends Vue {
 	}
 
 	_populateNetworkOptions() {
+		if (this.resource.networking === null || this.resource.networking === undefined) {
+			return this.networkLabeledItems = [];
+		}
 		this.networkLabeledItems = [
 			{
 				label: 'Enable Networking',

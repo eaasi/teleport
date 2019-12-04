@@ -5,9 +5,10 @@ import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import EaasiTask from '@/models/task/EaasiTask';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { mapEnvironmentToEnvironmentUpdateRequest, IEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
+import { mapEnvironmentToEnvironmentUpdateRequest, IEnvironmentUpdateRequest, IReplicateImageRequest } from '@/helpers/ResourceHelper';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import _svc from '@/services/ResourceService';
+import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 
 /*============================================================
  == State
@@ -65,6 +66,17 @@ const actions = {
 		dispatch('generateTask', { result, environment });
 	},
 
+	async replicateImage({ dispatch }: Store<ResourceState>, environment: IEnvironment): Promise<IEaasiTaskListStatus> {
+		const req: IReplicateImageRequest = {
+			destArchive: 'public',
+			replicateList: [environment.envId]
+		};
+		const result: IEaasiTaskListStatus = await _svc.replicateImage(req);
+		if (!result) return null;
+		dispatch('generateTask', { result, environment });
+		return result;
+	},
+
 	generateTask({ state, commit }: Store<ResourceState>, { result, environment }) {
 		const { title, envId } = environment;
 		let task = new EaasiTask(result.taskList[0], `Save Environment: ${title}`);
@@ -78,7 +90,7 @@ const actions = {
 		return task;
 	},
 
-	async deleteSelectedResource({ state, commit, dispatch }: Store<ResourceState>) {
+	async deleteSelectedResource({ state }: Store<ResourceState>) {
 		// TODO: Deleting an environment is currently not working on the back end.
 		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
 		const resource = state.selectedResources[0];
@@ -96,7 +108,8 @@ const actions = {
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
-		state.savingEnvironments = state.savingEnvironments.filter(x => x != environmentId);
+		const newSavingEnvs = state.savingEnvironments.filter(x => x != environmentId);
+		commit('SET_SAVING_ENVIRONMENTS', newSavingEnvs);
 	},
 
 	async clearSearch({ commit, dispatch }) {

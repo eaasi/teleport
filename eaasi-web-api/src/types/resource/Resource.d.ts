@@ -19,6 +19,13 @@ export interface ISaveEnvironmentResponse {
 	taskList: string[];
 }
 
+export type IReplicateImageRequest = {
+    destArchive: Archive;
+    replicateList: Array<string>;
+}
+
+type Archive = 'remote' | 'public' | 'private';
+
 /*============================================================
  == Resource Search
 /============================================================*/
