@@ -25,10 +25,12 @@ build:
 	sudo docker-compose build --no-cache
 
 sonar:
-	sonar-scanner \
-	  -Dsonar.projectBaseDir=./eaasi-front-end \
-	&& sonar-scanner \
-	  -Dsonar.projectBaseDir=./eaasi-web-api
+	cd eaasi-web-api && npm run test:unit:coverage \
+	&& cd ../eaasi-front-end \
+	&& npm run test:unit \
+	&& cd .. \
+	&& sonar-scanner -Dsonar.projectBaseDir=./eaasi-front-end \
+	&& sonar-scanner -Dsonar.projectBaseDir=./eaasi-web-api
 
 echo:
 	echo "running release stage"

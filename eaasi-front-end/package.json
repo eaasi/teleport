@@ -8,7 +8,7 @@
 		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
-		"test:unit": "vue-cli-service test:unit --coverage"
+		"test:unit": "vue-cli-service test:unit --coverage --verbose"
 	},
 	"dependencies": {
 		"@vue/cli-service": "^3.8.0",

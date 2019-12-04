@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="btn-section">
-			<ui-button color-preset="light-blue" @click="deselectAllFacetValues">
+			<ui-button id="clearAllBtn" color-preset="light-blue" @click="deselectAllFacetValues">
 				Clear ALL Filters
 			</ui-button>
 		</div>
@@ -23,10 +23,11 @@ import { Get, Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
 import { IResourceSearchFacet} from '@/types/Search.d.ts';
 import FacetChipGroup from './FacetChipGroup.vue';
+import UiButton from '@/components/global/UiButton.vue';
 
 @Component({
 	name: 'AppliedSearchFacets',
-	components: { FacetChipGroup }
+	components: { FacetChipGroup, UiButton }
 })
 export default class AppliedSearchFacets extends Vue {
 

@@ -216,7 +216,6 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchContent(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
 		// TODO: do not hard code 'zero conf'
 		let res = await this._emilContentSvc.get('zero%20conf');
-		console.log('::: ResourceAdminService ::: _searchContent ::: res:', res);
 		let contentItems = await res.json() as IContentItem[];
 		return this._filterResults<IContentItem>(query, contentItems);
 	}
@@ -239,7 +238,6 @@ export default class ResourceAdminService extends BaseService {
 	 * Gets a list of all available environment templates
 	 */
 	async getEnvironmentTemplates() {
-		console.log('calling on emil to getEnvironmentTe,plates in resourceadminService');
 		let res = await this._emilEnvSvc.get('getEnvironmentTemplates');
 		return res.json();
 	}
@@ -299,7 +297,6 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	private _filterByArchive(resources: any[], archive: string) {
-		console.log('::: ResourceAdminService._filterByArchive ::: envReq => ', resources);
 		return resources.filter(r => r.archive === archive);
 	}
 }

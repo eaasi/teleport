@@ -7,7 +7,7 @@ export default class EaasiTask implements ITaskState {
 	isEmilTask: boolean = false;
 	description: string;
 	message: string;
-	pollingInterval: number = 1000;
+	pollingInterval?: number = 1000;
 
 	constructor(id: number | string, description?: string) {
 		this.taskId = id;

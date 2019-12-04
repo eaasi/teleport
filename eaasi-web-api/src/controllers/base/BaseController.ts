@@ -23,11 +23,11 @@ export default class BaseController {
 	}
 
 	protected _getQueryFromParams(req: Request) {
-		let query = new CrudQuery()
+		let query = new CrudQuery();
 		query.limit = req.query.limit || 100;
 		query.page = req.query.page || 1;
 		query.sortCol = req.query.sortCol;
-		query.descending = req.query.descending === 'true';
+		query.descending = req.query.descending.toString() === 'true';
 		return query;
 	}
 }

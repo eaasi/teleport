@@ -5,8 +5,7 @@ module.exports = {
 		'^@/(.*)$': '<rootDir>/src/$1',
 	},
 	testURL: 'http://localhost/',
-	// currently, only tests in test/unit are found by runner
-	testMatch: ['**/test/unit/**/*.js'],
+	testMatch: ['**/test/unit/**/*.(js|ts)'],
 	collectCoverage: true,
 	testResultsProcessor: "jest-sonar-reporter",
 	coveragePathIgnorePatterns: [
