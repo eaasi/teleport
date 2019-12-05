@@ -127,6 +127,19 @@ export default class ResourceController extends BaseController {
 	}
 
 	/**
+	 * Creates a fork request for the requested revision
+	 */
+	async forkRevision(req: Request, res: Response) {
+		try {
+			let revisionRequest = req.body;
+			let result = await this._svc.forkRevision(revisionRequest);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
 	 * Searches for resources using the request body as IResourceSearchQuery
 	 */
 	async search(req: Request, res: Response) {
