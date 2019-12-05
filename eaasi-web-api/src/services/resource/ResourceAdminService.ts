@@ -231,6 +231,21 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/*============================================================
+	 == Revisions
+	/============================================================*/
+
+	/**
+	* Fork revision request
+	* @param revisionRequest {
+	*   id: string;		
+	* }
+	*/
+	async forkRevision(revisionRequest: any) {
+		let res = await this._emilEnvSvc.post('forkRevision', revisionRequest);
+		return res.json();
+	}
+
+	/*============================================================
 	 == Templates and Patches
 	/============================================================*/
 

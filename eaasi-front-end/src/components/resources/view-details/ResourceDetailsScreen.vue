@@ -33,7 +33,7 @@
 					:software-metadata="softwareMetadata"
 				/>
 			</div>
-			<resource-details-history
+			<resource-details-revision-list
 				v-else-if="activeTab === 'History'" 
 				:revisions="activeResource.revisions" 
 			/>
@@ -93,9 +93,9 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment, ISoftwareObject, ISoftwarePackage } from '@/types/Resource';
-import ResourceDetailsHistory from './history/ResourceDetailsHistory.vue';
 import SoftwareMetadataSection from './metadata/software/SoftwareMetadataSection.vue';
 import EnvironmentMetadataSection from './metadata/environment/EnvironmentMetadataSection.vue';
+import ResourceDetailsRevisionList from './history/ResourceDetailsRevisionList.vue';
 import AddSoftware from '../AddSoftwareModal.vue';
 import { ITaskState } from '@/types/Task';
 import EaasiTask from '@/models/task/EaasiTask';
@@ -105,7 +105,7 @@ import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 	name: 'ResourceDetailsScreen',
 	components: {
 		AddSoftware,
-		ResourceDetailsHistory,
+		ResourceDetailsRevisionList,
 		SoftwareMetadataSection,
 		EnvironmentMetadataSection
 	}

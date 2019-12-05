@@ -104,6 +104,11 @@ class ResourceService extends BaseHttpService {
 		return res.result;
 	}
 
+	async forkRevision(id: string) {
+		let res = await this.post<any>('/resource/forkRevision', { id });
+		return res.result;
+	}
+
 	/**
 	 * Makes a GET request to retrieve list of object archives
 	 */

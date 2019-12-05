@@ -1,57 +1,41 @@
 <template>
-	<div class="user-list">
-		<table class="eaasi-table clickable">
-			<caption>
-				Resource Details Revisions with date, changes, and details of the resource change
-			</caption>
-			<thead>
-				<tr>
-					<sort-header sort-col="date" :query="query" @sort="sort">
-						Date
-					</sort-header>
-					<sort-header sort-col="changes" :query="query" @sort="sort" :width="900">
-						Changes
-					</sort-header>
-					<sort-header sort-col="details" :query="query" @sort="sort">
-						<span>
-							Details
-						</span>
-					</sort-header>
-				</tr>
-			</thead>
-			<tbody>
-				<template v-for="rev in revisions" @click="$emit('rowClick', rev)">
-					<tr
-						:key="rev.id"
-						:class="{ isExpanded: expandedRows.includes(rev.id)}"
-						@click="toggle(rev.id)"
-					>
-						<td>N/A</td>
+	<section id="edHistory">
+		<div class="user-list padded">
+			<table class="eaasi-table">
+				<caption>
+					Resource Details Revisions with date, changes, and details of the resource change
+				</caption>
+				<thead>
+					<tr>
+						<th>
+							Date
+						</th>
+						<th style="width: 900px;">
+							Changes
+						</th>
+						<th>
+							<!-- Details -->
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
-							<span :class="['encircled', {activeEncircled: expandedRows.includes(rev.id)}]">&nbsp; 1 &nbsp;</span>
-							<div
-								class="edrl-details-content"
-								v-if="expandedRows.includes(rev.id)"
-							>
-								{{ rev.text | stripHtml }}
-							</div>
+							N/A
+						</td>
+						<td>
+							{{ rev.text | stripHtml }}
 						</td>
 						<td class="edrl-details-cell">
-							<span
-								class="edrl-details-heading"
-								v-if="!expandedRows.includes(rev.id)"
-							>
-								DETAILS
-							</span>
-							<span class="edrl-details-heading encircled" v-else>
-								<span class="fas fa-fw fa-chevron-up"></span>
+							<span class="edrl-details-heading" @click="fork(rev)">
+								FORK
 							</span>
 						</td>
 					</tr>
-				</template>
-			</tbody>
-		</table>
-	</div>
+				</tbody>
+			</table>
+		</div>
+	</section>
 </template>
 
 <script lang="ts">
@@ -59,13 +43,9 @@ import {IEnvironmentRevision} from '@/types/Resource';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiSearchQuery } from '@/types/Search';
-import SortHeader from '@/components/global/tables/SortHeader.vue';
 
 @Component({
 	name: 'ResourceDetailsRevisionList',
-	components: {
-		SortHeader
-	}
 })
 export default class ResourceDetailsRevisionList extends Vue {
 
@@ -74,23 +54,18 @@ export default class ResourceDetailsRevisionList extends Vue {
     @Prop({ required: true, type: Array })
     revisions?: IEnvironmentRevision[];
 
-    query: IEaasiSearchQuery = {descending: false, keyword: '', limit: 0, page: 0, sortCol: 'date'};
-
-    /**
-     *  The collection of expanded rows
-     */
-    expandedRows: any[] = [];
-
-    /* Computed
+    /* Data
     ============================================*/
+	expandedRows: any[] = [];
 
     /* Methods
     ============================================*/
-
-    sort(query: IEaasiSearchQuery) {
-    	this.query = query;
-    	// this.$store.dispatch('admin/getUsers');
-    }
+	
+	async fork(rev: IEnvironmentRevision) {
+		const result = await this.$store.dispatch('resource/forkRevision', rev.id);
+		if (!result) return;
+		this.$router.push({ name: 'Explore Resources' });
+	}
 
     toggle(id: string) {
     	const index = this.expandedRows.indexOf(id);
@@ -105,31 +80,20 @@ export default class ResourceDetailsRevisionList extends Vue {
 </script>
 
 <style lang="scss">
-	.edrl-details-cell {
-		align-content: center;
-		text-align: center;
+.edrl-details-cell {
+	align-content: center;
+	text-align: center;
 
-		.edrl-details-heading {
-			color: $dark-blue;
-			font-weight: bold;
-			text-transform: uppercase;
+	.edrl-details-heading {
+		border-radius: 0.5rem;
+		color: $dark-blue;
+		cursor: pointer;
+		font-weight: bold;
+		padding: 0.8rem 1.4rem;
+		text-transform: uppercase;
+		&:hover {
+			background: #ffffff;
 		}
 	}
-
-	.encircled {
-		background-color: #FFFFFF;
-		border-radius: 50%;
-		height: 12px;
-		padding: 0.4rem;
-		width: 12px;
-	}
-
-	.activeEncircled {
-		background-color: $dark-neutral;
-		color: #FFFFFF;
-	}
-
-	.edrl-details-content {
-		margin: 2.8rem 0 1rem 0;
-	}
+}
 </style>

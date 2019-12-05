@@ -33,6 +33,15 @@ router.get('/environment', (req, res) => controller.getEnvironment(req, res));
  */
 router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTemplates(req, res));
 
+/**
+ * @api {post} resource/forkRevision creates a fork revision request
+ * @apiVersion 1.0.0
+ * @apiName Fork Revision
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Requests a fork revision that should create an environment with requested revision state
+ */
+router.post('/forkRevision', (req, res) => controller.forkRevision(req, res));
 
 /**
  * @api {post} resource/software-object Saves Software Objects

@@ -152,7 +152,11 @@ const actions = {
 		return await _svc.operatingSystemMetadata();
 	},
 
-	async getImports({ state, commit, dispatch }) {
+	async forkRevision(_, revisionId: string) {
+		return await _svc.forkRevision(revisionId);
+	},
+
+	async getImports({ commit, dispatch }) {
 		const importQuery: IResourceSearchQuery = {
 			keyword: '',
 			selectedFacets: [],
