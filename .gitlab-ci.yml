@@ -3,7 +3,8 @@ image: node:latest
 
 before_script:
     # Install ssh-agent
-    - echo '========= Starting SSH Stage ========='
+    - echo '========= Starting Deploy Stage ========='
+    - echo "$CI_COMMIT_REF_NAME"
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
 
     # Run ssh-agent in the build environment
@@ -75,6 +76,6 @@ deploy:all:
     stage: deploy
     script:
         - ssh portalmedia@eaasi.portalmedia.com -tt -p "$SSH_PORT" \
-              "cd eaasi/eaasi-client-dev && git pull origin master && docker-compose down -v && docker-compose up -d --build && exit"
+              "cd eaasi/eaasi-client-dev && git pull origin master && docker-compose down && docker-compose up -d --build && exit"
     only:
-        - merge_requests
+        - master
