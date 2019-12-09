@@ -71,3 +71,15 @@ export interface IEaasiSearchResponse<T> {
 	result: T[];
 	totalResults: number;
 }
+
+export interface IContentRequest {
+	archiveName: string;
+	contentId: string;
+}
+
+export interface IOverrideContentRequest {
+	description: string;
+	environments: [];
+	objectArchive: string;
+	objectId: string;
+}

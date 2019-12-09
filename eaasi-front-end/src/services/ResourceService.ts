@@ -105,7 +105,7 @@ class ResourceService extends BaseHttpService {
 	}
 
 	async forkRevision(id: string) {
-		let res = await this.post<any>('/resource/forkRevision', { id });
+		let res = await this.post<any>('/resource/fork-revision', { id });
 		return res.result;
 	}
 

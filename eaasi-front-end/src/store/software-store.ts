@@ -3,7 +3,7 @@ import _svc from '@/services/SoftwareService';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { Store } from 'vuex';
-import { IObjectClassificationRequest, ISoftwareObject } from '@/types/Resource';
+import { IObjectClassificationRequest, ISoftwareObject, IContent, IContentRequest, IOverrideContentRequest } from '@/types/Resource';
 
 /*============================================================
  == State
@@ -40,12 +40,20 @@ const actions = {
 		return await _svc.classify(classificationRequest);
 	},
 
-	async getSoftwareMetadata(_: Store<SoftwareState>, softwareId: string) {
-		return await _svc.getSoftwareMetadata(softwareId);
+	async getSoftwareMetadata(_: Store<SoftwareState>, { archiveId, objectId }) {
+		return await _svc.getSoftwareMetadata(archiveId, objectId);
 	},
 
 	async saveSoftwareObject(_: Store<SoftwareState>, softwareObject: ISoftwareObject) {
 		return await _svc.saveSoftwareObject(softwareObject);
+	},
+
+	async getContent(_, contentRequest: IContentRequest): Promise<IContent> {
+		return await _svc.getContent(contentRequest);
+	},
+	
+	async saveContent(_, overrideRequest: IOverrideContentRequest) {
+		return await _svc.saveContent(overrideRequest);
 	},
 
 	async searchSoftware({ state, commit }: Store<SoftwareState>) {

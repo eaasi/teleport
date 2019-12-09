@@ -1,0 +1,483 @@
+<template>
+	<div id="myResources" v-if="activeEnvironment">
+		<div class="pull-right" style="margin: 1.2rem;">
+			<ui-button v-if="readOnlyMode" size="md" @click="confirmAction = 'replicate'">
+				Replicate
+			</ui-button>
+			<ui-button v-else size="md" @click="addingSoftware = true">
+				Add Software
+			</ui-button>
+		</div>
+		<h1>Environment Details</h1>
+		<tabbed-nav :tabs="tabs" v-model="activeTab" />
+		<div class="vrd-content">
+			<mode-toggle
+				v-show="activeTab === 'Metadata'"
+				:editable="!readOnlyMode"
+				@mode-change="onModeChange"
+				@save="saveDetails"
+				@refresh="init"
+				:toggle-value="activeMode"
+				:toggle-options="mods"
+			/>
+			<environment-metadata-section 
+				v-show="activeTab === 'Metadata'"
+				:resource="activeEnvironment"
+				:active-mode="activeMode"
+				:emulator-labeled-items="emulatorLabeledItems"
+				:os-labeled-items="osLabeledItems"
+				:ui-option-labeled-items="uiOptionLabeledItems"
+				:network-labeled-items="networkLabeledItems"
+				:installed-software="installedSoftware"
+				:config-machine-labeled-items="configMachineLabeledItems"
+			/>
+			<revision-list
+				v-show="activeTab === 'History'" 
+				:revisions="activeEnvironment.revisions" 
+			/>
+		</div>
+		<!-- Modals -->
+		<confirm-modal
+			title="Replicate To My Node"
+			confirm-label="Replicate"
+			@click:cancel="confirmAction = null"
+			@click:confirm="replicate"
+			@close="confirmAction = null"
+			v-if="confirmAction === 'replicate'"
+		>
+			<alert type="info">
+				<span class="ers-rep-msg">
+					Replicating to your node will copy all environment data and files to local storage.
+					Environments copied from the EaaSI Network cannot be easily deleted once saved.
+				</span>
+				<span class="ers-rep-msg">
+					Do you want to replicate this environment to your node?
+				</span>
+			</alert>
+		</confirm-modal>
+		<!-- Loading Modal -->
+		<modal v-if="loading || errorMessage || success" @close="reset">
+			<alert-card v-if="errorMessage" type="error">
+				<strong>Error: </strong>
+				{{ errorMessage }}
+			</alert-card>
+			<div v-else-if="success">
+				<alert-card type="success">
+					This task was succesfully completed
+				</alert-card>
+				<div style="margin: 2rem auto;">
+					<ui-button size="md" @click="$router.push('/resources/explore')">
+						Explore Resources
+					</ui-button>
+				</div>
+			</div>
+			<div v-else-if="!errorMessage && !success" class="flex flex-center flex-column">
+				<h3 style="margin: 0 0 3rem 0; text-align: center;">
+					Depending on the file size and server/network performance, image import may take several minutes.
+				</h3>
+				<loader />
+			</div>
+		</modal>
+		<add-software
+			v-if="addingSoftware"
+			@cancel="addingSoftware = false"
+			@run-in-emulator="runInEmulator"
+		/>
+	</div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
+import { IEaasiTab } from 'eaasi-nav';
+import { IEnvironment } from '@/types/Resource';
+import { ITaskState } from '@/types/Task';
+import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
+import EaasiTask from '@/models/task/EaasiTask';
+import EnvironmentMetadataSection from './EnvironmentMetadataSection.vue';
+import RevisionList from './RevisionList.vue';
+import AddSoftware from './AddSoftwareModal.vue';
+import ModeToggle from '../shared/ModeToggle.vue';
+
+@Component({
+	name: 'EnvironmentDetailsScreen',
+	components: {
+		AddSoftware,
+		RevisionList,
+		EnvironmentMetadataSection,
+		ModeToggle
+	}
+})
+export default class EnvironmentDetailsScreen extends Vue {
+
+    /* Data
+	============================================*/
+    tabs: IEaasiTab[] = [
+    	{ label: 'Metadata', disabled: false },
+    	{ label: 'History', disabled: false },
+	];
+	activeTab: string = this.tabs.find(t => t.label === 'Metadata').label;
+
+	mods = ['Review Mode'];
+	activeMode: string = this.mods[0];
+
+	activeEnvironment: IEnvironment = null;
+	confirmAction: string = null;
+	loading: boolean = false;
+	errorMessage: string = null;
+	success: boolean = false;
+	timer: any = null;
+	addingSoftware: boolean = false;
+
+	emulatorLabeledItems : ILabeledEditableItem[] = [];
+	osLabeledItems: ILabeledEditableItem[] = [];
+	uiOptionLabeledItems: ILabeledEditableItem[] = [];
+	networkLabeledItems: ILabeledEditableItem[] = [];
+	installedSoftware: ILabeledItem[] = [];
+	configMachineLabeledItems: ILabeledEditableItem[] = [];
+
+    /* Computed
+	============================================*/
+	get readOnlyMode() {
+		return this.activeEnvironment && this.activeEnvironment.archive === 'remote';
+	}
+
+    /* Methods
+	============================================*/
+	async saveDetails() {
+		this.emulatorLabeledItems.forEach(el => this.activeEnvironment[el.property] = el.value);
+		this.uiOptionLabeledItems.forEach(el => this.activeEnvironment[el.property] = el.value);
+		this.networkLabeledItems.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
+		const result = await this.$store.dispatch('resource/updateEnvironmentDetails', this.activeEnvironment);
+		if (result && result.id) {
+			this.activeMode = this.mods[0];
+			this.$router.replace(`/resources/environment?resourceId=${result.id}`);
+			await this.init();
+		}
+	}
+
+	async replicate() {
+		this.confirmAction = null;
+		this.loading = true;
+		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateImage', this.activeEnvironment);
+		let task = new EaasiTask(result.taskList[0], `Replicate Image: ${this.activeEnvironment.title}`);
+        this.timer = setInterval(async () => await this.handleTask(task.taskId), task.pollingInterval);
+	}
+
+	async runInEmulator(softwareId: string) {
+		if (!softwareId) return;
+		const { envId } = this.activeEnvironment as IEnvironment;
+		this.$router.push(`/access-interface/${envId}?softwareId=${softwareId}`);
+	}
+
+	async handleTask(taskId: string | number) {
+		let taskState = await this.$store.dispatch('getTaskState', taskId);
+		if (taskState.message && taskState.status == '1') {
+			clearInterval(this.timer);
+			this.errorMessage = taskState.message;
+		} else if(taskState.isDone) {
+			clearInterval(this.timer);
+			this.success = true;
+		}
+	}
+
+	async init() {
+		const { resourceId } = this.$route.query;
+		this.activeEnvironment = await this.$store.dispatch('resource/getEnvironment', resourceId);
+		await this.populateMetadata();
+	}
+
+	async populateMetadata() {
+		await this._populateEmulatorConfig();
+		this._populateOperatingSystemConfig();
+		this._populateUIOptions();
+		this._populateNetworkOptions();
+		this._populateInstalledSoftware();
+		if (!this.readOnlyMode) {
+			this.mods.push('Edit Mode');
+		}
+	}
+
+	reset() {
+		clearInterval(this.timer);
+		this.success = false;
+		this.errorMessage = null;
+		this.loading = false;
+	}
+
+	onModeChange(mode: string) {
+		this.activeMode = mode;
+	}
+
+    /* Lifecycle Hooks
+	============================================*/
+    created() {
+		this.init();
+	}
+	
+	/* Helpers
+	============================================*/
+	_populateInstalledSoftware() {
+		if(!this.activeEnvironment.installedSoftwareIds) return this.installedSoftware = [];
+		this.installedSoftware = this.activeEnvironment.installedSoftwareIds.map(id => {
+			return {
+				label: '',
+				value: id
+			} as ILabeledItem;
+		});
+	}
+
+	async _populateEmulatorConfig() {
+		const nameIndexes = await this.$store.dispatch('resource/getNameIndexes');
+		const operatingSystemMetadata = await this.$store.dispatch('resource/getOperatingSystemMetadata');
+		this.emulatorLabeledItems = [
+			{
+				label: 'Name',
+				value: this.activeEnvironment.emulator,
+				property: 'emulator',
+				readonly: true,
+				editType: 'text-input',
+				changed: false
+			},
+			{
+				label: 'Emulator Configuration',
+				value: this.activeEnvironment.nativeConfig,
+				property: 'nativeConfig',
+				readonly: false,
+				editType: 'text-input',
+				changed: false
+			},
+			{
+				label: 'Date',
+				value: this.activeEnvironment.time ? this.activeEnvironment.time : new Date(),
+				property: 'time',
+				readonly: false,
+				editType: 'date',
+				changed: false
+			},
+			{
+				label: 'Linux Runtime',
+				value: this.activeEnvironment.isLinuxRuntime,
+				readonly: false,
+				property: 'isLinuxRuntime',
+				editType: 'checkbox',
+				changed: false
+			}
+		];
+		if (nameIndexes) {
+			this.emulatorLabeledItems.push({
+				label: 'Emulator Version',
+				value: this.activeEnvironment.timeContext ? this.activeEnvironment.timeContext : '',
+				readonly: false,
+				property: 'timeContext',
+				editType: 'select',
+				changed: false,
+				data: nameIndexes.entries.entry
+			});
+		}
+		if (operatingSystemMetadata) {
+			this.emulatorLabeledItems.push({
+				label: 'Operating System',
+				value: this.activeEnvironment.os,
+				property: 'os',
+				readonly: false,
+				editType: 'select',
+				changed: false,
+				data: operatingSystemMetadata.operatingSystemInformations
+			});
+		}
+	}
+
+	_populateOperatingSystemConfig(): void {
+		this.osLabeledItems = [
+			{
+				label: 'Resource Name',
+				value: this.activeEnvironment.title.split('-')[0].trim(),
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Display Resolution',
+				value: '800x600',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Color Depth',
+				value: 'True Color',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Region',
+				value: 'U.S.',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Time Zone',
+				value: 'Eastern Standard Time',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Date/Time',
+				value: '1:19PM 5/3/2019',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Language',
+				value: 'English',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Login Name',
+				value: '<username>',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Login password',
+				value: '<password>',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+		];
+	}
+
+	_populateUIOptions() {
+		this.uiOptionLabeledItems = [
+			{
+				label: 'Environment can print',
+				value: this.activeEnvironment.enablePrinting,
+				property: 'enablePrinting',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Relative Mouse (Pointerlock)',
+				value: this.activeEnvironment.enableRelativeMouse,
+				property: 'enableRelativeMouse',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'WebRTC Audio (Beta)',
+				value: this.activeEnvironment.useWebRTC,
+				property: 'useWebRTC',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Requires clean shutdown',
+				value: this.activeEnvironment.shutdownByOs,
+				property: 'shutdownByOs',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+		];
+	}
+
+	_populateNetworkOptions() {
+		if (this.activeEnvironment.networking === null || this.activeEnvironment.networking === undefined) {
+			return this.networkLabeledItems = [];
+		}
+		this.networkLabeledItems = [
+			{
+				label: 'Enable Networking',
+				value: this.activeEnvironment.networking.connectEnvs,
+				property: 'connectEnvs',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Enable Internet Access',
+				value: this.activeEnvironment.networking.enableInternet,
+				property: 'enableInternet',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Enable Server Mode',
+				value: this.activeEnvironment.networking.serverMode,
+				property: 'serverMode',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Use SOCKS5',
+				value: this.activeEnvironment.networking.enableSocks,
+				property: 'enableSocks',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Enable Local Mode',
+				value: this.activeEnvironment.networking.localServerMode,
+				property: 'localServerMode',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Internal Server IP',
+				value: this.activeEnvironment.networking.serverIp,
+				property: 'serverIp',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Internal Server Port',
+				value: this.activeEnvironment.networking.serverPort,
+				property: 'serverPort',
+				changed: false,
+				readonly: false,
+				editType: 'text-input'
+			},
+			{
+				label: 'Help Text for the Network',
+				value: this.activeEnvironment.networking.helpText,
+				property: 'helpText',
+				changed: false,
+				readonly: false,
+				editType: 'text-area'
+			}
+		];
+	}
+}
+
+</script>
+
+<style lang="scss">
+	.vrd-content {
+
+		.vrd-subsection {
+			padding: 18px 0;
+		}
+	}
+
+	#thisIncludedIn {
+		background-color: lighten($light-neutral, 75%);
+	}
+</style>

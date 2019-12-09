@@ -161,9 +161,10 @@ export interface ISoftwareObject {
 	importFMTs: any[];
 	isOperatingSystem: Boolean;
 	licenseInformation: string;
+	label?: string;
 	nativeFMTs: string[];
 	objectId: string;
-	qid: string;
+	qid?: string;
 }
 
 export interface IOsItem {
@@ -180,6 +181,48 @@ export interface IObjectClassificationRequest {
 	objectId: string;
 	updateClassification: boolean;
 	updateProposal: boolean;
+}
+
+/*============================================================
+ == Content
+/============================================================*/
+export interface IContent {
+	metadata: IContentMetadata;
+	mediaItems: IContentMediaItems;
+	status: string;
+}
+
+export interface IContentMediaItems {
+	file: IContentFile[];
+	id: string;
+}
+
+export interface IContentFile {
+	dataResourceType: string;
+	filesize: number;
+	id: string;
+	isDefault: boolean;
+	localAlias: string;
+	type: string;
+	url: string;
+}
+
+export interface IContentMetadata {
+	id: string;
+	metsData: string;
+	title: string;
+}
+
+export interface IContentRequest {
+	archiveName: string;
+	contentId: string;
+}
+
+export interface IOverrideContentRequest {
+	description: string;
+	environments: [];
+	objectArchive: string;
+	objectId: string;
 }
 
 export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'disk' | 'Files';

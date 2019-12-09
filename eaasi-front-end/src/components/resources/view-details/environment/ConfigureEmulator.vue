@@ -40,9 +40,9 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
-import EditableCheckboxItem from '../EditableCheckboxItem.vue';
-import EditableSelectList from '../EditableSelectList.vue';
-import EditableTextItem from '../EditableTextItem.vue';
+import EditableCheckboxItem from '../shared/EditableCheckboxItem.vue';
+import EditableSelectList from '../shared/EditableSelectList.vue';
+import EditableTextItem from '../shared/EditableTextItem.vue';
 
 @Component({
     name: 'ConfigureEmulator',
@@ -82,15 +82,6 @@ export default class ConfigureEmulator extends Vue {
     get time() {
         return this.emulatorItems.find(i => i.property === 'time');
     }
-
-    /* Data
-    ============================================*/
-
-    /* Methods
-    ============================================*/
-
-    /* Lifecycle Hooks
-    ============================================*/
 
 }
 </script>

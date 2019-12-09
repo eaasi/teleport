@@ -20,7 +20,7 @@
 							color-preset="light-blue"
 							size="md" 
 							style="margin-right: 1rem;" 
-							@click="$emit('reset')"
+							@click="$emit('refresh')"
 						>
 							Cancel Changes
 						</ui-button>

@@ -61,7 +61,6 @@ export default class DriveEditModal extends Vue {
     /* Methods
     ============================================*/
     save() {
-        // validate
         this.$emit('save', this.drive);
     }
 

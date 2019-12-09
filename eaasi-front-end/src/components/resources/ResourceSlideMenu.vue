@@ -115,7 +115,7 @@
 	import {IAction, IEaasiTab} from 'eaasi-nav';
 	import {MultiBookmarkRequest} from '@/types/Bookmark';
 	import {ILabeledItem} from '@/types/ILabeledItem';
-	import {IEaasiResource, IEnvironment} from '@/types/Resource';
+	import {IEaasiResource, IEnvironment, ISoftwarePackage, ISoftwareObject} from '@/types/Resource';
 	import ResourceAction from './ResourceAction.vue';
 	import stringCleaner from '@/utils/string-cleaner';
 	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
@@ -285,6 +285,9 @@
             const isSoftware = this.resources.length === 1
 				&& this.onlySelectedResource.resourceType === resourceTypes.SOFTWARE;
 
+			const isContent = this.resources.length === 1
+				&& this.onlySelectedResource.resourceType === resourceTypes.CONTENT;
+
 			switch (action.shortName) {
 				case 'run':
 					// When Run is clicked, we send to Access Interface @ environmentId
@@ -297,11 +300,20 @@
 					// When View Details is clicked, we send to Resource Detail view
 					if (isEnvironment) {
 						const resourceId = this.onlySelectedResource.envId.toString();
-						this.$router.push({ path:'/resources/environment', query: { resourceId } });
-					} else if (isSoftware) {
-						const resourceId = this.onlySelectedResource.id.toString();
-						this.$router.push({ path:'/resources/software', query: { resourceId } });
+						this.$router.push({ 
+							path:'/resources/environment', 
+							query: { resourceId } 
+						});
+						break;
 					}
+					// @ts-ignore
+					const archiveId = this.onlySelectedResource.archiveId;
+					const resourceId = this.onlySelectedResource.id.toString();
+					const path = isSoftware ? '/resources/software' : '/resources/content';
+					this.$router.push({
+						path,
+						query: { resourceId, archiveId }
+					});
 					break;
 				case 'bookmark':
 					// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
