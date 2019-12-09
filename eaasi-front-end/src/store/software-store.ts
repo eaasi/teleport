@@ -1,9 +1,9 @@
-import { make } from 'vuex-pathify';
-import _svc from '@/services/SoftwareService';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import _svc from '@/services/SoftwareService';
+import { IContent, IContentRequest, IObjectClassificationRequest, IOverrideContentRequest, ISoftwareObject } from '@/types/Resource';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { Store } from 'vuex';
-import { IObjectClassificationRequest, ISoftwareObject, IContent, IContentRequest, IOverrideContentRequest } from '@/types/Resource';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -50,6 +50,10 @@ const actions = {
 
 	async getContent(_, contentRequest: IContentRequest): Promise<IContent> {
 		return await _svc.getContent(contentRequest);
+	},
+
+	async deleteContent(_, contentRequest: IContentRequest) {
+		await _svc.deleteContent(contentRequest);
 	},
 	
 	async saveContent(_, overrideRequest: IOverrideContentRequest) {

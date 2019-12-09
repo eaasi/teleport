@@ -125,6 +125,19 @@ export default class ResourceController extends BaseController {
 	}
 
 	/**
+	 * Deletes Content Object
+	 */
+	async deleteContent(req: Request, res: Response) {
+		try {
+			const contentRequest = req.query as IContentRequest;
+			await this._svc.deleteContent(contentRequest);
+			res.send(true);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
 	 * Updates Environment description
 	 */
 	async updateEnvironmentDetails(req: Request, res: Response) {

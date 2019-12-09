@@ -162,11 +162,11 @@ export default class RenderingEnvironments extends Vue {
         }, 1000);
     }
 
-    run(env: IEnvironment) {
-        this.$router.push(`/access-interface/${env.envId}?softwareId=${this.resourceId}`);
+    run(env) {
+        this.$router.push(`/access-interface/${env.id}?softwareId=${this.resourceId}`);
     }
 
-    remove(env: IEnvironment) {
+    remove(env) {
         this.renderingEnvs = this.renderingEnvs.filter(i => i.id !== env.id);
     }
 

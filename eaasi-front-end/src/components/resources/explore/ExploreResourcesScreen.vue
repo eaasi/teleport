@@ -45,6 +45,7 @@
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
 			@bookmarks-updated="search"
+			@resource-updated="search"
 		/>
 	</div>
 </template>

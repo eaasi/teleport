@@ -87,6 +87,12 @@
 					and it will no longer be available for use.
 				</span>
 			</alert>
+			<alert type="warning" v-if="!softwareIsSelected && !environmentIsSelected">
+				<span class="ers-rep-msg">
+					Deleting this content will remove all associated data from your node
+					and it will no longer be available for use.
+				</span>
+			</alert>
 			<alert type="warning" v-if="environmentIsSelected">
 				<span class="ers-rep-msg">
 					Deleting this environment will hide its metadata from all users in your node
@@ -115,6 +121,7 @@
 	import {IAction, IEaasiTab} from 'eaasi-nav';
 	import {MultiBookmarkRequest} from '@/types/Bookmark';
 	import {ILabeledItem} from '@/types/ILabeledItem';
+	import { IContentRequest } from '@/types/Resource';
 	import {IEaasiResource, IEnvironment, ISoftwarePackage, ISoftwareObject} from '@/types/Resource';
 	import ResourceAction from './ResourceAction.vue';
 	import stringCleaner from '@/utils/string-cleaner';
@@ -151,6 +158,7 @@
 
 		@Get('loggedInUser')
 		user: IEaasiUser;
+
 
 		@Get('resource/environmentIsSelected')
 		environmentIsSelected: boolean;
@@ -270,8 +278,16 @@
 
 		async deleteSelectedResource() {
 			this.confirmAction = null;
-			await this.$store.dispatch('resource/deleteSelectedResource')
-				.then(() => this.$emit('resource-updated'));
+			if (this.environmentIsSelected) {
+				await this.$store.dispatch('resource/deleteSelectedResource');
+			} else {
+				const contentRequest: IContentRequest = {
+					archiveName: this.onlySelectedResource.archiveId,
+					contentId: this.onlySelectedResource.id as string
+				};
+				await this.$store.dispatch('software/deleteContent', contentRequest);
+			}
+			this.$emit('resource-updated');
 		}
 
 		// TODO: Refactor doAction and multiple / single selected resource logic
@@ -279,26 +295,17 @@
 		doAction(action: IAction) {
 			if (!action.isEnabled) return;
 
-            const isEnvironment = this.resources.length === 1
-				&& this.onlySelectedResource.resourceType === resourceTypes.ENVIRONMENT;
-
-            const isSoftware = this.resources.length === 1
-				&& this.onlySelectedResource.resourceType === resourceTypes.SOFTWARE;
-
-			const isContent = this.resources.length === 1
-				&& this.onlySelectedResource.resourceType === resourceTypes.CONTENT;
-
 			switch (action.shortName) {
 				case 'run':
 					// When Run is clicked, we send to Access Interface @ environmentId
-					if (isEnvironment) {
+					if (this.environmentIsSelected) {
 						let environment = this.onlySelectedResource as IEnvironment;
 						this.$router.push(`/access-interface/${environment.envId}`);
 					}
 					break;
 				case 'viewDetails':
 					// When View Details is clicked, we send to Resource Detail view
-					if (isEnvironment) {
+					if (this.environmentIsSelected) {
 						const resourceId = this.onlySelectedResource.envId.toString();
 						this.$router.push({ 
 							path:'/resources/environment', 
@@ -309,7 +316,7 @@
 					// @ts-ignore
 					const archiveId = this.onlySelectedResource.archiveId;
 					const resourceId = this.onlySelectedResource.id.toString();
-					const path = isSoftware ? '/resources/software' : '/resources/content';
+					const path = this.softwareIsSelected ? '/resources/software' : '/resources/content';
 					this.$router.push({
 						path,
 						query: { resourceId, archiveId }

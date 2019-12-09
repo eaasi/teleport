@@ -1,6 +1,6 @@
+import { IContent, IContentRequest, IObjectClassificationRequest, IOverrideContentRequest, ISoftwareObject, ISoftwarePackage } from '@/types/Resource';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import BaseHttpService from './BaseHttpService';
-import {ISoftwarePackage, IObjectClassificationRequest, ISoftwareObject, IContentRequest, IContent, IOverrideContentRequest} from '@/types/Resource';
-import {IResourceSearchQuery, IResourceSearchResponse} from '@/types/Search';
 
 class SoftwareService extends BaseHttpService {
 
@@ -44,6 +44,10 @@ class SoftwareService extends BaseHttpService {
 		let res = await this.get<IContent>(`/resource/content?archiveName=${archiveName}&contentId=${contentId}`);
 		if(!res.ok) return null;
 		return res.result;
+	}
+
+	async deleteContent({ archiveName, contentId }: IContentRequest) {
+		await this.delete(`/resource/content?archiveName=${archiveName}&contentId=${contentId}`);
 	}
 
 	async saveContent(overrideRequest: IOverrideContentRequest) {

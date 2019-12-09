@@ -25,6 +25,11 @@ export default class EmilBaseService implements IHttpService {
 		return await this._svc.post(url, data);
 	}
 
+	public async delete(methodName: string) {
+		let url = this._createUrl(methodName);
+		return await this._svc.delete(url);
+	}
+
 	private _createUrl(methodName: string): string {
 		return `${BASE_URL}/${this._path}/${methodName}`
 	}
