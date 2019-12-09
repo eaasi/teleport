@@ -4,3 +4,4 @@
 node_modules/
 eaasi-nginx/*.log
 eaasi-nginx/cache
+eaas-client.prod.yml

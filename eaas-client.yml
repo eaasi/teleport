@@ -1,0 +1,30 @@
+#
+# EaaSI Client Configuration
+#
+# Public Repo: https://gitlab.com/eaasi/eaasi-client-pub
+#
+eaasi-client-dev:
+    git_branch: "master"
+
+# Configured parameters for EaaSI Front End Vue Application
+eaasi-front-end:
+    vue_app_base_url: http://localhost:8084
+    vue_app_eaas_host: http://eaasi-legacy.portalmedia.com/emil
+    vue_app_api_base_url: http://localhost:8081/api
+    vue_app_service_url: http://localhost:8081/eaasi
+    vue_app_saml_auth_endpoint: https://portalmedia.auth0.com/samlp/vjy3cEjTOHOPr75pGDLZArrNrQviTGtw
+    vue_app_show_debug_errors: false
+
+# Configured parameters for EaaSI Express Web API
+eaasi-web-api:
+    express_port: 8081
+    eaasi_client_url: http://localhost:8084
+    eaas_java_service_url: http://eaasi-legacy.portalmedia.com
+
+    idp_cert_relpath: certs/portalmedia-auth0-cert.pem
+    sp_private_cert_relpath: certs/key.pem
+    saml_id: http://localhost:8081
+    saml_callback_url: http://localhost:8081/eaasi/auth/callback
+    saml_entrypoint_url: https://portalmedia.auth0.com/samlp/vjy3cEjTOHOPr75pGDLZArrNrQviTGtw
+    saml_logout_url: https://portalmedia.auth0.com/logout
+    user_email_claim_property: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name
