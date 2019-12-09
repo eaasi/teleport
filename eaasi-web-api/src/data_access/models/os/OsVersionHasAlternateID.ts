@@ -1,11 +1,11 @@
-import OsVersion from '@/data_access/models/os/OsVersion';
+import { OsVersion } from '@/data_access/models/os/OsVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'os_version_has_alternate_id'
 })
-export default class OsVersionHasAlternateID extends Model<OsVersionHasAlternateID> {
+export class OsVersionHasAlternateID extends Model<OsVersionHasAlternateID> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

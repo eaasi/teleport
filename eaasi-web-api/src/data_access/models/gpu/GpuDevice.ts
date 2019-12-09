@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'gpu_device'
 })
-export default class GpuDevice extends Model<GpuDevice> {
+export class GpuDevice extends Model<GpuDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,11 +1,11 @@
-import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
+import { SoftwareProduct } from '@/data_access/models/software/SoftwareProduct';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_product_has_alternate_name'
 })
-export default class SoftwareProductHasAlternateName extends Model<SoftwareProductHasAlternateName> {
+export class SoftwareProductHasAlternateName extends Model<SoftwareProductHasAlternateName> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

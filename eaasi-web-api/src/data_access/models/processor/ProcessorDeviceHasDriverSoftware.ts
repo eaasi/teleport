@@ -1,12 +1,12 @@
-import ProcessorDevice from '@/data_access/models/processor/ProcessorDevice';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { ProcessorDevice } from '@/data_access/models/processor/ProcessorDevice';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'processor_device_has_driver_software'
 })
-export default class ProcessorDeviceHasDriverSoftware extends Model<ProcessorDeviceHasDriverSoftware> {
+export class ProcessorDeviceHasDriverSoftware extends Model<ProcessorDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

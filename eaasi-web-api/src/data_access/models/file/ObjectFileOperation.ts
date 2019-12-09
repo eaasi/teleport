@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'object_file_operation'
 })
-export default class ObjectFileOperation extends Model<ObjectFileOperation> {
+export class ObjectFileOperation extends Model<ObjectFileOperation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

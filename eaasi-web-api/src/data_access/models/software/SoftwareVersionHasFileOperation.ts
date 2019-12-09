@@ -1,12 +1,12 @@
-import FileOperation from '@/data_access/models/file/FileOperation';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { FileOperation } from '@/data_access/models/file/FileOperation';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_has_file_operation'
 })
-export default class SoftwareVersionHasFileOperation extends Model<SoftwareVersionHasFileOperation> {
+export class SoftwareVersionHasFileOperation extends Model<SoftwareVersionHasFileOperation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

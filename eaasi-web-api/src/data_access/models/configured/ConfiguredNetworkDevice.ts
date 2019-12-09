@@ -1,13 +1,13 @@
-import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import MachineInterface from '@/data_access/models/machine/MachineInterface';
-import NetworkDevice from '@/data_access/models/network/NetworkDevice';
+import { ConfiguredMachine } from '@/data_access/models/configured/ConfiguredMachine';
+import { MachineInterface } from '@/data_access/models/machine/MachineInterface';
+import { NetworkDevice } from '@/data_access/models/network/NetworkDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_network_device'
 })
-export default class ConfiguredNetworkDevice extends Model<ConfiguredNetworkDevice> {
+export class ConfiguredNetworkDevice extends Model<ConfiguredNetworkDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

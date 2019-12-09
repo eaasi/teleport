@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'file_extension'
 })
-export default class FileExtension extends Model<FileExtension> {
+export class FileExtension extends Model<FileExtension> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

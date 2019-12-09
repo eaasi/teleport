@@ -1,13 +1,13 @@
-import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import MachineInterface from '@/data_access/models/machine/MachineInterface';
-import PointerDevice from '@/data_access/models/pointer/PointerDevice';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { ConfiguredMachine } from '@/data_access/models/configured/ConfiguredMachine';
+import { MachineInterface } from '@/data_access/models/machine/MachineInterface';
+import { PointerDevice } from '@/data_access/models/pointer/PointerDevice';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_pointer_device'
 })
-export default class ConfiguredPointerDevice extends Model<ConfiguredPointerDevice> {
+export class ConfiguredPointerDevice extends Model<ConfiguredPointerDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

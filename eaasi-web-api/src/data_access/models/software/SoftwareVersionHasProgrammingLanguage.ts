@@ -1,12 +1,12 @@
-import ProgrammingLanguage from '@/data_access/models/base/ProgrammingLanguage';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { ProgrammingLanguage } from '@/data_access/models/base/ProgrammingLanguage';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_has_programming_language'
 })
-export default class SoftwareVersionHasProgrammingLanguage extends Model<SoftwareVersionHasProgrammingLanguage> {
+export class SoftwareVersionHasProgrammingLanguage extends Model<SoftwareVersionHasProgrammingLanguage> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

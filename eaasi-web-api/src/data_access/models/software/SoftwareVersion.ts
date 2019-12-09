@@ -1,11 +1,11 @@
-import SoftwareProduct from '@/data_access/models/software/SoftwareProduct';
+import { SoftwareProduct } from '@/data_access/models/software/SoftwareProduct';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version'
 })
-export default class SoftwareVersion extends Model<SoftwareVersion> {
+export class SoftwareVersion extends Model<SoftwareVersion> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

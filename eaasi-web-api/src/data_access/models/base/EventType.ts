@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'event_type'
 })
-export default class EventType extends Model<EventType> {
+export class EventType extends Model<EventType> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

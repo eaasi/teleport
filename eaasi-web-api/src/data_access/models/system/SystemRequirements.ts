@@ -1,12 +1,12 @@
-import ColorDepth from '@/data_access/models/base/ColorDepth';
-import DisplayResolution from '@/data_access/models/display/DisplayResolution';
+import { ColorDepth } from '@/data_access/models/base/ColorDepth';
+import { DisplayResolution } from '@/data_access/models/display/DisplayResolution';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'system_requirements'
 })
-export default class SystemRequirements extends Model<SystemRequirements> {
+export class SystemRequirements extends Model<SystemRequirements> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,12 +1,12 @@
-import UserInformation from '@/data_access/models/base/UserInformation';
-import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { UserInformation } from '@/data_access/models/base/UserInformation';
+import { ConfiguredOS } from '@/data_access/models/configured/ConfiguredOS';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_os_has_user_information'
 })
-export default class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
+export class ConfiguredOSHasUserInformation extends Model<ConfiguredOSHasUserInformation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

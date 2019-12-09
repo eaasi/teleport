@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'display_device'
 })
-export default class DisplayDevice extends Model<DisplayDevice> {
+export class DisplayDevice extends Model<DisplayDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

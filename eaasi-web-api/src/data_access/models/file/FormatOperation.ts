@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'format_operation'
 })
-export default class FormatOperation extends Model<FormatOperation> {
+export class FormatOperation extends Model<FormatOperation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

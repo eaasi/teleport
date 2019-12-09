@@ -1,12 +1,12 @@
-import Developer from '@/data_access/models/base/Developer';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { Developer } from '@/data_access/models/base/Developer';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_has_developer'
 })
-export default class SoftwareVersionHasDeveloper extends Model<SoftwareVersionHasDeveloper> {
+export class SoftwareVersionHasDeveloper extends Model<SoftwareVersionHasDeveloper> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

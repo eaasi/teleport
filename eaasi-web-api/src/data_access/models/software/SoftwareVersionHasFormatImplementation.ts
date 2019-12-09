@@ -1,13 +1,13 @@
-import FormatImplementation from '@/data_access/models/file/FormatImplementation';
-import FormatOperation from '@/data_access/models/file/FormatOperation';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { FormatImplementation } from '@/data_access/models/file/FormatImplementation';
+import { FormatOperation } from '@/data_access/models/file/FormatOperation';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_has_format_implementation'
 })
-export default class SoftwareVersionHasFormatImplementation extends Model<SoftwareVersionHasFormatImplementation> {
+export class SoftwareVersionHasFormatImplementation extends Model<SoftwareVersionHasFormatImplementation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

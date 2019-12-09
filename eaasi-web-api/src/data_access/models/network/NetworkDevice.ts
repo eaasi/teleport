@@ -1,11 +1,10 @@
-import {PipelineTopicExpression} from '@babel/types';
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'network_device'
 })
-export default class NetworkDevice extends Model<NetworkDevice> {
+export class NetworkDevice extends Model<NetworkDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

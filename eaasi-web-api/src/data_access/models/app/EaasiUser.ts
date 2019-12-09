@@ -1,11 +1,11 @@
 import {CreatedAt, UpdatedAt, Column, HasOne, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import EaasiRole from './EaasiRole';
+import { EaasiRole } from './EaasiRole';
 
 @Table({
 	tableName: 'eaasi_user'
 })
-export default class EaasiUser extends Model<EaasiUser> {
+export class EaasiUser extends Model<EaasiUser> {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

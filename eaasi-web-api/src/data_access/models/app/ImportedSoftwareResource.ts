@@ -5,7 +5,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'imported_software_resource'
 })
-export default class ImportedSoftwareResource extends Model<ImportedSoftwareResource> implements IImportedSoftwareResource {
+export class ImportedSoftwareResource extends Model<ImportedSoftwareResource> implements IImportedSoftwareResource {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

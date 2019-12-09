@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'cpu_architecture'
 })
-export default class CpuArchitecture extends Model<CpuArchitecture> {
+export class CpuArchitecture extends Model<CpuArchitecture> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

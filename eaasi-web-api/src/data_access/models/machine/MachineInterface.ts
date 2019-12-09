@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'machine_interface'
 })
-export default class MachineInterface extends Model<MachineInterface> {
+export class MachineInterface extends Model<MachineInterface> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

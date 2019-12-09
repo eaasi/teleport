@@ -5,7 +5,7 @@ import { IEmulator } from '@/types/admin/Emulator';
 @Table({
 	tableName: 'emulator'
 })
-export default class Emulator extends Model<Emulator> implements IEmulator {
+export class Emulator extends Model<Emulator> implements IEmulator {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,12 +1,12 @@
-import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import OsVersion from '@/data_access/models/os/OsVersion';
+import { ConfiguredMachine } from '@/data_access/models/configured/ConfiguredMachine';
+import { OsVersion } from '@/data_access/models/os/OsVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'os_version_compatible_with_configured_machine'
 })
-export default class OsVersionIsCompatibleWithConfiguredMachine extends Model<OsVersionIsCompatibleWithConfiguredMachine> {
+export class OsVersionIsCompatibleWithConfiguredMachine extends Model<OsVersionIsCompatibleWithConfiguredMachine> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

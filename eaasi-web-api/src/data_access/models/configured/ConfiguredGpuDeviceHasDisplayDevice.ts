@@ -1,12 +1,12 @@
-import ConfiguredGpuDevice from '@/data_access/models/configured/ConfiguredGpuDevice';
-import DisplayDevice from '@/data_access/models/display/DisplayDevice';
+import { ConfiguredGpuDevice } from '@/data_access/models/configured/ConfiguredGpuDevice';
+import { DisplayDevice } from '@/data_access/models/display/DisplayDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_gpu_device_has_display_device'
 })
-export default class ConfiguredGpuDeviceHasDisplayDevice extends Model<ConfiguredGpuDeviceHasDisplayDevice> {
+export class ConfiguredGpuDeviceHasDisplayDevice extends Model<ConfiguredGpuDeviceHasDisplayDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

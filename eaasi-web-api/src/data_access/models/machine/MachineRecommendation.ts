@@ -1,12 +1,12 @@
-import RecommendationLevel from '@/data_access/models/base/RecommendationLevel';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { RecommendationLevel } from '@/data_access/models/base/RecommendationLevel';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'machine_recommendation'
 })
-export default class MachineRecommendation extends Model<MachineRecommendation> {
+export class MachineRecommendation extends Model<MachineRecommendation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

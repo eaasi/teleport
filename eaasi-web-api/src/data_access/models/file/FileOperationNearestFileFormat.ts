@@ -1,12 +1,12 @@
-import FileFormat from '@/data_access/models/file/FileFormat';
-import FileOperation from '@/data_access/models/file/FileOperation';
+import { FileFormat } from '@/data_access/models/file/FileFormat';
+import { FileOperation } from '@/data_access/models/file/FileOperation';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'file_operation_nearest_file_format'
 })
-export default class FileOperationNearestFileFormat extends Model<FileOperationNearestFileFormat> {
+export class FileOperationNearestFileFormat extends Model<FileOperationNearestFileFormat> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

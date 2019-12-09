@@ -1,11 +1,11 @@
-import GpuDevice from '@/data_access/models/gpu/GpuDevice';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { GpuDevice } from '@/data_access/models/gpu/GpuDevice';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'gpu_device_has_equivalent'
 })
-export default class GpuDeviceHasEquivalent extends Model<GpuDeviceHasEquivalent> {
+export class GpuDeviceHasEquivalent extends Model<GpuDeviceHasEquivalent> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

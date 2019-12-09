@@ -6,7 +6,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'gpu_device_has_display_interface'
 })
-export default class GpuDeviceHasDisplayInterface extends Model<GpuDeviceHasDisplayInterface> {
+export class GpuDeviceHasDisplayInterface extends Model<GpuDeviceHasDisplayInterface> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

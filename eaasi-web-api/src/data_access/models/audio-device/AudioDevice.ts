@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'audio_device'
 })
-export default class AudioDevice extends Model<AudioDevice> {
+export class AudioDevice extends Model<AudioDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -17,17 +17,17 @@ export default class AudioDevice extends Model<AudioDevice> {
 		primaryKey: true,
 		autoIncrement: true
 	})
-	id: number
+	id: number;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: true
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false
 	})
-	name: string
+	name: string;
 }

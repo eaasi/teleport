@@ -1,12 +1,12 @@
-import GpuDevice from '@/data_access/models/gpu/GpuDevice';
-import MachineInterface from '@/data_access/models/machine/MachineInterface';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { GpuDevice } from '@/data_access/models/gpu/GpuDevice';
+import { MachineInterface } from '@/data_access/models/machine/MachineInterface';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'gpu_device_has_machine_interface'
 })
-export default class GpuDeviceHasMachineInterface extends Model<GpuDeviceHasMachineInterface> {
+export class GpuDeviceHasMachineInterface extends Model<GpuDeviceHasMachineInterface> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

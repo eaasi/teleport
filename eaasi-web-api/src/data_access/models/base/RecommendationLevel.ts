@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'recommendation_level'
 })
-export default class RecommendationLevel extends Model<RecommendationLevel> {
+export class RecommendationLevel extends Model<RecommendationLevel> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

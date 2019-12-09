@@ -1,14 +1,14 @@
-import ChipSet from '@/data_access/models/base/ChipSet';
-import MachineType from '@/data_access/models/machine/MachineType';
-import ProcessorDevice from '@/data_access/models/processor/ProcessorDevice';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { ChipSet } from '@/data_access/models/base/ChipSet';
+import { MachineType } from '@/data_access/models/machine/MachineType';
+import { ProcessorDevice } from '@/data_access/models/processor/ProcessorDevice';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_machine'
 })
-export default class ConfiguredMachine extends Model<ConfiguredMachine> {
+export class ConfiguredMachine extends Model<ConfiguredMachine> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

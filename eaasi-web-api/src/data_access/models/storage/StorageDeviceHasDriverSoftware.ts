@@ -1,12 +1,12 @@
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
-import StorageDevice from '@/data_access/models/storage/StorageDevice';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
+import { StorageDevice } from '@/data_access/models/storage/StorageDevice';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'storage_device_has_driver_software'
 })
-export default class StorageDeviceHasDriverSoftware extends Model<StorageDeviceHasDriverSoftware> {
+export class StorageDeviceHasDriverSoftware extends Model<StorageDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

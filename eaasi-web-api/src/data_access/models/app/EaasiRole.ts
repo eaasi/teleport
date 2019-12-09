@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'eaasi_role'
 })
-export default class EaasiRole extends Model<EaasiRole> {
+export class EaasiRole extends Model<EaasiRole> {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

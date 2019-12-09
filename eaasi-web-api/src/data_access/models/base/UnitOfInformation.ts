@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'unit_of_information'
 })
-export default class UnitOfInformation extends Model<UnitOfInformation> {
+export class UnitOfInformation extends Model<UnitOfInformation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
