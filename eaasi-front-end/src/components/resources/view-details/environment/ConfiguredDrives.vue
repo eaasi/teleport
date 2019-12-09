@@ -61,9 +61,7 @@ import { generateId, jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'ConfiguredDrives',
-	components: {
-		DriveEditModal
-	}
+	components: { DriveEditModal }
 })
 export default class ConfiguredDrives extends Vue {
 

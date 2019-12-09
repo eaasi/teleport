@@ -54,8 +54,8 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
-import EditableTextItem from '../EditableTextItem.vue';
-import EditableCheckboxItem from '../EditableCheckboxItem.vue';
+import EditableTextItem from '../shared/EditableTextItem.vue';
+import EditableCheckboxItem from '../shared/EditableCheckboxItem.vue';
 
 @Component({
     name: 'ConfigureNetwork',
@@ -100,15 +100,6 @@ export default class ConfigureNetwork extends Vue {
     get helpText() {
         return this.networkItems.find(i => i.property === 'helpText');
     }
-
-    /* Data
-    ============================================*/
-
-    /* Methods
-    ============================================*/
-
-    /* Lifecycle Hooks
-    ============================================*/
 
 }
 </script>

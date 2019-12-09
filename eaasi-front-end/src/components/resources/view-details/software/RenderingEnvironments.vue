@@ -1,22 +1,20 @@
 <template>
 	<div class="lil-container">
-		<div v-if="selectedEnvironments.length">
+		<div v-if="renderingEnvs.length">
 			<div
-				v-for="env in selectedEnvironments"
+				v-for="env in renderingEnvs"
 				:key="env.envId"
 				class="flex flex-row justify-between selected-envs"
 			>
 				<span>{{ env.label }}</span>
 				<div class="flex flex-row btns-horizontal">
 					<ui-button
-						v-if="!readonly"
 						size="sm"
 						@click="run(env)"
 					>
 						Run
 					</ui-button>
 					<ui-button
-						v-if="!readonly"
 						size="sm"
 						color-preset="light-blue"
 						icon="times"
@@ -27,12 +25,13 @@
 				</div>
 			</div>
 		</div>
-		<div v-else-if="selectedEnvironments">
-			<span class="lil-no-data">No Environments Selected</span>
+		<div v-else-if="renderingEnvs">
+			<span class="lil-no-data">
+				No Environments Selected
+			</span>
 		</div>
-		<div class="flex flex-row btns-horizontal" style="margin-top: 1rem;">
+		<div class="flex flex-row btns-horizontal" style="margin-top: 1rem;" v-if="!readonly">
 			<ui-button
-				v-if="!readonly"
 				size="sm"
 				color-preset="light-blue"
 				icon="plus"
@@ -41,11 +40,10 @@
 				Add Environment
 			</ui-button>
 			<ui-button
-				v-if="!readonly"
 				size="sm"
 				color-preset="light-blue"
 				icon="cloud-download"
-				@click="classify"
+				@click="confirmAction = 'detect'"
 			>
 				Detect environments
 			</ui-button>
@@ -53,12 +51,31 @@
 		<environment-picker-modal 
 			v-if="showEnvPicker && environments" 
 			:environments="environments"
-			:selected-environments="selectedEnvironments"
+			:selected-environments="renderingEnvs"
 			@cancel="showEnvPicker = false" 
 			@add-env="addEnv"
 		/>
-		<modal v-if="showLoader">
+		<confirm-modal
+			v-if="confirmAction === 'detect'"
+			@close="confirmAction = null"
+			@click:confirm="classify"
+			@click:cancel="confirmAction = null"
+			title="Detect Environments?"
+			confirm-label="Continue"
+		>
+			<alert type="info">
+				<span class="ers-rep-msg">
+					Automated characterization may take some time. Continue?
+				</span>
+			</alert>
+		</confirm-modal>
+		<modal
+			v-if="showLoader"
+			@close="showEnvPicker = false"
+			@click:cancel="showEnvPicker = false"
+		>
 			<div class="flex flex-center">
+				<p>Your request is proccessing. Please wait.</p>
 				<loader />
 			</div>
 		</modal>
@@ -82,20 +99,22 @@ import EaasiTask from '@/models/task/EaasiTask';
 })
 export default class RenderingEnvironments extends Vue {
 
-    /* Props
-    ============================================*/
-    @Prop({ type: Boolean })
-    readonly: Boolean;
+	@Prop({ type: String, required: true })
+	resourceId: string;
 
-    /* Computed
-    ============================================*/
+	@Prop({ type: String, required: true })
+	archiveId: string;
+
+	@Prop({ type: Boolean })
+	readonly: Boolean;
 
     /* Data
     ============================================*/
     environments: IEnvironment[] = [];
-    selectedEnvironments: IEnvironment[] = [];
     showEnvPicker: boolean = false;
-    showLoader: boolean = false;
+	showLoader: boolean = false;
+	confirmAction: string = null;
+	renderingEnvs: any[] = [];
 
     /* Methods
     ============================================*/
@@ -105,11 +124,16 @@ export default class RenderingEnvironments extends Vue {
         this.$store.commit('resource/SET_QUERY', query);
         const { environments } = await this.$store.dispatch('resource/searchResources');
         if (!environments) return;
-        this.environments = environments.result;
+        this.environments = environments.result.filter(env => env.archive !== 'remote');
     }
 
     addEnv(envId: string) {
-        this.selectedEnvironments.push(this.findEnv(envId));
+		const env = this.findEnv(envId);
+		this.renderingEnvs.push({
+			id: env.envId,
+			label: env.title,
+			objectEnvironment: false
+		});
         this.showEnvPicker = false;
     }
 
@@ -118,11 +142,11 @@ export default class RenderingEnvironments extends Vue {
     }
 
     async classify() {
+		this.confirmAction = null;
         this.showLoader = true;
         const classifyRequest: IObjectClassificationRequest = {
-            archiveId: 'Remote Objects',
-            // @ts-ignore
-            objectId: this.$route.query.resourceId,
+            archiveId: this.archiveId,
+			objectId: this.resourceId,
             updateClassification: false,
             updateProposal: true,
         };
@@ -132,18 +156,18 @@ export default class RenderingEnvironments extends Vue {
             if(taskState.isDone && taskState.taskId === task.taskId) {
                 clearInterval(timer);
                 const res = JSON.parse(taskState.object);
-                this.selectedEnvironments = res.environmentList;
+                this.renderingEnvs = res.environmentList;
                 this.showLoader = false;
             }
         }, 1000);
     }
 
     run(env: IEnvironment) {
-        this.$router.push(`/access-interface/${env.envId}`);
+        this.$router.push(`/access-interface/${env.envId}?softwareId=${this.resourceId}`);
     }
 
     remove(env: IEnvironment) {
-        this.selectedEnvironments = this.selectedEnvironments.filter(i => i.envId !== env.envId);
+        this.renderingEnvs = this.renderingEnvs.filter(i => i.id !== env.id);
     }
 
     /* Lifecycle Hooks

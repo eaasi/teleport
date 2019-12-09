@@ -1,10 +1,13 @@
 <template>
-	<modal @close="$emit('cancel')">
-		<template #header>
-			<div>
-				Add Software
-			</div>
-		</template>
+	<form-modal
+		title="Add Software"
+		save-text="Run"
+		@close="$emit('cancel')"
+		@click:cancel="$emit('cancel')"
+		@save="runInEmulator"
+		size="sm"
+		class="software-picker-modal"
+	>
 		<div v-if="loading" class="flex flex-center flex-column">
 			<h3 style="margin-bottom: 2rem;">
 				Fetching software packages...
@@ -13,48 +16,25 @@
 		</div>
 		<div v-if="softwareList.length">
 			<h3>Available software packages</h3>
-			<select-list 
-				v-model="selectedSoftwareId"
-				@change="errorMessage = null"
-			>
-				<option :value="null" disabled>
-					Please select a software package
-				</option>
-				<option
-					v-for="software in softwareList"
-					:key="software.id"
-					:value="software.id"
-				>
-					{{ software.label }}
-				</option>
-			</select-list>
+			<autocomplete
+				anchor="label"
+				@select="select"
+				:data="softwareList"
+				v-model="selectedSoftwareName"
+				label="Search Software"
+				id="env-autocomplete"
+				rules="required"
+			/>
 		</div>
 		<alert-card v-if="errorMessage" type="error">
 			{{ errorMessage }}
 		</alert-card>
-		<template #footer>
-			<div class="btn-wrapper">
-				<div class="pull-right">
-					<ui-button
-						@click="$emit('cancel')"
-						color-preset="light-blue"
-						size="sm"
-						style="margin-right: 1rem;"
-					>
-						Cancel
-					</ui-button>
-					<ui-button v-if="!loading" @click="runInEmulator" size="sm">
-						Run
-					</ui-button>
-				</div>
-			</div>
-		</template>
-	</modal>
+	</form-modal>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { ISoftwarePackage } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { resourceTypes } from '@/utils/constants';
@@ -64,15 +44,10 @@ import { resourceTypes } from '@/utils/constants';
 })
 export default class AddSoftwareModal extends Vue {
 
-    /* Props
-    ============================================*/
-
-    /* Computed
-    ============================================*/
-
     /* Data
     ============================================*/
-    selectedSoftwareId: string = null;
+	selectedSoftwareName: string = null;
+	selectedSoftwareId: string = null;
     errorMessage: string = null;
     loading: Boolean = false;
     softwareList: ISoftwarePackage[] = [];
@@ -96,7 +71,12 @@ export default class AddSoftwareModal extends Vue {
         }
         this.softwareList = software.result;
         this.loading = false;
-    }
+	}
+	
+	select(software) {
+		this.errorMessage = null;
+		this.selectedSoftwareId = software.id;
+	}
 
     /* Lifecycle Hooks
     ============================================*/
@@ -107,9 +87,14 @@ export default class AddSoftwareModal extends Vue {
 }
 </script>
 
-<style lang='scss' scoped>
-.btn-wrapper {
-	margin: 1.5rem;
-	min-height: 35px;
+<style lang='scss'>
+.software-picker-modal {
+	.btn-wrapper {
+		margin: 1.5rem;
+		min-height: 35px;
+	}
+	.eaasi-modal-content {
+		overflow: visible;
+	}
 }
 </style>

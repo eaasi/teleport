@@ -6,7 +6,9 @@ import LoginScreen from '@/components/login/LoginScreen.vue';
 import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesScreen.vue';
 import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
-import ResourceDetailsScreen from '@/components/resources/view-details/ResourceDetailsScreen.vue';
+import SoftwareDetailsScreen from '@/components/resources/view-details/software/SoftwareDetailsScreen.vue';
+import EnvironmentDetailsScreen from '@/components/resources/view-details/environment/EnvironmentDetailsScreen.vue';
+import ContentDetailsScreen from '@/components/resources/view-details/content/ContentDetailsScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
 import ImportScreen from '@/components/import/ImportResourceScreen.vue';
 import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
@@ -95,12 +97,17 @@ export default [
 	{
 		path: '/resources/software',
 		name: 'Software Resource Detail',
-		component: ResourceDetailsScreen
+		component: SoftwareDetailsScreen
 	},
 	{
 		path: '/resources/environment',
 		name: 'Environment Resource Detail',
-		component: ResourceDetailsScreen
+		component: EnvironmentDetailsScreen
+	},
+	{
+		path: '/resources/content',
+		name: 'Content Resource Detail',
+		component: ContentDetailsScreen
 	},
 	{
 		path: '/access-interface/:envId',

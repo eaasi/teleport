@@ -1,11 +1,11 @@
-import BaseController from './base/BaseController';
-import { Request, Response } from 'express';
-import { IResourceSearchQuery } from '@/types/resource/Resource';
-import ResourceAdminService from '@/services/resource/ResourceAdminService';
-import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
 import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
+import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
+import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
+import { IContentRequest, IOverrideContentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { Request, Response } from 'express';
+import BaseController from './base/BaseController';
 
 /**
  * Handles requests related to Resource entities
@@ -90,8 +90,34 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareMetadata(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
-			let result = await this._svc.getSoftwareMetadata(id);
+			let { archiveId, objectId } = req.query;
+			let result = await this._svc.getSoftwareMetadata(archiveId, objectId);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Gets Content by content request
+	 */
+	async getContent(req: Request, res: Response) {
+		try {
+			const contentRequest = req.query as IContentRequest;
+			let result = await this._svc.getContentMetadata(contentRequest);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Saves Content Object metadata
+	 */
+	async saveContent(req: Request, res: Response) {
+		try {
+			const contentOverride = req.body as IOverrideContentRequest;
+			const result = await this._svc.saveContent(contentOverride);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);

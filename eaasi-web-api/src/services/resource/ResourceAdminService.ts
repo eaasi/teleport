@@ -9,7 +9,7 @@ import {
 	IEaasiSearchQuery,
 	IEaasiSearchResponse,
 	IResourceSearchQuery,
-	IResourceSearchResponse, ISaveEnvironmentResponse, IReplicateImageRequest
+	IResourceSearchResponse, ISaveEnvironmentResponse, IReplicateImageRequest, IContentRequest, IOverrideContentRequest
 } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
@@ -24,16 +24,19 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _emilEnvSvc: EmilBaseService;
 	private readonly _emilSofSvc: EmilBaseService;
 	private readonly _emilContentSvc: EmilBaseService;
+	private readonly _emilClassificationService: EmilBaseService;
 
 	constructor(
 		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
 		emilSofService: EmilBaseService = new EmilBaseService('EmilSoftwareData'),
 		emilContentService: EmilBaseService = new EmilBaseService('objects'),
+		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 	) {
 		super();
 		this._emilEnvSvc = emilEnvService;
 		this._emilSofSvc = emilSofService;
 		this._emilContentSvc = emilContentService;
+		this._emilClassificationService = emilClassificationService;
 	}
 
 	/**
@@ -174,9 +177,9 @@ export default class ResourceAdminService extends BaseService {
 	 * Posts Object Import Request data
 	 * @param req : Request with req.body
 	 */
-	async getSoftwareMetadata(id: string) {
+	async getSoftwareMetadata(archiveId: string, objectId: string) {
 		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${BASE_URL}/emil/objects/Remote%20Objects/${id}`;
+		let url = `${BASE_URL}/emil/objects/${archiveId}/${objectId}`;
 		let res = await httpSvc.get(url);
 		return await res.json();
 	}
@@ -227,6 +230,31 @@ export default class ResourceAdminService extends BaseService {
 
 	async getObjectArchiveItems(archiveId: string) {
 		let res = await this._emilContentSvc.get(archiveId);
+		return res.json();
+	}
+
+	async getContentMetadata(contentRequest: IContentRequest) {
+		let res = await this._emilContentSvc.get(`${contentRequest.archiveName}/${contentRequest.contentId}`);
+		return res.json();
+	}
+
+	async saveContent(contentOverride: IOverrideContentRequest) {
+		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride);
+		return res.json();
+	}
+
+	/*============================================================
+	 == Revisions
+	/============================================================*/
+
+	/**
+	* Fork revision request
+	* @param revisionRequest {
+	*   id: string;		
+	* }
+	*/
+	async forkRevision(revisionRequest: any) {
+		let res = await this._emilEnvSvc.post('forkRevision', revisionRequest);
 		return res.json();
 	}
 

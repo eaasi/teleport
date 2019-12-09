@@ -1,5 +1,5 @@
-import express from 'express';
 import ResourceController from '@/controllers/ResourceController';
+import express from 'express';
 
 const router = express.Router();
 const controller = new ResourceController();
@@ -41,7 +41,7 @@ router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTempl
  * @apiPermission System Administrator only
  * @apiDescription Requests a fork revision that should create an environment with requested revision state
  */
-router.post('/forkRevision', (req, res) => controller.forkRevision(req, res));
+router.post('/fork-revision', (req, res) => controller.forkRevision(req, res));
 
 /**
  * @api {post} resource/software-object Saves Software Objects
@@ -187,5 +187,25 @@ router.get('/objectArchive', (req, res) => controller.getObjectArchive(req, res)
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
  */
 router.get('/objectArchiveData', (req, res) => controller.getObjectArchive(req, res));
+
+/**
+ * @api {get} gets content object metadata
+ * @apiVersion 1.0.0
+ * @apiName Content Resource Metadata
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets Content Object Metadata from the eaas java api
+ */
+router.get('/content', (req, res) => controller.getContent(req, res));
+
+/**
+ * @api {post} Saves content object metadata
+ * @apiVersion 1.0.0
+ * @apiName Content Resource Metadata
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Saves Content Object Metadata
+ */
+router.post('/content', (req, res) => controller.saveContent(req, res));
 
 module.exports = router;
