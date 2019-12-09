@@ -1,12 +1,12 @@
-import KeyboardDevice from '@/data_access/models/keyboard/KeyboardDevice';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { KeyboardDevice } from '@/data_access/models/keyboard/KeyboardDevice';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'keyboard_device_has_driver_software'
 })
-export default class KeyboardDeviceHasDriverSoftware extends Model<KeyboardDeviceHasDriverSoftware> {
+export class KeyboardDeviceHasDriverSoftware extends Model<KeyboardDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

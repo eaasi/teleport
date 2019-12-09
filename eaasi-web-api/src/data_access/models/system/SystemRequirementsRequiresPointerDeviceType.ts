@@ -1,12 +1,12 @@
-import PointerDeviceType from '@/data_access/models/pointer/PointerDeviceType';
-import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import { PointerDeviceType } from '@/data_access/models/pointer/PointerDeviceType';
+import { SystemRequirements } from '@/data_access/models/system/SystemRequirements';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'system_requirements_requires_pointer_device_type'
 })
-export default class SystemRequirementsRequiresPointerDeviceType extends Model<SystemRequirementsRequiresPointerDeviceType> {
+export class SystemRequirementsRequiresPointerDeviceType extends Model<SystemRequirementsRequiresPointerDeviceType> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

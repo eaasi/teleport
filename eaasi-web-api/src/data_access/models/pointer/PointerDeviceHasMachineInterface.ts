@@ -1,12 +1,12 @@
-import MachineInterface from '@/data_access/models/machine/MachineInterface';
-import PointerDevice from '@/data_access/models/pointer/PointerDevice';
+import { MachineInterface } from '@/data_access/models/machine/MachineInterface';
+import { PointerDevice } from '@/data_access/models/pointer/PointerDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'pointer_device_has_machine_interface'
 })
-export default class PointerDeviceHasMachineInterface extends Model<PointerDeviceHasMachineInterface> {
+export class PointerDeviceHasMachineInterface extends Model<PointerDeviceHasMachineInterface> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

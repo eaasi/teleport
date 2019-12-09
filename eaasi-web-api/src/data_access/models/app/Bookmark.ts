@@ -5,7 +5,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'bookmark'
 })
-export default class Bookmark extends Model<Bookmark> {
+export class Bookmark extends Model<Bookmark> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

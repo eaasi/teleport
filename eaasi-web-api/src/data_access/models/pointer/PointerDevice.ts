@@ -1,11 +1,11 @@
-import PointerDeviceType from '@/data_access/models/pointer/PointerDeviceType';
+import { PointerDeviceType } from '@/data_access/models/pointer/PointerDeviceType';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'pointer_device'
 })
-export default class PointerDevice extends Model<PointerDevice> {
+export class PointerDevice extends Model<PointerDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,12 +1,12 @@
-import OsVersion from '@/data_access/models/os/OsVersion';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { OsVersion } from '@/data_access/models/os/OsVersion';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'os_version_includes_software_version'
 })
-export default class OsVersionIncludesSoftwareVersion extends Model<OsVersionIncludesSoftwareVersion> {
+export class OsVersionIncludesSoftwareVersion extends Model<OsVersionIncludesSoftwareVersion> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,13 +1,13 @@
-import Language from '@/data_access/models/base/Language';
-import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import KeyboardLayout from '@/data_access/models/keyboard/KeyboardLayout';
+import { Language } from '@/data_access/models/base/Language';
+import { ConfiguredMachine } from '@/data_access/models/configured/ConfiguredMachine';
+import { KeyboardLayout } from '@/data_access/models/keyboard/KeyboardLayout';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'keyboard_device'
 })
-export default class KeyboardDevice extends Model<KeyboardDevice> {
+export class KeyboardDevice extends Model<KeyboardDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

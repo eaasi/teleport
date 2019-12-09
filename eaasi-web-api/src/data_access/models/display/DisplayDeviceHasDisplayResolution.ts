@@ -1,12 +1,12 @@
-import DisplayDevice from '@/data_access/models/display/DisplayDevice';
-import DisplayResolution from '@/data_access/models/display/DisplayResolution';
+import { DisplayDevice } from '@/data_access/models/display/DisplayDevice';
+import { DisplayResolution } from '@/data_access/models/display/DisplayResolution';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'display_device_has_display_resolution'
 })
-export default class DisplayDeviceHasDisplayResolution extends Model<DisplayDeviceHasDisplayResolution> {
+export class DisplayDeviceHasDisplayResolution extends Model<DisplayDeviceHasDisplayResolution> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,12 +1,12 @@
-import ComputingEnvironment from '@/data_access/models/computing/ComputingEnvironment';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { ComputingEnvironment } from '@/data_access/models/computing/ComputingEnvironment';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_compatible_with_computing_environment'
 })
-export default class SoftwareVersionIsCompatibleWithComputingEnvironment extends Model<SoftwareVersionIsCompatibleWithComputingEnvironment> {
+export class SoftwareVersionIsCompatibleWithComputingEnvironment extends Model<SoftwareVersionIsCompatibleWithComputingEnvironment> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

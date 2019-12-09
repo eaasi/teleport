@@ -1,12 +1,12 @@
-import OsVersion from '@/data_access/models/os/OsVersion';
-import SoftwareLicense from '@/data_access/models/software/SoftwareLicense';
+import { OsVersion } from '@/data_access/models/os/OsVersion';
+import { SoftwareLicense } from '@/data_access/models/software/SoftwareLicense';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'os_version_has_software_license'
 })
-export default class OsVersionHasSoftwareLicense extends Model<OsVersionHasSoftwareLicense> {
+export class OsVersionHasSoftwareLicense extends Model<OsVersionHasSoftwareLicense> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

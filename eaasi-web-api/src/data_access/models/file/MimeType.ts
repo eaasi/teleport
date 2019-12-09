@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'mime_type'
 })
-export default class MimeType extends Model<MimeType> {
+export class MimeType extends Model<MimeType> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

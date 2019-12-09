@@ -1,12 +1,12 @@
-import GpuDevice from '@/data_access/models/gpu/GpuDevice';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { GpuDevice } from '@/data_access/models/gpu/GpuDevice';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'gpu_device_has_driver_software'
 })
-export default class GpuDeviceHasDriverSoftware extends Model<GpuDeviceHasDriverSoftware> {
+export class GpuDeviceHasDriverSoftware extends Model<GpuDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

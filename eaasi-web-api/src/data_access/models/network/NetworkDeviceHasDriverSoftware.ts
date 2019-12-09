@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'network_device_has_driver_software'
 })
-export default class NetworkDeviceHasDriverSoftware extends Model<NetworkDeviceHasDriverSoftware> {
+export class NetworkDeviceHasDriverSoftware extends Model<NetworkDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,11 +1,11 @@
-import SystemRequirements from '@/data_access/models/system/SystemRequirements';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { SystemRequirements } from '@/data_access/models/system/SystemRequirements';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'os_version'
 })
-export default class OsVersion extends Model<OsVersion> {
+export class OsVersion extends Model<OsVersion> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

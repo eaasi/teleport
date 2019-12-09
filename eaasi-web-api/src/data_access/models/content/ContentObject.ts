@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'content_object'
 })
-export default class ContentObject extends Model<ContentObject> {
+export class ContentObject extends Model<ContentObject> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

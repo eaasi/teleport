@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'region'
 })
-export default class Region extends Model<Region> {
+export class Region extends Model<Region> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -16,17 +16,17 @@ export default class Region extends Model<Region> {
 		allowNull: false,
 		primaryKey: true,
 	})
-	qid: string
+	qid: string;
 
 	@Column({
 		type: DataTypes.STRING(64),
 		allowNull: false,
 	})
-	name: string
+	name: string;
 
 	@Column({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	iso31661_numeric_code: number
+	iso31661_numeric_code: number;
 }

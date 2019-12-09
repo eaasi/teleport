@@ -1,5 +1,5 @@
-import EaasiRole from '@/data_access/models/app/EaasiRole';
-import EaasiUser from '@/data_access/models/app/EaasiUser';
+import { EaasiRole } from '@/data_access/models/app/EaasiRole';
+import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import BaseService from '@/services/base/BaseService';
 import CrudQuery from '@/services/base/CrudQuery';
 import CrudService from '@/services/base/CrudService';

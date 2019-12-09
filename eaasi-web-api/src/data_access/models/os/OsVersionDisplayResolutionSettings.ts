@@ -1,12 +1,12 @@
-import DisplayResolution from '@/data_access/models/display/DisplayResolution';
-import OsVersion from '@/data_access/models/os/OsVersion';
+import { DisplayResolution } from '@/data_access/models/display/DisplayResolution';
+import { OsVersion } from '@/data_access/models/os/OsVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'os_version_display_resolution_settings'
 })
-export default class OsVersionDisplayResolutionSettings extends Model<OsVersionDisplayResolutionSettings> {
+export class OsVersionDisplayResolutionSettings extends Model<OsVersionDisplayResolutionSettings> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

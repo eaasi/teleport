@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_license'
 })
-export default class SoftwareLicense extends Model<SoftwareLicense> {
+export class SoftwareLicense extends Model<SoftwareLicense> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

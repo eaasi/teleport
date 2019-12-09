@@ -1,12 +1,12 @@
-import AudioDevice from '@/data_access/models/audio-device/AudioDevice';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { AudioDevice } from '@/data_access/models/audio-device/AudioDevice';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'audio_device_has_driver_software'
 })
-export default class AudioDeviceHasDriverSoftware extends Model<AudioDeviceHasDriverSoftware> {
+export class AudioDeviceHasDriverSoftware extends Model<AudioDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -18,12 +18,12 @@ export default class AudioDeviceHasDriverSoftware extends Model<AudioDeviceHasDr
 		type: DataTypes.INTEGER,
 		allowNull: false,
 	})
-	audioDeviceID: number
+	audioDeviceID: number;
 
 	@ForeignKey(() => SoftwareVersion)
 	@Column({
 		type: DataTypes.STRING,
 		allowNull: false,
 	})
-	driverSoftwareID: string
+	driverSoftwareID: string;
 }

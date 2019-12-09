@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'programming_language'
 })
-export default class ProgrammingLanguage extends Model<ProgrammingLanguage> {
+export class ProgrammingLanguage extends Model<ProgrammingLanguage> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

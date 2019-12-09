@@ -1,4 +1,4 @@
-import Bookmark from '@/data_access/models/app/Bookmark';
+import { Bookmark } from '@/data_access/models/app/Bookmark';
 import CrudService from '../base/CrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import CrudServiceResult from '../base/CrudServiceResult';

@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'media_type'
 })
-export default class MediaType extends Model<MediaType> {
+export class MediaType extends Model<MediaType> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

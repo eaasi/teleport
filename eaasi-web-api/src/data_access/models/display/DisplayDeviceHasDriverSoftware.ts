@@ -1,12 +1,12 @@
-import DisplayDevice from '@/data_access/models/display/DisplayDevice';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { DisplayDevice } from '@/data_access/models/display/DisplayDevice';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'display_device_has_driver_software'
 })
-export default class DisplayDeviceHasDriverSoftware extends Model<DisplayDeviceHasDriverSoftware> {
+export class DisplayDeviceHasDriverSoftware extends Model<DisplayDeviceHasDriverSoftware> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

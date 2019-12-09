@@ -1,11 +1,11 @@
-import ConfiguredOS from '@/data_access/models/configured/ConfiguredOS';
+import { ConfiguredOS } from '@/data_access/models/configured/ConfiguredOS';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_environment'
 })
-export default class SoftwareEnvironment extends Model<SoftwareEnvironment> {
+export class SoftwareEnvironment extends Model<SoftwareEnvironment> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

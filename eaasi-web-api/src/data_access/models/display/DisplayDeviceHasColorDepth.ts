@@ -1,12 +1,12 @@
-import ColorDepth from '@/data_access/models/base/ColorDepth';
-import DisplayDevice from '@/data_access/models/display/DisplayDevice';
+import { ColorDepth } from '@/data_access/models/base/ColorDepth';
+import { DisplayDevice } from '@/data_access/models/display/DisplayDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'display_device_has_color_depth'
 })
-export default class DisplayDeviceHasColorDepth extends Model<DisplayDeviceHasColorDepth> {
+export class DisplayDeviceHasColorDepth extends Model<DisplayDeviceHasColorDepth> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,10 +1,10 @@
-import {CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'read_write_status'
 })
-export default class ReadWriteStatus extends Model<ReadWriteStatus> {
+export class ReadWriteStatus extends Model<ReadWriteStatus> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

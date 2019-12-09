@@ -1,13 +1,13 @@
-import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import MachineInterface from '@/data_access/models/machine/MachineInterface';
-import StorageDevice from '@/data_access/models/storage/StorageDevice';
+import { ConfiguredMachine } from '@/data_access/models/configured/ConfiguredMachine';
+import { MachineInterface } from '@/data_access/models/machine/MachineInterface';
+import { StorageDevice } from '@/data_access/models/storage/StorageDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_storage_device'
 })
-export default class ConfiguredStorageDevice extends Model<ConfiguredStorageDevice> {
+export class ConfiguredStorageDevice extends Model<ConfiguredStorageDevice> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

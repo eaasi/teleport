@@ -1,12 +1,12 @@
-import File from '@/data_access/models/file/File';
-import SoftwareObject from '@/data_access/models/software/SoftwareObject';
+import { File } from '@/data_access/models/file/File';
+import { SoftwareObject } from '@/data_access/models/software/SoftwareObject';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_object_has_object_file'
 })
-export default class SoftwareObjectHasObjectFile extends Model<SoftwareObjectHasObjectFile> {
+export class SoftwareObjectHasObjectFile extends Model<SoftwareObjectHasObjectFile> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

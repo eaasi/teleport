@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'application_log'
 })
-export default class ApplicationLog extends Model<ApplicationLog> {
+export class ApplicationLog extends Model<ApplicationLog> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

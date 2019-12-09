@@ -1,11 +1,11 @@
-import MimeType from '@/data_access/models/file/MimeType';
+import { MimeType } from '@/data_access/models/file/MimeType';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'file_operation'
 })
-export default class FileOperation extends Model<FileOperation> {
+export class FileOperation extends Model<FileOperation> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

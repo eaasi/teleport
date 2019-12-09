@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'color_depth'
 })
-export default class ColorDepth extends Model<ColorDepth> {
+export class ColorDepth extends Model<ColorDepth> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

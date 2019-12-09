@@ -1,16 +1,16 @@
-import ColorDepth from '@/data_access/models/base/ColorDepth';
-import DisplayResolution from '@/data_access/models/display/DisplayResolution';
-import OsVersion from '@/data_access/models/os/OsVersion';
-import Region from '@/data_access/models/geo/Region';
-import SoftwareObject from '@/data_access/models/software/SoftwareObject';
-import Timezone from '@/data_access/models/timezone/Timezone';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { ColorDepth } from '@/data_access/models/base/ColorDepth';
+import { DisplayResolution } from '@/data_access/models/display/DisplayResolution';
+import { OsVersion } from '@/data_access/models/os/OsVersion';
+import { Region } from '@/data_access/models/geo/Region';
+import { SoftwareObject } from '@/data_access/models/software/SoftwareObject';
+import { Timezone } from '@/data_access/models/timezone/Timezone';
+import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_os'
 })
-export default class ConfiguredOS extends Model<ConfiguredOS> {
+export class ConfiguredOS extends Model<ConfiguredOS> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,12 +1,12 @@
-import ConfiguredMachine from '@/data_access/models/configured/ConfiguredMachine';
-import ConfiguredNetwork from '@/data_access/models/configured/ConfiguredNetwork';
+import { ConfiguredMachine } from '@/data_access/models/configured/ConfiguredMachine';
+import { ConfiguredNetwork } from '@/data_access/models/configured/ConfiguredNetwork';
 import { CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'configured_network_has_configured_machine'
 })
-export default class ConfiguredNetworkHasConfiguredMachine extends Model<ConfiguredNetworkHasConfiguredMachine> {
+export class ConfiguredNetworkHasConfiguredMachine extends Model<ConfiguredNetworkHasConfiguredMachine> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

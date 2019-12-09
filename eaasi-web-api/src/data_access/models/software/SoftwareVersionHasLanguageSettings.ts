@@ -1,12 +1,12 @@
-import Language from '@/data_access/models/base/Language';
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
+import { Language } from '@/data_access/models/base/Language';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_has_language_settings'
 })
-export default class SoftwareVersionHasLanguageSettings extends Model<SoftwareVersionHasLanguageSettings> {
+export class SoftwareVersionHasLanguageSettings extends Model<SoftwareVersionHasLanguageSettings> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

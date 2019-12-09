@@ -1,12 +1,12 @@
-import SoftwareVersion from '@/data_access/models/software/softwareVersion';
-import SystemRequirements from '@/data_access/models/system/SystemRequirements';
+import { SoftwareVersion } from '@/data_access/models/software/SoftwareVersion';
+import { SystemRequirements } from '@/data_access/models/system/SystemRequirements';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_version_has_system_requirements'
 })
-export default class SoftwareVersionHasSystemRequirements extends Model<SoftwareVersionHasSystemRequirements> {
+export class SoftwareVersionHasSystemRequirements extends Model<SoftwareVersionHasSystemRequirements> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

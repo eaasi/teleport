@@ -1,12 +1,12 @@
-import FileSystem from '@/data_access/models/file/FileSystem';
-import SoftwareEnvironment from '@/data_access/models/software/SoftwareEnvironment';
+import { FileSystem } from '@/data_access/models/file/FileSystem';
+import { SoftwareEnvironment } from '@/data_access/models/software/SoftwareEnvironment';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 
 @Table({
 	tableName: 'software_environment_has_disk_image'
 })
-export default class SoftwareEnvironmentHasDiskImage extends Model<SoftwareEnvironmentHasDiskImage> {
+export class SoftwareEnvironmentHasDiskImage extends Model<SoftwareEnvironmentHasDiskImage> {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

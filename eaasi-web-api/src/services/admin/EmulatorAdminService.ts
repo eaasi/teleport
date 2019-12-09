@@ -1,9 +1,9 @@
-import Emulator from '@/data_access/models/app/Emulator';
+import { Emulator } from '@/data_access/models/app/Emulator';
 import EmilBaseService from '@/services/eaas/emil/EmilBaseService';
-import {IEmulator, IEmulatorViewModel} from '@/types/admin/Emulator';
-import {TaskState} from '@/types/emil/Emil';
-import {IEmulatorImportRequest} from '@/types/emil/EmilContainerData';
-import {AliasEntry, EmulatorEntry, EmulatorNamedIndexes} from '@/types/emil/EmilEnvironmentData';
+import { IEmulator, IEmulatorViewModel } from '@/types/admin/Emulator';
+import { TaskState } from '@/types/emil/Emil';
+import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
+import { AliasEntry, EmulatorEntry, EmulatorNamedIndexes } from '@/types/emil/EmilEnvironmentData';
 import BaseService from '../base/BaseService';
 import CrudQuery from '../base/CrudQuery';
 import CrudService from '../base/CrudService';
