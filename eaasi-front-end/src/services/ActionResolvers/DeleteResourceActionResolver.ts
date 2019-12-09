@@ -1,6 +1,6 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
-import {IEnvironment} from '@/types/Resource';
-import {IAction} from 'eaasi-nav';
+import { IEnvironment } from '@/types/Resource';
+import { IAction } from 'eaasi-nav';
 
 export default class DeleteResourceActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEnvironment[];
@@ -20,7 +20,7 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 			label: 'Delete',
 			description: 'Delete this resource',
 			icon: 'trash-alt',
-			isEnabled: super.isUserAdmin()
+			isEnabled: super.isUserAdmin() && super.isDeletableArchive()
 		};
 	};
 }

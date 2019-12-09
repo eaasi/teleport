@@ -11,6 +11,7 @@ export interface IEaasiResource {
 	resourceType: ResourceType;
 	description?: string;
 	envId?: string;
+	archiveId?: string;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {

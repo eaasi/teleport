@@ -1,21 +1,15 @@
-import {ResourceSearchResponse} from '@/models/resource/ResourceSearchResponse';
+import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import SaveEnvironmentRequest from '@/models/resource/SaveEnvironmentRequest';
-import {EaasiSearchQuery} from '@/models/search/EaasiSearchQuery.';
-import {IContentItem} from '@/types/emil/EmilContentData';
-import {IEnvironment} from '@/types/emil/EmilEnvironmentData';
-import {ISoftwarePackageDescription, ISoftwarePackageDescriptionsList, ISoftwareObject} from '@/types/emil/EmilSoftwareData';
-import {
-	IEaasiResource,
-	IEaasiSearchQuery,
-	IEaasiSearchResponse,
-	IResourceSearchQuery,
-	IResourceSearchResponse, ISaveEnvironmentResponse, IReplicateImageRequest, IContentRequest, IOverrideContentRequest
-} from '@/types/resource/Resource';
-import BaseService from '../base/BaseService';
-import EmilBaseService from '../eaas/emil/EmilBaseService';
+import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
 import IHttpService from '@/services/interfaces/IHttpService';
+import { IContentItem } from '@/types/emil/EmilContentData';
+import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
+import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IReplicateImageRequest, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
+import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
+import EmilBaseService from '../eaas/emil/EmilBaseService';
 
 const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL;
 
@@ -238,23 +232,28 @@ export default class ResourceAdminService extends BaseService {
 		return res.json();
 	}
 
-	async saveContent(contentOverride: IOverrideContentRequest) {
-		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride);
-		return res.json();
+	/**
+	 * Deletes content using provided IContentRequest
+	 * @param contentRequest: {
+	 *   archiveName: string;
+	 *   contentId: string;
+	 * }
+	 */
+	async deleteContent(contentRequest: IContentRequest) {
+		await this._emilContentSvc.delete(`${contentRequest.archiveName}/${contentRequest.contentId}`);
 	}
 
-	/*============================================================
-	 == Revisions
-	/============================================================*/
-
 	/**
-	* Fork revision request
-	* @param revisionRequest {
-	*   id: string;		
-	* }
-	*/
-	async forkRevision(revisionRequest: any) {
-		let res = await this._emilEnvSvc.post('forkRevision', revisionRequest);
+	 * Saves content metadata (Ovverrides Object Characterization) using provided IOverrideContentRequest
+	 * @param contentOverride: {
+	 *  description: string;
+	 * 	environments: [];
+	 *  objectArchive: string;
+	 * 	objectId: string;
+	 * }
+	 */
+	async saveContent(contentOverride: IOverrideContentRequest) {
+		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride);
 		return res.json();
 	}
 

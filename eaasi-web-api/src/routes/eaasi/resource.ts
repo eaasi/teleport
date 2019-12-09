@@ -204,8 +204,18 @@ router.get('/content', (req, res) => controller.getContent(req, res));
  * @apiName Content Resource Metadata
  * @apiGroup Resources
  * @apiPermission System Administrator only
- * @apiDescription Saves Content Object Metadata
+ * @apiDescription Saves Content Object
  */
 router.post('/content', (req, res) => controller.saveContent(req, res));
+
+/**
+ * @api {delete} Deletes content object metadata
+ * @apiVersion 1.0.0
+ * @apiName Content Resource Metadata
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Deletes Content Object
+ */
+router.delete('/content', (req, res) => controller.deleteContent(req, res));
 
 module.exports = router;

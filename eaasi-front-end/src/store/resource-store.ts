@@ -1,14 +1,14 @@
-import { Store } from 'vuex';
-import { make } from 'vuex-pathify';
-import { resourceTypes } from '@/utils/constants';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import EaasiTask from '@/models/task/EaasiTask';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { mapEnvironmentToEnvironmentUpdateRequest, IEnvironmentUpdateRequest, IReplicateImageRequest } from '@/helpers/ResourceHelper';
+import { IEnvironmentUpdateRequest, IReplicateImageRequest, mapEnvironmentToEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/ResourceService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
+import { resourceTypes } from '@/utils/constants';
+import { Store } from 'vuex';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -206,9 +206,11 @@ const getters = {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
 	},
+	
 	onlySelectedResource(state) : IEaasiResource {
 		if (state.selectedResources.length === 1) return  state.selectedResources[0];
-	}
+	},
+
 };
 
 export default {

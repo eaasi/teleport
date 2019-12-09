@@ -1,5 +1,5 @@
-import {IEnvironment} from '@/types/Resource';
-import {IAction} from 'eaasi-nav';
+import { IEnvironment } from '@/types/Resource';
+import { IAction } from 'eaasi-nav';
 
 /**
  * Resolves an Action on a SlideMenuAction
@@ -47,5 +47,9 @@ export default class SlideMenuActionResolver {
 
 	isUserAdmin() : boolean {
 		return this.userRoleId === 1;
+	}
+
+	isDeletableArchive(): boolean {
+		return !this.selectedResources.some(r => r.archiveId === 'Remote Objects');
 	}
 }
