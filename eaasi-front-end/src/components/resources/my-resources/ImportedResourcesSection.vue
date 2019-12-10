@@ -2,17 +2,18 @@
 	<div class="mbs-wrapper">
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
-				<p v-if="bentoResult">
-					These resources have been imported to your Node.
-				</p>
-				<p style="margin: 0;" v-else>
-					No imported resources found.
+				<p>
+					<span v-if="hasResults">These resources have been imported to your Node.</span>
+					<span v-else>No imported resources found.</span>
 				</p>
 			</div>
-			<div class="btn-section">
+			<div class="btn-section" v-if="!hasResults">
+				<ui-button color-preset="light-blue" @click="$router.push('/import-resource')">
+					Import New Resource
+				</ui-button>
 			</div>
 		</div>
-		<div class="resource-results" v-if="bentoResult">
+		<div class="resource-results" v-if="hasResults">
 			<resource-facets />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
@@ -23,6 +24,7 @@
 					>
 						<resource-list
 							:query="query"
+							:hide-header="hideBentoHeader"
 							:result="refinedEnvironment"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
@@ -36,12 +38,14 @@
 						<resource-list
 							v-if="refinedSoftware.result.length"
 							:query="query"
+							:hide-header="hideBentoHeader"
 							:result="refinedSoftware"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
 							v-if="refinedContent.result.length"
+							:hide-header="hideBentoHeader"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -98,19 +102,35 @@
 		@Get('loggedInUser')
 		user: User;
 
+		get hideBentoHeader() {
+			return this.selectedFacets.some(
+				f => f.name === 'resourceType' 
+				&& f.values.filter(v => v.isSelected).length === 1
+			);
+		}
+
 		get hasSelectedFacets() {
 			return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 		}
 
+		get hasResults() {
+			return this.refinedContent.result.length > 0
+				|| this.refinedSoftware.result.length > 0
+				|| this.refinedEnvironment.result.length > 0;
+		}
+
 		get refinedContent() {
+			if (!this.bentoResult) return { result: [], totalResults: 0 };
 			return this.refinedResult(this.bentoResult.content);
 		}
 
 		get refinedSoftware() {
+			if (!this.bentoResult) return { result: [], totalResults: 0 };
 			return this.refinedResult(this.bentoResult.software);
 		}
 
 		get refinedEnvironment() {
+			if (!this.bentoResult) return { result: [], totalResults: 0 };
 			return this.refinedResult(this.bentoResult.environments);
 		}
 
@@ -119,22 +139,11 @@
         ============================================*/
 
 		refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
-			if (!bentoResult) return { result: [], totalResults: 0 };
 			if (!this.hasSelectedFacets) return bentoResult;
 			const result = bentoResult.result.filter(
 				env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
 			);
 			return {...bentoResult, result};
-		}
-
-		async search() {
-			await this.$store.dispatch('resource/getImports');
-			this.populateFacets();
-		}
-
-		populateFacets() {
-			const facets = populateFacets(this.refinedEnvironment, this.refinedSoftware, this.refinedContent);
-			this.query = {...this.query, selectedFacets: facets};
 		}
 
 		async getAll(types) {
@@ -146,15 +155,16 @@
 
 		/* Lifecycle Hooks
         ============================================*/
-
-		created() {
-			this.search();
+		async mounted() {
+			await this.$store.dispatch('resource/getImports');
 		}
 
 		beforeDestroy() {
 			this.selectedResources = [];
 			this.query = {...this.query, keyword: null};
+			this.$store.commit('resource/SET_RESULT', null);
 		}
+		
 	}
 </script>
 
@@ -163,6 +173,7 @@
 		background-color: lighten($light-neutral, 40%);
 		border-bottom: 2px solid darken($light-neutral, 10%);
 		justify-content: space-between;
+		min-height: 5rem;
 		padding: 2rem 3rem;
 		.btn-section {
 			border-left: 2px solid darken($light-neutral, 10%);

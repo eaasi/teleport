@@ -11,6 +11,7 @@
 						class="bento-col"
 					>
 						<resource-list
+							:hide-header="hideBentoHeader"
 							:query="query"
 							:result="refinedEnvironment"
 							type="Environment"
@@ -22,6 +23,7 @@
 						class="bento-col"
 					>
 						<resource-list
+							:hide-header="hideBentoHeader"
 							v-if="refinedSoftware.result.length"
 							:query="query"
 							:result="refinedSoftware"
@@ -29,6 +31,7 @@
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
+							:hide-header="hideBentoHeader"
 							v-if="refinedContent.result.length"
 							:query="query"
 							:result="bentoResult.content"
@@ -125,9 +128,15 @@ export default class ExploreResourcesScreen extends Vue {
 		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
 
+	get hideBentoHeader() {
+		return this.selectedFacets.some(
+			f => f.name === 'resourceType' 
+			&& f.values.filter(v => v.isSelected).length === 1
+		);
+	}
+
 	/* Data
     ============================================*/
-
     isMenuOpenRequest: boolean = true;
 
     /* Methods

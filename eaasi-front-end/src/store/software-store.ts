@@ -52,8 +52,10 @@ const actions = {
 		return await _svc.getContent(contentRequest);
 	},
 
-	async deleteContent(_, contentRequest: IContentRequest) {
-		await _svc.deleteContent(contentRequest);
+	async deleteContent(_, contentRequests: IContentRequest[]) {
+		contentRequests.forEach(async contentRequest => 
+			await _svc.deleteContent(contentRequest)
+		);
 	},
 	
 	async saveContent(_, overrideRequest: IOverrideContentRequest) {

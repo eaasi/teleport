@@ -1,12 +1,13 @@
 <template>
 	<div class="resource-list">
 		<bento-header
+			v-if="!hideHeader"
 			:result="result"
 			:type="type"
 			@click:all="$emit('click:all')"
 			@clear-search="clearSearch"
 		/>
-		<div v-for="(resource, index) in result.result" :key="resource.title + index">
+		<div v-for="(resource, index) in result.result" :key="resource.title + index" class="card-wrapper">
 			<environment-resource-card
 				:environment="resource"
 				@change="setActiveResource(resource, $event)"
@@ -63,6 +64,9 @@ export default class ResourceList extends Vue {
 	@Prop({type: String, required: true})
 	readonly type: ResourceType;
 
+	@Prop({ type: Boolean })
+	readonly hideHeader: Boolean;
+
 	/* Computed
 	============================================*/
 
@@ -104,4 +108,17 @@ export default class ResourceList extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.resource-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	.bento-header {
+		width: 100%;
+	}
+	.card-wrapper {
+		width: 50rem;
+	}
+}
+</style>

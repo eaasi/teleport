@@ -9,13 +9,14 @@
 		<resource-slide-menu
 			:open="hasActiveResources && isMenuOpenRequest"
 			@toggle="toggleSideMenu"
+			@resource-updated="refresh"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
@@ -51,7 +52,6 @@ export default class MyResourcesScreen extends Vue {
 	/* Data
 	============================================*/
 	activeTab: string = 'My Bookmarks';
-
 	tabs: IEaasiTab[] = [
 		{
 			label: 'My Bookmarks',
@@ -66,14 +66,19 @@ export default class MyResourcesScreen extends Vue {
 			disabled: true
 		}
 	];
-
 	isMenuOpenRequest: boolean = true;
 
 	/* Methods
 	============================================*/
 	toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
-    }
+	}
+	
+	refresh() {
+		const currentTab = this.activeTab;
+		this.activeTab = '';
+		this.$nextTick(() => this.activeTab = currentTab);
+	}
 
 	/* Lifecycle Hooks
 	============================================*/
