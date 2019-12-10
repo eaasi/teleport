@@ -47,7 +47,7 @@ export default class AddSoftwareModal extends Vue {
     /* Data
     ============================================*/
 	selectedSoftwareName: string = null;
-	selectedSoftwareId: string = null;
+	selectedSoftware = null;
     errorMessage: string = null;
     loading: Boolean = false;
     softwareList: ISoftwarePackage[] = [];
@@ -55,10 +55,10 @@ export default class AddSoftwareModal extends Vue {
     /* Methods
     ============================================*/
     runInEmulator() {
-        if (!this.selectedSoftwareId) {
+        if (!this.selectedSoftware) {
             this.errorMessage = 'Please select a software package.';
         }
-        return this.$emit('run-in-emulator', this.selectedSoftwareId);
+        return this.$emit('run-in-emulator', this.selectedSoftware);
     }
 
     async init() {
@@ -75,7 +75,7 @@ export default class AddSoftwareModal extends Vue {
 	
 	select(software) {
 		this.errorMessage = null;
-		this.selectedSoftwareId = software.id;
+		this.selectedSoftware = software;
 	}
 
     /* Lifecycle Hooks

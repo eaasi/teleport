@@ -30,9 +30,11 @@
 				<ui-button
 					white
 					size="sm"
-					disabled
+					:disabled="mediaItems.length === 0"
+					@click="showMediaOptions = true"
 				>
-					Software Resource Disks
+					Change Resource Media 
+					<span v-if="mediaItems.length" class="fas fa-chevron-down" style="margin-left: 1rem;"></span>
 				</ui-button>
 				<ui-button
 					white
@@ -70,25 +72,39 @@
 				</ui-button>
 			</div>
 		</div>
+		<change-media-modal
+			v-if="showMediaOptions"
+			:media-items="mediaItems"
+			@close="showMediaOptions = false"
+			@change-media="changeMedia"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
+	import ChangeMediaModal from './ChangeMediaModal.vue';
 	import { Component } from 'vue-property-decorator';
 	import { Get } from 'vuex-pathify';
 
 	@Component({
 		name: 'AccessInterfaceHeader',
+		components: {
+			ChangeMediaModal
+		}
 	})
 	export default class AccessInterfaceHeader extends Vue {
 
 		/* Computed
         ============================================*/
-
 		@Get('emulatorIsRunning')
 		readonly emulatorIsRunning: boolean;
+
+		/* Data
+		============================================*/
+		mediaItems: [] = [];
+		showMediaOptions: boolean = false;
 
 		/* Methods
         ============================================*/
@@ -110,6 +126,28 @@
 
 		goToDashboard() {
 			this.$router.push({ 'name': 'Dashboard' });
+		}
+
+		changeMedia(mediaId) {
+			const { softwareId, objectId, archiveId } = this.$route.query;
+			const changeMediaRequest = {
+				objectId: softwareId ? softwareId : objectId,
+				label: mediaId,
+				driveId: 1
+			};
+			eventBus.$emit('emulator:change-media', changeMediaRequest);
+			this.showMediaOptions = false;
+		}
+		
+		async mounted() {
+			const { softwareId, objectId, archiveId } = this.$route.query;
+			if ((softwareId || objectId) && archiveId) {
+				const result = await this.$store.dispatch('software/getSoftwareMetadata', {
+					archiveId,
+					objectId: softwareId ? softwareId : objectId,
+				});
+				this.mediaItems = result.mediaItems.file;
+			}
 		}
 	}
 

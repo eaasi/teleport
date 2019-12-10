@@ -178,3 +178,16 @@ export function generateId(): string {
 		return v.toString(16);
 	});
 }
+
+/*============================================================
+ == Mappers
+/============================================================*/
+export function removeDuplicatesFromFlatArray(arr) {
+	let unique = {};
+	arr.forEach(i => {
+	 	 if(!unique[i]) {
+			unique[i] = true;
+	  	}
+	});
+	return Object.keys(unique);
+}

@@ -7,7 +7,7 @@ export default class MachineComponentRequest implements IMachineComponentRequest
     environment: string;
     keyboardLayout: string = 'us';
     keyboardModel: string = 'pc105';
-    object?: null;
+    object?: string;
     archive: string = 'default';
     objectArchive?: string = 'default';
     software?: string;

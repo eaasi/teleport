@@ -111,6 +111,10 @@
 			document.body.removeChild(downloadLink);
 		};
 
+		changeMedia(changeMediaRequest) {
+			this.client.changeMedia(changeMediaRequest, () => {});
+		}
+
 		async init() {
 			let vm = this;
 			try {
@@ -138,8 +142,14 @@
 			try {
 				let data = new MachineComponentRequest(vm.environment);
 				let params = new StartEnvironmentParams(vm.environment);
-				const { softwareId } = vm.$route.query;
-				if (softwareId) data.software = softwareId as string;
+				const { softwareId, archiveId, objectId } = vm.$route.query;
+				if (objectId && archiveId) {
+					data.objectArchive = archiveId as string;
+					data.object = objectId as string;
+				} else if (softwareId && archiveId) {
+					data.objectArchive = archiveId as string;
+					data.software = softwareId as string;
+				}
 				let keyboardPrefs = vm.getKeyboardPreferences();
 				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
 				await vm.client.start([{data, vizualize: true}], params);
@@ -212,6 +222,7 @@
 			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
 			eventBus.$on('emulator:send:escape', () => this.sendEscape());
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
+			eventBus.$on('emulator:change-media', (changeMediaRequest) => this.changeMedia(changeMediaRequest));
 		}
 
 		removeBusListeners() {

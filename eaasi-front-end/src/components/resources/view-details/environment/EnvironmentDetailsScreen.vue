@@ -117,7 +117,7 @@ export default class EnvironmentDetailsScreen extends Vue {
     	{ label: 'Metadata', disabled: false },
     	{ label: 'History', disabled: false },
 	];
-	activeTab: string = this.tabs.find(t => t.label === 'Metadata').label;
+	activeTab: string = this.tabs[0].label;
 
 	mods = ['Review Mode'];
 	activeMode: string = this.mods[0];
@@ -165,10 +165,11 @@ export default class EnvironmentDetailsScreen extends Vue {
         this.timer = setInterval(async () => await this.handleTask(task.taskId), task.pollingInterval);
 	}
 
-	async runInEmulator(softwareId: string) {
-		if (!softwareId) return;
+	async runInEmulator(software) {
+		const { id, archiveId } = software;
+		if (!id || !archiveId) return;
 		const { envId } = this.activeEnvironment as IEnvironment;
-		this.$router.push(`/access-interface/${envId}?softwareId=${softwareId}`);
+		this.$router.push(`/access-interface/${envId}?softwareId=${id}&archiveId=${archiveId}`);
 	}
 
 	async handleTask(taskId: string | number) {
