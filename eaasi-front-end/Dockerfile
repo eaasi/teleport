@@ -12,4 +12,3 @@ RUN mkdir /styleguide
 COPY --from=build-stage /app/dist /app
 COPY --from=build-stage /app/styleguide /app/styleguide
 COPY nginx.conf /etc/nginx/nginx.conf
-# CMD ["nginx", "-g", "daemon off;"]

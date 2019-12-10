@@ -38,10 +38,10 @@ app.use(upload.array('files[]'));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Eaasi path serves all the client view model data
-app.use('/eaasi', require('./routes/eaasi'));
+app.use('/eaasi_server', require('./routes/eaasi'));
 
 // API path is for RESTful data
-app.use('/api', require('./routes/rest-api'));
+app.use('/eaasi_app', require('./routes/rest-api'));
 
 // API docs
 app.use('/', express.static(path.join(__dirname, '../apidoc')));
@@ -58,6 +58,6 @@ sequelize.sync().then(() => {
 	server.listen(port);
 	server.on('error', (err) => onError(err, port));
 	server.on('listening', () => {
-		console.log('Express is listening on: ' + port);
+		console.log('EaaSI Web API (Express) is listening on: ' + port);
 	});
 });

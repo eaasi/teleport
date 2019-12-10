@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"serve": "vue-cli-service serve --port 8084",
+		"serve:local": "vue-cli-service serve --port 8084 --mode local",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
