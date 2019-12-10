@@ -8,6 +8,7 @@ export interface IEaasiResource {
 	title: string;
 	resourceType: ResourceType;
 	archive: ArchiveType;
+	archiveId?: ArchiveType;  // Content can return archiveId key
 }
 
 /*============================================================

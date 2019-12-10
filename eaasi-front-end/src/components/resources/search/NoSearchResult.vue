@@ -4,7 +4,8 @@
 			<h2>No Result</h2>
 			<p>
 				Sorry, there are no results matching your search
-				<br />"{{ query.keyword }}"
+				<br />
+				<span v-if="query.keyword !== ''">"{{ query.keyword }}"</span>
 			</p>
 			<p>Don’t give up! Try a new search or you can…</p>
 			<div class="flex flex-row">

@@ -1,6 +1,6 @@
 import { IEaasiResource } from '@/types/Resource';
 
-export default class SoftwareImportResource implements IEaasiResource {
+export default class ContentImportResource implements IEaasiResource {
 	id: number = 0;
 	title: string = '';
 	localIdentifier: string = '';

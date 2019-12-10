@@ -28,6 +28,7 @@
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
+
 					<div
 						v-if="refinedSoftware.result.length || refinedContent.result.length"
 						class="bento-col"

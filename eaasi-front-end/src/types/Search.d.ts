@@ -1,6 +1,6 @@
 import { ResourceType, IEnvironment, IEaasiResource } from './Resource';
 
-export type ResourceArchive = 'remote' | 'public' | 'default';
+export type ResourceArchive = 'remote' | 'public' | 'default' | 'zero conf';
 
 export interface IEaasiSearchResponse<T> {
 	result: T[],

@@ -1,3 +1,4 @@
+import ContentImportResource from '@/models/import/ContentImportResource';
 import ResourceImportFile from '@/models/import/ResourceImportFile';
 import EaasiTask from '@/models/task/EaasiTask';
 import {ITaskState} from '@/types/Task';
@@ -23,9 +24,10 @@ class ImportState {
 	filesToUpload: IResourceImportFile[] = [];
 	importPath: ResourceImportPath = 'Unselected';
 	importStep: number = 1;
-	importType: ImportType = importTypes.SOFTWARE;
+	importType: ImportType = importTypes.CONTENT;
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	software: SoftwareImportResource = new SoftwareImportResource();
+	content: ContentImportResource = new ContentImportResource();
 	componentId: string = '';
 	selectedFiles: ResourceImportFile[] = [];
 }
@@ -72,33 +74,94 @@ const actions = {
 	 * Imports an Environment resource and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importEnvironment({ state, commit } : Store<ImportState>) {
+	async importEnvironment({ state, commit, dispatch } : Store<ImportState>) {
+
 		let environmentImport = {
 			patchId: null,
 			nativeConfig: state.environment.nativeConfig,
 			templateId: state.environment.chosenTemplateId,
-			urlString: state.environment.urlSource
+			urlString: state.environment.urlSource,
 		};
 
-		let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
-		if (!taskState) console.log('No Task Received in Response');
-		let task = new EaasiTask(await taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
-		commit('ADD_OR_UPDATE_TASK', task, {root: true});
-		return task;
+		if (!state.filesToUpload) {
+			// URL-based environment import
+			let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
+			if (!taskState) console.log('No Task Received in Response');
+			let task = new EaasiTask(await taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
+
+			commit('ADD_OR_UPDATE_TASK', task, {root: true});
+			return task;
+
+		} else {
+			// File-based environment import
+			let task = await dispatch('importEnvironmentFromFile');
+			if (!task) return;
+
+			commit('ADD_OR_UPDATE_TASK', task, {root: true});
+			return task;
+		}
 	},
 
 	/**
-	 * Imports a Software or Content resource and returns an EaasiTask object
+	 * Triggers a resource import
+	 * @param store
+	 */
+	async import({ state, dispatch }: Store<ImportState>) {
+		const importType = state.importType;
+		if (importType === importTypes.ENVIRONMENT) {
+			return await dispatch('importEnvironment') as EaasiTask;
+		} else if (importType === importTypes.SOFTWARE) {
+			return await dispatch('importSoftwareFromFile') as EaasiTask;
+		} else if (importType === importTypes.CONTENT) {
+			return await dispatch('importContentFromFile') as EaasiTask;
+		} else {
+			return null;
+		}
+	},
+
+	/**
+	 * Imports an Environment resource (as a content object file upload) and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importSoftwareOrContent(store: Store<ImportState>) {
+	async importEnvironmentFromFile(store: Store<ImportState>) {
 		let uploadResponse = await _importService.uploadContentResourceFiles(await store.state.filesToUpload);
-
-		console.log('GOT UPLOAD RESPONSE', uploadResponse);
 
 		// uploadResponse.status 0 is success
 		if (uploadResponse.status === '0') {
+			let blobs = uploadResponse.uploads;
 
+			let importRequest = {
+				label: store.state.environment.title,
+				files: [],
+			};
+
+			let i = 0;
+			blobs.forEach(async url => {
+				let file = store.state.filesToUpload[i];
+				importRequest.files.push({
+					'filename': file.name,
+					'deviceId': file.physicalFormat,
+					'url': url,
+				});
+				i++;
+			});
+
+			let task = await _importService.importUploadBlob(importRequest);
+			await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
+			state.filesToUpload = [];
+			return task;
+		}
+	},
+
+	/**
+	 * Imports a Software resource from file upload and returns an EaasiTask object
+	 * @param {Store<ImportState>} store
+	 */
+	async importSoftwareFromFile(store: Store<ImportState>) {
+		let uploadResponse = await _importService.uploadContentResourceFiles(await store.state.filesToUpload);
+
+		// uploadResponse.status 0 is success
+		if (uploadResponse.status === '0') {
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
@@ -125,19 +188,39 @@ const actions = {
 	},
 
 	/**
-	 * Triggers a resource import
-	 * @param store
+	 * Imports a Content resource from file upload and returns an EaasiTask object
+	 * @param {Store<ImportState>} store
 	 */
-	async import({ state, dispatch }: Store<ImportState>) {
-		const importType = state.importType;
-		if (importType === importTypes.ENVIRONMENT) {
-			return await dispatch('importEnvironment') as EaasiTask;
-		} else if (importType === importTypes.SOFTWARE || importTypes.CONTENT) {
-			return await dispatch('importSoftwareOrContent') as EaasiTask;
-		} else {
-			return null;
+	async importContentFromFile(store: Store<ImportState>) {
+		let uploadResponse = await _importService.uploadContentResourceFiles(store.state.filesToUpload);
+
+		// uploadResponse.status 0 is success
+		if (uploadResponse.status === '0') {
+			let blobs = uploadResponse.uploads;
+
+			let importRequest = {
+				label: store.state.content.title,
+				files: [],
+			};
+
+			let i = 0;
+			blobs.forEach(async url => {
+				let file = store.state.filesToUpload[i];
+				importRequest.files.push({
+					'filename': file.name,
+					'deviceId': file.physicalFormat,
+					'url': url,
+				});
+				i++;
+			});
+
+			let task = await _importService.importUploadBlob(importRequest);
+			await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
+			state.filesToUpload = [];
+			return task;
 		}
 	},
+
 
 	/**
 	 * Triggers a snapshot of an imported environment

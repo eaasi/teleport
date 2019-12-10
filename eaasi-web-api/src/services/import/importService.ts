@@ -75,6 +75,7 @@ export default class ImportService extends BaseService {
 		let responses = [];
 		req.files.forEach(async file => {
 			let res = await this._httpService.postUpload(url, file);
+			console.log(res);
 			responses.push(res);
 		});
 		return responses;

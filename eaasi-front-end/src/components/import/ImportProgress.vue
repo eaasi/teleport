@@ -119,7 +119,8 @@
 			let contentType = resourceTypes.CONTENT.toLowerCase();
 			let softwareType = resourceTypes.SOFTWARE.toLowerCase();
 
-			if (this.importType === environmentType) {
+			// TODO: Check if this was an environment import from URL or CONTENT UPLOAD that needs to be transformed to ENVIRONMENT IMPORT
+			if (this.importType === environmentType && taskResult.userData && taskResult.userData.environmentId) {
 				// When an import task is complete, get the environmentId and push into Access Interface
 				this.environmentEaasiID = taskResult.userData.environmentId;
 				this.$router.push(`/access-interface/${this.environmentEaasiID}`);

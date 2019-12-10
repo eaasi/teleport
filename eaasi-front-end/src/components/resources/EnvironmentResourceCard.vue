@@ -174,6 +174,14 @@
 				let val = this.environment[key];
 
 				if (key.toLowerCase() === 'archive') {
+					if (this.environment[key].toLowerCase() === 'remote') {
+						summary.tagGroup.push({
+							icon: 'fa-map-marker-alt',
+							color: 'blue',
+							text: 'Remote'
+						});
+					}
+
 					if (this.environment[key].toLowerCase() === 'public') {
 						summary.tagGroup.push({
 							icon: 'fa-map-marker-alt',
@@ -185,7 +193,7 @@
 					else if (this.environment[key].toLowerCase() === 'default') {
 						summary.tagGroup.push({
 							icon: 'fa-cloud-download-alt',
-							color: 'yellow',
+							color: 'green',
 							text: 'Private'
 						});
 					}
@@ -211,7 +219,7 @@
 					summary.tagGroup.push({
 						icon: 'fa-exclamation-triangle',
 						color: 'red',
-						text: 'Error Retrieving Details'
+						text: 'Error'
 					});
 					continue;
 				}

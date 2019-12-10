@@ -18,6 +18,9 @@
 </template>
 
 <script lang="ts">
+import ContentImportResource from '@/models/import/ContentImportResource';
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
@@ -52,6 +55,15 @@ export default class ImportResourceScreen extends Vue {
 	@Sync('import/importType')
 	type: ImportType;
 
+	@Sync('import/environment')
+	environmentImport: EnvironmentImportResource;
+
+	@Sync('import/software')
+	softwareImport: SoftwareImportResource;
+
+	@Sync('import/content')
+	contentImport: ContentImportResource;
+
 	get showConfigureHardware() {
 		return false;
 		// TODO: When metadata integration is enabled
@@ -63,6 +75,14 @@ export default class ImportResourceScreen extends Vue {
 			this.type === 'environment' ||
 			this.type === 'software'
 		);
+	}
+
+	beforeDestroy() {
+		this.step = 1;
+		this.importPath = 'Unselected';
+		this.environmentImport = new EnvironmentImportResource();
+		this.softwareImport = new SoftwareImportResource();
+		this.contentImport = new ContentImportResource();
 	}
 }
 
