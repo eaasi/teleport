@@ -1,4 +1,4 @@
-import {ImportType} from '@/types/Import';
+import { ImportType } from '@/types/Import';
 import { ResourceType } from '@/types/Resource';
 
 export const resourceTypes: IResourceTypes = {
@@ -32,3 +32,5 @@ interface IImportTypes {
 	CONTENT: ImportType
 	BULK: ImportType
 }
+
+export const MIN_SEARCH_RESULT_LIMIT = 10;

@@ -64,6 +64,7 @@ export default class AppHeader extends Vue {
 	============================================*/
 
 	async search() {
+		this.$router.push('/resources/explore');
 		await this.$store.dispatch('resource/searchResources');
 	}
 

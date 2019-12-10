@@ -281,11 +281,10 @@
 			if (this.environmentIsSelected) {
 				await this.$store.dispatch('resource/deleteSelectedResource');
 			} else {
-				const contentRequest: IContentRequest = {
-					archiveName: this.onlySelectedResource.archiveId,
-					contentId: this.onlySelectedResource.id as string
-				};
-				await this.$store.dispatch('software/deleteContent', contentRequest);
+				const contentRequests = this.resources.map(r => {
+					return { archiveName: r.archiveId, contentId: r.id as string };
+				});
+				await this.$store.dispatch('software/deleteContent', contentRequests);
 			}
 			this.$emit('resource-updated');
 		}

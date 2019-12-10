@@ -2,11 +2,9 @@
 	<div class="mbs-wrapper">
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
-				<p v-if="bookmarks.length">
-					These resources will be bookmarked until you remove the bookmark.
-				</p>
-				<p style="margin: 0;" v-else>
-					No Bookmarks Found
+				<p>
+					<span v-if="bookmarks.length">These resources will be bookmarked until you remove the bookmark.</span>
+					<span v-else>No Bookmarks Found</span>
 				</p>
 			</div>
 			<div class="btn-section">
@@ -28,6 +26,7 @@
 						class="bento-col"
 					>
 						<resource-list
+							:hide-header="hideBentoHeader"
 							:query="query"
 							:result="refinedEnvironment"
 							type="Environment"
@@ -40,6 +39,7 @@
 					>
 						<resource-list
 							v-if="refinedSoftware.result.length"
+							:hide-header="hideBentoHeader"
 							:query="query"
 							:result="refinedSoftware"
 							type="Software"
@@ -47,6 +47,7 @@
 						/>
 						<resource-list
 							v-if="refinedContent.result.length"
+							:hide-header="hideBentoHeader"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -121,7 +122,14 @@ export default class MyBookmarksSection extends Vue {
 
     get hasSelectedFacets() {
         return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
-    }
+	}
+	
+	get hideBentoHeader() {
+		return this.selectedFacets.some(
+			f => f.name === 'resourceType' 
+			&& f.values.filter(v => v.isSelected).length === 1
+		);
+	}
 
 	get refinedContent() {
 		const searchResult = this.refinedResult(this.bentoResult.content);
@@ -167,7 +175,7 @@ export default class MyBookmarksSection extends Vue {
 
     async search() {
         await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-        await this.$store.dispatch('resource/searchResources', this.bookmarks);
+        await this.$store.dispatch('resource/searchResources');
         this.populateFacets();
     }
 
@@ -201,11 +209,12 @@ export default class MyBookmarksSection extends Vue {
 
     mounted() {
         this.search();
-    }
+	}
 
     beforeDestroy() {
         this.selectedResources = [];
-        this.query = {...this.query, keyword: null};
+		this.query = {...this.query, keyword: null};
+		this.$store.commit('resource/SET_RESULT', null);
     }
 
     /* Watcher
@@ -224,6 +233,7 @@ export default class MyBookmarksSection extends Vue {
 	background-color: lighten($light-neutral, 40%);
 	border-bottom: 2px solid darken($light-neutral, 10%);
 	justify-content: space-between;
+	min-height: 5rem;
 	padding: 2rem 3rem;
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);

@@ -27,7 +27,7 @@
 				icon-right
 				color-preset="light-blue"
 				size="sm"
-				v-if="result.result.length === result.totalResults && result.result.length"
+				v-if="result.result.length === result.totalResults && result.result.length && result.totalResults > MIN_SEARCH_RESULT_LIMIT"
 			>
 				Clear Search
 			</ui-button>
@@ -41,6 +41,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { ResourceType } from '@/types/Resource';
 import { IEaasiResource } from '@/types/Resource';
 import { IEaasiSearchResponse } from '@/types/Search';
+import { MIN_SEARCH_RESULT_LIMIT } from '@/utils/constants';
 
 @Component({
 	name: 'BentoHeader',
@@ -50,14 +51,11 @@ export default class BentoHeader extends Vue {
 	/* Props
 	============================================*/
 
-	@Prop({type: String, required: true})
+	@Prop({ type: String, required: true })
 	readonly type: ResourceType;
 
 	@Prop({type: Object as () => IEaasiSearchResponse<IEaasiResource>, required: true})
 	readonly result: IEaasiSearchResponse<IEaasiResource>;
-
-	/* Data
-	============================================*/
 
 	/* Computed
 	============================================*/
