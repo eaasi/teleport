@@ -68,8 +68,11 @@ export default class ResourceAdminService extends BaseService {
 		if (query.archives && query.archives.length > 0) {
 			result.environments.result = result.environments.result.filter(env => query.archives.includes(env.archive));
 			result.software.result = result.software.result.filter(sw => query.archives.includes(sw.archive));
-			result.content.result = result.content.result.filter(content => query.archives.includes(content.archive));
 
+			// Note: This double check because in the case of Content Archive, it appears to be referenced as archiveId
+			result.content.result = result.content.result.filter(content => {
+				return (query.archives.includes(content.archive) || (query.archives.includes(content.archiveId)));
+			});
 		}
 
 		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
@@ -264,7 +267,7 @@ export default class ResourceAdminService extends BaseService {
 	/**
 	* Fork revision request
 	* @param revisionRequest {
-	*   id: string;		
+	*   id: string;
 	* }
 	*/
 	async forkRevision(revisionRequest: any) {

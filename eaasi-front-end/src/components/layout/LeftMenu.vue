@@ -4,9 +4,9 @@
 			<img src="@/assets/header-logo.png" alt="Eaasi Logo" class="left-menu-logo" />
 		</div>
 		<left-menu-item
-			v-for="item in menuItems"
+			v-for="(item, index) in menuItems"
 			:item="item"
-			:key="item.label"
+			:key="index"
 		/>
 	</nav>
 </template>

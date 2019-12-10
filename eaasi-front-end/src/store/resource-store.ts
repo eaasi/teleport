@@ -158,11 +158,11 @@ const actions = {
 
 	async getImports({ commit, dispatch }) {
 		const importQuery: IResourceSearchQuery = {
-			keyword: '',
+			keyword: null,
 			selectedFacets: [],
-			limit: 5000,
+			limit: 100,
 			types: [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT, resourceTypes.CONTENT],
-			archives: ['default'] // Imports are stored in 'default' -- // Todo: more specific distinction?
+			archives: ['zero conf']  // TODO: What is zero conf?
 		};
 
 		const result = await _svc.searchResources(importQuery);
@@ -206,11 +206,10 @@ const getters = {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
 	},
-	
+
 	onlySelectedResource(state) : IEaasiResource {
 		if (state.selectedResources.length === 1) return  state.selectedResources[0];
 	},
-
 };
 
 export default {

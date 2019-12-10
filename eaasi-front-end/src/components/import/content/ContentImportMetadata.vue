@@ -4,7 +4,7 @@
 			<text-input
 				readonly
 				label="Name"
-				v-model="content.title"
+				v-model="title"
 			/>
 			<ui-button
 				color-preset="light-blue"
@@ -56,6 +56,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
+import ContentImportResource from '@/models/import/ContentImportResource';
 
 @Component({
 	name: 'ContentImportMetadata',
@@ -68,15 +69,11 @@ export default class ContentImportMetadata extends Vue {
 	@Sync('import/importStep')
 	step: number;
 
-	/* Data
-	============================================*/
+	@Sync('import/content')
+	content: ContentImportResource;
 
-	// TODO: This should be typed and come from the import store
-	content: any = {
-		title: '',
-		localIdentifier: '',
-		localIdentifierSource: ''
-	};
+	@Sync('import/content@title')
+	title: string;
 
 	/* Methods
 	============================================*/
