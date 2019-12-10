@@ -65,7 +65,7 @@ export interface IMachineComponentRequest extends IComponentRequest {
 	environment: string;
 	keyboardLayout: string;
 	keyboardModel: string;
-	object?: null;
+	object?: string;
 	objectArchive?: string;
 	software?: string;
 	lockEnvironment: boolean;

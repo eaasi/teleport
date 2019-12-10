@@ -30,7 +30,7 @@
 				No Environments Selected
 			</span>
 		</div>
-		<div class="flex flex-row btns-horizontal" style="margin-top: 1rem;" v-if="!readonly">
+		<div class="flex flex-row btns-horizontal" style="margin-top: 1rem;">
 			<ui-button
 				size="sm"
 				color-preset="light-blue"
@@ -105,8 +105,11 @@ export default class RenderingEnvironments extends Vue {
 	@Prop({ type: String, required: true })
 	archiveId: string;
 
-	@Prop({ type: Boolean })
-	readonly: Boolean;
+	/* Computed
+	============================================*/
+	get isSoftware() {
+		return this.$route.path.indexOf('software') > 0;
+	}
 
     /* Data
     ============================================*/
@@ -163,7 +166,8 @@ export default class RenderingEnvironments extends Vue {
     }
 
     run(env) {
-        this.$router.push(`/access-interface/${env.id}?softwareId=${this.resourceId}`);
+		const idType = this.isSoftware ? 'softwareId' : 'objectId';
+        this.$router.push(`/access-interface/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
     }
 
     remove(env) {

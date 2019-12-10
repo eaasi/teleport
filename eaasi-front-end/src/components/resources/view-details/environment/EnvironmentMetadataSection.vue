@@ -131,8 +131,10 @@ export default class EnvironmentMetadataSection extends Vue {
 	}
 
 	get isLinuxRuntimeSelected(): boolean {
-		const item = this.emulatorLabeledItems.find(i => i.property === 'isLinuxRuntime');
-		if (item) return item.value;
+		if(this.emulatorLabeledItems && this.emulatorLabeledItems.length) {
+			const item = this.emulatorLabeledItems.find(i => i.property === 'isLinuxRuntime');
+			if (item) return item.value;
+		} else return false;
 	}
 
     /* Methods
