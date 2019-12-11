@@ -130,9 +130,10 @@
 
 		changeMedia(mediaId) {
 			const { softwareId, objectId, archiveId } = this.$route.query;
+			const label = mediaId === 'empty' ? '' : mediaId;
 			const changeMediaRequest = {
 				objectId: softwareId ? softwareId : objectId,
-				label: mediaId,
+				label,
 				driveId: 1
 			};
 			eventBus.$emit('emulator:change-media', changeMediaRequest);

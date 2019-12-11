@@ -53,15 +53,25 @@ export default class ChangeMediaModal extends Vue {
     /* Computed
     ============================================*/
     get labeledMediaItems() {
-        return this.mediaItems.map(i => [{
+		const labeledMediaItems = this.mediaItems.map(i => 
+			[{
                 label: 'Resource',
                 value: i.type
             },
             {
                 label: 'Media Label',
                 value: i.id
-            }]
-        );
+			}]
+		);
+		if (labeledMediaItems.length) {
+			labeledMediaItems.push(
+				[
+					{ label: 'Resource', value: '*' }, 
+					{ label: 'Media Label', value: 'empty' }
+				]
+			);
+		}
+		return labeledMediaItems;
     }
 
     /* Data

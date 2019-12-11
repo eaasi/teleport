@@ -109,16 +109,5 @@ export default class ResourceList extends Vue {
 </script>
 
 <style lang="scss">
-.resource-list {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	.bento-header {
-		width: 100%;
-	}
-	.card-wrapper {
-		width: 50rem;
-	}
-}
+
 </style>

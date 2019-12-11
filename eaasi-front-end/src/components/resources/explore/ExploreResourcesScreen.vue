@@ -11,7 +11,7 @@
 						class="bento-col"
 					>
 						<resource-list
-							:hide-header="hideBentoHeader"
+							:hide-header="isSingleResourceTypeSelected"
 							:query="query"
 							:result="refinedEnvironment"
 							type="Environment"
@@ -23,7 +23,7 @@
 						class="bento-col"
 					>
 						<resource-list
-							:hide-header="hideBentoHeader"
+							:hide-header="isSingleResourceTypeSelected"
 							v-if="refinedSoftware.result.length"
 							:query="query"
 							:result="refinedSoftware"
@@ -31,7 +31,7 @@
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							:hide-header="hideBentoHeader"
+							:hide-header="isSingleResourceTypeSelected"
 							v-if="refinedContent.result.length"
 							:query="query"
 							:result="bentoResult.content"
@@ -128,11 +128,11 @@ export default class ExploreResourcesScreen extends Vue {
 		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
 	}
 
-	get hideBentoHeader() {
-		return this.selectedFacets.some(
-			f => f.name === 'resourceType' 
-			&& f.values.filter(v => v.isSelected).length === 1
-		);
+	get isSingleResourceTypeSelected() {
+		const selected = this.selectedFacets.filter(f => f.values.some(v => v.isSelected));
+		return selected.length === 1 
+			&& selected[0].name === 'resourceType' 
+			&& selected[0].values.filter(v => v.isSelected).length === 1;
 	}
 
 	/* Data
@@ -193,6 +193,21 @@ export default class ExploreResourcesScreen extends Vue {
 			font-weight: 300;
 			margin-bottom: 0;
 			padding: 3rem 3rem 1rem;
+		}
+
+		.resource-list {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-between;
+
+			.bento-header {
+				width: 100%;
+			}
+
+			.card-wrapper {
+				width: 53rem;
+			}
 		}
 	}
 

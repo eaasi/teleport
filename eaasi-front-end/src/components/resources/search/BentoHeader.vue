@@ -27,7 +27,7 @@
 				icon-right
 				color-preset="light-blue"
 				size="sm"
-				v-if="result.result.length === result.totalResults && result.result.length && result.totalResults > MIN_SEARCH_RESULT_LIMIT"
+				v-if="result.result.length === result.totalResults && result.result.length && result.totalResults > minSearchResultLimit"
 			>
 				Clear Search
 			</ui-button>
@@ -50,7 +50,6 @@ export default class BentoHeader extends Vue {
 
 	/* Props
 	============================================*/
-
 	@Prop({ type: String, required: true })
 	readonly type: ResourceType;
 
@@ -59,7 +58,6 @@ export default class BentoHeader extends Vue {
 
 	/* Computed
 	============================================*/
-
 	get label(): string {
 		return this.type + ' Results';
 	}
@@ -82,6 +80,10 @@ export default class BentoHeader extends Vue {
 		}
 		return '';
 	}
+
+	/* Data
+	============================================*/
+	minSearchResultLimit: Number = MIN_SEARCH_RESULT_LIMIT;
 }
 
 </script>
