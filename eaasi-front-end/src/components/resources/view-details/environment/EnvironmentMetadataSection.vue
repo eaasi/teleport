@@ -118,7 +118,7 @@ export default class EnvironmentMetadataSection extends Vue {
 	installedSoftware: ILabeledItem[];
 
 	@Prop({ type: Array as () => ILabeledEditableItem[] })
-	configMachineLabeledItems: ILabeledEditableItem[] = [];
+	configMachineLabeledItems: ILabeledEditableItem[];
 
     /* Computed
     ============================================*/

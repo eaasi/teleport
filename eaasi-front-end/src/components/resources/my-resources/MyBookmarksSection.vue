@@ -16,7 +16,7 @@
 				</ui-button>
 			</div>
 		</div>
-		<div class="resource-results" v-if="bentoResult && bookmarks.length">
+		<div class="resource-results" v-if="bentoResult && bookmarks.length" id="myBookmarks">
 			<resource-facets />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
@@ -228,7 +228,7 @@ export default class MyBookmarksSection extends Vue {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .bg-top-message {
 	background-color: lighten($light-neutral, 40%);
 	border-bottom: 2px solid darken($light-neutral, 10%);
@@ -261,6 +261,22 @@ export default class MyBookmarksSection extends Vue {
 				flex: 1;
 				margin: 0 1rem;
 			}
+		}
+	}
+}
+#myBookmarks {
+	.resource-list {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.bento-header {
+			width: 100%;
+		}
+
+		.card-wrapper {
+			width: 53rem;
 		}
 	}
 }

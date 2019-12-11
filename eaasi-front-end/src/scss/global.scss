@@ -24,8 +24,9 @@ body {
 	font-family: $font-primary;
 	font-size: 1.6rem;
 	font-weight: 400;
-	overflow: scroll;
 	-webkit-overflow-scrolling: touch;
+	overflow-x: hidden;
+	overflow-y: scroll;
 
 	&.modal-open {
 		overflow: hidden;
