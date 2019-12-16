@@ -2,37 +2,38 @@
 	<div id="exploreResources" v-if="bentoResult">
 		<no-search-result v-if="noResult" />
 		<div v-else class="resource-results">
-			<resource-facets />
+			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
+				<resource-sort-section v-if="facetsOfSingleTypeSelected" />
 				<div class="bento-row">
 					<div
-						v-if="refinedEnvironment.result.length"
+						v-if="bentoResult.environments.result.length"
 						class="bento-col"
 					>
 						<resource-list
-							:hide-header="isSingleResourceTypeSelected"
+							:hide-header="facetsOfSingleTypeSelected"
 							:query="query"
-							:result="refinedEnvironment"
+							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
 					<div
-						v-if="refinedSoftware.result.length || refinedContent.result.length"
+						v-if="bentoResult.software.result.length || bentoResult.content.result.length"
 						class="bento-col"
 					>
 						<resource-list
-							:hide-header="isSingleResourceTypeSelected"
-							v-if="refinedSoftware.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
+							v-if="bentoResult.software.result.length"
 							:query="query"
-							:result="refinedSoftware"
+							:result="bentoResult.software"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							:hide-header="isSingleResourceTypeSelected"
-							v-if="refinedContent.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
+							v-if="bentoResult.content.result.length"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -42,6 +43,13 @@
 				</div>
 			</div>
 		</div>
+		<pagination
+			v-if="facetsOfSingleTypeSelected"
+			:results-per-page="query.limit"
+			:total-results="totalResults"
+			:page-num="query.page"
+			@paginate="paginate"
+		/>
 
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
@@ -56,7 +64,7 @@
 <script lang="ts">
 
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
@@ -68,10 +76,13 @@ import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import NoSearchResult from '@/components/resources/search/NoSearchResult.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
+import { resourceTypes } from '@/utils/constants';
+import ResourceSortSection from '../search/ResourceSortSection.vue';
 
 @Component({
 	name: 'ExploreResourcesScreen',
 	components: {
+		ResourceSortSection,
 		AppliedSearchFacets,
 		ResourceFacets,
 		ResourceList,
@@ -96,28 +107,31 @@ export default class ExploreResourcesScreen extends Vue {
 	@Sync('resource/query@selectedFacets')
 	selectedFacets: IResourceSearchFacet[];
 
+	@Get('resource/facetsOfSingleTypeSelected')
+	facetsOfSingleTypeSelected: Boolean;
+
+	@Get('resource/facetsOfResourceTypesSelected')
+	facetsOfResourceTypesSelected: String[];
+
 	@Get('loggedInUser')
 	user: User;
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
 
-	get refinedContent() {
-		return this.refinedResult(this.bentoResult.content);
-	}
+	@Get('resource/onlySelectedFacets')
+	onlySelectedFacets: IResourceSearchFacet[];
 
-	get refinedSoftware() {
-		return this.refinedResult(this.bentoResult.software);
-	}
-
-	get refinedEnvironment() {
-		return this.refinedResult(this.bentoResult.environments);
+	get totalResults() {
+		const totalResultsArr = this.onlySelectedFacets.flatMap(f => f.values.map(v => v.total));
+		return Math.min.apply(null, totalResultsArr);
 	}
 
 	get noResult() {
-		return this.refinedContent.result.length === 0
-		&& this.refinedSoftware.result.length === 0
-		&& this.refinedEnvironment.result.length === 0;
+		const { content, software, environments } = this.bentoResult;
+		return content.result.length === 0
+			&& software.result.length === 0
+			&& environments.result.length === 0;
 	}
 
 	get hasActiveResources() {
@@ -125,35 +139,23 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	get hasSelectedFacets() {
-		return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
+		return this.onlySelectedFacets.length > 0;
 	}
-
-	get isSingleResourceTypeSelected() {
-		const selected = this.selectedFacets.filter(f => f.values.some(v => v.isSelected));
-		return selected.length === 1 
-			&& selected[0].name === 'resourceType' 
-			&& selected[0].values.filter(v => v.isSelected).length === 1;
-	}
-
+	
 	/* Data
     ============================================*/
-    isMenuOpenRequest: boolean = true;
+	isMenuOpenRequest: boolean = true;
 
     /* Methods
 	============================================*/
-
-    refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
-    	if (!bentoResult) return { result: [], totalResults: 0 };
-    	if (!this.hasSelectedFacets) return bentoResult;
-    	const result = bentoResult.result.filter(
-    		env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
-    	);
-    	return {...bentoResult, result};
-    }
-
     toggleSideMenu() {
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
-    }
+	}
+	
+	async paginate(page) {
+		this.query.page = page;
+		await this.$store.dispatch('resource/searchResources');
+	}
 
     async search() {
 		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
@@ -161,22 +163,30 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
     async getAll(types) {
-    	this.query.types = types;
-    	this.query.limit = 5000;
-    	await this.search();
-    	this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
-    }
+		this.$store.commit('resource/UNSELECT_ALL_FACETS');
+		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
+		await this.search();
+	}
 
     /* Lifecycle Hooks
     ============================================*/
 
-    mounted() {
-		this.search();
+    async mounted() {
+		await this.search();
     }
 
-    beforeDestroy() {
-		this.$store.dispatch('resource/clearSearchQuery');
+	beforeDestroy() {
 		this.selectedResources = [];
+		this.$store.dispatch('resource/clearSearchQuery');
+		this.$store.commit('resource/SET_RESULT', null);
+	}
+
+	@Watch('hasSelectedFacets')
+	async onSelectedFacets(curVal, prevVal) {
+		// if we unselecting the last facet, do a clear search
+		if (prevVal && !curVal) {
+			await this.$store.dispatch('resource/clearSearch');
+		}
 	}
 
 }

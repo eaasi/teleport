@@ -1,4 +1,5 @@
-import { ResourceType, IEnvironment, IEaasiResource } from './Resource';
+import { IBookmark } from './Bookmark';
+import { IEaasiResource, IEnvironment, ResourceType } from './Resource';
 
 export type ResourceArchive = 'remote' | 'public' | 'default' | 'zero conf';
 
@@ -25,6 +26,8 @@ export interface IResourceSearchQuery {
 	keyword: string;
 	archives: ResourceArchive[];
 	limit: number;
+	page: number;
+	userId?: number;
 }
 
 export interface IResourceSearchResponse {
@@ -32,6 +35,7 @@ export interface IResourceSearchResponse {
 	software: IEaasiSearchResponse<IEaasiResource>;
 	content: IEaasiSearchResponse<IEaasiResource>;
 	facets: IResourceSearchFacet[];
+	bookmarks?: IBookmark[];
 }
 
 export interface IResourceSearchFacet {

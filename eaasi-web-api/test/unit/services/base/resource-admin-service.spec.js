@@ -39,8 +39,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockEnvSvc.getCount).toBe(1)
+		sut.searchResources(query).then(_ => 
+			expect(mockEnvSvc.getCount).toBe(1)
+		);
 	});
 
 	it('on searchResources calls get on environment service given query keyword', () => {
@@ -53,8 +54,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockEnvSvc.getUrl).toBe('') // keyword currently applied post-hoc in filter
+		sut.searchResources(query).then(_ =>
+			expect(mockEnvSvc.getUrl).toBe('') // keyword currently applied post-hoc in filter
+		);
 	});
 
 	it('on searchResources calls get on software service exactly once given software', () => {
@@ -80,8 +82,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockContentSvc.getUrl).toBe('zero%20conf'); // getUrl for Content service currently needs to be 'zero conf'
+		sut.searchResources(query).then(_ =>
+			expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+		);
 	});
 
 	it('on searchResources calls get on software service with \'getSoftwarePackageDescriptions\' given query keyword', () => {
@@ -94,8 +97,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockSofSvc.getUrl).toBe('getSoftwarePackageDescriptions')
+		sut.searchResources(query).then(_ => 
+			expect(mockSofSvc.getUrl).toBe('getSoftwarePackageDescriptions')
+		);
 	});
 
 	it('on searchResources calls get on content service exactly once given content', () => {
@@ -108,8 +112,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockContentSvc.getCount).toBe(1)
+		sut.searchResources(query).then(_ => 
+			expect(mockContentSvc.getCount).toBe(1)
+		);
 	});
 
 	it('on searchResources calls get on content service with \'zero conf\' given query keyword', () => {
@@ -122,8 +127,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockContentSvc.getUrl).toBe('zero%20conf'); // getUrl for Content service currently needs to be 'zero conf'
+		sut.searchResources(query).then(_ =>
+			expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+		);
 	});
 
 	it('on searchResources calls get on content service given query keyword', () => {
@@ -136,8 +142,9 @@ describe('UserAdminService', () => {
 			limit: 94,
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.SOFTWARE, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockContentSvc.getUrl).toBe('zero%20conf'); // getUrl for Content service currently needs to be 'zero conf'
+		sut.searchResources(query).then(_ => 
+			expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+		);
 	});
 
 	it('on searchResources calls get on searchable types in query only - environment and content only', () => {
@@ -148,10 +155,11 @@ describe('UserAdminService', () => {
 		let query = {
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.CONTENT]
 		};
-		sut.searchResources(query);
-		expect(mockEnvSvc.getCount).toBe(1);
-		expect(mockContentSvc.getCount).toBe(1);
-		expect(mockSofSvc.getCount).toBe(0);
+		sut.searchResources(query).then(_ => {
+			expect(mockEnvSvc.getCount).toBe(1);
+			expect(mockContentSvc.getCount).toBe(1);
+			expect(mockSofSvc.getCount).toBe(0);
+		});
 	});
 
 	it('on searchResources calls get on searchable types in query only - software only', () => {
@@ -162,10 +170,11 @@ describe('UserAdminService', () => {
 		let query = {
 			types: [resourceTypes.SOFTWARE]
 		};
-		sut.searchResources(query);
-		expect(mockEnvSvc.getCount).toBe(0);
-		expect(mockContentSvc.getCount).toBe(0);
-		expect(mockSofSvc.getCount).toBe(1);
+		sut.searchResources(query).then(_ => {
+			expect(mockEnvSvc.getCount).toBe(0);
+			expect(mockContentSvc.getCount).toBe(0);
+			expect(mockSofSvc.getCount).toBe(1);
+		});
 	});
 
 	it('on searchResources calls get on searchable types in query only - software and environment only', () => {
@@ -176,10 +185,11 @@ describe('UserAdminService', () => {
 		let query = {
 			types: [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT]
 		};
-		sut.searchResources(query);
-		expect(mockEnvSvc.getCount).toBe(1);
-		expect(mockContentSvc.getCount).toBe(0);
-		expect(mockSofSvc.getCount).toBe(1);
+		sut.searchResources(query).then(_ => {
+			expect(mockEnvSvc.getCount).toBe(1);
+			expect(mockContentSvc.getCount).toBe(0);
+			expect(mockSofSvc.getCount).toBe(1);
+		});
 	});
 
 	it('on searchResources calls get on environment service given no query types', () => {
@@ -191,8 +201,9 @@ describe('UserAdminService', () => {
 			keyword: 'c++',
 			limit: 94,
 		};
-		sut.searchResources(query);
-		expect(mockEnvSvc.getUrl).toBe('');
+		sut.searchResources(query).then(_ => 
+			expect(mockEnvSvc.getUrl).toBe('')
+		);
 	});
 
 	it('on searchResources calls get on software service given no query types', () => {
@@ -204,8 +215,9 @@ describe('UserAdminService', () => {
 			keyword: 'c++',
 			limit: 94,
 		};
-		sut.searchResources(query);
-		expect(mockSofSvc.getUrl).toBe('getSoftwarePackageDescriptions');
+		sut.searchResources(query).then(_ => 
+			expect(mockSofSvc.getUrl).toBe('getSoftwarePackageDescriptions')
+		);
 	});
 
 	it('on searchResources calls get on content service given no query types', () => {
@@ -217,8 +229,9 @@ describe('UserAdminService', () => {
 			keyword: 'c++',
 			limit: 94,
 		};
-		sut.searchResources(query);
-		expect(mockContentSvc.getUrl).toBe('zero%20conf'); // getUrl for Content service currently needs to be 'zero conf'
+		sut.searchResources(query).then(_ => 
+			expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+		);
 	});
 
 	it('on getEnvironment calls get on environment service', () => {
@@ -355,4 +368,5 @@ describe('UserAdminService', () => {
 		sut.getObjectArchiveItems('frodo');
 		expect(mockContentSvc.getUrl).toStrictEqual('frodo');
 	});
+
 });

@@ -1,4 +1,7 @@
+import { IContentItem } from '../emil/EmilContentData';
 import { IEnvironment } from '../emil/EmilEnvironmentData';
+import { ISoftwarePackageDescription } from '../emil/EmilSoftwareData';
+import { IBookmark } from './Bookmark';
 
 export type ResourceType = 'Environment' | 'Software' | 'Content';
 export type ArchiveType = 'public' | 'default' | 'remote';
@@ -36,21 +39,25 @@ export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	types: ResourceType[];
 	archives: ArchiveType[];
 	keyword: string;
+	userId?: number;
 }
 
 export interface IResourceSearchResponse {
 	environments: IEaasiSearchResponse<IEnvironment>;
-	software: IEaasiSearchResponse<IEaasiResource>;
-	content: IEaasiSearchResponse<IEaasiResource>;
+	software: IEaasiSearchResponse<ISoftwarePackageDescription>;
+	content: IEaasiSearchResponse<IContentItem>;
 	facets: IResourceSearchFacet[];
+	bookmarks: IBookmark[];
 }
 
 export interface IResourceSearchFacet {
+	displayLabel: string;
 	name: string;
 	values: IResourceSearchFacetValue[];
 }
 
 export interface IResourceSearchFacetValue {
+	resourceType: ResourceType;
 	label: string;
 	total: number;
 	isSelected: boolean;
@@ -66,6 +73,7 @@ export interface IEaasiSearchQuery {
 	keyword?: string;
 	sortCol?: string;
 	descending: boolean;
+	selectedFacets: IResourceSearchFacet[];
 }
 
 export interface IEaasiSearchResponse<T> {

@@ -13,39 +13,39 @@
 				</ui-button>
 			</div>
 		</div>
-		<div class="resource-results" v-if="hasResults">
-			<resource-facets />
+		<div class="resource-results" v-if="bentoResult && hasResults">
+			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
 				<div class="bento-row">
 					<div
-						v-if="refinedEnvironment.result.length"
+						v-if="bentoResult.environments.result.length"
 						class="bento-col"
 					>
 						<resource-list
 							:query="query"
-							:hide-header="hideBentoHeader"
-							:result="refinedEnvironment"
+							:hide-header="facetsOfSingleTypeSelected"
+							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
 
 					<div
-						v-if="refinedSoftware.result.length || refinedContent.result.length"
+						v-if="bentoResult.software.result.length || bentoResult.content.result.length"
 						class="bento-col"
 					>
 						<resource-list
-							v-if="refinedSoftware.result.length"
+							v-if="bentoResult.software.result.length"
 							:query="query"
-							:hide-header="hideBentoHeader"
-							:result="refinedSoftware"
+							:hide-header="facetsOfSingleTypeSelected"
+							:result="bentoResult.software"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							v-if="refinedContent.result.length"
-							:hide-header="hideBentoHeader"
+							v-if="bentoResult.content.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -55,120 +55,132 @@
 				</div>
 			</div>
 		</div>
+		<pagination
+			v-if="facetsOfSingleTypeSelected"
+			:results-per-page="query.limit"
+			:total-results="totalResults"
+			:page-num="query.page"
+			@paginate="paginate"
+			style="margin-top: 2.5rem;"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
-	import { Component } from 'vue-property-decorator';
-	import { Get, Sync } from 'vuex-pathify';
-	import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
-	import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-	import User from '@/models/admin/User';
-	import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-	import ResourceList from '@/components/resources/ResourceList.vue';
-	import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
-	import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
-	import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
-	import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
-	import { IEaasiResource } from '@/types/Resource.d.ts';
+import Vue from 'vue';
+import { Component, Watch } from 'vue-property-decorator';
+import { Get, Sync } from 'vuex-pathify';
+import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
+import User from '@/models/admin/User';
+import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
+import ResourceList from '@/components/resources/ResourceList.vue';
+import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
+import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
+import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
+import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse, IResourceSearchQuery } from '@/types/Search';
+import { IEaasiResource } from '@/types/Resource.d.ts';
+import { resourceTypes } from '@/utils/constants';
+import ResourceSortSection from '../search/ResourceSortSection.vue';
+import { jsonCopy } from '../../../utils/functions';
 
-	@Component({
-		name: 'ImportedResourcesSection',
-		components: {
-			AppliedSearchFacets,
-			ResourceFacets,
-			ResourceList,
-			ResourceSlideMenu,
-			ConfirmModal
-		}
-	})
-	export default class ImportedResourcesSection extends Vue {
-		/* Computed
-        ============================================*/
-
-		@Sync('resource/selectedResources')
-		selectedResources: IEaasiResource[];
-
-		@Sync('resource/query')
-		query: ResourceSearchQuery;
-
-		@Get('resource/result')
-		bentoResult: IResourceSearchResponse;
-
-		@Sync('resource/query@selectedFacets')
-		selectedFacets: IResourceSearchFacet[];
-
-		@Get('loggedInUser')
-		user: User;
-
-		get hideBentoHeader() {
-			return this.selectedFacets.some(
-				f => f.name === 'resourceType' 
-				&& f.values.filter(v => v.isSelected).length === 1
-			);
-		}
-
-		get hasSelectedFacets() {
-			return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
-		}
-
-		get hasResults() {
-			return this.refinedContent.result.length > 0
-				|| this.refinedSoftware.result.length > 0
-				|| this.refinedEnvironment.result.length > 0;
-		}
-
-		get refinedContent() {
-			if (!this.bentoResult) return { result: [], totalResults: 0 };
-			return this.refinedResult(this.bentoResult.content);
-		}
-
-		get refinedSoftware() {
-			if (!this.bentoResult) return { result: [], totalResults: 0 };
-			return this.refinedResult(this.bentoResult.software);
-		}
-
-		get refinedEnvironment() {
-			if (!this.bentoResult) return { result: [], totalResults: 0 };
-			return this.refinedResult(this.bentoResult.environments);
-		}
-
-
-		/* Methods
-        ============================================*/
-
-		refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
-			if (!this.hasSelectedFacets) return bentoResult;
-			const result = bentoResult.result.filter(
-				env => this.selectedFacets.some(f => f.values.some(v => env[f.name] === v.label && v.isSelected ))
-			);
-			return {...bentoResult, result};
-		}
-
-		async getAll(types) {
-			this.query.types = types;
-			this.query.limit = 5000;
-			this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
-			this.$router.push('explore');
-		}
-
-		/* Lifecycle Hooks
-        ============================================*/
-		async mounted() {
-			await this.$store.dispatch('resource/getImports');
-		}
-
-		beforeDestroy() {
-			this.selectedResources = [];
-			this.query = {...this.query, keyword: null};
-			this.$store.commit('resource/SET_RESULT', null);
-		}
-		
+@Component({
+	name: 'ImportedResourcesSection',
+	components: {
+		AppliedSearchFacets,
+		ResourceSortSection,
+		ResourceFacets,
+		ResourceList,
+		ResourceSlideMenu,
+		ConfirmModal
 	}
+})
+export default class ImportedResourcesSection extends Vue {
+	/* Computed
+	============================================*/
+
+	@Sync('resource/selectedResources')
+	selectedResources: IEaasiResource[];
+
+	@Sync('resource/query')
+	query: IResourceSearchQuery;
+
+	@Get('resource/result')
+	bentoResult: IResourceSearchResponse;
+
+	@Sync('resource/query@selectedFacets')
+	selectedFacets: IResourceSearchFacet[];
+
+	@Get('loggedInUser')
+	user: User;
+
+	@Get('resource/facetsOfSingleTypeSelected')
+	facetsOfSingleTypeSelected: Boolean;
+
+	@Get('resource/onlySelectedFacets')
+	onlySelectedFacets: IResourceSearchFacet[];
+
+	get hasSelectedFacets() {
+		return this.onlySelectedFacets.length > 0;
+	}
+
+	get totalResults() {
+		const totalResultsArr = this.onlySelectedFacets.flatMap(f => f.values.map(v => v.total));
+		return Math.min.apply(null, totalResultsArr);
+	}
+
+	get hasResults() {
+		if (!this.bentoResult) return false;
+		return this.bentoResult.software.result.length > 0
+			|| this.bentoResult.content.result.length > 0
+			|| this.bentoResult.environments.result.length > 0;
+	}
+
+
+	/* Methods
+	============================================*/
+
+    async getAll(types) {
+		this.$store.commit('resource/UNSELECT_ALL_FACETS');
+		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
+		await this.search();
+	}
+
+	async paginate(page) {
+		this.query.page = page;
+		await this.$store.dispatch('resource/searchResources');
+	}
+
+    async search() {
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
+		this.$store.commit('resource/SET_QUERY', {...this.query, archives: ['zero conf', 'default']});
+    	await this.$store.dispatch('resource/searchResources');
+	}
+
+	/* Lifecycle Hooks
+	============================================*/
+	async mounted() {
+		await this.search();
+	}
+
+	beforeDestroy() {
+		this.selectedResources = [];
+		this.$store.dispatch('resource/clearSearchQuery');
+		this.$store.commit('resource/SET_RESULT', null);
+	}
+
+	@Watch('hasSelectedFacets')
+	async onSelectedFacets(curVal, prevVal) {
+		// if we unselecting the last facet, do a clear search
+		if (prevVal && !curVal) {
+			this.$store.dispatch('resource/clearSearchQuery');
+			await this.search();
+		}
+	}
+	
+}
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 	.bg-top-message {
 		background-color: lighten($light-neutral, 40%);
 		border-bottom: 2px solid darken($light-neutral, 10%);
@@ -201,6 +213,23 @@
 					flex: 1;
 					margin: 0 1rem;
 				}
+			}
+		}
+	}
+
+	.mbs-wrapper {
+		.resource-list {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-between;
+
+			.bento-header {
+				width: 100%;
+			}
+
+			.card-wrapper {
+				width: 53rem;
 			}
 		}
 	}

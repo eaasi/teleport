@@ -164,6 +164,11 @@ export default class Pagination extends Vue {
 		this.updateResult();
 	}
 
+	@Watch('resultsPerPage')
+	onResultsPerPage() {
+		this.updateResult();
+	}
+
 }
 
 </script>

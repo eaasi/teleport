@@ -182,12 +182,6 @@ export function generateId(): string {
 /*============================================================
  == Mappers
 /============================================================*/
-export function removeDuplicatesFromFlatArray(arr) {
-	let unique = {};
-	arr.forEach(i => {
-	 	 if(!unique[i]) {
-			unique[i] = true;
-	  	}
-	});
-	return Object.keys(unique);
+export function removeDuplicatesFromFlatArray<T>(arr: T[]): T[] {
+	return arr.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
 }

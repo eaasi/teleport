@@ -33,8 +33,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { removeDuplicatesFromFlatArray } from '@/utils/functions';
-import { ILabeledItem } from '../../types/ILabeledItem';
+import { ILabeledItem } from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 
 @Component({

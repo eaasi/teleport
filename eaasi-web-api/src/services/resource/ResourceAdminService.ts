@@ -1,15 +1,16 @@
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import SaveEnvironmentRequest from '@/models/resource/SaveEnvironmentRequest';
-import { EaasiSearchQuery } from '@/models/search/EaasiSearchQuery.';
 import IHttpService from '@/services/interfaces/IHttpService';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IReplicateImageRequest, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse } from '@/types/resource/Resource';
+import { IBookmark } from '@/types/resource/Bookmark';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IReplicateImageRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
+import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 
 const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL;
 
@@ -19,18 +20,21 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _emilSofSvc: EmilBaseService;
 	private readonly _emilContentSvc: EmilBaseService;
 	private readonly _emilClassificationService: EmilBaseService;
+	private readonly _bookmarkService: EaasiBookmarkService;
 
 	constructor(
 		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
 		emilSofService: EmilBaseService = new EmilBaseService('EmilSoftwareData'),
 		emilContentService: EmilBaseService = new EmilBaseService('objects'),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
+		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
 	) {
 		super();
 		this._emilEnvSvc = emilEnvService;
 		this._emilSofSvc = emilSofService;
 		this._emilContentSvc = emilContentService;
 		this._emilClassificationService = emilClassificationService;
+		this._bookmarkService = bookmarkService;
 	}
 
 	/**
@@ -39,45 +43,69 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
 		// TODO: Refactor
-
-		let q = new EaasiSearchQuery(query.keyword, query.limit);
 		let result = new ResourceSearchResponse();
 
-		let envReq;
-		let sofReq;
-		let conReq;
+		const allEnvironments = await this.getAllEnvironments();
+		const allSoftware = await this.getAllSoftware();
+		const allContent = await this.getAllContent();
 
-		if (query.types && query.types.length > 0) {
-			// Search specific types
-			query.types.forEach(t => {
-				if (t === resourceTypes.ENVIRONMENT) envReq = this._searchEnvironments(q);
-				else if (t === resourceTypes.SOFTWARE) sofReq = this._searchSoftware(q);
-				else if (t === resourceTypes.CONTENT) conReq = this._searchContent(q);
-			});
-		} else {
-			// Search all types
-			envReq = this._searchEnvironments(q);
-			sofReq = this._searchSoftware(q);
-			conReq = this._searchContent(q);
-		}
+		let environmentResult = {
+			result: allEnvironments,
+			totalResults: allEnvironments.length
+		} as IEaasiSearchResponse<IEnvironment>;
 
-		result.environments = envReq ? await envReq : { result: [], totalResults: 0 };
-		result.software = sofReq ? await sofReq : { result: [], totalResults: 0 };
-		result.content = conReq ? await conReq : { result: [], totalResults: 0 };
+		let softwareResult = {
+			result: allSoftware,
+			totalResults: allSoftware.length
+		} as IEaasiSearchResponse<ISoftwarePackageDescription>;
+
+		let contentResult = {
+			result: allContent,
+			totalResults: allContent.length
+		} as IEaasiSearchResponse<IContentItem>;
 
 		if (query.archives && query.archives.length > 0) {
-			result.environments.result = result.environments.result.filter(env => query.archives.includes(env.archive));
-			result.software.result = result.software.result.filter(sw => query.archives.includes(sw.archive));
+			environmentResult.result = environmentResult.result.filter(env => query.archives.includes(env.archive));
+			softwareResult.result = softwareResult.result.filter(sw => query.archives.includes(sw.archive));
 
 			// Note: This double check because in the case of Content Archive, it appears to be referenced as archiveId
-			result.content.result = result.content.result.filter(content => {
+			contentResult.result = contentResult.result.filter(content => {
 				return (query.archives.includes(content.archive) || (query.archives.includes(content.archiveId)));
 			});
 		}
+		
+		if (query.userId) {
+			const response = await this._bookmarkService.getByUserID(query.userId);
+			result.bookmarks = response.result.map(b => b.toJSON()) as IBookmark[];
+			
+			contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
+			softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
+			environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
+		}
 
-		result.environments.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
-		result.software.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
-		result.content.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
+		environmentResult.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+		softwareResult.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
+		contentResult.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
+
+		result.facets = this.populateFacets(environmentResult, softwareResult, contentResult);
+
+		contentResult.result = this._filterResults<IContentItem>(query, contentResult.result);
+		softwareResult.result = this._filterResults<ISoftwarePackageDescription>(query, softwareResult.result);
+		environmentResult.result = this._filterResults<IEnvironment>(query, environmentResult.result);
+
+		result.content = contentResult;
+		result.software = softwareResult;
+		result.environments = environmentResult;
+
+		result.facets.forEach(facet => {
+			facet.values.forEach(value => {
+				const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
+				if (currentFacet) {
+					let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
+					if (selectedValue) value.isSelected = true;
+				}
+			})
+		})
 
 		return result;
 	}
@@ -142,10 +170,9 @@ export default class ResourceAdminService extends BaseService {
 	 * @param query
 	 * @private
 	 */
-	private async _searchEnvironments(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEnvironment>> {
+	private async getAllEnvironments(): Promise<IEnvironment[]> {
 		let res = await this._emilEnvSvc.get('');
-		let list = await res.json() as IEnvironment[];
-		return this._filterResults<IEnvironment>(query, list);
+		return await res.json() as IEnvironment[];
 	}
 
 	/*============================================================
@@ -195,13 +222,13 @@ export default class ResourceAdminService extends BaseService {
 	 * @param query: IEaasiSearchQuery
 	 * @private
 	 */
-	private async _searchSoftware(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<ISoftwarePackageDescription>> {
+	private async getAllSoftware(): Promise<ISoftwarePackageDescription[]> {
 		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
 		let list = await res.json() as ISoftwarePackageDescriptionsList;
 		let software = list.descriptions;
 		// TODO: we need to ensure all responses adhere to IEaasiResource
 		software.forEach(x => x.title = x.label);
-		return this._filterResults<ISoftwarePackageDescription>(query, software);
+		return software;
 	}
 
 	/*============================================================
@@ -213,11 +240,10 @@ export default class ResourceAdminService extends BaseService {
 	 * @param query: IEaasiSearchQuery
 	 * @private
 	 */
-	private async _searchContent(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<IEaasiResource>> {
+	private async getAllContent(): Promise<IContentItem[]> {
 		// TODO: do not hard code 'zero conf'
 		let res = await this._emilContentSvc.get('zero%20conf');
-		let contentItems = await res.json() as IContentItem[];
-		return this._filterResults<IContentItem>(query, contentItems);
+		return await res.json() as IContentItem[];
 	}
 
 	async getObjectArchive() {
@@ -315,20 +341,28 @@ export default class ResourceAdminService extends BaseService {
 	 * @param results: filtered IEaasiResource[]
 	 * @private
 	 */
-	private _filterResults<T extends IEaasiResource>(query: IEaasiSearchQuery, results: IEaasiResource[]): IEaasiSearchResponse<T> {
-		let totalResults = results.length;
-
+	private _filterResults<T extends IEaasiResource>(query: IEaasiSearchQuery, results: T[]): T[] {
 		if (query.keyword) {
 			let q = query.keyword.toLowerCase();
 			results = results.filter(r => r.title && r.title.toLowerCase().indexOf(q) > -1);
 		}
 
-		results = this._paginate(query, results);
+		if (query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
+			results = this.filterByFacets<T>(results, query.selectedFacets);
+		}
+		
+		if (query.sortCol) {
+			results = results.sort((a, b) => {
+				const nameA = a.title.toLowerCase();
+				const nameB = b.title.toLowerCase();
+				let comparison = 0;
+				if (nameA > nameB) comparison = 1;
+				else if (nameA < nameB) comparison = -1;
+				return query.descending ? comparison : comparison * -1;
+			});
+		}
 
-		return {
-			totalResults,
-			result: results as T[]
-		};
+		return this._paginate(query, results) as T[];
 	}
 
 	/**
@@ -344,4 +378,64 @@ export default class ResourceAdminService extends BaseService {
 	private _filterByArchive(resources: any[], archive: string) {
 		return resources.filter(r => r.archive === archive);
 	}
+
+	private populateFacets (
+		environments: IEaasiSearchResponse<IEnvironment>,
+		software: IEaasiSearchResponse<ISoftwarePackageDescription>,
+		content: IEaasiSearchResponse<IContentItem>
+	): IResourceSearchFacet[] {
+		const facets: IResourceSearchFacet[] = [
+			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
+			{ displayLabel: 'Network Status', name: 'archive', values: [] },
+			{ displayLabel: 'Environment Type', name: 'envType', values: [] },
+			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
+			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
+		];
+		facets.forEach(facet => {
+			if (environments) facet = this.getFacet(environments, facet);
+			if (software) facet = this.getFacet(software, facet);
+			if (content) this.getFacet(content, facet);
+		});
+		return facets;
+	};
+	
+	private getFacet(resource: IEaasiSearchResponse<IEaasiResource>, facet: IResourceSearchFacet) {
+		resource.result.forEach(result => {
+			if (result[facet.name] == null) return facet;
+			const value = facet.values.find(v => v.label === result[facet.name]);
+			value ? facet.values.forEach(v => v.label === value.label && v.total++)
+				: facet.values.push({ label: result[facet.name], total: 1, isSelected: false, resourceType: result.resourceType });
+		});
+		return facet;
+	}
+
+	private filterByFacets<T extends IEaasiResource>(resources: T[], selectedFacets: IResourceSearchFacet[]): T[] {
+		if (!resources.length) return resources;
+		
+		const selectedFacetsOfType = this.selectedFacetsOfType(selectedFacets, resources[0].resourceType);
+		selectedFacetsOfType.forEach(facet => {
+			resources = resources.filter(
+				resource => facet.values.some(value => resource[facet.name] === value.label)
+			)
+		});
+
+		return resources;
+	}
+
+	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {
+		let selectedFacets = [];
+		
+		facets.forEach(f => {
+			if(f.values.some(v => v.isSelected)) {
+				const values = f.values
+					.map(v => v.isSelected && v.resourceType === resourceType ? v : null)
+					.filter(i => i !== null);
+					
+				selectedFacets.push({...f, values });
+			}
+		})
+		
+		return selectedFacets;
+	}
+
 }
