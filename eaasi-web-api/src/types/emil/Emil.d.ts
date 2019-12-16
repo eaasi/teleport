@@ -29,6 +29,15 @@ export interface IImportObjectRequest {
 	label: string;
 }
 
+/**
+ * Request payload for EmilEnvironmentData/createEnvironment
+ */
+export interface ICreateEnvironmentPayload {
+	nativeConfig: string;
+	size: string;
+	templateId: string;
+}
+
 export interface IUploadRequest extends Request {
 	files: Blob[];
 }

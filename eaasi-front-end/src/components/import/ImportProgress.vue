@@ -25,7 +25,7 @@
 
 <script lang="ts">
 	import { ImportType } from '@/types/Import';
-	import { resourceTypes } from '@/utils/constants';
+	import {importTypes, resourceTypes} from '@/utils/constants';
 	import Vue from 'vue';
 	import { Component, Watch } from 'vue-property-decorator';
 	import { Get, Sync } from 'vuex-pathify';
@@ -88,6 +88,21 @@
 		@Sync('import/environment@isUrlSource')
 		isUrlSource: boolean;
 
+		@Get('import/environment@isKvmEnabled')
+		isKvmEnabled: boolean;
+
+		@Get('import/environment@diskSize')
+		diskSize: string;
+
+		@Get('import/environment@chosenTemplateId')
+		chosenTemplate: string;
+
+		@Get('import/environment@nativeConfig')
+		nativeConfig: string;
+
+		@Get('import/environment@nativeFMTs')
+		nativeFMTs: string;
+
 		get nextButtonLabel() {
 			if (this.step == this.steps.length) return 'Finish Import';
 			return 'Next';
@@ -113,19 +128,71 @@
         ============================================*/
 
 		@Watch('activeTaskResult')
-		onTaskComplete(taskResult: any) {
+		async onTaskComplete(taskResult: any) {
 			// Environment Import
-			let environmentType = resourceTypes.ENVIRONMENT.toLowerCase();
 			let contentType = resourceTypes.CONTENT.toLowerCase();
 			let softwareType = resourceTypes.SOFTWARE.toLowerCase();
 
-			// TODO: Check if this was an environment import from URL or CONTENT UPLOAD that needs to be transformed to ENVIRONMENT IMPORT
-			if (this.importType === environmentType && taskResult.userData && taskResult.userData.environmentId) {
+			if (this.importType === importTypes.ENVIRONMENT && taskResult.userData && taskResult.userData.environmentId) {
+				// This path occurs when a user imports an Environment Object from URL
 				// When an import task is complete, get the environmentId and push into Access Interface
 				this.environmentEaasiID = taskResult.userData.environmentId;
 				this.$router.push(`/access-interface/${this.environmentEaasiID}`);
-			} else if ([contentType, softwareType].includes(this.importType)) {
-				this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources'}});
+
+			} else if (this.importType === contentType) {
+				// This path occurs when a user uploads a Content Object
+				this.$router.push({name: 'My Resources', params: {defaultTab: 'Imported Resources'}});
+
+			} else if (this.importType === softwareType ) {
+				// This path occurs when a user uploads a Software Object
+				let objectId = taskResult.userData.objectId;
+
+				await this.$store.dispatch('import/saveSoftwareObject', {
+					allowedInstances: -1,
+					archiveId: 'zero conf',
+					exportFMTs: [],
+					importFMTs: [],
+					isOperatingSystem: false,
+					label: this.software.title,
+					licenseInformation: '',
+					nativeFMTs: [],
+					objectId: objectId
+				});
+
+				this.$router.push({name: 'My Resources', params: {defaultTab: 'Imported Resources'}});
+
+			} else if (this.importType === importTypes.ENVIRONMENT) {
+				// This path occurs when a user uploads an Environment Object
+
+				// First, we get the ID of the 'Content' ISO Upload
+				// And save it as a Software Object
+				let objectId = taskResult.userData.objectId;
+
+				let savePayload = {
+					allowedInstances: -1,
+					archiveId: 'zero conf',
+					exportFMTs: [],
+					importFMTs: [],
+					isOperatingSystem: true, // We mark the ISO as an OS
+					label: this.environment.title,
+					licenseInformation: '',
+					nativeFMTs: this.nativeFMTs.split(','),
+					objectId: objectId
+				};
+
+				await this.$store.dispatch('import/saveSoftwareObject', savePayload);
+
+				// Then we create an environment based on the user input
+				let nativeConfig = this.nativeConfig;
+				if (this.isKvmEnabled) nativeConfig += ' -enable-kvm';
+
+				let res = await this.$store.dispatch('import/createEnvironment', {
+					size: this.diskSize + 'M',
+					nativeConfig: nativeConfig,
+					templateId: this.chosenTemplateId
+				});
+
+				this.$router.push(`/access-interface/${res.id}?softwareId=${objectId}&archiveId=zero%20conf`);
 			}
 		}
 	}

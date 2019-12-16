@@ -2,6 +2,7 @@ export interface IEaasClient {
 	guac: any, // Guacamole.Client
 	params?: IEaasClientParamaters;
 	componentId: string;
+	driveId: string;
 	connect(): Promise<void>;
 	changeMedia(postObj: any, onChangeDone: Function): void;
 	checkpoint(requestData: any): Promise<void>;

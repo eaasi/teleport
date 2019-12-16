@@ -1,5 +1,5 @@
 import ImportService from '@/services/import/importService';
-import {IUploadRequest} from '@/types/emil/Emil';
+import {ICreateEnvironmentPayload, IUploadRequest} from '@/types/emil/Emil';
 import BaseController from './base/BaseController';
 import { Request, Response } from 'express';
 
@@ -55,12 +55,40 @@ export default class ImportController extends BaseController {
 	}
 
 	/**
+	 * Makes a request to post payload to components endpoint
+	 */
+	async postComponents(req: Request, res: Response) {
+		try {
+			if (!req.body) this.sendClientError('Request to snapshot environment import requires request body', res);
+			let result = await this._svc.postComponents(req.body);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
 	 * Makes a request to upload files
 	 */
 	async uploadFiles(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError('Request to upload files requires request body', res);
 			let result = await this._svc.uploadFiles(req as IUploadRequest);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	/**
+	 * Makes a POST request to create an environment from an ISO image upload
+	 * @param req
+	 * @param res
+	 */
+	async createEnvironment(req: Request, res: Response) {
+		try {
+			if (!req.body) this.sendClientError('Request to create image from ISO file upload requires request body', res);
+			let result = await this._svc.createEnvironment(req.body as ICreateEnvironmentPayload);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);

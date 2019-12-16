@@ -52,6 +52,7 @@ import EditableSelectList from '../shared/EditableSelectList.vue';
 import EditableTextItem from '../shared/EditableTextItem.vue';
 import RenderingCapabilities from './RenderingCapabilities.vue';
 import { IOsItem } from '@/types/Resource';
+import {operatingSystems} from '@/models/admin/OperatingSystems';
 
 @Component({
     name: 'SoftwareProperties',
@@ -96,40 +97,7 @@ export default class SoftwareProperties extends Vue {
     /* Data
     ============================================*/
     selectedOs: string = null;
-    operatingSystems = [
-		{ 
-			id: 'os:windows:xp:32bit',
-			puids: [{ puid: 'x-fmt/411' },{ puid: 'fmt/899' }]
-		},
-		{ 
-			id: 'os:windows:xp:64bit',
-			puids: [{ puid: 'x-fmt/411' }, { puid: 'fmt/899' }, { puid: 'fmt/900' }]
-		},
-		{
-			id: 'os:windows:9x', 
-			puids: [{ puid: 'x-fmt/410' }, { puid: 'x-fmt/409' }, { puid: 'x-fmt/411' }, { puid: 'fmt/899' }]
-		},
-		{
-			id: 'os:windows:311',
-			puids: [{ puid: 'x-fmt/410' }, { puid: 'x-fmt/409' }]
-		},
-		{
-			id: 'os:dos',
-			puids: [{ puid: 'x-fmt/409' }]
-		},
-		{
-			id: 'os:mac:ppc',
-			puids: [{ puid: 'bwfla/1' }, { puid: 'x-fmt/416' }]
-		},
-		{ 
-			id: 'os:mac:mk68',
-			puids: [{ puid: 'x-fmt/416' }]
-		},
-		{
-			id: 'os:linux:x86:rpm',
-			puids: [{ puid: 'fmt/689' }, { puid: 'fmt/795' }, { puid: 'fmt/79' }, { puid: 'fmt/793' }]
-		}
-	];
+    readonly operatingSystems = operatingSystems;
 
     /* Methods
     ============================================*/
@@ -145,7 +113,7 @@ export default class SoftwareProperties extends Vue {
         if (this.readonly) return;
         return this.$emit('add-fmt', fmt);
     }
-    
+
     remove(fmt: string) {
         if (this.readonly) return;
         return this.$emit('remove-fmt', fmt);

@@ -23,6 +23,15 @@ router.post('/url', (req, res) => controller.importFromUrl(req, res));
 router.post('/files', (req, res) => controller.importFiles(req, res));
 
 /**
+ * @api {get} import/createEnvironment create environment
+ * @apiVersion 1.0.0
+ * @apiGroup Import Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Triggers a createEnvironment event
+ */
+router.post('/createEnvironment', (req, res) => controller.createEnvironment(req, res));
+
+/**
  * @api {get} import/saveEnvironment snapshot of imported environment
  * @apiVersion 1.0.0
  * @apiGroup Import Resources
@@ -30,5 +39,14 @@ router.post('/files', (req, res) => controller.importFiles(req, res));
  * @apiDescription Triggers a snapshot for an imported Environment
  */
 router.post('/saveEnvironment', (req, res) => controller.saveImportEnvironment(req, res));
+
+/**
+ * @api {get} import/postComponents posts to a components endpoint
+ * @apiVersion 1.0.0
+ * @apiGroup Import Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Triggers a post to components
+ */
+router.post('/postComponents', (req, res) => controller.postComponents(req, res));
 
 module.exports = router;

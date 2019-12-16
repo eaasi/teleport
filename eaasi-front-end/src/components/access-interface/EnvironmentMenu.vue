@@ -98,7 +98,7 @@ import { Get } from 'vuex-pathify';
 export default class EnvironmentMenu extends Vue {
 	/* Data
 	============================================*/
-	newImportDescription: string;  // TODO: this will become an object when more metadata is available
+	newImportDescription: string = '';  // TODO: this will become an object when more metadata is available
 
 	/* Computed
 	============================================*/

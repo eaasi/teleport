@@ -16,7 +16,7 @@ export interface ISoftwareObject {
 	archiveId: string;
 	exportFMTs: any[];
 	importFMTs: any[];
-	isOperatingSystem: Boolean;
+	isOperatingSystem: boolean;
 	licenseInformation: string;
 	nativeFMTs: string[];
 	objectId: string;

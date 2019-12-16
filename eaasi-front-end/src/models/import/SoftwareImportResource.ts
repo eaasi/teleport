@@ -8,10 +8,11 @@ export default class SoftwareImportResource implements IEaasiResource {
 	version: string = '';
 	resourceType: any = null;
 	nativeConfig: string = '';
-	patchId: string = '';
 	urlSource: string = '';
 	eaasiID: string = '';
 	chosenTemplateId: string = '';
 	isImport: boolean = false;
+	isKvmEnabled: boolean = false;
+	patchId: string = '';
 	saveDescription: string = '';
 }

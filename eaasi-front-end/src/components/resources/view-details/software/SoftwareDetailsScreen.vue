@@ -2,7 +2,7 @@
 	<div id="myResources">
 		<h1>Software Details</h1>
 		<div v-if="activeSoftware" class="vrd-content">
-			<mode-toggle 
+			<mode-toggle
 				:editable="isEditMode"
 				@mode-change="onModeChange"
 				@save="saveDetails"
@@ -13,8 +13,8 @@
 			<div class="rdm-container">
 				<div class="row" style="margin-bottom: 1rem;">
 					<div class="col-md-4">
-						<resource-details-summary 
-							:summary-data="resourceSummary" 
+						<resource-details-summary
+							:summary-data="resourceSummary"
 							:readonly="!isEditMode"
 						/>
 					</div>
@@ -145,7 +145,7 @@ export default class SoftwareDetailsScreen extends Vue {
 			p => p.property === 'nativeFMTs' ? {...p, value: [...nativeFMTs, fmt]} : p
 		);
 	}
-	
+
 	removeFmt(fmt: string) {
 		let nativeFMTs = this.softwareProperties.find(i => i.property === 'nativeFMTs').value.filter(v => v !== fmt);
 		this.softwareProperties = this.softwareProperties.map(
@@ -158,7 +158,7 @@ export default class SoftwareDetailsScreen extends Vue {
     created() {
 		this.init();
 	}
-	
+
 	/* Helpers
 	============================================*/
 
@@ -189,7 +189,7 @@ export default class SoftwareDetailsScreen extends Vue {
 				changed: false
 			},
 			{
-				label: 'Is an operation system',
+				label: 'This is an Operating System',
 				value: this.activeSoftware.isOperatingSystem,
 				property: 'isOperatingSystem',
 				readonly: false,

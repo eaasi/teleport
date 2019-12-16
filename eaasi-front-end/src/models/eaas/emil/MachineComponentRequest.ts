@@ -13,6 +13,7 @@ export default class MachineComponentRequest implements IMachineComponentRequest
     software?: string;
     lockEnvironment: boolean = false;
 	emulatorVersion?:string = 'latest';
+	driveId?: string;
 	readonly type = 'machine';
 
 	constructor(env: IEnvironment = null) {

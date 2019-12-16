@@ -43,6 +43,9 @@
 		@Prop({type: Object as () => IEnvironment, required: true})
 		readonly environment: IEnvironment;
 
+		@Prop({type: String, required: false})
+		readonly driveId: string;
+
 		/* Data
         ============================================*/
 		clientComponentId: string;
@@ -142,10 +145,14 @@
 			try {
 				let data = new MachineComponentRequest(vm.environment);
 				let params = new StartEnvironmentParams(vm.environment);
-				const { softwareId, archiveId, objectId } = vm.$route.query;
+				const { softwareId, archiveId, objectId, driveId } = vm.$route.query;
 				if (objectId && archiveId) {
 					data.objectArchive = archiveId as string;
 					data.object = objectId as string;
+
+					// TODO: Uncertain:
+					data.driveId = driveId as string;
+
 				} else if (softwareId && archiveId) {
 					data.objectArchive = archiveId as string;
 					data.software = softwareId as string;

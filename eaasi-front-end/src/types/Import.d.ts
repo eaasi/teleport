@@ -42,6 +42,15 @@ export interface IImportObjectRequest {
 }
 
 /**
+ * Request payload for EmilEnvironmentData/createEnvironment
+ */
+export interface ICreateEnvironmentPayload {
+	nativeConfig: string;
+	size: string;
+	templateId: string;
+}
+
+/**
  * Used in a software or object request
  */
 export interface IFileImport {
