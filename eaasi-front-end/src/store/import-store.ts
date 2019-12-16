@@ -1,19 +1,21 @@
 import ContentImportResource from '@/models/import/ContentImportResource';
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
 import ResourceImportFile from '@/models/import/ResourceImportFile';
+import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import EaasiTask from '@/models/task/EaasiTask';
-import {ITaskState} from '@/types/Task';
-import { importTypes } from '@/utils/constants';
-import { make } from 'vuex-pathify';
+import _importService from '@/services/ImportService';
 import {
+	ICreateEnvironmentPayload,
+	IEnvironmentImportSnapshot,
 	ImportType,
 	IResourceImportFile,
-	ResourceImportPath,
-	IEnvironmentImportSnapshot
+	ResourceImportPath
 } from '@/types/Import';
-import { Store } from 'vuex';
-import SoftwareImportResource from '@/models/import/SoftwareImportResource';
-import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
-import _importService from '@/services/ImportService';
+import {ISoftwareObject} from '@/types/Resource';
+import {ITaskState} from '@/types/Task';
+import {importTypes} from '@/utils/constants';
+import {Store} from 'vuex';
+import {make} from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -71,45 +73,15 @@ mutations.INIT_FOR_TYPE = (state) => {
 const actions = {
 
 	/**
-	 * Imports an Environment resource and returns an EaasiTask object
-	 * @param {Store<ImportState>} store
-	 */
-	async importEnvironment({ state, commit, dispatch } : Store<ImportState>) {
-
-		let environmentImport = {
-			patchId: null,
-			nativeConfig: state.environment.nativeConfig,
-			templateId: state.environment.chosenTemplateId,
-			urlString: state.environment.urlSource,
-		};
-
-		if (!state.filesToUpload) {
-			// URL-based environment import
-			let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
-			if (!taskState) console.log('No Task Received in Response');
-			let task = new EaasiTask(await taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
-
-			commit('ADD_OR_UPDATE_TASK', task, {root: true});
-			return task;
-
-		} else {
-			// File-based environment import
-			let task = await dispatch('importEnvironmentFromFile');
-			if (!task) return;
-
-			commit('ADD_OR_UPDATE_TASK', task, {root: true});
-			return task;
-		}
-	},
-
-	/**
 	 * Triggers a resource import
 	 * @param store
 	 */
 	async import({ state, dispatch }: Store<ImportState>) {
 		const importType = state.importType;
-		if (importType === importTypes.ENVIRONMENT) {
-			return await dispatch('importEnvironment') as EaasiTask;
+		if (importType === importTypes.ENVIRONMENT && !state.filesToUpload.length) {
+			return await dispatch('importEnvironmentFromUrl') as EaasiTask;
+		} else if (importType === importTypes.ENVIRONMENT && state.filesToUpload.length) {   // explicit check
+			return await dispatch('importEnvironmentFromFile') as EaasiTask;
 		} else if (importType === importTypes.SOFTWARE) {
 			return await dispatch('importSoftwareFromFile') as EaasiTask;
 		} else if (importType === importTypes.CONTENT) {
@@ -120,14 +92,35 @@ const actions = {
 	},
 
 	/**
+	 * Imports an Environment resource from a URL and returns an EaasiTask object
+	 * @param {Store<ImportState>} store
+	 */
+	async importEnvironmentFromUrl({ state, commit } : Store<ImportState>) {
+
+		let environmentImport = {
+			patchId: null,
+			nativeConfig: state.environment.nativeConfig,
+			templateId: state.environment.chosenTemplateId,
+			urlString: state.environment.urlSource,
+		};
+
+		let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
+		if (!taskState) console.log('No Task Received in Response');
+		let task = new EaasiTask(await taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
+
+		commit('ADD_OR_UPDATE_TASK', task, {root: true});
+		return task;
+
+	},
+
+	/**
 	 * Imports an Environment resource (as a content object file upload) and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
 	async importEnvironmentFromFile(store: Store<ImportState>) {
 		let uploadResponse = await _importService.uploadContentResourceFiles(await store.state.filesToUpload);
 
-		// uploadResponse.status 0 is success
-		if (uploadResponse.status === '0') {
+		if (uploadResponse.status === '0') {   // Success
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
@@ -140,7 +133,7 @@ const actions = {
 				let file = store.state.filesToUpload[i];
 				importRequest.files.push({
 					'filename': file.name,
-					'deviceId': file.physicalFormat,
+					'deviceId': 'Q495265',
 					'url': url,
 				});
 				i++;
@@ -160,8 +153,7 @@ const actions = {
 	async importSoftwareFromFile(store: Store<ImportState>) {
 		let uploadResponse = await _importService.uploadContentResourceFiles(await store.state.filesToUpload);
 
-		// uploadResponse.status 0 is success
-		if (uploadResponse.status === '0') {
+		if (uploadResponse.status === '0') {  // Success
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
@@ -242,6 +234,34 @@ const actions = {
 		let result = await _importService.saveEnvironment(snapshot) as ITaskState;
 		if (!result) console.log('No save result provided by snapshot response');
 		return result;
+	},
+
+	/**
+	 * Triggers a saveEnvironment request
+	 * @param state: Store<ImportState>
+	 * @param createPayload
+	 * @param importData
+	 */
+	async createEnvironment({ state }: Store<ImportState>, createPayload: ICreateEnvironmentPayload) {
+		return await _importService.createEnvironment(createPayload);
+	},
+
+	/**
+	 * Triggers a saveSoftwareObject request
+	 * @param state: Store<ImportState>
+	 * @param createPayload
+	 */
+	async saveSoftwareObject({ state }: Store<ImportState>, software: ISoftwareObject) {
+		return await _importService.saveSoftwareObject(software);
+	},
+
+	/**
+	 * Triggers a POST request to components
+	 * @param state: Store<ImportState>
+	 * @param createPayload
+	 */
+	async postComponents({ state }: Store<ImportState>, payload: any) {
+		return await _importService.postComponents(payload);
 	},
 
 	async clearFiles({ commit }: Store<ImportState>) {

@@ -70,13 +70,6 @@ export default class ImportResourceScreen extends Vue {
 		//  return this.type === 'environment' && this.step >= 3;
 	}
 
-	get showPathSelect() {
-		return this.step >= 1 && (
-			this.type === 'environment' ||
-			this.type === 'software'
-		);
-	}
-
 	beforeDestroy() {
 		this.step = 1;
 		this.importPath = 'Unselected';

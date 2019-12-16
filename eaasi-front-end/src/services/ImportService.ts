@@ -1,7 +1,10 @@
 import EaasiTask from '@/models/task/EaasiTask';
 import { IEmilUploadResponse} from '@/types/Eaas';
-import { IEnvironmentImportSnapshot, IImportObjectRequest,
-	IResourceImport, IResourceImportFile } from '@/types/Import';
+import {
+	ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImportObjectRequest,
+	IResourceImport, IResourceImportFile
+} from '@/types/Import';
+import {ISoftwareObject} from '@/types/Resource';
 import BaseHttpService from './BaseHttpService';
 
 
@@ -76,6 +79,45 @@ class ImportService extends BaseHttpService {
 			return null;
 		}
 		return res.result as EaasiTask;
+	}
+
+	/**
+	 *  Makes a POST request with to save a Content Object as a Software Object
+	 * @param {ISoftwareObject} payload
+	 */
+	async saveSoftwareObject(payload: ISoftwareObject) {
+		const res = await this.post<any>('/resource/save-software-object', payload);
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+		return res.result;
+	}
+
+	/**
+	 *  Makes a POST request with URL string for importing an environment
+	 * @param {ICreateEnvironmentPayload} createEnvironmentPayload
+	 */
+	async createEnvironment(createEnvironmentPayload: ICreateEnvironmentPayload) {
+		const res = await this.post<any>('/import/createEnvironment', createEnvironmentPayload);
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+		return res.result;
+	}
+
+	/**
+	 *  Makes a POST request to components endpoint
+	 * @param payload
+	 */
+	async postComponents(payload) {
+		const res = await this.post<any>('/import/postComponents', payload);
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+		return res.result;
 	}
 }
 

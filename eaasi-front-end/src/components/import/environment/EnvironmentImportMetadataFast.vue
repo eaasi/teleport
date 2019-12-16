@@ -10,6 +10,7 @@
 					v-model="title"
 				/>
 			</div>
+
 			<div class="col-md-6">
 				<select-list
 					v-model="chosenTemplate"
@@ -28,17 +29,7 @@
 				</select-list>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<select-list
-					label="Operating System Version"
-					placeholder="Select OS Version..."
-					:readonly="readonly"
-					value=""
-					disabled
-				/>
-			</div>
-		</div>
+
 		<div class="row">
 			<div class="col-md-6">
 				<text-input
@@ -76,6 +67,7 @@
 	import Vue from 'vue';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { Get, Sync } from 'vuex-pathify';
+	import { operatingSystems } from '@/models/admin/OperatingSystems';
 
 	@Component({
 		name: 'EnvironmentImportMetadataFast',
@@ -105,6 +97,9 @@
 
 		@Get('resource/availableTemplates')
 		readonly availableTemplates: any[];
+
+		@Sync('import/filesToUpload')
+		filesToUpload: any[];
 
 		get chosenTemplateData() {
 			return this.availableTemplates.find(template => {

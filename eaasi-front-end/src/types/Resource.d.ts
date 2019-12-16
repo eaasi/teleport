@@ -160,7 +160,7 @@ export interface ISoftwareObject {
 	archiveId: string;
 	exportFMTs: any[];
 	importFMTs: any[];
-	isOperatingSystem: Boolean;
+	isOperatingSystem: boolean;
 	licenseInformation: string;
 	label?: string;
 	nativeFMTs: string[];

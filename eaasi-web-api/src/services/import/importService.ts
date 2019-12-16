@@ -1,6 +1,6 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import IHttpService from '@/services/interfaces/IHttpService';
-import {IImportObjectRequest, IUploadRequest} from '@/types/emil/Emil';
+import {ICreateEnvironmentPayload, IImportObjectRequest, IUploadRequest} from '@/types/emil/Emil';
 import {Request} from 'express';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
@@ -33,6 +33,16 @@ export default class ImportService extends BaseService {
 	}
 
 	/**
+	 * Posts to components endpoint
+	 * @param body
+	 */
+	async postComponents(body: any) {
+		let url = `${BASE_URL}/emil/components`;
+		let res = await this._httpService.post(url, body);
+		return await res.json();
+	}
+
+	/**
 	 * Posts Snapshot data to trigger saving an imported resource
 	 */
 	async snapshotImage(snapshotData: any) {
@@ -51,9 +61,18 @@ export default class ImportService extends BaseService {
 
 		let url = `${BASE_URL}/emil/components/${componentId}/snapshot`;
 		let res = await this._httpService.post(url, snapshot);
-		let response = await res.json();
+		return await res.json();
+	}
 
-		return await response;
+	/**
+	 * Posts payload to create and environment
+	 * @param payload
+	 */
+	async createEnvironment(payload: ICreateEnvironmentPayload) {
+		let url = `${BASE_URL}/emil/EmilEnvironmentData/createEnvironment`;
+		let res = await this._httpService.post(url, payload);
+		let response = await res.json();
+		return response;
 	}
 
 	/**
@@ -75,9 +94,9 @@ export default class ImportService extends BaseService {
 		let responses = [];
 		req.files.forEach(async file => {
 			let res = await this._httpService.postUpload(url, file);
-			console.log(res);
 			responses.push(res);
 		});
 		return responses;
 	}
+
 }

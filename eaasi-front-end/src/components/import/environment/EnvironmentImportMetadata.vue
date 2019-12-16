@@ -4,6 +4,7 @@
 			<div v-if="importPath === 'Fast'">
 				<metadata-fast />
 			</div>
+
 			<div v-else>
 				<collapsable title="General" class="mb-lg white-bg">
 					<general-metadata />
@@ -41,6 +42,7 @@
 				Continue
 			</ui-button>
 		</eaasi-form>
+
 		<div v-if="step > 1">
 			<metadata-fast readonly class="mb-lg" />
 			<ui-button
