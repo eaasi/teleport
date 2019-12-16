@@ -1,12 +1,13 @@
 import { IEnvironmentUpdateRequest, IReplicateImageRequest, mapEnvironmentToEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/ResourceService';
+import { IBookmark } from '@/types/Bookmark';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
-import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
+import { IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
+import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { resourceTypes } from '@/utils/constants';
+import { removeDuplicatesFromFlatArray } from '@/utils/functions';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
@@ -33,6 +34,23 @@ const state = new ResourceState();
 
 const mutations = make.mutations(state);
 
+mutations['SET_SELECTED_FACET_RESOURCE_TYPE'] = function(state: ResourceState, resources: ResourceType[]) {
+	const selectedFacets = state.query.selectedFacets.map(sf => {
+		if (sf.name !== 'resourceType') return sf;
+		const values = sf.values.map(
+			v => resources.some(r => r === v.label) ? {...v, isSelected: true} : v
+		);
+		return {...sf, values };
+	});
+	state.query = {...state.query, selectedFacets};
+};
+
+mutations['UNSELECT_ALL_FACETS'] = function(state: ResourceState) {
+	state.query.selectedFacets.forEach(facet => {
+		facet.values.forEach(value => value.isSelected = false);
+	});
+};
+
 /*============================================================
  == Actions
 /============================================================*/
@@ -43,13 +61,13 @@ const actions = {
 		return await _svc.getEnvironment(environmentId);
 	},
 
-	async searchResources({ state, commit, dispatch }: Store<ResourceState>) {
+	async searchResources({ state, commit }: Store<ResourceState>) {
 		let result = await _svc.searchResources(state.query);
 		if (!result) return;
 		commit('SET_RESULT', result);
 		// generates facets based on the result received in searchResources.
-    	// eventually won't need to do this, because facets will come with a result from the backend
-    	if (result) dispatch('populateSearchFacets');
+		// eventually won't need to do this, because facets will come with a result from the backend
+		commit('SET_QUERY', {...state.query, selectedFacets: result.facets});
 		return result;
 	},
 
@@ -112,14 +130,13 @@ const actions = {
 		commit('SET_SAVING_ENVIRONMENTS', newSavingEnvs);
 	},
 
-	async clearSearch({ commit, dispatch }) {
+	async clearSearch({ commit }) {
 		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
 		let result = await _svc.searchResources(clearSearchQuery);
 		if (!result) return;
 		commit('SET_RESULT', result);
 		// generates facets based on the result received in searchResources.
     	// eventually won't need to do this, because facets will come with a result from the backend
-    	if (result) dispatch('populateSearchFacets');
 		return result;
 	},
 
@@ -130,13 +147,6 @@ const actions = {
 
 	clearSearchQuery({ commit }: Store<ResourceState>) {
 		commit('SET_QUERY', new ResourceSearchQuery());
-	},
-
-	// this will map results and generate facets
-	populateSearchFacets({ state, commit }: Store<ResourceState>) {
-		const { environments, software, content } = state.result;
-		const facets = populateFacets(environments, software, content);
-		commit('SET_QUERY', {...state.query, selectedFacets: facets});
 	},
 
 	async getTemplates({ commit }) {
@@ -156,29 +166,21 @@ const actions = {
 		return await _svc.forkRevision(revisionId);
 	},
 
-	async getImports({ commit, dispatch }) {
+	async getImports({ commit, state }) {
 		const importQuery: IResourceSearchQuery = {
 			keyword: null,
-			selectedFacets: [],
-			limit: 100,
-			types: [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT, resourceTypes.CONTENT],
-			archives: ['zero conf']  // TODO: What is zero conf?
+			selectedFacets: state.query.selectedFacets,
+			limit: state.query.limit,
+			page: state.query.page,
+			types: [],
+			archives: ['zero conf', 'default']  // TODO: What is zero conf?
 		};
 
 		const result = await _svc.searchResources(importQuery);
 		if (!result) return;
-
-		let envs = result.environments.result;
-		let software = result.software.result;
-		let content = result.content.result;
-
-		const imports = [...envs, ...software, ...content];
-		commit('SET_IMPORTS', imports);
-
+		
+		commit('SET_QUERY', {...state.query, selectedFacets: result.facets});
 		commit('SET_RESULT', result);
-		// generates facets based on the result received in searchResources.
-		// eventually won't need to do this, because facets will come with a result from the backend
-		if (result) dispatch('populateSearchFacets');
 	}
 };
 
@@ -197,19 +199,51 @@ const getters = {
 		return lengthArr.filter(length => length > 0).length === 1;
 	},
 
-	environmentIsSelected(state) {
+	bookmarks(state): IBookmark[] {
+		return state.result && state.result.bookmarks ? state.result.bookmarks : [];
+	},
+
+	environmentIsSelected(state): Boolean {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
 	},
 
-	softwareIsSelected(state) {
+	softwareIsSelected(state): Boolean {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
 	},
 
 	onlySelectedResource(state) : IEaasiResource {
-		if (state.selectedResources.length === 1) return  state.selectedResources[0];
+		if (state.selectedResources.length === 1) return state.selectedResources[0];
+		else null;
 	},
+
+	facetsOfResourceTypesSelected(_, getters): ResourceType[] {
+		const resourceTypes = getters.onlySelectedFacets.flatMap(
+			f => f.values.map(v => v.resourceType)
+		);
+		return removeDuplicatesFromFlatArray<ResourceType>(resourceTypes);
+	},
+
+	facetsOfSingleTypeSelected(_, getters): Boolean {
+		return getters.facetsOfResourceTypesSelected.length === 1;
+	},
+
+	onlySelectedFacets(state): IResourceSearchFacet[] {
+		const selectedFacets = state.query.selectedFacets
+			.flatMap(f => {
+				if(f.values.some(v => v.isSelected)) {
+					const values = f.values
+						.map(v => v.isSelected ? v : null)
+						.filter(i => i !== null);
+					return {...f, values };
+				} else {
+					return null;
+				}
+			})
+			.filter(i => i !== null);
+		return selectedFacets;
+	}
 };
 
 export default {

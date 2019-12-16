@@ -1,10 +1,9 @@
-import BaseHttpService from '@/services/BaseHttpService';
-import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
-import { IResourceSearchQuery } from '@/types/Search';
-import { IEnvironment } from '@/types/Resource';
-import { IResourceSearchResponse } from '@/types/Search';
 import { IEnvironmentUpdateRequest, IReplicateImageRequest } from '@/helpers/ResourceHelper';
+import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
+import { IEnvironment } from '@/types/Resource';
+import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 
 
 class ResourceService extends BaseHttpService {

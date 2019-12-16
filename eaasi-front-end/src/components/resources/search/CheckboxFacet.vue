@@ -2,6 +2,7 @@
 	<search-facet-wrapper
 		:label="facet.displayLabel"
 		collapsable
+		:init-state="initState"
 	>
 		<div
 			v-for="v in facet.values"
@@ -11,6 +12,7 @@
 			<checkbox
 				:label="v.label"
 				v-model="v.isSelected"
+				@change="$emit('change');"
 				style="margin-bottom: 1rem;"
 			/>
 			<span class="facet-total">({{ v.total }})</span>
@@ -29,7 +31,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import SearchFacetWrapper from './SearchFacetWrapper.vue';
 import { IResourceSearchFacet } from '@/types/Search.d.ts';
 
@@ -49,6 +51,9 @@ export default class CheckboxFacet extends Vue {
 
 	@Prop({type: Object as () => IResourceSearchFacet, required: true})
 	readonly facet: IResourceSearchFacet
+
+	@Prop({ type: Boolean })
+	readonly initState: Boolean;
 
 }
 

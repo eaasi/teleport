@@ -15,7 +15,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { Component, Prop } from 'vue-property-decorator';
+	import { Component, Prop, Watch } from 'vue-property-decorator';
 
 	@Component({
 		name: 'SearchFacetWrapper',
@@ -30,9 +30,17 @@
 		@Prop({type: Boolean, required: false, default: true})
 		readonly collapsable: boolean;
 
+		@Prop({ type: Boolean, default: false })
+		readonly initState: boolean;
+
 		/* Data
         ============================================*/
-		isCollapsed: boolean = false;
+		isCollapsed: boolean = this.initState;
+
+		@Watch('initState')
+		onInitStateChange(cur, prev) {
+			this.isCollapsed = cur;
+		}
 	}
 
 </script>

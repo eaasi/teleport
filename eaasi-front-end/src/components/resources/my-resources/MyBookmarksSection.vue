@@ -17,37 +17,37 @@
 			</div>
 		</div>
 		<div class="resource-results" v-if="bentoResult && bookmarks.length" id="myBookmarks">
-			<resource-facets />
+			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="resource-bento width-md">
 				<div class="bento-row">
 					<div
-						v-if="refinedEnvironment.result.length"
+						v-if="bentoResult.environments.result.length"
 						class="bento-col"
 					>
 						<resource-list
-							:hide-header="hideBentoHeader"
+							:hide-header="facetsOfSingleTypeSelected"
 							:query="query"
-							:result="refinedEnvironment"
+							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
 						/>
 					</div>
 					<div
-						v-if="refinedSoftware.result.length || refinedContent.result.length"
+						v-if="bentoResult.software.result.length || bentoResult.content.result.length"
 						class="bento-col"
 					>
 						<resource-list
-							v-if="refinedSoftware.result.length"
-							:hide-header="hideBentoHeader"
+							v-if="bentoResult.software.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
 							:query="query"
-							:result="refinedSoftware"
+							:result="bentoResult.software"
 							type="Software"
 							@click:all="getAll(['Software'])"
 						/>
 						<resource-list
-							v-if="refinedContent.result.length"
-							:hide-header="hideBentoHeader"
+							v-if="bentoResult.content.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
 							:query="query"
 							:result="bentoResult.content"
 							type="Content"
@@ -57,6 +57,14 @@
 				</div>
 			</div>
 		</div>
+		<pagination
+			v-if="facetsOfSingleTypeSelected"
+			:results-per-page="query.limit"
+			:total-results="totalResults"
+			:page-num="query.page"
+			@paginate="paginate"
+			style="margin-top: 2.5rem;"
+		/>
 		<confirm-modal
 			cancel-label="Cancel"
 			confirm-label="Clear All Bookmarks"
@@ -80,10 +88,10 @@ import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
+import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
-import User from '../../../models/admin/User';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
@@ -115,45 +123,32 @@ export default class MyBookmarksSection extends Vue {
     selectedFacets: IResourceSearchFacet[];
 
     @Get('loggedInUser')
-    user: User;
-
-    @Get('bookmark/bookmarks')
-    bookmarks: IBookmark[];
-
-    get hasSelectedFacets() {
-        return this.selectedFacets.some(f => f.values.some(v => v.isSelected));
-	}
+    user: IEaasiUser;
 	
-	get hideBentoHeader() {
-		return this.selectedFacets.some(
-			f => f.name === 'resourceType' 
-			&& f.values.filter(v => v.isSelected).length === 1
-		);
+	@Get('resource/facetsOfSingleTypeSelected')
+	facetsOfSingleTypeSelected: Boolean;
+
+	@Get('resource/onlySelectedFacets')
+	onlySelectedFacets: IResourceSearchFacet[];
+
+	@Get('resource/bookmarks')
+	bookmarks: IBookmark[];
+
+	get hasSelectedFacets() {
+		return this.onlySelectedFacets.length > 0;
 	}
 
-	get refinedContent() {
-		const searchResult = this.refinedResult(this.bentoResult.content);
-		const result = searchResult.result
-			.filter(r => this.bookmarks
-				.some(b => b.resourceID === r.id));
-		return {...searchResult, result};
+	get totalResults() {
+		const totalResultsArr = this.onlySelectedFacets.flatMap(f => f.values.map(v => v.total));
+		return Math.min.apply(null, totalResultsArr);
 	}
 
-	get refinedSoftware() {
-		const searchResult = this.refinedResult(this.bentoResult.software);
-		const result = searchResult.result
-			.filter(r => this.bookmarks
-				.some(b => b.resourceID === r.id));
-		return {...searchResult, result};
+	get hasResults() {
+		if (!this.bentoResult) return false;
+		return this.bentoResult.software.result.length > 0
+			|| this.bentoResult.content.result.length > 0
+			|| this.bentoResult.environments.result.length > 0;
 	}
-
-	get refinedEnvironment() {
-		const searchResult = this.refinedResult(this.bentoResult.environments);
-		const result = searchResult.result
-			.filter(r => this.bookmarks
-				.some(b => b.resourceID === r.envId));
-		return {...searchResult, result};
-    }
 
 	/* Data
     ============================================*/
@@ -162,34 +157,25 @@ export default class MyBookmarksSection extends Vue {
     /* Methods
     ============================================*/
 
-    refinedResult(bentoResult: IEaasiSearchResponse<IEaasiResource>): IEaasiSearchResponse<IEaasiResource> {
-        if (!bentoResult) return { result: [], totalResults: 0 };
-        if (!this.hasSelectedFacets) return bentoResult;
-        const result = bentoResult.result.filter(
-            env => this.selectedFacets
-				.some(f => f.values
-					.some(v => env[f.name] === v.label && v.isSelected ))
-        );
-        return {...bentoResult, result};
-    }
-
     async search() {
-        await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-        await this.$store.dispatch('resource/searchResources');
-        this.populateFacets();
-    }
-
-    populateFacets() {
-        const facets = populateFacets(this.refinedEnvironment, this.refinedSoftware, this.refinedContent);
-		this.query = {...this.query, selectedFacets: facets};
-    }
+		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id});
+		// wait for store and dom to update after setting the query, then call searchResources
+		await this.$nextTick(async () => {
+			await this.$store.dispatch('resource/searchResources');
+			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+		});
+	}
+	
+	async paginate(page) {
+		this.query.page = page;
+		await this.$store.dispatch('resource/searchResources');
+	}
 
     async getAll(types) {
-        this.query.types = types;
-        this.query.limit = 5000;
-        this.selectedFacets = this.selectedFacets.filter(f => f.name !== 'resourceType');
-        this.$router.push('explore');
-    }
+		this.$store.commit('resource/UNSELECT_ALL_FACETS');
+		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
+		await this.search();
+	}
 
 	raiseClearBookmarksModal() {
     	this.isClearBookmarksModalVisible = true;
@@ -207,22 +193,23 @@ export default class MyBookmarksSection extends Vue {
     /* Lifecycle Hooks
     ============================================*/
 
-    mounted() {
-        this.search();
+    async mounted() {
+        await this.search();
 	}
 
-    beforeDestroy() {
-        this.selectedResources = [];
-		this.query = {...this.query, keyword: null};
+	beforeDestroy() {
+		this.selectedResources = [];
+		this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);
-    }
+	}
 
-    /* Watcher
-    ============================================*/
-
-	@Watch('bookmarks')
-	onBookmarksChange() {
-        if(this.bentoResult) this.populateFacets();
+	@Watch('hasSelectedFacets')
+	async onSelectedFacets(curVal, prevVal) {
+		// if we unselecting the last facet, do a clear search
+		if (prevVal && !curVal) {
+			this.$store.dispatch('resource/clearSearchQuery');
+			await this.search();
+		}
 	}
 
 }

@@ -8,4 +8,6 @@ export default class ResourceSearchQuery implements IResourceSearchQuery {
 	types: ResourceType[];
 	keyword: string = null;
 	limit: number = MIN_SEARCH_RESULT_LIMIT;
+	page: number = 1;
+	userId?: number;
 }

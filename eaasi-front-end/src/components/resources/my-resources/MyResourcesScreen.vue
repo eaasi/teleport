@@ -93,6 +93,7 @@ export default class MyResourcesScreen extends Vue {
 
 <style lang="scss">
 #myResources {
+	margin-bottom: 10rem;
 
 	h1 {
 		background-color: lighten($light-neutral, 70%);

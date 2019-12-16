@@ -6,6 +6,8 @@
 			:key="i"
 			:facet="availableFacets[i]"
 			@expand="expandSearchFacet(f)"
+			@change="$emit('change')"
+			:init-state="isExpanded(f)"
 		/>
 		<search-facet-modal
 			v-if="activeSearchFacet"
@@ -19,7 +21,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Sync } from 'vuex-pathify';
+import { Sync, Get } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
 import { IResourceSearchFacet } from '@/types/Search.d.ts';
 import { jsonCopy } from '@/utils/functions';
@@ -35,6 +37,12 @@ export default class ResourceFacets extends Vue {
     @Sync('resource/query@selectedFacets')
 	facets: IResourceSearchFacet[];
 
+	@Get('resource/facetsOfSingleTypeSelected')
+	facetsOfSingleTypeSelected: Boolean;
+
+	@Get('resource/facetsOfResourceTypesSelected')
+	facetsOfResourceTypesSelected: String[];
+
     get availableFacets() {
     	return this.facets.filter(f => f.values.length > 0);
     }
@@ -45,6 +53,13 @@ export default class ResourceFacets extends Vue {
 
 	/* Methods
 	============================================*/
+	isExpanded(f) {
+		if (!this.facetsOfSingleTypeSelected || f.name === 'resourceType') return false;
+		const sameResourceType = f.values.some(
+			v => v.resourceType === this.facetsOfResourceTypesSelected[0]
+		);
+		return !sameResourceType;
+	}
 
 	closeSearchFacetModal() {
 		this.activeSearchFacet = null;
