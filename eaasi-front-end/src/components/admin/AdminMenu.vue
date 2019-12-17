@@ -42,11 +42,6 @@ export default class AdminMenu extends Vue {
 			route: '/admin/metadata-sync'
 		},
 		{
-			icon: 'database',
-			label: 'Node Cache / Storage',
-			route: '/admin/storage'
-		},
-		{
 			icon: 'tasks',
 			label: 'Running Tasks',
 			route: '/admin/running-tasks'

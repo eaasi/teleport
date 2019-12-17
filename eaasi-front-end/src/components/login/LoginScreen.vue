@@ -3,7 +3,7 @@
 		<div id="loginContent" class="flex-row flex-grow justify-between">
 			<div id="loginTitle">
 				<h1>EaaSI</h1>
-				<h2>Emulation-as-as-Service-Infrastructure</h2>
+				<h2>Emulation-as-a-Service-Infrastructure</h2>
 			</div>
 			<div id="loginBox">
 				<h3>{{ nodeName }}</h3>

@@ -19,7 +19,7 @@ export default class AddToEmulationProjectActionResolver extends  SlideMenuActio
 			label: 'Add to Emulation Project',
 			description: 'Emulate this resource without changes',
 			icon: 'paperclip',
-			isEnabled: true
+			isEnabled: false 
 		};
 	}
 }

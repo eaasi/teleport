@@ -3,7 +3,7 @@
 		<div class="user-search">
 			<h1>Node Users</h1>
 			<search-bar
-				:border-color="$colors.lightNeutral"
+				:border-color="searchBorderColor"
 				placeholder="Enter a name or email address"
 				v-model="query.keyword"
 			/>
@@ -52,17 +52,21 @@ export default class UserManagement extends AdminScreen {
 	@Prop({type: Boolean, required: false})
 	readonly showCreateModal: boolean
 
+	/* Data
+	============================================*/
+	searchBorderColor = '#C7E4F5';
+
 	/* Computed
 	============================================*/
 
 	@Sync('admin/activeUser')
-	activeUser: User
+	activeUser: User;
 
 	@Get('admin/usersQuery')
-	query: IEaasiSearchQuery
+	query: IEaasiSearchQuery;
 
 	@Sync('admin/usersResult')
-	list: IEaasiSearchResponse<User>
+	list: IEaasiSearchResponse<User>;
 
 	/* Methods
 	============================================*/

@@ -159,7 +159,6 @@
 		@Get('loggedInUser')
 		user: IEaasiUser;
 
-
 		@Get('resource/environmentIsSelected')
 		environmentIsSelected: boolean;
 
@@ -306,9 +305,9 @@
 					// When View Details is clicked, we send to Resource Detail view
 					if (this.environmentIsSelected) {
 						const resourceId = this.onlySelectedResource.envId.toString();
-						this.$router.push({ 
-							path:'/resources/environment', 
-							query: { resourceId } 
+						this.$router.push({
+							path:'/resources/environment',
+							query: { resourceId }
 						});
 						break;
 					}
