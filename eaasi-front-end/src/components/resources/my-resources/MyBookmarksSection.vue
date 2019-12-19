@@ -19,6 +19,12 @@
 		<div class="resource-results" v-if="bentoResult && bookmarks.length" id="myBookmarks">
 			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
+			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
+				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+					<span class="icon-deselect"></span>
+					<span>Deselect All ({{ selectedResources.length }})</span>
+				</div>
+			</div>
 			<div class="resource-bento width-md">
 				<div class="bento-row">
 					<div

@@ -9,6 +9,7 @@
 		@change="$emit('change', $event)"
 		@bookmarked="isActive => $emit('bookmarked', isActive)"
 		@click:header="goToDetailsPage"
+		:is-selected="isSelected"
 	>
 		<template v-slot:tagsLeft>
 			<tag-group position="left" :tags="resourceTypeTags" />
@@ -42,6 +43,9 @@ export default class ContentResourceCard extends Vue {
 
 	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
+
+	@Prop({ type: Boolean, default: false })
+	isSelected: Boolean;
 
 	/* Data
 	============================================*/

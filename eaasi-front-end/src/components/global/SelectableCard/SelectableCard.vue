@@ -83,12 +83,14 @@ export default class SelectableCard extends Vue {
         disableSelect: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-        isClickable: boolean;
+		isClickable: boolean;
+		
+		@Prop({ type: Boolean, default: false })
+		isSelected: boolean;
 
 		/* Data
         ============================================*/
 		title: string = '';
-		isSelected: boolean = false;
 		contentData: object = {};
 		subContentData: object = {};
         error = {};
@@ -111,7 +113,7 @@ export default class SelectableCard extends Vue {
 		============================================*/
 
         toggleSelected(isSelected) : void {
-        	this.isSelected = isSelected;
+        	this.$emit('input', isSelected);
         	this.$emit('change', isSelected);
         }
 
