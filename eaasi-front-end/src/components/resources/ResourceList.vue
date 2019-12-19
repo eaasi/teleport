@@ -11,18 +11,21 @@
 			<environment-resource-card
 				:environment="resource"
 				@change="setActiveResource(resource, $event)"
+				:is-selected="isResourceSelected(resource)"
 				v-if="type === 'Environment'"
 				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"
 			/>
 			<software-resource-card
 				:software="resource"
 				@change="setActiveResource(resource, $event)"
+				:is-selected="isResourceSelected(resource)"
 				v-if="type === 'Software'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 			<content-resource-card
 				:content="resource"
 				@change="setActiveResource(resource, $event)"
+				:is-selected="isResourceSelected(resource)"
 				v-if="type === 'Content'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
@@ -40,6 +43,7 @@ import BentoHeader from '@/components/resources/search/BentoHeader.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
+import { resourceTypes } from '../../utils/constants';
 
 @Component({
 	name: 'ResourceList',
@@ -81,6 +85,14 @@ export default class ResourceList extends Vue {
 
 	paginate(pageNum: number) {
 		this.$emit('paginate', pageNum);
+	}
+
+	isResourceSelected(resource: IEaasiResource) {
+		if (resource.resourceType === resourceTypes.ENVIRONMENT ) {
+			return this.selectedResources.some(r => r.envId === resource.envId);
+		} else {
+			return this.selectedResources.some(r => r.id === resource.id);
+		}
 	}
 
 	setActiveResource(resource: IEaasiResource, isActive: boolean) {

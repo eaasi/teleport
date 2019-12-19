@@ -12,6 +12,7 @@
 			@bookmarked="isActive => $emit('bookmarked', isActive)"
 			@change="setActiveEnvironment"
 			@click:header="goToDetailsPage"
+			:is-selected="isSelected"
 		>
 			<template v-slot:tagsLeft>
 				<tag-group position="left" :tags="resourceTypeTags" />
@@ -53,6 +54,9 @@
 
 		@Prop({type: Boolean, required: false, default: false})
 		readonly isClickable: boolean;
+
+		@Prop({ type: Boolean, default: false })
+		isSelected: Boolean;
 
 		/* Data
         ============================================*/

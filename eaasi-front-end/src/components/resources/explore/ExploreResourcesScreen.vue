@@ -4,6 +4,12 @@
 		<div v-else class="resource-results">
 			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
+			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
+				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+					<span class="icon-deselect"></span>
+					<span>Deselect All ({{ selectedResources.length }})</span>
+				</div>
+			</div>
 			<div class="resource-bento width-md">
 				<resource-sort-section v-if="facetsOfSingleTypeSelected" />
 				<div class="bento-row">
@@ -241,6 +247,38 @@ export default class ExploreResourcesScreen extends Vue {
 					flex: 1;
 					margin: 0 1rem;
 				}
+			}
+		}
+	}
+
+	.deselect-all-wrapper {
+		background-color: lighten($light-blue, 90%);
+		margin-left: 28rem;
+		padding: 1.5rem;
+		width: 100%;
+		.deselect-link {
+			color: $dark-blue;
+			cursor: pointer;
+			font-size: 1.4rem;
+			font-weight: bold;
+			max-width: 12rem;
+		}
+		.icon-deselect {
+			background-color: $dark-blue;
+			border-radius: 0.6rem;
+			display: inline-block;
+			height: 20px;
+			position: relative;
+			width: 20px;
+			&::before {
+				background-color: #ffffff;
+				border-radius: 6px;
+				content: '';
+				height: 3px;
+				left: 4px;
+				position: absolute;
+				top: 9px;
+				width: 12px;
 			}
 		}
 	}

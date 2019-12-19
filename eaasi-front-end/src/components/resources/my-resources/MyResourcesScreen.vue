@@ -103,5 +103,36 @@ export default class MyResourcesScreen extends Vue {
 		margin-bottom: 0;
 		padding: 3rem 3rem 1rem;
 	}
+	.deselect-all-wrapper {
+		background-color: lighten($light-blue, 90%);
+		margin-left: 28rem;
+		padding: 1.5rem;
+		width: 100%;
+		.deselect-link {
+			color: $dark-blue;
+			cursor: pointer;
+			font-size: 1.4rem;
+			font-weight: bold;
+			max-width: 12rem;
+		}
+		.icon-deselect {
+			background-color: $dark-blue;
+			border-radius: 0.6rem;
+			display: inline-block;
+			height: 20px;
+			position: relative;
+			width: 20px;
+			&::before {
+				background-color: #ffffff;
+				border-radius: 6px;
+				content: '';
+				height: 3px;
+				left: 4px;
+				position: absolute;
+				top: 9px;
+				width: 12px;
+			}
+		}
+	}
 }
 </style>
