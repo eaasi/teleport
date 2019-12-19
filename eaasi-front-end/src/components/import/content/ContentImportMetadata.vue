@@ -27,18 +27,21 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6">
-						<text-input
-							label="Local Identifier"
-							v-model="content.localIdentifier"
-						/>
-					</div>
-					<div class="col-md-6">
-						<text-input
-							label="Local Identifier Source"
-							v-model="content.localIdentifierSource"
-						/>
-					</div>
+					<!--					TODO: Enable when metadata model is integrated:-->
+					<!--					<div class="col-md-6">-->
+					<!--						<text-input-->
+					<!--							label="Local Identifier"-->
+					<!--							v-model="content.localIdentifier"-->
+					<!--							disabled-->
+					<!--						/>-->
+					<!--					</div>-->
+					<!--					<div class="col-md-6">-->
+					<!--						<text-input-->
+					<!--							label="Local Identifier Source"-->
+					<!--							v-model="content.localIdentifierSource"-->
+					<!--							disabled-->
+					<!--						/>-->
+					<!--					</div>-->
 				</div>
 			</eaasi-form>
 			<ui-button

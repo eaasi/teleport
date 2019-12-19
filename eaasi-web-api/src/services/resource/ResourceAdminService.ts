@@ -5,7 +5,9 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IReplicateImageRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse,
+	IOverrideContentRequest, IReplicateImageRequest, IResourceSearchFacet, IResourceSearchQuery,
+	IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
@@ -73,11 +75,11 @@ export default class ResourceAdminService extends BaseService {
 				return (query.archives.includes(content.archive) || (query.archives.includes(content.archiveId)));
 			});
 		}
-		
+
 		if (query.userId) {
 			const response = await this._bookmarkService.getByUserID(query.userId);
 			result.bookmarks = response.result.map(b => b.toJSON()) as IBookmark[];
-			
+
 			contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
 			softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
 			environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
@@ -150,6 +152,24 @@ export default class ResourceAdminService extends BaseService {
 			'force': true
 		};
 		let res = await this._emilEnvSvc.post('delete', environmentToDelete);
+		return await res.json();
+	}
+
+	async saveNewEnvironment(newEnvRequest: any) {
+		let snapshotRequest = {
+			envId: newEnvRequest.envId,
+			isRelativeMouse: false,
+			message: newEnvRequest.description,
+			title: newEnvRequest.title,
+			objectId: null,
+			softwareId: null,
+			type: 'newEnvironment',
+			userId: null
+		};
+
+		let httpSvc: IHttpService = new HttpJSONService();
+		let url = `${BASE_URL}/emil/components/${newEnvRequest.componentId}/snapshot`;
+		let res = await httpSvc.post(url, snapshotRequest);
 		return await res.json();
 	}
 
@@ -301,6 +321,28 @@ export default class ResourceAdminService extends BaseService {
 		return res.json();
 	}
 
+	/**
+	 * Saves a revision from an existing running environment
+	 * @param revisionEnvRequest {
+	 * }
+	 */
+	async saveEnvironmentRevision(revisionEnvRequest: any) {
+		let snapshotRequest = {
+			envId: revisionEnvRequest.envId,
+			isRelativeMouse: false,
+			message: revisionEnvRequest.description,
+			objectId: null,
+			softwareId: null,
+			type: 'saveRevision',
+			userId: null
+		};
+
+		let httpSvc: IHttpService = new HttpJSONService();
+		let url = `${BASE_URL}/emil/components/${revisionEnvRequest.componentId}/snapshot`;
+		let res = await httpSvc.post(url, snapshotRequest);
+		return await res.json();
+	}
+
 	/*============================================================
 	 == Templates and Patches
 	/============================================================*/
@@ -350,7 +392,7 @@ export default class ResourceAdminService extends BaseService {
 		if (query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
-		
+
 		if (query.sortCol) {
 			results = results.sort((a, b) => {
 				const nameA = a.title.toLowerCase();
@@ -398,7 +440,7 @@ export default class ResourceAdminService extends BaseService {
 		});
 		return facets;
 	};
-	
+
 	private getFacet(resource: IEaasiSearchResponse<IEaasiResource>, facet: IResourceSearchFacet) {
 		resource.result.forEach(result => {
 			if (result[facet.name] == null) return facet;
@@ -411,7 +453,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private filterByFacets<T extends IEaasiResource>(resources: T[], selectedFacets: IResourceSearchFacet[]): T[] {
 		if (!resources.length) return resources;
-		
+
 		const selectedFacetsOfType = this.selectedFacetsOfType(selectedFacets, resources[0].resourceType);
 		selectedFacetsOfType.forEach(facet => {
 			resources = resources.filter(
@@ -424,17 +466,17 @@ export default class ResourceAdminService extends BaseService {
 
 	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {
 		let selectedFacets = [];
-		
+
 		facets.forEach(f => {
 			if(f.values.some(v => v.isSelected)) {
 				const values = f.values
 					.map(v => v.isSelected && v.resourceType === resourceType ? v : null)
 					.filter(i => i !== null);
-					
+
 				selectedFacets.push({...f, values });
 			}
-		})
-		
+		});
+
 		return selectedFacets;
 	}
 

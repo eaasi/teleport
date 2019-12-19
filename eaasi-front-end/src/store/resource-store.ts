@@ -178,9 +178,26 @@ const actions = {
 
 		const result = await _svc.searchResources(importQuery);
 		if (!result) return;
-		
+
 		commit('SET_QUERY', {...state.query, selectedFacets: result.facets});
 		commit('SET_RESULT', result);
+	},
+
+	async saveEnvironmentRevision({ state }, description) {
+		return await _svc.saveEnvironmentRevision(
+			state.activeEnvironment.envId,
+			state.clientComponentId,
+			description
+		);
+	},
+
+	async saveNewEnvironment({ state }, { title, description}) {
+		return await _svc.saveNewEnvironment(
+			state.activeEnvironment.envId,
+			state.clientComponentId,
+			title,
+			description
+		);
 	}
 };
 

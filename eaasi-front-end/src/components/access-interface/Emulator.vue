@@ -2,7 +2,7 @@
 	<div>
 		<section id="emulatorWrapper" ref="_wrapper">
 			<!-- Do not change this div's ID, eaas-client looks for '#emulator-container' -->
-			<div ref="_container" id="emulator-container"></div>
+			<div v-show="isStarted" ref="_container" id="emulator-container"></div>
 		</section>
 	</div>
 </template>
@@ -46,10 +46,6 @@
 		@Prop({type: String, required: false})
 		readonly driveId: string;
 
-		/* Data
-        ============================================*/
-		clientComponentId: string;
-
 		/* Computed
         ============================================*/
 
@@ -62,6 +58,8 @@
 		@Sync('emulatorIsRunning')
 		isStarted: boolean;
 
+		@Sync('resource/clientComponentId')
+		clientComponentId: string;
 
 		/* Data
         ============================================*/
@@ -195,6 +193,9 @@
 			vm.client.onError = (err) => vm.handleError(err);
 			window.onbeforeunload = () => ''; // Show generic browser warning
 			window.onunload = () => vm.stopEnvironment();
+			vm.client.onEmulatorStopped = () => {
+				this.isStarted = false;
+			};
 		}
 
 		takeScreenShot() {

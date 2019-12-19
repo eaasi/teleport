@@ -14,6 +14,7 @@
 				:accept="accept"
 				@change="changeFiles"
 				ref="_input"
+				multiple
 			/>
 			<label :for="id">
 				<ui-button

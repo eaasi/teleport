@@ -1,3 +1,5 @@
+import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
+import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 <template>
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
@@ -13,7 +15,11 @@
 				<ui-button size="sm" @click="$emit('click:restart')">
 					Restart Emulation
 				</ui-button>
-				<ui-button size="sm" disabled @click="saveEnvironment">
+				<ui-button
+					size="sm"
+					:disabled="emulatorIsRunning"
+					@click="showSaveEnvironment = true"
+				>
 					Save Environment
 				</ui-button>
 			</div>
@@ -33,7 +39,7 @@
 					:disabled="mediaItems.length === 0"
 					@click="showMediaOptions = true"
 				>
-					Change Resource Media 
+					Change Resource Media
 					<span v-if="mediaItems.length" class="fas fa-chevron-down" style="margin-left: 1rem;"></span>
 				</ui-button>
 				<ui-button
@@ -78,20 +84,29 @@
 			@close="showMediaOptions = false"
 			@change-media="changeMedia"
 		/>
+		<save-environment-modal
+			v-if="showSaveEnvironment"
+			@close="showSaveEnvironment = false"
+			@save-environment="saveEnvironment"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
+	import {ISaveEnvOptions} from '@/types/SaveEnvironment';
+	import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
 	import eventBus from '@/utils/event-bus';
 	import Vue from 'vue';
+	import {Component} from 'vue-property-decorator';
+	import {Get} from 'vuex-pathify';
 	import ChangeMediaModal from './ChangeMediaModal.vue';
-	import { Component } from 'vue-property-decorator';
-	import { Get } from 'vuex-pathify';
+	import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 
 	@Component({
 		name: 'AccessInterfaceHeader',
 		components: {
-			ChangeMediaModal
+			ChangeMediaModal,
+			SaveEnvironmentModal
 		}
 	})
 	export default class AccessInterfaceHeader extends Vue {
@@ -105,6 +120,7 @@
 		============================================*/
 		mediaItems: [] = [];
 		showMediaOptions: boolean = false;
+		showSaveEnvironment: boolean = false;
 
 		/* Methods
         ============================================*/
@@ -120,8 +136,22 @@
 			eventBus.$emit('emulator:send:ctrlAltDelete');
 		}
 
-		saveEnvironment() {
-			console.log('TODO: Implement AccessInterfaceHeader.saveEnvironment');
+		async saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
+			let { title, description, saveType } = saveEnvOptions ;
+			if (saveType === SaveEnvironmentOption.newEnvironment) {
+				let res = await this.$store.dispatch('resource/saveNewEnvironment', { title, description });
+				if (res.status === '0') {
+					this.$router.push({ name: 'Explore Resources' });
+				}
+				// TODO: Show error on fail
+
+			} else if (saveType === SaveEnvironmentOption.createRevision) {
+				let res = await this.$store.dispatch('resource/saveEnvironmentRevision', description);
+				if (res.status === '0') {
+					this.$router.push({ name: 'Explore Resources' });
+				}
+				// TODO: Show error on fail
+			}
 		}
 
 		goToDashboard() {
@@ -139,7 +169,7 @@
 			eventBus.$emit('emulator:change-media', changeMediaRequest);
 			this.showMediaOptions = false;
 		}
-		
+
 		async mounted() {
 			const { softwareId, objectId, archiveId } = this.$route.query;
 			if ((softwareId || objectId) && archiveId) {
@@ -169,6 +199,7 @@
 
 		.ah-warning-message {
 			font-size: 1.5rem;
+			margin-left: 1.2rem;
 		}
 	}
 

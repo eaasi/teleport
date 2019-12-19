@@ -234,7 +234,7 @@ export default class ResourceController extends BaseController {
 	async classify(req: Request, res: Response) {
 		try {
 			let classifyRequest = req.body as IObjectClassificationRequest;
-			var emilContainerSvc = new EmilContainerService();
+			let emilContainerSvc = new EmilContainerService();
 			let result = await emilContainerSvc.classify(classifyRequest);
 			res.send(result);
 		} catch(e) {
@@ -263,6 +263,26 @@ export default class ResourceController extends BaseController {
 	async getObjectArchive(req: Request, res: Response) {
 		try {
 			let result = await this._svc.getObjectArchive();
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	async saveNewEnvironment(req: Request, res: Response) {
+		try {
+			let newEnvRequest = req.body;
+			let result = await this._svc.saveNewEnvironment(newEnvRequest);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
+	async saveEnvironmentRevision(req: Request, res: Response) {
+		try {
+			let revisionEnvRequest = req.body;
+			let result = await this._svc.saveEnvironmentRevision(revisionEnvRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);

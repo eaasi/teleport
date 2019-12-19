@@ -34,7 +34,7 @@ export default class FileDropzone extends Vue {
 	 * The max number of files that can be added at a time
 	 */
 	@Prop({type: Number, required: false})
-	readonly limit: number
+	readonly limit: number;
 
 	/* Computed
 	============================================*/

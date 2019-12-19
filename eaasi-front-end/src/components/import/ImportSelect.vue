@@ -4,7 +4,7 @@
 			<div class="flex-row">
 				<p>I want to import a</p>
 				<select-list v-model="type" class="no-mb flex-adapt">
-					<option value="content">Content File</option>
+					<option value="content">Content File(s)</option>
 					<option value="software">Software Resource</option>
 					<option value="environment">Environment Resource</option>
 				</select-list>
