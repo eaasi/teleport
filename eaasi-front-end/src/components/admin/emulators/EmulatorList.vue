@@ -2,7 +2,7 @@
 	<div class="emulator-list">
 		<table class="eaasi-table clickable">
 			<caption>
-				Lists available emulators by name, number of entries, and provides details link
+				Available Emulators
 			</caption>
 			<thead>
 				<tr>

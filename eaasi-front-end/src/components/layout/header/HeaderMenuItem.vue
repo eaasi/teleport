@@ -1,6 +1,6 @@
 <template functional>
 	<div class="header-menu-item flex-row" @click="listeners.click">
-		<span>{{ props.label }}</span>
+		<span class="header-menu-item-text">{{ props.label }}</span>
 		<span v-if="props.icon" :class="`icon fas fa-fw fa-${props.icon}`"></span>
 	</div>
 </template>
@@ -21,13 +21,13 @@ export default class HeaderMenuItem extends Vue {
 	 * The text to display in the trigger element
 	 */
 	@Prop({type: String, required: true})
-	readonly label: string
+	readonly label: string;
 
 	/**
 	 * The icon to display in the trigger element
 	 */
 	@Prop({type: String, required: false})
-	readonly icon: string
+	readonly icon: string;
 
 }
 
@@ -44,12 +44,6 @@ export default class HeaderMenuItem extends Vue {
 	.icon {
 		color: darken($teal, 20%);
 		font-size: 2rem;
-		margin-left: 5px;
-	}
-
-	.down-arrow {
-		color: darken($teal, 20%);
-		font-size: 1.2rem;
 		margin-left: 5px;
 	}
 }

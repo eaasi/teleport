@@ -20,7 +20,7 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 			label: 'Delete',
 			description: 'Delete this resource',
 			icon: 'trash-alt',
-			isEnabled: super.isUserAdmin() && super.isDeletableArchive()
+			isEnabled: super.isUserAdmin() && super.isDeletableArchive() && !super.isAnySoftwareSelected()
 		};
 	};
 }

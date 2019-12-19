@@ -9,7 +9,7 @@ import softwareStore from './software-store';
 import bookmarkStore from './bookmark-store';
 
 pathify.options.mapping = 'simple';
-pathify.options.deep = true;
+pathify.options.deep = 2;
 
 Vue.use(Vuex);
 

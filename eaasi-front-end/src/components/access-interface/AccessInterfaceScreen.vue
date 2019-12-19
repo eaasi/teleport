@@ -88,6 +88,9 @@
 		@Get('import/environment@title')
 		importedTitle: string;
 
+		@Get('import/environment')
+		importedEnvironment: string;
+
 		/* Data
         ============================================*/
 
@@ -116,6 +119,7 @@
 				type: 'machine',
 				isImport: true,
 			};
+
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
 		}
 
@@ -153,7 +157,9 @@
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
 			next(async vm => {
 				const { envId } = to.params;
-				from.name === 'Import Resource' ? await vm.getImportedEnvironment(envId) : await vm.getEnvironment(envId);
+				from.name === 'Import Resource'
+					? await vm.getImportedEnvironment(envId)
+					: await vm.getEnvironment(envId);
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
 			});

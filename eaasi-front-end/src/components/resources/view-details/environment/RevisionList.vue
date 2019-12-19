@@ -3,7 +3,7 @@
 		<div class="user-list padded">
 			<table class="eaasi-table">
 				<caption>
-					Resource Details Revisions with date, changes, and details of the resource change
+					Resource Details
 				</caption>
 				<thead>
 					<tr>
@@ -60,7 +60,7 @@ export default class ResourceDetailsRevisionList extends Vue {
 
     /* Methods
     ============================================*/
-	
+
 	async fork(rev: IEnvironmentRevision) {
 		const result = await this.$store.dispatch('resource/forkRevision', rev.id);
 		if (!result) return;
