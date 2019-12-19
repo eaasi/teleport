@@ -5,7 +5,8 @@
 				<tag text="Environment" icon="fa-box" />
 				<tag v-if="environment.isImport" text="New Import" icon="fa-upload" color="yellow" />
 			</div>
-			<h2>{{ environment.title }}</h2>
+			<h2 v-if="environment.isImport">{{ importTitle }}</h2>
+			<h2 v-else>{{ environment.title }}</h2>
 			<p v-if="environment.isImport"></p>
 			<p v-else-if="environment.description">{{ environment.description | stripHtml }}</p>
 			<p v-else>No description for this environment was provided.</p>
@@ -104,6 +105,9 @@ export default class EnvironmentMenu extends Vue {
 	============================================*/
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment;
+
+	@Get('import/environment@title')
+	readonly importTitle: string;
 
 	get tabs(): IEaasiTab[] {
 		if (this.environment.isImport) {

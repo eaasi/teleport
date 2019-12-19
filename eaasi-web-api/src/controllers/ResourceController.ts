@@ -38,7 +38,8 @@ export default class ResourceController extends BaseController {
 	async saveEnvironment(req: Request, res: Response) {
 		try {
 			let environmentId = req.body.environmentId;
-			if (!environmentId) this.sendClientError('Request to save environment requires non-null Environment ID', res)
+			if (!environmentId)
+				this.sendClientError('Request to save environment requires non-null Environment ID', res);
 			let result = await this._svc.saveEnvironment(environmentId);
 			res.send(result);
 		} catch(e) {
@@ -144,7 +145,7 @@ export default class ResourceController extends BaseController {
 		try {
 			const { environment } = req.body;
 			if (!environment) return this.sendError('no environment', res);
-			const emilEnvironmentService = new EmilEnvironmentService()
+			const emilEnvironmentService = new EmilEnvironmentService();
 			const result = await emilEnvironmentService.updateDescription(environment);
 			res.send(result);
 		} catch(e) {

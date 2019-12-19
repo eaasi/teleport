@@ -7,7 +7,7 @@
 	>
 		<div class="emulator-images">
 			<table class="eaasi-table">
-				<caption>Lists available emulators with User Version, Source URL, DockerTag, and Is Default</caption>
+				<caption>Available Emulators</caption>
 				<thead>
 					<th scope="col">User Version</th>
 					<th scope="col">OCI Source URL</th>

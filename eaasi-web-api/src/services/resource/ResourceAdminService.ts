@@ -216,10 +216,10 @@ export default class ResourceAdminService extends BaseService {
 		return await res.json();
 	}
 
-
 	/**
 	 * Posts Object Import Request data
-	 * @param req : Request with req.body
+	 * @param archiveId
+	 * @param objectId
 	 */
 	async getSoftwareMetadata(archiveId: string, objectId: string) {
 		let httpSvc: IHttpService = new HttpJSONService();
@@ -239,7 +239,6 @@ export default class ResourceAdminService extends BaseService {
 
 	/**
 	 * Searches for all software using the provided IEaasiSearchQuery
-	 * @param query: IEaasiSearchQuery
 	 * @private
 	 */
 	private async getAllSoftware(): Promise<ISoftwarePackageDescription[]> {
@@ -257,7 +256,6 @@ export default class ResourceAdminService extends BaseService {
 
 	/**
 	 * Searches for all content using the provided IEaasiSearchQuery
-	 * @param query: IEaasiSearchQuery
 	 * @private
 	 */
 	private async getAllContent(): Promise<IContentItem[]> {
@@ -289,7 +287,9 @@ export default class ResourceAdminService extends BaseService {
 	 * }
 	 */
 	async deleteContent(contentRequest: IContentRequest) {
-		await this._emilContentSvc.delete(`${contentRequest.archiveName}/${contentRequest.contentId}`);
+		let url = `${BASE_URL}/emil/objects/${contentRequest.archiveName}/${contentRequest.contentId}`;
+		let httpSvc: IHttpService = new HttpJSONService();
+		await httpSvc.delete(url);
 	}
 
 	/**
@@ -476,8 +476,6 @@ export default class ResourceAdminService extends BaseService {
 				selectedFacets.push({...f, values });
 			}
 		});
-
 		return selectedFacets;
 	}
-
 }

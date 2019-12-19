@@ -18,10 +18,9 @@
 				icon="cog"
 				@click="$router.push('/admin')"
 			/>
-			<header-menu-item
+			<header-menu-drop-down
 				:label="`${user.firstName} ${user.lastName}`"
 				icon="user"
-				@click="logout"
 			/>
 		</div>
 	</header>
@@ -31,14 +30,15 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import HeaderMenuItem from './HeaderMenuItem.vue';
+import HeaderMenuDropDown from '@/components/layout/header/HeaderMenuDropdown.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import authService from '@/services/AuthService';
 
 
 @Component({
 	name: 'AppHeader',
 	components: {
+		HeaderMenuDropDown,
 		HeaderMenuItem
 	}
 })
@@ -52,10 +52,10 @@ export default class AppHeader extends Vue {
 	============================================*/
 
 	@Get('nodeName')
-	nodeName: string
+	nodeName: string;
 
 	@Get('loggedInUser')
-	user: IEaasiUser
+	user: IEaasiUser;
 
 	@Sync('resource/query@keyword')
 	searchKeyword: string;
@@ -66,14 +66,6 @@ export default class AppHeader extends Vue {
 	async search() {
 		this.$router.push('/resources/explore');
 		await this.$store.dispatch('resource/searchResources');
-	}
-
-	/**
-	 * Logs out a User
-	 */
-	logout() {
-		this.$store.dispatch('logout');
-		authService.logout();
 	}
 };
 </script>

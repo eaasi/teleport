@@ -67,7 +67,7 @@ export default class EmulatorManagement extends AdminScreen {
 	============================================*/
 
 	keyword: string = '';
-	showAddModal: boolean = true;
+	showAddModal: boolean = false;
 
 
 	/* Methods

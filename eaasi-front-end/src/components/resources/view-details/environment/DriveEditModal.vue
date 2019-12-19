@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import { IDrive } from '@/types/Resource';
 
 @Component({
@@ -64,5 +64,16 @@ export default class DriveEditModal extends Vue {
         this.$emit('save', this.drive);
     }
 
+    /* Watchers
+    ============================================*/
+    @Watch('drive.type')
+	onDriveTypeChange(updated, _) {
+    	if (updated === 'floppy') {
+    		this.drive.bus = '0';
+			this.drive.unit = '0';
+			this.drive.filesystem ='fat12';
+			this.drive.iface = 'floppy';
+		}
+	}
 }
 </script>

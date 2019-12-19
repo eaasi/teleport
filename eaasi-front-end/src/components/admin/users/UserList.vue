@@ -1,7 +1,7 @@
 <template>
 	<div class="user-list">
 		<table class="eaasi-table clickable">
-			<caption>List of Users by Username, Email, First Name, Last Name, Role, and Last Login</caption>
+			<caption>EaaSI Users</caption>
 			<thead>
 				<tr>
 					<sort-header sort-col="username" :query="query" @sort="sort">

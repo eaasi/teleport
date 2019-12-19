@@ -8,6 +8,10 @@ import store from '@/store';
  * @param next Callback method
  */
 export function loggedInGuard(to: Route, _from: Route, next: any) {
+
+	// Should be a separate guard; multiple guards not supported without workarounds
+	window.scrollTo(0, 0);
+
 	store.dispatch('initSession').then((success) => {
 		// Redirect to login if no token and the route does not allow guests
 		if(!success && !to.matched.some(x => x.meta.allowGuest)) {
