@@ -226,4 +226,4 @@ export interface IOverrideContentRequest {
 	objectId: string;
 }
 
-export type PhysicalFormat = 'Floppy Disk' | 'CD-ROM' | 'disk' | 'Files';
+export type PhysicalFormat = 'Q493576' | 'Q495265' | 'disk' | 'Q82753';

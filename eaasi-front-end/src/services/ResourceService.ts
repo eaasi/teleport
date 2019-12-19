@@ -48,7 +48,7 @@ class ResourceService extends BaseHttpService {
 			console.error('Response returned error: ', res);
 			return null;
 		}
-		
+
 		return res.result;
 	}
 
@@ -114,6 +114,22 @@ class ResourceService extends BaseHttpService {
 	async getObjectArchives() {
 		let res = await this.get<any>('/resource/objectArchive');
 		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to save a new Environment resource from an existing environment ID via snapshot
+	 */
+	async saveNewEnvironment(envId: string, componentId: string, title: any, description: any) {
+		let res = await this.post<any>('/resource/save-new-environment', { envId, componentId, title, description });
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to save a revision of an existing Environment resource via snapshot
+	 */
+	async saveEnvironmentRevision(envId: string, componentId: string, description: any) {
+		let res = await this.post<any>('/resource/save-environment-revision', { envId, componentId, description });
+		return res.json();
 	}
 }
 

@@ -201,7 +201,7 @@ router.get('/content', (req, res) => controller.getContent(req, res));
 /**
  * @api {post} Saves content object metadata
  * @apiVersion 1.0.0
- * @apiName Content Resource Metadata
+ * @apiName Save Content Resource Metadata
  * @apiGroup Resources
  * @apiPermission System Administrator only
  * @apiDescription Saves Content Object
@@ -211,11 +211,31 @@ router.post('/content', (req, res) => controller.saveContent(req, res));
 /**
  * @api {delete} Deletes content object metadata
  * @apiVersion 1.0.0
- * @apiName Content Resource Metadata
+ * @apiName Delete Content Resource metadata
  * @apiGroup Resources
  * @apiPermission System Administrator only
  * @apiDescription Deletes Content Object
  */
 router.delete('/content', (req, res) => controller.deleteContent(req, res));
+
+/**
+ * @api {post} Saves a new Environment based on an existing one
+ * @apiVersion 1.0.0
+ * @apiName Save new Environment from Existing
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Deletes Content Object
+ */
+router.post('/save-new-environment', (req, res) => controller.saveNewEnvironment(req, res));
+
+/**
+ * @api {post} Saves a Revision of an existing Environment
+ * @apiVersion 1.0.0
+ * @apiName Save Environment Revision
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Deletes Content Object
+ */
+router.post('/save-environment-revision', (req, res) => controller.saveEnvironmentRevision(req, res));
 
 module.exports = router;
