@@ -16,7 +16,7 @@
 						/>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6" v-if="step < 3">
 					<div class="irf-option text-center">
 						<span>My Computer</span>
 						<file-upload-button

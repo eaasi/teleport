@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Sync } from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
@@ -66,11 +66,12 @@ export default class MyResourcesScreen extends Vue {
 			disabled: true
 		}
 	];
-	isMenuOpenRequest: boolean = true;
+	isMenuOpenRequest: boolean = false;
 
 	/* Methods
 	============================================*/
 	toggleSideMenu() {
+		if (!this.hasActiveResources) return;
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
 	}
 	
@@ -87,6 +88,14 @@ export default class MyResourcesScreen extends Vue {
 			this.activeTab = this.defaultTab;
 		}
 	}
+
+	@Watch('hasActiveResources')
+	onSelectResources(curVal, prevVal) {
+		if (curVal && !prevVal) {
+			this.isMenuOpenRequest = true;
+		}
+	}
+
 }
 
 </script>

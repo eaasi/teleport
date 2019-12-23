@@ -73,7 +73,7 @@ export default class OptionsBox extends Vue {
 		font-weight: bold;
 		margin-bottom: 1rem;
 
-		i {
+		.fal {
 			display: block;
 			font-size: 2.4rem;
 			margin-bottom: 0.5rem;

@@ -30,6 +30,7 @@ import ImportFiles from './ImportFiles.vue';
 import ImportMetadata from './ImportMetadata.vue';
 import ImportProgress from './ImportProgress.vue';
 import ImportSelect from './ImportSelect.vue';
+import { importTypes } from '../../utils/constants';
 
 @Component({
 	name: 'ImportResourceScreen',
@@ -71,8 +72,9 @@ export default class ImportResourceScreen extends Vue {
 	}
 
 	beforeDestroy() {
-		this.step = 1;
+		this.step = 0;
 		this.importPath = 'Unselected';
+		this.type = null;
 		this.softwareImport = new SoftwareImportResource();
 		this.contentImport = new ContentImportResource();
 	}

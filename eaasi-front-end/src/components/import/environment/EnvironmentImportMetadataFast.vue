@@ -14,11 +14,11 @@
 			<div class="col-md-6">
 				<select-list
 					v-model="chosenTemplate"
-					placholder="Choose a System"
 					class="no-mb flex-adapt"
 					label="Choose a System"
 					rules="required"
 				>
+					<option value="" selected disabled>Please Choose a System</option>
 					<option
 						v-for="template in availableTemplates"
 						:key="template.id"

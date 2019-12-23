@@ -4,18 +4,12 @@ import ResourceImportFile from '@/models/import/ResourceImportFile';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import EaasiTask from '@/models/task/EaasiTask';
 import _importService from '@/services/ImportService';
-import {
-	ICreateEnvironmentPayload,
-	IEnvironmentImportSnapshot,
-	ImportType,
-	IResourceImportFile,
-	ResourceImportPath
-} from '@/types/Import';
-import {ISoftwareObject} from '@/types/Resource';
-import {ITaskState} from '@/types/Task';
-import {importTypes} from '@/utils/constants';
-import {Store} from 'vuex';
-import {make} from 'vuex-pathify';
+import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
+import { ISoftwareObject } from '@/types/Resource';
+import { ITaskState } from '@/types/Task';
+import { importTypes } from '@/utils/constants';
+import { Store } from 'vuex';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -25,8 +19,8 @@ class ImportState {
 	chosenTemplateId: string = '';
 	filesToUpload: IResourceImportFile[] = [];
 	importPath: ResourceImportPath = 'Unselected';
-	importStep: number = 1;
-	importType: ImportType = importTypes.CONTENT;
+	importStep: number = 0;
+	importType: ImportType = null;
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	content: ContentImportResource = new ContentImportResource();
