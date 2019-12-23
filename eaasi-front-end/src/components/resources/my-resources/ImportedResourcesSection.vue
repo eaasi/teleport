@@ -157,9 +157,12 @@ export default class ImportedResourcesSection extends Vue {
 	}
 
     async search() {
-		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-		this.$store.commit('resource/SET_QUERY', {...this.query, archives: ['zero conf', 'default']});
-    	await this.$store.dispatch('resource/searchResources');
+		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, archives: ['zero conf', 'default']});
+		// wait for facets update it's selected property on this tick, call search on next tick
+		this.$nextTick(async () => {
+			await this.$store.dispatch('resource/searchResources');
+			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+		});
 	}
 
 	/* Lifecycle Hooks

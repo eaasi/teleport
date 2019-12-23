@@ -33,6 +33,8 @@ import HeaderMenuItem from './HeaderMenuItem.vue';
 import HeaderMenuDropDown from '@/components/layout/header/HeaderMenuDropdown.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
+import { jsonCopy } from '../../../utils/functions';
+import ResourceSearchQuery from '../../../models/search/ResourceSearchQuery';
 
 
 @Component({
@@ -64,8 +66,15 @@ export default class AppHeader extends Vue {
 	============================================*/
 
 	async search() {
-		this.$router.push('/resources/explore');
-		await this.$store.dispatch('resource/searchResources');
+		const keyword = this.searchKeyword;
+		this.$store.dispatch('resource/clearSearchQuery');
+		if (this.$route.name === 'Explore Resources') {
+			const query = new ResourceSearchQuery();
+			this.$store.commit('resource/SET_QUERY', {...query, keyword});
+			await this.$store.dispatch('resource/searchResources');
+		} else {
+			this.$router.push({ name: 'Explore Resources', params: { keyword } });
+		}
 	}
 };
 </script>

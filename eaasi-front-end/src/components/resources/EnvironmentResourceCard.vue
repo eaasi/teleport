@@ -135,26 +135,17 @@
 			}, task.pollingInterval);
 		}
 
-		async getEnvironmentDetails() {
-			await resourceSvc.getEnvironment(this.environment.envId).then(res => {
-				if (res.error) {
-					this.hasNoDetails = true;
-					this.environmentCardSummary = {
-						hasError: true
-					};
-				} else {
-					this.environmentCardSummary = {
-						title: res.title,
-						description: res.description,
-						archive: res.archive,
-						drives: res.drives,
-						emulator: res.emulator,
-						isInternetEnabled: res.enableInternet,
-						isPrintingEnabled: res.enablePrinting,
-						installedSoftware: res.installedSoftwareIds,
-					};
-				}
-			});
+		getEnvironmentDetails() {
+			this.environmentCardSummary = {
+				title: this.environment.title,
+				description: this.environment.description,
+				archive: this.environment.archive,
+				drives: this.environment.drives,
+				emulator: this.environment.emulator,
+				isInternetEnabled: this.environment.enableInternet,
+				isPrintingEnabled: this.environment.enablePrinting,
+				installedSoftware: this.environment.installedSoftwareIds,
+			};
 		}
 
 		/**
@@ -268,10 +259,9 @@
 
 		/* Lifecycle Hooks
         ============================================*/
-		async created() {
-			this.getEnvironmentDetails().then(async () => {
-				await this.setCardSummary();
-			});
+		beforeMount() {
+			this.getEnvironmentDetails();
+			this.setCardSummary();
 		}
 
 	/* Watchers

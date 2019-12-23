@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		<pagination
-			v-if="facetsOfSingleTypeSelected"
+			v-if="facetsOfSingleTypeSelected && !noResult"
 			:results-per-page="query.limit"
 			:total-results="totalResults"
 			:page-num="query.page"
@@ -164,13 +164,24 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
     async search() {
-		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
-    	await this.$store.dispatch('resource/searchResources');
+		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id });
+		// wait for facets update it's selected property on this tick, call search on next tick
+		this.$nextTick(async () => {
+			await this.$store.dispatch('resource/searchResources');
+			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+		});
 	}
 
     async getAll(types) {
+		this.query.keyword = null;
 		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
+		await this.search();
+	}
+
+	async init() {
+		const { keyword } = this.$route.params;
+		if (keyword) this.query.keyword = keyword;
 		await this.search();
 	}
 
@@ -178,7 +189,7 @@ export default class ExploreResourcesScreen extends Vue {
     ============================================*/
 
     async mounted() {
-		await this.search();
+		await this.init();
     }
 
 	beforeDestroy() {

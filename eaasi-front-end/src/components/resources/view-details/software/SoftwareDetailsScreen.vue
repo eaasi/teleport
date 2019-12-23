@@ -56,6 +56,16 @@
 							@remove-fmt="removeFmt"
 						/>
 					</div>
+					<div class="col-md-4" v-if="softwareMetadata && softwareMetadata.mediaItems && softwareMetadata.mediaItems.file">
+						<section-heading
+							title="Attached Files"
+							size="large"
+						/>
+						<media-files-list
+							readonly
+							:files="softwareMetadata.mediaItems.file"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -65,21 +75,23 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject } from '@/types/Resource';
+import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { resourceTypes } from '@/utils/constants';
-import { ILabeledEditableItem } from '@/types/ILabeledItem';
+import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
 import RenderingEnvironments from './RenderingEnvironments.vue';
 import SoftwareProperties from './SoftwareProperties.vue';
 import EaasiTask from '@/models/task/EaasiTask';
+import MediaFilesList from './MediaFilesList.vue';
 
 @Component({
 	name: 'SoftwareDetailsScreen',
 	components: {
+		MediaFilesList,
 		SoftwareProperties,
         EditableLabeledItemList,
         ResourceDetailsSummary,
@@ -108,8 +120,8 @@ export default class SoftwareDetailsScreen extends Vue {
 	get resourceSummary(): IEaasiResourceSummary {
 		return {
 			id: this.activeSoftware.objectId,
-			title: this.softwareMetadata.metadata.title,
-			description: this.softwareMetadata.description,
+			title: this.softwareMetadata ? this.softwareMetadata.metadata.title : '',
+			description: this.softwareMetadata ? this.softwareMetadata.description : '',
 			content: null,
 			subContent: null,
 			tagGroup: [],
@@ -131,7 +143,10 @@ export default class SoftwareDetailsScreen extends Vue {
 
 	async init() {
 		const { resourceId, archiveId } = this.$route.query;
-		this.softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId: resourceId });
+		const softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId: resourceId });
+		if (softwareMetadata && softwareMetadata.metadata) {
+			this.softwareMetadata = softwareMetadata;
+		}
 		this.activeSoftware = await this.$store.dispatch('software/getSoftwareObject', resourceId);
 		if (!this.activeSoftware || !this.softwareMetadata) return;
 		this.toggleValue = this.toggleOptions[0];
@@ -208,6 +223,7 @@ export default class SoftwareDetailsScreen extends Vue {
 	}
 
 	_populateObjectDetails() {
+		if (!this.softwareMetadata) return;
 		this.objectDetailsItems = [
 			{
 				label: 'Object ID',

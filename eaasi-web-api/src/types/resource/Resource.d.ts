@@ -39,7 +39,8 @@ export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	types: ResourceType[];
 	archives: ArchiveType[];
 	keyword: string;
-	userId?: number;
+	userId: number;
+	onlyBookmarks: boolean;
 }
 
 export interface IResourceSearchResponse {

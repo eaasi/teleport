@@ -5,9 +5,7 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse,
-	IOverrideContentRequest, IReplicateImageRequest, IResourceSearchFacet, IResourceSearchQuery,
-	IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IReplicateImageRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
@@ -47,39 +45,41 @@ export default class ResourceAdminService extends BaseService {
 		// TODO: Refactor
 		let result = new ResourceSearchResponse();
 
-		const allEnvironments = await this.getAllEnvironments();
+		const allEnvironments = await this.getAllEnvironmentsMetadata();
 		const allSoftware = await this.getAllSoftware();
 		const allContent = await this.getAllContent();
 
 		let environmentResult = {
 			result: allEnvironments,
 			totalResults: allEnvironments.length
-		} as IEaasiSearchResponse<IEnvironment>;
+		};
 
 		let softwareResult = {
 			result: allSoftware,
 			totalResults: allSoftware.length
-		} as IEaasiSearchResponse<ISoftwarePackageDescription>;
+		};
 
 		let contentResult = {
 			result: allContent,
 			totalResults: allContent.length
-		} as IEaasiSearchResponse<IContentItem>;
+		};
 
 		if (query.archives && query.archives.length > 0) {
-			environmentResult.result = environmentResult.result.filter(env => query.archives.includes(env.archive));
-			softwareResult.result = softwareResult.result.filter(sw => query.archives.includes(sw.archive));
+			environmentResult.result = allEnvironments.filter(env => query.archives.includes(env.archive));
+			environmentResult.totalResults = environmentResult.result.length;
+			
+			softwareResult.result = allSoftware.filter(sw => query.archives.includes(sw.archive || sw.archiveId));
+			softwareResult.totalResults = softwareResult.result.length;
 
 			// Note: This double check because in the case of Content Archive, it appears to be referenced as archiveId
-			contentResult.result = contentResult.result.filter(content => {
-				return (query.archives.includes(content.archive) || (query.archives.includes(content.archiveId)));
-			});
+			contentResult.result = allContent.filter(content => query.archives.includes(content.archive || content.archiveId));
+			contentResult.totalResults = contentResult.result.length;
 		}
 
-		if (query.userId) {
-			const response = await this._bookmarkService.getByUserID(query.userId);
-			result.bookmarks = response.result.map(b => b.toJSON()) as IBookmark[];
+		const bookmarkResponse = await this._bookmarkService.getByUserID(query.userId);
+		if (bookmarkResponse.result) result.bookmarks = bookmarkResponse.result.map(b => b.toJSON()) as IBookmark[];
 
+		if (query.userId && query.onlyBookmarks) {
 			contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
 			softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
 			environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
@@ -89,11 +89,15 @@ export default class ResourceAdminService extends BaseService {
 		softwareResult.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
 		contentResult.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 
-		result.facets = this.populateFacets(environmentResult, softwareResult, contentResult);
-
 		contentResult.result = this._filterResults<IContentItem>(query, contentResult.result);
 		softwareResult.result = this._filterResults<ISoftwarePackageDescription>(query, softwareResult.result);
 		environmentResult.result = this._filterResults<IEnvironment>(query, environmentResult.result);
+
+		result.facets = this.populateFacets(environmentResult, softwareResult, contentResult);
+
+		environmentResult.result = this.paginate<IEnvironment>(query, environmentResult.result);
+		softwareResult.result = this.paginate<ISoftwarePackageDescription>(query, softwareResult.result);
+		contentResult.result = this.paginate<IContentItem>(query, contentResult.result);
 
 		result.content = contentResult;
 		result.software = softwareResult;
@@ -193,6 +197,16 @@ export default class ResourceAdminService extends BaseService {
 	private async getAllEnvironments(): Promise<IEnvironment[]> {
 		let res = await this._emilEnvSvc.get('');
 		return await res.json() as IEnvironment[];
+	}
+
+	private async getAllEnvironmentsMetadata(): Promise<IEnvironment[]> {
+		const envs = await this.getAllEnvironments();
+		const metadataEnvs = [];
+		for(let i = 0; i < envs.length; i++) {
+			const envMetadata = await this.getEnvironment(envs[i].envId);
+			metadataEnvs.push(envMetadata);
+		}
+		return metadataEnvs;
 	}
 
 	/*============================================================
@@ -404,7 +418,7 @@ export default class ResourceAdminService extends BaseService {
 			});
 		}
 
-		return this._paginate(query, results) as T[];
+		return results;
 	}
 
 	/**
@@ -413,8 +427,8 @@ export default class ResourceAdminService extends BaseService {
 	 * @param results IEaasiResource the initial list of results to paginate
 	 * @private
 	 */
-	private _paginate(query: IEaasiSearchQuery, results: IEaasiResource[]) {
-		return results.slice((query.page - 1) * query.limit, query.page * query.limit);
+	public paginate<T extends IEaasiResource>(query: IEaasiSearchQuery, results: IEaasiResource[]): T[] {
+		return results.slice((query.page - 1) * query.limit, query.page * query.limit) as T[];
 	}
 
 	private _filterByArchive(resources: any[], archive: string) {

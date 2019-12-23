@@ -54,7 +54,6 @@ export default class AppliedSearchFacets extends Vue {
 
 	async deselectAllFacetValues() {
 		this.selectedFacets.forEach(f => f.values.forEach(v => v.isSelected = false));
-		await this.$store.dispatch('resource/clearSearch');
 	}
 
 }
