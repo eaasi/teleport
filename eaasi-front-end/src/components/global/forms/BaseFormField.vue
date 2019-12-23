@@ -59,6 +59,7 @@ export default class BaseFormField extends Vue {
 	get fieldStatus(): string {
 		if (this.error !== null) return 'error';
 		if (this.warning !== null) return 'warning';
+		if (this.value === '') return '';
 		if (this.isValid) return 'valid';
 		return '';
 	}

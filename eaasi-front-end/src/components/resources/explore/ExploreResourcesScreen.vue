@@ -150,11 +150,12 @@ export default class ExploreResourcesScreen extends Vue {
 	
 	/* Data
     ============================================*/
-	isMenuOpenRequest: boolean = true;
+	isMenuOpenRequest: boolean = false;
 
     /* Methods
 	============================================*/
     toggleSideMenu() {
+		if (!this.hasActiveResources) return;
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
 	}
 	
@@ -168,7 +169,9 @@ export default class ExploreResourcesScreen extends Vue {
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			await this.$store.dispatch('resource/searchResources');
-			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+			if (this.bentoResult.bookmarks) {
+				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+			}
 		});
 	}
 
@@ -203,6 +206,13 @@ export default class ExploreResourcesScreen extends Vue {
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
 			await this.$store.dispatch('resource/clearSearch');
+		}
+	}
+
+	@Watch('hasActiveResources')
+	onSelectResources(curVal, prevVal) {
+		if (curVal && !prevVal) {
+			this.isMenuOpenRequest = true;
 		}
 	}
 
