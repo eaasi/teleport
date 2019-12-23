@@ -164,9 +164,9 @@ export default class MyBookmarksSection extends Vue {
     ============================================*/
 
     async search() {
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id});
-		// wait for store and dom to update after setting the query, then call searchResources
-		await this.$nextTick(async () => {
+		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyBookmarks: true });
+		// wait for facets update it's selected property on this tick, call search on next tick
+		this.$nextTick(async () => {
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});

@@ -14,7 +14,7 @@
 			@close="activeTask = null"
 			@success="setTaskSuccessResult"
 		/>
-		<div id="globalLoader" v-if="showLoader">
+		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
 		</div>
 	</div>
@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Watch } from 'vue-property-decorator';
 import eventBus from '@/utils/event-bus';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
@@ -66,7 +66,7 @@ export default class AppContent extends Vue {
 	 * Set up event bus listeners
 	 */
 	initBusListeners() {
-		eventBus.$on('ajaxStart', (showLoader) => this.showLoader = showLoader);
+		eventBus.$on('ajaxStart', () => this.showLoader = true);
 		eventBus.$on('ajaxEnd', () => this.showLoader = false);
 	}
 

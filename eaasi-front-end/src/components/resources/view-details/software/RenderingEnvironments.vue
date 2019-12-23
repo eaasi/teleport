@@ -123,11 +123,17 @@ export default class RenderingEnvironments extends Vue {
     ============================================*/
     async init() {
         let query = new ResourceSearchQuery();
-        query = {...query, types: ['Environment'], limit: 100 };
-        this.$store.commit('resource/SET_QUERY', query);
+        this.$store.commit('resource/SET_QUERY', {
+			...query, 
+			types: ['Environment'], 
+			archives: ['remote'], 
+			limit: 1000 
+		});
         const { environments } = await this.$store.dispatch('resource/searchResources');
         if (!environments) return;
-        this.environments = environments.result.filter(env => env.archive !== 'remote');
+		this.environments = environments.result;
+		this.$store.dispatch('resource/clearSearchQuery');
+		this.$store.commit('resource/SET_RESULT', null);
     }
 
     addEnv(envId: string) {

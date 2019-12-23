@@ -7,7 +7,7 @@ import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { resourceTypes } from '@/utils/constants';
-import { removeDuplicatesFromFlatArray } from '@/utils/functions';
+import { jsonCopy, removeDuplicatesFromFlatArray } from '@/utils/functions';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
@@ -65,9 +65,8 @@ const actions = {
 		let result = await _svc.searchResources(state.query);
 		if (!result) return;
 		commit('SET_RESULT', result);
-		// generates facets based on the result received in searchResources.
-		// eventually won't need to do this, because facets will come with a result from the backend
-		commit('SET_QUERY', {...state.query, selectedFacets: result.facets});
+		const selectedFacets = jsonCopy(result.facets);
+		commit('SET_QUERY', {...state.query, selectedFacets });
 		return result;
 	},
 
@@ -130,13 +129,13 @@ const actions = {
 		commit('SET_SAVING_ENVIRONMENTS', newSavingEnvs);
 	},
 
-	async clearSearch({ commit }) {
+	async clearSearch({ commit, dispatch }) {
 		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
+		commit('SET_QUERY', clearSearchQuery);
+		dispatch('searchResources');
 		let result = await _svc.searchResources(clearSearchQuery);
 		if (!result) return;
 		commit('SET_RESULT', result);
-		// generates facets based on the result received in searchResources.
-    	// eventually won't need to do this, because facets will come with a result from the backend
 		return result;
 	},
 

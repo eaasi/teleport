@@ -226,12 +226,43 @@
 		============================================*/
 
 		async setDetailsItems() : Promise<void> {
-			if (!this.onlySelectedResource
-				|| this.onlySelectedResource.resourceType !== resourceTypes.ENVIRONMENT) return;
+			if (!this.onlySelectedResource) return;
+			const { resourceType } = this.onlySelectedResource;
 
-			let resource = this.onlySelectedResource as IEnvironment;
+			if (resourceType === resourceTypes.ENVIRONMENT) {
+				await this.setEnvironmentDetailsItems();
+			} else if (resourceType === resourceTypes.SOFTWARE) {
+				await this.setSoftwareDetailsItems();
+			}
+		};
 
-			const env = await resourceService.getEnvironment(resource.envId);
+		async setSoftwareDetailsItems() {
+			const { archiveId } = this.onlySelectedResource;
+			const objectId = this.onlySelectedResource.id;
+			const softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId });
+			if (!softwareMetadata.metadata) return;
+
+			let detailsItems = [
+				{
+					label: 'Description',
+					value: softwareMetadata.metadata.description
+				}
+			];
+
+			if (softwareMetadata.mediaItems.file && softwareMetadata.mediaItems.file.length > 0) {
+				softwareMetadata.mediaItems.file.forEach(f => {
+					detailsItems.push({
+						label: `${f.dataResourceType} (${f.type})`,
+						value: f.localAlias ? f.localAlias : f.id
+					});
+				});
+			}
+
+			this.detailsItems = detailsItems;
+		}
+
+		async setEnvironmentDetailsItems() {
+			const env = await resourceService.getEnvironment(this.onlySelectedResource.envId);
 			let enableInternet = env.enableInternet ? env.enableInternet.toString() : 'false';
 			let enablePrinting = env.enablePrinting ? env.enablePrinting.toString() : 'false';
 
@@ -264,7 +295,7 @@
 			}
 
 			this.detailsItems = detailsItems;
-		};
+		}
 
 		toggleSlide() {
 			this.$emit('toggle');

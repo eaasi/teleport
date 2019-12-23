@@ -1,9 +1,8 @@
+import config from '@/config';
 import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiSearchQuery } from '@/types/Search';
-import { IEaasiApiResponse, IEaasiApiRequestOptions } from 'eaasi-http';
 import eventBus from '@/utils/event-bus';
-import config from '@/config';
-import Cookies from 'js-cookie';
+import { IEaasiApiRequestOptions, IEaasiApiResponse } from 'eaasi-http';
 
 export default class BaseHttpService {
 
@@ -118,7 +117,7 @@ export default class BaseHttpService {
 		data?: any,
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
-
+		
 		if (url.indexOf('://') === -1) url = config.SERVICE_URL + url;
 
 		let self = this;
@@ -130,19 +129,21 @@ export default class BaseHttpService {
 
 		try {
 			// Let Vue know that an ajax request has been initiated
-			eventBus.$emit('ajaxStart', !options.suppressSpinner);
-
+			if (!options.suppressSpinner) eventBus.$emit('ajaxStart');
+			
 			let res = await fetch(request);
 
-			// Let Vue know that an ajax request has been completed
-			eventBus.$emit('ajaxEnd');
 			response = res as IEaasiApiResponse<T>;
-
+			
 			// If 200 response, parse the body as the generic type
 			if (res.ok) response.result = await res.json();
-
+			
 			// Handle non-200 responses
 			else self._handleBadResponse<T>(requestInit, res, options.suppressErrors);
+			
+			// Let Vue know that an ajax request has been completed
+			if (!options.suppressSpinner) eventBus.$emit('ajaxEnd');
+			
 			return response;
 		} catch (e) {
 			eventBus.$emit('ajaxEnd');

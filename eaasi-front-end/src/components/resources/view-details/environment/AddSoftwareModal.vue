@@ -1,5 +1,6 @@
 <template>
 	<form-modal
+		v-if="!loading"
 		title="Add Software"
 		save-text="Run"
 		@close="$emit('cancel')"
@@ -8,12 +9,6 @@
 		size="sm"
 		class="software-picker-modal"
 	>
-		<div v-if="loading" class="flex flex-center flex-column">
-			<h3 style="margin-bottom: 2rem;">
-				Fetching software packages...
-			</h3>
-			<loader />
-		</div>
 		<div v-if="softwareList.length">
 			<h3>Available software packages</h3>
 			<autocomplete

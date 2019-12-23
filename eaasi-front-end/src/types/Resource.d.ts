@@ -203,7 +203,7 @@ export interface IContentFile {
 	filesize: number;
 	id: string;
 	isDefault: boolean;
-	localAlias: string;
+	localAlias?: string;
 	type: string;
 	url: string;
 }
