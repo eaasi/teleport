@@ -38,10 +38,10 @@ app.use(upload.array('files[]'));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Eaasi path serves all the client view model data
-app.use('/eaasi_server', require('./routes/eaasi'));
+app.use('/eaasi_app', require('./routes/eaasi'));
 
 // API path is for RESTful data
-app.use('/eaasi_app', require('./routes/rest-api'));
+app.use('/resource_metadata', require('./routes/rest-api'));
 
 // API docs
 app.use('/', express.static(path.join(__dirname, '../apidoc')));

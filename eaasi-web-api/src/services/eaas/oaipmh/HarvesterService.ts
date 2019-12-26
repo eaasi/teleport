@@ -5,7 +5,7 @@ const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/oaipmh';
 // https://presemu02.library.yale.edu/oaipmh/providers
 export default class HarvesterService {
 
-	private readonly _svc: HttpJSONService
+	private readonly _svc: HttpJSONService;
 
 	constructor(service = new HttpJSONService()) {
 		this._svc = service;

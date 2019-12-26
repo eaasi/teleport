@@ -1,6 +1,6 @@
 <template>
 	<div class="harvester-list">
-		<table class="eaasi-table">
+		<table class="eaasi-table" id="oai-pmh-endpoints">
 			<caption>Available OAIP-MH Harvester Endpoints</caption>
 			<thead>
 				<tr>
