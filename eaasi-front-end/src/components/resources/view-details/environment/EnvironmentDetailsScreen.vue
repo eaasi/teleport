@@ -162,6 +162,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		if (result && result.id) {
 			this.activeMode = this.mods[0];
 			this.$router.replace(`/resources/environment?resourceId=${result.id}`);
+			this.$route.query['resourceId'] = result.id;
 			await this.init();
 		}
 	}
