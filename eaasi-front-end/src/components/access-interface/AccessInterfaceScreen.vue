@@ -55,7 +55,6 @@
 	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';
-
 	@Component({
 		name: 'AccessInterfaceScreen',
 		components: {
@@ -93,7 +92,6 @@
 
 		/* Data
         ============================================*/
-
 		showConfirmExitModal: boolean = false;
 		showConfirmRestartModal: boolean = false;
 

@@ -157,6 +157,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		this.emulatorLabeledItems.forEach(el => this.activeEnvironment[el.property] = el.value);
 		this.uiOptionLabeledItems.forEach(el => this.activeEnvironment[el.property] = el.value);
 		this.networkLabeledItems.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
+		this.activeEnvironment.time = new Date(this.activeEnvironment.time).getTime();
 		const result = await this.$store.dispatch('resource/updateEnvironmentDetails', this.activeEnvironment);
 		if (result && result.id) {
 			this.activeMode = this.mods[0];

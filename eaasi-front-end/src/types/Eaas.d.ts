@@ -35,7 +35,7 @@ export interface IEaasClient {
 
 export interface IEaasStartObject {
 	data: IContainerComponentRequest;
-	vizualize?: boolean;
+	visualize?: boolean;
 }
 
 export interface IComponentInputMedium {
