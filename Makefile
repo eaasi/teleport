@@ -10,11 +10,17 @@ DEV_COMPOSE_FILE := ./docker-compose.yml
 RELEASE_PROJECT := $(PROJECT_NAME)$(BUILD_ID)
 DEV_PROJECT := $(RELEASE_PROJECT)_dev
 
-.PHONY: test build clean run clean sonar
+.PHONY: test clean-build-run build-run build clean run clean sonar
 
-clean-build:
-	echo "running test stage"
+clean-build-run:
+	echo "running clean-build-run stage"
 	sudo docker-compose down -v
+	sudo docker-compose build
+	sudo docker-compose up
+
+build-run:
+	echo "running build-run stage"
+	sudo docker-compose down
 	sudo docker-compose build
 	sudo docker-compose up
 
