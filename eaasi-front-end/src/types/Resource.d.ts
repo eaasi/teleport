@@ -93,7 +93,7 @@ export interface IEnvironment extends IEaasiResource {
 	containerEmulatorVersion?: string;
 	isLinuxRuntime?: boolean;
 	processAdditionalFiles?: boolean;
-	time?: Date;
+	time?: number;
 }
 
 export interface IEaasiEnvironmentCardSummary {

@@ -131,7 +131,7 @@
 				}
 				vm.setupListeners();
 				vm.startEnvironment();
-
+				
 			} catch(e) {
 				this.handleError(e);
 			}
@@ -157,7 +157,7 @@
 				}
 				let keyboardPrefs = vm.getKeyboardPreferences();
 				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
-				await vm.client.start([{data, vizualize: true}], params);
+				await vm.client.start([{data, visualize: true}], params);
 				vm.isStarted = true;
 				await vm.client.connect();
 				vm.attachUserControls();

@@ -1,4 +1,4 @@
-import { IEnvironment, IDrive } from '@/types/Resource';
+import { IDrive, IEnvironment } from '@/types/Resource';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
@@ -14,7 +14,7 @@ export type IEnvironmentUpdateRequest = {
     os?: string;
     processAdditionalFiles: boolean;
     shutdownByOs: boolean;
-    time: Date;
+    time: number;
     title: string;
     useWebRTC: boolean;
     useXpra: boolean;
