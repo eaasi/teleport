@@ -162,6 +162,10 @@
 				await vm.client.connect();
 				vm.attachUserControls();
 				this.clientComponentId = vm.client['componentId'];
+
+				if (vm.client.driveId) {
+					this.$store.commit('SET_DRIVE_ID', vm.client.driveId);
+				}
 			} catch(e) {
 				vm.handleError(e);
 			}

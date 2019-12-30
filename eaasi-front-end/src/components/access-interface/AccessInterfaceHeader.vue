@@ -116,6 +116,9 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 		@Get('emulatorIsRunning')
 		readonly emulatorIsRunning: boolean;
 
+		@Get('driveId')
+		readonly driveId: number;
+
 		/* Data
 		============================================*/
 		mediaItems: [] = [];
@@ -159,12 +162,13 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 		}
 
 		changeMedia(mediaId) {
+			let EaasClient = (window as any).EaasClient || null;
 			const { softwareId, objectId, archiveId } = this.$route.query;
 			const label = mediaId === 'empty' ? '' : mediaId;
 			const changeMediaRequest = {
 				objectId: softwareId ? softwareId : objectId,
 				label,
-				driveId: 1
+				driveId: this.driveId
 			};
 			eventBus.$emit('emulator:change-media', changeMediaRequest);
 			this.showMediaOptions = false;

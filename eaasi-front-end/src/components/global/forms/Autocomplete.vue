@@ -61,7 +61,7 @@ export default class Autocomplete extends BaseFormField {
 
 	$refs!: {
 		_list: HTMLFormElement
-	}
+	};
 
 	/* Props
 	============================================*/
@@ -70,41 +70,41 @@ export default class Autocomplete extends BaseFormField {
 	 * The key of the object value to search by and display
 	 */
 	@Prop({type: String, required: true})
-	readonly anchor: string
+	readonly anchor: string;
 
 	/**
 	 * When true, clears the input field when an item is selected
 	 */
 	@Prop({type: Boolean, required: false})
-	readonly clearOnSelect: boolean
+	readonly clearOnSelect: boolean;
 
 	 /**
 	 * A local array of objects to search
 	 */
 	@Prop({type: Array, required: false})
-	readonly data: Object[]
+	readonly data: Object[];
 
 	/**
 	 * A JSON endpoint url for receiving remote objects to search through
 	 */
 	@Prop({type: String, required: false})
-	readonly url: string
+	readonly url: string;
 
 	/**
 	 *  The text value of the input field
 	 */
 	@Prop({type: String, required: false})
-	readonly value: string
+	readonly value: string;
 
 	/* Data
 	============================================*/
 
-	failedToLoadResults: boolean = false
-	highlightedIndex?: number = null
-	loading: boolean = false
-	listVisible: boolean = true
-	results: any[] = []
-	timeout?: number = null
+	failedToLoadResults: boolean = false;
+	highlightedIndex?: number = null;
+	loading: boolean = false;
+	listVisible: boolean = true;
+	results: any[] = [];
+	timeout?: number = null;
 
 	/* Computed
 	============================================*/

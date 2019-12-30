@@ -29,6 +29,7 @@ class GlobalState {
 	appError: IAppError = null;
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
 	showLoader: boolean = false;
+	driveId: number;
 }
 
 const state = new GlobalState();
@@ -48,6 +49,10 @@ mutations['ADD_OR_UPDATE_TASK'] = function(state: GlobalState, task: ITaskState)
 
 mutations['REMOVE_TASK'] = function(state: GlobalState, taskId: string | number) {
 	state.runningTasks = state.runningTasks.filter(x => x.taskId != taskId);
+};
+
+mutations['SET_DRIVE_ID'] = function(state: GlobalState, driveId: number) {
+	state.driveId = driveId;
 };
 
 /*============================================================

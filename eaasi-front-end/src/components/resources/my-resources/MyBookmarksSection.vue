@@ -3,12 +3,12 @@
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
 				<p>
-					<span v-if="bookmarks.length">These resources will be bookmarked until you remove the bookmark.</span>
+					<span v-if="bookmarks && bookmarks.length">These resources will be bookmarked until you remove the bookmark.</span>
 					<span v-else>No Bookmarks Found</span>
 				</p>
 			</div>
 			<div class="btn-section">
-				<ui-button color-preset="light-blue" @click="raiseClearBookmarksModal" v-if="bookmarks.length">
+				<ui-button color-preset="light-blue" @click="raiseClearBookmarksModal" v-if="bookmarks && bookmarks.length">
 					Clear All Bookmarks
 				</ui-button>
 				<ui-button color-preset="light-blue" @click="$router.push('explore')" v-else>
@@ -16,7 +16,7 @@
 				</ui-button>
 			</div>
 		</div>
-		<div class="resource-results" v-if="bentoResult && bookmarks.length" id="myBookmarks">
+		<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
 			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
@@ -130,7 +130,7 @@ export default class MyBookmarksSection extends Vue {
 
     @Get('loggedInUser')
     user: IEaasiUser;
-	
+
 	@Get('resource/facetsOfSingleTypeSelected')
 	facetsOfSingleTypeSelected: Boolean;
 
@@ -171,7 +171,7 @@ export default class MyBookmarksSection extends Vue {
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});
 	}
-	
+
 	async paginate(page) {
 		this.query.page = page;
 		await this.$store.dispatch('resource/searchResources');

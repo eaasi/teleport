@@ -48,13 +48,15 @@
 				Detect environments
 			</ui-button>
 		</div>
-		<environment-picker-modal 
-			v-if="showEnvPicker && environments" 
+
+		<environment-picker-modal
+			v-if="showEnvPicker && environments"
 			:environments="environments"
 			:selected-environments="renderingEnvs"
-			@cancel="showEnvPicker = false" 
+			@cancel="showEnvPicker = false"
 			@add-env="addEnv"
 		/>
+
 		<confirm-modal
 			v-if="confirmAction === 'detect'"
 			@close="confirmAction = null"
@@ -83,6 +85,7 @@
 </template>
 
 <script lang="ts">
+import {archiveTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEnvironment, IObjectClassificationRequest } from '@/types/Resource';
@@ -123,15 +126,18 @@ export default class RenderingEnvironments extends Vue {
     ============================================*/
     async init() {
         let query = new ResourceSearchQuery();
+
         this.$store.commit('resource/SET_QUERY', {
-			...query, 
-			types: ['Environment'], 
-			archives: ['remote'], 
-			limit: 1000 
+			...query,
+			types: ['Environment'],
+			archives: [archiveTypes.REMOTE, archiveTypes.PUBLIC, archiveTypes.DEFAULT],
+			limit: 1000
 		});
+
         const { environments } = await this.$store.dispatch('resource/searchResources');
         if (!environments) return;
-		this.environments = environments.result;
+
+		this.environments = environments.result.filter(env => [archiveTypes.PUBLIC, archiveTypes.DEFAULT].includes(env.archive));
 		this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);
     }

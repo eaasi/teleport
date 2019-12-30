@@ -10,15 +10,21 @@
 	>
 		<div class="cd-form">
 			<h3>Available environments</h3>
-			<autocomplete
-				anchor="title"
-				@select="select"
-				:data="environments"
+			<select-list
+				@change="select"
 				v-model="selectedEnvName"
 				label="Search Environments"
 				id="env-autocomplete"
 				rules="required"
-			/>
+			>
+				<option
+					v-for="env in environments"
+					:value="env.envId"
+					:key="env.envId"
+				>
+					{{ env.title }}
+				</option>
+			</select-list>
 			<div v-if="alreadySelected && selectedEnv">
 				{{ selectedEnv.title }} already selected. Please pick a new Environment.
 			</div>
@@ -28,7 +34,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import { IEnvironment } from '@/types/Resource';
 
 @Component({
@@ -62,15 +68,14 @@ export default class EnvironmentPickerModal extends Vue {
 
     /* Methods
     ============================================*/
-    select(env: IEnvironment) {
-        this.selectedEnvId = env.envId;
+    select(envId: string) {
+        this.selectedEnvId = envId;
     }
 
     addEnv() {
         if (!this.selectedEnvId || this.alreadySelected) return;
         this.$emit('add-env', this.selectedEnvId);
     }
-    
 }
 </script>
 

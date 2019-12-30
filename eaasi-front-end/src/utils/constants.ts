@@ -33,4 +33,10 @@ interface IImportTypes {
 	BULK: ImportType
 }
 
+export const archiveTypes: any = {
+	PUBLIC: 'default',
+	DEFAULT: 'public',
+	REMOTE: 'remote',
+};
+
 export const MIN_SEARCH_RESULT_LIMIT = 10;
