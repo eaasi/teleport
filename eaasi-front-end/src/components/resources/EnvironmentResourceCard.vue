@@ -206,6 +206,14 @@
 							text: 'Base'
 						});
 					}
+
+					if (val === 'object') {
+						this.resourceTypeTags.push({
+							icon: 'fa-save',
+							color: 'blue',
+							text: 'Object'
+						});
+					}
 				}
 			}
 

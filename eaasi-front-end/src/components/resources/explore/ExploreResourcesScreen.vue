@@ -147,7 +147,7 @@ export default class ExploreResourcesScreen extends Vue {
 	get hasSelectedFacets() {
 		return this.onlySelectedFacets.length > 0;
 	}
-	
+
 	/* Data
     ============================================*/
 	isMenuOpenRequest: boolean = false;
@@ -158,7 +158,7 @@ export default class ExploreResourcesScreen extends Vue {
 		if (!this.hasActiveResources) return;
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
 	}
-	
+
 	async paginate(page) {
 		this.query.page = page;
 		await this.$store.dispatch('resource/searchResources');

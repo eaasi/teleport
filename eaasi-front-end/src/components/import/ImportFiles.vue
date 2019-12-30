@@ -55,7 +55,11 @@
 			</div>
 
 			<div class="flex-row justify-between mb-lg">
-				<h3 class="no-mb">{{ files.length }} files attached to this resource.</h3>
+				<div class="flex-column file-message">
+					<div class="no-mb" v-if="files.length === 1">{{ files.length }} file attached to this resource.</div>
+					<div class="no-mb" v-if="files.length > 1">{{ files.length }} files attached to this resource.</div>
+					<div v-if="files.length > 1">Drag and drop files using the handle on the right-hand side to change their order.</div>
+				</div>
 				<file-upload-button
 					secondary
 					@change="addFiles"
@@ -126,6 +130,7 @@
 		<br />
 
 		<!-- Non-Environment Import Only -->
+
 		<div class="row" v-if="!isEnvImport">
 			<div class="col-md-12">
 				<div class="software-file-uploader">
@@ -316,5 +321,12 @@
 	#kvm {
 		float: left;
 		margin: 1.2rem 0;
+	}
+
+	.file-message {
+		div {
+			font-size: 1.8rem;
+			margin-bottom: 1rem;
+		}
 	}
 </style>

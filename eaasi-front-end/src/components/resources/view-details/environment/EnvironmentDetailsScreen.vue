@@ -1,11 +1,14 @@
 <template>
 	<div id="myResources" v-if="activeEnvironment">
-		<div class="pull-right" style="margin: 1.2rem;">
+		<div class="eds-actions pull-right" style="margin: 1.2rem;">
 			<ui-button v-if="readOnlyMode" size="md" @click="confirmAction = 'replicate'">
-				Replicate
+				Save to My Node
 			</ui-button>
 			<ui-button v-else size="md" @click="addingSoftware = true">
 				Add Software
+			</ui-button>
+			<ui-button v-if="isRunnable" size="md" @click="runEnvironment">
+				Run in Emulator
 			</ui-button>
 		</div>
 		<h1>Environment Details</h1>
@@ -20,7 +23,7 @@
 				:toggle-value="activeMode"
 				:toggle-options="mods"
 			/>
-			<environment-metadata-section 
+			<environment-metadata-section
 				v-show="activeTab === 'Metadata'"
 				:resource="activeEnvironment"
 				:active-mode="activeMode"
@@ -32,8 +35,8 @@
 				:config-machine-labeled-items="configMachineLabeledItems"
 			/>
 			<revision-list
-				v-show="activeTab === 'History'" 
-				:revisions="activeEnvironment.revisions" 
+				v-show="activeTab === 'History'"
+				:revisions="activeEnvironment.revisions"
 			/>
 		</div>
 		<!-- Modals -->
@@ -87,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import {archiveTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
@@ -141,6 +145,10 @@ export default class EnvironmentDetailsScreen extends Vue {
 	============================================*/
 	get readOnlyMode() {
 		return this.activeEnvironment && this.activeEnvironment.archive === 'remote';
+	}
+
+	get isRunnable() {
+		return [archiveTypes.PUBLIC, archiveTypes.DEFAULT].includes(this.activeEnvironment.archive);
 	}
 
     /* Methods
@@ -200,6 +208,10 @@ export default class EnvironmentDetailsScreen extends Vue {
 		}
 	}
 
+	async runEnvironment() {
+		await this.$router.push(`/access-interface/${this.activeEnvironment.envId}`);
+	}
+
 	reset() {
 		clearInterval(this.timer);
 		this.success = false;
@@ -216,7 +228,7 @@ export default class EnvironmentDetailsScreen extends Vue {
     created() {
 		this.init();
 	}
-	
+
 	/* Helpers
 	============================================*/
 	_populateInstalledSoftware() {
@@ -471,8 +483,13 @@ export default class EnvironmentDetailsScreen extends Vue {
 </script>
 
 <style lang="scss">
-	.vrd-content {
+	.eds-actions {
+		button {
+			margin: 0.4rem;
+		}
+	}
 
+	.vrd-content {
 		.vrd-subsection {
 			padding: 18px 0;
 		}

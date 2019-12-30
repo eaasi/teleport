@@ -156,6 +156,7 @@ const actions = {
 			};
 
 			let i = 0;
+
 			blobs.forEach(async url => {
 				let file = store.state.filesToUpload[i];
 				importRequest.files.push({
@@ -243,6 +244,7 @@ const actions = {
 	/**
 	 * Triggers a saveSoftwareObject request
 	 * @param state: Store<ImportState>
+	 * @param software
 	 * @param createPayload
 	 */
 	async saveSoftwareObject({ state }: Store<ImportState>, software: ISoftwareObject) {
