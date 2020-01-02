@@ -2,6 +2,7 @@ export interface IEaasClient {
 	guac: any, // Guacamole.Client
 	params?: IEaasClientParamaters;
 	componentId: string;
+	eventSource: EventSource;
 	driveId: string;
 	connect(): Promise<void>;
 	changeMedia(postObj: any, onChangeDone: Function): void;
@@ -12,7 +13,7 @@ export interface IEaasClient {
 	establishGuacamoleTunnel(controlUrl: string): any;
 	getContainerResultUrl(): string;
 	getEmulatorState(): Promise<void>;
-	getPrintJobs(successFn: Function, errorFn: Function): void;
+	getPrintJobs(successFn?: Function, errorFn?: Function): void;
 	getProxyURL(): Promise<string>;
 	getScreenshotUrl(): string;
 	keepAlive(): void;

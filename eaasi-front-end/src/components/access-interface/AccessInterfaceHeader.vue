@@ -1,5 +1,3 @@
-import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
-import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 <template>
 	<div id="accessHeader">
 		<div class="ah-top flex align-center">
@@ -33,7 +31,13 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 		<div class="ah-bottom">
 			<div class="ah-options-left">
 				<ui-button
-					white
+					size="sm"
+					:disabled="printJobLabels.length < 1"
+					@click="showPrintJobsModal = true"
+				>
+					Download Print Jobs
+				</ui-button>
+				<ui-button
 					size="sm"
 					:disabled="mediaItems.length === 0"
 					@click="showMediaOptions = true"
@@ -42,7 +46,6 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 					<span v-if="mediaItems.length" class="fas fa-chevron-down" style="margin-left: 1rem;"></span>
 				</ui-button>
 				<ui-button
-					white
 					size="sm"
 					disabled
 				>
@@ -53,7 +56,6 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 			<div class="ah-options-right">
 				<ui-button
 					icon="camera"
-					white
 					size="sm"
 					@click="emitTakeScreenshot"
 				>
@@ -61,7 +63,6 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 				</ui-button>
 				<ui-button
 					icon="keyboard"
-					white
 					size="sm"
 					@click="emitSendEscape"
 				>
@@ -69,7 +70,6 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 				</ui-button>
 				<ui-button
 					icon="keyboard"
-					white
 					size="sm"
 					@click="emitSendCtrlAltDelete"
 				>
@@ -90,6 +90,12 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 			@close="showSaveEnvironment = false"
 			@save-environment="saveEnvironment"
 		/>
+		<print-jobs-modal
+			v-if="showPrintJobsModal"
+			:print-job-labels="printJobLabels"
+			@download-print-job="downloadPrintJob"
+			@close="showPrintJobsModal = false"
+		/>
 	</div>
 </template>
 
@@ -102,11 +108,13 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 	import {Get} from 'vuex-pathify';
 	import ChangeMediaModal from './ChangeMediaModal.vue';
 	import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
+	import PrintJobsModal from './PrintJobsModal.vue';
 
 	@Component({
 		name: 'AccessInterfaceHeader',
 		components: {
 			ChangeMediaModal,
+			PrintJobsModal,
 			SaveEnvironmentModal
 		}
 	})
@@ -125,6 +133,8 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 		mediaItems: [] = [];
 		showMediaOptions: boolean = false;
 		showSaveEnvironment: boolean = false;
+		showPrintJobsModal: boolean = false;
+		printJobLabels: string[] = [];
 
 		/* Methods
         ============================================*/
@@ -138,6 +148,10 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 
 		emitSendCtrlAltDelete() {
 			eventBus.$emit('emulator:send:ctrlAltDelete');
+		}
+
+		downloadPrintJob(label: string) {
+			eventBus.$emit('emulator:print:download-print-job', label);
 		}
 
 		async saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
@@ -190,6 +204,10 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 			this.showMediaOptions = false;
 		}
 
+		initEmulatorListeners() {
+			eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
+		}
+
 		async mounted() {
 			const { softwareId, objectId, archiveId } = this.$route.query;
 			if ((softwareId || objectId) && archiveId) {
@@ -199,6 +217,11 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 				});
 				this.mediaItems = result.mediaItems.file;
 			}
+			this.initEmulatorListeners();
+		}
+
+		beforeDestroy() {
+			eventBus.$off('emulator:print:add-print-job');
 		}
 	}
 

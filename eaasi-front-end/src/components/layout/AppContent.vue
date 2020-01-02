@@ -14,6 +14,7 @@
 			@close="activeTask = null"
 			@success="setTaskSuccessResult"
 		/>
+		<notifications />
 		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
 		</div>
@@ -30,10 +31,12 @@ import TaskModal from '@/components/layout/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { Get, Sync } from 'vuex-pathify';
 import AppFooter from '@/components/layout/AppFooter.vue';
+import Notifications from './Notifications.vue';
 
 @Component({
 	name: 'AppContent',
 	components: {
+		Notifications,
 		AdminMenu,
 		SlideMenu,
 		TaskModal,

@@ -23,6 +23,8 @@
 	import { slugify } from '@/utils/functions';
 	import MachineComponentRequest from '@/models/eaas/emil/MachineComponentRequest';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
+import { INotification } from '../../types/Notification';
+import { generateId } from '@/utils/functions';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.
@@ -166,6 +168,8 @@
 				if (vm.client.driveId) {
 					this.$store.commit('SET_DRIVE_ID', vm.client.driveId);
 				}
+
+				this.initPrintListeners();
 			} catch(e) {
 				vm.handleError(e);
 			}
@@ -213,6 +217,13 @@
 		saveEmulator() {
 			console.log('TODO: saveEmulator');
 		}
+		
+		async downloadPrintJob(label: string) {
+			// without getPrintJobs() call, downloadPrint() is not working as expected
+			this.client.getPrintJobs();
+			const pdfUrl = this.client.downloadPrint(label);
+			window.open(pdfUrl);
+		}
 
 		async saveEnvironmentImport(importDesc: string) {  // TODO: arg will be object when metadata is ready
 			let importData = {
@@ -235,6 +246,26 @@
 			eventBus.$on('emulator:send:escape', () => this.sendEscape());
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
 			eventBus.$on('emulator:change-media', (changeMediaRequest) => this.changeMedia(changeMediaRequest));
+			eventBus.$on('emulator:print:download-print-job', (label: string) => this.downloadPrintJob(label));
+		}
+
+		initPrintListeners() {
+			this.client.eventSource.addEventListener('print-job', e => {
+				//@ts-ignore
+				var res = JSON.parse(e.data);
+				let notification: INotification = {
+					label: `Print job has failed: ${res.filename}`,
+					time: 5000,
+					type: 'danger',
+					id: generateId()
+				};
+				if (res.status === 'done') {
+					notification.label = `Print job has been completed successfully: ${res.filename}`;
+					notification.type = 'success';
+					eventBus.$emit('emulator:print:add-print-job', res.filename);
+				}
+				eventBus.$emit('notification:show', notification);
+			});
 		}
 
 		removeBusListeners() {
@@ -243,6 +274,7 @@
 			eventBus.$off('emulator:takeScreenshot');
 			eventBus.$off('emulator:send:escape');
 			eventBus.$off('emulator:send:ctrlAltDelete');
+			eventBus.$off('emulator:print:download-print-job');
 		}
 
 		/* Lifecycle Hooks
