@@ -7,7 +7,7 @@
 			</ui-button>
 		</h1>
 		<div v-if="activeContent" class="vrd-content">
-			<mode-toggle 
+			<mode-toggle
 				:editable="isEditMode"
 				@mode-change="onModeChange"
 				@save="saveDetails"
@@ -163,6 +163,7 @@ export default class ContentDetailsScreen extends Vue {
 		const archiveName = this.$route.query.archiveId as string;
 		const contentRequest: IContentRequest = { contentId, archiveName };
 		this.activeContent = await this.$store.dispatch('software/getContent', contentRequest);
+		await this.$store.commit('resource/SET_RESOURCE_NAME', this.activeContent.metadata.title);
 		if (!this.activeContent) return;
 		this.activeMode = this.mods[0];
 		this._populateObjectDetails();
@@ -173,7 +174,7 @@ export default class ContentDetailsScreen extends Vue {
     created() {
 		this.init();
 	}
-	
+
 	/* Helpers
 	============================================*/
 	_populateObjectDetails() {

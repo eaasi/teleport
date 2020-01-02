@@ -93,7 +93,8 @@ export default class FormModal extends Vue {
 		h2 {
 			font-size: 1.8rem;
 			font-weight: 300;
-			padding-left: 2rem;
+			padding-bottom: 0.8rem;
+			padding-left: 0.5rem;
 		}
 	}
 

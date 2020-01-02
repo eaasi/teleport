@@ -1,7 +1,5 @@
-import { SaveEnvironmentOption } from '@/types/SaveEnvironmentOption';
-
 export interface ISaveEnvOptions {
-	saveType: SaveEnvironmentOption
+	saveType: string | number
 	description: string
 	title: string
 }

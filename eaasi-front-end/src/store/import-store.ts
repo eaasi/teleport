@@ -26,6 +26,18 @@ class ImportState {
 	content: ContentImportResource = new ContentImportResource();
 	componentId: string = '';
 	selectedFiles: ResourceImportFile[] = [];
+
+	// True when we're running an environment import, such as from a file or URL
+	isImportedEnvironment: boolean = false;
+
+	// True when we're running an environment as an Object (Content) or Software Environment
+	isConstructedEnvironment: boolean = false;
+	constructedTitle: string = '';
+
+	// Parameters used to define Environment Type when snapshot is called (objectEnvironment, etc)
+	environmentType: string = '';
+	environmentSoftwareId: string = '';
+	environmentContentId: string = '';
 }
 
 const state = new ImportState();
@@ -44,7 +56,7 @@ mutations.RESET = (state) => {
 	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
-	state.componentId= '';
+	state.componentId = '';
 	state.selectedFiles = [];
 };
 
@@ -262,6 +274,21 @@ const actions = {
 
 	async clearFiles({ commit }: Store<ImportState>) {
 		commit('SET_SELECTED_FILES', []);
+	},
+
+	async setEnvironmentType({ commit }, { envType, softwareId, objectId }) {
+		commit('SET_ENVIRONMENT_TYPE', envType);
+		commit('SET_ENVIRONMENT_SOFTWARE_ID', softwareId);
+		commit('SET_ENVIRONMENT_CONTENT_ID', objectId);
+	},
+
+	async clearEnvironment({ commit }) {
+		commit('SET_ENVIRONMENT_TYPE', null);
+		commit('SET_ENVIRONMENT_SOFTWARE_ID', null);
+		commit('SET_ENVIRONMENT_CONTENT_ID', null);
+		commit('SET_IS_CONSTRUCTED_ENVIRONMENT', false);
+		commit('SET_IS_IMPORTED_ENVIRONMENT', false);
+		commit('SET_CONSTRUCTED_TITLE', '');
 	}
 };
 

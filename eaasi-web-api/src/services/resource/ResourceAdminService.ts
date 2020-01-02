@@ -67,7 +67,7 @@ export default class ResourceAdminService extends BaseService {
 		if (query.archives && query.archives.length > 0) {
 			environmentResult.result = allEnvironments.filter(env => query.archives.includes(env.archive));
 			environmentResult.totalResults = environmentResult.result.length;
-			
+
 			softwareResult.result = allSoftware.filter(sw => query.archives.includes(sw.archive || sw.archiveId));
 			softwareResult.totalResults = softwareResult.result.length;
 
@@ -168,6 +168,24 @@ export default class ResourceAdminService extends BaseService {
 			objectId: null,
 			softwareId: null,
 			type: 'newEnvironment',
+			userId: null
+		};
+
+		let httpSvc: IHttpService = new HttpJSONService();
+		let url = `${BASE_URL}/emil/components/${newEnvRequest.componentId}/snapshot`;
+		let res = await httpSvc.post(url, snapshotRequest);
+		return await res.json();
+	}
+
+	async saveNewObjectEnvironment(newEnvRequest: any) {
+		let snapshotRequest = {
+			envId: newEnvRequest.envId,
+			isRelativeMouse: false,
+			message: newEnvRequest.description,
+			title: newEnvRequest.title,
+			objectId: newEnvRequest.objectId,
+			softwareId: null,
+			type: 'objectEnvironment',
 			userId: null
 		};
 

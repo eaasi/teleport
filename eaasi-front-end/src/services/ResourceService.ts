@@ -2,7 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateImageRequest } from '@/helpers/Res
 import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
-import { IEnvironment } from '@/types/Resource';
+import {IEnvironment, ISaveEnvironmentPayload} from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 
 
@@ -119,8 +119,20 @@ class ResourceService extends BaseHttpService {
 	/**
 	 * Makes a POST request to save a new Environment resource from an existing environment ID via snapshot
 	 */
-	async saveNewEnvironment(envId: string, componentId: string, title: any, description: any) {
-		let res = await this.post<any>('/resource/save-new-environment', { envId, componentId, title, description });
+	async saveNewEnvironment(envId: string, componentId: string, title: string, description: string) {
+		let res = await this.post<any>('/resource/save-new-environment',
+			{ envId, componentId, title, description }
+		);
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to save a new Content ("Object") Environment resource via snapshot
+	 */
+	async saveNewObjectEnvironment(envId: string, componentId: string, objectId: string, title: string, description: any) {
+		let res = await this.post<any>('/resource/save-new-object-environment',
+			{ envId, componentId, objectId, title, description }
+		);
 		return res.result;
 	}
 
@@ -128,7 +140,9 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to save a revision of an existing Environment resource via snapshot
 	 */
 	async saveEnvironmentRevision(envId: string, componentId: string, description: any) {
-		let res = await this.post<any>('/resource/save-environment-revision', { envId, componentId, description });
+		let res = await this.post<any>('/resource/save-environment-revision',
+			{ envId, componentId, description }
+		);
 		return res.json();
 	}
 }

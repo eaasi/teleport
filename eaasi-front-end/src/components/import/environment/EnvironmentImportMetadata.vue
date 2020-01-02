@@ -103,6 +103,12 @@ export default class EnvironmentImportMetadata extends Vue {
 		this.versions.push({id});
 	}
 
+
+	/* Lifecycle Hooks
+	============================================*/
+	created() {
+		this.$store.commit('import/SET_IS_IMPORTED_ENVIRONMENT', true);
+	}
 }
 
 </script>

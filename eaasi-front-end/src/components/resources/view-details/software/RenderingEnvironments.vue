@@ -88,11 +88,11 @@
 import {archiveTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEnvironment, IObjectClassificationRequest } from '@/types/Resource';
+import {IContentRequest, IEnvironment, IObjectClassificationRequest} from '@/types/Resource';
+import {Get, Sync} from 'vuex-pathify';
 import EnvironmentPickerModal from './EnvironmentPickerModal.vue';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { ITaskState } from '@/types/Task';
-import EaasiTask from '@/models/task/EaasiTask';
 
 @Component({
     name: 'RenderingEnvironments',
@@ -110,6 +110,13 @@ export default class RenderingEnvironments extends Vue {
 
 	/* Computed
 	============================================*/
+
+	@Sync('import/constructedTitle')
+	constructedTitle: string;
+
+	@Get('resource/activeEnvironment@title')
+	activeEnvironmentName: string;
+
 	get isSoftware() {
 		return this.$route.path.indexOf('software') > 0;
 	}
@@ -137,7 +144,8 @@ export default class RenderingEnvironments extends Vue {
         const { environments } = await this.$store.dispatch('resource/searchResources');
         if (!environments) return;
 
-		this.environments = environments.result.filter(env => [archiveTypes.PUBLIC, archiveTypes.DEFAULT].includes(env.archive));
+		this.environments = environments.result.filter(env => [archiveTypes.PUBLIC, archiveTypes.DEFAULT]
+			.includes(env.archive));
 		this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);
     }
@@ -177,8 +185,27 @@ export default class RenderingEnvironments extends Vue {
         }, 1000);
     }
 
-    run(env) {
+    async run(env) {
 		const idType = this.isSoftware ? 'softwareId' : 'objectId';
+
+		let softwareId = null;
+		let objectId = null;
+
+		if (this.isSoftware) {
+			softwareId = this.resourceId;
+		} else {
+			objectId = this.resourceId;
+		}
+
+		let payload = {
+			envType: this.isSoftware ? 'softwareEnvironment' : 'objectEnvironment',
+			softwareId: softwareId,
+			objectId: objectId
+		};
+
+		await this.$store.dispatch('import/setEnvironmentType', payload);
+		this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
+
         this.$router.push(`/access-interface/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
     }
 
@@ -188,12 +215,12 @@ export default class RenderingEnvironments extends Vue {
 
     /* Lifecycle Hooks
     ============================================*/
-    beforeMount() {
-        this.init();
+    async beforeMount() {
+        await this.init();
     }
 
-    beforeDestroy() {
-        this.$store.dispatch('resource/clearSearchQuery');
+    async beforeDestroy() {
+        await this.$store.dispatch('resource/clearSearchQuery');
     }
 
 }

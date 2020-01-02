@@ -17,7 +17,6 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 				</ui-button>
 				<ui-button
 					size="sm"
-					:disabled="emulatorIsRunning"
 					@click="showSaveEnvironment = true"
 				>
 					Save Environment
@@ -78,12 +77,14 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 				</ui-button>
 			</div>
 		</div>
+
 		<change-media-modal
 			v-if="showMediaOptions"
 			:media-items="mediaItems"
 			@close="showMediaOptions = false"
 			@change-media="changeMedia"
 		/>
+
 		<save-environment-modal
 			v-if="showSaveEnvironment"
 			@close="showSaveEnvironment = false"
@@ -141,19 +142,34 @@ import {SaveEnvironmentOption} from '../../types/SaveEnvironmentOption';
 
 		async saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
 			let { title, description, saveType } = saveEnvOptions ;
+
+			// We are saving a new base environment resource
 			if (saveType === SaveEnvironmentOption.newEnvironment) {
+				console.log(':: accessInterfaceHeader :: calling save new environment');
 				let res = await this.$store.dispatch('resource/saveNewEnvironment', { title, description });
 				if (res.status === '0') {
 					this.$router.push({ name: 'Explore Resources' });
+				} else {
+					console.error('Error Saving Environment: ', res);
 				}
-				// TODO: Show error on fail
 
+            // We are making a revision to an existing environment resource
 			} else if (saveType === SaveEnvironmentOption.createRevision) {
 				let res = await this.$store.dispatch('resource/saveEnvironmentRevision', description);
 				if (res.status === '0') {
 					this.$router.push({ name: 'Explore Resources' });
+				} else {
+					console.error('Error Saving Environment: ', res);
 				}
-				// TODO: Show error on fail
+
+            // We are creating a new environment resource that is an 'Object Environment'
+			} else if (saveType === SaveEnvironmentOption.objectEnvironment) {
+				let res = await this.$store.dispatch('resource/saveObjectEnvironment', { title, description });
+				if (res.status === '0') {
+					this.$router.push({ name: 'Explore Resources' });
+				} else {
+					console.error('Error Saving Environment: ', res);
+				}
 			}
 		}
 
