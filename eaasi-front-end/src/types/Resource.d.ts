@@ -34,6 +34,17 @@ export interface IEaasiResourceSummary extends IEaasiResource {
 	subContent: object
 }
 
+export interface ISaveEnvironmentPayload {
+	type: string,
+	envId: string,
+	message: string,
+	title: string,
+	softwareId: string,
+	objectId: string,
+	userId: string,
+	isRelativeMouse: boolean
+}
+
 /*============================================================
  == Environments
 /============================================================*/
@@ -187,6 +198,7 @@ export interface IObjectClassificationRequest {
 /*============================================================
  == Content
 /============================================================*/
+
 export interface IContent {
 	metadata: IContentMetadata;
 	mediaItems: IContentMediaItems;

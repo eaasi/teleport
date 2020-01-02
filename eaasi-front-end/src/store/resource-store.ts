@@ -4,7 +4,7 @@ import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
-import { IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
+import {IEaasiResource, IEnvironment, ISaveEnvironmentPayload, ResourceType} from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { resourceTypes } from '@/utils/constants';
 import { jsonCopy, removeDuplicatesFromFlatArray } from '@/utils/functions';
@@ -14,6 +14,7 @@ import { make } from 'vuex-pathify';
 /*============================================================
  == State
 /============================================================*/
+
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
 	selectedResources: IEaasiResource[] = [];
@@ -24,6 +25,7 @@ class ResourceState {
 	availableTemplates: any[] = [];
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
+	resourceName: string = '';
 }
 
 const state = new ResourceState();
@@ -191,14 +193,24 @@ const actions = {
 		);
 	},
 
-	async saveNewEnvironment({ state }, { title, description}) {
+	async saveNewEnvironment({ state }, { title, description }) {
 		return await _svc.saveNewEnvironment(
 			state.activeEnvironment.envId,
 			state.clientComponentId,
 			title,
 			description
 		);
-	}
+	},
+
+	async saveObjectEnvironment({ state }, { title, description }) {
+		return await _svc.saveNewObjectEnvironment(
+			state.activeEnvironment.envId,
+			state.clientComponentId,
+			state.activeEnvironment.object,
+			title,
+			description
+		);
+	},
 };
 
 /*============================================================

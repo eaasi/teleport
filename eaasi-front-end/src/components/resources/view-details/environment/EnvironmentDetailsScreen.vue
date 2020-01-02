@@ -95,7 +95,6 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
-import { ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EaasiTask from '@/models/task/EaasiTask';

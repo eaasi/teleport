@@ -1,14 +1,14 @@
 <template>
 	<form-modal
-		title="Save Environment"
+		:title="saveTitle"
 		save-text="Save"
-		@close="$emit('cancel')"
-		@click:cancel="$emit('cancel')"
+		@close="$emit('close')"
+		@click:cancel="$emit('close')"
 		@save="$emit('save-environment', saveEnvOptions)"
 		size="sm"
 		class="software-picker-modal"
 	>
-		<div class="save-env-title" v-if="saveEnvOptions.saveType === 1">
+		<div class="save-env-title" v-if="saveEnvOptions.saveType === 0 || isConstructedEnvironment">
 			<h3>Title</h3>
 			<text-input
 				v-model="saveEnvOptions.title"
@@ -22,10 +22,10 @@
 				placeholder="Description of changes made to this environment..."
 			/>
 		</div>
-		<div class="save-env-type">
+		<div class="save-env-type" v-if="!isConstructedEnvironment">
 			<h3>Save Options</h3>
 			<descriptive-radios
-				:options="saveOptions"
+				:options="radioOptions"
 				v-model="saveEnvOptions.saveType"
 			/>
 		</div>
@@ -39,35 +39,55 @@
 	import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
 	import Vue from 'vue';
 	import {Component} from 'vue-property-decorator';
+	import {Get} from 'vuex-pathify';
 
 	@Component({
-    name: 'SaveEnvironmentModal',
-	components: {
-    	DescriptiveRadios,
-	}
-})
-export default class SaveEnvironmentModal extends Vue {
-    saveEnvOptions: ISaveEnvOptions = {
-    	description: '',
-		saveType: SaveEnvironmentOption.createRevision,
-		title: ''
-    };
+		name: 'SaveEnvironmentModal',
+		components: {
+			DescriptiveRadios,
+		}
+	})
+	export default class SaveEnvironmentModal extends Vue {
 
-	get saveOptions(): IRadioOption[] {
-		return [
-			{
-				value: SaveEnvironmentOption.createRevision,
-				label: 'Create Revision',
-				description: 'Create a Revision of this Environment Resource'
-			},
-			{
-				value: SaveEnvironmentOption.newEnvironment,
-				label: 'New Environment',
-				description: 'Create a New Environment Resource'
-			},
-		];
+		@Get('import/environmentType')
+		environmentType: string;
+
+		@Get('import/isConstructedEnvironment')
+		isConstructedEnvironment: boolean;
+
+		get saveTitle() {
+			return this.isConstructedEnvironment
+				? 'Save New Content Environment'
+				: 'Save Environment';
+		}
+
+		get radioOptions(): IRadioOption[] {
+			return [
+				{
+					value: SaveEnvironmentOption.newEnvironment,
+					label: 'New Environment',
+					description: 'Create a New Environment Resource'
+				},
+				{
+					value: SaveEnvironmentOption.createRevision,
+					label: 'Create Revision',
+					description: 'Create a Revision of this Environment Resource'
+				}
+			];
+		}
+
+		saveEnvOptions: ISaveEnvOptions = {
+			description: '',
+			saveType: 0,
+			title: ''
+		};
+
+		created() {
+			if (this.environmentType == 'objectEnvironment') {
+				this.saveEnvOptions.saveType = SaveEnvironmentOption.objectEnvironment;
+			}
+		}
 	}
-}
 </script>
 
 <style lang='scss'>

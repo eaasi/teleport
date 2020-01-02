@@ -3,7 +3,6 @@
 		<access-interface-header
 			@click:exit="showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
-			@click:save="save"
 		/>
 
 		<environment-menu v-if="environment" />
@@ -90,6 +89,27 @@
 		@Get('import/environment')
 		importedEnvironment: string;
 
+		@Get('import/isImportedEnvironment')
+		isImportedEnvironment: boolean;
+
+		@Get('import/isConstructedEnvironment')
+		isConstructedEnvironment: boolean;
+
+		@Get('import/environmentType')
+		environmentImportType: string;
+
+		@Get('import/environmentSoftwareId')
+		environmentSoftwareId: string;
+
+		@Get('import/environmentContentId')
+		environmentContentId: string;
+
+		@Get('import/constructedTitle')
+		constructedTitle: string;
+
+		@Get('resource/resourceName')
+		runningResourceName: string;
+
 		/* Data
         ============================================*/
 		showConfirmExitModal: boolean = false;
@@ -99,12 +119,40 @@
         ============================================*/
 
 		async getEnvironment(envId: string) {
-			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
-			if (!environment) return;
-			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
+
+			if (this.isImportedEnvironment) {
+				await this.runImportedEnvironment(envId);
+
+			} else if (this.isConstructedEnvironment) {
+				await this.runConstructedEnvironment(envId);
+
+			} else {
+				await this.runBaseEnvironment(envId);
+			}
 		}
 
-		async getImportedEnvironment(envId: string) {
+		async runConstructedEnvironment(envId: string) {
+			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
+
+			await this.$store.commit('import/SET_CONSTRUCTED_TITLE',
+				`${environment.title} running ${this.runningResourceName}`);
+
+			let constructedEnvironment = {
+				archive: 'public',
+				envId: envId,
+				keyboardLayout: 'us',
+				keyboardModel: 'pc105',
+				object: this.environmentContentId,
+				objectArchive: 'zero conf',
+				software: this.environmentSoftwareId,
+				title: this.constructedTitle,
+				type: 'machine',
+			};
+
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', constructedEnvironment);
+		}
+
+		async runImportedEnvironment(envId: string) {
 			let environment = {
 				archive: 'default',
 				envId: envId,
@@ -118,6 +166,12 @@
 				isImport: true,
 			};
 
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
+		}
+
+		async runBaseEnvironment(envId: string) {
+			let environment = await this.$store.dispatch('resource/getEnvironment', envId);
+			if (!environment) return;
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);
 		}
 
@@ -139,10 +193,6 @@
 			});
 		}
 
-		save() {
-			console.log('TODO: ::: AccessInterfaceScreen ::: save');
-		}
-
 		async stop() {
 			if (!this.$refs._emulator) return;
 			await this.$refs._emulator.stopEnvironment();
@@ -155,9 +205,7 @@
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
 			next(async vm => {
 				const { envId } = to.params;
-				from.name === 'Import Resource'
-					? await vm.getImportedEnvironment(envId)
-					: await vm.getEnvironment(envId);
+				await vm.getEnvironment(envId);
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
 			});
@@ -169,6 +217,11 @@
 			this.stop().then(() => {
 				next();
 			});
+		}
+
+		async destroyed() {
+			// Clear constructed / imported environment state
+			await this.$store.dispatch('import/clearEnvironment');
 		}
 	}
 

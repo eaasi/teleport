@@ -2,8 +2,25 @@
 	<div class="environment-menu">
 		<div class="em-header">
 			<div class="em-tags">
-				<tag text="Environment" icon="fa-box" />
-				<tag v-if="environment.isImport" text="New Import" icon="fa-upload" color="yellow" />
+				<tag
+					v-if="environment.isImport"
+					text="New Import"
+					icon="fa-upload"
+					color="yellow"
+				/>
+
+				<tag
+					v-else-if="isConstructed"
+					text="Content Environment"
+					icon="fa-save"
+					color="blue"
+				/>
+
+				<tag
+					v-else
+					text="Base Environment"
+					icon="fa-box"
+				/>
 			</div>
 			<h2 v-if="environment.isImport">{{ importTitle }}</h2>
 			<h2 v-else>{{ environment.title }}</h2>
@@ -108,6 +125,9 @@ export default class EnvironmentMenu extends Vue {
 
 	@Get('import/environment@title')
 	readonly importTitle: string;
+
+	@Get('import/isConstructedEnvironment')
+	readonly isConstructed: boolean;
 
 	get tabs(): IEaasiTab[] {
 		if (this.environment.isImport) {

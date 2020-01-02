@@ -224,9 +224,19 @@ router.delete('/content', (req, res) => controller.deleteContent(req, res));
  * @apiName Save new Environment from Existing
  * @apiGroup Resources
  * @apiPermission System Administrator only
- * @apiDescription Deletes Content Object
+ * @apiDescription Creates Base Environment
  */
 router.post('/save-new-environment', (req, res) => controller.saveNewEnvironment(req, res));
+
+/**
+ * @api {post} Saves a new Content (or "Object") Environment
+ * @apiVersion 1.0.0
+ * @apiName Save new Content / Object Environment from existing Base Environment
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Creates Content / Object Environment
+ */
+router.post('/save-new-object-environment', (req, res) => controller.saveNewObjectEnvironment(req, res));
 
 /**
  * @api {post} Saves a Revision of an existing Environment
@@ -234,7 +244,7 @@ router.post('/save-new-environment', (req, res) => controller.saveNewEnvironment
  * @apiName Save Environment Revision
  * @apiGroup Resources
  * @apiPermission System Administrator only
- * @apiDescription Deletes Content Object
+ * @apiDescription Revises existing Environment
  */
 router.post('/save-environment-revision', (req, res) => controller.saveEnvironmentRevision(req, res));
 

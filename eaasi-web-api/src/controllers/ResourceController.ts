@@ -280,6 +280,16 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	async saveNewObjectEnvironment(req: Request, res: Response) {
+		try {
+			let newEnvRequest = req.body;
+			let result = await this._svc.saveNewObjectEnvironment(newEnvRequest);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e.message, res);
+		}
+	}
+
 	async saveEnvironmentRevision(req: Request, res: Response) {
 		try {
 			let revisionEnvRequest = req.body;

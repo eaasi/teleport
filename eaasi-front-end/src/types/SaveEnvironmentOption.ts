@@ -1,4 +1,5 @@
 export enum SaveEnvironmentOption {
-	createRevision = 0,
-	newEnvironment = 1
+	newEnvironment = 0,
+	createRevision = 1,
+	objectEnvironment= 2,
 }
