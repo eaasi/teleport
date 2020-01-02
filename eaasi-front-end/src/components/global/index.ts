@@ -1,48 +1,49 @@
-import Alert from './Alert/Alert.vue';
-import AlertCard from './Alert/AlertCard.vue';
 import AttachResourceCard from '@/components/global/AttachResourceCard.vue';
+import TipsCard from '@/components/global/TipsCard.vue';
 import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
 import SearchFacetModal from '@/components/resources/search/SearchFacetModal.vue';
-import Autocomplete from './forms/Autocomplete.vue';
-import BaseFormField from './forms/BaseFormField.vue';
+import { VueConstructor } from 'vue';
+import Alert from './Alert/Alert.vue';
+import AlertCard from './Alert/AlertCard.vue';
 import BigButton from './BigButton.vue';
 import BigSectionHeading from './BigSectionHeading.vue';
 import Collapsable from './Collapsable.vue';
-import Column from './grid/Column.vue';
-import ConfirmModal from './Modal/ConfirmModal.vue';
-import Checkbox from './forms/Checkbox.vue';
+import DualToggle from './DualToggle.vue';
 import FileDropzone from './FileDropzone.vue';
+import FileUploadButton from './FileUploadButton.vue';
+import Autocomplete from './forms/Autocomplete.vue';
+import BaseFormField from './forms/BaseFormField.vue';
+import Checkbox from './forms/Checkbox.vue';
 import DescriptiveRadios from './forms/DescriptiveRadios.vue';
 import EaasiForm from './forms/EaasiForm.vue';
-import FileUploadButton from './FileUploadButton.vue';
 import FormModal from './forms/FormModal.vue';
+import RadioButtons from './forms/RadioButtons.vue';
+import SearchBar from './forms/SearchBar.vue';
+import SelectList from './forms/SelectList.vue';
+import TextAreaInput from './forms/TextAreaInput.vue';
+import TextInput from './forms/TextInput.vue';
+import Column from './grid/Column.vue';
+import Row from './grid/Row.vue';
 import HoverMenu from './HoverMenu.vue';
-import InfoModal from './Modal/InfoModal.vue';
 import Loader from './Loader.vue';
 import LoaderOverlay from './LoaderOverlay.vue';
+import ConfirmModal from './Modal/ConfirmModal.vue';
+import InfoModal from './Modal/InfoModal.vue';
 import Modal from './Modal/Modal.vue';
 import NumberedSteps from './NumberedSteps/NumberedSteps.vue';
 import OptionsBox from './OptionsBox/OptionsBox.vue';
 import Pagination from './Pagination.vue';
-import TabbedNav from './TabbedNav.vue';
-import RadioButtons from './forms/RadioButtons.vue';
-import Row from './grid/Row.vue';
-import SearchBar from './forms/SearchBar.vue';
 import SectionHeading from './SectionHeading.vue';
 import SelectableCard from './SelectableCard/SelectableCard.vue';
-import SelectList from './forms/SelectList.vue';
 import SmallBookmark from './SmallBookmark.vue';
+import TabbedNav from './TabbedNav.vue';
 import SortHeader from './tables/SortHeader.vue';
 import Tag from './Tag.vue';
 import TagGroup from './TagGroup.vue';
-import TextAreaInput from './forms/TextAreaInput.vue';
-import TextInput from './forms/TextInput.vue';
-import TipsCard from '@/components/global/TipsCard.vue';
 import UiButton from './UiButton.vue';
 import UiChip from './UiChip.vue';
-import DualToggle from './DualToggle.vue';
+import UiNotification from './UiNotification.vue';
 import ViewHeader from './ViewHeader.vue';
-import { VueConstructor } from 'vue';
 
 /*============================================================
  == Vue Plugin
@@ -93,6 +94,7 @@ export default {
 		Vue.component('TipsCard', TipsCard);
 		Vue.component('UiButton', UiButton);
 		Vue.component('UiChip', UiChip);
+		Vue.component('UiNotification', UiNotification);
 		Vue.component('ViewHeader', ViewHeader);
 	}
 };
@@ -101,49 +103,5 @@ export default {
  == Individual exports for testing purposes
 /============================================================*/
 
-export {
-	Alert,
-	AlertCard,
-	AttachResourceCard,
-	Autocomplete,
-	BaseFormField,
-	BigButton,
-	BigSectionHeading,
-	Checkbox,
-	Collapsable,
-	Column,
-	ConfirmModal,
-	DescriptiveRadios,
-	EaasiForm,
-	FileDropzone,
-	FileUploadButton,
-	FormModal,
-	HoverMenu,
-	InfoModal,
-	Loader,
-	LoaderOverlay,
-	Modal,
-	NumberedSteps,
-	OptionsBox,
-	Pagination,
-	TabbedNav,
-	RadioButtons,
-	Row,
-	SearchBar,
-	SectionHeading,
-	CheckboxFacet,
-	SearchFacetModal,
-	SelectableCard,
-	SelectList,
-	SmallBookmark,
-	SortHeader,
-	DualToggle,
-	Tag,
-	TagGroup,
-	TextAreaInput,
-	TextInput,
-	TipsCard,
-	UiButton,
-	UiChip,
-	ViewHeader
-};
+export { Alert, AlertCard, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader };
+
