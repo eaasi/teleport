@@ -1,6 +1,7 @@
 <template>
 	<selectable-card
 		bookmark
+		footer
 		:data="summary"
 		:disable-select="disableSelect"
 		:is-bookmark-selected="isBookmarkSelected"
@@ -9,10 +10,15 @@
 		@bookmarked="isActive => $emit('bookmarked', isActive)"
 		@click:header="goToDetailsPage"
 		:is-selected="isSelected"
-	/>
+	>
+		<template v-slot:tagsLeft>
+			<tag-group position="left" :tags="resourceTypeTags" />
+		</template>
+	</selectable-card>
 </template>
 
 <script lang="ts">
+import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, ISoftwarePackage } from '@/types/Resource.d.ts';
@@ -40,6 +46,13 @@ export default class SoftwareResourceCard extends Vue {
 
 	/* Data
 	============================================*/
+	resourceTypeTags: ITag[] =  [
+		{
+			text:'Software',
+			icon:'fa-circle',
+			color:'blue'
+		}
+	];
 
 	/* Computed
 	============================================*/
@@ -69,7 +82,14 @@ export default class SoftwareResourceCard extends Vue {
 	============================================*/
 
 	goToDetailsPage() {
-		this.$router.push({ path:'/resources/software', query: { resourceId: this.software.id.toString()} });
+		this.$router.push(
+			{
+				path:'/resources/software',
+				query: {
+					resourceId: this.software.id.toString(),
+					archiveId: this.software.archiveId.toString()
+				}
+			});
 	}
 
 	/* Lifecycle Hooks

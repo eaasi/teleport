@@ -5,7 +5,7 @@
 				<img src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 			<div class="footer-logo-label">
-				&copy; EaaSI 2019
+				&copy; EaaSI 2020
 			</div>
 		</div>
 
