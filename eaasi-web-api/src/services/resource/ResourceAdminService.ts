@@ -103,15 +103,7 @@ export default class ResourceAdminService extends BaseService {
 		result.software = softwareResult;
 		result.environments = environmentResult;
 
-		result.facets.forEach(facet => {
-			facet.values.forEach(value => {
-				const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
-				if (currentFacet) {
-					let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
-					if (selectedValue) value.isSelected = true;
-				}
-			})
-		})
+		this.preselectResultFacets(result, query);
 
 		return result;
 	}
@@ -509,5 +501,21 @@ export default class ResourceAdminService extends BaseService {
 			}
 		});
 		return selectedFacets;
+	}
+
+	private preselectResultFacets(result: IResourceSearchResponse, query: IResourceSearchQuery): void {
+		result.facets.forEach(facet => {
+			if (facet.values.length === 1 && facet.name === 'resourceType') {
+				facet.values[0].isSelected = true;
+			} else {
+				facet.values.forEach(value => {
+					const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
+					if (currentFacet) {
+						let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
+						if (selectedValue) value.isSelected = true;
+					}
+				})
+			}
+		})
 	}
 }
