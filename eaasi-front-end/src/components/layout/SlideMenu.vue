@@ -1,6 +1,6 @@
 <template>
 	<div :class="['slide-menu', {'open': open}]" :style="styles">
-		<div class="slide-out-tab">
+		<div class="slide-out-tab clickable">
 			<div @click="toggleOpen">
 				View Actions
 			</div>
