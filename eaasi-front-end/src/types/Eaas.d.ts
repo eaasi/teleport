@@ -13,7 +13,7 @@ export interface IEaasClient {
 	establishGuacamoleTunnel(controlUrl: string): any;
 	getContainerResultUrl(): string;
 	getEmulatorState(): Promise<void>;
-	getPrintJobs(successFn?: Function, errorFn?: Function): void;
+	getPrintJobs(successFn: Function, errorFn: Function): void;
 	getProxyURL(): Promise<string>;
 	getScreenshotUrl(): string;
 	keepAlive(): void;

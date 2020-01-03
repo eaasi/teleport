@@ -35,7 +35,6 @@ export default class Notifications extends Vue {
     /* Methods
     ============================================*/
     showNotification(notification: INotification) {
-        console.log('notification ', notification);
         this.notifications.push(notification);
         setTimeout(() => {
             this.notifications = this.notifications.filter(n => notification.id != n.id);
