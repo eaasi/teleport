@@ -94,7 +94,13 @@ export default class ContentResourceCard extends Vue {
 	============================================*/
 
 	goToDetailsPage() {
-		console.log('TODO :: ContentResourceCard ::: goToDetailsPage ');
+		this.$router.push({
+			path:'/resources/software',
+			query: {
+				resourceId: this.content.id.toString(),
+				archiveId: this.content.archiveId.toString()
+			}
+		});
 	}
 
 	/* Lifecycle Hooks

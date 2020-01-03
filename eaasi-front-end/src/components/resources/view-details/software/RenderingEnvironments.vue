@@ -45,7 +45,7 @@
 				icon="cloud-download"
 				@click="confirmAction = 'detect'"
 			>
-				Detect environments
+				Detect Environments
 			</ui-button>
 		</div>
 
