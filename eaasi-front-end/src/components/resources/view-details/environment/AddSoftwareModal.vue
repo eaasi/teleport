@@ -2,28 +2,40 @@
 	<form-modal
 		v-if="!loading"
 		title="Add Software"
-		save-text="Run"
-		@close="$emit('cancel')"
 		@click:cancel="$emit('cancel')"
-		@save="runInEmulator"
 		size="sm"
 		class="software-picker-modal"
 	>
 		<div v-if="softwareList.length">
 			<h3>Available software packages</h3>
-			<autocomplete
-				anchor="label"
-				@select="select"
-				:data="softwareList"
-				v-model="selectedSoftwareName"
+			<select-list
+				v-model="selectedSoftwareId"
 				label="Search Software"
-				id="env-autocomplete"
-				rules="required"
-			/>
+			>
+				<option value="" selected disabled>
+					Please select a software package
+				</option>
+				<option 
+					v-for="software in softwareList" 
+					:key="software.id" 
+					:value="software.id"
+				>
+					{{ software.label }}
+				</option>
+			</select-list>
 		</div>
 		<alert-card v-if="errorMessage" type="error">
 			{{ errorMessage }}
 		</alert-card>
+
+		<template #buttonsRight>
+			<div class="justify-end buttons-right">
+				<ui-button @click="$emit('cancel')" color-preset="light-blue">Cancel</ui-button>
+				<ui-button @click="runInEmulator" :disabled="selectedSoftwareId == null">
+					Run
+				</ui-button>
+			</div>
+		</template>
 	</form-modal>
 </template>
 
@@ -41,8 +53,7 @@ export default class AddSoftwareModal extends Vue {
 
     /* Data
     ============================================*/
-	selectedSoftwareName: string = null;
-	selectedSoftware = null;
+	selectedSoftwareId = null;
     errorMessage: string = null;
     loading: Boolean = false;
     softwareList: ISoftwarePackage[] = [];
@@ -50,10 +61,8 @@ export default class AddSoftwareModal extends Vue {
     /* Methods
     ============================================*/
     runInEmulator() {
-        if (!this.selectedSoftware) {
-            this.errorMessage = 'Please select a software package.';
-        }
-        return this.$emit('run-in-emulator', this.selectedSoftware);
+		const software = this.softwareList.find(s => s.id === this.selectedSoftwareId);
+        return this.$emit('run-in-emulator', software);
     }
 
     async init() {
@@ -66,11 +75,6 @@ export default class AddSoftwareModal extends Vue {
         }
         this.softwareList = software.result;
         this.loading = false;
-	}
-	
-	select(software) {
-		this.errorMessage = null;
-		this.selectedSoftware = software;
 	}
 
     /* Lifecycle Hooks
