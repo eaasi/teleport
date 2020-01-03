@@ -220,7 +220,7 @@ import { generateId } from '@/utils/functions';
 		
 		async downloadPrintJob(label: string) {
 			// without getPrintJobs() call, downloadPrint() is not working as expected
-			this.client.getPrintJobs();
+			this.client.getPrintJobs(() => {},() => {});
 			const pdfUrl = this.client.downloadPrint(label);
 			window.open(pdfUrl);
 		}
