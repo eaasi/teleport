@@ -257,7 +257,7 @@
 		background-color: darken($teal, 20%);
 		display: flex;
 		height: 42px;
-		padding-left: $accessMenuWidth;
+		padding-left: 20rem;
 
 		.ah-options-left {
 			margin-bottom: auto;

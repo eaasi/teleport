@@ -11,6 +11,7 @@
 		<div class="save-env-title" v-if="saveEnvOptions.saveType === 0 || isConstructedEnvironment">
 			<h3>Title</h3>
 			<text-input
+				rules="required"
 				v-model="saveEnvOptions.title"
 				placeholder="Title of the new environment..."
 			/>
@@ -18,6 +19,7 @@
 		<div class="save-env-description">
 			<h3>Description</h3>
 			<text-area-input
+				rules="required"
 				v-model="saveEnvOptions.description"
 				placeholder="Description of changes made to this environment..."
 			/>
