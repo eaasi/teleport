@@ -152,6 +152,7 @@ export default class SoftwareDetailsScreen extends Vue {
 		this.toggleValue = this.toggleOptions[0];
 		this._populateObjectDetails();
 		this._populateSoftwareProperties();
+		this.$store.commit('resource/SET_RESOURCE_NAME', this.softwareMetadata.metadata.title);
 	}
 
 	addFmt(fmt: string) {

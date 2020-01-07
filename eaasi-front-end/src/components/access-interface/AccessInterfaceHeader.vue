@@ -159,7 +159,6 @@
 
 			// We are saving a new base environment resource
 			if (saveType === SaveEnvironmentOption.newEnvironment) {
-				console.log(':: accessInterfaceHeader :: calling save new environment');
 				let res = await this.$store.dispatch('resource/saveNewEnvironment', { title, description });
 				if (res.status === '0') {
 					this.$router.push({ name: 'Explore Resources' });
