@@ -15,7 +15,7 @@ describe('Emil Container Service', () => {
 			await sut.getTaskState({'foo':'bar'});
 			expect(true).toBe(false);
 		} catch (e) {
-			expect(e).toEqual(expect.stringContaining('taskID must be a string or number.'))
+			expect(e).toEqual(expect.stringContaining('taskId must be a string or number. Received'))
 		}
 	});
 

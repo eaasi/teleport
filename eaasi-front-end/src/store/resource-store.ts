@@ -1,12 +1,10 @@
-import { IEnvironmentUpdateRequest, IReplicateImageRequest, mapEnvironmentToEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
+import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironmentResponse, mapEnvironmentToEnvironmentUpdateRequest } from '@/helpers/ResourceHelper';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
-import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
-import {IEaasiResource, IEnvironment, ISaveEnvironmentPayload, ResourceType} from '@/types/Resource';
+import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import { resourceTypes } from '@/utils/constants';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { jsonCopy, removeDuplicatesFromFlatArray } from '@/utils/functions';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
@@ -20,8 +18,7 @@ class ResourceState {
 	selectedResources: IEaasiResource[] = [];
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
-	savingEnvironments: string[] = [];
-	saveEnvironmentTaskMap: object = {};
+	savingEnvironments: ISavingEnvironmentState[] = [];
 	availableTemplates: any[] = [];
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
@@ -77,37 +74,19 @@ const actions = {
 	 * Triggers request to save an Environment to local storage
 	 * @param _store Store<ResourceState>
 	 */
-	async saveEnvironment({ state, dispatch }: Store<ResourceState>): Promise<EaasiTask> {
-		const environment = state.selectedResources[0];
-		if (!environment) return;
-
-		let result = await _svc.saveEnvironment(environment.envId);
-		if (!result) return null;
-		dispatch('generateTask', { result, environment });
-	},
-
-	async replicateImage({ dispatch }: Store<ResourceState>, environment: IEnvironment): Promise<IEaasiTaskListStatus> {
-		const req: IReplicateImageRequest = {
-			destArchive: 'public',
+	async replicateEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment): Promise<ISaveEnvironmentResponse> {
+		const req: IReplicateEnvironmentRequest = {
+			destArchive: archiveTypes.PUBLIC,
 			replicateList: [environment.envId]
 		};
-		const result: IEaasiTaskListStatus = await _svc.replicateImage(req);
-		if (!result) return null;
-		dispatch('generateTask', { result, environment });
-		return result;
-	},
-
-	generateTask({ state, commit }: Store<ResourceState>, { result, environment }) {
-		const { title, envId } = environment;
-		let task = new EaasiTask(result.taskList[0], `Save Environment: ${title}`);
-		commit('ADD_OR_UPDATE_TASK', task, { root: true });
-		commit('SET_SAVING_ENVIRONMENTS', [...state.savingEnvironments, envId]);
-
-		let taskMap = state.saveEnvironmentTaskMap;
-		taskMap[envId] = task;
-		commit('SET_SAVE_ENVIRONMENT_TASK_MAP', taskMap);
-
-		return task;
+		const res = await _svc.replicateEnvironment(req);
+		const saveState : ISavingEnvironmentState = {
+			taskId: res.taskList[0],
+			envId: environment.envId
+		};
+		const updatedSavingEnvs: ISavingEnvironmentState[] = [...state.savingEnvironments, saveState ];
+		commit('SET_SAVING_ENVIRONMENTS', updatedSavingEnvs);
+		return res;
 	},
 
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
@@ -128,7 +107,7 @@ const actions = {
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
-		const newSavingEnvs = state.savingEnvironments.filter(x => x != environmentId);
+		const newSavingEnvs = state.savingEnvironments.filter(saveState => saveState.envId != environmentId);
 		commit('SET_SAVING_ENVIRONMENTS', newSavingEnvs);
 	},
 

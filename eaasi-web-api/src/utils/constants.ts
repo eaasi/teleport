@@ -17,3 +17,8 @@ interface IResourceTypes {
 	SOFTWARE: ResourceType;
 	CONTENT: ResourceType;
 }
+
+export const taskStatus = {
+	SUCCESS: '0',
+	NOT_FOUND: '1'
+}

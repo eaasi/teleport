@@ -1,6 +1,7 @@
 import { MockHttpService } from '../../../helpers/doubles/mock-http-service';
 import ResourceAdminService from '../../../../src/services/resource/ResourceAdminService';
 import {resourceTypes} from '../../../../src/utils/constants';
+import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 
 describe('UserAdminService', () => {
 	// Constructor Tests
@@ -243,32 +244,30 @@ describe('UserAdminService', () => {
 		expect(mockEnvSvc.getUrl).toBe('foo');
 	});
 
-	it('on saveEnvironment calls post on environment service with replcateImage', () => {
+	it('on replicateEnvironment calls post on environment service with replcateImage', () => {
 		let mockEnvSvc = new MockHttpService();
 		let mockSofSvc = new MockHttpService();
 		let mockContentSvc = new MockHttpService();
 		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.saveEnvironment('foo');
-		expect(mockEnvSvc.postData).toStrictEqual(
-			{
-				'destArchive': 'public',
-				'replicateList': ['foo']
-			}
-		);
+		const replicateRequest = new ReplicateEnvironmentRequest({ 
+			destArchive: 'public', 
+			replicateList: ['foo']
+		});
+		sut.replicateEnvironment(replicateRequest);
+		expect(mockEnvSvc.postData).toStrictEqual(replicateRequest);
 	});
 
-	it('on saveEnvironment calls post on environment service with replicateImage', () => {
+	it('on replicateEnvironment calls post on environment service with replicateImage', () => {
 		let mockEnvSvc = new MockHttpService();
 		let mockSofSvc = new MockHttpService();
 		let mockContentSvc = new MockHttpService();
 		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.saveEnvironment('foo');
-		expect(mockEnvSvc.postData).toStrictEqual(
-			{
-				'destArchive': 'public',
-				'replicateList': ['foo']
-			}
-		);
+		const replicateRequest = new ReplicateEnvironmentRequest({ 
+			destArchive: 'public', 
+			replicateList: ['foo']
+		});
+		sut.replicateEnvironment(replicateRequest);
+		expect(mockEnvSvc.postData).toStrictEqual(replicateRequest);
 		expect(mockEnvSvc.postUrl).toStrictEqual('replicateImage');
 	});
 

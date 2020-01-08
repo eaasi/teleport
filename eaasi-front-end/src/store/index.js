@@ -7,6 +7,7 @@ import importStore from './import-store';
 import resourceStore from './resource-store';
 import softwareStore from './software-store';
 import bookmarkStore from './bookmark-store';
+import taskStore from './task-store';
 
 pathify.options.mapping = 'simple';
 pathify.options.deep = 2;
@@ -20,7 +21,8 @@ export default new Vuex.Store({
 		software: softwareStore,
 		import: importStore,
 		resource: resourceStore,
-		bookmark: bookmarkStore
+		bookmark: bookmarkStore,
+		task: taskStore
 	},
 	plugins: [pathify.plugin]
 });

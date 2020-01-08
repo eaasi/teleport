@@ -15,7 +15,7 @@
 			<tag-group position="left" :tags="resourceTypeTags" />
 		</template>
 		<template v-slot:tagsRight>
-			<tag-group v-if="summary" position="right" :tags="summary.tagGroup" />
+			<tag-group v-if="summary" position="right" :tags="contentTagGroup" />
 		</template>
 	</selectable-card>
 </template>
@@ -24,9 +24,10 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
+import { resourceTypes } from '@/utils/constants';
 
 @Component({
 	name: 'ContentResourceCard',
@@ -44,14 +45,8 @@ export default class ContentResourceCard extends Vue {
 	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
 
-	@Prop({ type: Boolean, default: false })
-	isSelected: Boolean;
-
 	/* Data
 	============================================*/
-
-	summary: IEaasiResourceSummary = null;
-
 	resourceTypeTags: ITag[] =  [
 		{
 			text: 'Content',
@@ -62,37 +57,42 @@ export default class ContentResourceCard extends Vue {
 
 	/* Computed
 	============================================*/
-
-	setCardSummary(): void {
-		if (!this.content) return null;
-		let summary = {
-			title: this.content.title,
-			tagGroup: [],
-			content: { },
-			subContent: { },
-		} as IEaasiResourceSummary;
-
-		if (this.content.archiveId === 'zero conf') {
-			summary.tagGroup.push({
-				text: 'Private',
-				icon: 'fa-cloud-download-alt',
-				color:'yellow'
-			});
-		}
-
-		this.summary = summary;
-	}
+	@Get('resource/selectedResources')
+	selectedResources: IEaasiResource[];
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
+
+	get contentTagGroup(): ITag[] {
+		if (this.content.archiveId === 'zero conf') {
+			return [{
+				text: 'Private',
+				icon: 'fa-cloud-download-alt',
+				color: 'yellow'
+			}];
+		}
+	}
+
+	get summary(): IEaasiResourceSummary {
+		return {
+			id: this.content.id,
+			title: this.content.title,
+			resourceType: resourceTypes.CONTENT,
+			content: { },
+			subContent: { },
+		};
+	}
 
 	get isBookmarkSelected(): Boolean {
 		return this.bookmarks.some(b => b.resourceID === this.content.id);
 	}
 
+	get isSelected(): Boolean {
+		return this.selectedResources.some(r => r.id === this.content.id);
+	}
+
 	/* Methods
 	============================================*/
-
 	goToDetailsPage() {
 		this.$router.push({
 			path:'/resources/software',
@@ -101,13 +101,6 @@ export default class ContentResourceCard extends Vue {
 				archiveId: this.content.archiveId.toString()
 			}
 		});
-	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	created() {
-		this.setCardSummary();
 	}
 
 }

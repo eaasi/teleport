@@ -18,17 +18,15 @@ export interface IEaasiResource {
  == Save Environment
 /============================================================*/
 
+export interface IReplicateEnvironmentRequest {
+	destArchive: ArchiveType;
+	replicateList: string[];
+}
+
 export interface ISaveEnvironmentResponse {
 	status: string;
 	taskList: string[];
 }
-
-export type IReplicateImageRequest = {
-    destArchive: Archive;
-    replicateList: Array<string>;
-}
-
-type Archive = 'remote' | 'public' | 'private';
 
 /*============================================================
  == Resource Search

@@ -7,6 +7,12 @@ export const resourceTypes: IResourceTypes = {
 	CONTENT: 'Content'
 };
 
+export interface IResourceTypes {
+	ENVIRONMENT: ResourceType;
+	SOFTWARE: ResourceType;
+	CONTENT: ResourceType;
+}
+
 export const importTypes: IImportTypes = {
 	ENVIRONMENT: 'environment',
 	SOFTWARE: 'software',
@@ -19,13 +25,6 @@ export enum userRoles {
     MANAGER = 2,
     CONTRIBUTOR = 3
 }
-
-interface IResourceTypes {
-    ENVIRONMENT: ResourceType
-    SOFTWARE: ResourceType
-    CONTENT: ResourceType
-}
-
 interface IImportTypes {
 	ENVIRONMENT: ImportType
 	SOFTWARE: ImportType
@@ -34,9 +33,15 @@ interface IImportTypes {
 }
 
 export const archiveTypes: any = {
-	PUBLIC: 'default',
-	DEFAULT: 'public',
+	DEFAULT: 'default',
+	PUBLIC: 'public',
 	REMOTE: 'remote',
+};
+
+export const taskTypes: any = {
+	IMPORT: 'import',
+	DEFAULT: 'default',
+	EMIL: 'emil'
 };
 
 export const MIN_SEARCH_RESULT_LIMIT = 10;

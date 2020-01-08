@@ -1,6 +1,6 @@
 <template>
 	<div class="lil-container">
-		<div v-if="renderingEnvs.length">
+		<div v-if="renderingEnvs && renderingEnvs.length">
 			<div
 				v-for="env in renderingEnvs"
 				:key="env.envId"
@@ -175,10 +175,10 @@ export default class RenderingEnvironments extends Vue {
         };
         const task: ITaskState = await this.$store.dispatch('software/classify', classifyRequest);
         let timer = setInterval(async () => {
-            let taskState = await this.$store.dispatch('getTaskState', task.taskId) as ITaskState;
+            let taskState = await this.$store.dispatch('task/getTaskState', task.taskId) as ITaskState;
             if(taskState.isDone && taskState.taskId === task.taskId) {
                 clearInterval(timer);
-                const res = JSON.parse(taskState.object);
+				const res = JSON.parse(taskState.object);
                 this.renderingEnvs = res.environmentList;
                 this.showLoader = false;
             }

@@ -20,25 +20,34 @@
 				<ui-button color-preset="light-blue" @click="reset">Cancel</ui-button>
 			</div>
 		</div>
+		<task-modal
+			v-if="activeTask"
+			:task="activeTask"
+			@close="activeTask = null"
+			@success="onTaskComplete"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
-	import { ImportType } from '@/types/Import';
-	import {importTypes, resourceTypes} from '@/utils/constants';
-	import Vue from 'vue';
-	import { Component, Watch } from 'vue-property-decorator';
-	import { Get, Sync } from 'vuex-pathify';
-	import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
-	import SoftwareImportResource from '@/models/import/SoftwareImportResource';
-	import { NumberedSteps, UiButton } from '@/components/global';
-	import { INumberedStep } from '@/types/NumberedStep';
+import { ImportType } from '@/types/Import';
+import {importTypes, resourceTypes} from '@/utils/constants';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
+import { Get, Sync } from 'vuex-pathify';
+import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
+import SoftwareImportResource from '@/models/import/SoftwareImportResource';
+import { NumberedSteps, UiButton } from '@/components/global';
+import { INumberedStep } from '@/types/NumberedStep';
+import TaskModal from '@/components/admin/running-tasks/TaskModal.vue';
+import EaasiTask from '@/models/task/EaasiTask';
 
 	@Component({
 		name: 'ImportProgress',
 		components: {
 			NumberedSteps,
-			UiButton
+			UiButton,
+			TaskModal
 		}
 	})
 	export default class ImportProgress extends Vue {
@@ -60,6 +69,7 @@
 				description: 'FINISH'
 			},
 		];
+		activeTask: EaasiTask = null;
 
 		/* Computed
         ============================================*/
@@ -69,9 +79,6 @@
 
 		@Sync('import/importType')
 		importType: ImportType;
-
-		@Sync('activeTaskResult')
-		activeTaskResult: any;
 
 		@Get('import/software')
 		software: SoftwareImportResource;
@@ -117,22 +124,18 @@
 		async doImport() {
 			let task = await this.$store.dispatch('import/import');
 			if (!task) return;
-			this.$store.commit('SET_ACTIVE_TASK', task);
+			const activeTask = await this.$store.dispatch('task/addTaskToQueue', task);
+			this.activeTask = activeTask;
 		}
 
 		reset() {
 			this.$store.commit('import/RESET');
 		}
 
-		/* Watchers
-        ============================================*/
-
-		@Watch('activeTaskResult')
-		async onTaskComplete(taskResult: any) {
+		async onTaskComplete(taskResult: EaasiTask) {
 			// Environment Import
 			let contentType = resourceTypes.CONTENT.toLowerCase();
 			let softwareType = resourceTypes.SOFTWARE.toLowerCase();
-
 			if (this.importType === importTypes.ENVIRONMENT && taskResult.userData && taskResult.userData.environmentId) {
 				// This path occurs when a user imports an Environment Object from URL
 				// When an import task is complete, get the environmentId and push into Access Interface
@@ -176,7 +179,7 @@
 					isOperatingSystem: true, // We mark the ISO as an OS
 					label: this.environment.title,
 					licenseInformation: '',
-					nativeFMTs: this.nativeFMTs.split(','),
+					nativeFMTs: this.nativeFMTs ? this.nativeFMTs.split(',') : [],
 					objectId: objectId
 				};
 

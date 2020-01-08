@@ -8,7 +8,9 @@
 			</div>
 		</div>
 		<div class="padded-xl container-xs">
-			<running-task-list />
+			<div class="running-task-list">
+				<task-list />
+			</div>
 		</div>
 	</div>
 </template>
@@ -16,15 +18,16 @@
 
 <script lang="ts">
 import AdminScreen from '@/components/admin/AdminScreen.vue';
-import RunningTaskList from '@/components/admin/running-tasks/RunningTaskList.vue';
 import { Component } from 'vue-property-decorator';
+import TaskList from './TaskList.vue';
 
 @Component({
 	name: 'RunningTaskManagement',
-	components: { RunningTaskList }
+	components: {
+		TaskList
+	}
 })
-export default class RunningTaskManagement extends AdminScreen {
-}
+export default class RunningTaskManagement extends AdminScreen {}
 
 </script>
 <style lang="scss">

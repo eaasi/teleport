@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import {areAllValidIntegerParams} from '@/utils/validators';
-import {build_400_response, build_404_response, build_500_response} from '@/utils/error-helpers';
 import ICrudController from '@/controllers/interfaces/ICrudController';
+import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
 import HttpResponseCode from '@/utils/HttpResponseCode';
-import {Result} from 'express-validator';
+import { areAllValidIntegerParams } from '@/utils/validators';
+import { Request, Response } from 'express';
+import { Result } from 'express-validator';
 import CrudService from 'src/services/base/CrudService';
 import BaseController from './BaseController';
 

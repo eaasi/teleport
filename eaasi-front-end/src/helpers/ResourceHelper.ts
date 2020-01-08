@@ -21,12 +21,17 @@ export type IEnvironmentUpdateRequest = {
     xpraEncoding: string;
 }
 
-export type IReplicateImageRequest = {
-    destArchive: Archive;
-    replicateList: string[];
+export interface IReplicateEnvironmentRequest {
+	destArchive: ArchiveType;
+	replicateList: string[];
 }
 
-type Archive = 'remote' | 'public' | 'private';
+export interface ISaveEnvironmentResponse {
+	status: string;
+	taskList: string[];
+}
+
+type ArchiveType = 'remote' | 'public' | 'private';
 
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {
     return {

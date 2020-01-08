@@ -1,8 +1,8 @@
-import { IEnvironmentUpdateRequest, IReplicateImageRequest } from '@/helpers/ResourceHelper';
+import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpers/ResourceHelper';
 import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
-import {IEnvironment, ISaveEnvironmentPayload} from '@/types/Resource';
+import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 
 
@@ -27,29 +27,19 @@ class ResourceService extends BaseHttpService {
 	/**
 	 * Makes a POST request to save (replicate) an Environment to local storage
 	 * Response object contains task ID that can be used to query status
-	 * @param {string} environmentId
+	 * @body {IReplicateEnvironmentRequest} {
+	 *   destArchive: ArchiveType;
+	 *   replicateList: string[];
+	 * }
 	 */
-	async saveEnvironment(environmentId: string) : Promise<ISaveEnvironmentResponse> {
-		let res = await this.post<any>(
-			'/resource/save', { environmentId: environmentId }
-		);
-
+	async replicateEnvironment(replicateEnvironmentRequest: IReplicateEnvironmentRequest): Promise<ISaveEnvironmentResponse> {
+		const res = await this.post<IEaasiTaskListStatus>('/resource/replicate-environment', replicateEnvironmentRequest);
 		if (!res.ok) {
 			console.error('Response returned error: ', res);
 			return null;
 		}
 
 		return res.result as ISaveEnvironmentResponse;
-	}
-
-	async replicateImage(replicateRequest: IReplicateImageRequest): Promise<IEaasiTaskListStatus> {
-		const res = await this.post<IEaasiTaskListStatus>('/resource/replicate-image', replicateRequest);
-		if (!res.ok) {
-			console.error('Response returned error: ', res);
-			return null;
-		}
-
-		return res.result;
 	}
 
 	/**

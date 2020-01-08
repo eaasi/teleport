@@ -1,13 +1,9 @@
-import { make } from 'vuex-pathify';
-import {IAppError} from '@/types/AppError';
 import config from '@/config';
-import Cookies from 'js-cookie';
-import _authService from '@/services/AuthService';
-import _taskService from '@/services/TaskService';
-import { ITaskState } from '@/types/Task';
-import EaasiTask from '@/models/task/EaasiTask';
-import { Store } from 'vuex';
 import User from '@/models/admin/User';
+import _authService from '@/services/AuthService';
+import { IAppError } from '@/types/AppError';
+import Cookies from 'js-cookie';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -15,9 +11,6 @@ import User from '@/models/admin/User';
 
 class GlobalState {
 	appVersion: string = config.APP_VERSION;
-	activeTask: EaasiTask = null;
-	activeTaskResult: any = null;
-	runningTasks: EaasiTask[] = [];
 	adminMenuOpen: boolean = false;
 	emulatorIsRunning: boolean = false;
 	hideAppHeader: boolean = false;
@@ -39,17 +32,6 @@ const state = new GlobalState();
 /============================================================*/
 
 const mutations = make.mutations(state);
-
-mutations['ADD_OR_UPDATE_TASK'] = function(state: GlobalState, task: ITaskState) {
-	let existingTask = state.runningTasks.find(x => x.taskId == task.taskId) || task as EaasiTask;
-	let otherTasks = state.runningTasks.filter(x => x.taskId != task.taskId);
-	let newTask = { ...existingTask, ...task };
-	state.runningTasks = [ ...otherTasks, newTask ];
-};
-
-mutations['REMOVE_TASK'] = function(state: GlobalState, taskId: string | number) {
-	state.runningTasks = state.runningTasks.filter(x => x.taskId != taskId);
-};
 
 mutations['SET_DRIVE_ID'] = function(state: GlobalState, driveId: number) {
 	state.driveId = driveId;
@@ -80,24 +62,6 @@ const actions = {
 		return true;
 	},
 
-	/* Tasks
-	============================================*/
-
-	async getTaskState(store: Store<GlobalState>, taskID: number | string) {
-		let res = await _taskService.getTaskState(taskID);
-		if (!res) return null;
-		res.taskId = taskID;
-		store.commit('ADD_OR_UPDATE_TASK', res);
-		return res;
-	},
-
-	async getEnvironmentTaskState(store: Store<GlobalState>, taskID: number | string) {
-		let res = await _taskService.getEnvironmentTaskState(taskID);
-		if (!res) return null;
-		res.taskId = taskID;
-		store.commit('ADD_OR_UPDATE_TASK', res);
-		return res;
-	},
 };
 
 /*============================================================
@@ -108,7 +72,7 @@ const getters = {
 
 	loggedIn(state) {
 		return !!state.loggedInUser;
-	}
+	},
 
 };
 

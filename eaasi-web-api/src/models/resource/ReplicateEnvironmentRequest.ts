@@ -1,31 +1,34 @@
+import { ArchiveType, IReplicateEnvironmentRequest } from '@/types/resource/Resource';
+
+
 /**
  * Encapsulates a request to replicate / save an Environment
  */
-export default class SaveEnvironmentRequest {
+export default class ReplicateEnvironmentRequest {
 	/**
 	 * Destination archive
 	 */
-	private destArchive: string;
+	private destArchive: ArchiveType;
 
 	/**
 	 * List of environmentIds to replicate
 	 */
 	private replicateList: string[];
-
-	constructor(replicateList: string[], destArchive: string) {
-		this.replicateList = replicateList;
-		this.destArchive = destArchive;
+	
+	constructor(replicateRequest: IReplicateEnvironmentRequest) {
+		this.replicateList = replicateRequest.replicateList;
+		this.destArchive = replicateRequest.destArchive;
 	}
 
 	addToReplicateList(envId: string) {
 		this.replicateList.push(envId);
 	}
 
-	addMultipleToReplicateList(envIds: string[]) {
+	addMultipleToReplicateList(envIds: string[]): string[] {
 		return this.replicateList.slice().concat(envIds);
 	}
 
-	setDestArchive(destArchive: string) {
+	setDestArchive(destArchive: ArchiveType) {
 		this.destArchive = destArchive;
 	}
 

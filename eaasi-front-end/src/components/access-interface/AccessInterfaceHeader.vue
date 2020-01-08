@@ -77,14 +77,12 @@
 				</ui-button>
 			</div>
 		</div>
-
 		<change-media-modal
 			v-if="showMediaOptions"
 			:media-items="mediaItems"
 			@close="showMediaOptions = false"
 			@change-media="changeMedia"
 		/>
-
 		<save-environment-modal
 			v-if="showSaveEnvironment"
 			@close="showSaveEnvironment = false"

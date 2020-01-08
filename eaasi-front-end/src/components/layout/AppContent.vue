@@ -9,11 +9,6 @@
 		<div id="appFooter">
 			<app-footer />
 		</div>
-		<task-modal
-			:task="activeTask"
-			@close="activeTask = null"
-			@success="setTaskSuccessResult"
-		/>
 		<notifications />
 		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
@@ -27,7 +22,6 @@ import { Component, Watch } from 'vue-property-decorator';
 import eventBus from '@/utils/event-bus';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
-import TaskModal from '@/components/layout/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { Get, Sync } from 'vuex-pathify';
 import AppFooter from '@/components/layout/AppFooter.vue';
@@ -39,7 +33,6 @@ import Notifications from './Notifications.vue';
 		Notifications,
 		AdminMenu,
 		SlideMenu,
-		TaskModal,
 		AppFooter
 	}
 })
@@ -59,9 +52,6 @@ export default class AppContent extends Vue {
 	@Sync('showLoader')
 	showLoader: boolean;
 
-	@Sync('activeTask')
-	activeTask: EaasiTask;
-
 	/* Methods
 	============================================*/
 
@@ -79,10 +69,6 @@ export default class AppContent extends Vue {
 	removeBusListeners() {
 		eventBus.$off('ajaxStart');
 		eventBus.$off('ajaxEnd');
-	}
-
-	setTaskSuccessResult(taskResult: EaasiTask) {
-		this.$store.commit('SET_ACTIVE_TASK_RESULT', taskResult);
 	}
 
 	/* Lifecycle Hooks

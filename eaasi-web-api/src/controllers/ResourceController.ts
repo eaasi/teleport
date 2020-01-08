@@ -1,9 +1,10 @@
+import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
 import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
-import { IContentRequest, IOverrideContentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
@@ -26,21 +27,6 @@ export default class ResourceController extends BaseController {
 		try {
 			let id = req.query.id;
 			let result = await this._svc.getEnvironment(id);
-			res.send(result);
-		} catch(e) {
-			this.sendError(e.message, res);
-		}
-	}
-
-	/**
-	 * Saves an Environment to local Node using `environmentId` on the request body
-	 */
-	async saveEnvironment(req: Request, res: Response) {
-		try {
-			let environmentId = req.body.environmentId;
-			if (!environmentId)
-				this.sendClientError('Request to save environment requires non-null Environment ID', res);
-			let result = await this._svc.saveEnvironment(environmentId);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);
@@ -156,10 +142,11 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Replicates a list of images to the requested archive
 	 */
-	async replicateImage(req: Request, res: Response) {
+	async replicateEnvironment(req: Request, res: Response) {
 		try {
-			let replicateRequest = req.body;
-			let result = await this._svc.replicateImage(replicateRequest);
+			let replicateRequest = req.body as IReplicateEnvironmentRequest;
+			const replicateEnvironmentRequest = new ReplicateEnvironmentRequest(replicateRequest)
+			let result = await this._svc.replicateEnvironment(replicateEnvironmentRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e.message, res);

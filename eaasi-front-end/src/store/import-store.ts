@@ -101,7 +101,7 @@ const actions = {
 	 * Imports an Environment resource from a URL and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importEnvironmentFromUrl({ state, commit } : Store<ImportState>) {
+	async importEnvironmentFromUrl({ state } : Store<ImportState>) {
 
 		let environmentImport = {
 			patchId: null,
@@ -111,32 +111,27 @@ const actions = {
 		};
 
 		let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
-		if (!taskState) console.log('No Task Received in Response');
-		let task = new EaasiTask(await taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
-
-		commit('ADD_OR_UPDATE_TASK', task, {root: true});
-		return task;
-
+		return new EaasiTask(taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
 	},
 
 	/**
 	 * Imports an Environment resource (as a content object file upload) and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importEnvironmentFromFile(store: Store<ImportState>) {
-		let uploadResponse = await _importService.uploadContentResourceFiles(await store.state.filesToUpload);
+	async importEnvironmentFromFile({ state, commit }: Store<ImportState>): Promise<EaasiTask> {
+		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
 
 		if (uploadResponse.status === '0') {   // Success
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
-				label: store.state.environment.title,
+				label: state.environment.title,
 				files: [],
 			};
 
 			let i = 0;
 			blobs.forEach(async url => {
-				let file = store.state.filesToUpload[i];
+				let file = state.filesToUpload[i];
 				importRequest.files.push({
 					'filename': file.name,
 					'deviceId': 'Q495265',
@@ -145,10 +140,8 @@ const actions = {
 				i++;
 			});
 
-			let task = await _importService.importUploadBlob(importRequest);
-			await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
-			state.filesToUpload = [];
-			return task;
+			commit('SET_FILES_TO_UPLOAD', []);
+			return await _importService.importUploadBlob(importRequest);
 		}
 	},
 
@@ -156,21 +149,21 @@ const actions = {
 	 * Imports a Software resource from file upload and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importSoftwareFromFile(store: Store<ImportState>) {
-		let uploadResponse = await _importService.uploadContentResourceFiles(await store.state.filesToUpload);
+	async importSoftwareFromFile({ state, commit }: Store<ImportState>): Promise<EaasiTask> {
+		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
 
 		if (uploadResponse.status === '0') {  // Success
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
-				label: store.state.software.title,
+				label: state.software.title,
 				files: [],
 			};
 
 			let i = 0;
 
 			blobs.forEach(async url => {
-				let file = store.state.filesToUpload[i];
+				let file = state.filesToUpload[i];
 				importRequest.files.push({
 					'filename': file.name,
 					'deviceId': file.physicalFormat,
@@ -179,10 +172,8 @@ const actions = {
 				i++;
 			});
 
-			let task = await _importService.importUploadBlob(importRequest);
-			await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
-			state.filesToUpload = [];
-			return task;
+			commit('SET_FILES_TO_UPLOAD', []);
+			return await _importService.importUploadBlob(importRequest);
 		}
 	},
 
@@ -190,21 +181,21 @@ const actions = {
 	 * Imports a Content resource from file upload and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importContentFromFile(store: Store<ImportState>) {
-		let uploadResponse = await _importService.uploadContentResourceFiles(store.state.filesToUpload);
+	async importContentFromFile({ state, commit }: Store<ImportState>): Promise<EaasiTask> {
+		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
 
 		// uploadResponse.status 0 is success
 		if (uploadResponse.status === '0') {
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
-				label: store.state.content.title,
+				label: state.content.title,
 				files: [],
 			};
 
 			let i = 0;
 			blobs.forEach(async url => {
-				let file = store.state.filesToUpload[i];
+				let file = state.filesToUpload[i];
 				importRequest.files.push({
 					'filename': file.name,
 					'deviceId': file.physicalFormat,
@@ -213,10 +204,8 @@ const actions = {
 				i++;
 			});
 
-			let task = await _importService.importUploadBlob(importRequest);
-			await store.commit('ADD_OR_UPDATE_TASK', task, {root: true});
-			state.filesToUpload = [];
-			return task;
+			commit('SET_FILES_TO_UPLOAD', []);
+			return await _importService.importUploadBlob(importRequest);
 		}
 	},
 

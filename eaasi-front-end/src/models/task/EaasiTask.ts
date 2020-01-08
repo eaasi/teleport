@@ -1,6 +1,7 @@
 import { ITaskState } from '@/types/Task';
 
 export default class EaasiTask implements ITaskState {
+	id: number;
 	isDone: boolean;
 	status: string;
 	taskId: number | string;
@@ -8,6 +9,8 @@ export default class EaasiTask implements ITaskState {
 	description: string;
 	message: string;
 	pollingInterval?: number = 1000;
+	userData?: any;
+	object?: any;
 
 	constructor(id: number | string, description?: string) {
 		this.taskId = id;

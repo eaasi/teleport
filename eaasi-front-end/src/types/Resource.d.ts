@@ -17,7 +17,7 @@ export interface IEaasiResource {
 export interface IEaasiResourceSummary extends IEaasiResource {
 	id: number | string
 	title: string
-	tagGroup: ITag[]
+	tagGroup?: ITag[]
 
 	/**
 	 * Contains key-value pairs of data represented
@@ -116,7 +116,7 @@ export interface IEaasiEnvironmentCardSummary {
 	isInternetEnabled?: boolean;
 	isPrintingEnabled?: boolean;
 	installedSoftware?: any[];
-	hasError?: boolean;
+	error?: string;
 }
 
 export interface IEaasPermissions {
@@ -236,6 +236,11 @@ export interface IOverrideContentRequest {
 	environments: [];
 	objectArchive: string;
 	objectId: string;
+}
+
+export interface ISavingEnvironmentState {
+	envId: string;
+	taskId: string;
 }
 
 export type PhysicalFormat = 'Q493576' | 'Q495265' | 'disk' | 'Q82753';
