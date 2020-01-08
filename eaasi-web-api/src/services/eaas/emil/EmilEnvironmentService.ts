@@ -1,7 +1,7 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
-import {TaskState} from '@/types/emil/Emil';
-import EmilBaseService from './EmilBaseService';
+import { TaskState } from '@/types/emil/Emil';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
+import EmilBaseService from './EmilBaseService';
 
 export default class EmilEnvironmentService extends EmilBaseService {
 

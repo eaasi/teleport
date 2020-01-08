@@ -7,6 +7,7 @@
 					:key="index"
 					:label="notification.label"
 					:icon="notification.icon"
+					@close="closeNotification(notification)"
 					:color-preset="notification.type"
 				/>
 			</div>
@@ -39,6 +40,10 @@ export default class Notifications extends Vue {
         setTimeout(() => {
             this.notifications = this.notifications.filter(n => notification.id != n.id);
         }, notification.time);
+    }
+
+    closeNotification(notification: INotification) {
+        this.notifications = this.notifications.filter(n => n.id !== notification.id);
     }
 
     /* Lifecycle Hooks

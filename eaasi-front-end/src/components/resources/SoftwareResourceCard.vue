@@ -21,7 +21,7 @@
 import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, ISoftwarePackage } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types/Resource.d.ts';
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 
@@ -41,9 +41,6 @@ export default class SoftwareResourceCard extends Vue {
 	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
 
-	@Prop({ type: Boolean, default: false })
-	isSelected: Boolean;
-
 	/* Data
 	============================================*/
 	resourceTypeTags: ITag[] =  [
@@ -56,6 +53,11 @@ export default class SoftwareResourceCard extends Vue {
 
 	/* Computed
 	============================================*/
+	@Get('resource/selectedResources')
+	selectedResources: IEaasiResource[];
+
+	@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];
 
 	get summary(): IEaasiResourceSummary | null {
 		if(!this.software) return null;
@@ -71,16 +73,16 @@ export default class SoftwareResourceCard extends Vue {
 		return summary;
 	}
 
-	@Get('bookmark/bookmarks')
-	bookmarks: IBookmark[];
-
 	get isBookmarkSelected(): Boolean {
 		return this.bookmarks.some(b => b.resourceID === this.software.id);
 	}
 
+	get isSelected(): Boolean {
+		return this.selectedResources.some(r => r.id === this.software.id);
+	}
+
 	/* Methods
 	============================================*/
-
 	goToDetailsPage() {
 		this.$router.push(
 			{
@@ -91,12 +93,6 @@ export default class SoftwareResourceCard extends Vue {
 				}
 			});
 	}
-
-	/* Lifecycle Hooks
-	============================================*/
-
-	/* Watchers
-	============================================*/
 
 }
 

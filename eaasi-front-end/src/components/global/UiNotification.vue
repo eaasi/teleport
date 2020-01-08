@@ -1,7 +1,8 @@
 <template>
 	<span :class="`ui-notification-container ${colorPreset}`">
 		<slot>
-			<span v-if="icon" :class="`fas fa-${icon}`" style="margin-right: 1rem;"></span>
+			<span class="close-icon fas fa-times" @click="$emit('close')"></span>
+			<span v-if="icon" :class="`icon-notif fas fa-${icon}`" style="margin-right: 1rem;"></span>
 			<span>{{ label }}</span>
 		</slot>
 	</span>
@@ -46,24 +47,45 @@ export default class UiNotification extends Vue {
 
 <style lang='scss'>
 .ui-notification-container {
+	background: #ffffff;
+	border: 1px solid #eeeeee;
 	border-radius: 5px;
 	box-shadow: 0px 3px 6px #0000004D;
-	color: #ffffff;
+	color: #000000;
+	max-width: 40rem;
 	padding: 2rem;
+	position: relative;
 	&.success {
-		background-color: darken($green, 30%);
+		.icon-notif {
+			color: darken($green, 30%);
+		}
 	}
 
 	&.info {
-		background-color: darken($light-blue, 20%);
+		.icon-notif {
+			color: darken($light-blue, 20%);
+		}
 	}
 
 	&.warning {
-		background-color: darken($orange, 20%);
+		.icon-notif {
+			color: darken($orange, 20%);
+		}
 	}
 
 	&.danger {
-		background-color: darken($red, 20%);
+		.icon-notif {
+			color: darken($red, 20%);
+		}
+	}
+	.close-icon {
+		color: #000000;
+		cursor: pointer;
+		font-size: 1.6rem;
+		font-weight: 400;
+		position: absolute;
+		right: 0.5rem;
+		top: 0.5rem;
 	}
 }
 </style>

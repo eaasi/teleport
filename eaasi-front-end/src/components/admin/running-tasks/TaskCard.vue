@@ -1,0 +1,63 @@
+<template>
+	<div 
+		:class="[
+			'task-container flex flex-row justify-between', 
+			{ 'in-queue': task.isDone === undefined, 'done': task.isDone, 'error': hasError }
+		]"
+	>
+		<span class="task-desc">{{ descriptionOrDefault }}</span>
+		<span class="erorr-message" v-if="task.message">{{ task.message }}</span>
+		<div style="white-space: nowrap;">
+			<span v-if="hasError" class="far fa-exclamation-triangle"></span>
+			<span v-else-if="task.isDone" class="far fa-check-circle"></span>
+			<span v-else class="far fa-fw fa-circle-notch fa-spin"></span>
+			<span class="fas fa-times close-icon" @click="$emit('remove-task', task)"></span>
+		</div>
+	</div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
+import EaasiTask from '@/models/task/EaasiTask';
+
+@Component({
+    name: 'TaskCard'
+})
+export default class TaskCard extends Vue {
+
+    /* Props
+    ============================================*/
+    @Prop({ type: Object, required: true })
+    task: EaasiTask;
+
+    /* Computed
+	============================================*/
+	get hasError(): Boolean {
+		return this.task.status !== '0';
+	}
+
+    get descriptionOrDefault(): String {
+        return this.task.description ? this.task.description : 'Task has no description';
+    }
+
+}
+</script>
+
+<style lang='scss' scoped>
+.task-container {
+	line-height: 2rem;
+	.task-desc {
+		word-break: break-word;
+	}
+	.erorr-message {
+		color: $red;
+		font-size: 1.2rem;
+	}
+	.close-icon {
+		color: $red;
+		cursor: pointer;
+		margin-left: 1rem;
+	}
+}
+</style>

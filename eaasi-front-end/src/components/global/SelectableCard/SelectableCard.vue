@@ -14,16 +14,16 @@
 
 		<div :class="['panel-right', selectStyle]">
 			<div :class="['header', { clickable: isClickable }]" @click="handleClick">
-				{{ title }}
+				{{ data.title }}
 			</div>
 
-			<div class="content">
-				<selectable-card-content :content-data="contentData" />
+			<div class="content" v-if="data.content">
+				<selectable-card-content :content-data="data.content" />
 			</div>
 
-			<div v-if="hasSubContent">
+			<div v-if="data.subContent">
 				<hr class="subcontent-divider" />
-				<selectable-card-content :content-data="subContentData" />
+				<selectable-card-content :content-data="data.subContent" />
 			</div>
 
 			<div v-if="isLoading" class="panel-footer loading-tag">
@@ -65,48 +65,33 @@ export default class SelectableCard extends Vue {
 		/* Props
         ============================================*/
 		@Prop({type: Object as () => IEaasiResourceSummary, required: true})
-		data: IEaasiResourceSummary;
+		readonly data: IEaasiResourceSummary;
 
 		@Prop({type: Boolean, required: false, default: false})
-		bookmark: boolean;
+		readonly bookmark: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-		footer: boolean;
+		readonly footer: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-		isLoading: boolean;
+		readonly isLoading: boolean;
 
 		@Prop({ type: Boolean, default: false })
-		isBookmarkSelected: boolean;
+		readonly isBookmarkSelected: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-        disableSelect: boolean;
+        readonly disableSelect: boolean;
 
         @Prop({type: Boolean, required: false, default: false})
-		isClickable: boolean;
+		readonly isClickable: boolean;
 
 		@Prop({ type: Boolean, default: false })
-		isSelected: boolean;
-
-		/* Data
-        ============================================*/
-		title: string = '';
-		contentData: object = {};
-		subContentData: object = {};
-        error = {};
+		readonly isSelected: boolean;
 
         /* Computed
         ============================================*/
-        get hasError() : boolean {
-        	return !!this.error;
-        };
-
         get selectStyle() : string {
         	return this.isSelected ? 'selected' : '';
-        }
-
-        get hasSubContent() : boolean {
-        	return !!this.subContentData;
         }
 
         /* Methods
@@ -117,26 +102,11 @@ export default class SelectableCard extends Vue {
         	this.$emit('change', isSelected);
         }
 
-        buildResourceData() {
-        	if (this.data) {
-        		this.title = this.data.title;
-        		this.contentData = this.data.content;
-        		this.subContentData = this.data.subContent;
-        	}
-        }
-
         handleClick() {
         	if (this.isClickable) {
 				this.$emit('click:header');
 			}
 		}
-
-        /* Lifecycle Hooks
-		============================================*/
-
-        created() {
-        	this.buildResourceData();
-        }
 
 }
 </script>

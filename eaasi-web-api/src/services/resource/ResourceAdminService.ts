@@ -1,11 +1,11 @@
+import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
-import SaveEnvironmentRequest from '@/models/resource/SaveEnvironmentRequest';
 import IHttpService from '@/services/interfaces/IHttpService';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IReplicateImageRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
@@ -45,7 +45,7 @@ export default class ResourceAdminService extends BaseService {
 		// TODO: Refactor
 		let result = new ResourceSearchResponse();
 
-		const allEnvironments = await this.getAllEnvironmentsMetadata();
+		const allEnvironments = await this.getAllEnvironments();
 		const allSoftware = await this.getAllSoftware();
 		const allContent = await this.getAllContent();
 
@@ -85,10 +85,6 @@ export default class ResourceAdminService extends BaseService {
 			environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
 		}
 
-		environmentResult.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
-		softwareResult.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
-		contentResult.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
-
 		contentResult.result = this._filterResults<IContentItem>(query, contentResult.result);
 		softwareResult.result = this._filterResults<ISoftwarePackageDescription>(query, softwareResult.result);
 		environmentResult.result = this._filterResults<IEnvironment>(query, environmentResult.result);
@@ -99,8 +95,15 @@ export default class ResourceAdminService extends BaseService {
 		softwareResult.result = this.paginate<ISoftwarePackageDescription>(query, softwareResult.result);
 		contentResult.result = this.paginate<IContentItem>(query, contentResult.result);
 
+		contentResult.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 		result.content = contentResult;
+
+		softwareResult.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
 		result.software = softwareResult;
+
+		const envIds = environmentResult.result.map(r => r.envId);
+		environmentResult.result = await this.getEnvironmentsMetadata(envIds);
+		environmentResult.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
 		result.environments = environmentResult;
 
 		this.preselectResultFacets(result, query);
@@ -122,17 +125,18 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/**
-	 * Save / Replicate an Environment to local storage
-	 * @param id: environmentId
+	 * Replicate an Environment to local storage
+	 * @param replicateRequest: ReplicateEnvironmentRequest {
+	 *   destArchive: ArchiveType;
+	 *   replicateList: string[];
+	 * }
 	 */
-	async saveEnvironment(id: string): Promise<ISaveEnvironmentResponse | null> {
+	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest): Promise<ISaveEnvironmentResponse | null> {
 	    // The endpoint currently takes a POST request payload containing a list of ids and a source destination.
 		// 'public' source destination makes the environment available locally to the requesting Node.
 		// TODO: Handle error responses from Emil API -- there are several cases to handle
 		// TODO: See https://gitlab.com/eaasi/eaas-server/blob/eaasi-release-2019.07/src/emil/src/main/java/de/bwl/bwfla/emil/EmilEnvironmentData.java#L772
-
-		let saveEnvironmentRequest = new SaveEnvironmentRequest([id], 'public').toJson();
-		let response = await this._emilEnvSvc.post('replicateImage', saveEnvironmentRequest)
+		let response = await this._emilEnvSvc.post('replicateImage', replicateRequest)
 		return response.json()
 	}
 
@@ -188,18 +192,6 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/**
-	 * Replicates a list of images to the requested archive
-	 * @param {
-	 *   destArchive: 'remote' | 'public' | 'private';
-	 *   replicateList: Array<string>;
-	 * }: IReplicateImageRequest
-	 */
-	async replicateImage(replicateRequest: IReplicateImageRequest) {
-		let res = await this._emilEnvSvc.post('replicateImage', replicateRequest);
-		return await res.json();
-	}
-
-	/**
 	 * Searches  for all environments using the provided IEaasiSearchQuery
 	 * @param query
 	 * @private
@@ -214,6 +206,15 @@ export default class ResourceAdminService extends BaseService {
 		const metadataEnvs = [];
 		for(let i = 0; i < envs.length; i++) {
 			const envMetadata = await this.getEnvironment(envs[i].envId);
+			metadataEnvs.push(envMetadata);
+		}
+		return metadataEnvs;
+	}
+
+	private async getEnvironmentsMetadata(envIds: string[]): Promise<IEnvironment[]> {
+		const metadataEnvs = [];
+		for(let i = 0; i < envIds.length; i++) {
+			const envMetadata = await this.getEnvironment(envIds[i]);
 			metadataEnvs.push(envMetadata);
 		}
 		return metadataEnvs;

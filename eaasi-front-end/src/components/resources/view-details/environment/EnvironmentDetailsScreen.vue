@@ -41,10 +41,10 @@
 		</div>
 		<!-- Modals -->
 		<confirm-modal
-			title="Replicate To My Node"
+			title="Save to My Node"
 			confirm-label="Replicate"
 			@click:cancel="confirmAction = null"
-			@click:confirm="replicate"
+			@click:confirm="replicateEnvironment"
 			@close="confirmAction = null"
 			v-if="confirmAction === 'replicate'"
 		>
@@ -54,33 +54,10 @@
 					Environments copied from the EaaSI Network cannot be easily deleted once saved.
 				</span>
 				<span class="ers-rep-msg">
-					Do you want to replicate this environment to your node?
+					Do you want to save this environment to your node?
 				</span>
 			</alert>
 		</confirm-modal>
-		<!-- Loading Modal -->
-		<modal v-if="loading || errorMessage || success" @close="reset">
-			<alert-card v-if="errorMessage" type="error">
-				<strong>Error: </strong>
-				{{ errorMessage }}
-			</alert-card>
-			<div v-else-if="success">
-				<alert-card type="success">
-					This task was succesfully completed
-				</alert-card>
-				<div style="margin: 2rem auto;">
-					<ui-button size="md" @click="$router.push('/resources/explore')">
-						Explore Resources
-					</ui-button>
-				</div>
-			</div>
-			<div v-else-if="!errorMessage && !success" class="flex flex-center flex-column">
-				<h3 style="margin: 0 0 3rem 0; text-align: center;">
-					Depending on the file size and server/network performance, image import may take several minutes.
-				</h3>
-				<loader />
-			</div>
-		</modal>
 		<add-software
 			v-if="addingSoftware"
 			@cancel="addingSoftware = false"
@@ -121,18 +98,12 @@ export default class EnvironmentDetailsScreen extends Vue {
     	{ label: 'History', disabled: false },
 	];
 	activeTab: string = this.tabs[0].label;
-
 	mods = ['Review Mode'];
 	activeMode: string = this.mods[0];
-
 	activeEnvironment: IEnvironment = null;
 	confirmAction: string = null;
-	loading: boolean = false;
-	errorMessage: string = null;
-	success: boolean = false;
-	timer: any = null;
 	addingSoftware: boolean = false;
-
+	
 	emulatorLabeledItems : ILabeledEditableItem[] = [];
 	osLabeledItems: ILabeledEditableItem[] = [];
 	uiOptionLabeledItems: ILabeledEditableItem[] = [];
@@ -166,12 +137,11 @@ export default class EnvironmentDetailsScreen extends Vue {
 		}
 	}
 
-	async replicate() {
+	async replicateEnvironment() {
 		this.confirmAction = null;
-		this.loading = true;
-		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateImage', this.activeEnvironment);
-		let task = new EaasiTask(result.taskList[0], `Replicate Image: ${this.activeEnvironment.title}`);
-        this.timer = setInterval(async () => await this.handleTask(task.taskId), task.pollingInterval);
+		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateEnvironment', this.activeEnvironment);
+		let task = new EaasiTask(result.taskList[0], `Save To My Node: ${this.activeEnvironment.title}`);
+		await this.$store.dispatch('task/addTaskToQueue', task);
 	}
 
 	async runInEmulator(software) {
@@ -179,17 +149,6 @@ export default class EnvironmentDetailsScreen extends Vue {
 		if (!id || !archiveId) return;
 		const { envId } = this.activeEnvironment as IEnvironment;
 		this.$router.push(`/access-interface/${envId}?softwareId=${id}&archiveId=${archiveId}`);
-	}
-
-	async handleTask(taskId: string | number) {
-		let taskState = await this.$store.dispatch('getTaskState', taskId);
-		if (taskState.message && taskState.status == '1') {
-			clearInterval(this.timer);
-			this.errorMessage = taskState.message;
-		} else if(taskState.isDone) {
-			clearInterval(this.timer);
-			this.success = true;
-		}
 	}
 
 	async init() {
@@ -211,13 +170,6 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	async runEnvironment() {
 		await this.$router.push(`/access-interface/${this.activeEnvironment.envId}`);
-	}
-
-	reset() {
-		clearInterval(this.timer);
-		this.success = false;
-		this.errorMessage = null;
-		this.loading = false;
 	}
 
 	onModeChange(mode: string) {

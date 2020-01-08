@@ -1,6 +1,6 @@
 import EaasiUser from '@/data_access/models/app/EaasiUser';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
 	tableName: 'bookmark'

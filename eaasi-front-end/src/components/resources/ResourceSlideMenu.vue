@@ -49,6 +49,13 @@
 					</div>
 				</div>
 			</div>
+			<task-list 
+				v-if="showTasks" 
+				collapsible
+				closable
+				style="padding: 4rem 2rem;" 
+				@close="showTasks = false" 
+			/>
 		</slide-menu>
 
 		<!-- Modals -->
@@ -57,7 +64,7 @@
 			title="Save To My Node"
 			confirm-label="Save Environment"
 			@click:cancel="confirmAction = null"
-			@click:confirm="saveEnvironment"
+			@click:confirm="replicateEnvironment"
 			@close="confirmAction = null"
 			v-if="confirmAction === 'save'"
 		>
@@ -111,273 +118,289 @@
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
-	import {Component, Prop} from 'vue-property-decorator';
-	import {Get, Sync} from 'vuex-pathify';
-	import ResourceService from '@/services/ResourceService';
-	import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
-	import {resourceTypes} from '@/utils/constants';
-	import {IEaasiUser} from 'eaasi-admin';
-	import {IAction, IEaasiTab} from 'eaasi-nav';
-	import {MultiBookmarkRequest} from '@/types/Bookmark';
-	import {ILabeledItem} from '@/types/ILabeledItem';
-	import { IContentRequest } from '@/types/Resource';
-	import {IEaasiResource, IEnvironment, ISoftwarePackage, ISoftwareObject} from '@/types/Resource';
-	import ResourceAction from './ResourceAction.vue';
-	import stringCleaner from '@/utils/string-cleaner';
-	import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
-	import SlideMenu from '@/components/layout/SlideMenu.vue';
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+import {Get, Sync} from 'vuex-pathify';
+import ResourceService from '@/services/ResourceService';
+import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
+import {resourceTypes} from '@/utils/constants';
+import {IEaasiUser} from 'eaasi-admin';
+import {IAction, IEaasiTab} from 'eaasi-nav';
+import {MultiBookmarkRequest} from '@/types/Bookmark';
+import {ILabeledItem} from '@/types/ILabeledItem';
+import { IContentRequest } from '@/types/Resource';
+import {IEaasiResource, IEnvironment, ISoftwarePackage, ISoftwareObject} from '@/types/Resource';
+import ResourceAction from './ResourceAction.vue';
+import stringCleaner from '@/utils/string-cleaner';
+import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+import SlideMenu from '@/components/layout/SlideMenu.vue';
+import TaskList from '@/components/admin/running-tasks/TaskList.vue';
+import { ITaskState } from '../../types/Task';
+import { IEaasiTaskListStatus } from '../../types/IEaasiTaskListStatus';
+import EaasiTask from '../../models/task/EaasiTask';
+import { generateId } from '../../utils/functions';
+import { INotification } from '../../types/Notification';
+import eventBus from '../../utils/event-bus';
 
-	let menuService = new ResourceSlideMenuService();
-	let resourceService = ResourceService;
+let menuService = new ResourceSlideMenuService();
+let resourceService = ResourceService;
 
-	@Component({
-		name: 'ResourceSlideMenu',
-		components: {
-			LabeledItemList,
-			ResourceAction,
-			SlideMenu
+@Component({
+	name: 'ResourceSlideMenu',
+	components: {
+		LabeledItemList,
+		ResourceAction,
+		TaskList,
+		SlideMenu
+	}
+})
+export default class ResourceSlideMenu extends Vue {
+
+	/* Props
+	============================================*/
+
+	@Prop({type: Boolean, required: true})
+	readonly open: boolean;
+
+	/* Computed
+	============================================*/
+
+	@Sync('resource/activeEnvironment')
+	readonly environment: IEnvironment;
+
+	@Get('task/orderedTasks')
+	orderedTasks: ITaskState[];
+
+	@Sync('resource/selectedResources')
+	resources: IEaasiResource[];
+
+	@Get('loggedInUser')
+	user: IEaasiUser;
+
+	@Get('resource/environmentIsSelected')
+	environmentIsSelected: boolean;
+
+	@Get('resource/softwareIsSelected')
+	softwareIsSelected: boolean;
+
+	@Get('resource/onlySelectedResource')
+	onlySelectedResource: IEaasiResource;
+
+	get hasDetails() {
+		// Reset this.detailsItems when hasDetails is checked
+		this.detailsItems = [];
+		if (this.onlySelectedResource && this.onlySelectedResource.title) {
+			this.setDetailsItems();
+			return true;
 		}
-	})
-	export default class ResourceSlideMenu extends Vue {
+		return false;
+	}
 
-		/* Props
-        ============================================*/
+	get areMultipleActiveResourcesSelected() : boolean {
+		if (this.resources.length > 1) {
+			// If we are showing the Details tab when multiple are selected,
+			// We should change to the Actions tab.
+			this.activeTab ='Actions';
+			return true;
+		};
+		return false;
+	}
 
-		@Prop({type: Boolean, required: true})
-		readonly open: boolean;
+	/**
+	 * Populates the list of Local Actions in the Sidebar
+	 */
+	get localActionsForSelected() {
+		return menuService.getLocalActions(
+			this.resources as IEnvironment[],
+			this.user.roleId
+		);
+	}
 
-		/* Computed
-        ============================================*/
+	/**
+	 * Populates the list of Node Actions in the Sidebar
+	 */
+	get nodeActionsForSelected() {
+		return menuService.getNodeActions(
+			this.resources as IEnvironment[],
+			this.user.roleId
+		);
+	}
 
-		@Sync('resource/activeEnvironment')
-		readonly environment: IEnvironment;
-
-		@Sync('resource/selectedResources')
-		resources: IEaasiResource[];
-
-		@Get('loggedInUser')
-		user: IEaasiUser;
-
-		@Get('resource/environmentIsSelected')
-		environmentIsSelected: boolean;
-
-		@Get('resource/softwareIsSelected')
-		softwareIsSelected: boolean;
-
-		@Get('resource/onlySelectedResource')
-		onlySelectedResource: IEaasiResource;
-
-		get hasDetails() {
-			// Reset this.detailsItems when hasDetails is checked
-			this.detailsItems = [];
-			if (this.onlySelectedResource && this.onlySelectedResource.title) {
-				this.setDetailsItems();
-				return true;
-			}
-			return false;
+	/* Data
+	============================================*/
+	detailsItems: ILabeledItem[] = [];
+	tabs: IEaasiTab[] = [
+		{
+			label: 'Details'
+		},
+		{
+			label: 'Actions'
 		}
+	]
+	activeTab: string = this.tabs[1].label;
+	confirmAction : string = null;
+	showTasks: boolean = true;
 
-		get areMultipleActiveResourcesSelected() : boolean {
-			if (this.resources.length > 1) {
-				// If we are showing the Details tab when multiple are selected,
-				// We should change to the Actions tab.
-				this.activeTab ='Actions';
-				return true;
-			};
-			return false;
+	/* Methods
+	============================================*/
+
+	async setDetailsItems() : Promise<void> {
+		if (!this.onlySelectedResource) return;
+		const { resourceType } = this.onlySelectedResource;
+
+		if (resourceType === resourceTypes.ENVIRONMENT) {
+			await this.setEnvironmentDetailsItems();
+		} else if (resourceType === resourceTypes.SOFTWARE) {
+			await this.setSoftwareDetailsItems();
 		}
+	};
 
-		/**
-		 * Populates the list of Local Actions in the Sidebar
-		 */
-		get localActionsForSelected() {
-			return menuService.getLocalActions(
-				this.resources as IEnvironment[],
-				this.user.roleId
-			);
-		}
+	async setSoftwareDetailsItems() {
+		const { archiveId } = this.onlySelectedResource;
+		const objectId = this.onlySelectedResource.id;
+		const softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId });
+		if (!softwareMetadata.metadata) return;
 
-		/**
-		 * Populates the list of Node Actions in the Sidebar
-		 */
-		get nodeActionsForSelected() {
-			return menuService.getNodeActions(
-				this.resources as IEnvironment[],
-				this.user.roleId
-			);
-		}
-
-		/* Data
-        ============================================*/
-		detailsItems: ILabeledItem[] = [];
-		tabs: IEaasiTab[] = [
+		let detailsItems = [
 			{
-				label: 'Details'
+				label: 'Description',
+				value: softwareMetadata.metadata.description
+			}
+		];
+
+		if (softwareMetadata.mediaItems.file && softwareMetadata.mediaItems.file.length > 0) {
+			softwareMetadata.mediaItems.file.forEach(f => {
+				detailsItems.push({
+					label: `${f.dataResourceType} (${f.type})`,
+					value: f.localAlias ? f.localAlias : f.id
+				});
+			});
+		}
+
+		this.detailsItems = detailsItems;
+	}
+
+	async setEnvironmentDetailsItems() {
+		const env = await resourceService.getEnvironment(this.onlySelectedResource.envId);
+		let enableInternet = env.enableInternet ? env.enableInternet.toString() : 'false';
+		let enablePrinting = env.enablePrinting ? env.enablePrinting.toString() : 'false';
+
+		let detailsItems = [
+			{
+				label: 'Description',
+				value: stringCleaner.stripHTML(env.title)
 			},
 			{
-				label: 'Actions'
-			}
-		]
-		activeTab: string = this.tabs[1].label;
-		confirmAction : string = null;
+				label: 'Internet Enabled',
+				value: enableInternet
+			},
+			{
+				label: 'Printing Enabled',
+				value: enablePrinting
+			},
+			{
+				label: 'Operating System',
+				value: env.os
+			},
+		];
 
-		/* Methods
-		============================================*/
-
-		async setDetailsItems() : Promise<void> {
-			if (!this.onlySelectedResource) return;
-			const { resourceType } = this.onlySelectedResource;
-
-			if (resourceType === resourceTypes.ENVIRONMENT) {
-				await this.setEnvironmentDetailsItems();
-			} else if (resourceType === resourceTypes.SOFTWARE) {
-				await this.setSoftwareDetailsItems();
-			}
-		};
-
-		async setSoftwareDetailsItems() {
-			const { archiveId } = this.onlySelectedResource;
-			const objectId = this.onlySelectedResource.id;
-			const softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId });
-			if (!softwareMetadata.metadata) return;
-
-			let detailsItems = [
-				{
-					label: 'Description',
-					value: softwareMetadata.metadata.description
-				}
-			];
-
-			if (softwareMetadata.mediaItems.file && softwareMetadata.mediaItems.file.length > 0) {
-				softwareMetadata.mediaItems.file.forEach(f => {
-					detailsItems.push({
-						label: `${f.dataResourceType} (${f.type})`,
-						value: f.localAlias ? f.localAlias : f.id
-					});
+		if (env.drives && env.drives.length) {
+			for (let i = 0; i < env.drives.length; i++) {
+				detailsItems.push({
+					label: `Drive (${i + 1})`,
+					value: env.drives[i].type
 				});
 			}
-
-			this.detailsItems = detailsItems;
 		}
 
-		async setEnvironmentDetailsItems() {
-			const env = await resourceService.getEnvironment(this.onlySelectedResource.envId);
-			let enableInternet = env.enableInternet ? env.enableInternet.toString() : 'false';
-			let enablePrinting = env.enablePrinting ? env.enablePrinting.toString() : 'false';
+		this.detailsItems = detailsItems;
+	}
 
-			let detailsItems = [
-				{
-					label: 'Description',
-					value: stringCleaner.stripHTML(env.title)
-				},
-				{
-					label: 'Internet Enabled',
-					value: enableInternet
-				},
-				{
-					label: 'Printing Enabled',
-					value: enablePrinting
-				},
-				{
-					label: 'Operating System',
-					value: env.os
-				},
-			];
+	toggleSlide() {
+		this.$emit('toggle');
+	}
 
-			if (env.drives && env.drives.length) {
-				for (let i = 0; i < env.drives.length; i++) {
-					detailsItems.push({
-						label: `Drive (${i + 1})`,
-						value: env.drives[i].type
-					});
+	async replicateEnvironment() {
+		this.confirmAction = null;
+		const env: IEaasiResource = this.resources[0];
+		if (!env) return;
+		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateEnvironment', env);
+		let task = new EaasiTask(result.taskList[0], `Save To My Node: ${env.title}`);
+		await this.$store.dispatch('task/addTaskToQueue', task);
+	}
+
+	async deleteSelectedResource() {
+		this.confirmAction = null;
+		if (this.environmentIsSelected) {
+			await this.$store.dispatch('resource/deleteSelectedResource');
+		} else {
+			const contentRequests = this.resources.map(r => {
+				return { archiveName: r.archiveId, contentId: r.id as string };
+			});
+			await this.$store.dispatch('software/deleteContent', contentRequests);
+		}
+		this.$emit('resource-updated');
+	}
+
+	// TODO: Refactor doAction and multiple / single selected resource logic
+
+	doAction(action: IAction) {
+		if (!action.isEnabled) return;
+
+		switch (action.shortName) {
+			case 'run':
+				// When Run is clicked, we send to Access Interface @ environmentId
+				if (this.environmentIsSelected) {
+					let environment = this.onlySelectedResource as IEnvironment;
+					this.$router.push(`/access-interface/${environment.envId}`);
 				}
-			}
-
-			this.detailsItems = detailsItems;
-		}
-
-		toggleSlide() {
-			this.$emit('toggle');
-		}
-
-		async saveEnvironment() {
-			this.confirmAction = null;
-			await this.$store.dispatch('resource/saveEnvironment');
-		}
-
-		async deleteSelectedResource() {
-			this.confirmAction = null;
-			if (this.environmentIsSelected) {
-				await this.$store.dispatch('resource/deleteSelectedResource');
-			} else {
-				const contentRequests = this.resources.map(r => {
-					return { archiveName: r.archiveId, contentId: r.id as string };
-				});
-				await this.$store.dispatch('software/deleteContent', contentRequests);
-			}
-			this.$emit('resource-updated');
-		}
-
-		// TODO: Refactor doAction and multiple / single selected resource logic
-
-		doAction(action: IAction) {
-			if (!action.isEnabled) return;
-
-			switch (action.shortName) {
-				case 'run':
-					// When Run is clicked, we send to Access Interface @ environmentId
-					if (this.environmentIsSelected) {
-						let environment = this.onlySelectedResource as IEnvironment;
-						this.$router.push(`/access-interface/${environment.envId}`);
-					}
-					break;
-				case 'viewDetails':
-					// When View Details is clicked, we send to Resource Detail view
-					if (this.environmentIsSelected) {
-						const resourceId = this.onlySelectedResource.envId.toString();
-						this.$router.push({
-							path:'/resources/environment',
-							query: { resourceId }
-						});
-						break;
-					}
-					// @ts-ignore
-					const archiveId = this.onlySelectedResource.archiveId;
-					const resourceId = this.onlySelectedResource.id.toString();
-					const path = this.softwareIsSelected ? '/resources/software' : '/resources/content';
+				break;
+			case 'viewDetails':
+				// When View Details is clicked, we send to Resource Detail view
+				if (this.environmentIsSelected) {
+					const resourceId = this.onlySelectedResource.envId.toString();
 					this.$router.push({
-						path,
-						query: { resourceId, archiveId }
+						path:'/resources/environment',
+						query: { resourceId }
 					});
 					break;
-				case 'bookmark':
-					// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
-					let resourceIds = this.resources.map(resource =>
-						resource.resourceType === resourceTypes.ENVIRONMENT
-							? resource.envId
-							: resource.id
-					);
+				}
+				// @ts-ignore
+				const archiveId = this.onlySelectedResource.archiveId;
+				const resourceId = this.onlySelectedResource.id.toString();
+				const path = this.softwareIsSelected ? '/resources/software' : '/resources/content';
+				this.$router.push({
+					path,
+					query: { resourceId, archiveId }
+				});
+				break;
+			case 'bookmark':
+				// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
+				let resourceIds = this.resources.map(resource =>
+					resource.resourceType === resourceTypes.ENVIRONMENT
+						? resource.envId
+						: resource.id
+				);
 
-					let bookmarksRequest: MultiBookmarkRequest = {
-						userID: this.user.id,
-						resourceIDs: resourceIds as string[]
-					};
+				let bookmarksRequest: MultiBookmarkRequest = {
+					userID: this.user.id,
+					resourceIDs: resourceIds as string[]
+				};
 
-					this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
-						this.$emit('bookmarks-updated');
-					});
-					break;
-				case 'save':
-					this.confirmAction = 'save';
-					break;
-				case 'delete':
-					this.confirmAction = 'delete';
-					break;
-				default: break;
-			}
+				this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
+					this.$emit('bookmarks-updated');
+				});
+				break;
+			case 'save':
+				this.confirmAction = 'save';
+				break;
+			case 'delete':
+				this.confirmAction = 'delete';
+				break;
+			default: break;
 		}
 	}
+}
 
 </script>
 

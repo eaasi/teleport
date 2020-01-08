@@ -1,5 +1,5 @@
-import {Request} from 'express';
-import {Blob} from 'node-fetch';
+import { Request } from 'express';
+import { Blob } from 'node-fetch';
 
 export interface KeyValuePair<T> {
 	key: string;
@@ -10,6 +10,8 @@ export interface TaskState {
 	isDone: boolean;
 	status: string;
 	taskId: string;
+	userData?: object;
+	object?: JSON;
 }
 
 /**

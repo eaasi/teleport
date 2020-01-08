@@ -107,11 +107,12 @@ export default class EmulatorModal extends Vue {
 		request.urlString = entry.provenance.ociSourceUrl;
 		request.tag = entry.provenance.versionTag;
 		request.update = true;
-		let task = await this.$store.dispatch('admin/importEmulator', request) as EaasiTask;
+		const task = await this.$store.dispatch('admin/importEmulator', request) as EaasiTask;
 		if(!task) return;
+		await this.$store.dispatch('task/addTaskToQueue', task);
 		this.$store.commit('SET_ACTIVE_TASK', task);
 		this.$emit('close');
-	};
+	}
 
 }
 

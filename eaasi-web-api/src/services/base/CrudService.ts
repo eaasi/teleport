@@ -1,11 +1,11 @@
+import CrudQuery from '@/services/base/CrudQuery';
+import { IPaginatedResult } from '@/types/Crud';
 import { WhereOptions } from 'sequelize';
+import { Model } from 'sequelize-typescript';
 import ICrudService from '../interfaces/ICrudService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
-import CrudServiceResult from './CrudServiceResult';
-import CrudQuery from '@/services/base/CrudQuery';
 import BaseService from './BaseService';
-import { Model } from 'sequelize-typescript';
-import { IPaginatedResult } from '@/types/Crud';
+import CrudServiceResult from './CrudServiceResult';
 
 export default class CrudService<T extends Model> extends BaseService implements ICrudService<T> {
 

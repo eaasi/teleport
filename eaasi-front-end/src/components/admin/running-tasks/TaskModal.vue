@@ -43,12 +43,6 @@
 		error: string = null;
 		success: boolean = false;
 
-		/* Computed
-        ============================================*/
-
-		@Sync('activeTask')
-		activeTask: EaasiTask;
-
 		/* Methods
         ============================================*/
 
@@ -65,25 +59,23 @@
 		 * Polls the task state endpoint to keep track of import status
 		 */
 		async pollTask() {
-			if (!this.task) return;
-			let self = this;
-			if (self.timer) clearInterval(self.timer);
-			let activeTask = await self.activeTask;
-			let taskId = activeTask.taskId;
-			self.timer = setInterval(async () => {
-				let taskState = await self.$store.dispatch('getTaskState', taskId) as ITaskState;
+			const { taskId, pollingInterval } = this.task;
+			if (!taskId) return;
+			if (this.timer) clearInterval(this.timer);
+			this.timer = setInterval(async () => {
+				let taskState = await this.$store.dispatch('task/getTaskState', taskId) as ITaskState;
 				if (!taskState || taskState.isDone) {
 					this.$emit('success', taskState);
 					clearInterval(this.timer);
-					self.success = true;
+					this.success = true;
 					setTimeout(() => this.$emit('close'), 2500);
 				}
 				else if (taskState.message && taskState.status == '1') {
-					clearInterval(self.timer);
-					self.error = taskState.message;
+					clearInterval(this.timer);
+					this.error = taskState.message;
 				}
 				return;
-			}, self.activeTask.pollingInterval || 3000);
+			}, pollingInterval || 3000);
 		}
 
 		/**
@@ -98,20 +90,8 @@
 
 		/* Lifecycle Hooks
         ============================================*/
-
-		mounted() {
-			this.pollTask();
-		}
-
-		/* Watchers
-        ============================================*/
-
-		@Watch('task')
-		onTaskUpdated(newTask: EaasiTask | null, oldTask: EaasiTask | null) {
-			if (!newTask) this.cancel();
-			if (jsonEquals(newTask, oldTask)) return;
-			this.reset();
-			this.pollTask();
+		async mounted() {
+			await this.pollTask();
 		}
 
 	}

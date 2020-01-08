@@ -61,7 +61,7 @@ router.post('/save-software-object', (req, res) => controller.saveSoftwareObject
  * @apiPermission System Administrator only
  * @apiDescription Replicates a list of images to the requested archive
  */
-router.post('/replicate-image', (req, res) => controller.replicateImage(req, res));
+router.post('/replicate-environment', (req, res) => controller.replicateEnvironment(req, res));
 
 /**
  * @api {post} resource/software-object Saves Software Objects
@@ -158,15 +158,6 @@ router.post('/update-environment', (req, res) => controller.updateEnvironmentDet
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
  */
 router.get('/software', (req, res) => controller.getSoftwarePackageDescription(req, res));
-
-/**
- * @api {post} resource/software Save to local Node
- * @apiVersion 1.0.0
- * @apiName Save Resource to Node
- * @apiGroup Resources
- * @apiDescription Saves a resource to the local Node
- */
-router.post('/save', (req, res) => controller.saveEnvironment(req, res));
 
 /**
  * @api {get} gets software package description
