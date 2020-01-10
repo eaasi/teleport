@@ -6,7 +6,7 @@
 				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 
-			<div>
+			<div class="ah-top-buttons">
 				<ui-button size="sm" icon="times" @click="$emit('click:exit')">
 					Exit Emulation
 				</ui-button>
@@ -248,6 +248,12 @@
 		height: $accessHeaderHeight - 4rem;
 		padding-left: 14rem;
 		position: relative;
+
+		.ah-top-buttons {
+			flex-wrap: nowrap;
+			min-width: 600px;
+			white-space: nowrap;
+		}
 	}
 
 	.ah-bottom {
@@ -257,9 +263,12 @@
 		padding-left: 20rem;
 
 		.ah-options-left {
+			flex-wrap: nowrap;
 			margin-bottom: auto;
 			margin-top: auto;
+			min-width: 600px;
 			padding: 0 1rem;
+			white-space: nowrap;
 		}
 
 		.ah-options-border {
@@ -267,9 +276,12 @@
 		}
 
 		.ah-options-right {
+			flex-wrap: nowrap;
 			margin-bottom: auto;
 			margin-top: auto;
+			min-width: 600px;
 			padding: 0 3rem;
+			white-space: nowrap;
 		}
 	}
 
