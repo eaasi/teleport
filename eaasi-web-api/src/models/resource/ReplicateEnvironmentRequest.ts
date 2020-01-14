@@ -13,8 +13,8 @@ export default class ReplicateEnvironmentRequest {
 	/**
 	 * List of environmentIds to replicate
 	 */
-	private replicateList: string[];
-	
+	private readonly replicateList: string[];
+
 	constructor(replicateRequest: IReplicateEnvironmentRequest) {
 		this.replicateList = replicateRequest.replicateList;
 		this.destArchive = replicateRequest.destArchive;

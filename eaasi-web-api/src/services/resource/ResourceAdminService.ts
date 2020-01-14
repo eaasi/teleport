@@ -5,7 +5,19 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
+import {
+	IContentRequest,
+	IEaasiResource,
+	IEaasiSearchQuery,
+	IEaasiSearchResponse,
+	IOverrideContentRequest,
+	IPublishRequest, IReplicateEnvironmentRequest,
+	IResourceSearchFacet,
+	IResourceSearchQuery,
+	IResourceSearchResponse,
+	ISaveEnvironmentResponse,
+	ResourceType,
+} from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
@@ -519,4 +531,5 @@ export default class ResourceAdminService extends BaseService {
 			}
 		})
 	}
+
 }

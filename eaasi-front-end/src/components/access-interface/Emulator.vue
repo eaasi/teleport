@@ -133,7 +133,7 @@ import { generateId } from '@/utils/functions';
 				}
 				vm.setupListeners();
 				vm.startEnvironment();
-				
+
 			} catch(e) {
 				this.handleError(e);
 			}
@@ -217,7 +217,7 @@ import { generateId } from '@/utils/functions';
 		saveEmulator() {
 			console.log('TODO: saveEmulator');
 		}
-		
+
 		async downloadPrintJob(label: string) {
 			// without getPrintJobs() call, downloadPrint() is not working as expected
 			this.client.getPrintJobs(() => {},() => {});

@@ -18,7 +18,7 @@ export default class PublishToNetworkActionResolver extends SlideMenuActionResol
 			label: 'Publish to Network',
 			description: 'Make this resource available to all users of my node.',
 			icon: 'cloud-upload',
-			isEnabled: false  // TODO: Activate when feature is enabled
+			isEnabled: super.areOnlyDefaultResources()
 		};
 	}
 }

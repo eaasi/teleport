@@ -57,4 +57,9 @@ export default class SlideMenuActionResolver {
 	isAnySoftwareSelected(): boolean {
 		return this.selectedResources.some(r => r.resourceType === resourceTypes.SOFTWARE);
 	}
+
+	areOnlyDefaultResources() {
+		let resourceArchives = this.selectedResources.map(res => res.archive);
+		return resourceArchives.every(v => v === 'default');
+	}
 }
