@@ -6,6 +6,7 @@ import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import http from 'http';
+import {combineTableNames} from 'sequelize/types/lib/utils';
 import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
 import { onError, normalizePort } from './utils/server';
 import passport from 'passport';

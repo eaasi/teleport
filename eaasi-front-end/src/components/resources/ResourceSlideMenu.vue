@@ -49,12 +49,12 @@
 					</div>
 				</div>
 			</div>
-			<task-list 
-				v-if="showTasks" 
+			<task-list
+				v-if="showTasks"
 				collapsible
 				closable
-				style="padding: 4rem 2rem;" 
-				@close="showTasks = false" 
+				style="padding: 4rem 2rem;"
+				@close="showTasks = false"
 			/>
 		</slide-menu>
 
@@ -128,8 +128,7 @@ import {IEaasiUser} from 'eaasi-admin';
 import {IAction, IEaasiTab} from 'eaasi-nav';
 import {MultiBookmarkRequest} from '@/types/Bookmark';
 import {ILabeledItem} from '@/types/ILabeledItem';
-import { IContentRequest } from '@/types/Resource';
-import {IEaasiResource, IEnvironment, ISoftwarePackage, ISoftwareObject} from '@/types/Resource';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import ResourceAction from './ResourceAction.vue';
 import stringCleaner from '@/utils/string-cleaner';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
@@ -138,9 +137,6 @@ import TaskList from '@/components/admin/running-tasks/TaskList.vue';
 import { ITaskState } from '../../types/Task';
 import { IEaasiTaskListStatus } from '../../types/IEaasiTaskListStatus';
 import EaasiTask from '../../models/task/EaasiTask';
-import { generateId } from '../../utils/functions';
-import { INotification } from '../../types/Notification';
-import eventBus from '../../utils/event-bus';
 
 let menuService = new ResourceSlideMenuService();
 let resourceService = ResourceService;
@@ -342,9 +338,17 @@ export default class ResourceSlideMenu extends Vue {
 		this.$emit('resource-updated');
 	}
 
+	async publishSelectedResource() {
+		let envIds = this.resources.map(r => r.envId);
+		let result = await this.$store.dispatch('resource/publishToNetwork' , envIds);
+		let task = new EaasiTask(result.taskList[0],
+			`Replicating ${this.resources.length} resource(s) to your Node.`);
+		await this.$store.dispatch('task/addTaskToQueue', task);
+	}
+
 	// TODO: Refactor doAction and multiple / single selected resource logic
 
-	doAction(action: IAction) {
+	async doAction(action: IAction) {
 		if (!action.isEnabled) return;
 
 		switch (action.shortName) {
@@ -397,6 +401,9 @@ export default class ResourceSlideMenu extends Vue {
 			case 'delete':
 				this.confirmAction = 'delete';
 				break;
+			case 'publish':
+				await this.publishSelectedResource();
+				this.$emit('resource-published');
 			default: break;
 		}
 	}

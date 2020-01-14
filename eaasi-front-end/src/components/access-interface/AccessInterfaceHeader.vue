@@ -6,7 +6,7 @@
 				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 
-			<div class="ah-top-buttons">
+			<div class="ah-top-buttons flex-nowrap">
 				<ui-button size="sm" icon="times" @click="$emit('click:exit')">
 					Exit Emulation
 				</ui-button>
@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class="ah-bottom">
-			<div class="ah-options-left">
+			<div class="ah-options-left flex-nowrap">
 				<ui-button
 					size="sm"
 					:disabled="printJobLabels.length < 1"
@@ -53,7 +53,7 @@
 				</ui-button>
 			</div>
 			<div class="ah-options-border"></div>
-			<div class="ah-options-right">
+			<div class="ah-options-right flex-nowrap">
 				<ui-button
 					icon="camera"
 					size="sm"
@@ -250,9 +250,7 @@
 		position: relative;
 
 		.ah-top-buttons {
-			flex-wrap: nowrap;
 			min-width: 600px;
-			white-space: nowrap;
 		}
 	}
 

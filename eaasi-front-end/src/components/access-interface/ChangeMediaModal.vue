@@ -1,5 +1,5 @@
 <template>
-	<modal 
+	<modal
 		@close="$emit('close')"
 		@click:cancel="$emit('close')"
 	>
@@ -52,7 +52,7 @@ export default class ChangeMediaModal extends Vue {
     /* Computed
     ============================================*/
     get labeledMediaItems() {
-		const labeledMediaItems = this.mediaItems.map(i => 
+		const labeledMediaItems = this.mediaItems.map(i =>
 			[{
                 label: 'Resource',
                 value: i.type
@@ -65,7 +65,7 @@ export default class ChangeMediaModal extends Vue {
 		if (labeledMediaItems.length) {
 			labeledMediaItems.push(
 				[
-					{ label: 'Resource', value: '*' }, 
+					{ label: 'Resource', value: '*' },
 					{ label: 'Media Label', value: 'empty' }
 				]
 			);
@@ -81,7 +81,8 @@ export default class ChangeMediaModal extends Vue {
 </script>
 
 <style lang='scss'>
-.media-items-wrapper {
+
+.wrapper {
 	flex-wrap: wrap;
 	max-height: 50rem;
 

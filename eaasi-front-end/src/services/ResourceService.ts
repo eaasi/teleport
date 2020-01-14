@@ -2,8 +2,9 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpe
 import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
-import { IEnvironment } from '@/types/Resource';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
+import {archiveTypes} from '@/utils/constants';
 
 
 class ResourceService extends BaseHttpService {
@@ -134,6 +135,21 @@ class ResourceService extends BaseHttpService {
 			{ envId, componentId, description }
 		);
 		return res.json();
+	}
+
+	/**
+	 * Makes a POST request to publish a list of local environment to the network
+	 * Currently hits the same emil endpoint as 'replicate-environment' with 'public' destArchive
+	 * @param envId
+	 */
+	async publishToNetwork(envIds: string[]) {
+		let res = await this.post<any>('/resource/replicate-environment',
+			{
+				replicateList: envIds,
+				destArchive: archiveTypes.PUBLIC
+			}
+		);
+		return res.result;
 	}
 }
 

@@ -63,6 +63,7 @@
 			@toggle="toggleSideMenu"
 			@bookmarks-updated="search"
 			@resource-updated="search"
+			@resource-published="onResourcePublished"
 		/>
 	</div>
 </template>
@@ -82,7 +83,6 @@ import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import NoSearchResult from '@/components/resources/search/NoSearchResult.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
-import { resourceTypes } from '@/utils/constants';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 
 @Component({
@@ -180,6 +180,10 @@ export default class ExploreResourcesScreen extends Vue {
 		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
 		await this.search();
+	}
+
+	onResourcePublished() {
+    	this.$router.go(0);
 	}
 
 	async init() {

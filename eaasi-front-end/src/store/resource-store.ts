@@ -190,6 +190,10 @@ const actions = {
 			description
 		);
 	},
+
+	async publishToNetwork({ state }, envIds) {
+		return await _svc.publishToNetwork(envIds);
+	}
 };
 
 /*============================================================
