@@ -6,9 +6,9 @@
 				:editable="isEditMode"
 				@mode-change="onModeChange"
 				@save="saveDetails"
-				@refresh="init"
-				:toggle-value="toggleValue"
-				:toggle-options="toggleOptions"
+				@refresh="refresh"
+				:toggle-value="activeMode"
+				:toggle-options="mods"
 			/>
 			<div class="rdm-container">
 				<div class="row" style="margin-bottom: 1rem;">
@@ -105,8 +105,8 @@ export default class SoftwareDetailsScreen extends Vue {
 	============================================*/
 	activeSoftware: ISoftwareObject = null;
 	softwareMetadata = null;
-	toggleOptions = ['Review Mode', 'Edit Mode'];
-	toggleValue: string = this.toggleOptions[0];
+	mods = ['Review Mode', 'Edit Mode'];
+	activeMode: string = this.mods[0];
 	objectDetailsItems: ILabeledEditableItem[] = [];
 	renderingEnvs: ILabeledEditableItem[] = [];
 	softwareProperties: ILabeledEditableItem[] = [];
@@ -114,7 +114,7 @@ export default class SoftwareDetailsScreen extends Vue {
 	/* Computed
     ============================================*/
 	get isEditMode(): boolean {
-		return this.toggleValue === 'Edit Mode';
+		return this.activeMode === 'Edit Mode';
 	}
 
 	get resourceSummary(): IEaasiResourceSummary {
@@ -132,13 +132,18 @@ export default class SoftwareDetailsScreen extends Vue {
     /* Methods
 	============================================*/
 	onModeChange(mode: string) {
-		this.toggleValue = mode;
+		this.activeMode = mode;
 	}
 
 	async saveDetails() {
 		this.softwareProperties.forEach(el => this.activeSoftware[el.property] = el.value);
 		const result = await this.$store.dispatch('software/saveSoftwareObject', this.activeSoftware);
-		if (result && result.status === '0') this.toggleValue = this.toggleOptions[0];
+		if (result && result.status === '0') this.activeMode = this.mods[0];
+	}
+
+	async refresh() {
+		await this.init();
+		this.activeMode = 'Review Mode';
 	}
 
 	async init() {
@@ -149,7 +154,7 @@ export default class SoftwareDetailsScreen extends Vue {
 		}
 		this.activeSoftware = await this.$store.dispatch('software/getSoftwareObject', resourceId);
 		if (!this.activeSoftware || !this.softwareMetadata) return;
-		this.toggleValue = this.toggleOptions[0];
+		this.activeMode = this.mods[0];
 		this._populateObjectDetails();
 		this._populateSoftwareProperties();
 		this.$store.commit('resource/SET_RESOURCE_NAME', this.softwareMetadata.metadata.title);
