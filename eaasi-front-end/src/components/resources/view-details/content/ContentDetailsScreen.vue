@@ -11,7 +11,7 @@
 				:editable="isEditMode"
 				@mode-change="onModeChange"
 				@save="saveDetails"
-				@refresh="init"
+				@refresh="refresh"
 				:toggle-value="activeMode"
 				:toggle-options="mods"
 			/>
@@ -156,6 +156,11 @@ export default class ContentDetailsScreen extends Vue {
 		}
 		this.confirmModal = false;
 		this.$router.push(`/resources/software?resourceId=${softwareObject.objectId}&archiveId=${softwareObject.archiveId}`);
+	}
+
+	async refresh() {
+		this.activeMode = 'Review Mode';
+		await this.init();
 	}
 
 	async init() {

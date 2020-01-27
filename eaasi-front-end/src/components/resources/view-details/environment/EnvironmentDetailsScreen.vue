@@ -19,7 +19,7 @@
 				:editable="!readOnlyMode"
 				@mode-change="onModeChange"
 				@save="saveDetails"
-				@refresh="init"
+				@refresh="refresh"
 				:toggle-value="activeMode"
 				:toggle-options="mods"
 			/>
@@ -149,6 +149,11 @@ export default class EnvironmentDetailsScreen extends Vue {
 		if (!id || !archiveId) return;
 		const { envId } = this.activeEnvironment as IEnvironment;
 		this.$router.push(`/access-interface/${envId}?softwareId=${id}&archiveId=${archiveId}`);
+	}
+
+	async refresh() {
+		await this.init();
+		this.activeMode = 'Review Mode';
 	}
 
 	async init() {
