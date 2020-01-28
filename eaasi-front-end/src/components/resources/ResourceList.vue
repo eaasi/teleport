@@ -11,18 +11,21 @@
 			<environment-resource-card
 				:environment="resource"
 				@change="setActiveResource(resource, $event)"
+				is-clickable
 				v-if="type === 'Environment'"
 				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"
 			/>
 			<software-resource-card
 				:software="resource"
 				@change="setActiveResource(resource, $event)"
+				is-clickable
 				v-if="type === 'Software'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 			<content-resource-card
 				:content="resource"
 				@change="setActiveResource(resource, $event)"
+				is-clickable
 				v-if="type === 'Content'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>

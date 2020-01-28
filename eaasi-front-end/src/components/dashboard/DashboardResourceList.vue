@@ -15,6 +15,13 @@
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
+			<content-resource-card
+				v-if="isContent(resource)"
+				:disable-select="true"
+				:software="resource"
+				is-clickable
+				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
+			/>
 		</div>
 	</div>
 </template>
@@ -22,16 +29,18 @@
 import User from '@/models/admin/User';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
+import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import {resourceTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {IEaasiResource } from '@/types/Resource';
+import { IEaasiResource } from '@/types/Resource';
 import { IEaasiSearchResponse } from '@/types/Search';
 import { Get, Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'DashboardResourceList',
 	components: {
+		ContentResourceCard,
 		EnvironmentResourceCard,
 		SoftwareResourceCard
 	}
@@ -62,6 +71,10 @@ export default class DashboardResourceList extends Vue {
 
 	isSoftware(resource: IEaasiResource) {
 		return resource.resourceType === resourceTypes.SOFTWARE;
+	}
+
+	isContent(resource: IEaasiResource) {
+		return resource.resourceType === resourceTypes.CONTENT;
 	}
 
 	paginate(pageNum: number) {

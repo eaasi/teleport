@@ -1,6 +1,13 @@
 <template>
 	<div id="myResources">
-		<h1>Software Details</h1>
+		<div class="page-title">
+			<div class="back-to-results clickable" @click="goBackToResults">
+				← Back to All Results
+			</div>
+			<h1>
+				Software Details
+			</h1>
+		</div>
 		<div v-if="activeSoftware" class="vrd-content">
 			<mode-toggle
 				:editable="isEditMode"
@@ -249,6 +256,10 @@ export default class SoftwareDetailsScreen extends Vue {
 			}
 		];
 	};
+
+	goBackToResults() {
+		this.$router.push('/resources/explore/');
+	}
 }
 
 </script>

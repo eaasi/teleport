@@ -1,11 +1,18 @@
 <template>
 	<div id="myResources">
-		<h1 class="flex flex-row justify-between" style="display: flex;">
-			<span>Content Details</span>
+		<div class="eds-actions pull-right" style="margin: 1.2rem;">
 			<ui-button size="md" @click="confirmModal = true">
 				Treat as Software
 			</ui-button>
-		</h1>
+		</div>
+		<div class="page-title">
+			<div class="back-to-results clickable" @click="goBackToResults">
+				← Back to All Results
+			</div>
+			<h1>
+				Content Details
+			</h1>
+		</div>
 		<div v-if="activeContent" class="vrd-content">
 			<mode-toggle
 				:editable="isEditMode"
@@ -202,6 +209,10 @@ export default class ContentDetailsScreen extends Vue {
 			}
 		];
 	};
+
+	goBackToResults() {
+		this.$router.push('/resources/explore/');
+	}
 }
 
 </script>

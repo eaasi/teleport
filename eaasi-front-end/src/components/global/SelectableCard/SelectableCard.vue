@@ -82,7 +82,7 @@ export default class SelectableCard extends Vue {
         @Prop({type: Boolean, required: false, default: false})
         readonly disableSelect: boolean;
 
-        @Prop({type: Boolean, required: false, default: false})
+        @Prop({type: Boolean, required: false, default: true})
 		readonly isClickable: boolean;
 
 		@Prop({ type: Boolean, default: false })
