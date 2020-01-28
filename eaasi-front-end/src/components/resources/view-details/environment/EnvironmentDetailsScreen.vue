@@ -11,7 +11,14 @@
 				Run in Emulator
 			</ui-button>
 		</div>
-		<h1>Environment Details</h1>
+		<div class="page-title">
+			<div class="back-to-results clickable" @click="goBackToResults">
+				← Back to All Results
+			</div>
+			<h1>
+				Environment Details
+			</h1>
+		</div>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<div class="vrd-content">
 			<mode-toggle
@@ -103,7 +110,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	activeEnvironment: IEnvironment = null;
 	confirmAction: string = null;
 	addingSoftware: boolean = false;
-	
+
 	emulatorLabeledItems : ILabeledEditableItem[] = [];
 	osLabeledItems: ILabeledEditableItem[] = [];
 	uiOptionLabeledItems: ILabeledEditableItem[] = [];
@@ -435,6 +442,10 @@ export default class EnvironmentDetailsScreen extends Vue {
 				editType: 'text-area'
 			}
 		];
+	}
+
+	goBackToResults() {
+		this.$router.push('/resources/explore/');
 	}
 }
 

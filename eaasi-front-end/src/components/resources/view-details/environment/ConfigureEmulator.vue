@@ -8,6 +8,7 @@
 			:item="emulator"
 			:readonly="readonly"
 		/>
+
 		<editable-text-item
 			:item="nativeConfig"
 			:readonly="readonly"
@@ -17,6 +18,7 @@
 			:item="isLinuxRuntime"
 			:readonly="readonly"
 		/>
+
 		<editable-select-list
 			:item="timeContext"
 			:readonly="readonly"
@@ -24,6 +26,7 @@
 			anchor="key"
 			label="key"
 		/>
+
 		<editable-select-list
 			:item="os"
 			:readonly="readonly"
@@ -58,7 +61,7 @@ export default class ConfigureEmulator extends Vue {
     ============================================*/
     @Prop({ type: Array as () => ILabeledEditableItem[], required: true })
 	emulatorItems: ILabeledEditableItem[]
-    
+
     @Prop({ type: Boolean })
     readonly: Boolean;
 

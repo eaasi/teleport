@@ -95,7 +95,7 @@ export default class ContentResourceCard extends Vue {
 	============================================*/
 	goToDetailsPage() {
 		this.$router.push({
-			path:'/resources/software',
+			path:'/resources/content',
 			query: {
 				resourceId: this.content.id.toString(),
 				archiveId: this.content.archiveId.toString()

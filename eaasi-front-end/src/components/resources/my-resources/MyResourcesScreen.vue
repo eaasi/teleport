@@ -1,6 +1,10 @@
 <template>
 	<div id="myResources">
-		<h1>My Resources</h1>
+		<div class="page-title">
+			<h1>
+				My Resources
+			</h1>
+		</div>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
 		<my-bookmarks-section v-if="activeTab === 'My Bookmarks'" />
 		<imported-resources-section v-if="activeTab === 'Imported Resources'" />
@@ -74,7 +78,7 @@ export default class MyResourcesScreen extends Vue {
 		if (!this.hasActiveResources) return;
     	this.isMenuOpenRequest = !this.isMenuOpenRequest;
 	}
-	
+
 	refresh() {
 		const currentTab = this.activeTab;
 		this.activeTab = '';
@@ -104,7 +108,7 @@ export default class MyResourcesScreen extends Vue {
 #myResources {
 	margin-bottom: 10rem;
 
-	h1 {
+	.page-title {
 		background-color: lighten($light-neutral, 70%);
 		border-top: solid 1px darken($light-neutral, 10%);
 		display: block;
@@ -112,6 +116,7 @@ export default class MyResourcesScreen extends Vue {
 		margin-bottom: 0;
 		padding: 3rem 3rem 1rem;
 	}
+
 	.deselect-all-wrapper {
 		background-color: lighten($light-blue, 90%);
 		margin-left: 28rem;

@@ -32,6 +32,8 @@ export default class LabeledItem extends Vue {
 		.li-label {
 			color: lighten($dark-neutral, 20%);
 			font-size: 1.2rem;
+			margin-bottom: 0.4rem;
+			margin-top: 0.5rem;
 			text-transform: uppercase;
 		}
 

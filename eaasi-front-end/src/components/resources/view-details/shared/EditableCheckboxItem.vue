@@ -44,6 +44,7 @@ export default class EditableTextItem extends Vue {
 	.li-value {
 		margin-left: 1rem;
 		padding-bottom: 0.5rem;
+		padding-top: 0.7rem;
 
 		&.changed {
 			background: lighten($yellow, 60%);
