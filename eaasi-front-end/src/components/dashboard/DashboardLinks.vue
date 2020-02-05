@@ -9,7 +9,7 @@
 					</div>
 					<div class="db-links-btn">
 						<ui-button
-							@click="$emit('click:new-resources')"
+							@click="goToExploreResources"
 							icon="chevron-right"
 							icon-right
 							color-preset="light-blue"
@@ -89,6 +89,10 @@ import { Get } from 'vuex-pathify';
 	}
 })
 export default class DashboardLinks extends Vue {
+	goToExploreResources() {
+		this.$router.push({ name: 'Explore Resources' });
+	}
+
 	goToMyResources() {
 		this.$router.push({ name: 'My Resources' });
 	}
