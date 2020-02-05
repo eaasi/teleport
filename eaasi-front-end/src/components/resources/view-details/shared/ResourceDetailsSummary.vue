@@ -1,20 +1,20 @@
 <template>
 	<div class="vds-container">
+		<span v-if="isPublicArchive">
+			<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'" />
+		</span>
+		<span v-if="isPrivateArchive">
+			<tag :text="'Private'" :icon="'fa-cloud-download-alt'" :color="'green'" />
+		</span>
+		<span v-if="isRemoteArchive">
+			<tag :text="'Remote'" :icon="'fa-map-marker-alt'" :color="'blue'" />
+		</span>
 		<div v-if="readonly" :class="{ 'changed': titleChanged }">
 			<section-heading
 				:title="summaryData.title"
 				size="large"
 				:class="{ 'changed': titleChanged }"
 			/>
-			<span v-if="isPublicArchive">
-				<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'"/>
-			</span>
-			<span v-if="isPrivateArchive">
-				<tag :text="'Private'" :icon="'fa-cloud-download-alt'" :color="'green'"/>
-			</span>
-			<span v-if="isRemoteArchive">
-				<tag :text="'Remote'" :icon="'fa-map-marker-alt'" :color="'blue'"/>
-			</span>
 		</div>
 		<text-input
 			v-else-if="!readonly"
