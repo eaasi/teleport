@@ -48,8 +48,6 @@ const actions = {
 
 	async logout() {
 		Cookies.remove(config.JWT_NAME);
-		// Do a full refresh to clear all application state
-		location.assign(process.env.VUE_APP_BASE_URL);
 	},
 
 	async initSession({commit, state}) {

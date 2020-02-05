@@ -57,10 +57,10 @@ router.post('/callback', samlAuth, controller.callback);
 router.get('/user', jwtAuth, controller.user);
 
 /**
- * @api {post} auth/logout Log Out
+ * @api {delete} auth/logout Log a User out
  * @apiVersion 1.0.0
  * @apiGroup Auth
- * @apiPermission Any
+ * @apiPermission Logged in User only
  */
 router.delete('/logout', jwtAuth, controller.logout);
 
@@ -68,7 +68,7 @@ router.delete('/logout', jwtAuth, controller.logout);
  * @api {post} auth/refresh Refresh Auth Token
  * @apiVersion 1.0.0
  * @apiGroup Auth
- * @apiPermission Administrator only
+ * @apiPermission
  */
 router.post('/refresh', jwtAuth, controller.refresh);
 

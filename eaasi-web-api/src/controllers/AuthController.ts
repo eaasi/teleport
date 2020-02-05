@@ -1,5 +1,6 @@
 import { Request, Response} from 'express';
 import samlConfig from '@/config/saml-config';
+import fetch from 'node-fetch';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import fs from 'fs';
 import path from 'path';
@@ -74,10 +75,9 @@ export default class EaasiAuthController extends BaseController {
      * @param req request
      * @param res response
      */
-	logout(req: Request, res: Response) {
-		req.logout();
-		//TODO: Call logout
-		res.redirect(CLIENT_URL);
+	public async logout(req: Request, res: Response) {
+		res.redirect(SAML_LOGOUT_URL);
+		res.json();
 	}
 
 	/**
@@ -105,7 +105,7 @@ export default class EaasiAuthController extends BaseController {
 			let xml = samlStrategy.generateServiceProviderMetadata(cert, idpCert);
 			res.send(xml);
 		} catch(e) {
-			console.log(e);
+			console.error(e);
 			res.status(401).send('Login failed');
 		}
 	}

@@ -49,11 +49,12 @@ export default class HeaderMenuDropdown extends Vue {
 	============================================*/
 
 	/**
-	 * Logs Out a User
+	 * Logs a User Out
 	 */
-	logOut() {
-		this.$store.dispatch('logout');
-		authService.logout();
+	async logOut() {
+		await authService.logout();
+		location.assign('/');
+		await this.$store.dispatch('logout');
 	}
 }
 
