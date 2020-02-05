@@ -67,9 +67,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEnvironment, IEaasiResource, IDrive, IEditableDrive } from '@/types/Resource';
-import { resourceTypes } from '@/utils/constants';
+import { Component, Prop} from 'vue-property-decorator';
+import { IEnvironment, IDrive, IEditableDrive } from '@/types/Resource';
 import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
@@ -78,7 +77,6 @@ import ConfigureNetwork from './ConfigureNetwork.vue';
 import ConfigureEmulator from './ConfigureEmulator.vue';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
-import { jsonEquals } from '@/utils/functions';
 
 @Component({
     name: 'EnvironmentMetadataSection',
@@ -98,7 +96,7 @@ export default class EnvironmentMetadataSection extends Vue {
     ============================================*/
 	@Prop({ type: Object as () => IEnvironment, required: true })
 	resource: IEnvironment;
-	
+
 	@Prop({ type: String })
 	activeMode: String;
 
