@@ -1,5 +1,14 @@
 <template>
 	<div class="vds-container">
+		<span v-if="isEnvironment">
+			<tag :text="'Environment'" :icon="'fa-box'" :color="'blue'" />
+		</span>
+		<span v-if="isSoftware">
+			<tag :text="'Software'" :icon="'fa-circle'" :color="'blue'" />
+		</span>
+		<span v-if="isContent">
+			<tag :text="'Content'" :icon="'fa-save'" :color="'blue'" />
+		</span>
 		<span v-if="isPublicArchive">
 			<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'" />
 		</span>
@@ -41,7 +50,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { archiveTypes } from '@/utils/constants';
+	import {archiveTypes, resourceTypes} from '@/utils/constants';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IEaasiResourceSummary } from '@/types/Resource';
 	import { jsonCopy } from '@/utils/functions';
@@ -79,6 +88,19 @@
 
 		get isRemoteArchive() {
 			return this.summaryData.archive === archiveTypes.REMOTE;
+		}
+
+		get isSoftware() {
+			return this.summaryData.resourceType === resourceTypes.SOFTWARE;
+		}
+
+		get isEnvironment() {
+			return this.summaryData.envId != null ||
+				this.summaryData.resourceType === resourceTypes.ENVIRONMENT;
+		}
+
+		get isContent() {
+			return this.summaryData.resourceType === resourceTypes.CONTENT;
 		}
 
 		/* Data
