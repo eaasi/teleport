@@ -132,8 +132,8 @@ export default class SearchSelectList extends BaseFormField {
 		top: 5rem;
 		z-index: 2;
 		.select-item {
-			margin-top: .75rem;
-			margin-bottom: .75rem;
+			margin-bottom: 0.75rem;
+			margin-top: 0.75rem;
 			button {
 				font-size: 1.6rem;
 			}
