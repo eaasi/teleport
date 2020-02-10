@@ -162,7 +162,7 @@ export default class ContentDetailsScreen extends Vue {
 			return;
 		}
 		this.confirmModal = false;
-		this.$router.push(`/resources/software?resourceId=${softwareObject.objectId}&archiveId=${softwareObject.archiveId}`);
+		this.$router.replace(`/resources/software?resourceId=${softwareObject.objectId}&archiveId=${softwareObject.archiveId}`);
 	}
 
 	async refresh() {
