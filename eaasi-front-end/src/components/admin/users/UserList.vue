@@ -149,8 +149,8 @@ export default class UserList extends Vue {
 	}
 
 	.delete-icon {
-		margin: auto;
 		color: $red;
+		margin: auto;
 	}
 
 	.user-to-delete {
