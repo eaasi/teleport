@@ -72,6 +72,10 @@ const actions = {
 		return await _svc.saveUser(user);
 	},
 
+	async deleteUser(_store: Store<AdminState>, userId: number) : Promise<boolean> {
+		return await _svc.deleteUser(userId);
+	},
+
 	async getRoles({ commit }: Store<AdminState>) {
 		let rolesResult = await _svc.getRoles();
 		if (!rolesResult) return;
