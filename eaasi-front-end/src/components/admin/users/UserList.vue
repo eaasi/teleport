@@ -48,7 +48,7 @@
 			cancel-label="Cancel"
 			confirm-label="Delete User"
 			:title="`Delete User: ${userToDelete.username} - ${userToDelete.email}`"
-			v-if="isDeleteUserModalActive"
+			v-if="userToDelete != null"
 			@close="closeDeleteUserModal"
 			@click:confirm="confirmDeleteUser(userToDelete.id)"
 		>
@@ -103,8 +103,7 @@ export default class UserList extends Vue {
 
 	/* Data
 	============================================*/
-	isDeleteUserModalActive: boolean = false;
-	userToDelete?: User;
+	userToDelete?: User = null;
 
 	/* Methods
 	============================================*/
@@ -115,12 +114,10 @@ export default class UserList extends Vue {
 
 	deleteUser(user: User) {
 		this.userToDelete = user;
-		this.isDeleteUserModalActive = true;
 	}
 
 	closeDeleteUserModal() {
 		this.userToDelete = null;
-		this.isDeleteUserModalActive = false;
 	}
 
 	getRole(user: IEaasiUser) {
@@ -135,9 +132,10 @@ export default class UserList extends Vue {
 	}
 
 	async confirmDeleteUser(userId: number) {
-		await this.$store.dispatch('admin/deleteUser', userId);
+		let res = await this.$store.dispatch('admin/deleteUser', userId);
+		if (!res) return;
 		await this.$store.dispatch('admin/getUsers');
-		this.isDeleteUserModalActive = false;
+		this.userToDelete = null;
 	}
 }
 

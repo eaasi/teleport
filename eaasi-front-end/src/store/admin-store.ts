@@ -72,7 +72,7 @@ const actions = {
 		return await _svc.saveUser(user);
 	},
 
-	async deleteUser(_store: Store<AdminState>, userId: number) {
+	async deleteUser(_store: Store<AdminState>, userId: number) : Promise<boolean> {
 		return await _svc.deleteUser(userId);
 	},
 
