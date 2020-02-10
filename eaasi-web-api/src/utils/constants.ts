@@ -1,4 +1,4 @@
-import { ResourceType } from '@/types/resource/Resource';
+import { ArchiveType, ResourceType } from '@/types/resource/Resource';
 
 export const resourceTypes: IResourceTypes = {
 	ENVIRONMENT: 'Environment',
@@ -6,10 +6,28 @@ export const resourceTypes: IResourceTypes = {
 	CONTENT: 'Content'
 };
 
+export const archiveTypes: IArchiveTypes = {
+	DEFAULT: 'default',
+	PUBLIC: 'public',
+	REMOTE: 'remote',
+};
+
 export enum userRoles {
 	ADMIN = 1,
 	MANAGER = 2,
 	CONTRIBUTOR = 3
+}
+
+interface IArchiveTypes {
+	DEFAULT: ArchiveType;
+	PUBLIC: ArchiveType;
+	REMOTE: ArchiveType;
+}
+
+interface IResourceTypes {
+	ENVIRONMENT: ResourceType;
+	SOFTWARE: ResourceType;
+	CONTENT: ResourceType;
 }
 
 interface IResourceTypes {
