@@ -38,7 +38,9 @@
 					<td @click="editUser(u)">{{ u.lastName }}</td>
 					<td @click="editUser(u)">{{ getRole(u) }}</td>
 					<td @click="editUser(u)">{{ u.lastLogin || 'Unknown' }}</td>
-					<td @click="deleteUser(u)" class="delete-cell">Delete User</td>
+
+					<td v-if="currentUser.id != u.id" @click="deleteUser(u)" class="delete-cell">Delete User</td>
+					<td v-else class="delete-cell disabled delete-disabled">Delete User</td>
 				</tr>
 			</tbody>
 		</table>
@@ -96,6 +98,9 @@ export default class UserList extends Vue {
 	@Sync('admin/usersQuery')
 	query: IEaasiSearchQuery;
 
+	@Get('loggedInUser')
+	currentUser: IEaasiUser;
+
 	/* Data
 	============================================*/
 	isDeleteUserModalActive: boolean = false;
@@ -141,12 +146,21 @@ export default class UserList extends Vue {
 <style lang="scss">
 	.delete-cell {
 		transition: background-color 0.2s, color 0.2s;
+
+		&:hover {
+			background-color: $red;
+			color: #ffffff;
+			transition: background-color 0.2s, color 0.2s;
+		}
 	}
 
-	.delete-cell:hover {
-		background-color: $red;
-		color: #ffffff;
+	.delete-disabled {
 		transition: background-color 0.2s, color 0.2s;
+		&:hover {
+			background-color: lighten($grey, 20%);
+			color: darken($grey, 20%);
+			transition: background-color 0.2s, color 0.2s;
+		}
 	}
 
 	.delete-icon {
