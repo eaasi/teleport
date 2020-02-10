@@ -257,17 +257,18 @@
 	.ah-bottom {
 		background-color: darken($teal, 20%);
 		display: flex;
-		min-height: 42px;
 		flex-direction: row;
-    	flex-wrap: nowrap;
+		flex-wrap: nowrap;
 		justify-content: center;
+		min-height: 42px;
 		padding-left: 8rem;
-		
+
 		.ui-btn-container {
-			margin: .5rem 0;
+			margin: 0.5rem 0;
 		}
 
-		.ah-options-left, .ah-options-right {
+		.ah-options-left,
+		.ah-options-right {
 			padding: 0 1rem;
 		}
 
