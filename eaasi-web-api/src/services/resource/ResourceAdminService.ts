@@ -5,8 +5,8 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
-import { resourceTypes } from '@/utils/constants';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse, ResourceType } from '@/types/resource/Resource';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
@@ -167,10 +167,12 @@ export default class ResourceAdminService extends BaseService {
 		return await res.json();
 	}
 
-	async saveNewObjectEnvironment(newEnvRequest: any) {
-		let snapshotRequest = {
+	async saveNewObjectEnvironment(newEnvRequest: any): Promise<ISnapshotResponse> {
+		let snapshotRequest: ISnapshotRequest = {
+			archive: archiveTypes.DEFAULT,
 			envId: newEnvRequest.envId,
 			isRelativeMouse: false,
+			relativeMouse: false,
 			message: newEnvRequest.description,
 			title: newEnvRequest.title,
 			objectId: newEnvRequest.objectId,
