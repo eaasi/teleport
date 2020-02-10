@@ -109,10 +109,6 @@ export default class SearchSelectList extends BaseFormField {
 		this.query = null;
 		this.$emit('input', null);
 	}
-
-	clickOutside() {
-		console.log('click self');
-	}
 	
 }
 
