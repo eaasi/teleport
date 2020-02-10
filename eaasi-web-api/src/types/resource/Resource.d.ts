@@ -28,6 +28,43 @@ export interface ISaveEnvironmentResponse {
 	taskList: string[];
 }
 
+export interface ISnapshotRequest {
+	// https://openslx.gitlab.io/eaas-api-docs/master/json_SnapshotRequest.html
+	envId: string;
+	archive: string;
+	message: string;
+	author?: string;
+	isRelativeMouse: boolean;
+	relativeMouse: boolean;
+	userId: string;
+	connectEnvs?: boolean;
+	title?: string;
+	type?: string;
+	objectId?: string;
+	softwareId?: string;
+	networking?: INetworking;
+}
+
+export interface INetworking {
+	// https://openslx.gitlab.io/eaas-api-docs/master/json_EmilNetworkingType.html
+	enableInternet: boolean;
+	serverMode: boolean;
+	localServerMode: boolean;
+	enableSocks: boolean;
+	serverPort: string;
+	serverIp: string;
+	gwPrivateIp: string;
+	gwPrivateMask: string;
+	connectEnvs: boolean;
+	helpText: string;
+}
+
+export interface ISnapshotResponse {
+	envId: string;
+	status: string;
+	message: string;
+}
+
 /*============================================================
  == Resource Search
 /============================================================*/
