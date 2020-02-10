@@ -69,6 +69,9 @@ export default class ModeToggle extends Vue {
 	@Prop({ type: Array as () => String[], required: true })
 	toggleOptions: String[]
 
+	@Prop({ type: Boolean, default: false })
+	supressConfirmation: boolean;
+
     /* Computed
     ============================================*/
 	@Get('loggedInUser')
@@ -96,9 +99,11 @@ export default class ModeToggle extends Vue {
 	}
 
     onToggleValueChange(val) {
-		val === 'Edit Mode' && !this.editable 
-			? this.showEditConfirmModal = true 
-			: this.$emit('mode-change', val);
+		if (val === 'Edit Mode' && !this.editable && !this.supressConfirmation) {
+			this.showEditConfirmModal = true;
+		} else {
+			this.$emit('mode-change', val);
+		}
     }
 
 }

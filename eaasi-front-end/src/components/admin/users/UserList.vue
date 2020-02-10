@@ -1,7 +1,10 @@
 <template>
 	<div class="user-list">
-		<table class="eaasi-table clickable">
-			<caption>EaaSI Users</caption>
+		<table
+			class="eaasi-table clickable"
+			aria-label="Table of registered users for this EaaSI node"
+			:aria-rowcount="users.length"
+		>
 			<thead>
 				<tr>
 					<sort-header sort-col="username" :query="query" @sort="sort">

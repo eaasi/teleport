@@ -8,21 +8,14 @@
 	>
 		<div v-if="softwareList.length">
 			<h3>Available software packages</h3>
-			<select-list
+			<search-select-list
 				v-model="selectedSoftwareId"
 				label="Search Software"
-			>
-				<option value="" selected disabled>
-					Please select a software package
-				</option>
-				<option 
-					v-for="software in softwareList" 
-					:key="software.id" 
-					:value="software.id"
-				>
-					{{ software.label }}
-				</option>
-			</select-list>
+				option-label="label"
+				anchor="id"
+				placeholder="Please select a software package"
+				:data="softwareList"
+			/>
 		</div>
 		<alert-card v-if="errorMessage" type="error">
 			{{ errorMessage }}

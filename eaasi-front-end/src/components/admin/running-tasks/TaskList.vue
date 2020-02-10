@@ -2,7 +2,7 @@
 	<div v-if="taskQueue && taskQueue.length" class="task-list-container">
 		<div class="task-header flex flex-row justify-between">
 			<span class="left-header">
-				{{ tasksInProgress }} Process<span v-if="tasksInProgress > 1">es</span> Running
+				{{ tasksInProgress }} Process<span v-if="tasksInProgress > 1 || tasksInProgress === 0">es</span> Running
 			</span>
 			<div class="right-header flex flex-row justify-between">
 				<span 

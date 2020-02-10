@@ -29,6 +29,7 @@
 				@refresh="refresh"
 				:toggle-value="activeMode"
 				:toggle-options="mods"
+				:supress-confirmation="isLocal"
 			/>
 			<environment-metadata-section
 				v-show="activeTab === 'Metadata'"
@@ -128,6 +129,10 @@ export default class EnvironmentDetailsScreen extends Vue {
 		return [archiveTypes.PUBLIC, archiveTypes.DEFAULT].includes(this.activeEnvironment.archive);
 	}
 
+	get isLocal() {
+		return this.activeEnvironment.archive === 'default';
+	}
+
     /* Methods
 	============================================*/
 	async saveDetails() {
@@ -171,7 +176,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	async populateMetadata() {
 		await this._populateEmulatorConfig();
-		this._populateOperatingSystemConfig();
+		// this._populateOperatingSystemConfig();
 		this._populateUIOptions();
 		this._populateNetworkOptions();
 		this._populateInstalledSoftware();
@@ -271,7 +276,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		this.osLabeledItems = [
 			{
 				label: 'Resource Name',
-				value: this.activeEnvironment.title.split('-')[0].trim(),
+				value: this.activeEnvironment.title,
 				changed: false,
 				readonly: false,
 				editType: 'text-input'
