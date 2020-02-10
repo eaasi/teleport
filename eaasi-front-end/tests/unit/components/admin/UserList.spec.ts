@@ -1,7 +1,9 @@
+import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import {createLocalVue, shallowMount} from '@vue/test-utils';
 import UserList from '@/components/admin/users/UserList.vue';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
+import globalStore from '@/store/global-store';
 import adminStore from '@/store/admin-store';
 import {generateFakeUsers} from '../../generators';
 
@@ -13,13 +15,30 @@ localVue.use(Vuex);
 describe('UserList.vue', () => {
 
 	let store;
+	let state;
+	let actions;
 
 	beforeEach(() => {
+		let stateForAdminStore = {
+			activeUser: { id: 99999 },
+			usersQuery: {},
+			roles: [],
+		};
+
+		let stateForGlobalStore = {
+			loggedInUser : { id: 99999 },
+		};
+
+		actions = { };
+
 		store = new Vuex.Store({
-			actions: {},
+			state: stateForGlobalStore,
 			modules: {
 				// @ts-ignore
-				admin: adminStore
+				admin: {
+					...adminStore,
+					state: stateForAdminStore
+				},
 			},
 			plugins: [pathify.plugin]
 		});
