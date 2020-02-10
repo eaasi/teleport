@@ -2,6 +2,7 @@
 	<form-field-wrapper
 		:class="['eaasi-checkbox', { 'no-label': !label }]"
 		v-bind="wrapperPropsExtended"
+		:readonly="disabled"
 	>
 		<label>
 			<span>{{ label }}</span>

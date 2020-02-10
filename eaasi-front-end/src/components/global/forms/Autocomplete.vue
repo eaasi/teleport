@@ -1,5 +1,5 @@
 <template>
-	<form-field-wrapper class="autocomplete-wrapper" v-bind="wrapperProps">
+	<form-field-wrapper class="autocomplete-wrapper" v-bind="wrapperProps" :readonly="readonly">
 		<div class="eaasi-input-wrapper">
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<input

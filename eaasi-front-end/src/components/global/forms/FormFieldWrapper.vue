@@ -2,7 +2,7 @@
 	<div class="eaasi-form-control">
 		<label v-if="label && !hideLabel" class="eaasi-label">
 			{{ label }}
-			<span v-if="!required" class="ef-optional"> &mdash; optional</span>
+			<span v-if="!required && !readonly" class="ef-optional"> &mdash; optional</span>
 		</label>
 		<span class="error" role="alert" v-if="error">
 			{{ error }}
@@ -45,6 +45,8 @@ export default class FormFieldWrapper extends Vue {
 	@Prop({type: Boolean, required: false})
 	readonly required: boolean;
 
+	@Prop({ type: Boolean, default: false })
+	readonly readonly: boolean;
 
 }
 
