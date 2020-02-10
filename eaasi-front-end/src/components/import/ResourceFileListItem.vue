@@ -18,6 +18,7 @@
 					v-model="file.physicalFormat"
 					label="Physical Format"
 					class="sfl-format"
+					rules="required"
 				>
 					<option value="Q495265">ISO</option>
 					<option value="Q493576">Floppy</option>

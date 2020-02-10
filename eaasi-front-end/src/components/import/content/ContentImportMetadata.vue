@@ -3,6 +3,7 @@
 		<div v-if="step > 1" class="sm-summary padded">
 			<text-input
 				readonly
+				rules="required"
 				label="Name"
 				v-model="title"
 			/>

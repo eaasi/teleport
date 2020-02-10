@@ -2,7 +2,7 @@
 	<div id="loginScreen" class="flex-center">
 		<div id="loginContent" class="flex-row flex-grow justify-between">
 			<div id="loginTitle">
-				<h1>EaaSI</h1>
+				<img src="@/assets/eaasi_logos/eaasi_logo_dark_bg.png" id="logo" alt="EaaSI logo" />
 				<h2>Emulation-as-a-Service-Infrastructure</h2>
 			</div>
 			<div id="loginBox">
@@ -59,6 +59,7 @@ export default class LoginScreen extends Vue {
 #loginTitle {
 	color: #FFFFFF;
 	text-align: center;
+	width: 720px;
 
 	h1 {
 		font-size: 12rem;
@@ -72,6 +73,11 @@ export default class LoginScreen extends Vue {
 
 #loginContent {
 	max-width: 900px;
+
+	#logo {
+		margin: 3rem;
+		width: 60%;
+	}
 }
 
 #loginBox {
