@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils';
+import {createLocalVue, mount, shallowMount} from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import adminStore from '@/store/admin-store';
@@ -35,7 +35,7 @@ describe('UserManagement.vue', () => {
 	});
 
 	it('Renders a List of Users', () => {
-		const wrapper = mount(UserManagement, {
+		const wrapper = shallowMount(UserManagement, {
 			mocks: {$colors},
 			localVue,
 			propsData: {
