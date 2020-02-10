@@ -1,5 +1,5 @@
 <template>
-	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-area">
+	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-area" :readonly="readonly">
 		<div class="eaasi-input-wrapper">
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<textarea
