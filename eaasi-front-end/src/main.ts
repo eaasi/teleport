@@ -1,11 +1,12 @@
+import GlobalComponents from '@/components/global';
+import EaasiVueConfig from '@/plugins/EaasiVueConfig';
+import StringCleaner from '@/utils/string-cleaner';
 import Vue from 'vue';
 import App from './App.vue';
+import clickOutside from './directives/click-outside';
 import router from './router';
 import './scss/global.scss';
 import store from './store';
-import EaasiVueConfig from '@/plugins/EaasiVueConfig';
-import GlobalComponents from '@/components/global';
-import StringCleaner from '@/utils/string-cleaner';
 
 Vue.use(EaasiVueConfig);
 Vue.use(GlobalComponents);
@@ -22,6 +23,8 @@ Vue.filter('stripHtml', value => {
 	value = value.toString();
 	return StringCleaner.stripHTML(value);
 });
+
+Vue.directive('click-outside', clickOutside);
 
 /*============================================================
  == Global Vue Instance

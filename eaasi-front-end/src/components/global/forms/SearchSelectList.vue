@@ -1,13 +1,15 @@
 <template>
 	<form-field-wrapper class="eaasi-select eaasi-search-select" v-bind="wrapperProps">
 		<div class="eaasi-input-wrapper">
-			<div :class="['eaasi-input flex-row relative', fieldStatus, { readonly }]">
+			<div 
+				:class="['eaasi-input flex-row relative', fieldStatus, { readonly }]" 
+				v-click-outside="closeList"
+			>
 				<input 
-					:value="query" 
-					@input="onQueryChange" 
-					@focus="openList" 
-					@blur="closeList"
-					type="text" 
+					:value="query"
+					@input="onQueryChange"
+					@focus="openList"
+					type="text"
 					ref="search_input"
 					class="search-select-list eaasi-input" 
 					:placeholder="placeholder" 
@@ -25,7 +27,7 @@
 						class="select-item clickable" 
 						@click="selectItem(item)"
 					>
-						<button style="tr-btn">
+						<button class="tr-btn">
 							{{ item[optionLabel] }}
 						</button>
 					</li>
@@ -92,6 +94,7 @@ export default class SearchSelectList extends BaseFormField {
 	selectItem(item) {
 		this.query = item[this.optionLabel];
 		this.$emit('input', item[this.anchor]);
+		this.closeList();
 	}
 
 	openList() {
@@ -99,9 +102,7 @@ export default class SearchSelectList extends BaseFormField {
 	}
 
 	closeList() {
-		setTimeout(() => {
-			this.showList = false;
-		}, 100);
+		this.showList = false;
 	}
 
 	clearQuery() {
@@ -127,7 +128,12 @@ export default class SearchSelectList extends BaseFormField {
 		top: 5rem;
 		z-index: 2;
 		.select-item {
-			padding: 0.5rem;
+			margin-bottom: 0.75rem;
+			margin-top: 0.75rem;
+			button {
+				font-size: 1.6rem;
+			}
+
 			&.clickable {
 				cursor: pointer;
 				&:hover {
