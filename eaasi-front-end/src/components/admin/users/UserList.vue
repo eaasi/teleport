@@ -48,7 +48,7 @@
 			:title="`Delete User: ${userToDelete.username} - ${userToDelete.email}`"
 			v-if="isDeleteUserModalActive"
 			@close="closeDeleteUserModal"
-			@click:confirm="confirmDeleteUser"
+			@click:confirm="confirmDeleteUser(userToDelete.id)"
 		>
 			<alert-card type="warning" v-if="userToDelete">
 				<div class="delete-message">
@@ -85,16 +85,16 @@ export default class UserList extends Vue {
 	============================================*/
 
 	@Prop({type: Array, required: true})
-	readonly users: User[]
+	readonly users: User[];
 
 	/* Computed
 	============================================*/
 
 	@Get('admin/roles')
-	roles: IEaasiRole[]
+	roles: IEaasiRole[];
 
 	@Sync('admin/usersQuery')
-	query: IEaasiSearchQuery
+	query: IEaasiSearchQuery;
 
 	/* Data
 	============================================*/
@@ -132,6 +132,7 @@ export default class UserList extends Vue {
 	async confirmDeleteUser(userId: number) {
 		await this.$store.dispatch('admin/deleteUser', userId);
 		await this.$store.dispatch('admin/getUsers');
+		this.isDeleteUserModalActive = false;
 	}
 }
 
