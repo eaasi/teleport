@@ -45,7 +45,7 @@ class AdminService extends BaseHttpService {
 	}
 
 	async deleteUser(id: number): Promise<boolean> {
-		let res = await this.delete(`/admin/users/delete?id=${id}`);
+		let res = await this.post(`/admin/users/delete?id=${id}`, {});
 		return res.ok;
 	}
 
