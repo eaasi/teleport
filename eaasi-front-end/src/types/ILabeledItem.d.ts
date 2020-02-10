@@ -11,4 +11,9 @@ export interface ILabeledEditableItem extends ILabeledItem {
 	data?: any;
 }
 
+export interface ILabeledItemGroup {
+	items: ILabeledItem[];
+	title: string;
+}
+
 export type EditType = 'text-input' | 'configured-drives' | 'checkbox' | 'text-area' | 'select' | 'date' | 'custom';
