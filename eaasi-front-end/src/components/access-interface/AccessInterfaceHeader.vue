@@ -28,8 +28,8 @@
 				</span>
 			</div>
 		</div>
-		<div class="ah-bottom">
-			<div class="ah-options-left flex-nowrap">
+		<div class="ah-bottom flex-nowrap">
+			<div class="ah-options-left flex flex-center flex-wrap">
 				<ui-button
 					size="sm"
 					:disabled="printJobLabels.length < 1"
@@ -53,7 +53,7 @@
 				</ui-button>
 			</div>
 			<div class="ah-options-border"></div>
-			<div class="ah-options-right flex-nowrap">
+			<div class="ah-options-right flex flex-center flex-wrap">
 				<ui-button
 					icon="camera"
 					size="sm"
@@ -234,7 +234,7 @@
 		z-index: 2;
 
 		.eaasi-button {
-			margin-right: 2rem;
+			margin-right: 1.25rem;
 		}
 
 		.ah-warning-message {
@@ -257,29 +257,23 @@
 	.ah-bottom {
 		background-color: darken($teal, 20%);
 		display: flex;
-		height: 42px;
-		padding-left: 20rem;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: center;
+		min-height: 42px;
+		padding-left: 8rem;
 
-		.ah-options-left {
-			flex-wrap: nowrap;
-			margin-bottom: auto;
-			margin-top: auto;
-			min-width: 600px;
+		.ui-btn-container {
+			margin: 0.5rem 0;
+		}
+
+		.ah-options-left,
+		.ah-options-right {
 			padding: 0 1rem;
-			white-space: nowrap;
 		}
 
 		.ah-options-border {
 			border-right: 3px solid darken($teal, 50%);
-		}
-
-		.ah-options-right {
-			flex-wrap: nowrap;
-			margin-bottom: auto;
-			margin-top: auto;
-			min-width: 600px;
-			padding: 0 3rem;
-			white-space: nowrap;
 		}
 	}
 

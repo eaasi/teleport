@@ -1,5 +1,5 @@
 import { IEnvironment } from '@/types/Resource';
-import {resourceTypes} from '@/utils/constants';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { IAction } from 'eaasi-nav';
 
 /**
@@ -51,7 +51,7 @@ export default class SlideMenuActionResolver {
 	}
 
 	isDeletableArchive(): boolean {
-		return !this.selectedResources.some(r => r.archiveId === 'Remote Objects');
+		return !this.selectedResources.some(r => r.archiveId === 'Remote Objects' || r.archive === archiveTypes.REMOTE);
 	}
 
 	isAnySoftwareSelected(): boolean {
