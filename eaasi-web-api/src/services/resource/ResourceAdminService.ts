@@ -97,8 +97,7 @@ export default class ResourceAdminService extends BaseService {
 		result.software = softwareResult;
 
 		// get metadata for paginated envs 
-		const envIds = environmentResult.result.map(r => r.envId);
-		environmentResult.result = await this.getEnvironmentsMetadata(envIds);
+		environmentResult.result = await this.getEnvironmentsMetadata(environmentResult.result);
 		result.environments = environmentResult;
 
 		this.preselectResultFacets(result, query);
@@ -198,12 +197,16 @@ export default class ResourceAdminService extends BaseService {
 		return result;
 	}
 
-	private async getEnvironmentsMetadata(envIds: string[]): Promise<IEnvironment[]> {
+	private async getEnvironmentsMetadata(envs: IEnvironment[]): Promise<IEnvironment[]> {
 		const metadataEnvs = [];
-		for(let i = 0; i < envIds.length; i++) {
-			let envMetadata = await this.getEnvironment(envIds[i]);
+		for(let i = 0; i < envs.length; i++) {
+			let envMetadata = await this.getEnvironment(envs[i].envId);
 			envMetadata.resourceType = resourceTypes.ENVIRONMENT;
-			metadataEnvs.push(envMetadata);
+			if (envMetadata.hasOwnProperty('error')) {
+				metadataEnvs.push({...envs[i], error: envMetadata['error'] });
+			} else {
+				metadataEnvs.push(envMetadata);
+			}
 		}
 		return metadataEnvs;
 	}
