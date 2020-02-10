@@ -139,12 +139,7 @@ export default class EnvironmentMenu extends Vue {
 		];
 	}
 
-	get tab(): string {
-		if (this.environment.isImport) {
-			return 'New Import';
-		}
-		return 'Configure New';
-	};
+	tab: string = 'Configure New';
 
 	/**
 	 * Computes whether or not to show the details tab
@@ -162,6 +157,12 @@ export default class EnvironmentMenu extends Vue {
 	saveImport() {
 		eventBus.$emit('emulator:saveEnvironmentImport', this.newImportDescription);
 	}
+
+	mounted() {
+		if (this.environment.isImport) {
+			this.tab = 'New Import';
+		}
+	}
 }
 
 </script>
@@ -173,6 +174,11 @@ export default class EnvironmentMenu extends Vue {
 	margin-top: $accessHeaderHeight;
 	overflow-y: scroll;
 	width: $accessMenuWidth;
+
+	@include tablet {
+		padding-top: $accessHeaderHeight;
+	}
+
 	.fa-times {
 		cursor: pointer;
 	}

@@ -249,6 +249,8 @@ export default class EnvironmentDetailsScreen extends Vue {
 			}
 		];
 		if (nameIndexes) {
+			let entries = nameIndexes.entries.entry.filter(e => e.key.toLowerCase().indexOf(this.activeEnvironment.emulator.toLowerCase()) > 0);
+			entries.unshift({ key: 'latest', value: { name: entries[0].value.name } });
 			this.emulatorLabeledItems.push({
 				label: 'Emulator Version',
 				value: this.activeEnvironment.timeContext ? this.activeEnvironment.timeContext : '',
@@ -256,7 +258,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 				property: 'timeContext',
 				editType: 'select',
 				changed: false,
-				data: nameIndexes.entries.entry
+				data: entries
 			});
 		}
 		if (operatingSystemMetadata) {
