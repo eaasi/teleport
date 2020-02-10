@@ -1,5 +1,23 @@
 <template>
 	<div class="vds-container">
+		<span v-if="isEnvironment">
+			<tag :text="'Environment'" :icon="'fa-box'" :color="'blue'" />
+		</span>
+		<span v-if="isSoftware">
+			<tag :text="'Software'" :icon="'fa-circle'" :color="'blue'" />
+		</span>
+		<span v-if="isContent">
+			<tag :text="'Content'" :icon="'fa-save'" :color="'blue'" />
+		</span>
+		<span v-if="isPublicArchive">
+			<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'" />
+		</span>
+		<span v-if="isPrivateArchive">
+			<tag :text="'Private'" :icon="'fa-cloud-download-alt'" :color="'green'" />
+		</span>
+		<span v-if="isRemoteArchive">
+			<tag :text="'Remote'" :icon="'fa-map-marker-alt'" :color="'blue'" />
+		</span>
 		<div v-if="readonly" :class="{ 'changed': titleChanged }">
 			<section-heading
 				:title="summaryData.title"
@@ -7,14 +25,14 @@
 				:class="{ 'changed': titleChanged }"
 			/>
 		</div>
-		<text-input 
+		<text-input
 			v-else-if="!readonly"
 			v-model="summaryData.title"
 			:class="{ 'changed': titleChanged }"
 		/>
 		<div class="vds-description" v-if="summaryData.description">
-			<span 
-				v-if="readonly" 
+			<span
+				v-if="readonly"
 				:class="{ 'changed': descriptionChanged }"
 			>
 				{{ summaryData.description | stripHtml }}
@@ -31,40 +49,66 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary } from '@/types/Resource';
-import { jsonCopy } from '@/utils/functions';
+	import Vue from 'vue';
+	import {archiveTypes, resourceTypes} from '@/utils/constants';
+	import { Component, Prop } from 'vue-property-decorator';
+	import { IEaasiResourceSummary } from '@/types/Resource';
+	import { jsonCopy } from '@/utils/functions';
 
-@Component({
-	name: 'ResourceDetailsSummary',
-})
-export default class ResourceDetailsSummary extends Vue {
+	@Component({
+		name: 'ResourceDetailsSummary',
+	})
+	export default class ResourceDetailsSummary extends Vue {
 
-	/* Props
-	============================================*/
-	@Prop({ type: Object as () => IEaasiResourceSummary, required: true})
-	summaryData: IEaasiResourceSummary;
+		/* Props
+        ============================================*/
+		@Prop({ type: Object as () => IEaasiResourceSummary, required: true})
+		summaryData: IEaasiResourceSummary;
 
-	@Prop({ type: Boolean})
-	readonly: Boolean;
-	
-	/* Props
-	============================================*/
-	get titleChanged() {
-		return this.localTitle !== this.summaryData.title;
+		@Prop({ type: Boolean})
+		readonly: Boolean;
+
+		/* Props
+        ============================================*/
+		get titleChanged() {
+			return this.localTitle !== this.summaryData.title;
+		}
+
+		get descriptionChanged() {
+			return this.localDescription !== this.summaryData.description;
+		}
+
+		get isPublicArchive() {
+			return this.summaryData.archive === archiveTypes.PUBLIC;
+		}
+
+		get isPrivateArchive() {
+			return this.summaryData.archive === archiveTypes.DEFAULT;
+		}
+
+		get isRemoteArchive() {
+			return this.summaryData.archive === archiveTypes.REMOTE;
+		}
+
+		get isSoftware() {
+			return this.summaryData.resourceType === resourceTypes.SOFTWARE;
+		}
+
+		get isEnvironment() {
+			return this.summaryData.envId != null ||
+				this.summaryData.resourceType === resourceTypes.ENVIRONMENT;
+		}
+
+		get isContent() {
+			return this.summaryData.resourceType === resourceTypes.CONTENT;
+		}
+
+		/* Data
+        ============================================*/
+		localTitle = jsonCopy(this.summaryData.title);
+		localDescription = this.summaryData.description ? jsonCopy(this.summaryData.description) : null;
+
 	}
-
-	get descriptionChanged() {
-		return this.localDescription !== this.summaryData.description;
-	}
-
-	/* Data
-	============================================*/
-	localTitle = jsonCopy(this.summaryData.title);
-	localDescription = this.summaryData.description ? jsonCopy(this.summaryData.description) : null;
-
-}
 
 </script>
 
