@@ -39,9 +39,9 @@ export default class SelectList extends BaseFormField {}
 
 <style>
 .eaasi-field-icon {
-	position: absolute;
-	top: 0.85rem;
-	right: 0.6rem;
 	pointer-events: none;
+	position: absolute;
+	right: 0.6rem;
+	top: 0.85rem;
 }
 </style>
