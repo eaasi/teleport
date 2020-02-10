@@ -16,9 +16,8 @@
 			:item="isOperatingSystem"
 			:readonly="readonly || isOperatingSystem.readonly"
 		/>
-
 		<select-list
-			v-if="isOperatingSystem.value"
+			v-if="!readonly && isOperatingSystem.value"
 			v-model="selectedOs"
 			label="Operation System Preset"
 			style="margin-bottom: 1rem;"

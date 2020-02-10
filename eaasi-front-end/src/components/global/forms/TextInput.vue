@@ -1,5 +1,5 @@
 <template>
-	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-input">
+	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-input" :readonly="readonly">
 		<div class="eaasi-input-wrapper">
 			<div
 				:class="[
