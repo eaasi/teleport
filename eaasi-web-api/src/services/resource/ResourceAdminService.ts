@@ -5,19 +5,7 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import {
-	IContentRequest,
-	IEaasiResource,
-	IEaasiSearchQuery,
-	IEaasiSearchResponse,
-	IOverrideContentRequest,
-	IPublishRequest, IReplicateEnvironmentRequest,
-	IResourceSearchFacet,
-	IResourceSearchQuery,
-	IResourceSearchResponse,
-	ISaveEnvironmentResponse,
-	ResourceType,
-} from '@/types/resource/Resource';
+import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ResourceType } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
@@ -65,12 +53,10 @@ export default class ResourceAdminService extends BaseService {
 			result: allEnvironments,
 			totalResults: allEnvironments.length
 		};
-
 		let softwareResult = {
 			result: allSoftware,
 			totalResults: allSoftware.length
 		};
-
 		let contentResult = {
 			result: allContent,
 			totalResults: allContent.length
@@ -107,15 +93,12 @@ export default class ResourceAdminService extends BaseService {
 		softwareResult.result = this.paginate<ISoftwarePackageDescription>(query, softwareResult.result);
 		contentResult.result = this.paginate<IContentItem>(query, contentResult.result);
 
-		contentResult.result.forEach(c => c.resourceType = resourceTypes.CONTENT);
 		result.content = contentResult;
-
-		softwareResult.result.forEach(s => s.resourceType = resourceTypes.SOFTWARE);
 		result.software = softwareResult;
 
+		// get metadata for paginated envs 
 		const envIds = environmentResult.result.map(r => r.envId);
 		environmentResult.result = await this.getEnvironmentsMetadata(envIds);
-		environmentResult.result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
 		result.environments = environmentResult;
 
 		this.preselectResultFacets(result, query);
@@ -210,23 +193,16 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	private async getAllEnvironments(): Promise<IEnvironment[]> {
 		let res = await this._emilEnvSvc.get('');
-		return await res.json() as IEnvironment[];
-	}
-
-	private async getAllEnvironmentsMetadata(): Promise<IEnvironment[]> {
-		const envs = await this.getAllEnvironments();
-		const metadataEnvs = [];
-		for(let i = 0; i < envs.length; i++) {
-			const envMetadata = await this.getEnvironment(envs[i].envId);
-			metadataEnvs.push(envMetadata);
-		}
-		return metadataEnvs;
+		const result = await res.json() as IEnvironment[];
+		result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+		return result;
 	}
 
 	private async getEnvironmentsMetadata(envIds: string[]): Promise<IEnvironment[]> {
 		const metadataEnvs = [];
 		for(let i = 0; i < envIds.length; i++) {
-			const envMetadata = await this.getEnvironment(envIds[i]);
+			let envMetadata = await this.getEnvironment(envIds[i]);
+			envMetadata.resourceType = resourceTypes.ENVIRONMENT;
 			metadataEnvs.push(envMetadata);
 		}
 		return metadataEnvs;
@@ -283,7 +259,10 @@ export default class ResourceAdminService extends BaseService {
 		let list = await res.json() as ISoftwarePackageDescriptionsList;
 		let software = list.descriptions;
 		// TODO: we need to ensure all responses adhere to IEaasiResource
-		software.forEach(x => x.title = x.label);
+		software.forEach(x => {
+			x.title = x.label;
+			x.resourceType = resourceTypes.SOFTWARE;
+		});
 		return software;
 	}
 
@@ -298,7 +277,11 @@ export default class ResourceAdminService extends BaseService {
 	private async getAllContent(): Promise<IContentItem[]> {
 		// TODO: do not hard code 'zero conf'
 		let res = await this._emilContentSvc.get('zero%20conf');
-		return await res.json() as IContentItem[];
+		const result = await res.json() as IContentItem[];
+		result.forEach(content => {
+			content.resourceType = resourceTypes.CONTENT;
+		});
+		return result;
 	}
 
 	async getObjectArchive() {
@@ -471,9 +454,9 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
 		];
 		facets.forEach(facet => {
-			if (environments) facet = this.getFacet(environments, facet);
-			if (software) facet = this.getFacet(software, facet);
-			if (content) this.getFacet(content, facet);
+			if (environments.result.length > 0) facet = this.getFacet(environments, facet);
+			if (software.result.length > 0) facet = this.getFacet(software, facet);
+			if (content.result.length > 0) this.getFacet(content, facet);
 		});
 		return facets;
 	};

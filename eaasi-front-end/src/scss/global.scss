@@ -134,6 +134,13 @@ strong {
 	text-align: right;
 }
 
+button.tr-btn {
+	background: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
 /*============================================================
  == Text Styles
 /============================================================*/
@@ -369,6 +376,10 @@ strong {
 
 .flex-auto {
 	flex: 0 0 auto;
+}
+
+.relative {
+	position: relative;
 }
 
 /*============================================================

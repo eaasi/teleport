@@ -1,5 +1,5 @@
-import BaseHttpService from './BaseHttpService';
 import { IEaasiUser } from 'eaasi-admin';
+import BaseHttpService from './BaseHttpService';
 
 class AuthService extends BaseHttpService {
 
@@ -9,7 +9,7 @@ class AuthService extends BaseHttpService {
 		return res.result;
 	}
 
-	async logout(): Promise<any> {
+	async logout(): Promise<void> {
 		await this.delete('/auth/logout');
 	}
 }

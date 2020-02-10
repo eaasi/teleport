@@ -4,13 +4,7 @@ import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService'
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
-import {
-	IContentRequest,
-	IOverrideContentRequest,
-	IPublishRequest,
-	IReplicateEnvironmentRequest,
-	IResourceSearchQuery,
-} from '@/types/resource/Resource';
+import { IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
