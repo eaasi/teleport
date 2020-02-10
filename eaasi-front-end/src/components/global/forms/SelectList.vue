@@ -42,6 +42,5 @@ export default class SelectList extends BaseFormField {}
 	pointer-events: none;
 	position: absolute;
 	right: 0.6rem;
-	top: 0.85rem;
 }
 </style>
