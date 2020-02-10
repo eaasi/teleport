@@ -5,6 +5,7 @@ export { default as EaasiForm } from './EaasiForm.vue';
 export { default as FormModal } from './FormModal.vue';
 export { default as RadioButtons } from './RadioButtons.vue';
 export { default as SearchBar } from './SearchBar.vue';
+export { default as SearchSelectList } from './SearchSelectList.vue';
 export { default as SelectList } from './SelectList.vue';
 export { default as TextAreaInput } from './TextAreaInput.vue';
 export { default as TextInput } from './TextInput.vue';

@@ -19,6 +19,7 @@ import EaasiForm from './forms/EaasiForm.vue';
 import FormModal from './forms/FormModal.vue';
 import RadioButtons from './forms/RadioButtons.vue';
 import SearchBar from './forms/SearchBar.vue';
+import SearchSelectList from './forms/SearchSelectList.vue';
 import SelectList from './forms/SelectList.vue';
 import TextAreaInput from './forms/TextAreaInput.vue';
 import TextInput from './forms/TextInput.vue';
@@ -85,6 +86,7 @@ export default {
 		Vue.component('SectionHeading', SectionHeading);
 		Vue.component('SelectableCard', SelectableCard);
 		Vue.component('SelectList', SelectList);
+		Vue.component('SearchSelectList', SearchSelectList);
 		Vue.component('SmallBookmark', SmallBookmark);
 		Vue.component('SortHeader', SortHeader);
 		Vue.component('Tag', Tag);
@@ -103,5 +105,5 @@ export default {
  == Individual exports for testing purposes
 /============================================================*/
 
-export { Alert, AlertCard, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader };
+export { Alert, AlertCard, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader, SearchSelectList };
 
