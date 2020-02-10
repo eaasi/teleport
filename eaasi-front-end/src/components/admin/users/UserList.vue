@@ -25,19 +25,41 @@
 					<sort-header sort-col="lastLogin" :query="query" @sort="sort">
 						Last Login
 					</sort-header>
+					<sort-header sort-col="lastLogin" :query="query" @sort="sort">
+						Delete User
+					</sort-header>
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="u in users" :key="u.id" @click="$emit('rowClick', u)">
-					<td>{{ u.username }}</td>
-					<td>{{ u.email }}</td>
-					<td>{{ u.firstName }}</td>
-					<td>{{ u.lastName }}</td>
-					<td>{{ getRole(u) }}</td>
-					<td>{{ u.lastLogin || 'Unknown' }}</td>
+				<tr v-for="u in users" :key="u.id">
+					<td @click="editUser(u)">{{ u.username }}</td>
+					<td @click="editUser(u)">{{ u.email }}</td>
+					<td @click="editUser(u)">{{ u.firstName }}</td>
+					<td @click="editUser(u)">{{ u.lastName }}</td>
+					<td @click="editUser(u)">{{ getRole(u) }}</td>
+					<td @click="editUser(u)">{{ u.lastLogin || 'Unknown' }}</td>
+					<td @click="deleteUser(u)" class="delete-cell">Delete User</td>
 				</tr>
 			</tbody>
 		</table>
+		<confirm-modal
+			cancel-label="Cancel"
+			confirm-label="Delete User"
+			:title="`Delete User: ${userToDelete.username} - ${userToDelete.email}`"
+			v-if="isDeleteUserModalActive"
+			@close="closeDeleteUserModal"
+			@click:confirm="confirmDeleteUser"
+		>
+			<alert-card type="warning" v-if="userToDelete">
+				<div class="delete-message">
+					You are about to delete the user <span class="user-to-delete">{{ userToDelete.username }}</span>.
+				</div>
+				<div class="delete-message">
+					This will remove all data associated with the user in the system. Please confirm you would like to continue.
+					This action cannot be undone.
+				</div>
+			</alert-card>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -49,11 +71,12 @@ import { IEaasiRole, IEaasiUser } from 'eaasi-admin';
 import { IEaasiSearchQuery } from '@/types/Search';
 import User from '@/models/admin/User';
 import SortHeader from '@/components/global/tables/SortHeader.vue';
+import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 
 @Component({
 	name: 'UserList',
 	components: {
-		SortHeader
+		SortHeader, ConfirmModal
 	}
 })
 export default class UserList extends Vue {
@@ -73,8 +96,27 @@ export default class UserList extends Vue {
 	@Sync('admin/usersQuery')
 	query: IEaasiSearchQuery
 
+	/* Data
+	============================================*/
+	isDeleteUserModalActive: boolean = false;
+	userToDelete?: User;
+
 	/* Methods
 	============================================*/
+
+	editUser(u: User) {
+		this.$emit('rowClick', u);
+	}
+
+	deleteUser(user: User) {
+		this.userToDelete = user;
+		this.isDeleteUserModalActive = true;
+	}
+
+	closeDeleteUserModal() {
+		this.userToDelete = null;
+		this.isDeleteUserModalActive = false;
+	}
 
 	getRole(user: IEaasiUser) {
 		if(!this.roles || !this.roles.length || !user.roleId) return '';
@@ -87,10 +129,35 @@ export default class UserList extends Vue {
 		this.$store.dispatch('admin/getUsers');
 	}
 
+	async confirmDeleteUser(userId: number) {
+		await this.$store.dispatch('admin/deleteUser', userId);
+		await this.$store.dispatch('admin/getUsers');
+	}
 }
 
 </script>
 
 <style lang="scss">
+	.delete-cell {
+		transition: background-color 0.2s, color 0.2s;
+	}
 
+	.delete-cell:hover {
+		background-color: $red;
+		color: #ffffff;
+		transition: background-color 0.2s, color 0.2s;
+	}
+
+	.delete-icon {
+		margin: auto;
+		color: $red;
+	}
+
+	.user-to-delete {
+		font-weight: bold;
+	}
+
+	.delete-message {
+		margin-bottom: 1rem;
+	}
 </style>
