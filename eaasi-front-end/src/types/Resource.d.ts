@@ -12,6 +12,7 @@ export interface IEaasiResource {
 	description?: string;
 	envId?: string;
 	archiveId?: string;
+	archive?: string;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {
