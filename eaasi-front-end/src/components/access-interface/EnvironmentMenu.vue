@@ -155,7 +155,10 @@ export default class EnvironmentMenu extends Vue {
 	 * Emits an event to save an imported environment
 	 */
 	saveImport() {
-		eventBus.$emit('emulator:saveEnvironmentImport', this.newImportDescription);
+		eventBus.$emit('emulator:saveEnvironmentImport', { 
+			description: this.newImportDescription, 
+			title: this.environment.title 
+		});
 	}
 
 	mounted() {
