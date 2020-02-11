@@ -215,20 +215,20 @@ const actions = {
 	 * @param store: Store<ImportState>
 	 * @param importData: any object containing environment metadata to import
 	 */
-	async saveEnvironmentImport({ state }: Store<ImportState>, importData: any) {
+	async saveEnvironmentImport(_, importData: any) {
 		let snapshot: IEnvironmentImportSnapshot = {
             componentId: importData.componentId,
-			environmentId: state.environment.eaasiID,
-			importSaveDescription: importData.saveDesc,
+			environmentId: importData.environmentId,
+			importSaveDescription: importData.description,
 			isRelativeMouse: false,
 			objectId: null,
 			softwareId: null,
-			title: state.environment.title,
+			title: importData.title,
 			userId: null
 		};
 
 		let result = await _importService.saveEnvironment(snapshot) as ITaskState;
-		if (!result) console.log('No save result provided by snapshot response');
+		if (!result) console.error('No save result provided by snapshot response');
 		return result;
 	},
 

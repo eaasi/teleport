@@ -225,23 +225,27 @@ import { generateId } from '@/utils/functions';
 			window.open(pdfUrl);
 		}
 
-		async saveEnvironmentImport(importDesc: string) {  // TODO: arg will be object when metadata is ready
+		async saveEnvironmentImport({ description, title }) {  // TODO: arg will be object when metadata is ready
 			let importData = {
-				saveDesc: importDesc,
-				componentId: this.clientComponentId
+				description,
+				title,
+				componentId: this.clientComponentId,
+				environmentId: this.$route.params.envId
 			};
 
 			// TODO: Handle saveResult failure modes
-			let saveResult = await this.$store.dispatch('import/saveEnvironmentImport', importData).then(async () => {
+			let saveResult = await this.$store.dispatch('import/saveEnvironmentImport', importData);
+			
+			if (saveResult) {
 				await this.stopEnvironment();
-			});
+			}
 
 			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources'}});
 		}
 
 		initBusListeners() {
 			eventBus.$on('emulator:save', () => this.saveEmulator());
-			eventBus.$on('emulator:saveEnvironmentImport', (importDesc) => this.saveEnvironmentImport(importDesc));
+			eventBus.$on('emulator:saveEnvironmentImport', (importDetails) => this.saveEnvironmentImport(importDetails));
 			eventBus.$on('emulator:takeScreenshot', () => this.takeScreenShot());
 			eventBus.$on('emulator:send:escape', () => this.sendEscape());
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
