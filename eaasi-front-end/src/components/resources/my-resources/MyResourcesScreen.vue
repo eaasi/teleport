@@ -6,7 +6,9 @@
 			</h1>
 		</div>
 		<tabbed-nav :tabs="tabs" v-model="activeTab" />
+
 		<my-bookmarks-section v-if="activeTab === 'My Bookmarks'" />
+
 		<imported-resources-section v-if="activeTab === 'Imported Resources'" />
 
 		<!-- Resources Slide Menu -->
