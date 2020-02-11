@@ -58,7 +58,6 @@ export default class ResourceList extends Vue {
 
 	/* Props
 	============================================*/
-
 	@Prop({type: Object as () => IEaasiSearchResponse<IEaasiResource>, required: true})
 	readonly result: IEaasiSearchResponse<IEaasiResource>;
 
@@ -103,11 +102,11 @@ export default class ResourceList extends Vue {
 
 	async handleBookmark(resourceID: number, isActive: boolean) {
 		const bookmarkRequest = { userID: this.user.id, resourceID };
-		return isActive
+		isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);
+		this.$emit('bookmarked');
 	}
-
 }
 
 </script>

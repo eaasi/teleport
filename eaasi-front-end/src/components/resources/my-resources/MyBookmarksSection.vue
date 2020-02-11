@@ -3,7 +3,9 @@
 		<div class="bg-top-message flex-row flex-wrap">
 			<div class="message-wrapper">
 				<p>
-					<span v-if="bookmarks && bookmarks.length">These resources will be bookmarked until you remove the bookmark.</span>
+					<span v-if="bookmarks && bookmarks.length">
+						These resources will be bookmarked until you remove the bookmark.
+					</span>
 					<span v-else>No Bookmarks Found</span>
 				</p>
 			</div>
@@ -16,6 +18,7 @@
 				</ui-button>
 			</div>
 		</div>
+
 		<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
 			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
@@ -37,6 +40,7 @@
 							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
+							@bookmarked="search"
 						/>
 					</div>
 					<div
@@ -50,6 +54,7 @@
 							:result="bentoResult.software"
 							type="Software"
 							@click:all="getAll(['Software'])"
+							@bookmarked="search"
 						/>
 						<resource-list
 							v-if="bentoResult.content.result.length"
@@ -58,11 +63,13 @@
 							:result="bentoResult.content"
 							type="Content"
 							@click:all="getAll(['Content'])"
+							@bookmarked="search"
 						/>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<pagination
 			v-if="facetsOfSingleTypeSelected"
 			:results-per-page="query.limit"
@@ -71,6 +78,7 @@
 			@paginate="paginate"
 			style="margin-top: 2.5rem;"
 		/>
+
 		<confirm-modal
 			cancel-label="Cancel"
 			confirm-label="Clear All Bookmarks"
@@ -97,7 +105,6 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
@@ -113,6 +120,8 @@ import { Component, Watch } from 'vue-property-decorator';
 	}
 })
 export default class MyBookmarksSection extends Vue {
+
+
     /* Computed
     ============================================*/
 
