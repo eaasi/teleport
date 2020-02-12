@@ -1,7 +1,8 @@
 <template>
 	<div class="user-list">
 		<table
-			class="eaasi-table clickable"
+			id="node-user-table"
+			class="eaasi-table"
 			aria-label="Table of registered users for this EaaSI node"
 			:aria-rowcount="users.length"
 		>
@@ -10,58 +11,32 @@
 					<sort-header sort-col="username" :query="query" @sort="sort">
 						Username
 					</sort-header>
-					<sort-header sort-col="email" :query="query" @sort="sort">
-						Email
-					</sort-header>
-					<sort-header sort-col="firstName" :query="query" @sort="sort">
-						First Name
-					</sort-header>
-					<sort-header sort-col="lastName" :query="query" @sort="sort">
-						Last Name
-					</sort-header>
 					<sort-header sort-col="roleId" :query="query" @sort="sort">
 						Role
 					</sort-header>
 					<sort-header sort-col="lastLogin" :query="query" @sort="sort">
 						Last Login
 					</sort-header>
-					<sort-header sort-col="lastLogin" :query="query" @sort="sort">
-						Delete User
-					</sort-header>
+					<td>
+					</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="u in users" :key="u.id">
-					<td @click="editUser(u)">{{ u.username }}</td>
-					<td @click="editUser(u)">{{ u.email }}</td>
-					<td @click="editUser(u)">{{ u.firstName }}</td>
-					<td @click="editUser(u)">{{ u.lastName }}</td>
-					<td @click="editUser(u)">{{ getRole(u) }}</td>
-					<td @click="editUser(u)">{{ u.lastLogin || 'Unknown' }}</td>
-
-					<td v-if="currentUser.id != u.id" @click="deleteUser(u)" class="delete-cell">Delete User</td>
-					<td v-else class="delete-cell disabled delete-disabled">Delete User</td>
+					<td>{{ u.username }}</td>
+					<td>{{ getRole(u) }}</td>
+					<td>{{ u.lastLogin || 'Unknown' }}</td>
+					<td class="details-cell">
+						<span
+							class="details-btn clickable"
+							@click="editUser(u)"
+						>
+							DETAILS
+						</span>
+					</td>
 				</tr>
 			</tbody>
 		</table>
-		<confirm-modal
-			cancel-label="Cancel"
-			confirm-label="Delete User"
-			:title="`Delete User: ${userToDelete.username} - ${userToDelete.email}`"
-			v-if="userToDelete != null"
-			@close="closeDeleteUserModal"
-			@click:confirm="confirmDeleteUser(userToDelete.id)"
-		>
-			<alert-card type="warning" v-if="userToDelete">
-				<div class="delete-message">
-					You are about to delete the user <span class="user-to-delete">{{ userToDelete.username }}</span>.
-				</div>
-				<div class="delete-message">
-					This will remove all data associated with the user in the system. Please confirm you would like to continue.
-					This action cannot be undone.
-				</div>
-			</alert-card>
-		</confirm-modal>
 	</div>
 </template>
 
@@ -101,23 +76,11 @@ export default class UserList extends Vue {
 	@Get('loggedInUser')
 	currentUser: IEaasiUser;
 
-	/* Data
-	============================================*/
-	userToDelete?: User = null;
-
 	/* Methods
 	============================================*/
 
 	editUser(u: User) {
 		this.$emit('rowClick', u);
-	}
-
-	deleteUser(user: User) {
-		this.userToDelete = user;
-	}
-
-	closeDeleteUserModal() {
-		this.userToDelete = null;
 	}
 
 	getRole(user: IEaasiUser) {
@@ -131,33 +94,30 @@ export default class UserList extends Vue {
 		this.$store.dispatch('admin/getUsers');
 	}
 
-	async confirmDeleteUser(userId: number) {
-		let res = await this.$store.dispatch('admin/deleteUser', userId);
-		if (!res) return;
-		await this.$store.dispatch('admin/getUsers');
-		this.userToDelete = null;
-	}
 }
 
 </script>
 
 <style lang="scss">
-	.delete-cell {
-		transition: background-color 0.2s, color 0.2s;
-
-		&:hover {
-			background-color: $red;
-			color: #ffffff;
-			transition: background-color 0.2s, color 0.2s;
-		}
+	#node-user-table {
+		max-width: 800px;
 	}
 
-	.delete-disabled {
+	.details-cell {
+		color: $dark-blue;
+		text-align: center;
 		transition: background-color 0.2s, color 0.2s;
-		&:hover {
-			background-color: lighten($grey, 20%);
-			color: darken($grey, 20%);
+
+		.details-btn {
+			border-radius: 4px;
+			font-weight: bold;
+			padding: 1rem 2rem;
 			transition: background-color 0.2s, color 0.2s;
+
+			&:hover {
+				background-color: #ffffff;
+				transition: background-color 0.2s, color 0.2s;
+			}
 		}
 	}
 
