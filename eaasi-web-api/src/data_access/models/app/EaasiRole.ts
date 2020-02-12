@@ -27,7 +27,7 @@ export class EaasiRole extends Model<EaasiRole> {
     roleName: string;
 
     @Column({
-    	type: DataTypes.STRING(100),
+    	type: DataTypes.STRING(800),
     	allowNull: false
     })
     roleDescription: string;
