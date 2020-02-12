@@ -30,7 +30,6 @@ import ImportFiles from './ImportFiles.vue';
 import ImportMetadata from './ImportMetadata.vue';
 import ImportProgress from './ImportProgress.vue';
 import ImportSelect from './ImportSelect.vue';
-import { importTypes } from '../../utils/constants';
 
 @Component({
 	name: 'ImportResourceScreen',

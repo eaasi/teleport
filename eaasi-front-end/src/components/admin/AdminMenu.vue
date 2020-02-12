@@ -1,5 +1,5 @@
 <template>
-	<div class="admin-menu">
+	<div class="admin-menu" v-if="isViewable">
 		<h2 class="admin-menu-heading">Node Management</h2>
 		<admin-menu-item v-for="i in menuItems" :key="i.route" :item="i" />
 		<div class="menu-divider"></div>
@@ -12,6 +12,8 @@
 </template>
 
 <script lang="ts">
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import {IEaasiUser} from 'eaasi-admin';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Get } from 'vuex-pathify';
@@ -27,8 +29,19 @@ import User from '@/models/admin/User';
 })
 export default class AdminMenu extends Vue {
 
+	@Get('loggedInUser')
+	user: IEaasiUser;
+
+	@Get('permissions')
+	permit: PermissionResolver;
+
 	/* Data
 	============================================*/
+
+	get isViewable(): boolean {
+		if (!this.user) return false;
+		return this.permit.allowsManageNodeUsers();
+	};
 
 	menuItems: IMenuItem[] = [
 		{

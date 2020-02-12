@@ -1,5 +1,5 @@
 <template>
-	<section id="userManagement">
+	<section id="userManagement" v-if="isViewable">
 		<div class="user-search">
 			<h1>Node Users</h1>
 			<search-bar
@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { Get, Sync } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
 import { jsonCopy } from '@/utils/functions';
@@ -67,6 +68,13 @@ export default class UserManagement extends AdminScreen {
 
 	@Sync('admin/usersResult')
 	list: IEaasiSearchResponse<User>;
+
+	@Get('permissions')
+	permit: PermissionResolver;
+
+	get isViewable(): boolean {
+		return this.permit.allowsManageNodeUsers();
+	};
 
 	/* Methods
 	============================================*/

@@ -1,4 +1,5 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IEnvironment } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
 
@@ -10,17 +11,21 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 		super(selectedResources, roleId);
 	}
 
+
 	/**
 	 * Resolves custom behavior of an action
 	 */
 	get action() : IAction {
+		const permit = new PermissionResolver(this.userRoleId);
 		// Active only for admin users
 		return {
 			shortName: 'delete',
 			label: 'Delete',
 			description: 'Delete this resource',
 			icon: 'trash-alt',
-			isEnabled: super.isUserAdmin() && super.isDeletableArchive() && !super.isAnySoftwareSelected()
+			isEnabled: permit.allowsDeleteLocalResourcesFromNode()
+				&& super.isDeletableArchive()
+				&& !super.isAnySoftwareSelected()
 		};
 	};
 }

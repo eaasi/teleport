@@ -39,13 +39,13 @@ export default class App extends Vue {
 	============================================*/
 
 	@Get('hideLeftMenu')
-	hideLeftMenu: boolean
+	hideLeftMenu: boolean;
 
 	@Get('hideAppHeader')
-	hideAppHeader: boolean
+	hideAppHeader: boolean;
 
 	@Get('loggedIn')
-	loggedIn: boolean
+	loggedIn: boolean;
 
 	/* Methods
 	============================================*/

@@ -3,7 +3,7 @@ import {IEnvironment} from '@/types/Resource';
 
 export default class PublishToNetworkActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEnvironment[];
-	userRoleId: number
+	userRoleId: number;
 
 	constructor(selectedResources: IEnvironment[], roleId: number) {
 		super(selectedResources, roleId);

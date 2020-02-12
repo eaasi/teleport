@@ -4,7 +4,7 @@ import {IAction} from 'eaasi-nav';
 
 export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEnvironment[];
-	userRoleId: number
+	userRoleId: number;
 
 	constructor(selectedResources: IEnvironment[], roleId: number) {
 		super(selectedResources, roleId);

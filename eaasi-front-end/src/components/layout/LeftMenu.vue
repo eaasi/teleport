@@ -1,5 +1,5 @@
 <template>
-	<nav class="left-menu" role="navigation">
+	<nav class="left-menu" role="navigation" v-if="user">
 		<div id="headerLogo" class="flex flex-center" @click="$router.push('/dashboard')">
 			<img src="@/assets/header-logo.png" alt="Eaasi Logo" class="left-menu-logo" />
 		</div>
@@ -12,8 +12,11 @@
 </template>
 
 <script lang="ts">
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import {IEaasiUser} from 'eaasi-admin';
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import {Get} from 'vuex-pathify';
 import LeftMenuItem from './LeftMenuItem.vue';
 import { IMenuItem } from 'eaasi-nav';
 
@@ -23,52 +26,67 @@ import { IMenuItem } from 'eaasi-nav';
 	}
 })
 export default class LeftMenu extends Vue {
+	@Get('loggedInUser')
+	user: IEaasiUser;
 
-	menuItems: IMenuItem[] = [
-		{
-			icon: 'home',
-			label: 'My Dashboard',
-			route: '/dashboard'
-		},
-		{
-			icon: 'file-search',
-			label: 'Explore Resources',
-			route: '/resources/explore'
-		},
-		{
-			icon: 'clipboard-list',
-			label: 'My Resources',
-			route: '/resources/my-resources'
-		},
-		{
-			icon: '',
-			label: '',
-			route: '',
-			isDivider: true
-		},
-		{
-			icon: 'atom',
-			label: 'Emulation Project',
-			route: '/emulation-project'
-		},
-		{
-			icon: 'upload',
-			label: 'Import Resource',
-			route: '/import-resource'
-		},
-		{
-			icon: '',
-			label: '',
-			route: '',
-			isDivider: true
-		},
-		{
-			icon: 'manage',
-			label: 'Manage Node',
-			route: '/admin/users'
+	@Get('permissions')
+	permit: PermissionResolver;
+
+	userCanManageNode() {
+		if (!this.user) return false;
+		return this.permit.allowsViewManageNodePage();
+	}
+
+	get menuItems() : IMenuItem[] {
+		let menu = [
+			{
+				icon: 'home',
+				label: 'My Dashboard',
+				route: '/dashboard',
+			},
+			{
+				icon: 'file-search',
+				label: 'Explore Resources',
+				route: '/resources/explore',
+			},
+			{
+				icon: 'clipboard-list',
+				label: 'My Resources',
+				route: '/resources/my-resources',
+			},
+			{
+				icon: '',
+				label: '',
+				route: '',
+				isDivider: true,
+			},
+			{
+				icon: 'atom',
+				label: 'Emulation Project',
+				route: '/emulation-project',
+			},
+			{
+				icon: 'upload',
+				label: 'Import Resource',
+				route: '/import-resource',
+			},
+			{
+				icon: '',
+				label: '',
+				route: '',
+				isDivider: true,
+			}];
+
+		if (this.userCanManageNode()) {
+			menu.push({
+				icon: 'manage',
+				label: 'Manage Node',
+				route: '/admin/users',
+			});
 		}
-	]
 
+		return menu;
+	}
 }
 
 </script>

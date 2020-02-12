@@ -1,5 +1,5 @@
 import { IEnvironment } from '@/types/Resource';
-import { archiveTypes, resourceTypes } from '@/utils/constants';
+import {archiveTypes, resourceTypes, userRoles} from '@/utils/constants';
 import { IAction } from 'eaasi-nav';
 
 /**
@@ -47,7 +47,7 @@ export default class SlideMenuActionResolver {
 	}
 
 	isUserAdmin() : boolean {
-		return this.userRoleId === 1;
+		return this.userRoleId === userRoles.ADMIN;
 	}
 
 	isDeletableArchive(): boolean {

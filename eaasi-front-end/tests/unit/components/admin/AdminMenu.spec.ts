@@ -1,3 +1,5 @@
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import {userRoles} from '@/utils/constants';
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
@@ -12,8 +14,16 @@ localVue.use(Vuex);
 describe('AdminMenu.vue', () => {
 	let store;
 	let mutations;
+	let getters;
 
 	beforeEach(() => {
+		// Note: this is testing as if a user is admin (role 1)
+		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
+
+		getters = {
+			permissions: () => permissionResolver,
+		};
+
 		mutations = {
 			SET_ACTIVE_USER: jest.fn()
 		};
@@ -26,9 +36,11 @@ describe('AdminMenu.vue', () => {
 				global: globalStore
 			},
 			state: {
-				appVersion: ''
+				appVersion: '',
+				loggedInUser: {'id': 123}
 			},
-			plugins: [pathify.plugin]
+			plugins: [pathify.plugin],
+			getters
 		});
 	});
 
