@@ -1,7 +1,10 @@
 import config from '@/config';
 import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
+import {IEaasPermissions} from '@/types/Resource';
+import {IEaasiUser} from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import { make } from 'vuex-pathify';
 
@@ -23,6 +26,7 @@ class GlobalState {
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
 	showLoader: boolean = false;
 	driveId: number;
+	permissions: PermissionResolver;
 }
 
 const state = new GlobalState();
@@ -35,6 +39,16 @@ const mutations = make.mutations(state);
 
 mutations['SET_DRIVE_ID'] = function(state: GlobalState, driveId: number) {
 	state.driveId = driveId;
+};
+
+mutations['SET_PERMISSIONS'] = function(state: GlobalState, roleId: number) {
+	state.permissions = new PermissionResolver(roleId);
+};
+
+mutations['SET_LOGGED_IN_USER'] = function(state: GlobalState, user: IEaasiUser) {
+	const loggedInUser = new User(user);
+	state.loggedInUser = loggedInUser;
+	state.permissions = new PermissionResolver(loggedInUser.roleId);
 };
 
 /*============================================================
@@ -59,7 +73,6 @@ const actions = {
 		commit('SET_LOGGED_IN_USER', new User(user));
 		return true;
 	},
-
 };
 
 /*============================================================
@@ -67,11 +80,9 @@ const actions = {
 /============================================================*/
 
 const getters = {
-
 	loggedIn(state) {
 		return !!state.loggedInUser;
 	},
-
 };
 
 export default {

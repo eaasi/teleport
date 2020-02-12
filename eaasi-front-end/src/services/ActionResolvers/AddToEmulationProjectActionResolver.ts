@@ -4,7 +4,7 @@ import {IAction} from 'eaasi-nav';
 
 export default class AddToEmulationProjectActionResolver extends  SlideMenuActionResolver {
 	selectedResources: IEnvironment[];
-	userRoleId: number
+	userRoleId: number;
 
 	constructor(selectedResources: IEnvironment[], roleId: number) {
 		super(selectedResources, roleId);
@@ -19,7 +19,7 @@ export default class AddToEmulationProjectActionResolver extends  SlideMenuActio
 			label: 'Add to Emulation Project',
 			description: 'Emulate this resource without changes',
 			icon: 'paperclip',
-			isEnabled: false 
+			isEnabled: false
 		};
 	}
 }

@@ -7,19 +7,19 @@ module.exports = {
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				roleName: 'Admin',
-				roleDescription: 'Manage Users, Publish Resources, & Config User Permissions'
+				roleDescription: 'Power user with all permissions to manage a node, its users, and resources'
 			},
 			{
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				roleName: 'Manager',
-				roleDescription: 'Manage Users, Publish Resources, & Config User Permissions'
+				roleDescription: 'Second tier user with permission to manage contributions to node and Network'
 			},
 			{
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				roleName: 'Configuration User',
-				roleDescription: 'Configure Resources from Existing Resources, View and Run Emulation'
+				roleDescription: 'User responsible for import of certain resources (software / content) combination of resources intro new projects, and documentation of resources worked with'
 			},
 		]);
 	},

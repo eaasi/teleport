@@ -1,4 +1,6 @@
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import {userRoles} from '@/utils/constants';
 import {createLocalVue, shallowMount} from '@vue/test-utils';
 import UserList from '@/components/admin/users/UserList.vue';
 import Vuex from 'vuex';
@@ -17,12 +19,20 @@ describe('UserList.vue', () => {
 	let store;
 	let state;
 	let actions;
+	let getters;
 
 	beforeEach(() => {
+		// Note: this is testing as if a user is admin (role 1)
+		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
+
 		let stateForAdminStore = {
 			activeUser: { id: 99999 },
 			usersQuery: {},
 			roles: [],
+		};
+
+		getters = {
+			permissions: () => permissionResolver,
 		};
 
 		let stateForGlobalStore = {
@@ -37,10 +47,11 @@ describe('UserList.vue', () => {
 				// @ts-ignore
 				admin: {
 					...adminStore,
-					state: stateForAdminStore
+					state: stateForAdminStore,
 				},
 			},
-			plugins: [pathify.plugin]
+			plugins: [pathify.plugin],
+			getters
 		});
 	});
 

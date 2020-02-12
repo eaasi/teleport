@@ -1,12 +1,18 @@
 <template>
 	<div class="import-select">
-		<div v-if="type" class="import-selected padded">
+		<div v-if="importType" class="import-selected padded">
 			<div class="flex-row">
 				<p>I want to import a</p>
-				<select-list v-model="type" class="no-mb flex-adapt">
-					<option value="content">Content File(s)</option>
-					<option value="software">Software Resource</option>
-					<option value="environment">Environment Resource</option>
+				<select-list v-model="importType" class="no-mb flex-adapt">
+					<option value="content">
+						Content File(s)
+					</option>
+					<option value="software">
+						Software Resource
+					</option>
+					<option value="environment" v-if="userCanImportEnvironment">
+						Environment Resource
+					</option>
 				</select-list>
 			</div>
 		</div>
@@ -43,8 +49,12 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4">
-					<options-box title="Environment Resource" icon="file" header="Less Common">
+				<div class="col-md-4" v-if="userCanImportEnvironment">
+					<options-box
+						title="Environment Resource"
+						icon="file"
+						header="Less Common"
+					>
 						Image of a hard drive with an operating system, content files optional
 						<template slot="footer">
 							<ui-button
@@ -63,9 +73,11 @@
 </template>
 
 <script lang="ts">
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import {IEaasiUser} from 'eaasi-admin';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
-import { Sync } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import { ImportType } from '@/types/Import';
 
 @Component({
@@ -80,13 +92,24 @@ export default class ImportSelect extends Vue {
 	step: number;
 
 	@Sync('import/importType')
-	type: ImportType;
+	importType: ImportType;
+
+	@Get('loggedInUser')
+	user: IEaasiUser;
+
+	@Get('permissions')
+	permit: PermissionResolver;
+
+	get userCanImportEnvironment() {
+		if (!this.user) return false;
+		return this.permit.allowsSingleEnvironmentImport();
+	}
 
 	/* Methods
 	============================================*/
 
-	chooseImportType(type: ImportType) {
-		this.type = type;
+	chooseImportType(chosenImportType: ImportType) {
+		this.importType = chosenImportType;
 		this.step++;
 	}
 
@@ -96,7 +119,7 @@ export default class ImportSelect extends Vue {
 	/**
 	 * Reset import metadata / files if type is changed by user
 	 */
-	@Watch('type')
+	@Watch('importType')
 	onTypeChange(newType) {
 		if(!newType) return;
 		this.$store.commit('import/INIT_FOR_TYPE');

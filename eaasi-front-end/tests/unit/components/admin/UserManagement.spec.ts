@@ -1,3 +1,5 @@
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import {userRoles} from '@/utils/constants';
 import {createLocalVue, mount, shallowMount} from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
@@ -17,9 +19,17 @@ const $colors = {
 
 describe('UserManagement.vue', () => {
 	let store;
+	let getters;
 
 	beforeEach(() => {
+		// Note: this is testing as if a user is admin (role 1)
+		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
+
 		let localAdminStore = adminStore;
+
+		getters = {
+			permissions: () => permissionResolver,
+		};
 
 		localAdminStore.state = makeAdminStoreState(10);
 
@@ -30,7 +40,8 @@ describe('UserManagement.vue', () => {
 				// @ts-ignore
 				global: globalStore
 			},
-			plugins: [pathify.plugin]
+			plugins: [pathify.plugin],
+			getters
 		});
 	});
 

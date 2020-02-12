@@ -1,5 +1,5 @@
 <template>
-	<div class="user-list">
+	<div class="user-list" v-if="isViewable">
 		<table
 			id="node-user-table"
 			class="eaasi-table"
@@ -41,6 +41,7 @@
 </template>
 
 <script lang="ts">
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
@@ -66,15 +67,22 @@ export default class UserList extends Vue {
 
 	/* Computed
 	============================================*/
+	get isViewable(): boolean {
+		if (!this.currentUser) return false;
+		return this.permit.allowsManageNodeUsers();
+	};
+
+	@Get('loggedInUser')
+	currentUser: IEaasiUser;
+
+	@Get('permissions')
+	permit: PermissionResolver;
 
 	@Get('admin/roles')
 	roles: IEaasiRole[];
 
 	@Sync('admin/usersQuery')
 	query: IEaasiSearchQuery;
-
-	@Get('loggedInUser')
-	currentUser: IEaasiUser;
 
 	/* Methods
 	============================================*/
