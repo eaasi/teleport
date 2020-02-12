@@ -26,7 +26,7 @@ module.exports = {
 				unique: true,
 			},
 			roleDescription: {
-				type: Sq.STRING(100),
+				type: Sq.STRING(800),
 				allowNull: false,
 				columnName: 'role_description'
 			}
