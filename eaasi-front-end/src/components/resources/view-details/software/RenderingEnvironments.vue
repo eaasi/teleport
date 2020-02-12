@@ -204,6 +204,7 @@ export default class RenderingEnvironments extends Vue {
 		};
 
 		await this.$store.dispatch('import/setEnvironmentType', payload);
+
 		this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
 
         this.$router.push(`/access-interface/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
