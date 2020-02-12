@@ -158,7 +158,7 @@ export default class UiButton extends Vue {
 
 	&.light-blue {
 		background-color: lighten($light-blue, 80%);
-		border: solid 2px $light-blue;
+		border: solid 2px lighten($light-blue, 50%);
 		color: $dark-blue;
 
 		&:hover {

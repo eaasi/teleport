@@ -1,53 +1,81 @@
 <template>
-	<form-modal
-		@close="$emit('close')"
-		:title="modalTitle"
-		class="eaasi-user-modal"
-		@save="saveUser"
-	>
-		<div class="user-info">
-			<h3>User Information</h3>
-			<div class="row">
-				<text-input
-					v-model="user.email"
-					label="Organization Email"
-					rules="required|email"
-					class="col-md-6"
+	<div>
+		<form-modal
+			@close="$emit('close')"
+			:title="modalTitle"
+			save-text="Save Changes"
+			class="eaasi-user-modal"
+			@save="saveUser"
+		>
+			<div class="user-info">
+				<h3>User Information</h3>
+				<div class="row">
+					<text-input
+						v-model="user.email"
+						label="Organization Email"
+						rules="required|email"
+						class="col-md-6"
+					/>
+				</div>
+
+				<div class="row">
+					<text-input
+						v-model="user.username"
+						label="Username"
+						rules="required"
+						class="col-md-6"
+					/>
+				</div>
+				<div class="name-fields row">
+					<text-input
+						v-model="user.firstName"
+						label="First Name"
+						rules="required"
+						class="col-md-6"
+					/>
+					<text-input
+						v-model="user.lastName"
+						label="Last Name"
+						rules="required"
+						class="col-md-6"
+					/>
+				</div>
+			</div>
+
+			<div class="user-roles">
+				<h3>User Roles & Permissions</h3>
+				<descriptive-radios
+					:options="radioOptions"
+					v-model="user.roleId"
 				/>
 			</div>
 
-			<div class="row">
-				<text-input
-					v-model="user.username"
-					label="Username"
-					rules="required"
-					class="col-md-6"
-				/>
-			</div>
-			<div class="name-fields row">
-				<text-input
-					v-model="user.firstName"
-					label="First Name"
-					rules="required"
-					class="col-md-6"
-				/>
-				<text-input
-					v-model="user.lastName"
-					label="Last Name"
-					rules="required"
-					class="col-md-6"
-				/>
-			</div>
-		</div>
+			<hr class="delete-hr" />
 
-		<div class="user-roles">
-			<h3>User Roles & Permissions</h3>
-			<descriptive-radios
-				:options="radioOptions"
-				v-model="user.roleId"
-			/>
-		</div>
-	</form-modal>
+			<div class="delete-user">
+				<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
+			</div>
+		</form-modal>
+
+		<confirm-modal
+			cancel-label="Cancel"
+			confirm-label="Delete User"
+			:title="`Delete User: ${user.username} - ${user.email}`"
+			v-if="isDeleteModalVisible"
+			@close="isDeleteModalVisible = false"
+			@click:confirm="confirmDeleteUser"
+		>
+			<alert-card type="warning" v-if="user">
+				<div class="delete-message">
+					You are about to delete the user <span class="user-to-delete">{{ user.username }}</span>.
+				</div>
+				<div class="delete-message">
+					This will remove all data associated with the user in the system. Please confirm you would like to continue.
+					This action cannot be undone.
+				</div>
+			</alert-card>
+		</confirm-modal>
+	</div>
 </template>
 
 <script lang="ts">
@@ -71,12 +99,15 @@ import Modal from '@/components/global/Modal/Modal.vue';
 	}
 })
 export default class UserModal extends Vue {
+	/* Data
+	============================================*/
+	isDeleteModalVisible: boolean = false;
 
 	/* Props
 	============================================*/
 
 	@Prop({type: Object as () => IEaasiUser, required: true})
-	readonly user: IEaasiUser
+	readonly user: IEaasiUser;
 
 	/* Computed
 	============================================*/
@@ -116,6 +147,17 @@ export default class UserModal extends Vue {
 		this.$emit('close');
 	}
 
+	showDeleteModal() {
+		this.isDeleteModalVisible = true;
+	}
+
+	async confirmDeleteUser() {
+		let res = await this.$store.dispatch('admin/deleteUser', this.user.id);
+		if (!res) return;
+		await this.$store.dispatch('admin/getUsers');
+		this.isDeleteModalVisible = false;
+		this.$emit('close');
+	}
 }
 
 </script>
@@ -131,6 +173,14 @@ export default class UserModal extends Vue {
 
 	.eaasi-form {
 		padding: 0 2rem 2rem;
+	}
+
+	.user-roles {
+		margin-bottom: 3rem;
+	}
+
+	.delete-user {
+		margin: 3rem 0;
 	}
 }
 </style>
