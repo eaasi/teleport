@@ -96,7 +96,7 @@ export default class ResourceAdminService extends BaseService {
 		result.content = contentResult;
 		result.software = softwareResult;
 
-		// get metadata for paginated envs 
+		// get metadata for paginated envs
 		environmentResult.result = await this.getEnvironmentsMetadata(environmentResult.result);
 		result.environments = environmentResult;
 
@@ -150,15 +150,19 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	async saveNewEnvironment(newEnvRequest: any) {
+
 		let snapshotRequest = {
+			type: 'saveImport',
 			envId: newEnvRequest.envId,
+			relativeMouse: false,
 			isRelativeMouse: false,
 			message: newEnvRequest.description,
 			title: newEnvRequest.title,
 			objectId: null,
 			softwareId: null,
-			type: 'newEnvironment',
-			userId: null
+			userId: null,
+			networking: {
+			}
 		};
 
 		let httpSvc: IHttpService = new HttpJSONService();
@@ -168,6 +172,7 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	async saveNewObjectEnvironment(newEnvRequest: any): Promise<ISnapshotResponse> {
+
 		let snapshotRequest: ISnapshotRequest = {
 			archive: archiveTypes.DEFAULT,
 			envId: newEnvRequest.envId,
@@ -183,7 +188,9 @@ export default class ResourceAdminService extends BaseService {
 
 		let httpSvc: IHttpService = new HttpJSONService();
 		let url = `${BASE_URL}/emil/components/${newEnvRequest.componentId}/snapshot`;
+
 		let res = await httpSvc.post(url, snapshotRequest);
+
 		return await res.json();
 	}
 
