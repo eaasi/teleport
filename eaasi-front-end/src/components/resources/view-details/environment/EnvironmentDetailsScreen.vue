@@ -381,7 +381,16 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	_populateNetworkOptions() {
 		if (this.activeEnvironment.networking === null || this.activeEnvironment.networking === undefined) {
-			return this.networkLabeledItems = [];
+			this.activeEnvironment.networking = {
+				connectEnvs: false,
+				enableInternet: false,
+				enableSocks: false,
+				helpText: '',
+				localServerMode: false,
+				serverIp: '',
+				serverMode: false,
+				serverPort: ''
+			};
 		}
 		this.networkLabeledItems = [
 			{
