@@ -513,3 +513,26 @@ strong {
 	font-weight: bold;
 	margin-bottom: 2.1rem;
 }
+
+/*============================================================
+ == Bento
+/============================================================*/
+
+.resource-bento {
+	margin-left: 28rem;
+	padding: 1.5rem;
+}
+
+.bento-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	.bento-col {
+		flex: 1;
+		margin: 0 1rem;
+	}
+}
+
+.bento-header {
+	width: 100%;
+}

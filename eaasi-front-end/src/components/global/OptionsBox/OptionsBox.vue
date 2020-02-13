@@ -84,6 +84,7 @@ export default class OptionsBox extends Vue {
 		font-size: 1.5rem;
 		height: 5rem;
 		line-height: 1.5em;
+		padding: 1rem;
 	}
 
 	.ob-header {

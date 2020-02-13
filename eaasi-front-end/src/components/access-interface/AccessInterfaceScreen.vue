@@ -235,6 +235,7 @@
 
 	.ai-content {
 		margin-top: $accessHeaderHeight;
+		overflow-x: scroll;
 		text-align: center;
 	}
 

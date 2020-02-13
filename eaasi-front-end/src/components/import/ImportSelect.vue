@@ -34,7 +34,7 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4">
+				<div class="col-md-4 option-box-container">
 					<options-box title="Software Resource" icon="file">
 						Software disk image, install file, or files
 						<template slot="footer">
@@ -49,7 +49,7 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4" v-if="userCanImportEnvironment">
+				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">
 					<options-box
 						title="Environment Resource"
 						icon="file"
@@ -157,4 +157,5 @@ export default class ImportSelect extends Vue {
 		margin-bottom: 3rem;
 	}
 }
+
 </style>

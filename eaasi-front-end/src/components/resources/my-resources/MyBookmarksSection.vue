@@ -252,20 +252,8 @@ export default class MyBookmarksSection extends Vue {
 		position: absolute;
 		top: 0;
 	}
-
-	.resource-bento {
-		margin-left: 28rem;
-		padding: 1.5rem;
-		.bento-row {
-			display: flex;
-			flex-direction: row;
-			.bento-col {
-				flex: 1;
-				margin: 0 1rem;
-			}
-		}
-	}
 }
+
 #myBookmarks {
 	.resource-list {
 		display: flex;
