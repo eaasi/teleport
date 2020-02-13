@@ -12,7 +12,7 @@
 			<div class="col-md-4">
 				<section-heading title="Operating System" size="large" />
 				<editable-labeled-item-list
-					:readonly="!isEditMode"
+					:readonly="true"
 					:labeled-items="osLabeledItems"
 					edit-type="text-input"
 				/>
