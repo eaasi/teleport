@@ -282,6 +282,8 @@
 			const namesToUpload = this.files.map(f=>f.name).filter(f => !namesToRemove.includes(f));
 			const filesToUpload = this.files.filter(f=> namesToUpload.includes(f.name));
 			this.files = filesToUpload;
+			// If all files are removed, leaving 0 files, set step to 2
+			if (this.files.length === 0) this.step = 2;
 			this.selectNoFiles();
 		}
 
