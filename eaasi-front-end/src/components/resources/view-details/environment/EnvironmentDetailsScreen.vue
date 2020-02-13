@@ -1,25 +1,43 @@
 <template>
 	<div id="myResources" v-if="activeEnvironment">
 		<div class="eds-actions pull-right" style="margin: 1.2rem;">
-			<ui-button v-if="readOnlyMode" size="md" @click="confirmAction = 'replicate'">
+			<ui-button
+				v-if="readOnlyMode"
+				size="md"
+				@click="confirmAction='replicate'"
+			>
 				Save to My Node
 			</ui-button>
-			<ui-button v-else size="md" @click="addingSoftware = true">
+			<ui-button
+				v-else
+				size="md"
+				@click="addingSoftware=true"
+			>
 				Add Software
 			</ui-button>
-			<ui-button v-if="isRunnable" size="md" @click="runEnvironment">
+			<ui-button
+				v-if="isRunnable"
+				size="md"
+				@click="runEnvironment"
+			>
 				Run in Emulator
 			</ui-button>
 		</div>
 		<div class="page-title">
-			<div class="back-to-results clickable" @click="goBackToResults">
+			<div
+				class="back-to-results clickable"
+				@click="goBackToResults"
+			>
 				← Back to All Results
 			</div>
 			<h1>
 				Environment Details
 			</h1>
 		</div>
-		<tabbed-nav :tabs="tabs" v-model="activeTab" />
+		<tabbed-nav
+			:tabs="tabs"
+			v-model="activeTab"
+		/>
 		<div class="vrd-content">
 			<mode-toggle
 				v-show="activeTab === 'Metadata'"
@@ -136,11 +154,20 @@ export default class EnvironmentDetailsScreen extends Vue {
     /* Methods
 	============================================*/
 	async saveDetails() {
-		this.emulatorLabeledItems.forEach(el => this.activeEnvironment[el.property] = el.value);
-		this.uiOptionLabeledItems.forEach(el => this.activeEnvironment[el.property] = el.value);
-		this.networkLabeledItems.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
-		this.activeEnvironment.time = new Date(this.activeEnvironment.time).getTime();
-		const result = await this.$store.dispatch('resource/updateEnvironmentDetails', this.activeEnvironment);
+		this.emulatorLabeledItems
+			.forEach(el => this.activeEnvironment[el.property] = el.value);
+		this.uiOptionLabeledItems
+			.forEach(el => this.activeEnvironment[el.property] = el.value);
+		this.networkLabeledItems
+			.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
+
+		this.activeEnvironment.time =
+			new Date(this.activeEnvironment.time)
+				.getTime();
+
+		const result = await this.$store.dispatch(
+			'resource/updateEnvironmentDetails', this.activeEnvironment);
+
 		if (result && result.id) {
 			this.activeMode = this.mods[0];
 			this.$router.replace(`/resources/environment?resourceId=${result.id}`);
@@ -151,8 +178,15 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	async replicateEnvironment() {
 		this.confirmAction = null;
-		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateEnvironment', this.activeEnvironment);
-		let task = new EaasiTask(result.taskList[0], `Save To My Node: ${this.activeEnvironment.title}`);
+		const result: IEaasiTaskListStatus =
+			await this.$store.dispatch(
+				'resource/replicateEnvironment',
+				this.activeEnvironment
+			);
+
+		let task = new EaasiTask(
+			result.taskList[0], `Save To My Node: ${this.activeEnvironment.title}`);
+
 		await this.$store.dispatch('task/addTaskToQueue', task);
 	}
 
@@ -160,6 +194,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		const { id, archiveId } = software;
 		if (!id || !archiveId) return;
 		const { envId } = this.activeEnvironment as IEnvironment;
+
 		this.$router.push(`/access-interface/${envId}?softwareId=${id}&archiveId=${archiveId}`);
 	}
 
@@ -176,7 +211,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	async populateMetadata() {
 		await this._populateEmulatorConfig();
-		// this._populateOperatingSystemConfig();
+		this._populateOperatingSystemConfig();
 		this._populateUIOptions();
 		this._populateNetworkOptions();
 		this._populateInstalledSoftware();
@@ -195,25 +230,34 @@ export default class EnvironmentDetailsScreen extends Vue {
 
     /* Lifecycle Hooks
 	============================================*/
-    created() {
-		this.init();
+    async created() {
+		await this.init();
 	}
 
 	/* Helpers
 	============================================*/
 	_populateInstalledSoftware() {
-		if(!this.activeEnvironment.installedSoftwareIds) return this.installedSoftware = [];
-		this.installedSoftware = this.activeEnvironment.installedSoftwareIds.map(id => {
-			return {
-				label: '',
-				value: id
-			} as ILabeledItem;
-		});
+		if (!this.activeEnvironment.installedSoftwareIds)
+			return this.installedSoftware = [];
+
+		this.installedSoftware =
+			this.activeEnvironment
+				.installedSoftwareIds
+				.map(id => {
+					return {
+						label: '',
+						value: id
+					} as ILabeledItem;
+				});
 	}
 
 	async _populateEmulatorConfig() {
-		const nameIndexes = await this.$store.dispatch('resource/getNameIndexes');
-		const operatingSystemMetadata = await this.$store.dispatch('resource/getOperatingSystemMetadata');
+		const nameIndexes =
+			await this.$store.dispatch('resource/getNameIndexes');
+
+		const operatingSystemMetadata =
+			await this.$store.dispatch('resource/getOperatingSystemMetadata');
+
 		this.emulatorLabeledItems = [
 			{
 				label: 'Name',
@@ -280,63 +324,63 @@ export default class EnvironmentDetailsScreen extends Vue {
 				label: 'Resource Name',
 				value: this.activeEnvironment.title,
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Display Resolution',
 				value: '800x600',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Color Depth',
 				value: 'True Color',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Region',
 				value: 'U.S.',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Time Zone',
 				value: 'Eastern Standard Time',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Date/Time',
 				value: '1:19PM 5/3/2019',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Language',
 				value: 'English',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Login Name',
 				value: '<username>',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 			{
 				label: 'Login password',
 				value: '<password>',
 				changed: false,
-				readonly: false,
+				readonly: true,
 				editType: 'text-input'
 			},
 		];
