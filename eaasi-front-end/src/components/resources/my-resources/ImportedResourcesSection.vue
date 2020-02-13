@@ -185,7 +185,7 @@ export default class ImportedResourcesSection extends Vue {
 			await this.search();
 		}
 	}
-	
+
 }
 </script>
 
@@ -210,19 +210,6 @@ export default class ImportedResourcesSection extends Vue {
 			bottom: 0;
 			position: absolute;
 			top: 0;
-		}
-
-		.resource-bento {
-			margin-left: 28rem;
-			padding: 1.5rem;
-			.bento-row {
-				display: flex;
-				flex-direction: row;
-				.bento-col {
-					flex: 1;
-					margin: 0 1rem;
-				}
-			}
 		}
 	}
 

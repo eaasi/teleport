@@ -73,7 +73,7 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -226,7 +226,6 @@ export default class ExploreResourcesScreen extends Vue {
 
 <style lang="scss">
 	#exploreResources {
-
 		h1 {
 			background-color: lighten($light-neutral, 70%);
 			border-top: solid 1px darken($light-neutral, 10%);
@@ -242,10 +241,6 @@ export default class ExploreResourcesScreen extends Vue {
 			flex-wrap: wrap;
 			justify-content: space-between;
 
-			.bento-header {
-				width: 100%;
-			}
-
 			.card-wrapper {
 				width: 53rem;
 			}
@@ -260,19 +255,6 @@ export default class ExploreResourcesScreen extends Vue {
 			bottom: 0;
 			position: absolute;
 			top: 0;
-		}
-
-		.resource-bento {
-			margin-left: 28rem;
-			padding: 1.5rem;
-			.bento-row {
-				display: flex;
-				flex-direction: row;
-				.bento-col {
-					flex: 1;
-					margin: 0 1rem;
-				}
-			}
 		}
 	}
 

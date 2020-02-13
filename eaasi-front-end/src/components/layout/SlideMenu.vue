@@ -81,8 +81,8 @@ export default class SlideMenu extends Vue {
 		color: #FFFFFF;
 		height: 180px;
 		left: -40px;
-		margin-top: 50px;
 		position: absolute;
+		top: 240px;
 		width: 40px;
 	}
 

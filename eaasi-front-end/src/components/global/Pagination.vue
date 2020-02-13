@@ -176,6 +176,8 @@ export default class Pagination extends Vue {
 <style lang="scss">
 .pagination-wrapper {
 	border-bottom: 4px solid darken($light-neutral, 10%);
+	margin-bottom: 2rem;
+	padding: 0 2rem;
 
 	label {
 		color: lighten($dark-neutral, 30%);

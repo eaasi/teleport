@@ -12,7 +12,6 @@
 					v-if="showConfigureHardware"
 				/>
 			</div>
-			<div class="import-tip-lane"></div>
 		</section>
 	</div>
 </template>
@@ -87,7 +86,4 @@ export default class ImportResourceScreen extends Vue {
 	flex: 1 1 auto;
 }
 
-.import-tip-lane {
-	flex: 0 0 $tipLaneWidth;
-}
 </style>
