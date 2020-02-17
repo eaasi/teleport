@@ -130,6 +130,7 @@ const actions = {
 			};
 
 			let i = 0;
+
 			blobs.forEach(async url => {
 				let file = state.filesToUpload[i];
 				importRequest.files.push({

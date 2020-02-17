@@ -1,9 +1,5 @@
 <template>
 	<div v-if="emulatorItems.length > 0" class="lil-container">
-		<!-- <editable-text-item
-			:item="time"
-			:readonly="readonly"
-		/> -->
 		<editable-text-item
 			:item="emulator"
 			:readonly="readonly"

@@ -6,10 +6,10 @@
 		<div>
 			<div v-for="fmt in nativeFMTs.value" :key="fmt.id" class="flex flex-row justify-between" style="margin-top: 1rem;">
 				<div>{{ fmt }}</div>
-				<i
+				<span
 					class="fas fa-times remove-icon-btn"
 					@click="$emit('remove', fmt)"
-				></i>
+				></span>
 			</div>
 		</div>
 		<text-input
