@@ -215,19 +215,19 @@ const getters = {
 		return state.result && state.result.bookmarks ? state.result.bookmarks : [];
 	},
 
-	environmentIsSelected(state): Boolean {
+	environmentIsSelected(state): boolean {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
 	},
 
-	softwareIsSelected(state): Boolean {
+	softwareIsSelected(state): boolean {
 		return state.selectedResources
 				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
 	},
 
 	onlySelectedResource(state) : IEaasiResource {
 		if (state.selectedResources.length === 1) return state.selectedResources[0];
-		else null;
+		else return null;
 	},
 
 	facetsOfResourceTypesSelected(_, getters): ResourceType[] {
@@ -237,7 +237,7 @@ const getters = {
 		return removeDuplicatesFromFlatArray<ResourceType>(resourceTypes);
 	},
 
-	facetsOfSingleTypeSelected(_, getters): Boolean {
+	facetsOfSingleTypeSelected(_, getters): boolean {
 		return getters.facetsOfResourceTypesSelected.length === 1;
 	},
 

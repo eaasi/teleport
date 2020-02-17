@@ -8,7 +8,7 @@
 			<div id="loginBox">
 				<h3>{{ nodeName }}</h3>
 				<div>
-					<!-- TODO: this should link to shibboleth SP -->
+					<!-- This should link to the identity SP -->
 					<a :href="loginUrl">
 						<ui-button>Login</ui-button>
 					</a>
@@ -108,4 +108,5 @@ export default class LoginScreen extends Vue {
 		padding: 1rem;
 	}
 }
+
 </style>
