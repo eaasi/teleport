@@ -93,9 +93,9 @@
 </template>
 
 <script lang="ts">
-import {archiveTypes} from '@/utils/constants';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import { archiveTypes } from '@/utils/constants';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
@@ -112,7 +112,7 @@ import ModeToggle from '../shared/ModeToggle.vue';
 		AddSoftware,
 		RevisionList,
 		EnvironmentMetadataSection,
-		ModeToggle
+		ModeToggle,
 	}
 })
 export default class EnvironmentDetailsScreen extends Vue {
