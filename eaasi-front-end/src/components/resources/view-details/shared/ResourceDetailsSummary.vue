@@ -1,23 +1,25 @@
 <template>
 	<div class="vds-container">
-		<span v-if="isEnvironment">
-			<tag :text="'Environment'" :icon="'fa-box'" :color="'blue'" />
-		</span>
-		<span v-if="isSoftware">
-			<tag :text="'Software'" :icon="'fa-circle'" :color="'blue'" />
-		</span>
-		<span v-if="isContent">
-			<tag :text="'Content'" :icon="'fa-save'" :color="'blue'" />
-		</span>
-		<span v-if="isPublicArchive">
-			<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'" />
-		</span>
-		<span v-if="isPrivateArchive">
-			<tag :text="'Private'" :icon="'fa-cloud-download-alt'" :color="'green'" />
-		</span>
-		<span v-if="isRemoteArchive">
-			<tag :text="'Remote'" :icon="'fa-map-marker-alt'" :color="'blue'" />
-		</span>
+		<div class="rds-tags">
+			<span v-if="isEnvironment">
+				<tag :text="'Environment'" :icon="'fa-box'" :color="'blue'" />
+			</span>
+			<span v-if="isSoftware">
+				<tag :text="'Software'" :icon="'fa-circle'" :color="'blue'" />
+			</span>
+			<span v-if="isContent">
+				<tag :text="'Content'" :icon="'fa-save'" :color="'blue'" />
+			</span>
+			<span v-if="isPublicArchive">
+				<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'" />
+			</span>
+			<span v-if="isPrivateArchive">
+				<tag :text="'Private'" :icon="'fa-cloud-download-alt'" :color="'green'" />
+			</span>
+			<span v-if="isRemoteArchive">
+				<tag :text="'Remote'" :icon="'fa-map-marker-alt'" :color="'blue'" />
+			</span>
+		</div>
 		<div v-if="readonly" :class="{ 'changed': titleChanged }">
 			<section-heading
 				:title="summaryData.title"
@@ -113,8 +115,14 @@
 </script>
 
 <style lang="scss">
+	.rds-tags {
+		margin: 1rem 0;
+	}
+
 	.vds-container {
+		margin-bottom: 1rem;
 		width: 33vw;
+
 		.eaasi-input {
 			background: transparent;
 		}

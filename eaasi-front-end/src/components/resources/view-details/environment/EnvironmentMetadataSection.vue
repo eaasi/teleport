@@ -6,6 +6,10 @@
 					:summary-data="resource"
 					:readonly="!isEditMode"
 				/>
+				<section-legend
+					v-if="isEditMode"
+					:data="editLegend"
+				/>
 			</div>
 		</div>
 		<div class="row">
@@ -66,6 +70,7 @@
 </template>
 
 <script lang="ts">
+import {ILegend} from '@/types/Legend';
 import Vue from 'vue';
 import { Component, Prop} from 'vue-property-decorator';
 import { IEnvironment, IDrive, IEditableDrive } from '@/types/Resource';
@@ -77,6 +82,7 @@ import ConfigureNetwork from './ConfigureNetwork.vue';
 import ConfigureEmulator from './ConfigureEmulator.vue';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
+import SectionLegend from '@/components/global/LegendElement.vue';
 
 @Component({
     name: 'EnvironmentMetadataSection',
@@ -87,10 +93,18 @@ import ModeToggle from '../shared/ModeToggle.vue';
 		ConfiguredDrives,
 		ConfigureNetwork,
 		ConfigureEmulator,
-		ModeToggle
+		ModeToggle,
+		SectionLegend
     }
 })
 export default class EnvironmentMetadataSection extends Vue {
+
+	/* Data
+    ============================================*/
+	editLegend: ILegend = {
+		color: 'yellow',
+		text: 'Edited Field'
+	}
 
     /* Props
     ============================================*/
