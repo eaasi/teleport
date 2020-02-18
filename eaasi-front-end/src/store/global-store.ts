@@ -20,7 +20,7 @@ class GlobalState {
 	hideLeftMenu: boolean = false;
 	loggedInUser: User = null;
 	loginError: string = null;
-	nodeName: string = 'PortalMedia Inc';
+	nodeName: string = config.NODE_NAME;
 	userToken: string = null;
 	appError: IAppError = null;
 	showDebugErrors: boolean = config.SHOW_DEBUG_ERRORS == 'true';
