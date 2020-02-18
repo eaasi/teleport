@@ -23,6 +23,7 @@ services:
         context: ./eaasi-front-end
     ports:
         - 8080:80
+    restart: on-failure
 
   # Express Web API
   eaasi-web-api:
@@ -37,6 +38,7 @@ services:
     ports:
         - 8081:8081
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"
+    restart: on-failure
 
 
   # PostgresQL Database
@@ -50,6 +52,7 @@ services:
         - 5432:5432
     volumes:
         - eaasi_db:/var/lib/postgresql/data
+    restart: on-failure
 
 volumes:
     # Database Data
