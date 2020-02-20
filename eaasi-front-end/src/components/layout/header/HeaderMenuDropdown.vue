@@ -53,8 +53,11 @@ export default class HeaderMenuDropdown extends Vue {
 	 */
 	async logOut() {
 		await authService.logout();
-		location.assign('/');
 		await this.$store.dispatch('logout');
+		let logoutUrl = process.env.VUE_APP_SAML_LOGOUT_URL;
+		const clientId = process.env.VUE_APP_SAML_CLIENT_ID;
+		const baseUrl = encodeURI(process.env.VUE_APP_BASE_URL);
+		location.assign(`${logoutUrl}?returnTo=${baseUrl}&client_id=${clientId}`);
 	}
 }
 
