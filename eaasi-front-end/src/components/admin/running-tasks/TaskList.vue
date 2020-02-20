@@ -63,9 +63,6 @@ export default class TaskList extends Vue {
 	@Sync('task/taskQueue')
 	taskQueue: EaasiTask[];
 
-	@Get('task/activePollingTask')
-	activePollingTask: EaasiTask;
-
 	@Get('task/orderedTasks')
 	tasks: EaasiTask[];
 
@@ -84,50 +81,12 @@ export default class TaskList extends Vue {
 	/* Data
 	============================================*/
 	collapsed: Boolean = this.initState;
-	timer: number = null;
-	tasksTimer: number = null;
-	success: boolean = false;
-	error: string = null;
 
 	/* Methods
 	============================================*/
-	async initTasks() {
-		await this.$store.dispatch('task/getAllTasks');
-		clearInterval(this.timer);
-		await this.pollActiveTask();
-	}
-
-	async pollActiveTask() {
-		if (!this.activePollingTask) return;
-		this.timer = setInterval(async () => {
-			const task = await this.$store.dispatch('task/getTaskState', this.activePollingTask.taskId);
-			if (!task) clearInterval(this.timer);
-		}, 1000);
-	}
 
 	async removeTask(task: EaasiTask) {
 		await this.$store.dispatch('task/deleteTask', task.id);
-	}
-
-	/*============================================================
-	== Watcher
-	/============================================================*/
-	async mounted() {
-		await this.initTasks();
-	}
-
-	beforeDestroy() {
-		clearInterval(this.timer);
-		clearInterval(this.tasksTimer);
-	}
-
-	@Watch('activePollingTask')
-	async onActiveTaskChange(nextTask: EaasiTask, prevTask: EaasiTask) {
-		if (!nextTask) {
-			clearInterval(this.timer);
-		} else if (!prevTask) {
-			this.pollActiveTask();
-		}
 	}
 
 }
