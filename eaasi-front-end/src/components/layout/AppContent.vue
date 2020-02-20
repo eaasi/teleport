@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component, Watch, Mixins } from 'vue-property-decorator';
 import eventBus from '@/utils/event-bus';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
@@ -26,6 +26,8 @@ import EaasiTask from '@/models/task/EaasiTask';
 import { Get, Sync } from 'vuex-pathify';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import Notifications from './Notifications.vue';
+import { mixins } from 'vue-class-component';
+import TaskManager from '../../mixins/TaskManager';
 
 @Component({
 	name: 'AppContent',
@@ -34,9 +36,10 @@ import Notifications from './Notifications.vue';
 		AdminMenu,
 		SlideMenu,
 		AppFooter
-	}
+	},
+	mixins: [TaskManager]
 })
-export default class AppContent extends Vue {
+export default class AppContent extends Mixins(TaskManager) {
 
 	/* Computed
 	============================================*/

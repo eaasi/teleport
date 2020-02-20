@@ -1,9 +1,6 @@
 <template>
 	<div class="emulator-list">
-		<table class="eaasi-table clickable">
-			<caption>
-				Available Emulators
-			</caption>
+		<table class="eaasi-table clickable" aria-label="Available Emulators">
 			<thead>
 				<tr>
 					<th scope="col"> Name </th>
