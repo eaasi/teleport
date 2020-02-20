@@ -76,8 +76,7 @@ export default class EaasiAuthController extends BaseController {
      * @param res response
      */
 	public async logout(req: Request, res: Response) {
-		res.redirect(SAML_LOGOUT_URL);
-		res.json();
+		res.redirect(301, SAML_LOGOUT_URL);
 	}
 
 	/**
