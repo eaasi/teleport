@@ -43,7 +43,6 @@ export default class EmulatorAdminService extends BaseService {
 		// Get named indexes from Emil
 		let dbList = result.result.result as IEmulator[];
 		let response = await this._emilEnvService.get('getNameIndexes');
-
 		if (response.ok) {
 			let indexes = await response.json() as EmulatorNamedIndexes;
 			return this._createEmulatorViewModels(dbList, indexes);
@@ -89,10 +88,18 @@ export default class EmulatorAdminService extends BaseService {
 	 */
 	private _createEmulatorViewModels(dbList: IEmulator[], indexes: EmulatorNamedIndexes) {
 		let emulators: IEmulatorViewModel[] = [];
-		let aliases = indexes.aliases.entry.map(x => x.value);
+		let aliases = [];
+		if (indexes.aliases && indexes.aliases.entry) {
+			aliases = indexes.aliases.entry.map(x => x.value);
+		}
+
 		dbList.forEach(em => {
 			let latestVersion = this._getLatestVersion(em.name, aliases);
-			let entries = indexes.entries.entry.filter(x => x.key.indexOf(em.name) > -1).map(x => x.value);
+			let entries = [];
+			if (indexes.entries && indexes.entries.entry) {
+				entries = indexes.entries.entry.filter(x => x.key.indexOf(em.name) > -1).map(x => x.value);
+			}
+			
 			emulators.push({
 				id: em.id,
 				name: em.name,
