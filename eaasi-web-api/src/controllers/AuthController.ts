@@ -1,18 +1,18 @@
-import { Request, Response} from 'express';
-import samlConfig from '@/config/saml-config';
-import fetch from 'node-fetch';
-import { Strategy as SamlStrategy } from 'passport-saml';
-import fs from 'fs';
-import path from 'path';
 import { DOMAIN, MAX_AGE } from '@/config/jwt-config';
-import BaseController from './base/BaseController';
-import UserAdminService from '@/services/admin/UserAdminService';
+import samlConfig from '@/config/saml-config';
 import AppLogger from '@/logging/appLogger';
+import UserAdminService from '@/services/admin/UserAdminService';
+import { Request, Response } from 'express';
+import fs from 'fs';
+import { Strategy as SamlStrategy } from 'passport-saml';
+import path from 'path';
+import BaseController from './base/BaseController';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH;
 const CLIENT_URL = process.env.EAASI_CLIENT_URL;
 const SAML_LOGOUT_URL = process.env.SAML_LOGOUT_URL;
+const AUTH_LOGOUT_URL = process.env.AUTH_LOGOUT_URL;
 
 export default class EaasiAuthController extends BaseController {
 
@@ -76,7 +76,8 @@ export default class EaasiAuthController extends BaseController {
      * @param res response
      */
 	public async logout(req: Request, res: Response) {
-		res.redirect(301, SAML_LOGOUT_URL);
+		req.logout();
+		res.send(AUTH_LOGOUT_URL);
 	}
 
 	/**
