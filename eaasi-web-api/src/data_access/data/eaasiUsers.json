@@ -12,47 +12,5 @@
         "lastName": "Doyle",
         "email": "wes@portalmedia.com",
         "roleId": 1
-    },
-    {
-        "username": "casey",
-        "firstName": "Casey",
-        "lastName": "Arendt",
-        "email": "casey@portalmedia.com",
-        "roleId": 1
-    },
-    {
-        "username": "seth",
-        "firstName": "Seth",
-        "lastName": "Anderson",
-        "email": "seth.r.anderson@yale.edu",
-        "roleId": 1
-    },
-    {
-        "username": "oleg",
-        "firstName": "Oleg",
-        "lastName": "Stobbe",
-        "email": "oleg.stobbe@rz.uni-freiburg.de",
-        "roleId": 1
-    },
-    {
-        "username": "klaus",
-        "firstName": "Klaus",
-        "lastName": "Rechert",
-        "email": "klaus.rechert@rz.uni-freiburg.de",
-        "roleId": 1
-    },
-    {
-        "username": "ethan",
-        "firstName": "Ethan",
-        "lastName": "Gates",
-        "email": "ethan.gates@yale.edu",
-        "roleId": 1
-    },
-    {
-        "username": "euan",
-        "firstName": "Euan",
-        "lastName": "Cochrane",
-        "email": "euan.cochrane@yale.edu",
-        "roleId": 1
     }
 ]
