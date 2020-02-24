@@ -51,13 +51,6 @@ export default class EaasiAuthController extends BaseController {
 			domain: DOMAIN
 		});
 
-		let userService = new UserAdminService();
-		let logger = new AppLogger('AuthController');
-
-	    userService.setUserLastLogin(req.user.res.id).then(() => {
-	    	logger.log.info(`User logged in: ${req.user.res.email}`)
-	    });
-
 		res.redirect(CLIENT_URL);
 	}
 

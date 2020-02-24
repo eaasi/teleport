@@ -33,15 +33,13 @@ services:
     depends_on:
         - eaasi-database
     env_file:
-          # do not check into version control
         - ./eaasi-web-api/.env.production
     ports:
         - 8081:8081
     command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"
     restart: on-failure
 
-
-  # PostgresQL Database
+  # PostgreSQL Database
   eaasi-database:
     image: eaasi-database
     build:
