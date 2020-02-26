@@ -9,6 +9,7 @@
 		<div class="arc-actions">
 			<div class="arc-actions-content">
 				<ui-button
+					class="arc-search-button"
 					sub-label="...node or network saved resources"
 					@btnClicked="searchForEnvironment"
 					disabled
@@ -17,6 +18,7 @@
 				</ui-button>
 
 				<ui-button
+					class="arc-open-my-resources-button"
 					sub-label="...imported or bookmarked resources"
 					@btnClicked="openMyResources"
 					disabled

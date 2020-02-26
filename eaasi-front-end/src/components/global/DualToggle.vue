@@ -2,7 +2,7 @@
 	<div class="dt-wrapper flex-row">
 		<div
 			@click="toggle(options[0])"
-			:class="['dt-option', {active: value === options[0]}]"
+			:class="['dt-option', 'dt-opt1', {active: value === options[0]}]"
 		>
 			{{ options[0] }}
 		</div>
@@ -14,7 +14,7 @@
 		</div>
 		<div
 			@click="toggle(options[1])"
-			:class="['dt-option', {active: value === options[1]}]"
+			:class="['dt-option', 'dt-opt2', {active: value === options[1]}]"
 		>
 			{{ options[1] }}
 		</div>

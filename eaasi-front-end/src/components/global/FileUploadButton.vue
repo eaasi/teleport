@@ -84,7 +84,7 @@ export default class FileUploadButton extends Vue {
 	============================================*/
 
 	get inputName() {
-		if(this.limit && this.limit > 1) return 'files[]';
+		if (this.limit && this.limit > 1) return 'files[]';
 		return 'files';
 	}
 

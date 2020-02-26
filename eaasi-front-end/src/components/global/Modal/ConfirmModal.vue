@@ -10,10 +10,10 @@
 			<div class="flex-row justify-end">
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
-						<ui-button @click="cancel" color-preset="light-blue">
+						<ui-button @click="cancel" color-preset="light-blue" class="btn-modal-cancel">
 							{{ cancelLabel }}
 						</ui-button>
-						<ui-button @click="$emit('click:confirm')">
+						<ui-button @click="$emit('click:confirm')" class="btn-modal-confirm">
 							{{ confirmLabel }}
 						</ui-button>
 					</div>

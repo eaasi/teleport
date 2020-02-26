@@ -1,7 +1,7 @@
 <template>
 	<div :class="['collapsable', { open }]">
 		<div class="flex-row justify-between collapse-title" @click="open = !open">
-			<span>{{ activeTitle }}</span>
+			<span class="collapsable-active-title">{{ activeTitle }}</span>
 			<div class="collapse-icon flex flex-center">
 				<span :class="`fas fa-${activeIcon}`"></span>
 			</div>
