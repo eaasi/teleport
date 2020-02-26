@@ -1,3 +1,4 @@
+import {InfoModal} from '@/components/global';
 import {createLocalVue, mount, shallowMount} from '@vue/test-utils';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 
@@ -40,6 +41,11 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 	it('Is not hidden', () => {
 		const wrapper = shallowMount(ErrorModal, { localVue, store, });
 		expect(wrapper.find('.error-modal-container').exists()).toBe(true);
+	});
+
+	it('Wraps InfoModal', () => {
+		const wrapper = mount(ErrorModal, { localVue, store, });
+		expect(wrapper.contains(InfoModal));
 	});
 
 	it('Displays error heading', () => {

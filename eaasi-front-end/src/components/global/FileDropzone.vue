@@ -40,7 +40,7 @@ export default class FileDropzone extends Vue {
 	============================================*/
 
 	get label() {
-		if(this.limit === 1) return 'Drag File Here To Upload';
+		if (this.limit === 1) return 'Drag File Here To Upload';
 		return 'Drag Files Here To Upload';
 	}
 

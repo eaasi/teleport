@@ -65,7 +65,7 @@ export default class BigButton extends Vue {
 	/**
 	 * Alternative size of the modal. Accepts 'sm, small, lg, or large'
 	 */
-	@Prop({type: String, required: false, default: ''})
+	@Prop({type: String, required: false, default: 'sm'})
 	readonly size: string;
 
 	/**
