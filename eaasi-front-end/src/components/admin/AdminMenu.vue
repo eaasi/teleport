@@ -85,7 +85,7 @@ export default class AdminMenu extends Vue {
 	============================================*/
 
 	addUser() {
-		this.$router.push('/admin/user');
+		this.$router.push('/admin/users');
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
 	}
 }

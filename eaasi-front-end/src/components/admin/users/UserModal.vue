@@ -47,13 +47,14 @@
 				<descriptive-radios
 					:options="radioOptions"
 					v-model="user.roleId"
+					match-height
 				/>
 			</div>
-
-			<hr class="delete-hr" />
-
-			<div class="delete-user">
-				<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
+			<div class="delete-section" v-if="!isNew">
+				<hr class="delete-hr" />
+				<div class="delete-user">
+					<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
+				</div>
 			</div>
 		</form-modal>
 

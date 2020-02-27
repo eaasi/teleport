@@ -1,10 +1,10 @@
+import UserModal from '@/components/admin/users/UserModal.vue';
+import { FormModal } from '@/components/global/forms';
+import adminStore from '@/store/admin-store';
+import globalStore from '@/store/global-store';
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import adminStore from '@/store/admin-store';
-import globalStore from '@/store/global-store';
-import {FormModal} from '@/components/global/forms';
-import UserModal from '@/components/admin/users/UserModal.vue';
 import { generateFakeUsers } from '../../generators';
 import { makeAdminStoreState } from '../../store-helpers';
 
@@ -39,4 +39,29 @@ describe('UserModal.vue', () => {
 		});
 		expect(wrapper.find(FormModal).exists()).toBe(true);
 	});
+
+	it('Shows "Delete user" button for existing users', () => {
+		let fakeUser = generateFakeUsers(1)[0];
+		const wrapper = mount(UserModal, {
+			localVue,
+			propsData: {
+				user: fakeUser
+			},
+			store
+		});
+		expect(wrapper.find('.delete-section').exists()).toBe(true);
+	});
+
+	it('Hides "Delete user" button for new users', () => {
+		let fakeUser = generateFakeUsers(1)[0];
+		const wrapper = mount(UserModal, {
+			localVue,
+			propsData: {
+				user: {...fakeUser, id: null }
+			},
+			store
+		});
+		expect(wrapper.find('.delete-section').exists()).toBe(false);
+	});
+
 });

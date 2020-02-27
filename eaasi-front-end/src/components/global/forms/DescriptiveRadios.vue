@@ -2,7 +2,7 @@
 	<div class="descriptive-radios row">
 		<div :class="`col-sm-${colSize}`" v-for="option in options" :key="option.value">
 			<div
-				:class="['descriptive-radio', { checked: isChecked(option.value) }]"
+				:class="['descriptive-radio', { checked: isChecked(option.value), 'match-height': matchHeight }]"
 				@click="$emit('input', option.value)"
 			>
 				<div class="ds-info">
@@ -46,6 +46,12 @@ export default class DescriptiveRadios extends Vue {
 	@Prop({type: Number, required: false})
 	readonly value: number;
 
+	/**
+	 * Option to match height of descriptive radios
+	 */
+	@Prop({ type: Boolean, default: false })
+	readonly matchHeight: boolean;
+
 	/* Computed
 	============================================*/
 
@@ -83,6 +89,13 @@ export default class DescriptiveRadios extends Vue {
 		.ds-footer {
 			background-color: lighten($light-blue, 50%);
 		}
+	}
+
+	&.match-height {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: space-between;
 	}
 
 	h3 {
