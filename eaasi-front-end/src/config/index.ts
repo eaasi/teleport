@@ -11,5 +11,5 @@ export default {
 	SHOW_DEBUG_ERRORS: process.env.VUE_APP_SHOW_DEBUG_ERRORS,
 	ENV: process.env.VUE_APP_ENV,
 	NODE_NAME: process.env.VUE_APP_NODE_NAME,
-	APP_VERSION: '1.7.2',
+	APP_VERSION: '1.7.1',
 };
