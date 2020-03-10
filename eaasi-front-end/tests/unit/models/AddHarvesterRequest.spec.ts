@@ -1,3 +1,4 @@
+import config from '@/config/index';
 import AddHarvesterRequest from '@/models/eaas/oaipmh/AddHarvesterRequest';
 
 describe('AddHarvesterRequest', () => {
@@ -9,7 +10,7 @@ describe('AddHarvesterRequest', () => {
 					url: 'some/endpoint/url/foo'
 				},
 				sink: {
-					base_url: 'http://legacy-test.url/emil/metadata-repositories/remote-foo'
+					base_url: `${config.EAASI_HOST_IP}/metadata-repositories/remote-foo`
 				}
 			},
 			{
@@ -17,7 +18,7 @@ describe('AddHarvesterRequest', () => {
 					url: 'some/endpoint/url/bar'
 				},
 				sink: {
-					base_url: 'http://legacy-test.url/emil/metadata-repositories/remote-bar'
+					base_url: `${config.EAASI_HOST_IP}/metadata-repositories/remote-bar`
 				}
 			}
 		]);
