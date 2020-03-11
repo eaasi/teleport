@@ -81,7 +81,7 @@ export default class LeftMenu extends Vue {
 			menu.push({
 				icon: 'manage',
 				label: 'Manage Node',
-				route: '/admin/users',
+				route: '/admin',
 			});
 		}
 
