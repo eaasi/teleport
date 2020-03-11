@@ -2,7 +2,7 @@
 	<router-link
 		:to="item.route"
 		class="admin-menu-item flex-row"
-		active-class="active"
+		active-class="admin-menu--active"
 		data-test="admin-menu-item"
 	>
 		<div class="admin-menu-icon" @click="() => handleClick()">
