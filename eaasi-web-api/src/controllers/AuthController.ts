@@ -1,7 +1,6 @@
 import { DOMAIN, MAX_AGE } from '@/config/jwt-config';
 import samlConfig from '@/config/saml-config';
 import AppLogger from '@/logging/appLogger';
-import UserAdminService from '@/services/admin/UserAdminService';
 import { Request, Response } from 'express';
 import fs from 'fs';
 import { Strategy as SamlStrategy } from 'passport-saml';
@@ -11,8 +10,8 @@ import BaseController from './base/BaseController';
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH;
 const CLIENT_URL = process.env.EAASI_CLIENT_URL;
-const SAML_LOGOUT_URL = process.env.SAML_LOGOUT_URL;
 const AUTH_LOGOUT_URL = process.env.AUTH_LOGOUT_URL;
+const JWT_NAME = process.env.JWT_NAME;
 
 export default class EaasiAuthController extends BaseController {
 
@@ -46,7 +45,7 @@ export default class EaasiAuthController extends BaseController {
 
 		expires.setSeconds(expires.getSeconds() + MAX_AGE);
 
-		res.cookie('EAASI_TOKEN', req.user.token, {
+		res.cookie(JWT_NAME, req.user.token, {
 			expires,
 			domain: DOMAIN
 		});
@@ -70,7 +69,9 @@ export default class EaasiAuthController extends BaseController {
      */
 	public async logout(req: Request, res: Response) {
 		req.logout();
-		res.send(AUTH_LOGOUT_URL);
+		res.clearCookie(JWT_NAME);
+		// TODO: Figure out if logout from the eaasi ui should log out from SAML Service Provider
+		res.json({ redirect: true, redirectTo: AUTH_LOGOUT_URL });
 	}
 
 	/**
