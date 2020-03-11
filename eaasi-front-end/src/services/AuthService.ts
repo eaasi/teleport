@@ -9,8 +9,10 @@ class AuthService extends BaseHttpService {
 		return res.result;
 	}
 
-	async logout(): Promise<void> {
-		await this.delete('/auth/logout');
+	async logout(): Promise<any> {
+		let res = await this.delete('/auth/logout');
+		if (!res || !res.ok) return null;
+		return res.result;
 	}
 }
 

@@ -47,7 +47,8 @@ export default class EaasiAuthController extends BaseController {
 
 		res.cookie(JWT_NAME, req.user.token, {
 			expires,
-			domain: DOMAIN
+			domain: DOMAIN,
+			path: '/'
 		});
 
 		res.redirect(CLIENT_URL);
@@ -67,9 +68,12 @@ export default class EaasiAuthController extends BaseController {
      * @param req request
      * @param res response
      */
-	public async logout(req: Request, res: Response) {
+	logout(req: Request, res: Response) {
 		req.logout();
-		res.clearCookie(JWT_NAME);
+		res.clearCookie(JWT_NAME, {
+			domain: DOMAIN,
+			path: '/'
+		});
 		// TODO: Figure out if logout from the eaasi ui should log out from SAML Service Provider
 		res.json({ redirect: true, redirectTo: AUTH_LOGOUT_URL });
 	}

@@ -60,10 +60,10 @@ const actions = {
 	============================================*/
 
 	async logout(): Promise<void> {
-		await _authService.logout();
-		Cookies.remove(config.JWT_NAME, { path: ''});
-		location.reload();
-	},
+		const { redirectTo } = await _authService.logout();
+	  	Cookies.remove(config.JWT_NAME, { path: ''});
+	  	window.location.assign(redirectTo);
+  	},
 
 	async initSession({ commit, state }): Promise<boolean> {
 		if (state.loggedInUser) return true;
