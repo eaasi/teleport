@@ -3,8 +3,7 @@ import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
-import {IEaasPermissions} from '@/types/Resource';
-import {IEaasiUser} from 'eaasi-admin';
+import { IEaasiUser } from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import { make } from 'vuex-pathify';
 
@@ -60,11 +59,13 @@ const actions = {
 	/* Auth
 	============================================*/
 
-	async logout() {
-		Cookies.remove(config.JWT_NAME);
+	async logout(): Promise<void> {
+		await _authService.logout();
+		Cookies.remove(config.JWT_NAME, { path: ''});
+		location.reload();
 	},
 
-	async initSession({commit, state}) {
+	async initSession({ commit, state }): Promise<boolean> {
 		if (state.loggedInUser) return true;
 		let token = Cookies.get(config.JWT_NAME);
 		if (!token) return false;
