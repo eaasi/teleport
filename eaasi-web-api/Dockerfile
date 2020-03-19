@@ -2,6 +2,7 @@ FROM node:10.16-alpine
 WORKDIR /app
 COPY .babelrc ./
 COPY . ./
+RUN npm config set unsafe-perm true
 RUN npm install -g babel-cli
 RUN npm install -g apidoc
 RUN npm install npx sequelize sequelize-cli sequelize-auto-migrations pg
