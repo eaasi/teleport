@@ -10,7 +10,7 @@ describe('AddHarvesterRequest', () => {
 					url: 'some/endpoint/url/foo'
 				},
 				sink: {
-					base_url: `${config.EAASI_HOST_IP}/metadata-repositories/remote-foo`
+					base_url: `${config.EMIL_SERVICE_ENDPOINT}/metadata-repositories/remote-foo`
 				}
 			},
 			{
@@ -18,7 +18,7 @@ describe('AddHarvesterRequest', () => {
 					url: 'some/endpoint/url/bar'
 				},
 				sink: {
-					base_url: `${config.EAASI_HOST_IP}/metadata-repositories/remote-bar`
+					base_url: `${config.EMIL_SERVICE_ENDPOINT}/metadata-repositories/remote-bar`
 				}
 			}
 		]);

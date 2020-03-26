@@ -1,10 +1,8 @@
+import config from '@/config';
 import EaasiTask from '@/models/task/EaasiTask';
-import { IEmilUploadResponse} from '@/types/Eaas';
-import {
-	ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImportObjectRequest,
-	IResourceImport, IResourceImportFile
-} from '@/types/Import';
-import {ISoftwareObject} from '@/types/Resource';
+import { IEmilUploadResponse } from '@/types/Eaas';
+import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImportObjectRequest, IResourceImport, IResourceImportFile } from '@/types/Import';
+import { ISoftwareObject } from '@/types/Resource';
 import BaseHttpService from './BaseHttpService';
 
 
@@ -54,7 +52,7 @@ class ImportService extends BaseHttpService {
 			formData.set('uploadId', (file.sortIndex - 1).toString());
 		});
 
-		let eaasiHost = process.env.VUE_APP_EAASI_HOST;
+		let eaasiHost = config.EMIL_SERVICE_ENDPOINT;
 		let uploadUrl = `${eaasiHost}/upload`;
 		const res = await this.postUpload<IEmilUploadResponse>(uploadUrl, formData);
 

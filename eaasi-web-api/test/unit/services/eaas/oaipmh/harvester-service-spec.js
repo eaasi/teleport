@@ -13,21 +13,21 @@ describe('OAIPMH Harvester Service', () => {
 		let httpService = new MockHttpService();
 		let sut = new HarvesterService(httpService);
 		sut.getHarvesters();
-		expect(httpService.getUrl).toEqual(expect.stringContaining('oaipmh/harvesters'));
+		expect(httpService.getUrl).toEqual(expect.stringContaining('harvesters'));
 	});
 
 	it('when addHarvester is called invokes `post` using the IHttpService implementation to query the expected URL', async () => {
 		let httpService = new MockHttpService();
 		let sut = new HarvesterService(httpService);
 		sut.addHarvester();
-		expect(httpService.postUrl).toEqual(expect.stringContaining('oaipmh/harvesters'));
+		expect(httpService.postUrl).toEqual(expect.stringContaining('harvesters'));
 	});
 
 	it('when syncHarvester is called invokes `post` using the IHttpService implementation to query the expected URL', async () => {
 		let httpService = new MockHttpService();
 		let sut = new HarvesterService(httpService);
 		sut.syncHarvester('some_location');
-		expect(httpService.postUrl).toEqual(expect.stringContaining('oaipmh/harvesters/some_location'));
+		expect(httpService.postUrl).toEqual(expect.stringContaining('harvesters/some_location'));
 	});
 
 	it('when syncHarvester is called invokes `post` using the IHttpService implementation exactly once', async () => {
@@ -41,7 +41,7 @@ describe('OAIPMH Harvester Service', () => {
 		let httpService = new MockHttpService();
 		let sut = new HarvesterService(httpService);
 		sut.deleteHarvester('some_location');
-		expect(httpService.deleteUrl).toEqual(expect.stringContaining('oaipmh/harvesters/some_location'));
+		expect(httpService.deleteUrl).toEqual(expect.stringContaining('harvesters/some_location'));
 	});
 
 	it('when deleteHarvester is called invokes `delete` using the IHttpService implementation exactly once', async () => {
