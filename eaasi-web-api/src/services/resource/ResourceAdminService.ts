@@ -12,7 +12,7 @@ import HttpJSONService from '../base/HttpJSONService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 
-const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL;
+const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
 export default class ResourceAdminService extends BaseService {
 
@@ -166,7 +166,7 @@ export default class ResourceAdminService extends BaseService {
 		};
 
 		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${BASE_URL}/emil/components/${newEnvRequest.componentId}/snapshot`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/components/${newEnvRequest.componentId}/snapshot`;
 		let res = await httpSvc.post(url, snapshotRequest);
 		return await res.json();
 	}
@@ -187,7 +187,7 @@ export default class ResourceAdminService extends BaseService {
 		};
 
 		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${BASE_URL}/emil/components/${newEnvRequest.componentId}/snapshot`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/components/${newEnvRequest.componentId}/snapshot`;
 
 		let res = await httpSvc.post(url, snapshotRequest);
 
@@ -248,7 +248,7 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async getSoftwareMetadata(archiveId: string, objectId: string) {
 		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${BASE_URL}/emil/objects/${archiveId}/${objectId}`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/objects/${archiveId}/${objectId}`;
 		let res = await httpSvc.get(url);
 		return await res.json();
 	}
@@ -319,7 +319,7 @@ export default class ResourceAdminService extends BaseService {
 	 * }
 	 */
 	async deleteContent(contentRequest: IContentRequest) {
-		let url = `${BASE_URL}/emil/objects/${contentRequest.archiveName}/${contentRequest.contentId}`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/objects/${contentRequest.archiveName}/${contentRequest.contentId}`;
 		let httpSvc: IHttpService = new HttpJSONService();
 		await httpSvc.delete(url);
 	}
@@ -370,7 +370,7 @@ export default class ResourceAdminService extends BaseService {
 		};
 
 		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${BASE_URL}/emil/components/${revisionEnvRequest.componentId}/snapshot`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/components/${revisionEnvRequest.componentId}/snapshot`;
 		let res = await httpSvc.post(url, snapshotRequest);
 		return await res.json();
 	}

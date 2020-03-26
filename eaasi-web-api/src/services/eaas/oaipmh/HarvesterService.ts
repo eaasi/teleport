@@ -1,8 +1,8 @@
-import HttpJSONService from '../../base/HttpJSONService';
 import { HarvesterReq, HarvesterSyncResult } from '@/types/oaipmh/Harvester';
+import HttpJSONService from '../../base/HttpJSONService';
 
-const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/oaipmh';
-// https://presemu02.library.yale.edu/oaipmh/providers
+const OAI_PMH_SERVICE_ENDPOINT = process.env.OAI_PMH_SERVICE_ENDPOINT;
+
 export default class HarvesterService {
 
 	private readonly _svc: HttpJSONService;
@@ -50,7 +50,7 @@ export default class HarvesterService {
 	}
 
 	private _createUrl(methodName: string): string {
-		return `${BASE_URL}/${methodName}`;
+		return `${OAI_PMH_SERVICE_ENDPOINT}/${methodName}`;
 	}
 
 }

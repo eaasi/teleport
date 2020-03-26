@@ -2,7 +2,7 @@ import HttpJSONService from '@/services/base/HttpJSONService';
 import IHttpService from '@/services/interfaces/IHttpService';
 import { IObjectClassificationRequest, TaskState } from '@/types/emil/Emil';
 
-const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/emil';
+const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
 export default class EmilContainerService {
 
@@ -20,7 +20,7 @@ export default class EmilContainerService {
 		if (isNaN(Number(taskId))) {
 			throw `taskId must be a string or number. Received ${taskId}`;
 		}
-		let response = await this._svc.get(`${BASE_URL}/tasks/${taskId}`);
+		let response = await this._svc.get(`${EMIL_SERVICE_ENDPOINT}/tasks/${taskId}`);
 		return await response.json() as TaskState;
 	}
 
@@ -28,7 +28,7 @@ export default class EmilContainerService {
 		if (isNaN(Number(taskId))) {
 			throw `taskId must be a string or number. Received ${taskId}`;
 		}
-		await this._svc.delete(`${BASE_URL}/tasks/${taskId}`)
+		await this._svc.delete(`${EMIL_SERVICE_ENDPOINT}/tasks/${taskId}`)
 	}
 
 	/**
@@ -42,7 +42,7 @@ export default class EmilContainerService {
 	 */
 	async classify(classifyRequest: IObjectClassificationRequest) {
 		if(!classifyRequest) throw 'Did not receive Classification Request.';
-		let response = await this._svc.post(`${BASE_URL}/classification`, classifyRequest);
+		let response = await this._svc.post(`${EMIL_SERVICE_ENDPOINT}/classification`, classifyRequest);
 		return await response.json();
 	}
 	

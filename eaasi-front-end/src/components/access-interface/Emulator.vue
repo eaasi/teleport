@@ -125,8 +125,8 @@ import { generateId } from '@/utils/functions';
 				let EaasClient = (window as any).EaasClient || null;
 				if (!EaasClient) return;
 				if (!vm.client) {
-					await fetch(config.EAASI_HOST + '/EmilEnvironmentData/init');
-					vm.client = new EaasClient.Client(config.EAASI_HOST, container);
+					await fetch(config.EMIL_SERVICE_ENDPOINT + '/EmilEnvironmentData/init');
+					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, container);
 				}
 				if (!vm.bwfla) {
 					vm.bwfla = (window as any).BWFLA as IbwflaController;

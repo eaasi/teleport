@@ -1,7 +1,7 @@
 import HttpJSONService from '../../base/HttpJSONService';
 import IHttpService from '../../interfaces/IHttpService';
 
-const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL + '/emil';
+const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
 export default class EmilBaseService implements IHttpService {
 
@@ -31,7 +31,7 @@ export default class EmilBaseService implements IHttpService {
 	}
 
 	private _createUrl(methodName: string): string {
-		return `${BASE_URL}/${this._path}/${methodName}`
+		return `${EMIL_SERVICE_ENDPOINT}/${this._path}/${methodName}`
 	}
 
 	postUpload(url: string, data: any, options?: any): Promise<any> {

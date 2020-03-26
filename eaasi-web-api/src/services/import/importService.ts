@@ -1,11 +1,10 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import IHttpService from '@/services/interfaces/IHttpService';
-import {ICreateEnvironmentPayload, IImportObjectRequest, IUploadRequest} from '@/types/emil/Emil';
-import {Request} from 'express';
+import { ICreateEnvironmentPayload, IImportObjectRequest, IUploadRequest } from '@/types/emil/Emil';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 
-const BASE_URL = process.env.EAAS_JAVA_SERVICE_URL;
+const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
 /**
  * Handles resource import processes
@@ -37,7 +36,7 @@ export default class ImportService extends BaseService {
 	 * @param body
 	 */
 	async postComponents(body: any) {
-		let url = `${BASE_URL}/emil/components`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/components`;
 		let res = await this._httpService.post(url, body);
 		return await res.json();
 	}
@@ -59,7 +58,7 @@ export default class ImportService extends BaseService {
 			userId: null
 		};
 
-		let url = `${BASE_URL}/emil/components/${componentId}/snapshot`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/components/${componentId}/snapshot`;
 		let res = await this._httpService.post(url, snapshot);
 		return await res.json();
 	}
@@ -69,7 +68,7 @@ export default class ImportService extends BaseService {
 	 * @param payload
 	 */
 	async createEnvironment(payload: ICreateEnvironmentPayload) {
-		let url = `${BASE_URL}/emil/EmilEnvironmentData/createEnvironment`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/EmilEnvironmentData/createEnvironment`;
 		let res = await this._httpService.post(url, payload);
 		let response = await res.json();
 		return response;
@@ -80,7 +79,7 @@ export default class ImportService extends BaseService {
 	 * @param req : Request with req.body
 	 */
 	async importResourceFromFile(req: IImportObjectRequest) {
-		let url = `${BASE_URL}/emil/objects/import`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/objects/import`;
 		let res = await this._httpService.post(url, req);
 		return await res.json();
 	}
@@ -90,7 +89,7 @@ export default class ImportService extends BaseService {
 	 * @param req : Request with req.files
 	 */
 	async uploadFiles(req: IUploadRequest) {
-		let url = `${BASE_URL}/emil/upload`;
+		let url = `${EMIL_SERVICE_ENDPOINT}/upload`;
 		let responses = [];
 		req.files.forEach(async file => {
 			let res = await this._httpService.postUpload(url, file);

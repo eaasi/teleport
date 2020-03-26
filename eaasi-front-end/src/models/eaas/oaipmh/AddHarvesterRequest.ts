@@ -6,9 +6,10 @@ export default class AddHarvesterRequest implements IAddHarvesterRequest {
 	streams: IHarvesterStream[] = [];
 
 	constructor(name: string, endpointUrl: string, syncTypes: string []) {
+		console.log(config);
 		// TODO: Change syncUrl to use EAAS_HOST instead of EAAS_HOST_IP
 		// This breaks because of current networking issue
-		let syncUrl = `${config.EAASI_HOST_IP}/metadata-repositories`;
+		let syncUrl = `${config.EMIL_SERVICE_ENDPOINT}/metadata-repositories`;
 		this.name = name;
 		syncTypes.forEach(type => {
 			this.streams.push({

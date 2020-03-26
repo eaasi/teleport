@@ -23,7 +23,7 @@ describe('Emil Environment Service', () => {
 		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		sut.getEnvironmentTaskState(-900_900);
-		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilEnvironmentData/taskState?taskId=-900900'));
+		expect(httpService.getUrl).toEqual(expect.stringContaining('EmilEnvironmentData/taskState?taskId=-900900'));
 	});
 
 	it('when getEnvironmentTaskState is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
@@ -37,7 +37,7 @@ describe('Emil Environment Service', () => {
 		let httpService = new MockHttpService();
 		let sut = new EmilEnvironmentService(httpService);
 		sut.getNameIndexes();
-		expect(httpService.getUrl).toEqual(expect.stringContaining('emil/EmilEnvironmentData/getNameIndexes'));
+		expect(httpService.getUrl).toEqual(expect.stringContaining('EmilEnvironmentData/getNameIndexes'));
 	});
 
 	it('when getNameIndexes is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
