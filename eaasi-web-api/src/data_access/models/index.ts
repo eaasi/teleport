@@ -23,6 +23,7 @@ import { StorageDevice, StorageDeviceHasDriverSoftware, StorageDeviceHasMachineI
 import { SystemRequirements, SystemRequirementsRequiresAudioDevice, SystemRequirementsRequiresGpuDevice, SystemRequirementsRequiresKeyboardDevice, SystemRequirementsRequiresNetworkDevice, SystemRequirementsRequiresOsVersion, SystemRequirementsRequiresPointerDeviceType, SystemRequirementsRequiresProcessor, SystemRequirementsRequiresSoftwareVersion, SystemRequirementsRequiresStorageDeviceType } from '@/data_access/models/system';
 import { Timezone, TimezoneLabel } from '@/data_access/models/timezone';
 import { Sequelize } from 'sequelize-typescript';
+import { EaasiUserHash } from './app/EaasiUserHash';
 
 export const sequelize = new Sequelize({
 	host: config.host,
@@ -37,6 +38,7 @@ export const sequelize = new Sequelize({
 		EaasiTask,
 		EaasiRole,
 		EaasiUser,
+		EaasiUserHash,
 		Emulator,
 		ImportedSoftwareResource,
 

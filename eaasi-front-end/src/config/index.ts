@@ -11,5 +11,6 @@ export default {
 	SHOW_DEBUG_ERRORS: process.env.VUE_APP_SHOW_DEBUG_ERRORS,
 	ENV: process.env.VUE_APP_ENV,
 	NODE_NAME: process.env.VUE_APP_NODE_NAME,
+	SAML_ENABLED: process.env.VUE_APP_SAML_ENABLED == 'true',
 	APP_VERSION: '1.7.2',
 };

@@ -17,6 +17,15 @@ const jwtAuth = passport.authenticate('jwt', {session: false});
 router.get('/login', samlAuth, controller.login);
 
 /**
+ * @api {get} auth/login Log In
+ * @apiVersion 1.0.0
+ * @apiGroup Auth
+ * @apiPermission Any
+ * @apiDescription Used to Log In a User.
+ */
+router.post('/authenticate', (req, res) => controller.authenticate(req, res));
+
+/**
  * @api {post}  auth/callback SAML Callback Endpoint
  * @apiVersion 1.0.0
  * @apiGroup Auth
@@ -54,7 +63,7 @@ router.post('/callback', samlAuth, controller.callback);
  *    "exp":1571496422
  *    }
  */
-router.get('/user', jwtAuth, controller.user);
+router.get('/user', jwtAuth, (req, res) => controller.user(req, res));
 
 /**
  * @api {delete} auth/logout Log a User out

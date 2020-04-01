@@ -5,12 +5,5 @@
         "lastName": "Kost",
         "email": "andrii@portalmedia.com",
         "roleId": 1
-    },
-    {
-        "username": "wesdoyle",
-        "firstName": "Wes",
-        "lastName": "Doyle",
-        "email": "wes@portalmedia.com",
-        "roleId": 1
     }
 ]
