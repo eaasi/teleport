@@ -3,7 +3,7 @@ import Mail from 'nodemailer/lib/mailer';
 import BaseService from '../base/BaseService';
 
 const MAILER_PORT: number = Number(process.env.MAILER_PORT) || 587;
-const HOST_DOMAIN = process.env.HOST_DOMAIN;
+const MAILER_SENDER = process.env.MAILER_SENDER;
 const MAILER_HOST = process.env.MAILER_HOST;
 const MAILER_USER = process.env.MAILER_USER;
 const MAILER_PASSWORD = process.env.MAILER_PASSWORD;
@@ -66,7 +66,7 @@ export default class MailerService extends BaseService {
 
 	private emailTemplate(to, subject, text) {
 		return {
-			from: `EaaSi <noreply@${HOST_DOMAIN}>`,
+			from: `EaaSi <noreply@${MAILER_SENDER}>`,
 			to,
 			subject,
 			text
