@@ -1,5 +1,5 @@
-import express from 'express';
 import AdminController from '@/controllers/AdminController';
+import express from 'express';
 
 const router = express.Router();
 const controller = new AdminController();
@@ -45,6 +45,15 @@ router.post('/users/save', (req, res) => controller.saveUser(req, res));
  * @apiDescription Deletes a User
  */
 router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
+
+/**
+ * @api {post} admin/users/delete  Reset User PAssword
+ * @apiVersion 1.0.0
+ * @apiGroup Users
+ * @apiPermission System Administrator only
+ * @apiDescription Reset User Password
+ */
+router.post('/users/reset-password', (req, res) => controller.resetUserPassword(req, res));
 
 /* Emulators
 ============================================*/

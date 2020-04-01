@@ -1,10 +1,18 @@
 import { DOMAIN, MAX_AGE } from '@/config/jwt-config';
 import samlConfig from '@/config/saml-config';
+import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
+import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
 import AppLogger from '@/logging/appLogger';
+import AuthService from '@/services/auth/AuthService';
+import UserHashService from '@/services/auth/UserHashService';
+import UserService from '@/services/user/UserService';
+import { ILoginRequest } from '@/types/auth/Auth';
 import { Request, Response } from 'express';
 import fs from 'fs';
+import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import path from 'path';
+import { SECRET } from '../config/jwt-config';
 import BaseController from './base/BaseController';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH;
@@ -12,14 +20,23 @@ const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH;
 const CLIENT_URL = process.env.EAASI_CLIENT_URL;
 const AUTH_LOGOUT_URL = process.env.AUTH_LOGOUT_URL;
 const JWT_NAME = process.env.JWT_NAME;
+const SAML_ENABLED = process.env.SAML_ENABLED == 'true';
 
 export default class EaasiAuthController extends BaseController {
 
 	readonly _logger: AppLogger;
+	private readonly _userService: UserService;
+	private readonly _authService: AuthService;
+	private readonly _userHashService: UserHashService;
 
 	constructor() {
 		super();
 		this._logger = new AppLogger(this.constructor.name);
+		this._userService = new UserService();
+		if (!SAML_ENABLED) {
+			this._authService = new AuthService();
+			this._userHashService = new UserHashService();
+		}
 	}
 
 	/**
@@ -31,6 +48,44 @@ export default class EaasiAuthController extends BaseController {
 		// This should get redirected by passport-saml middleware,
 		// if not, fallback to the client root
 		res.redirect(CLIENT_URL);
+	}
+
+	async authenticate(req: Request, res: Response) {
+		if (SAML_ENABLED) {
+			res.status(500);
+			res.send('invalid endpoint');
+		}
+		try {
+			const { email, password }: ILoginRequest = req.body;
+			const user = await this._userService.getUserByEmail(email);
+			const plainUser = user.get({ plain: true }) as IEaasiUser;
+			if (user == null) {
+				res.json({ success: false, error: 'Invalid credentials' });
+			}
+			const userHash = await this._userHashService.getUserHash(plainUser.id)
+			const plainUserHash = userHash.get({ plain: true }) as IEaasiUserHash;
+			if (plainUserHash == null) {
+				res.json({ success: false, error: 'Invalid credentials' });
+			}
+			// check the hash
+			const isPasswordValid = this._authService.verifyUserHash(password, plainUserHash.hash);
+			if (!isPasswordValid) {
+				res.json({ success: false, error: 'Invalid credentials' })
+			}
+			let expires = new Date();
+			expires.setSeconds(expires.getSeconds() + MAX_AGE);
+			jwt.sign(plainUser, SECRET as JwtSecret, { expiresIn: MAX_AGE }, (err, token) => {
+				if(err) { console.log(err) }    
+				res.cookie(JWT_NAME, token, {
+					expires,
+					domain: DOMAIN,
+					path: '/'
+				});
+				res.json({ success: true, token });
+			});
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
 	}
 
 	/**
@@ -59,8 +114,18 @@ export default class EaasiAuthController extends BaseController {
      * @param req request
      * @param res response
      */
-	user(req: Request, res: Response) {
-		res.json(req.user);
+	async user(req: Request, res: Response) {
+		try {
+			const userId: number = req.user.id;
+			const userFromDb = await this._userService.getUser(userId);
+			if (userFromDb != null) {
+				res.json(req.user);
+			}
+			res.status(401);
+			res.send(null);
+		} catch(e) {
+			this.sendClientError(e, res);
+		}
 	}
 
 	/**
@@ -74,8 +139,12 @@ export default class EaasiAuthController extends BaseController {
 			domain: DOMAIN,
 			path: '/'
 		});
-		// TODO: Figure out if logout from the eaasi ui should log out from SAML Service Provider
-		res.json({ redirect: true, redirectTo: AUTH_LOGOUT_URL });
+		if (SAML_ENABLED) {
+			// TODO: Figure out if logout from the eaasi ui should log out from SAML Service Provider
+			res.json({ redirect: true, redirectTo: AUTH_LOGOUT_URL });
+		} else {
+			res.send(true);
+		}
 	}
 
 	/**

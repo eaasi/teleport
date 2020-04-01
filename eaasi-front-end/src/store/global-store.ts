@@ -3,6 +3,7 @@ import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
+import { ILoginRequest } from '@/types/Auth';
 import { IEaasiUser } from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import { make } from 'vuex-pathify';
@@ -60,9 +61,15 @@ const actions = {
 	============================================*/
 
 	async logout(): Promise<void> {
-		const { redirectTo } = await _authService.logout();
-	  	Cookies.remove(config.JWT_NAME, { path: ''});
-	  	window.location.assign(redirectTo);
+		if (config.SAML_ENABLED) {
+			const { redirectTo } = await _authService.logout();
+			Cookies.remove(config.JWT_NAME, { path: '/'});
+			window.location.assign(redirectTo);
+		} else {
+			await _authService.logout();
+			Cookies.remove(config.JWT_NAME, { path: '/'});
+			window.location.reload();
+		}
   	},
 
 	async initSession({ commit, state }): Promise<boolean> {
@@ -74,6 +81,13 @@ const actions = {
 		commit('SET_LOGGED_IN_USER', new User(user));
 		return true;
 	},
+
+	async login({ dispatch }, loginRequest: ILoginRequest): Promise<boolean> {
+		const success = await _authService.login(loginRequest);
+		if (success) dispatch('initSession');
+		return success;
+	},
+
 };
 
 /*============================================================

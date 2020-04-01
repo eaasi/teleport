@@ -49,7 +49,7 @@ describe('UserModal.vue', () => {
 			},
 			store
 		});
-		expect(wrapper.find('.delete-section').exists()).toBe(true);
+		expect(wrapper.find('.bottom-btn-wrapper').exists()).toBe(true);
 	});
 
 	it('Hides "Delete user" button for new users', () => {
@@ -61,7 +61,7 @@ describe('UserModal.vue', () => {
 			},
 			store
 		});
-		expect(wrapper.find('.delete-section').exists()).toBe(false);
+		expect(wrapper.find('.bottom-btn-wrapper').exists()).toBe(false);
 	});
 
 });

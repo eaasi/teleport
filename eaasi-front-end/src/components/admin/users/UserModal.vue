@@ -50,10 +50,18 @@
 					match-height
 				/>
 			</div>
-			<div class="delete-section" v-if="!isNew">
-				<hr class="delete-hr" />
-				<div class="delete-user">
+			<div class="bottom-btn-wrapper" v-if="!isNew">
+				<hr class="btn-wrapper-hr" />
+				<div class="btn-wrapper">
 					<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
+					<ui-button 
+						v-if="showResetPassword" 
+						@click="isResetPasswordModalVisible = true" 
+						color-preset="light-blue" 
+						style="margin-left: 2rem;"
+					>
+						Reset Password
+					</ui-button>
 				</div>
 			</div>
 		</form-modal>
@@ -76,6 +84,25 @@
 				</div>
 			</alert-card>
 		</confirm-modal>
+
+		<confirm-modal
+			cancel-label="Cancel"
+			confirm-label="Reset Password"
+			:title="`Reset Password for User: ${user.username} - ${user.email}`"
+			v-if="isResetPasswordModalVisible"
+			@close="isResetPasswordModalVisible = false"
+			@click:confirm="resetPassword"
+		>
+			<alert-card type="warning" v-if="user">
+				<div class="delete-message">
+					You are about to reset a password for user <span class="user-to-reset">{{ user.username }} - {{ user.email }}</span>.
+				</div>
+				<div class="delete-message">
+					This will reset the current user password and send a new password to the user's email. 
+					This action cannot be undone.
+				</div>
+			</alert-card>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -89,6 +116,10 @@ import FormModal from '@/components/global/forms/FormModal.vue';
 import DescriptiveRadios from '@/components/global/forms/DescriptiveRadios.vue';
 import TextInput from '@/components/global/forms/TextInput.vue';
 import Modal from '@/components/global/Modal/Modal.vue';
+import { userRoles } from '../../../utils/constants';
+import config from '../../../config';
+import { generateNotificationError, generateCompletedTaskNotification, generateCompletedNotificationWithMessage } from '../../../helpers/NotificationHelper';
+import eventBus from '../../../utils/event-bus';
 
 @Component({
 	name: 'UserModal',
@@ -103,6 +134,7 @@ export default class UserModal extends Vue {
 	/* Data
 	============================================*/
 	isDeleteModalVisible: boolean = false;
+	isResetPasswordModalVisible: boolean = false;
 
 	/* Props
 	============================================*/
@@ -122,6 +154,14 @@ export default class UserModal extends Vue {
 
 	get modalTitle() {
 		return this.isNew ? 'Create New User' : 'Edit User';
+	}
+
+	get showResetPassword(): boolean {
+		return this.isAdmin && !config.SAML_ENABLED;
+	}
+
+	get isAdmin(): boolean {
+		return this.user.roleId === userRoles.ADMIN;
 	}
 
 	get radioOptions(): IRadioOption[] {
@@ -159,6 +199,17 @@ export default class UserModal extends Vue {
 		this.isDeleteModalVisible = false;
 		this.$emit('close');
 	}
+
+	async resetPassword() {
+		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
+		this.isResetPasswordModalVisible = false;
+		const notification = success 
+			? generateCompletedNotificationWithMessage(`You successfully reset a password for ${this.user.username}.`)
+			: generateNotificationError('Something went wrong, please try again.');
+		eventBus.$emit('notification:show', notification);
+		this.$emit('close');
+	}
+
 }
 
 </script>
@@ -180,8 +231,11 @@ export default class UserModal extends Vue {
 		margin-bottom: 3rem;
 	}
 
-	.delete-user {
-		margin: 3rem 0;
+	.bottom-btn-wrapper {
+
+		.btn-wrapper {
+			margin: 3rem 0;
+		}
 	}
 }
 </style>

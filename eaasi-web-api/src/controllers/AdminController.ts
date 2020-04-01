@@ -1,23 +1,38 @@
-import { Request, Response } from 'express';
-import BaseController from './base/BaseController';
+import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
+import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
 import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
+import AuthService from '@/services/auth/AuthService';
+import UserHashService from '@/services/auth/UserHashService';
 import HarvesterService from '@/services/eaas/oaipmh/HarvesterService';
+import MailerService, { IMailPayload, MailerAction } from '@/services/mailer/MailerService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 import { HarvesterReq } from '@/types/oaipmh/Harvester';
+import { Request, Response } from 'express';
+import BaseController from './base/BaseController';
+
+const SAML_ENABLED = process.env.SAML_ENABLED == 'true';
 
 export default class AdminController extends BaseController {
 
 	readonly _userSvc: UserAdminService;
 	readonly _emulatorAdminSvc: EmulatorAdminService;
 	readonly _harvesterSvc: HarvesterService;
+	readonly _userHashService: UserHashService;
+	readonly _authService: AuthService;
+	readonly _mailerService: MailerService;
 
 	constructor() {
 		super();
 		this._userSvc = new UserAdminService();
 		this._emulatorAdminSvc = new EmulatorAdminService();
 		this._harvesterSvc = new HarvesterService();
+		if (!SAML_ENABLED) {
+			this._userHashService = new UserHashService();
+			this._authService = new AuthService();
+			this._mailerService = new MailerService();
+		}
 	}
 
 	/*============================================================
@@ -64,8 +79,21 @@ export default class AdminController extends BaseController {
 	async saveUser(req: Request, res: Response) {
 		try {
 			let user = req.body;
-			let success = await this._userSvc.saveUser(user.id, user);
-			res.send(success);
+			let savedUser = await this._userSvc.saveUser(user.id, user);
+			let plainUser = savedUser.get({ plain: true }) as IEaasiUser;
+			if (!SAML_ENABLED) {
+				const password = this.generatePassword();
+				const hash = this._authService.createUserHash(password);
+				const userHash = await this._userHashService.saveUserHash({ userId: plainUser.id, hash });
+				const mailPayload: IMailPayload = { password, receiver: plainUser.email };
+				const mailResponse =  await this._mailerService.sendMail(MailerAction.NewAccountRegister, mailPayload);
+				if (mailResponse.accepted.length > 0) {
+					res.send(true);
+				}
+				res.status(500);
+				res.send(false);
+			}
+			res.send(plainUser);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}
@@ -79,11 +107,56 @@ export default class AdminController extends BaseController {
 	async deleteUser(req: Request, res: Response) {
 		try {
 			let id = req.query.id as number;
+			if (!SAML_ENABLED) {
+				await this._userHashService.deleteUserHash(id);
+			}
 			let roles = await this._userSvc.deleteUser(id);
 			res.send(roles);
 		} catch(e) {
 			return this.sendError(e.message, res);
 		}
+	}
+
+	/**
+	 * Reset User Password
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async resetUserPassword(req: Request, res: Response) {
+		if (SAML_ENABLED) {
+			res.status(500);
+			return res.send('Invalid endpoint');
+		}
+		try {
+			const { email } = req.body;
+			const user = await this._userSvc.getUserByEmail(email);
+			const plainUser = user.get({ plain: true }) as IEaasiUser;
+			const password = this.generatePassword();
+			const hash = await this._authService.createUserHash(password);
+			const userHash: IEaasiUserHash = { hash, userId: plainUser.id };
+			const updatedUserHash = await this._userHashService.saveUserHash(userHash);
+			const mailPayload: IMailPayload = {
+				password,
+				receiver: email
+			}
+			const mailResponse = await this._mailerService.sendMail(MailerAction.PasswordReset, mailPayload);
+			if (mailResponse.accepted.length > 0) {
+				return res.send(true);
+			}
+			res.status(500);
+			res.send(false);
+		} catch(e) {
+			return this.sendError(e.message, res);
+		}
+	}
+
+	private generatePassword(length: number = 8) {
+		const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		let result = '';
+		for (var i = 0, n = charset.length; i < length; ++i) {
+			result += charset.charAt(Math.floor(Math.random() * n));
+		}
+		return result;
 	}
 
 	/*============================================================

@@ -1,10 +1,10 @@
+import UserAdminService from '@/services/admin/UserAdminService';
+import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
 import passport from 'passport';
 import passportJWT from 'passport-jwt';
-import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
-import samlConfig from '../config/saml-config.js';
 import { Strategy as SamlStrategy } from 'passport-saml';
-import UserAdminService from '@/services/admin/UserAdminService';
 import { MAX_AGE, SECRET } from '../config/jwt-config';
+import samlConfig from '../config/saml-config.js';
 
 // TODO: implement types
 

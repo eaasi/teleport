@@ -1,27 +1,27 @@
 import { EaasiRole } from '@/data_access/models/app/EaasiRole';
 import { EaasiUser } from '@/data_access/models/app/EaasiUser';
-import BaseService from '@/services/base/BaseService';
 import CrudQuery from '@/services/base/CrudQuery';
 import CrudService from '@/services/base/CrudService';
 import ICrudService from '@/services/interfaces/ICrudService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
+import UserService from '../user/UserService';
 
 
 /**
  * Handles business logic related to working with User and Role data
  */
-export default class UserAdminService extends BaseService {
+export default class UserAdminService extends UserService {
 
-	private readonly _userCrudService: ICrudService<EaasiUser>;
 	private readonly _roleCrudService: ICrudService<EaasiRole>;
+	readonly _userCrudService: ICrudService<EaasiUser>;
 
 	constructor(
 		userCrudService: ICrudService<EaasiUser> = new CrudService<EaasiUser>(EaasiUser),
-		roleCrudService: ICrudService<EaasiRole> = new CrudService<EaasiRole>(EaasiRole)
+		roleCrudService: ICrudService<EaasiRole> = new CrudService<EaasiRole>(EaasiRole),
 	) {
 		super();
-		this._userCrudService = userCrudService;
 		this._roleCrudService = roleCrudService;
+		this._userCrudService = userCrudService;
 	}
 
 	/* Users
@@ -36,42 +36,6 @@ export default class UserAdminService extends BaseService {
 
 		if (result.hasError) {
 			throw result.error;
-		}
-
-		return result.result;
-	}
-
-	/**
-	 * Gets a User by Id
-	 * @param id: number User PK
-	 */
-	async getUser(id: number) {
-		let result = await this._userCrudService.getByPk(id);
-
-		if (result.hasError) {
-			throw result.error;
-		}
-
-		if (result.result === null) {
-			throw `Cannot find user with id: ${id}`
-		}
-
-		return result.result;
-	}
-
-	/**
-	 * Gets a User by Email address
-	 * @param email: string email address
-	 */
-	async getUserByEmail(email: string) {
-		let result = await this._userCrudService.getOneWhere({email});
-
-		if (result.hasError) {
-			throw result.error;
-		}
-
-		if (result.result === null) {
-			throw `Cannot find user with email: ${email}`
 		}
 
 		return result.result;

@@ -7,13 +7,11 @@
 			</div>
 			<div id="loginBox">
 				<h3>{{ nodeName }}</h3>
+				<single-sign-on-login-box v-if="isSamlAuthEnabled" :login-url="loginUrl" />
+				<email-password-login-box v-else :login-url="loginUrl" />
 				<div>
-					<!-- This should link to the identity SP -->
-					<a :href="loginUrl">
-						<ui-button>Login</ui-button>
-					</a>
-					<p v-if="!loginError">Using your approved access account.</p>
-					<p class="error" v-if="loginError">{{ loginError }}</p>
+					<p v-if="!loginError" class="text-center">Using your approved access account.</p>
+					<p class="error text-center" v-if="loginError">{{ loginError }}</p>
 				</div>
 			</div>
 		</div>
@@ -24,15 +22,21 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
+import SingleSignOnLoginBox from './SingleSignOnLoginBox.vue';
+import EmailPasswordLoginBox from './EmailPasswordLoginBox.vue';
 import config from '@/config';
+
 @Component({
-	name: 'LoginScreen'
+	name: 'LoginScreen',
+	components: {
+		SingleSignOnLoginBox,
+		EmailPasswordLoginBox
+	}
 })
 export default class LoginScreen extends Vue {
 
 	/* Computed
 	============================================*/
-
 	@Get('nodeName')
 	nodeName: string;
 
@@ -42,8 +46,9 @@ export default class LoginScreen extends Vue {
 
 	/* Data
 	============================================*/
-
 	loginUrl: string = config.SERVICE_URL + '/auth/login';
+	isSamlAuthEnabled: boolean = config.SAML_ENABLED;
+
 }
 
 </script>
@@ -92,13 +97,8 @@ export default class LoginScreen extends Vue {
 		text-align: center;
 	}
 
-	div {
-		padding: 5rem 3rem;
-		text-align: center;
-	}
-
 	p {
-		margin: 2rem 0 0;
+		padding: 3rem 1rem;
 	}
 
 	p.error {

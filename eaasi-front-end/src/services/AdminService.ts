@@ -1,10 +1,10 @@
-import BaseHttpService from './BaseHttpService';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import User from '@/models/admin/User';
+import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
-import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiRole, IEmulator } from 'eaasi-admin';
+import BaseHttpService from './BaseHttpService';
 
 class AdminService extends BaseHttpService {
 
@@ -47,6 +47,11 @@ class AdminService extends BaseHttpService {
 	async deleteUser(id: number): Promise<boolean> {
 		let res = await this.post(`/admin/users/delete?id=${id}`, {});
 		return res.ok;
+	}
+
+	async resetUserPassword(email: string): Promise<boolean> {
+		let res = await this.post<any>('/admin/users/reset-password', { email });
+		return res.ok && res.result;
 	}
 
 	/* User Roles
