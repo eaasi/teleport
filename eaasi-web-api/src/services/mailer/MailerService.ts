@@ -66,7 +66,7 @@ export default class MailerService extends BaseService {
 
 	private emailTemplate(to, subject, text) {
 		return {
-			from: `EaaSi <noreply@${MAILER_SENDER}>`,
+			from: `EaaSi <${MAILER_SENDER}>`,
 			to,
 			subject,
 			text
