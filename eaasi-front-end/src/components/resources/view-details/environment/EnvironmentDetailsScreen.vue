@@ -297,13 +297,15 @@ export default class EnvironmentDetailsScreen extends Vue {
 			if (nameIndexes.entries && nameIndexes.entries.entry && nameIndexes.entries.entry.length) {
 				const activeEnvironmentEmulator = this.activeEnvironment.emulator.toLowerCase();
 				entries = nameIndexes.entries.entry.filter(e => e.key.toLowerCase().indexOf(activeEnvironmentEmulator) > 0);
-				const latestEntry = {
-					key: 'latest',
-					value: {
-						name: entries[0].value.name
-					}
-				};
-				entries.unshift(latestEntry);
+				if (entries.length) {
+					const latestEntry = {
+						key: 'latest',
+						value: {
+							name: entries[0].value.name
+						}
+					};
+					entries.unshift(latestEntry);
+				}
 			}
 			this.emulatorLabeledItems.push({
 				label: 'Emulator Version',
