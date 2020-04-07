@@ -38,7 +38,6 @@
 					label="System Architecture"
 					v-model="chosenTemplateArchitecture"
 					value=""
-					rules="required"
 				/>
 
 				<text-input
@@ -47,7 +46,6 @@
 					label="Emulator"
 					v-model="chosenTemplateEmulator"
 					value=""
-					rules="required"
 				/>
 
 				<text-input
@@ -56,7 +54,6 @@
 					label="Config"
 					v-model="chosenTemplateNativeConfig"
 					value=""
-					rules="required"
 				/>
 			</div>
 		</div>
