@@ -8,7 +8,7 @@
 				</p>
 			</div>
 			<div class="btn-section" v-if="!hasResults">
-				<ui-button color-preset="light-blue" @click="$router.push('/import-resource')">
+				<ui-button color-preset="light-blue" @click="$router.push(ROUTES.IMPORT_RESOURCE)">
 					Import New Resource
 				</ui-button>
 			</div>
@@ -88,6 +88,7 @@ import { IEaasiResource } from '@/types/Resource.d.ts';
 import { resourceTypes } from '@/utils/constants';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { jsonCopy } from '../../../utils/functions';
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
 	name: 'ImportedResourcesSection',

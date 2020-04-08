@@ -20,6 +20,7 @@ import { Get } from 'vuex-pathify';
 import { IMenuItem } from 'eaasi-nav';
 import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';
+import { ROUTES } from '../../router/routes.const';
 
 @Component({
 	name: 'AdminMenu',
@@ -47,17 +48,17 @@ export default class AdminMenu extends Vue {
 		{
 			icon: 'server',
 			label: 'Emulators',
-			route: '/admin/emulators'
+			route: '/manage-node/emulators'
 		},
 		{
 			icon: 'sync-alt',
 			label: 'Endpoints / Metadata Sync',
-			route: '/admin/metadata-sync'
+			route: '/manage-node/metadata-sync'
 		},
 		{
 			icon: 'tasks',
 			label: 'Running Tasks',
-			route: '/admin/running-tasks'
+			route: '/manage-node/running-tasks'
 		},
 	];
 
@@ -71,7 +72,7 @@ export default class AdminMenu extends Vue {
 		{
 			icon: 'users',
 			label: 'Manage Users',
-			route: '/admin/users'
+			route: ROUTES.MANAGE_NODE_USERS
 		},
 	];
 
@@ -85,7 +86,7 @@ export default class AdminMenu extends Vue {
 	============================================*/
 
 	addUser() {
-		this.$router.push('/admin/users');
+		this.$router.push(ROUTES.MANAGE_NODE_USERS);
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
 	}
 }

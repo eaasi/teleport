@@ -1,6 +1,6 @@
 <template>
 	<nav class="left-menu" role="navigation" v-if="user">
-		<div id="headerLogo" class="flex flex-center" @click="$router.push('/dashboard')">
+		<div id="headerLogo" class="flex flex-center" @click="$router.push(ROUTES.DASHBOARD)">
 			<img src="@/assets/header-logo.png" alt="Eaasi Logo" class="left-menu-logo" />
 		</div>
 		<left-menu-item
@@ -19,6 +19,7 @@ import Component from 'vue-class-component';
 import {Get} from 'vuex-pathify';
 import LeftMenuItem from './LeftMenuItem.vue';
 import { IMenuItem } from 'eaasi-nav';
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
 	components: {
@@ -42,17 +43,17 @@ export default class LeftMenu extends Vue {
 			{
 				icon: 'home',
 				label: 'My Dashboard',
-				route: '/dashboard',
+				route: ROUTES.DASHBOARD,
 			},
 			{
 				icon: 'file-search',
 				label: 'Explore Resources',
-				route: '/resources/explore',
+				route: ROUTES.RESOURCES_EXPLORE,
 			},
 			{
 				icon: 'clipboard-list',
 				label: 'My Resources',
-				route: '/resources/my-resources',
+				route: ROUTES.RESOURCES_MY_RESOURCES,
 			},
 			{
 				icon: '',
@@ -63,12 +64,12 @@ export default class LeftMenu extends Vue {
 			{
 				icon: 'atom',
 				label: 'Emulation Project',
-				route: '/emulation-project',
+				route: ROUTES.EMULATION_PROJECT,
 			},
 			{
 				icon: 'upload',
 				label: 'Import Resource',
-				route: '/import-resource',
+				route: ROUTES.IMPORT_RESOURCE,
 			},
 			{
 				icon: '',
@@ -81,7 +82,7 @@ export default class LeftMenu extends Vue {
 			menu.push({
 				icon: 'manage',
 				label: 'Manage Node',
-				route: '/admin',
+				route: ROUTES.MANAGE_NODE,
 			});
 		}
 

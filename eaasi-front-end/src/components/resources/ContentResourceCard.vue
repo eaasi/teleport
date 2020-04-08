@@ -28,6 +28,7 @@ import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
 import { resourceTypes } from '@/utils/constants';
+import { ROUTES } from '../../router/routes.const';
 
 @Component({
 	name: 'ContentResourceCard',
@@ -95,7 +96,7 @@ export default class ContentResourceCard extends Vue {
 	============================================*/
 	goToDetailsPage() {
 		this.$router.push({
-			path:'/resources/content',
+			path: ROUTES.RESOURCES_CONTENT,
 			query: {
 				resourceId: this.content.id.toString(),
 				archiveId: this.content.archiveId.toString()

@@ -35,6 +35,7 @@ import { resourceTypes, archiveTypes } from '@/utils/constants';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
 import EaasiTask from '../../models/task/EaasiTask';
+import { ROUTES } from '../../router/routes.const';
 
 let resourceSvc = ResourceService;
 
@@ -212,7 +213,7 @@ export default class EnvironmentResourceCard extends Vue {
 	}
 
 	goToDetailsPage() {
-		this.$router.push({ path:'/resources/environment', query: { resourceId: this.environment.envId.toString()} });
+		this.$router.push({ path: ROUTES.RESOURCES_ENVIRONMENT, query: { resourceId: this.environment.envId.toString()} });
 	}
 
 	@Watch('savingEnvTask')

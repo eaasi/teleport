@@ -137,6 +137,7 @@ import TaskList from '@/components/admin/running-tasks/TaskList.vue';
 import { ITaskState } from '../../types/Task';
 import { IEaasiTaskListStatus } from '../../types/IEaasiTaskListStatus';
 import EaasiTask from '../../models/task/EaasiTask';
+import { ROUTES } from '../../router/routes.const';
 
 let menuService = new ResourceSlideMenuService();
 let resourceService = ResourceService;
@@ -356,7 +357,7 @@ export default class ResourceSlideMenu extends Vue {
 				// When Run is clicked, we send to Access Interface @ environmentId
 				if (this.environmentIsSelected) {
 					let environment = this.onlySelectedResource as IEnvironment;
-					this.$router.push(`/access-interface/${environment.envId}`);
+					this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${environment.envId}`);
 				}
 				break;
 			case 'viewDetails':
@@ -364,7 +365,7 @@ export default class ResourceSlideMenu extends Vue {
 				if (this.environmentIsSelected) {
 					const resourceId = this.onlySelectedResource.envId.toString();
 					this.$router.push({
-						path:'/resources/environment',
+						path: ROUTES.RESOURCES_ENVIRONMENT,
 						query: { resourceId }
 					});
 					break;
@@ -372,7 +373,7 @@ export default class ResourceSlideMenu extends Vue {
 				// @ts-ignore
 				const archiveId = this.onlySelectedResource.archiveId;
 				const resourceId = this.onlySelectedResource.id.toString();
-				const path = this.softwareIsSelected ? '/resources/software' : '/resources/content';
+				const path = this.softwareIsSelected ? ROUTES.RESOURCES_SOFTWARE : ROUTES.RESOURCES_CONTENT;
 				this.$router.push({
 					path,
 					query: { resourceId, archiveId }

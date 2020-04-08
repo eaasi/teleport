@@ -93,6 +93,7 @@ import {Get, Sync} from 'vuex-pathify';
 import EnvironmentPickerModal from './EnvironmentPickerModal.vue';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { ITaskState } from '@/types/Task';
+import { ROUTES } from '../../../../router/routes.const';
 
 @Component({
     name: 'RenderingEnvironments',
@@ -207,7 +208,7 @@ export default class RenderingEnvironments extends Vue {
 
 		this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
 
-        this.$router.push(`/access-interface/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
+        this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
     }
 
     remove(env) {

@@ -1,8 +1,8 @@
-import './register-hooks'; // Keep this import first
 import Vue from 'vue';
 import Router from 'vue-router';
-import routes from './routes';
 import { loggedInGuard, updateMeta } from './middleware';
+import './register-hooks'; // Keep this import first
+import routes from './routes';
 
 Vue.use(Router);
 

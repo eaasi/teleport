@@ -105,6 +105,7 @@ import EnvironmentMetadataSection from './EnvironmentMetadataSection.vue';
 import RevisionList from './RevisionList.vue';
 import AddSoftware from './AddSoftwareModal.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
+import { ROUTES } from '../../../../router/routes.const';
 
 @Component({
 	name: 'EnvironmentDetailsScreen',
@@ -195,7 +196,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		if (!id || !archiveId) return;
 		const { envId } = this.activeEnvironment as IEnvironment;
 
-		this.$router.push(`/access-interface/${envId}?softwareId=${id}&archiveId=${archiveId}`);
+		this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${envId}?softwareId=${id}&archiveId=${archiveId}`);
 	}
 
 	async refresh() {
@@ -221,7 +222,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	}
 
 	async runEnvironment() {
-		await this.$router.push(`/access-interface/${this.activeEnvironment.envId}`);
+		await this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.activeEnvironment.envId}`);
 	}
 
 	onModeChange(mode: string) {
@@ -517,7 +518,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	}
 
 	goBackToResults() {
-		this.$router.push('/resources/explore/');
+		this.$router.push(ROUTES.RESOURCES_EXPLORE);
 	}
 }
 

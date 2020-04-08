@@ -13,7 +13,7 @@
 				<ui-button color-preset="light-blue" @click="raiseClearBookmarksModal" v-if="bookmarks && bookmarks.length">
 					Clear All Bookmarks
 				</ui-button>
-				<ui-button color-preset="light-blue" @click="$router.push('explore')" v-else>
+				<ui-button color-preset="light-blue" @click="$router.push(ROUTES.RESOURCES_EXPLORE)" v-else>
 					Add Bookmarks
 				</ui-button>
 			</div>
@@ -108,6 +108,7 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
     name: 'MyBookmarksScreen',

@@ -41,6 +41,7 @@ import { NumberedSteps, UiButton } from '@/components/global';
 import { INumberedStep } from '@/types/NumberedStep';
 import TaskModal from '@/components/admin/running-tasks/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
+import { ROUTES } from '../../router/routes.const';
 
 	@Component({
 		name: 'ImportProgress',
@@ -143,7 +144,7 @@ import EaasiTask from '@/models/task/EaasiTask';
 				// This path occurs when a user imports an Environment Object from URL
 				// When an import task is complete, get the environmentId and push into Access Interface
 				this.environmentEaasiID = taskResult.userData.environmentId;
-				this.$router.push(`/access-interface/${this.environmentEaasiID}`);
+				this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.environmentEaasiID}`);
 
 			} else if (this.importType === contentType) {
 				// This path occurs when a user uploads a Content Object
@@ -198,7 +199,7 @@ import EaasiTask from '@/models/task/EaasiTask';
 					templateId: this.chosenTemplateId
 				});
 
-				this.$router.push(`/access-interface/${res.id}?softwareId=${objectId}&archiveId=zero%20conf`);
+				this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${res.id}?softwareId=${objectId}&archiveId=zero%20conf`);
 			}
 		}
 	}

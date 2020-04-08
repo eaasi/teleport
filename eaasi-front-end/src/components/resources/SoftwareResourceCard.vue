@@ -24,6 +24,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types/Resource.d.ts';
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
+import { ROUTES } from '../../router/routes.const';
 
 @Component({
 	name: 'SoftwareResourceCard',
@@ -86,7 +87,7 @@ export default class SoftwareResourceCard extends Vue {
 	goToDetailsPage() {
 		this.$router.push(
 			{
-				path:'/resources/software',
+				path: ROUTES.RESOURCES_SOFTWARE,
 				query: {
 					resourceId: this.software.id.toString(),
 					archiveId: this.software.archiveId.toString()
