@@ -16,7 +16,7 @@
 			<header-menu-item
 				:label="nodeName"
 				icon="cog"
-				@click="$router.push('/admin')"
+				@click="$router.push(ROUTES.MANAGE_NODE)"
 			/>
 			<header-menu-drop-down
 				:label="`${user.firstName} ${user.lastName}`"
@@ -35,7 +35,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { jsonCopy } from '../../../utils/functions';
 import ResourceSearchQuery from '../../../models/search/ResourceSearchQuery';
-
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
 	name: 'AppHeader',

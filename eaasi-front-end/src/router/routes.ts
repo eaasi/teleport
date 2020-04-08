@@ -14,17 +14,18 @@ import ContentDetailsScreen from '@/components/resources/view-details/content/Co
 import EnvironmentDetailsScreen from '@/components/resources/view-details/environment/EnvironmentDetailsScreen.vue';
 import SoftwareDetailsScreen from '@/components/resources/view-details/software/SoftwareDetailsScreen.vue';
 import { RouteConfig } from 'vue-router';
+import { ROUTES } from './routes.const';
 
 export default [
 	{
-		path: '/',
+		path: ROUTES.INDEX,
 		redirect: {
-			path: '/dashboard'
+			path: ROUTES.DASHBOARD
 		},
 	},
 
 	{
-		path: '/login',
+		path: ROUTES.LOGIN,
 		name: 'Login',
 		component: LoginScreen,
 		meta: {
@@ -33,7 +34,7 @@ export default [
 	},
 
 	{
-		path: '/dashboard',
+		path: ROUTES.DASHBOARD,
 		name: 'Dashboard',
 		component: Dashboard,
 	},
@@ -41,27 +42,27 @@ export default [
 	/* Admin
 	============================================*/
 	{
-		path: '/admin',
+		path: ROUTES.MANAGE_NODE,
 		name: 'Admin',
 		component: EmulatorManagement
 	},
 	{
-		path: '/admin/users',
+		path: ROUTES.MANAGE_NODE_USERS,
 		name: 'User Management',
 		component: UserManagement
 	},
 	{
-		path: '/admin/emulators',
+		path: ROUTES.MANAGE_NODE_EMULATORS,
 		name: 'Emulators',
 		component: EmulatorManagement
 	},
 	{
-		path: '/admin/running-tasks',
+		path: ROUTES.MANAGE_NODE_RUNNING_TASKS,
 		name: 'Running Tasks',
 		component: RunningTaskManagement
 	},
 	{
-		path: '/admin/metadata-sync',
+		path: ROUTES.MANAGE_NODE_METADATA_SYNC,
 		name: 'Metadata Sync',
 		component: MetadataSyncAdmin
 	},
@@ -70,7 +71,7 @@ export default [
 	============================================*/
 
 	{
-		path: '/emulation-project',
+		path: ROUTES.EMULATION_PROJECT,
 		name: 'Emulation Project',
 		component: EmulationProjectScreen
 	},
@@ -79,40 +80,47 @@ export default [
 	============================================*/
 
 	{
-		path: '/import-resource',
+		path: ROUTES.IMPORT_RESOURCE,
 		name: 'Import Resource',
 		component: ImportScreen,
 	},
 	{
-		path: '/resources/my-resources',
+		path: ROUTES.RESOURCES_MY_RESOURCES,
 		name: 'My Resources',
 		component: MyResourcesScreen,
 		props: true
 	},
 	{
-		path: '/resources/explore',
+		path: ROUTES.RESOURCES_EXPLORE,
 		name: 'Explore Resources',
 		component: ExploreResourcesScreen,
 		props: true
 	},
 	{
-		path: '/resources/software',
+		path: ROUTES.RESOURCES_SOFTWARE,
 		name: 'Software Resource Detail',
 		component: SoftwareDetailsScreen
 	},
 	{
-		path: '/resources/environment',
+		path: ROUTES.RESOURCES_ENVIRONMENT,
 		name: 'Environment Resource Detail',
 		component: EnvironmentDetailsScreen
 	},
 	{
-		path: '/resources/content',
+		path: ROUTES.RESOURCES_CONTENT,
 		name: 'Content Resource Detail',
 		component: ContentDetailsScreen
 	},
 	{
-		path: '/access-interface/:envId',
+		path: ROUTES.ACCESS_INTERFACE + '/:envId',
 		name: 'Access Interface',
 		component: AccessInterfaceScreen
-	}
+	},
+
+	{
+		path: ROUTES.WILD_CARD,
+		name: 'Dashboard',
+		component: Dashboard,
+	},
+
 ] as RouteConfig[];

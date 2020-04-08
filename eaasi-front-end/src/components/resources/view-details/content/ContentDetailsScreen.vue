@@ -84,6 +84,7 @@ import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
 import RenderingEnvironments from '../software/RenderingEnvironments.vue';
 import EaasiTask from '@/models/task/EaasiTask';
+import { ROUTES } from '../../../../router/routes.const';
 
 @Component({
 	name: 'ContentDetailsScreen',
@@ -211,7 +212,7 @@ export default class ContentDetailsScreen extends Vue {
 	};
 
 	goBackToResults() {
-		this.$router.push('/resources/explore/');
+		this.$router.push(ROUTES.RESOURCES_EXPLORE);
 	}
 }
 

@@ -94,6 +94,7 @@ import RenderingEnvironments from './RenderingEnvironments.vue';
 import SoftwareProperties from './SoftwareProperties.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import MediaFilesList from './MediaFilesList.vue';
+import { ROUTES } from '../../../../router/routes.const';
 
 @Component({
 	name: 'SoftwareDetailsScreen',
@@ -258,7 +259,7 @@ export default class SoftwareDetailsScreen extends Vue {
 	};
 
 	goBackToResults() {
-		this.$router.push('/resources/explore/');
+		this.$router.push(ROUTES.RESOURCES_EXPLORE);
 	}
 }
 
