@@ -6,8 +6,7 @@ import { Strategy as SamlStrategy } from 'passport-saml';
 import { MAX_AGE, SECRET } from '../config/jwt-config';
 import samlConfig from '../config/saml-config.js';
 
-const SAML_ENABLED = process.env.SAML_ENABLED == 'true';
-
+const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 // TODO: implement types
 
 /*============================================================

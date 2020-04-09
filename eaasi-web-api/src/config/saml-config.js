@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const SAML_ENABLED = process.env.SAML_ENABLED == 'true';
+const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
 export const SAML_ID                 = process.env.SAML_ID;
 export const SAML_CALLBACK_URL       = process.env.SAML_CALLBACK_URL;
