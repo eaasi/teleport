@@ -20,7 +20,7 @@ const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH;
 const CLIENT_URL = process.env.EAASI_CLIENT_URL;
 const AUTH_LOGOUT_URL = process.env.AUTH_LOGOUT_URL;
 const JWT_NAME = process.env.JWT_NAME;
-const SAML_ENABLED = process.env.SAML_ENABLED == 'true';
+const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
 export default class EaasiAuthController extends BaseController {
 

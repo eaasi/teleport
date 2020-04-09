@@ -12,7 +12,7 @@ import { HarvesterReq } from '@/types/oaipmh/Harvester';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
-const SAML_ENABLED = process.env.SAML_ENABLED == 'true';
+const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
 export default class AdminController extends BaseController {
 
