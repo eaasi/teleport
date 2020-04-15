@@ -8,7 +8,7 @@
 				</p>
 			</div>
 			<div class="btn-section" v-if="!hasResults">
-				<ui-button color-preset="light-blue" @click="$router.push(ROUTES.IMPORT_RESOURCE)">
+				<ui-button color-preset="light-blue" @click="navigateToImportResource">
 					Import New Resource
 				</ui-button>
 			</div>
@@ -145,6 +145,10 @@ export default class ImportedResourcesSection extends Vue {
 
 	/* Methods
 	============================================*/
+	
+	navigateToImportResource() {
+		this.$router.push(ROUTES.IMPORT_RESOURCE);
+	}
 
     async getAll(types) {
 		this.$store.commit('resource/UNSELECT_ALL_FACETS');

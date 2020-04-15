@@ -3,8 +3,8 @@
 		<!-- No Files Added -->
 		<div v-if="!filesAreAdded">
 			<h3>{{ headline }}</h3>
-			<div class="row">
-				<div class="col-md-6">
+			<div class="row justify-center">
+				<div class="col-md-6" v-if="isEnvImport">
 					<div class="irf-option">
 						<span class="text-center">URL</span>
 						<text-input
