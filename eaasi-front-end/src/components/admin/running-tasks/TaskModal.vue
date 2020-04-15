@@ -11,7 +11,9 @@
 				<strong>Error: </strong>
 				{{ error }}
 			</alert-card>
-			<alert-card type="success" v-if="success"> This task was succesfully completed</alert-card>
+			<alert-card v-if="success" type="success">
+				This task was succesfully completed
+			</alert-card>
 		</div>
 	</modal>
 </template>
@@ -22,7 +24,7 @@
 	import EaasiTask from '@/models/task/EaasiTask';
 	import { ITaskState } from '@/types/Task';
 	import { jsonEquals } from '@/utils/functions';
-	import {Sync} from 'vuex-pathify';
+	import {Sync, Get} from 'vuex-pathify';
 
 	@Component({
 		name: 'TaskModal'
@@ -35,11 +37,14 @@
 		@Prop({type: Object as () => EaasiTask, required: false})
 		readonly task: EaasiTask;
 
+		/* Computed
+		============================================*/
+		@Get('task/taskQueue')
+		taskQueue: EaasiTask[];
 
 		/* Data
         ============================================*/
 
-		timer: number = null;
 		error: string = null;
 		success: boolean = false;
 
@@ -56,42 +61,27 @@
 		}
 
 		/**
-		 * Polls the task state endpoint to keep track of import status
-		 */
-		async pollTask() {
-			const { taskId, pollingInterval } = this.task;
-			if (!taskId) return;
-			if (this.timer) clearInterval(this.timer);
-			this.timer = setInterval(async () => {
-				let taskState = await this.$store.dispatch('task/getTaskState', taskId) as ITaskState;
-				if (!taskState || taskState.isDone) {
-					this.$emit('success', taskState);
-					clearInterval(this.timer);
-					this.success = true;
-					setTimeout(() => this.$emit('close'), 2500);
-				}
-				else if (taskState.message && taskState.status == '1') {
-					clearInterval(this.timer);
-					this.error = taskState.message;
-				}
-				return;
-			}, pollingInterval || 3000);
-		}
-
-		/**
 		 * Reset to default state
 		 */
 		reset() {
-			if (this.timer) clearInterval(this.timer);
 			this.error = null;
 			this.success = false;
 		}
 
-
-		/* Lifecycle Hooks
+		/* Watcher
         ============================================*/
-		async mounted() {
-			await this.pollTask();
+		@Watch('taskQueue')
+		onTaskQue(currentTaskQueue: EaasiTask[]) {
+			const currentTask = currentTaskQueue.find(task => task.taskId === this.task.taskId);
+			if (currentTask) {
+				if (currentTask.isDone) {
+					this.$emit('success', currentTask);
+					this.success = true;
+				}
+				return;
+			}
+			this.success = false;
+			this.error = 'Something went wrong, please try again.';
 		}
 
 	}

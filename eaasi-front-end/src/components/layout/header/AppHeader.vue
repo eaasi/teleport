@@ -16,7 +16,7 @@
 			<header-menu-item
 				:label="nodeName"
 				icon="cog"
-				@click="$router.push(ROUTES.MANAGE_NODE)"
+				@click="$router.push(manageNodeRoute)"
 			/>
 			<header-menu-drop-down
 				:label="`${user.firstName} ${user.lastName}`"
@@ -49,6 +49,7 @@ export default class AppHeader extends Vue {
 	/* Data
 	============================================*/
 	searchBorderColor = '#C7E4F5';
+	manageNodeRoute = ROUTES.MANAGE_NODE;
 
 	/* Computed
 	============================================*/
