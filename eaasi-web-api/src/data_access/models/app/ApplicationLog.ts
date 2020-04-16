@@ -1,5 +1,5 @@
-import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { Column, CreatedAt, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
 	tableName: 'application_log'

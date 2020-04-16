@@ -45,12 +45,12 @@
 					Change Resource Media
 					<span v-if="mediaItems.length" class="fas fa-chevron-down" style="margin-left: 1rem;"></span>
 				</ui-button>
-				<ui-button
+				<!-- <ui-button
 					size="sm"
 					disabled
 				>
 					Downloadable Assets
-				</ui-button>
+				</ui-button> -->
 			</div>
 			<div class="ah-options-border"></div>
 			<div class="ah-options-right flex flex-center flex-wrap">
