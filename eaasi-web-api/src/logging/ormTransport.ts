@@ -1,6 +1,6 @@
 'use strict';
 
-import ApplicationLog from '@/data_access/models/app/ApplicationLog';
+import { ApplicationLog } from '@/data_access/models/app/ApplicationLog';
 import Transport from 'winston-transport';
 
 /**
@@ -35,7 +35,7 @@ export default class OrmTransport extends Transport {
 				level: info.level,
 				source: this.source,
 			};
-
+			
 			this.model.create(data)
 				.then((log: any) => {
 					this.emit('logged');
