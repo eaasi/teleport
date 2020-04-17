@@ -143,7 +143,7 @@ RAW: ${JSON.stringify(this.error)}
 ${apiEventsString}
 RAW: ${JSON.stringify(this.apiEvents)}
 ########## < END > ##############`;
-		navigator.clipboard.writeText(textToClipboard);
+		this.executeCopy(textToClipboard);
 		const notification = generateCompletedNotificationWithMessage('Error Details has been copied to your clipboard.');
 		eventBus.$emit('notification:show', notification);
 	}
@@ -156,6 +156,16 @@ RAW: ${JSON.stringify(this.apiEvents)}
 			}
 		}
 		return str;
+	}
+
+	executeCopy(text: string) {
+		var input = document.createElement('textarea');
+		document.body.appendChild(input);
+		input.value = text;
+		input.focus();
+		input.select();
+		document.execCommand('Copy');
+		input.remove();
 	}
 
 	/* Lifecycle hooks
