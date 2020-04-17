@@ -103,3 +103,6 @@ apidoc/
 certs/cert.pem
 certs/key.pem
 certs/yale-shibboleth-dev.pem
+
+# flag files
+force_db_update
