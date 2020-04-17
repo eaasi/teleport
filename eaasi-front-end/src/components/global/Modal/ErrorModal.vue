@@ -1,12 +1,14 @@
 <template>
-	<info-modal
+	<modal
 		class="error-modal-container"
 		@close="closeModal"
 		v-if="error !== null"
 		:size="size"
-		title="An Error Has Occurred"
 	>
-		<div v-if="showDebugErrors" class="error-container">
+		<div class="eaasi-info-modal-title" slot="header">
+			<h2>An Error Has Occurred</h2>
+		</div>
+		<div class="error-container">
 			<div id="debugErrorMessage" class="error-section" v-if="error.message">
 				<p>Error Message:</p>
 				{{ error.message }}
@@ -25,26 +27,73 @@
 			<div class="error-section">
 				<p>Stack Trace: </p>
 				<div id="debugErrorStack" v-if="error.stack">
-					<div>
-						{{ error.stack }}
+					<div class="scrollable-container lg">
+						<div>
+							{{ error.stack }}
+						</div>
+						<div v-show="apiEvents.length > 0">
+							<hr />
+							<h6 style="margin-top: 0.65rem;">Web Api Events</h6>
+							<div>
+								<div v-for="(event, index) in apiEvents" :key="index">
+									{{ event }}
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+				<ui-button
+					@click="copyToClipboard"
+					color-preset="light-blue"
+					class="btn-info-modal-close"
+					stlye="float:left;"
+				>
+					Copy Error Details to Clipboard
+				</ui-button>
 			</div>
 		</div>
-		<div v-else class="error-container">
+		<!-- For 2020.03 release we are showing complete front-end stack trace -->
+		<!-- <div v-else class="error-container">
 			<div id="defaultErrorMessage" class="text-center">
 				<h2>Oops, something went wrong!</h2>
 				<p>An unexpected error has occurred. Our developers have been automatically notified. Please try again later.</p>
 			</div>
+		</div> -->
+
+		<div class="eaasi-info-modal-buttons" slot="footer">
+			<div class="flex-row justify-end">
+				<slot name="buttons">
+					<div class="justify-end buttons-right">
+						<a href="http://eaasi.portalmedia.com/emil/error-report">
+							<ui-button
+								color-preset="light-blue"
+								class="btn-info-modal-close"
+							>
+								Download Server Logs
+							</ui-button>
+						</a>
+						<ui-button
+							@click="closeModal"
+							color-preset="light-blue"
+							class="btn-info-modal-close"
+						>
+							Close
+						</ui-button>
+					</div>
+				</slot>
+			</div>
 		</div>
-	</info-modal>
+	</modal>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import { Component } from 'vue-property-decorator';
-import {Get, Sync} from 'vuex-pathify';
+import { IApplicationLog } from '@/types/ApplicationLog';
+import { Get, Sync } from 'vuex-pathify';
+import { generateCompletedNotificationWithMessage } from '../../../helpers/NotificationHelper';
+import eventBus from '../../../utils/event-bus';
 
 /**
  * A pop-up modal that notifies a user that an error has occurred
@@ -68,6 +117,10 @@ export default class ErrorModal extends Vue {
 	@Get('showDebugErrors')
 	showDebugErrors: boolean;
 
+	/* Data
+	============================================*/
+	apiEvents: IApplicationLog[] = [];
+
 	/* Methods
 	============================================*/
 
@@ -75,8 +128,41 @@ export default class ErrorModal extends Vue {
 		this.error = null;
 	}
 
+	async getApiEvents() {
+		const result = await this.$store.dispatch('admin/getErrorLogs');
+		this.apiEvents = result;
+	}
+
+	copyToClipboard() {
+		let apiEventsString = this.apiEvents.map(event => this.objToString(event));
+		let textToClipboard = `
+##### Front-End Stack Trace #####
+${this.objToString(this.error)}
+RAW: ${JSON.stringify(this.error)}
+###### Web-Api Event List #######
+${apiEventsString}
+RAW: ${JSON.stringify(this.apiEvents)}
+########## < END > ##############`;
+		navigator.clipboard.writeText(textToClipboard);
+		const notification = generateCompletedNotificationWithMessage('Error Details has been copied to your clipboard.');
+		eventBus.$emit('notification:show', notification);
+	}
+
+	objToString (obj) {
+		var str = '';
+		for (var p in obj) {
+			if (obj.hasOwnProperty(p)) {
+				str += p + '::' + obj[p] + '\n';
+			}
+		}
+		return str;
+	}
+
 	/* Lifecycle hooks
 	============================================*/
+	async beforeMount() {
+		await this.getApiEvents();
+	} 
 
 	beforeDestroy() {
 		this.error = null;
@@ -115,6 +201,13 @@ export default class ErrorModal extends Vue {
 		margin-bottom: 1.6rem;
 		padding: 1rem 1.5rem;
 		white-space: pre-line;
+	}
+
+	.scrollable-container {
+		overflow-y: auto;
+		&.lg {
+			max-height: 40rem;
+		}
 	}
 
 	#defaultErrorMessage {

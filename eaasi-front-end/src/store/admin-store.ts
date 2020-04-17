@@ -4,6 +4,7 @@ import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
 import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/AdminService';
 import _taskSvc from '@/services/TaskService';
+import { IApplicationLog } from '@/types/ApplicationLog';
 import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
@@ -123,6 +124,12 @@ const actions = {
 		// TODO: Then, sync the map to the active tasks table view
 		return taskState;
 	},
+
+	/* Error Logs
+	============================================*/
+	async getErrorLogs(_): Promise<IApplicationLog[]> {
+		return await _svc.getErrorLogs();
+	}
 };
 
 /*============================================================
