@@ -70,8 +70,8 @@ export function build_500_response(serverError: any) {
 	if(['test', 'development', 'local'].includes(nodeEnvironment)) {
 		return new ErrorResponse(HttpResponseCode.SERVER_ERROR, serverError);
 	}
-
-	let error = _getStandardizedServerError(serverError.name);
+	let errorName = serverError && serverError.name ? serverError.name : 'Unspecified error';
+	let error = _getStandardizedServerError(errorName);
 	const messageDetail =
 		`A server error occurred while processing the request: ${error}`;
 	return new ErrorResponse(HttpResponseCode.SERVER_ERROR, messageDetail);
