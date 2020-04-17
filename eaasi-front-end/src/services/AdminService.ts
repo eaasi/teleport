@@ -1,5 +1,6 @@
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import User from '@/models/admin/User';
+import { IApplicationLog } from '@/types/ApplicationLog';
 import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
@@ -88,6 +89,14 @@ class AdminService extends BaseHttpService {
 	async deleteHarvester(name: string): Promise<boolean> {
 		let res = await this.post<boolean>(`/admin/delete-harvester/?name=${name}`, null);
 		return res.ok;
+	}
+
+	/* Error Logs
+	============================================*/
+	async getErrorLogs(): Promise<IApplicationLog[]> {
+		const response = await this.get<IApplicationLog[]>('/error-report/get-all');
+		if (!response.ok) return [];
+		return response.result;
 	}
 
 }
