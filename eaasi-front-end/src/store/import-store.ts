@@ -7,9 +7,11 @@ import _importService from '@/services/ImportService';
 import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
 import { ISoftwareObject } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
+import { IUserImportRelationRequest } from '@/types/UserImportRelation';
 import { importTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+import { GlobalState } from './global-store';
 
 /*============================================================
  == State
@@ -182,15 +184,16 @@ const actions = {
 	 * Imports a Content resource from file upload and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importContentFromFile({ state, commit }: Store<ImportState>): Promise<EaasiTask> {
+	async importContentFromFile({ state, commit, rootState }): Promise<EaasiTask> {
 		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
-
+		const globalState = rootState as GlobalState;
 		// uploadResponse.status 0 is success
 		if (uploadResponse.status === '0') {
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
 				label: state.content.title,
+				userId: globalState.loggedInUser.id,
 				files: [],
 			};
 
@@ -279,7 +282,12 @@ const actions = {
 		commit('SET_IS_CONSTRUCTED_ENVIRONMENT', false);
 		commit('SET_IS_IMPORTED_ENVIRONMENT', false);
 		commit('SET_CONSTRUCTED_TITLE', '');
+	},
+
+	async createUserImportRelation(_, userImportRelationRequest: IUserImportRelationRequest) {
+		return await _importService.createUserImportRelation(userImportRelationRequest);
 	}
+
 };
 
 /*============================================================

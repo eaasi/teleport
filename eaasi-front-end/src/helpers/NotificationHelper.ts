@@ -36,6 +36,16 @@ export function generateCompletedNotificationWithMessage(message: string): INoti
     return notification;
 }
 
+export function generateNotificationSuccess(message: string): INotification {
+    let notification: INotification = {
+        id: generateId(),
+        label: message,
+        time: 5000,
+        type: 'success'
+    };
+    return notification;
+}
+
 export function generateNotificationError(message: string): INotification {
     let notification: INotification = {
         id: generateId(),

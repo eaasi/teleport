@@ -6,11 +6,13 @@ import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
 import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse, ResourceType } from '@/types/resource/Resource';
+import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import HttpJSONService from '../base/HttpJSONService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
+import ResourceImportService from '../rest-api/ResourceImportService';
 
 const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
@@ -21,6 +23,7 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _emilContentSvc: EmilBaseService;
 	private readonly _emilClassificationService: EmilBaseService;
 	private readonly _bookmarkService: EaasiBookmarkService;
+	private readonly _resourceImportService: ResourceImportService;
 
 	constructor(
 		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
@@ -28,6 +31,7 @@ export default class ResourceAdminService extends BaseService {
 		emilContentService: EmilBaseService = new EmilBaseService('objects'),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
+		resourceImportService: ResourceImportService = new ResourceImportService()
 	) {
 		super();
 		this._emilEnvSvc = emilEnvService;
@@ -35,6 +39,7 @@ export default class ResourceAdminService extends BaseService {
 		this._emilContentSvc = emilContentService;
 		this._emilClassificationService = emilClassificationService;
 		this._bookmarkService = bookmarkService;
+		this._resourceImportService = resourceImportService;
 	}
 
 	/**
@@ -77,10 +82,22 @@ export default class ResourceAdminService extends BaseService {
 		const bookmarkResponse = await this._bookmarkService.getByUserID(query.userId);
 		if (bookmarkResponse.result) result.bookmarks = bookmarkResponse.result.map(b => b.toJSON()) as IBookmark[];
 
-		if (query.userId && query.onlyBookmarks) {
-			contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
-			softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
-			environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
+		if (query.userId) {
+			if (query.onlyBookmarks) {
+				contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
+				softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
+				environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
+			} else if(query.onlyImportedResources) {
+				const userImportedResources: IResourceImportResult = await this._resourceImportService.getByUserID(query.userId);
+				contentResult.result = allContent.filter(r => userImportedResources.userImportedContent.result.some(ir => ir.eaasiID === r.id));
+				contentResult.totalResults = contentResult.result.length;
+
+				softwareResult.result = allSoftware.filter(r => userImportedResources.userImportedSoftware.result.some(ir => ir.eaasiID === r.id));
+				softwareResult.totalResults = softwareResult.result.length;
+				
+				environmentResult.result = allEnvironments.filter(r => userImportedResources.userImportedEnvironments.result.some(ir => ir.eaasiID === r.envId));
+				environmentResult.totalResults = environmentResult.result.length;
+			}
 		}
 
 		contentResult.result = this._filterResults<IContentItem>(query, contentResult.result);

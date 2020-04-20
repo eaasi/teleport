@@ -114,7 +114,7 @@ const actions = {
 	async resetPassword(_, email: string): Promise<boolean> {
 		return await _svc.resetUserPassword(email);
 	},
-
+	
 	/* Tasks
 	============================================*/
 	async getTaskState(_, taskId: string): Promise<ITaskState> {

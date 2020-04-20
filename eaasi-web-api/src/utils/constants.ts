@@ -40,3 +40,11 @@ export const taskStatus = {
 	SUCCESS: '0',
 	NOT_FOUND: '1'
 }
+
+export const TaskType: ITaskType = {
+	RESOURCE_IMPORT: 'resource-import',
+}
+
+export interface ITaskType {
+	RESOURCE_IMPORT: string;
+}

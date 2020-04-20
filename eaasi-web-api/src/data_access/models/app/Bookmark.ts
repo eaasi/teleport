@@ -1,4 +1,4 @@
-import EaasiUser from '@/data_access/models/app/EaasiUser';
+import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
 import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 

@@ -60,5 +60,5 @@ export class EaasiTask extends Model<EaasiTask> {
 		allowNull: true
 	})
 	object: JSON;
-	
+
 }

@@ -4,4 +4,6 @@ export * from './EaasiRole';
 export * from './EaasiTask';
 export * from './EaasiUser';
 export * from './Emulator';
-export * from './ImportedSoftwareResource';
+export * from './UserImportedSoftware';
+export * from './UserImportedEnvironment';
+export * from './UserImportedContent';

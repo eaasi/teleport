@@ -1,4 +1,5 @@
 import ImportService from '@/services/import/importService';
+import ResourceImportService from '@/services/rest-api/ResourceImportService';
 import { ICreateEnvironmentPayload, IUploadRequest } from '@/types/emil/Emil';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
@@ -8,21 +9,34 @@ import BaseController from './base/BaseController';
  */
 export default class ImportController extends BaseController {
 
-	private readonly _svc: ImportService;
+	private readonly _emilImportService: ImportService;
+	private readonly _userImportService: ResourceImportService;
 
 	constructor(importService: ImportService= new ImportService()) {
 		super();
-		this._svc = importService;
+		this._emilImportService  = importService;
 	}
 
 	/**
 	 * Makes a request to import a resource from a URL
 	 */
 	async importFromUrl(req: Request, res: Response) {
+		console.log(':: ImportController :: importFromUrl ');
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import resource from URL requires request body'), res);
-			let result = await this._svc.importResourceFromUrl(req.body);
-			res.send(result);
+			// let userId = req.body.userId;
+			// if (!userId) this.sendClientError('Import requires a userId on request body', res);
+
+			// Invoke emil endpoint for importing a resource from URL
+			let emilResult = await this._emilImportService.importResourceFromUrl(req.body);
+
+			// TODO remove debugging
+			console.log(emilResult);
+
+			// Invoke internal endpoint for associating a user with an import
+			// let userImportResult =  await this._userImportService.getByUserID(userId);
+			
+			res.send(emilResult);
 		} catch(e) {
 			this.sendError(e, res);
 		}
@@ -34,7 +48,7 @@ export default class ImportController extends BaseController {
 	async importFiles(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import resource from a file requires request body'), res);
-			let result = await this._svc.importResourceFromFile(req.body);
+			let result = await this._emilImportService.importResourceFromFile(req.body);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -47,7 +61,7 @@ export default class ImportController extends BaseController {
 	async saveImportEnvironment(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to snapshot environment import requires request body'), res);
-			let result = await this._svc.snapshotImage(req.body);
+			let result = await this._emilImportService.snapshotImage(req.body);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -60,7 +74,7 @@ export default class ImportController extends BaseController {
 	async postComponents(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to snapshot environment import requires request body'), res);
-			let result = await this._svc.postComponents(req.body);
+			let result = await this._emilImportService.postComponents(req.body);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -73,7 +87,7 @@ export default class ImportController extends BaseController {
 	async uploadFiles(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to upload files requires request body'), res);
-			let result = await this._svc.uploadFiles(req as IUploadRequest);
+			let result = await this._emilImportService.uploadFiles(req as IUploadRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -88,10 +102,11 @@ export default class ImportController extends BaseController {
 	async createEnvironment(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to create image from ISO file upload requires request body'), res);
-			let result = await this._svc.createEnvironment(req.body as ICreateEnvironmentPayload);
+			let result = await this._emilImportService.createEnvironment(req.body as ICreateEnvironmentPayload);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
 		}
 	}
+	
 }

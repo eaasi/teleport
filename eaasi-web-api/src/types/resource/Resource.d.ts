@@ -76,6 +76,7 @@ export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	keyword: string;
 	userId: number;
 	onlyBookmarks: boolean;
+	onlyImportedResources: boolean;
 }
 
 export interface IResourceSearchResponse {

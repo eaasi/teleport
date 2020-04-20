@@ -78,9 +78,11 @@ export default class ImportService extends BaseService {
 	 * Posts Object Import Request data
 	 * @param req : Request with req.body
 	 */
-	async importResourceFromFile(req: IImportObjectRequest) {
+	// using object deconstruct because /objects/import will throw 400 if requestObject will contain properties that weren't expected
+	async importResourceFromFile({ files, label }: IImportObjectRequest) {
+		const importRequest = { files, label };
 		let url = `${EMIL_SERVICE_ENDPOINT}/objects/import`;
-		let res = await this._httpService.post(url, req);
+		let res = await this._httpService.post(url, importRequest);
 		return await res.json();
 	}
 

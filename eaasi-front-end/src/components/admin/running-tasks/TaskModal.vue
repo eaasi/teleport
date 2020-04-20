@@ -11,7 +11,7 @@
 				<strong>Error: </strong>
 				{{ error }}
 			</alert-card>
-			<alert-card v-if="success" type="success">
+			<alert-card type="success" v-if="success">
 				This task was succesfully completed
 			</alert-card>
 		</div>
@@ -24,17 +24,14 @@
 	import EaasiTask from '@/models/task/EaasiTask';
 	import { ITaskState } from '@/types/Task';
 	import { jsonEquals } from '@/utils/functions';
-	import {Sync, Get} from 'vuex-pathify';
+	import { Get, Sync } from 'vuex-pathify';
 
 	@Component({
 		name: 'TaskModal'
 	})
 	export default class TaskModal extends Vue {
 
-		/**
-		 * The active task
-		 */
-		@Prop({type: Object as () => EaasiTask, required: false})
+		@Prop({ type: Object as () => EaasiTask, required: false })
 		readonly task: EaasiTask;
 
 		/* Computed
@@ -44,13 +41,11 @@
 
 		/* Data
         ============================================*/
-
 		error: string = null;
 		success: boolean = false;
 
 		/* Methods
         ============================================*/
-
 		cancel() {
 			this.$emit('close');
 			this.reset();
@@ -60,9 +55,6 @@
 			return this.success || this.error;
 		}
 
-		/**
-		 * Reset to default state
-		 */
 		reset() {
 			this.error = null;
 			this.success = false;

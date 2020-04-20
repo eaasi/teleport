@@ -88,7 +88,8 @@ import { IEaasiResource } from '@/types/Resource.d.ts';
 import { resourceTypes } from '@/utils/constants';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { jsonCopy } from '../../../utils/functions';
-import { ROUTES } from '@/router/routes.const';
+import { ROUTES } from '../../../router/routes.const';
+
 
 @Component({
 	name: 'ImportedResourcesSection',
@@ -102,6 +103,7 @@ import { ROUTES } from '@/router/routes.const';
 	}
 })
 export default class ImportedResourcesSection extends Vue {
+
 	/* Computed
 	============================================*/
 
@@ -145,10 +147,6 @@ export default class ImportedResourcesSection extends Vue {
 
 	/* Methods
 	============================================*/
-	
-	navigateToImportResource() {
-		this.$router.push(ROUTES.IMPORT_RESOURCE);
-	}
 
     async getAll(types) {
 		this.$store.commit('resource/UNSELECT_ALL_FACETS');
@@ -162,12 +160,16 @@ export default class ImportedResourcesSection extends Vue {
 	}
 
     async search() {
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, archives: ['zero conf', 'default']});
+		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyImportedResources: true , archives: ['zero conf', 'default']});
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});
+	}
+
+	navigateToImportResource() {
+		this.$router.push(ROUTES.IMPORT_RESOURCE);
 	}
 
 	/* Lifecycle Hooks
