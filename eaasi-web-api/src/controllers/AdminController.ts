@@ -53,7 +53,7 @@ export default class AdminController extends BaseController {
 			let users = await this._userSvc.getUsers(query);
 			res.send(users);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -67,7 +67,7 @@ export default class AdminController extends BaseController {
 			let roles = await this._userSvc.getRoles();
 			res.send(roles);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -95,7 +95,7 @@ export default class AdminController extends BaseController {
 			}
 			res.send(plainUser);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -113,7 +113,7 @@ export default class AdminController extends BaseController {
 			let roles = await this._userSvc.deleteUser(id);
 			res.send(roles);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -146,7 +146,7 @@ export default class AdminController extends BaseController {
 			res.status(500);
 			res.send(false);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -173,7 +173,7 @@ export default class AdminController extends BaseController {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
 			res.send(emulators);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -188,7 +188,7 @@ export default class AdminController extends BaseController {
 			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
 			res.send(taskState);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -203,7 +203,7 @@ export default class AdminController extends BaseController {
 			let response = await this._emulatorAdminSvc.setDefaultVersion(entry);
 			res.send(response);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -221,7 +221,7 @@ export default class AdminController extends BaseController {
 			let list = await this._harvesterSvc.getHarvesters();
 			res.send(list);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -237,7 +237,7 @@ export default class AdminController extends BaseController {
 			if(success) return res.send(true);
 			return this.sendError('Could not add new oai-pmh harvester', res);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -252,7 +252,7 @@ export default class AdminController extends BaseController {
 			let result = await this._harvesterSvc.syncHarvester(name, !!full);
 			res.send(result);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 
@@ -268,7 +268,7 @@ export default class AdminController extends BaseController {
 			if(success) return res.send(true);
 			return this.sendError(`Could not delete oai-pmh harvester: ${name}`, res);
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 }

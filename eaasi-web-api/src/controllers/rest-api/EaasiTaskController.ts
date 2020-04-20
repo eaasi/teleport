@@ -80,7 +80,7 @@ export default class EaasiTaskController extends BaseController {
 			const response = await this.taskService.update(eaasiTask.id, taskToSave);
 			return res.send(response.result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -102,7 +102,7 @@ export default class EaasiTaskController extends BaseController {
 			let deleteResponse = await this.emilContainerService.deleteTask(taskId);
 			res.status(HttpResponseCode.OK).send(deleteResponse);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -118,7 +118,7 @@ export default class EaasiTaskController extends BaseController {
 			const response = await this.taskService.update(task.id, { description: task.description });
 			res.send(response.result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 

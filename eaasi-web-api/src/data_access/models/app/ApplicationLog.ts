@@ -24,8 +24,8 @@ export class ApplicationLog extends Model<ApplicationLog> {
 	source: string;
 
 	@Column({
-		type: DataTypes.STRING(1028),
-		allowNull: false
+		type: DataTypes.JSONB,
+		allowNull: true
 	})
 	message: string;
 }

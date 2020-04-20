@@ -1,6 +1,6 @@
 import BlogFeedService from '@/services/blog/BlogFeedService';
-import BaseController from './base/BaseController';
 import { Request, Response } from 'express';
+import BaseController from './base/BaseController';
 
 const RSS_FEED_URL = 'https://www.softwarepreservationnetwork.org/blog/feed/';
 
@@ -18,7 +18,7 @@ export default class BlogFeedController extends BaseController {
 			return await this._blogService.getFeed(RSS_FEED_URL)
 				.then(feed => res.send(feed));
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 			return null;
 		}
 	}

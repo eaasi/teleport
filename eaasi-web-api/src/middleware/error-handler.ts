@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import HttpResponseCode from '../utils/HttpResponseCode';
+import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
+import HttpResponseCode from '../utils/HttpResponseCode';
 
 /**
  * Handle XHR Errors
@@ -45,6 +45,6 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
  * @param res Response
  * @param next Next
  */
-export function notFoundHandler(req: Request, res: Response, next: NextFunction) {
+export function notFoundHandler(err: any, req: Request, res: Response, next: NextFunction) {
 	next(createError(HttpResponseCode.NOT_FOUND));
 }

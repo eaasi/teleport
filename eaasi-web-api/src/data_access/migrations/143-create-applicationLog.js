@@ -30,8 +30,8 @@ module.exports = {
 				columnName: 'source'
 			},
 			message: {
-				type: Sq.STRING(1028),
-				allowNull: false,
+				type: Sq.JSONB,
+				allowNull: true,
 				columnName: 'message'
 			}
 		});
