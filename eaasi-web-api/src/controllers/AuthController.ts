@@ -51,11 +51,10 @@ export default class EaasiAuthController extends BaseController {
 	}
 
 	async authenticate(req: Request, res: Response) {
-		if (SAML_ENABLED) {
-			res.status(500);
-			res.send('invalid endpoint');
-		}
 		try {
+			if (SAML_ENABLED) {
+				throw new Error('invalid endpoint');
+			}
 			const { email, password }: ILoginRequest = req.body;
 			const user = await this._userService.getUserByEmail(email);
 			const plainUser = user.get({ plain: true }) as IEaasiUser;
@@ -75,7 +74,7 @@ export default class EaasiAuthController extends BaseController {
 			let expires = new Date();
 			expires.setSeconds(expires.getSeconds() + MAX_AGE);
 			jwt.sign(plainUser, SECRET as JwtSecret, { expiresIn: MAX_AGE }, (err, token) => {
-				if(err) { console.log(err) }    
+				if (err) throw err;
 				res.cookie(JWT_NAME, token, {
 					expires,
 					domain: DOMAIN,
@@ -84,7 +83,7 @@ export default class EaasiAuthController extends BaseController {
 				res.json({ success: true, token });
 			});
 		} catch(e) {
-			return this.sendError(e.message, res);
+			return this.sendError(e, res);
 		}
 	}
 

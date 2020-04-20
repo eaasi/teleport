@@ -29,7 +29,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getEnvironment(id);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -42,7 +42,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.saveSoftwareObject(softwareObject);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -55,7 +55,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getSoftwarePackageDescription(id);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -68,7 +68,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getSoftwareObject(id);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -81,7 +81,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getSoftwareMetadata(archiveId, objectId);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -94,7 +94,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getContentMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -107,7 +107,7 @@ export default class ResourceController extends BaseController {
 			const result = await this._svc.saveContent(contentOverride);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -120,7 +120,7 @@ export default class ResourceController extends BaseController {
 			await this._svc.deleteContent(contentRequest);
 			res.send(true);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -135,7 +135,7 @@ export default class ResourceController extends BaseController {
 			const result = await emilEnvironmentService.updateDescription(environment);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -149,7 +149,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.replicateEnvironment(replicateEnvironmentRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -162,7 +162,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.forkRevision(revisionRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -175,7 +175,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.searchResources(query);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -188,7 +188,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.deleteEnvironment(id);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -200,7 +200,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getEnvironmentTemplates();
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -212,7 +212,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getPatches();
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -226,7 +226,7 @@ export default class ResourceController extends BaseController {
 			let result = await emilContainerSvc.classify(classifyRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -235,7 +235,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getOperatingSystemMetadata();
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -244,7 +244,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getNameIndexes();
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -253,7 +253,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.getObjectArchive();
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -263,7 +263,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.saveNewEnvironment(newEnvRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -273,7 +273,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.saveNewObjectEnvironment(newEnvRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 
@@ -283,7 +283,7 @@ export default class ResourceController extends BaseController {
 			let result = await this._svc.saveEnvironmentRevision(revisionEnvRequest);
 			res.send(result);
 		} catch(e) {
-			this.sendError(e.message, res);
+			this.sendError(e, res);
 		}
 	}
 }

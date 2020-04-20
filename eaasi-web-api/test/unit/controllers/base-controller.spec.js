@@ -14,14 +14,14 @@ describe('BaseController', () => {
 	it('on sendClientError sets a status of 400', async () => {
 		let sut = new BaseController();
 		const res = mockResponse();
-		await sut.sendClientError('hello world', res);
+		await sut.sendClientError(new Error('hello world'), res);
 		expect(res.status).toHaveBeenCalledWith(HttpResponseCode.BAD_REQUEST);
 	});
 
 	it('on sendClientError sends a 400 response with the provided error', async () => {
 		let sut = new BaseController();
 		const res = mockResponse();
-		await sut.sendClientError('another prob', res);
+		await sut.sendClientError(new Error('another prob'), res);
 		expect(res.send).toHaveBeenCalledWith(
 			{
 				'hasError': true,
@@ -34,14 +34,14 @@ describe('BaseController', () => {
 	it('on sendError sets a status of 500', async () => {
 		let sut = new BaseController();
 		const res = mockResponse();
-		await sut.sendError('burned', res);
+		await sut.sendError(new Error('burned'), res);
 		expect(res.status).toHaveBeenCalledWith(HttpResponseCode.SERVER_ERROR);
 	});
 
 	it('on sendError sends a 500 response with the provided error', async () => {
 		let sut = new BaseController();
 		const res = mockResponse();
-		await sut.sendError('its a trap!', res);
+		await sut.sendError(new Error('its a trap!'), res);
 		expect(res.send).toHaveBeenCalledWith(
 			{
 				'hasError': true,

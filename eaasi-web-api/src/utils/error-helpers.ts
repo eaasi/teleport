@@ -64,13 +64,13 @@ export function _getStandardizedServerError(errorName: string): string {
  * Internal server error response
  * @type {{}}
  */
-export function build_500_response(serverError: any) {
+export function build_500_response(serverError: Error) {
 	const nodeEnvironment = process.env.NODE_ENV || '';
 
 	if(['test', 'development', 'local'].includes(nodeEnvironment)) {
-		return new ErrorResponse(HttpResponseCode.SERVER_ERROR, serverError);
+		return new ErrorResponse(HttpResponseCode.SERVER_ERROR, serverError.message);
 	}
-	let errorName = serverError && serverError.name ? serverError.name : 'Unspecified error';
+	let errorName = serverError.name ? serverError.name : 'Unspecified error';
 	let error = _getStandardizedServerError(errorName);
 	const messageDetail =
 		`A server error occurred while processing the request: ${error}`;

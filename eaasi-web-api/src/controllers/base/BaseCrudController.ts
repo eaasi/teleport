@@ -38,11 +38,11 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		}
 
 		let response = await this._crudService.getAll(req.query);
-
+		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
 				.status(HttpResponseCode.SERVER_ERROR)
-				.send(build_500_response(response.error));
+				.send(build_500_response(err));
 		}
 
 		return res.send(response.result);
@@ -66,11 +66,11 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		}
 
 		let response = await this._crudService.getByPk(id);
-
+		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
 				.status(HttpResponseCode.SERVER_ERROR)
-				.send(build_500_response(response.error));
+				.send(build_500_response(err));
 		}
 
 		if (response.result == null) {
@@ -97,11 +97,11 @@ export default class BaseCrudController extends BaseController implements ICrudC
 		}
 
 		let response = await this._crudService.create(newObject);
-
+		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
 				.status(HttpResponseCode.SERVER_ERROR)
-				.send(build_500_response(response.error));
+				.send(build_500_response(err));
 		}
 
 		return res.status(HttpResponseCode.CREATED).send(response.result);
@@ -182,10 +182,10 @@ export default class BaseCrudController extends BaseController implements ICrudC
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
-
+		const err: Error = updateResponse.error instanceof Error ? updateResponse.error : new Error(updateResponse.error);
 		return res
 			.status(HttpResponseCode.SERVER_ERROR)
-			.send(build_500_response(updateResponse.error));
+			.send(build_500_response(err));
 	}
 
 	/**
@@ -202,9 +202,9 @@ export default class BaseCrudController extends BaseController implements ICrudC
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
 		}
-
+		const err: Error = deleteResponse.error instanceof Error ? deleteResponse.error : new Error(deleteResponse.error);
 		return res
 			.status(HttpResponseCode.SERVER_ERROR)
-			.send(build_500_response(deleteResponse.error));
+			.send(build_500_response(err));
 	}
 }

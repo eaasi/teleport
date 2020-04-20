@@ -1,14 +1,15 @@
-import {sequelize} from '@/data_access/models';
+import { sequelize } from '@/data_access/models';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import logger from 'morgan';
-import path from 'path';
 import http from 'http';
-import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
-import { onError, normalizePort } from './utils/server';
+import morgan from 'morgan';
 import passport from 'passport';
+import path from 'path';
+import { logger } from './logging/appLogger';
+import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
+import { normalizePort, onError } from './utils/server';
 
 require('dotenv-flow').config();
 require('./middleware/passport');
@@ -28,7 +29,7 @@ app.set('view engine', 'jade');
  */
 app.use(cors());
 app.use(passport.initialize());
-app.use(logger('dev'));
+app.use(morgan('combined', { stream: logger.stream }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());

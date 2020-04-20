@@ -17,4 +17,6 @@ const controller = new ApplicationLogController();
  */
 router.get('/get-all', (req, res) => controller.getAll(req, res));
 
+router.get('/get-all-from-file', (req, res) => controller.getAllFromFile(req, res));
+
 module.exports = router;

@@ -19,10 +19,9 @@ class AuthService extends BaseHttpService {
 	}
 
 	async login(loginRequest: ILoginRequest): Promise<boolean> {
-		const res = await this.post('/auth/authenticate', loginRequest);
-		const result = res.result as ILoginResponse;
-		if (!result || !result.success) return false;
-		this.addJWTCookie(result.token);
+		const res = await this.post<ILoginResponse>('/auth/authenticate', loginRequest);
+		if (!res.result || !res.result.success) return false;
+		this.addJWTCookie(res.result.token);
 		return true;
 	}
 

@@ -42,7 +42,6 @@ export default class OrmTransport extends Transport {
 					callback(null, log.get());
 				}).catch((err: any) => {
 					this.emit('error', err);
-					console.log(err);
 					callback(err);
 				});
 		};

@@ -12,12 +12,14 @@ export default class BaseController {
 		this._logger = new AppLogger(this.constructor.name);
 	}
 
-	protected sendClientError(error: string, response: Response) {
+	protected sendClientError(error: Error, response: Response) {
+		this._logger.log.error(error.stack);
 		response.status(HttpResponseCode.BAD_REQUEST)
-			.send(build_400_response(error));
+			.send(build_400_response(error.message));
 	}
 
-	protected sendError(error: string, response: Response) {
+	protected sendError(error: Error, response: Response) {
+		this._logger.log.error(error.stack);
 		response.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(error));
 	}
