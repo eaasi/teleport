@@ -19,7 +19,7 @@ module.exports = {
 	],
 	rules: {
 		'camelcase': 'off',
-		'indent': ['error', 'tab'],
+		'indent': ['error', 'tab', { 'SwitchCase': 1 }],
 		'lines-between-class-members': ['warn', 'always'],
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',

@@ -42,6 +42,10 @@ import { INumberedStep } from '@/types/NumberedStep';
 import TaskModal from '@/components/admin/running-tasks/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { ROUTES } from '../../router/routes.const';
+import { IUserImportRelationRequest, IUserImportedResource } from '../../types/UserImportRelation';
+import { IEaasiUser } from 'eaasi-admin';
+import { generateNotificationError, generateCompletedNotificationWithMessage, generateNotificationSuccess } from '../../helpers/NotificationHelper';
+import eventBus from '../../utils/event-bus';
 
 	@Component({
 		name: 'ImportProgress',
@@ -71,6 +75,7 @@ import { ROUTES } from '../../router/routes.const';
 			},
 		];
 		activeTask: EaasiTask = null;
+		userImportRequest: IUserImportRelationRequest = null;
 
 		/* Computed
         ============================================*/
@@ -111,6 +116,9 @@ import { ROUTES } from '../../router/routes.const';
 		@Get('import/environment@nativeFMTs')
 		nativeFMTs: string;
 
+		@Get('loggedInUser')
+		loggedInUser: IEaasiUser;
+
 		get nextButtonLabel() {
 			if (this.step == this.steps.length) return 'Finish Import';
 			return 'Next';
@@ -137,71 +145,134 @@ import { ROUTES } from '../../router/routes.const';
 		}
 
 		async onTaskComplete(taskResult: EaasiTask) {
-			// Environment Import
-			let contentType = resourceTypes.CONTENT.toLowerCase();
-			let softwareType = resourceTypes.SOFTWARE.toLowerCase();
-			if (this.importType === importTypes.ENVIRONMENT && taskResult.userData && taskResult.userData.environmentId) {
-				// This path occurs when a user imports an Environment Object from URL
-				// When an import task is complete, get the environmentId and push into Access Interface
-				this.environmentEaasiID = taskResult.userData.environmentId;
-				this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.environmentEaasiID}`);
-
-			} else if (this.importType === contentType) {
-				// This path occurs when a user uploads a Content Object
-				this.$router.push({name: 'My Resources', params: {defaultTab: 'Imported Resources'}});
-
-			} else if (this.importType === softwareType ) {
-				// This path occurs when a user uploads a Software Object
-				let objectId = taskResult.userData.objectId;
-
-				await this.$store.dispatch('import/saveSoftwareObject', {
-					allowedInstances: -1,
-					archiveId: 'zero conf',
-					exportFMTs: [],
-					importFMTs: [],
-					isOperatingSystem: false,
-					label: this.software.title,
-					licenseInformation: '',
-					nativeFMTs: [],
-					objectId: objectId
-				});
-
-				this.$router.push({name: 'My Resources', params: {defaultTab: 'Imported Resources'}});
-
-			} else if (this.importType === importTypes.ENVIRONMENT) {
-				// This path occurs when a user uploads an Environment Object
-
-				// First, we get the ID of the 'Content' ISO Upload
-				// And save it as a Software Object
-				let objectId = taskResult.userData.objectId;
-
-				let savePayload = {
-					allowedInstances: -1,
-					archiveId: 'zero conf',
-					exportFMTs: [],
-					importFMTs: [],
-					isOperatingSystem: true, // We mark the ISO as an OS
-					label: this.environment.title,
-					licenseInformation: '',
-					nativeFMTs: this.nativeFMTs ? this.nativeFMTs.split(',') : [],
-					objectId: objectId
-				};
-
-				await this.$store.dispatch('import/saveSoftwareObject', savePayload);
-
-				// Then we create an environment based on the user input
-				let nativeConfig = this.nativeConfig;
-				if (this.isKvmEnabled) nativeConfig += ' -enable-kvm';
-
-				let res = await this.$store.dispatch('import/createEnvironment', {
-					size: this.diskSize + 'M',
-					nativeConfig: nativeConfig,
-					templateId: this.chosenTemplateId
-				});
-
-				this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${res.id}?softwareId=${objectId}&archiveId=zero%20conf`);
+			const { environmentId, objectId } = taskResult.userData;
+			if (environmentId || objectId) {
+				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
+			}
+			
+			switch(this.importType) {
+				case importTypes.ENVIRONMENT:
+					if (environmentId) {
+						// This path occurs when a user imports an Environment Object from URL
+						// When an import task is complete, get the environmentId and push into Access Interface
+						await this.onImportEnvFromURLTask(environmentId);
+					}
+					// This path occurs when a user uploads an Environment Object
+					// First, we get the ID of the 'Content' ISO Upload
+					// And save it as a Software Object
+					await this.onImportEnvObjectTask(objectId);
+					break;
+				case importTypes.CONTENT:
+					this.onImportContentTask(objectId);
+					break;
+				case importTypes.SOFTWARE:
+					// This path occurs when a user uploads a Software Object
+					this.onImportSoftwareTask(objectId);
+					break;
 			}
 		}
+
+		async onImportEnvFromURLTask(environmentId: string) {
+			this.environmentEaasiID = environmentId;
+			this.userImportRequest.resourceId = environmentId;
+			this.userImportRequest.resourceType = resourceTypes.ENVIRONMENT;
+			const { eaasiID }: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			this.notifyUserOnImportedResource(eaasiID, importTypes.ENVIRONMENT);
+			this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.environmentEaasiID}`);
+		}
+
+		async onImportEnvObjectTask(objectId: string) {
+			let savePayload = {
+				allowedInstances: -1,
+				archiveId: 'zero conf',
+				exportFMTs: [],
+				importFMTs: [],
+				isOperatingSystem: true, // We mark the ISO as an OS
+				label: this.environment.title,
+				licenseInformation: '',
+				nativeFMTs: this.nativeFMTs ? this.nativeFMTs.split(',') : [],
+				objectId
+			};
+			const savedSoftwareObject = await this.$store.dispatch('import/saveSoftwareObject', savePayload);
+
+			this.userImportRequest.resourceId = objectId;
+			this.userImportRequest.resourceType = resourceTypes.SOFTWARE;
+			const importedSoftware = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			this.notifyUserOnImportedResource(importedSoftware.eaasiID, importTypes.CONTENT);
+
+			// Then we create an environment based on the user input
+			let nativeConfig = this.nativeConfig;
+			if (this.isKvmEnabled) nativeConfig += ' -enable-kvm';
+
+			let { id } = await this.$store.dispatch('import/createEnvironment', {
+				size: this.diskSize + 'M',
+				nativeConfig: nativeConfig,
+				templateId: this.chosenTemplateId
+			});
+
+			this.userImportRequest.resourceId = id;
+			this.userImportRequest.resourceType = resourceTypes.ENVIRONMENT;
+			const environmentResponse = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			
+			this.notifyUserOnImportedResource(environmentResponse.eaasiID, importTypes.ENVIRONMENT);
+			
+			this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${id}?softwareId=${objectId}&archiveId=zero%20conf`);
+		}
+
+		async onImportContentTask(objectId: string) {
+			this.userImportRequest.resourceId = objectId;
+			this.userImportRequest.resourceType = resourceTypes.CONTENT;
+			const { eaasiID } = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			this.notifyUserOnImportedResource(eaasiID, importTypes.CONTENT);
+			// This path occurs when a user uploads a Content Object
+			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources' }});
+		}
+
+		async onImportSoftwareTask(objectId: string) {
+			await this.$store.dispatch('import/saveSoftwareObject', {
+				allowedInstances: -1,
+				archiveId: 'zero conf',
+				exportFMTs: [],
+				importFMTs: [],
+				isOperatingSystem: false,
+				label: this.software.title,
+				licenseInformation: '',
+				nativeFMTs: [],
+				objectId
+			});
+
+			this.userImportRequest.resourceId = objectId;
+			this.userImportRequest.resourceType = resourceTypes.SOFTWARE;
+			const { eaasiID } = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			this.notifyUserOnImportedResource(eaasiID, importTypes.SOFTWARE);
+			
+			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources' } });
+		}
+
+		notifyUserOnImportedResource(resourceId: string, importType: ImportType) {
+			resourceId != null
+				? this.scheduleNotificationSuccess(`${importType} has been successfully imported to "My Resources"`)
+				: this.scheduleNotificationFailure(`Having troubles importing requested ${importType}.`);
+		}
+
+		scheduleNotificationFailure(message: string) {
+			const notif = generateNotificationError(message);
+			eventBus.$emit('notificaiton:show', notif);
+		}
+
+		scheduleNotificationSuccess(message: string) {
+			const notif = generateNotificationSuccess(message);
+			eventBus.$emit('notificaiton:show', notif);
+		}
+
+		mounted() {
+			this.userImportRequest = {
+				userId: this.loggedInUser.id,
+				resourceId: null,
+				resourceType: null
+			};
+		}
+
 	}
 
 </script>

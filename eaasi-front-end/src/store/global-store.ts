@@ -12,7 +12,7 @@ import { make } from 'vuex-pathify';
  == State
 /============================================================*/
 
-class GlobalState {
+export class GlobalState {
 	appVersion: string = config.APP_VERSION;
 	adminMenuOpen: boolean = false;
 	emulatorIsRunning: boolean = false;

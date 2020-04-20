@@ -3,6 +3,7 @@ import EaasiTask from '@/models/task/EaasiTask';
 import { IEmilUploadResponse } from '@/types/Eaas';
 import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImportObjectRequest, IResourceImport, IResourceImportFile } from '@/types/Import';
 import { ISoftwareObject } from '@/types/Resource';
+import { IUserImportedResource, IUserImportRelationRequest } from '@/types/UserImportRelation';
 import BaseHttpService from './BaseHttpService';
 
 
@@ -52,8 +53,7 @@ class ImportService extends BaseHttpService {
 			formData.set('uploadId', (file.sortIndex - 1).toString());
 		});
 
-		let eaasiHost = config.EMIL_SERVICE_ENDPOINT;
-		let uploadUrl = `${eaasiHost}/upload`;
+		let uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/upload`;
 		const res = await this.postUpload<IEmilUploadResponse>(uploadUrl, formData);
 
 		if (!res.ok) {
@@ -117,6 +117,16 @@ class ImportService extends BaseHttpService {
 		}
 		return res.result;
 	}
+
+	async createUserImportRelation(userImportRelationRequest: IUserImportRelationRequest): Promise<IUserImportedResource> {
+		const res = await this.post<IUserImportedResource>('/import/user-import-relation', userImportRelationRequest);
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+		return res.result;
+	}
+
 }
 
 export default new ImportService();

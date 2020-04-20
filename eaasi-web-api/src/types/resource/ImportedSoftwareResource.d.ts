@@ -1,4 +1,4 @@
-export default interface IImportedSoftwareResource {
+export interface IImportedEnvironmentResource {
 	eaasiID: string;
 	environmentTemplateId: string;
 	isUrlSource: boolean;

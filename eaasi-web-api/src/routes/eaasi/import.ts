@@ -1,8 +1,10 @@
 import ImportController from '@/controllers/ImportController';
+import UserImportController from '@/controllers/rest-api/UserImportController';
 import express from 'express';
 
 const router = express.Router();
-const controller = new ImportController();
+const importController = new ImportController();
+const userImportController = new UserImportController();
 
 /**
  * @api {get} import/url Import a resource from a URL
@@ -11,7 +13,7 @@ const controller = new ImportController();
  * @apiPermission System Administrator only
  * @apiDescription Triggers an image import from a URL string
  */
-router.post('/url', (req, res) => controller.importFromUrl(req, res));
+router.post('/url', (req, res) => importController.importFromUrl(req, res));
 
 /**
  * @api {get} import/importFiles Import a resource from files
@@ -20,7 +22,7 @@ router.post('/url', (req, res) => controller.importFromUrl(req, res));
  * @apiPermission System Administrator only
  * @apiDescription Triggers file import
  */
-router.post('/files', (req, res) => controller.importFiles(req, res));
+router.post('/files', (req, res) => importController.importFiles(req, res));
 
 /**
  * @api {get} import/createEnvironment create environment
@@ -29,7 +31,7 @@ router.post('/files', (req, res) => controller.importFiles(req, res));
  * @apiPermission System Administrator only
  * @apiDescription Triggers a createEnvironment event
  */
-router.post('/createEnvironment', (req, res) => controller.createEnvironment(req, res));
+router.post('/createEnvironment', (req, res) => importController.createEnvironment(req, res));
 
 /**
  * @api {get} import/saveEnvironment snapshot of imported environment
@@ -38,7 +40,7 @@ router.post('/createEnvironment', (req, res) => controller.createEnvironment(req
  * @apiPermission System Administrator only
  * @apiDescription Triggers a snapshot for an imported Environment
  */
-router.post('/saveEnvironment', (req, res) => controller.saveImportEnvironment(req, res));
+router.post('/saveEnvironment', (req, res) => importController.saveImportEnvironment(req, res));
 
 /**
  * @api {get} import/postComponents posts to a components endpoint
@@ -47,6 +49,22 @@ router.post('/saveEnvironment', (req, res) => controller.saveImportEnvironment(r
  * @apiPermission System Administrator only
  * @apiDescription Triggers a post to components
  */
-router.post('/postComponents', (req, res) => controller.postComponents(req, res));
+router.post('/postComponents', (req, res) => importController.postComponents(req, res));
+
+/**
+ * @api {get} import/user-import-relation creates a record for user imported resource
+ * @apiVersion 1.0.0
+ * @apiGroup Import Resources
+ * @apiPermission All Users
+ */
+router.post('/user-import-relation', (req, res) => userImportController.createUserImportRelation(req, res));
+
+/**
+ * @api {get} import/user-imported-resource fetches user imported resources
+ * @apiVersion 1.0.0
+ * @apiGroup Import Resources
+ * @apiPermission All Users
+ */
+router.get('/user-imported-resource', (req, res) => userImportController.getByUserID(req, res));
 
 module.exports = router;
