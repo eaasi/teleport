@@ -10,6 +10,8 @@ if [ -e "$file" ]; then
 
     # Seed the database
     npx sequelize-cli db:seed:all --env=production
+
+    rm -f "$file"
 fi
 
 # Build and run the Express API
