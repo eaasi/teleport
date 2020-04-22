@@ -192,7 +192,7 @@ export default class SoftwareDetailsScreen extends Vue {
 
 	get resourceTitle(): string {
 		return this.softwareMetadata && this.softwareMetadata.metadata && this.softwareMetadata.metadata.title
-			? `${this.softwareMetadata.metadata.title} Details` : 'Software Details';
+			? `${this.softwareMetadata.metadata.title}` : 'Software Details';
 	}
 
     /* Methods

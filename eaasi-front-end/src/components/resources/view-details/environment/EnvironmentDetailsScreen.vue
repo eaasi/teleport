@@ -177,7 +177,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	get resourceTitle(): string {
 		return this.activeEnvironment && this.activeEnvironment.title 
-			? `${this.activeEnvironment.title} Details` : 'Environment Details';
+			? `${this.activeEnvironment.title}` : 'Environment Details';
 	}
 
     /* Methods

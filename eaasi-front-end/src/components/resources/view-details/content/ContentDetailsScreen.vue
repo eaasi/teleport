@@ -177,7 +177,7 @@ export default class ContentDetailsScreen extends Vue {
 
 	get resourceTitle(): string {
 		return this.activeContent && this.activeContent.metadata && this.activeContent.metadata.title 
-			? `${this.activeContent.metadata.title} Details` : 'Content Details';
+			? `${this.activeContent.metadata.title}` : 'Content Details';
 	}
 
     /* Methods
