@@ -33,12 +33,12 @@ export default class TaskCard extends Vue {
 
     /* Computed
 	============================================*/
-	get hasError(): Boolean {
+	get hasError(): boolean {
 		return this.task.status !== '0';
 	}
 
-    get descriptionOrDefault(): String {
-        return this.task.description ? this.task.description : 'Task has no description';
+    get descriptionOrDefault(): string {
+        return this.task.description ? this.task.description : `Task #${this.task.taskId}`;
     }
 
 }

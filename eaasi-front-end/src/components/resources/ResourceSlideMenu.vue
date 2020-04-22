@@ -415,6 +415,13 @@ export default class ResourceSlideMenu extends Vue {
 		.fa-times {
 			cursor: pointer;
 		}
+
+		.task-list-container {
+
+			.task-list-content {
+				max-height: 30rem;
+			}
+		}
 	}
 
 	.rsm-header {
@@ -436,5 +443,4 @@ export default class ResourceSlideMenu extends Vue {
 		border-bottom: solid 4px lighten($light-neutral, 10%);
 		margin-bottom: 3rem;
 	}
-
 </style>

@@ -87,7 +87,7 @@
 <script lang="ts">
 import {archiveTypes} from '@/utils/constants';
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import {IContentRequest, IEnvironment, IObjectClassificationRequest} from '@/types/Resource';
 import {Get, Sync} from 'vuex-pathify';
 import EnvironmentPickerModal from './EnvironmentPickerModal.vue';
@@ -111,12 +111,14 @@ export default class RenderingEnvironments extends Vue {
 
 	/* Computed
 	============================================*/
-
 	@Sync('import/constructedTitle')
 	constructedTitle: string;
 
 	@Get('resource/activeEnvironment@title')
 	activeEnvironmentName: string;
+
+	@Get('task/completedTasks')
+	completedTasks: ITaskState[];
 
 	get isSoftware() {
 		return this.$route.path.indexOf('software') > 0;
@@ -129,6 +131,7 @@ export default class RenderingEnvironments extends Vue {
 	showLoader: boolean = false;
 	confirmAction: string = null;
 	renderingEnvs: any[] = [];
+	classifyTask: ITaskState = null;
 
     /* Methods
     ============================================*/
@@ -174,16 +177,10 @@ export default class RenderingEnvironments extends Vue {
             updateClassification: false,
             updateProposal: true,
         };
-        const task: ITaskState = await this.$store.dispatch('software/classify', classifyRequest);
-        let timer = setInterval(async () => {
-            let taskState = await this.$store.dispatch('task/getTaskState', task.taskId) as ITaskState;
-            if(taskState.isDone && taskState.taskId === task.taskId) {
-                clearInterval(timer);
-				const res = JSON.parse(taskState.object);
-                this.renderingEnvs = res.environmentList;
-                this.showLoader = false;
-            }
-        }, 1000);
+		let task: ITaskState = await this.$store.dispatch('software/classify', classifyRequest);
+		task.description = `Detect Environments for ${this.isSoftware ? 'software' : 'content'} ${this.resourceId}`;
+		await this.$store.dispatch('task/addTaskToQueue', task);
+		this.classifyTask = task;
     }
 
     async run(env) {
@@ -223,7 +220,19 @@ export default class RenderingEnvironments extends Vue {
 
     async beforeDestroy() {
         await this.$store.dispatch('resource/clearSearchQuery');
-    }
+	}
+	
+	/* Watcher
+	============================================*/
+	@Watch('completedTasks')
+	onActivePollingTask(completedTasks: ITaskState[]) {
+		if (completedTasks.length < 1 || !this.classifyTask) return;
+		const currentTask = completedTasks.find(task => task.taskId === this.classifyTask.taskId);
+		if (!currentTask) return;
+		const res = JSON.parse(currentTask.object);
+		this.renderingEnvs = res.environmentList;
+		this.showLoader = false;
+	}
 
 }
 </script>

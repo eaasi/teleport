@@ -84,7 +84,6 @@ export default class TaskList extends Vue {
 
 	/* Methods
 	============================================*/
-
 	async removeTask(task: EaasiTask) {
 		await this.$store.dispatch('task/deleteTask', task.id);
 	}
@@ -92,7 +91,7 @@ export default class TaskList extends Vue {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .task-list-container {
 	.task-header {
 		background-color: darken($teal, 60%);
