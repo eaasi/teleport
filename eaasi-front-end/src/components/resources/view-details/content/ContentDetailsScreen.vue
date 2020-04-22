@@ -9,7 +9,7 @@
 					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 				<h1>
-					Content Details
+					{{ resourceTitle }}
 				</h1>
 			</div>
 			<div v-if="activeContent" class="vrd-content">
@@ -173,6 +173,11 @@ export default class ContentDetailsScreen extends Vue {
 		let width = '95vw'; // screen width
 		styles += `width: ${width};`;
 		return styles;
+	}
+
+	get resourceTitle(): string {
+		return this.activeContent && this.activeContent.metadata && this.activeContent.metadata.title 
+			? `${this.activeContent.metadata.title} Details` : 'Content Details';
 	}
 
     /* Methods
