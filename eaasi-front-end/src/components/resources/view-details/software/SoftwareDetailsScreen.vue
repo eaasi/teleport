@@ -9,7 +9,7 @@
 					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 				<h1>
-					Software Details
+					{{ resourceTitle }}
 				</h1>
 			</div>
 			<div v-if="activeSoftware" class="vrd-content">
@@ -98,7 +98,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile, IEaasiResource } from '@/types/Resource';
+import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile, IEaasiResource, ISoftwareMetadata, ISoftwareMetadataResponse } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { resourceTypes } from '@/utils/constants';
@@ -134,7 +134,7 @@ export default class SoftwareDetailsScreen extends Vue {
     /* Data
 	============================================*/
 	activeSoftware: ISoftwareObject = null;
-	softwareMetadata = null;
+	softwareMetadata: ISoftwareMetadataResponse = null;
 	mods = ['Review Mode', 'Edit Mode'];
 	activeMode: string = this.mods[0];
 	objectDetailsItems: ILabeledEditableItem[] = [];
@@ -162,7 +162,7 @@ export default class SoftwareDetailsScreen extends Vue {
 		return {
 			id: this.activeSoftware.objectId,
 			title: this.softwareMetadata ? this.softwareMetadata.metadata.title : '',
-			description: this.softwareMetadata ? this.softwareMetadata.description : '',
+			description: this.softwareMetadata ? this.softwareMetadata.metadata.description : '',
 			content: null,
 			subContent: null,
 			tagGroup: [],
@@ -188,6 +188,11 @@ export default class SoftwareDetailsScreen extends Vue {
 		let width = '95vw'; // screen width
 		styles += `width: ${width};`;
 		return styles;
+	}
+
+	get resourceTitle(): string {
+		return this.softwareMetadata && this.softwareMetadata.metadata && this.softwareMetadata.metadata.title
+			? `${this.softwareMetadata.metadata.title} Details` : 'Software Details';
 	}
 
     /* Methods

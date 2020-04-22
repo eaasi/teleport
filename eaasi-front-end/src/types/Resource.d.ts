@@ -180,6 +180,18 @@ export interface ISoftwareObject {
 	qid?: string;
 }
 
+export interface ISoftwareMetadataResponse {
+	metadata: ISoftwareMetadata;
+	mediaItems: IContentMediaItems[];
+	status: string;
+}
+
+export interface ISoftwareMetadata {
+	id: string;
+	description: string;
+	title: string;
+}
+
 export interface IOsItem {
 	id: string;
 	puids: IPuid[];

@@ -119,9 +119,10 @@ export default class EaasiAuthController extends BaseController {
 			const userFromDb = await this._userService.getUser(userId);
 			if (userFromDb != null) {
 				res.json(req.user);
+			} else {
+				res.status(401);
+				res.send(null);
 			}
-			res.status(401);
-			res.send(null);
 		} catch(e) {
 			this.sendClientError(e, res);
 		}

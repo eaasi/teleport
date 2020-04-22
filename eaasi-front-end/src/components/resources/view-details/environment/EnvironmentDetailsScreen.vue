@@ -9,7 +9,7 @@
 					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 				<h1>
-					Environment Details
+					{{ resourceTitle }}
 				</h1>
 			</div>
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
@@ -173,6 +173,11 @@ export default class EnvironmentDetailsScreen extends Vue {
 		let width = '95vw'; // screen width
 		styles += `width: ${width};`;
 		return styles;
+	}
+
+	get resourceTitle(): string {
+		return this.activeEnvironment && this.activeEnvironment.title 
+			? `${this.activeEnvironment.title} Details` : 'Environment Details';
 	}
 
     /* Methods
