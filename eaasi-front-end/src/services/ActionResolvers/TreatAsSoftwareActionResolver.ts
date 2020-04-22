@@ -2,7 +2,7 @@ import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionR
 import { IEnvironment } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
 
-export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
+export default class TreatAsSoftwareActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEnvironment[];
 	userRoleId: number;
 
@@ -14,13 +14,13 @@ export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
 	 * Resolves custom behavior of an action
 	 */
 	get action() : IAction {
-		// Disabled if more than one resource is selected
+		// Disabled if resource is int a single public resource
 		return {
-			shortName: 'viewDetails',
-			label: 'View Details',
-			description: 'Review full resource details',
-			icon: 'file-alt',
-			isEnabled: super.isSingleSelected() && !super.isResourceDetailPage()
+			shortName: 'treat-as-software',
+			label: 'Treat as Software',
+			description: 'Add this content to a software repository',
+			icon: 'plus',
+			isEnabled: super.isResourceDetailPage()
 		};
 	}
 }

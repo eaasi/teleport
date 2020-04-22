@@ -1,35 +1,32 @@
 <template>
 	<div>
-		<slide-menu
-			class="resource-slide-menu"
-			:open="open"
-			@toggle="toggleSlide"
-		>
+		<slide-menu class="resource-slide-menu" :open="true">
 			<div v-if="resources">
 				<div class="rsm-header">
 					<div class="rsm-resource-title flex-row">
-						<span v-if="areMultipleActiveResourcesSelected" class="flex-adapt">
+						<span v-if="resources.length > 1" class="flex-adapt">
 							({{ resources.length }}) Resources Selected
 						</span>
 						<span v-else-if="onlySelectedResource" class="flex-adapt">
 							{{ onlySelectedResource.title }}
 						</span>
-						<span class="fas fa-times" @click="$emit('toggle')"></span>
+						<span class="fas fa-times" @click="$emit('close')"></span>
 					</div>
-					<tabbed-nav
-						v-if="hasDetails"
-						v-model="activeTab"
-						:tabs="tabs"
+					<tabbed-nav 
+						v-if="tabs.length > 1" 
+						:value="activeTab.label" 
+						:tabs="tabs" 
+						@input="navigateToTab" 
 					/>
 				</div>
 
 				<labeled-item-list
-					v-if="activeTab === 'Details'"
+					v-if="activeTab.label === 'Details'"
 					class="rsm-details"
 					:labeled-items="detailsItems"
 				/>
 
-				<div v-if="activeTab === 'Actions'">
+				<div v-if="activeTab.label === 'Actions'">
 					<div class="rsm-local-actions">
 						<resource-action
 							v-for="action in localActionsForSelected"
@@ -156,8 +153,11 @@ export default class ResourceSlideMenu extends Vue {
 	/* Props
 	============================================*/
 
-	@Prop({type: Boolean, required: true})
-	readonly open: boolean;
+	@Prop({ type: Object as () => IEaasiTab, required: true })
+	readonly activeTab: IEaasiTab;
+
+	@Prop({ type: Array as () => IEaasiTab[], required: true })
+	readonly tabs: IEaasiTab[];
 
 	/* Computed
 	============================================*/
@@ -193,16 +193,6 @@ export default class ResourceSlideMenu extends Vue {
 		return false;
 	}
 
-	get areMultipleActiveResourcesSelected() : boolean {
-		if (this.resources.length > 1) {
-			// If we are showing the Details tab when multiple are selected,
-			// We should change to the Actions tab.
-			this.activeTab ='Actions';
-			return true;
-		};
-		return false;
-	}
-
 	/**
 	 * Populates the list of Local Actions in the Sidebar
 	 */
@@ -226,20 +216,16 @@ export default class ResourceSlideMenu extends Vue {
 	/* Data
 	============================================*/
 	detailsItems: ILabeledItem[] = [];
-	tabs: IEaasiTab[] = [
-		{
-			label: 'Details'
-		},
-		{
-			label: 'Actions'
-		}
-	]
-	activeTab: string = this.tabs[1].label;
 	confirmAction : string = null;
 	showTasks: boolean = true;
 
 	/* Methods
 	============================================*/
+
+	navigateToTab(label: string) {
+		const tab = this.tabs.find(tab => tab.label === label);
+		this.$emit('navigate-to-tab', tab);
+	}
 
 	async setDetailsItems() : Promise<void> {
 		if (!this.onlySelectedResource) return;
@@ -336,7 +322,7 @@ export default class ResourceSlideMenu extends Vue {
 			});
 			await this.$store.dispatch('software/deleteContent', contentRequests);
 		}
-		this.$emit('resource-updated');
+		this.$emit('resource-deleted');
 	}
 
 	async publishSelectedResource() {
@@ -379,6 +365,12 @@ export default class ResourceSlideMenu extends Vue {
 					query: { resourceId, archiveId }
 				});
 				break;
+			case 'add-software':
+				this.$emit('add-software');
+				break;
+			case 'treat-as-software':
+				this.$emit('treat-as-software');
+				break;
 			case 'bookmark':
 				// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
 				let resourceIds = this.resources.map(resource =>
@@ -415,7 +407,10 @@ export default class ResourceSlideMenu extends Vue {
 <style lang="scss">
 	.resource-slide-menu {
 		background-color: lighten($light-neutral, 60%);
-		position: fixed;
+		bottom: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
 
 		.fa-times {
 			cursor: pointer;

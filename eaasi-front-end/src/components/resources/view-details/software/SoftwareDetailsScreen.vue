@@ -1,88 +1,104 @@
 <template>
-	<div id="myResources">
-		<div class="page-title">
-			<div class="back-to-results clickable" @click="goBackToResults">
-				← Back to All Results
+	<div id="myResources" :style="actionMenuStyles">
+		<div :style="innerStyles">
+			<div class="page-title">
+				<div class="back-to-results clickable" @click="goBackToResults">
+					← Back to All Results
+				</div>
+				<div class="slide-menu-control-btns pull-right">
+					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+				</div>
+				<h1>
+					Software Details
+				</h1>
 			</div>
-			<h1>
-				Software Details
-			</h1>
-		</div>
-		<div v-if="activeSoftware" class="vrd-content">
-			<mode-toggle
-				:editable="isEditMode"
-				@mode-change="onModeChange"
-				@save="saveDetails"
-				@refresh="refresh"
-				:toggle-value="activeMode"
-				:toggle-options="mods"
-			/>
-			<div class="rdm-container">
-				<div class="row" style="margin-bottom: 1rem;">
-					<div class="col-md-4">
-						<resource-details-summary
-							:summary-data="resourceSummary"
-							:readonly="!isEditMode"
-						/>
+			<div v-if="activeSoftware" class="vrd-content">
+				<mode-toggle
+					:editable="isEditMode"
+					@mode-change="onModeChange"
+					@save="saveDetails"
+					@refresh="refresh"
+					:toggle-value="activeMode"
+					:toggle-options="mods"
+				/>
+				<div class="rdm-container">
+					<div class="row" style="margin-bottom: 1rem;">
+						<div class="col-md-4">
+							<resource-details-summary
+								:summary-data="resourceSummary"
+								:readonly="!isEditMode"
+							/>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<section-heading
-							title="Software details"
-							size="large"
-						/>
-						<editable-labeled-item-list
-							:readonly="!isEditMode"
-							:labeled-items="objectDetailsItems"
-							edit-type="text-input"
-						/>
+					<div class="row">
+						<div class="col-md-4">
+							<section-heading
+								title="Software details"
+								size="large"
+							/>
+							<editable-labeled-item-list
+								:readonly="!isEditMode"
+								:labeled-items="objectDetailsItems"
+								edit-type="text-input"
+							/>
+						</div>
+						<div class="col-md-8">
+							<section-heading
+								title="Rendering Environments"
+								size="large"
+							/>
+							<rendering-environments
+								:archive-id="$route.query.archiveId"
+								:resource-id="$route.query.resourceId"
+								:readonly="!isEditMode"
+							/>
+						</div>
 					</div>
-					<div class="col-md-8">
-						<section-heading
-							title="Rendering Environments"
-							size="large"
-						/>
-						<rendering-environments
-							:archive-id="$route.query.archiveId"
-							:resource-id="$route.query.resourceId"
-							:readonly="!isEditMode"
-						/>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<section-heading
-							title="Software Properties"
-							size="large"
-						/>
-						<software-properties
-							:readonly="!isEditMode"
-							:items="softwareProperties"
-							@add-fmt="addFmt"
-							@remove-fmt="removeFmt"
-						/>
-					</div>
-					<div class="col-md-4" v-if="softwareMetadata && softwareMetadata.mediaItems && softwareMetadata.mediaItems.file">
-						<section-heading
-							title="Attached Files"
-							size="large"
-						/>
-						<media-files-list
-							readonly
-							:files="softwareMetadata.mediaItems.file"
-						/>
+					<div class="row">
+						<div class="col-md-4">
+							<section-heading
+								title="Software Properties"
+								size="large"
+							/>
+							<software-properties
+								:readonly="!isEditMode"
+								:items="softwareProperties"
+								@add-fmt="addFmt"
+								@remove-fmt="removeFmt"
+							/>
+						</div>
+						<div class="col-md-4" v-if="softwareMetadata && softwareMetadata.mediaItems && softwareMetadata.mediaItems.file">
+							<section-heading
+								title="Attached Files"
+								size="large"
+							/>
+							<media-files-list
+								readonly
+								:files="softwareMetadata.mediaItems.file"
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- Resources Slide Menu -->
+		<resource-slide-menu
+			v-if="isActionMenuOpen"
+			:active-tab="actionMenuActiveTab"
+			:tabs="actionMenuTabs"
+			@bookmarks-updated="init"
+			@resource-deleted="goBackToResults"
+			@resource-published="init"
+			@close="closeActionMenu"
+			@navigate-to-tab="openActionMenu"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile } from '@/types/Resource';
+import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile, IEaasiResource } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { resourceTypes } from '@/utils/constants';
@@ -94,7 +110,11 @@ import RenderingEnvironments from './RenderingEnvironments.vue';
 import SoftwareProperties from './SoftwareProperties.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import MediaFilesList from './MediaFilesList.vue';
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
+import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import { ROUTES } from '../../../../router/routes.const';
+import { IEaasiTab } from 'eaasi-nav';
+import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'SoftwareDetailsScreen',
@@ -104,6 +124,8 @@ import { ROUTES } from '../../../../router/routes.const';
         EditableLabeledItemList,
         ResourceDetailsSummary,
 		ModeToggle,
+		SlideMenuControlButtons,
+		ResourceSlideMenu,
 		RenderingEnvironments
 	}
 })
@@ -119,8 +141,19 @@ export default class SoftwareDetailsScreen extends Vue {
 	renderingEnvs: ILabeledEditableItem[] = [];
 	softwareProperties: ILabeledEditableItem[] = [];
 
+	// Slide menu
+	actionMenuTabs: IEaasiTab[] = [
+		{
+			label: 'Actions'
+		}
+	]
+	actionMenuActiveTab: IEaasiTab = null;
+
 	/* Computed
-    ============================================*/
+	============================================*/
+	@Sync('resource/selectedResources')
+	resources: IEaasiResource[];
+
 	get isEditMode(): boolean {
 		return this.activeMode === 'Edit Mode';
 	}
@@ -135,6 +168,26 @@ export default class SoftwareDetailsScreen extends Vue {
 			tagGroup: [],
 			resourceType: resourceTypes.SOFTWARE
 		};
+	}
+
+	get isActionMenuOpen(): boolean {
+		return this.actionMenuActiveTab != null;
+	}
+
+	get actionMenuStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let maxWidth = document.body.clientWidth - (430 + 90); // screen width - (action menu width + side menu bar width)
+		styles += `overflow-y: scroll; max-width: ${maxWidth}px;`;
+		return styles;
+	}
+
+	get innerStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let width = '95vw'; // screen width
+		styles += `width: ${width};`;
+		return styles;
 	}
 
     /* Methods
@@ -155,7 +208,8 @@ export default class SoftwareDetailsScreen extends Vue {
 	}
 
 	async init() {
-		const { resourceId, archiveId } = this.$route.query;
+		const resourceId = this.$route.query.resourceId as string;
+		const archiveId = this.$route.query.archiveId as string;
 		const softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId: resourceId });
 		if (softwareMetadata && softwareMetadata.metadata) {
 			this.softwareMetadata = softwareMetadata;
@@ -165,6 +219,13 @@ export default class SoftwareDetailsScreen extends Vue {
 		this.activeMode = this.mods[0];
 		this._populateObjectDetails();
 		this._populateSoftwareProperties();
+		const softwareResource: IEaasiResource = {
+			id: this.softwareMetadata.metadata.id,
+			title: this.softwareMetadata.metadata.title,
+			archiveId,
+			resourceType: resourceTypes.SOFTWARE
+		};
+		this.resources = [softwareResource];
 		this.$store.commit('resource/SET_RESOURCE_NAME', this.softwareMetadata.metadata.title);
 	}
 
@@ -182,10 +243,22 @@ export default class SoftwareDetailsScreen extends Vue {
 		);
 	}
 
+	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[1]) {
+		this.actionMenuActiveTab = tab;
+	}
+
+	closeActionMenu() {
+		this.actionMenuActiveTab = null;
+	}
+
     /* Lifecycle Hooks
 	============================================*/
     created() {
 		this.init();
+	}
+	
+	beforeDestroy() {
+		this.resources = [];
 	}
 
 	/* Helpers
@@ -266,6 +339,12 @@ export default class SoftwareDetailsScreen extends Vue {
 </script>
 
 <style lang="scss">
+.slide-menu-control-btns {
+	button {
+		font-size: 18px;
+		font-weight: bold;
+	}
+}
 .vrd-content {
 
 	.vrd-subsection {

@@ -6,6 +6,9 @@ import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulato
 import SaveToMyNodeActionResolver from '@/services/ActionResolvers/SaveToMyNodeActionResolver';
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
 import { IEnvironment } from '@/types/Resource';
+import { resourceTypes } from '@/utils/constants';
+import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
+import TreatAsSoftwareActionResolver from './ActionResolvers/TreatAsSoftwareActionResolver';
 
 
 /**
@@ -19,12 +22,18 @@ export default class ResourceSlideMenuService {
 	 * @param roleId: Logged-in User RoleID
 	 */
 	getLocalActions(selected: IEnvironment[], roleId: number) {
-		return [
+		let localActions =  [
 			new ViewDetailsActionResolver(selected, roleId).action,
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
 			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
-			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
+			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction()
 		];
+		if (selected.length === 1 && selected[0].resourceType === resourceTypes.CONTENT) {
+			localActions.push(new TreatAsSoftwareActionResolver(selected, roleId).resolveAction());
+		} else {
+			localActions.push(new AddSoftwareActionResolver(selected, roleId).resolveAction());
+		}
+		return localActions;
 	}
 
 	/**

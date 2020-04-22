@@ -22,10 +22,13 @@
 		<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
 			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
-			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
+			<div class="deselect-all-wrapper flex flex-row justify-between" v-if="selectedResources.length > 0">
 				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
 					<span class="icon-deselect"></span>
 					<span>Deselect All ({{ selectedResources.length }})</span>
+				</div>
+				<div class="slide-menu-control-btns pull-right">
+					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 			</div>
 			<div class="resource-bento width-md">
@@ -105,10 +108,12 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component, Watch, Prop } from 'vue-property-decorator';
 import { ROUTES } from '@/router/routes.const';
+import { IEaasiTab } from 'eaasi-nav';
 
 @Component({
     name: 'MyBookmarksScreen',
@@ -117,11 +122,16 @@ import { ROUTES } from '@/router/routes.const';
 		ResourceFacets,
 		ResourceList,
 		ResourceSlideMenu,
-		ConfirmModal
+		ConfirmModal,
+		SlideMenuControlButtons
 	}
 })
 export default class MyBookmarksSection extends Vue {
 
+    /* Props
+	============================================*/
+	@Prop({ type: Array as () => IEaasiTab[], required: true })
+	readonly actionMenuTabs: IEaasiTab[];
 
     /* Computed
     ============================================*/
@@ -204,7 +214,11 @@ export default class MyBookmarksSection extends Vue {
     async clearBookmarks() {
         await this.$store.dispatch('bookmark/clearBookmarks', this.user.id);
         this.isClearBookmarksModalVisible = false;
-    }
+	}
+	
+	openActionMenu(tab: IEaasiTab) {
+		this.$emit('open-action-menu', tab);
+	}
 
     /* Lifecycle Hooks
     ============================================*/

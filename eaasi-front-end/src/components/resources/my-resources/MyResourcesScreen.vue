@@ -1,21 +1,36 @@
 <template>
-	<div id="myResources">
-		<div class="page-title">
-			<h1>
-				My Resources
-			</h1>
+	<div id="myResources" :style="actionMenuStyles">
+		<div :style="innerStyles">
+			<div class="page-title">
+				<h1>
+					My Resources
+				</h1>
+			</div>
+			<tabbed-nav :tabs="tabs" v-model="activeTab" />
+
+			<my-bookmarks-section 
+				v-if="activeTab === 'My Bookmarks'" 
+				:action-menu-tabs="actionMenuTabs"
+				@open-action-menu="openActionMenu"
+			/>
+
+			<imported-resources-section 
+				v-if="activeTab === 'Imported Resources'" 
+				:action-menu-tabs="actionMenuTabs"
+				@open-action-menu="openActionMenu"
+			/>
 		</div>
-		<tabbed-nav :tabs="tabs" v-model="activeTab" />
-
-		<my-bookmarks-section v-if="activeTab === 'My Bookmarks'" />
-
-		<imported-resources-section v-if="activeTab === 'Imported Resources'" />
 
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
-			:open="hasActiveResources && isMenuOpenRequest"
-			@toggle="toggleSideMenu"
-			@resource-updated="refresh"
+			v-if="isActionMenuOpen"
+			:active-tab="actionMenuActiveTab"
+			:tabs="actionMenuTabs"
+			@bookmarks-updated="refresh"
+			@resource-deleted="refresh"
+			@resource-published="refresh"
+			@close="closeActionMenu"
+			@navigate-to-tab="openActionMenu"
 		/>
 	</div>
 </template>
@@ -29,13 +44,15 @@ import { IEaasiResource } from '@/types/Resource.d.ts';
 import MyBookmarksSection from '@/components/resources/my-resources/MyBookmarksSection.vue';
 import ImportedResourcesSection from '@/components/resources/my-resources/ImportedResourcesSection.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
 		MyBookmarksSection,
 		ResourceSlideMenu,
-		ImportedResourcesSection
+		ImportedResourcesSection,
+		SlideMenuControlButtons
 	}
 })
 export default class MyResourcesScreen extends Vue {
@@ -55,6 +72,27 @@ export default class MyResourcesScreen extends Vue {
 		return this.selectedResources.length > 0;
 	}
 
+
+	get isActionMenuOpen(): boolean {
+		return this.actionMenuActiveTab != null && this.hasActiveResources;
+	}
+
+	get actionMenuStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let maxWidth = document.body.clientWidth - (430 + 90); // screen width - (action menu width + side menu bar width)
+		styles += `overflow-y: scroll; max-width: ${maxWidth}px;`;
+		return styles;
+	}
+
+	get innerStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let width = '95vw'; // screen width
+		styles += `width: ${width};`;
+		return styles;
+	}
+
 	/* Data
 	============================================*/
 	activeTab: string = 'My Bookmarks';
@@ -72,19 +110,32 @@ export default class MyResourcesScreen extends Vue {
 			disabled: true
 		}
 	];
-	isMenuOpenRequest: boolean = false;
+
+	// Slide menu
+	actionMenuTabs: IEaasiTab[] = [
+		{
+			label: 'Details'
+		},
+		{
+			label: 'Actions'
+		}
+	]
+	actionMenuActiveTab: IEaasiTab = null;
 
 	/* Methods
 	============================================*/
-	toggleSideMenu() {
-		if (!this.hasActiveResources) return;
-    	this.isMenuOpenRequest = !this.isMenuOpenRequest;
-	}
-
 	refresh() {
 		const currentTab = this.activeTab;
 		this.activeTab = '';
 		this.$nextTick(() => this.activeTab = currentTab);
+	}
+
+	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[1]) {
+		this.actionMenuActiveTab = tab;
+	}
+
+	closeActionMenu() {
+		this.actionMenuActiveTab = null;
 	}
 
 	/* Lifecycle Hooks
@@ -98,7 +149,7 @@ export default class MyResourcesScreen extends Vue {
 	@Watch('hasActiveResources')
 	onSelectResources(curVal, prevVal) {
 		if (curVal && !prevVal) {
-			this.isMenuOpenRequest = true;
+			this.openActionMenu();
 		}
 	}
 
@@ -123,13 +174,12 @@ export default class MyResourcesScreen extends Vue {
 		background-color: lighten($light-blue, 90%);
 		margin-left: 28rem;
 		padding: 1.5rem;
-		width: 100%;
+
 		.deselect-link {
 			color: $dark-blue;
 			cursor: pointer;
 			font-size: 1.4rem;
 			font-weight: bold;
-			max-width: 12rem;
 		}
 		.icon-deselect {
 			background-color: $dark-blue;

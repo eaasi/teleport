@@ -1,93 +1,81 @@
 <template>
-	<div id="myResources" v-if="activeEnvironment">
-		<div class="eds-actions pull-right" style="margin: 1.2rem;">
-			<ui-button
-				v-if="readOnlyMode"
-				size="md"
-				@click="confirmAction='replicate'"
-			>
-				Save to My Node
-			</ui-button>
-			<ui-button
-				v-else
-				size="md"
-				@click="addingSoftware=true"
-			>
-				Add Software
-			</ui-button>
-			<ui-button
-				v-if="isRunnable"
-				size="md"
-				@click="runEnvironment"
-			>
-				Run in Emulator
-			</ui-button>
-		</div>
-		<div class="page-title">
-			<div
-				class="back-to-results clickable"
-				@click="goBackToResults"
-			>
-				← Back to All Results
+	<div id="myResources" v-if="activeEnvironment" :style="actionMenuStyles">
+		<div :style="innerStyles">
+			<div class="page-title">
+				<div class="back-to-results clickable" @click="goBackToResults">
+					← Back to All Results
+				</div>
+				<div class="slide-menu-control-btns pull-right">
+					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+				</div>
+				<h1>
+					Environment Details
+				</h1>
 			</div>
-			<h1>
-				Environment Details
-			</h1>
+			<tabbed-nav :tabs="tabs" v-model="activeTab" />
+			<div class="vrd-content">
+				<mode-toggle
+					v-show="activeTab === 'Metadata'"
+					:editable="!readOnlyMode"
+					@mode-change="onModeChange"
+					@save="saveDetails"
+					@refresh="refresh"
+					:toggle-value="activeMode"
+					:toggle-options="mods"
+					:supress-confirmation="isLocal"
+				/>
+				<environment-metadata-section
+					v-show="activeTab === 'Metadata'"
+					:resource="activeEnvironment"
+					:active-mode="activeMode"
+					:emulator-labeled-items="emulatorLabeledItems"
+					:os-labeled-items="osLabeledItems"
+					:ui-option-labeled-items="uiOptionLabeledItems"
+					:network-labeled-items="networkLabeledItems"
+					:installed-software="installedSoftware"
+					:config-machine-labeled-items="configMachineLabeledItems"
+				/>
+				<revision-list
+					v-show="activeTab === 'History'"
+					:revisions="activeEnvironment.revisions"
+				/>
+			</div>
+			<!-- Modals -->
+			<confirm-modal
+				title="Save to My Node"
+				confirm-label="Replicate"
+				@click:cancel="confirmAction = null"
+				@click:confirm="replicateEnvironment"
+				@close="confirmAction = null"
+				v-if="confirmAction === 'replicate'"
+			>
+				<alert type="info">
+					<span class="ers-rep-msg">
+						Replicating to your node will copy all environment data and files to local storage.
+						Environments copied from the EaaSI Network cannot be easily deleted once saved.
+					</span>
+					<span class="ers-rep-msg">
+						Do you want to save this environment to your node?
+					</span>
+				</alert>
+			</confirm-modal>
+			<add-software
+				v-if="addingSoftware"
+				@cancel="addingSoftware = false"
+				@run-in-emulator="runInEmulator"
+			/>
 		</div>
-		<tabbed-nav
-			:tabs="tabs"
-			v-model="activeTab"
-		/>
-		<div class="vrd-content">
-			<mode-toggle
-				v-show="activeTab === 'Metadata'"
-				:editable="!readOnlyMode"
-				@mode-change="onModeChange"
-				@save="saveDetails"
-				@refresh="refresh"
-				:toggle-value="activeMode"
-				:toggle-options="mods"
-				:supress-confirmation="isLocal"
-			/>
-			<environment-metadata-section
-				v-show="activeTab === 'Metadata'"
-				:resource="activeEnvironment"
-				:active-mode="activeMode"
-				:emulator-labeled-items="emulatorLabeledItems"
-				:os-labeled-items="osLabeledItems"
-				:ui-option-labeled-items="uiOptionLabeledItems"
-				:network-labeled-items="networkLabeledItems"
-				:installed-software="installedSoftware"
-				:config-machine-labeled-items="configMachineLabeledItems"
-			/>
-			<revision-list
-				v-show="activeTab === 'History'"
-				:revisions="activeEnvironment.revisions"
-			/>
-		</div>
-		<!-- Modals -->
-		<confirm-modal
-			title="Save to My Node"
-			confirm-label="Replicate"
-			@click:cancel="confirmAction = null"
-			@click:confirm="replicateEnvironment"
-			@close="confirmAction = null"
-			v-if="confirmAction === 'replicate'"
-		>
-			<alert type="info">
-				<span class="ers-rep-msg">
-					Replicating to your node will copy all environment data and files to local storage.
-					Environments copied from the EaaSI Network cannot be easily deleted once saved.
-				</span>
-				<span class="ers-rep-msg">
-					Do you want to save this environment to your node?
-				</span>
-			</alert>
-		</confirm-modal>
-		<add-software
-			v-if="addingSoftware"
-			@cancel="addingSoftware = false"
-			@run-in-emulator="runInEmulator"
+		<!-- Resources Slide Menu -->
+		<resource-slide-menu
+			v-if="isActionMenuOpen"
+			:active-tab="actionMenuActiveTab"
+			:tabs="actionMenuTabs"
+			@add-software="addingSoftware = true"
+			@bookmarks-updated="init"
+			@resource-deleted="goBackToResults"
+			@resource-published="init"
+			@close="closeActionMenu"
+			@navigate-to-tab="openActionMenu"
 		/>
 	</div>
 </template>
@@ -97,7 +85,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { archiveTypes } from '@/utils/constants';
 import { IEaasiTab } from 'eaasi-nav';
-import { IEnvironment } from '@/types/Resource';
+import { IEnvironment, IEaasiResource } from '@/types/Resource';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EaasiTask from '@/models/task/EaasiTask';
@@ -105,7 +93,10 @@ import EnvironmentMetadataSection from './EnvironmentMetadataSection.vue';
 import RevisionList from './RevisionList.vue';
 import AddSoftware from './AddSoftwareModal.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
-import { ROUTES } from '../../../../router/routes.const';
+import { ROUTES } from '../../../../router/routes.const'; 
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
+import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
+import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'EnvironmentDetailsScreen',
@@ -114,6 +105,8 @@ import { ROUTES } from '../../../../router/routes.const';
 		RevisionList,
 		EnvironmentMetadataSection,
 		ModeToggle,
+		ResourceSlideMenu,
+		SlideMenuControlButtons,
 	}
 })
 export default class EnvironmentDetailsScreen extends Vue {
@@ -130,16 +123,26 @@ export default class EnvironmentDetailsScreen extends Vue {
 	activeEnvironment: IEnvironment = null;
 	confirmAction: string = null;
 	addingSoftware: boolean = false;
-
+	// Metadata
 	emulatorLabeledItems : ILabeledEditableItem[] = [];
 	osLabeledItems: ILabeledEditableItem[] = [];
 	uiOptionLabeledItems: ILabeledEditableItem[] = [];
 	networkLabeledItems: ILabeledEditableItem[] = [];
 	installedSoftware: ILabeledItem[] = [];
 	configMachineLabeledItems: ILabeledEditableItem[] = [];
+	// Slide menu
+	actionMenuTabs: IEaasiTab[] = [
+		{
+			label: 'Actions'
+		}
+	]
+	actionMenuActiveTab: IEaasiTab = null;
 
     /* Computed
 	============================================*/
+	@Sync('resource/selectedResources')
+	resources: IEaasiResource[];
+
 	get readOnlyMode() {
 		return this.activeEnvironment && this.activeEnvironment.archive === 'remote';
 	}
@@ -150,6 +153,26 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 	get isLocal() {
 		return this.activeEnvironment.archive === 'default';
+	}
+
+	get isActionMenuOpen(): boolean {
+		return this.actionMenuActiveTab != null;
+	}
+
+	get actionMenuStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let maxWidth = document.body.clientWidth - (430 + 90); // screen width - (action menu width + side menu bar width)
+		styles += `overflow-y: scroll; max-width: ${maxWidth}px;`;
+		return styles;
+	}
+
+	get innerStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let width = '95vw'; // screen width
+		styles += `width: ${width};`;
+		return styles;
 	}
 
     /* Methods
@@ -207,6 +230,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	async init() {
 		const { resourceId } = this.$route.query;
 		this.activeEnvironment = await this.$store.dispatch('resource/getEnvironment', resourceId);
+		this.resources = [this.activeEnvironment];
 		await this.populateMetadata();
 	}
 
@@ -229,10 +253,22 @@ export default class EnvironmentDetailsScreen extends Vue {
 		this.activeMode = mode;
 	}
 
+	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[1]) {
+		this.actionMenuActiveTab = tab;
+	}
+
+	closeActionMenu() {
+		this.actionMenuActiveTab = null;
+	}
+
     /* Lifecycle Hooks
 	============================================*/
     async created() {
 		await this.init();
+	}
+
+	beforeDestroy() {
+		this.resources = [];
 	}
 
 	/* Helpers
@@ -520,14 +556,16 @@ export default class EnvironmentDetailsScreen extends Vue {
 	goBackToResults() {
 		this.$router.push(ROUTES.RESOURCES_EXPLORE);
 	}
+
 }
 
 </script>
 
 <style lang="scss">
-	.eds-actions {
+	.slide-menu-control-btns {
 		button {
-			margin: 0.4rem;
+			font-size: 18px;
+			font-weight: bold;
 		}
 	}
 

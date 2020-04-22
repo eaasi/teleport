@@ -1,5 +1,5 @@
 import { IEnvironment } from '@/types/Resource';
-import {archiveTypes, resourceTypes, userRoles} from '@/utils/constants';
+import { archiveTypes, resourceTypes, userRoles } from '@/utils/constants';
 import { IAction } from 'eaasi-nav';
 
 /**
@@ -29,6 +29,13 @@ export default class SlideMenuActionResolver {
 
 	isSingleSelected() : boolean {
 		return this.selectedResources.length === 1;
+	}
+
+	isResourceDetailPage(): boolean {
+		let resourceId = this.selectedResources[0].id != null 
+			? this.selectedResources[0].id as string
+			: this.selectedResources[0].envId;
+		return window.location.href.indexOf(resourceId) > 0;
 	}
 
 	isSinglePublicResource() : boolean {

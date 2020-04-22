@@ -1,56 +1,70 @@
 <template>
-	<div id="myResources">
-		<div class="eds-actions pull-right" style="margin: 1.2rem;">
-			<ui-button size="md" @click="confirmModal = true">
-				Treat as Software
-			</ui-button>
-		</div>
-		<div class="page-title">
-			<div class="back-to-results clickable" @click="goBackToResults">
-				← Back to All Results
+	<div id="myResources" :style="actionMenuStyles">
+		<div :style="innerStyles">
+			<div class="page-title">
+				<div class="back-to-results clickable" @click="goBackToResults">
+					← Back to All Results
+				</div>
+				<div class="slide-menu-control-btns pull-right">
+					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+				</div>
+				<h1>
+					Content Details
+				</h1>
 			</div>
-			<h1>
-				Content Details
-			</h1>
-		</div>
-		<div v-if="activeContent" class="vrd-content">
-			<mode-toggle
-				:editable="isEditMode"
-				@mode-change="onModeChange"
-				@save="saveDetails"
-				@refresh="refresh"
-				:toggle-value="activeMode"
-				:toggle-options="mods"
-			/>
-			<div class="rdm-container">
-				<div class="row" style="margin-bottom: 1rem;">
-					<div class="col-md-4">
-						<resource-details-summary
-							:summary-data="resourceSummary"
-							:readonly="!isEditMode"
-						/>
+			<div v-if="activeContent" class="vrd-content">
+				<mode-toggle
+					:editable="isEditMode"
+					@mode-change="onModeChange"
+					@save="saveDetails"
+					@refresh="refresh"
+					:toggle-value="activeMode"
+					:toggle-options="mods"
+				/>
+				<div class="rdm-container">
+					<div class="row" style="margin-bottom: 1rem;">
+						<div class="col-md-4">
+							<resource-details-summary
+								:summary-data="resourceSummary"
+								:readonly="!isEditMode"
+							/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<section-heading title="Content Details" size="large" />
+							<editable-labeled-item-list
+								:readonly="!isEditMode"
+								:labeled-items="objectDetailsItems"
+								edit-type="text-input"
+							/>
+						</div>
+						<div class="col-md-8">
+							<section-heading title="Rendering Environments" size="large" />
+							<rendering-environments
+								:archive-id="$route.query.archiveId"
+								:resource-id="$route.query.resourceId"
+								:readonly="!isEditMode"
+							/>
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<section-heading title="Content Details" size="large" />
-						<editable-labeled-item-list
-							:readonly="!isEditMode"
-							:labeled-items="objectDetailsItems"
-							edit-type="text-input"
-						/>
-					</div>
-					<div class="col-md-8">
-						<section-heading title="Rendering Environments" size="large" />
-						<rendering-environments
-							:archive-id="$route.query.archiveId"
-							:resource-id="$route.query.resourceId"
-							:readonly="!isEditMode"
-						/>
-					</div>
-				</div>
 			</div>
 		</div>
+
+		<!-- Resources Slide Menu -->
+		<resource-slide-menu
+			v-if="isActionMenuOpen"
+			:active-tab="actionMenuActiveTab"
+			:tabs="actionMenuTabs"
+			@bookmarks-updated="init"
+			@resource-published="init"
+			@resource-deleted="goBackToResults"
+			@close="closeActionMenu"
+			@treat-as-software="confirmModal = true"
+			@navigate-to-tab="openActionMenu"
+		/>
+
 		<confirm-modal
 			v-if="confirmModal"
 			title="Treat as Software?"
@@ -74,7 +88,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IContent, IContentRequest, ISoftwareObject, IOverrideContentRequest } from '@/types/Resource';
+import { IEaasiResourceSummary, IContent, IContentRequest, ISoftwareObject, IOverrideContentRequest, IEaasiResource } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { resourceTypes } from '@/utils/constants';
@@ -83,8 +97,12 @@ import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
 import RenderingEnvironments from '../software/RenderingEnvironments.vue';
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
+import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { ROUTES } from '../../../../router/routes.const';
+import { IEaasiTab } from 'eaasi-nav';
+import { Sync } from 'vuex-pathify';
 
 @Component({
 	name: 'ContentDetailsScreen',
@@ -92,6 +110,8 @@ import { ROUTES } from '../../../../router/routes.const';
         EditableLabeledItemList,
         ResourceDetailsSummary,
 		ModeToggle,
+		SlideMenuControlButtons,
+		ResourceSlideMenu,
 		RenderingEnvironments
 	}
 })
@@ -106,9 +126,19 @@ export default class ContentDetailsScreen extends Vue {
 	renderingEnvs: [] = [];
 	confirmModal: boolean = false;
 	errorMessage: string = null;
+	// Slide menu
+	actionMenuTabs: IEaasiTab[] = [
+		{
+			label: 'Actions'
+		}
+	]
+	actionMenuActiveTab: IEaasiTab = null;
 
 	/* Computed
-    ============================================*/
+	============================================*/
+	@Sync('resource/selectedResources')
+	resources: IEaasiResource[];
+
 	get isEditMode(): boolean {
 		return this.activeMode === 'Edit Mode';
 	}
@@ -123,6 +153,26 @@ export default class ContentDetailsScreen extends Vue {
 			tagGroup: [],
 			resourceType: resourceTypes.CONTENT
 		};
+	}
+
+	get isActionMenuOpen(): boolean {
+		return this.actionMenuActiveTab != null;
+	}
+
+	get actionMenuStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let maxWidth = document.body.clientWidth - (430 + 90); // screen width - (action menu width + side menu bar width)
+		styles += `overflow-y: scroll; max-width: ${maxWidth}px;`;
+		return styles;
+	}
+
+	get innerStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let width = '95vw'; // screen width
+		styles += `width: ${width};`;
+		return styles;
 	}
 
     /* Methods
@@ -177,15 +227,34 @@ export default class ContentDetailsScreen extends Vue {
 		const contentRequest: IContentRequest = { contentId, archiveName };
 		this.activeContent = await this.$store.dispatch('software/getContent', contentRequest);
 		await this.$store.commit('resource/SET_RESOURCE_NAME', this.activeContent.metadata.title);
+		const contentResource: IEaasiResource = {
+			id: this.activeContent.metadata.id,
+			title: this.activeContent.metadata.title,
+			archiveId: archiveName,
+			resourceType: resourceTypes.CONTENT
+		};
+		this.resources = [contentResource];
 		if (!this.activeContent) return;
 		this.activeMode = this.mods[0];
 		this._populateObjectDetails();
+	}
+
+	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[1]) {
+		this.actionMenuActiveTab = tab;
+	}
+
+	closeActionMenu() {
+		this.actionMenuActiveTab = null;
 	}
 
     /* Lifecycle Hooks
 	============================================*/
     created() {
 		this.init();
+	}
+		
+	beforeDestroy() {
+		this.resources = [];
 	}
 
 	/* Helpers
@@ -219,6 +288,12 @@ export default class ContentDetailsScreen extends Vue {
 </script>
 
 <style lang="scss">
+.slide-menu-control-btns {
+	button {
+		font-size: 18px;
+		font-weight: bold;
+	}
+}
 .vrd-content {
 
 	.vrd-subsection {
