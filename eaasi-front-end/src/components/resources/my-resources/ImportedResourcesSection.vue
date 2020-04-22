@@ -17,8 +17,8 @@
 			<resource-facets @change="search" />
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
-				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
-					<div>
+				<div class="deselect-link flex flex-row justify-between">
+					<div @click="selectedResources = []">
 						<span class="icon-deselect"></span>
 						<span>Deselect All ({{ selectedResources.length }})</span>
 					</div>
@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component, Watch, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import User from '@/models/admin/User';
@@ -111,6 +111,11 @@ import { IEaasiTab } from 'eaasi-nav';
 	}
 })
 export default class ImportedResourcesSection extends Vue {
+
+    /* Props
+	============================================*/
+	@Prop({ type: Array as () => IEaasiTab[], required: true })
+	readonly actionMenuTabs: IEaasiTab[];
 
 	/* Computed
 	============================================*/
