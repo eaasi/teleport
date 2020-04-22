@@ -1,69 +1,75 @@
 <template>
-	<div id="exploreResources" v-if="bentoResult">
-		<no-search-result v-if="noResult" />
-		<div v-else class="resource-results">
-			<resource-facets @change="search" />
-			<applied-search-facets v-if="hasSelectedFacets" />
-			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
-				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
-					<span class="icon-deselect"></span>
-					<span>Deselect All ({{ selectedResources.length }})</span>
+	<div id="exploreResources" v-if="bentoResult" :style="actionMenuStyles">
+		<div :style="innerStyles">
+			<no-search-result v-if="noResult" />
+			<div v-else class="resource-results">
+				<resource-facets @change="search" />
+				<applied-search-facets v-if="hasSelectedFacets" />
+				<div class="deselect-all-wrapper flex-row justify-between" v-if="selectedResources.length > 0">
+					<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+						<span class="icon-deselect"></span>
+						<span>Deselect All ({{ selectedResources.length }})</span>
+					</div>
+					<slide-menu-control-buttons @open="openActionMenu" :tabs="tabs" />
+				</div>
+				<div class="resource-bento width-md">
+					<resource-sort-section v-if="facetsOfSingleTypeSelected" />
+					<div class="bento-row">
+						<div
+							v-if="bentoResult.environments.result.length"
+							class="bento-col"
+						>
+							<resource-list
+								:hide-header="facetsOfSingleTypeSelected"
+								:query="query"
+								:result="bentoResult.environments"
+								type="Environment"
+								@click:all="getAll(['Environment'])"
+							/>
+						</div>
+						<div
+							v-if="bentoResult.software.result.length || bentoResult.content.result.length"
+							class="bento-col"
+						>
+							<resource-list
+								:hide-header="facetsOfSingleTypeSelected"
+								v-if="bentoResult.software.result.length"
+								:query="query"
+								:result="bentoResult.software"
+								type="Software"
+								@click:all="getAll(['Software'])"
+							/>
+							<resource-list
+								:hide-header="facetsOfSingleTypeSelected"
+								v-if="bentoResult.content.result.length"
+								:query="query"
+								:result="bentoResult.content"
+								type="Content"
+								@click:all="getAll(['Content'])"
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="resource-bento width-md">
-				<resource-sort-section v-if="facetsOfSingleTypeSelected" />
-				<div class="bento-row">
-					<div
-						v-if="bentoResult.environments.result.length"
-						class="bento-col"
-					>
-						<resource-list
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.environments"
-							type="Environment"
-							@click:all="getAll(['Environment'])"
-						/>
-					</div>
-					<div
-						v-if="bentoResult.software.result.length || bentoResult.content.result.length"
-						class="bento-col"
-					>
-						<resource-list
-							:hide-header="facetsOfSingleTypeSelected"
-							v-if="bentoResult.software.result.length"
-							:query="query"
-							:result="bentoResult.software"
-							type="Software"
-							@click:all="getAll(['Software'])"
-						/>
-						<resource-list
-							:hide-header="facetsOfSingleTypeSelected"
-							v-if="bentoResult.content.result.length"
-							:query="query"
-							:result="bentoResult.content"
-							type="Content"
-							@click:all="getAll(['Content'])"
-						/>
-					</div>
-				</div>
-			</div>
+			<pagination
+				v-if="facetsOfSingleTypeSelected && !noResult"
+				:results-per-page="query.limit"
+				:total-results="totalResults"
+				:page-num="query.page"
+				@paginate="paginate"
+			/>
 		</div>
-		<pagination
-			v-if="facetsOfSingleTypeSelected && !noResult"
-			:results-per-page="query.limit"
-			:total-results="totalResults"
-			:page-num="query.page"
-			@paginate="paginate"
-		/>
 
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
-			:open="hasActiveResources && isMenuOpenRequest"
-			@toggle="toggleSideMenu"
+			v-if="isActionMenuOpen"
+			:active-tab="activeTab"
+			:tabs="tabs"
 			@bookmarks-updated="search"
-			@resource-updated="search"
+			@resource-deleted="search"
 			@resource-published="onResourcePublished"
+			@close="closeActionMenu"
+			@navigate-to-tab="openActionMenu"
 		/>
 	</div>
 </template>
@@ -84,10 +90,13 @@ import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFace
 import NoSearchResult from '@/components/resources/search/NoSearchResult.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
+import { IEaasiTab } from 'eaasi-nav';
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 
 @Component({
 	name: 'ExploreResourcesScreen',
 	components: {
+		SlideMenuControlButtons,
 		ResourceSortSection,
 		AppliedSearchFacets,
 		ResourceFacets,
@@ -148,16 +157,40 @@ export default class ExploreResourcesScreen extends Vue {
 		return this.onlySelectedFacets.length > 0;
 	}
 
+	get isActionMenuOpen(): boolean {
+		return this.activeTab != null && this.hasActiveResources;
+	}
+
+	get actionMenuStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let maxWidth = document.body.clientWidth - (430 + 90); // screen width - (action menu width + side menu bar width)
+		styles += `overflow-y: scroll; max-width: ${maxWidth}px;`;
+		return styles;
+	}
+
+	get innerStyles(): string {
+		let styles = '';
+		if (!this.isActionMenuOpen) return styles;
+		let width = '95vw'; // screen width
+		styles += `width: ${width};`;
+		return styles;
+	}
+
 	/* Data
     ============================================*/
-	isMenuOpenRequest: boolean = false;
+	tabs: IEaasiTab[] = [
+		{
+			label: 'Details'
+		},
+		{
+			label: 'Actions'
+		}
+	]
+	activeTab: IEaasiTab = null;
 
     /* Methods
 	============================================*/
-    toggleSideMenu() {
-		if (!this.hasActiveResources) return;
-    	this.isMenuOpenRequest = !this.isMenuOpenRequest;
-	}
 
 	async paginate(page) {
 		this.query.page = page;
@@ -192,6 +225,14 @@ export default class ExploreResourcesScreen extends Vue {
 		await this.search();
 	}
 
+	openActionMenu(tab: IEaasiTab = this.tabs[1]) {
+		this.activeTab = tab;
+	}
+
+	closeActionMenu() {
+		this.activeTab = null;
+	}
+
     /* Lifecycle Hooks
     ============================================*/
 
@@ -216,7 +257,7 @@ export default class ExploreResourcesScreen extends Vue {
 	@Watch('hasActiveResources')
 	onSelectResources(curVal, prevVal) {
 		if (curVal && !prevVal) {
-			this.isMenuOpenRequest = true;
+			this.openActionMenu();
 		}
 	}
 
@@ -262,19 +303,18 @@ export default class ExploreResourcesScreen extends Vue {
 		background-color: lighten($light-blue, 90%);
 		margin-left: 28rem;
 		padding: 1.5rem;
-		width: 100%;
 		.deselect-link {
 			color: $dark-blue;
 			cursor: pointer;
 			font-size: 1.4rem;
 			font-weight: bold;
-			max-width: 12rem;
 		}
 		.icon-deselect {
 			background-color: $dark-blue;
 			border-radius: 0.6rem;
 			display: inline-block;
 			height: 20px;
+			margin-right: 1rem;
 			position: relative;
 			width: 20px;
 			&::before {

@@ -18,8 +18,13 @@
 			<applied-search-facets v-if="hasSelectedFacets" />
 			<div class="deselect-all-wrapper" v-if="selectedResources.length > 0">
 				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
-					<span class="icon-deselect"></span>
-					<span>Deselect All ({{ selectedResources.length }})</span>
+					<div>
+						<span class="icon-deselect"></span>
+						<span>Deselect All ({{ selectedResources.length }})</span>
+					</div>
+					<div class="slide-menu-control-btns pull-right">
+						<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+					</div>
 				</div>
 			</div>
 			<div class="resource-bento width-md">
@@ -85,10 +90,12 @@ import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFace
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse, IResourceSearchQuery } from '@/types/Search';
 import { IEaasiResource } from '@/types/Resource.d.ts';
+import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import { resourceTypes } from '@/utils/constants';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { jsonCopy } from '../../../utils/functions';
 import { ROUTES } from '../../../router/routes.const';
+import { IEaasiTab } from 'eaasi-nav';
 
 
 @Component({
@@ -99,6 +106,7 @@ import { ROUTES } from '../../../router/routes.const';
 		ResourceFacets,
 		ResourceList,
 		ResourceSlideMenu,
+		SlideMenuControlButtons,
 		ConfirmModal
 	}
 })
@@ -170,6 +178,10 @@ export default class ImportedResourcesSection extends Vue {
 
 	navigateToImportResource() {
 		this.$router.push(ROUTES.IMPORT_RESOURCE);
+	}
+
+	openActionMenu(tab: IEaasiTab) {
+		this.$emit('open-action-menu', tab);
 	}
 
 	/* Lifecycle Hooks
