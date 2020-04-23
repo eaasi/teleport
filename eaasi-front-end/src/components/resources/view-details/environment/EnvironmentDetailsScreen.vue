@@ -22,6 +22,7 @@
 					@refresh="refresh"
 					:toggle-value="activeMode"
 					:toggle-options="mods"
+					:is-public="!isLocal"
 					:supress-confirmation="isLocal"
 				/>
 				<environment-metadata-section
@@ -83,7 +84,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { archiveTypes } from '@/utils/constants';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment, IEaasiResource } from '@/types/Resource';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
@@ -235,7 +236,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	async init() {
 		const { resourceId } = this.$route.query;
 		this.activeEnvironment = await this.$store.dispatch('resource/getEnvironment', resourceId);
-		this.resources = [this.activeEnvironment];
+		this.resources = [{...this.activeEnvironment, resourceType: resourceTypes.ENVIRONMENT}];
 		await this.populateMetadata();
 	}
 

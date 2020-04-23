@@ -29,11 +29,13 @@
 						</ui-button>
 					</div>
 				</div>
-				<div v-if="!isEditMode || !userCanEdit">
-					Visit this published resource on 
-					<a href="">Wikidata for Digital Preservation</a>
-					to initiate metadata changes.
-				</div>
+				<slot name="meta-description">
+					<div v-if="isPublic && (!isEditMode || !userCanEdit)">
+						Visit this published resource on 
+						<a href="">Wikidata for Digital Preservation</a>
+						to initiate metadata changes.
+					</div>
+				</slot>
 			</div>
 		</div>
 		<confirm-modal
@@ -72,6 +74,9 @@ export default class ModeToggle extends Vue {
 	@Prop({ type: Boolean, default: false })
 	supressConfirmation: boolean;
 
+	@Prop({ type: Boolean, default: false })
+	isPublic: boolean;
+
     /* Computed
     ============================================*/
 	@Get('loggedInUser')
@@ -81,7 +86,7 @@ export default class ModeToggle extends Vue {
 		return this.loggedInUser.userHasEditPermissions && this.toggleOptions.length > 1;
 	}
 	
-	get isEditMode() {
+	get isEditMode(): boolean {
 		return this.toggleValue === 'Edit Mode';
 	}
 
