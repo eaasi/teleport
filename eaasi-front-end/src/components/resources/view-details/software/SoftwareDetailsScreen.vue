@@ -20,6 +20,7 @@
 					@refresh="refresh"
 					:toggle-value="activeMode"
 					:toggle-options="mods"
+					is-public
 				/>
 				<div class="rdm-container">
 					<div class="row" style="margin-bottom: 1rem;">
@@ -230,7 +231,7 @@ export default class SoftwareDetailsScreen extends Vue {
 			archiveId,
 			resourceType: resourceTypes.SOFTWARE
 		};
-		this.resources = [softwareResource];
+		this.resources = [{...softwareResource, resourceType: resourceTypes.SOFTWARE }];
 		this.$store.commit('resource/SET_RESOURCE_NAME', this.softwareMetadata.metadata.title);
 	}
 

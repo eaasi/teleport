@@ -238,7 +238,7 @@ export default class ContentDetailsScreen extends Vue {
 			archiveId: archiveName,
 			resourceType: resourceTypes.CONTENT
 		};
-		this.resources = [contentResource];
+		this.resources = [{...contentResource, resourceType: resourceTypes.CONTENT }];
 		if (!this.activeContent) return;
 		this.activeMode = this.mods[0];
 		this._populateObjectDetails();
