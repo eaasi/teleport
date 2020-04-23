@@ -61,11 +61,11 @@ export default class LeftMenu extends Vue {
 				route: '',
 				isDivider: true,
 			},
-			{
-				icon: 'atom',
-				label: 'Emulation Project',
-				route: ROUTES.EMULATION_PROJECT,
-			},
+			// {
+			// 	icon: 'atom',
+			// 	label: 'Emulation Project',
+			// 	route: ROUTES.EMULATION_PROJECT,
+			// },
 			{
 				icon: 'upload',
 				label: 'Import Resource',

@@ -70,8 +70,8 @@ export default class ImportResourceScreen extends Vue {
 	}
 
 	beforeDestroy() {
-		this.step = 0;
-		this.importPath = 'Unselected';
+		this.step = 1;
+		this.importPath = 'Fast';
 		this.type = null;
 		this.softwareImport = new SoftwareImportResource();
 		this.contentImport = new ContentImportResource();
