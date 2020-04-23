@@ -20,8 +20,8 @@ import { GlobalState } from './global-store';
 class ImportState {
 	chosenTemplateId: string = '';
 	filesToUpload: IResourceImportFile[] = [];
-	importPath: ResourceImportPath = 'Unselected';
-	importStep: number = 0;
+	importPath: ResourceImportPath = 'Fast';
+	importStep: number = 1;
 	importType: ImportType = null;
 	environment: EnvironmentImportResource = new EnvironmentImportResource();
 	software: SoftwareImportResource = new SoftwareImportResource();
@@ -54,7 +54,7 @@ mutations.RESET = (state) => {
 	state.importStep = 0;
 	state.importType = null;
 	state.filesToUpload = [];
-	state.importPath = 'Unselected';
+	// state.importPath = 'Unselected';
 	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();
@@ -66,7 +66,7 @@ mutations.RESET = (state) => {
 mutations.INIT_FOR_TYPE = (state) => {
 	state.importStep = 1;
 	state.filesToUpload = [];
-	state.importPath = 'Unselected';
+	// state.importPath = 'Unselected';
 	state.chosenTemplateId = '';
 	state.software = new SoftwareImportResource();
 	state.environment = new EnvironmentImportResource();

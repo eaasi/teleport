@@ -1,7 +1,7 @@
 <template>
 	<div class="import-metadata padded">
 		<content-import-metadata v-if="type === 'content'" />
-		<import-path-select v-model="path" v-if="type !== 'content'" class="mb-lg" />
+		<!-- <import-path-select v-model="path" v-if="type !== 'content'" class="mb-lg" /> -->
 		<div v-if="path !== 'Unselected'">
 			<software-metadata v-if="type === 'software'" />
 			<environment-import-metadata v-if="type === 'environment'" />

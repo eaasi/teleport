@@ -10,7 +10,7 @@
 				/>
 			</div>
 		</div>
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-6">
 				<text-input
 					label="Local Identifier"
@@ -32,7 +32,7 @@
 					v-model="version"
 				/>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 

@@ -20,7 +20,7 @@
 
 		<!-- User is on Step 1 -->
 		<div v-if="step === 1">
-			<div v-if="importPath === 'Fast'">
+			<div>
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<software-general-info-form />
 					<ui-button
@@ -33,7 +33,7 @@
 				</eaasi-form>
 			</div>
 
-			<div v-if="importPath === 'Detailed'">
+			<!-- <div v-if="importPath === 'Detailed'">
 				<eaasi-form ref="_form" @submit="goToNextStep()">
 					<collapsable title="General" class="mb-lg white-bg">
 						<software-general-info-form />
@@ -70,7 +70,7 @@
 						Continue
 					</ui-button>
 				</eaasi-form>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>

@@ -6,7 +6,7 @@ export interface ISortable {
 
 export type ImportType = 'content' | 'software' | 'environment' | 'bulk';
 
-export type ResourceImportPath = 'Fast' | 'Detailed' | 'Unselected';
+export type ResourceImportPath = 'Fast'; // | 'Detailed' | 'Unselected';
 
 export interface IResourceImportFile extends ISortable {
 	physicalFormat?: PhysicalFormat,
