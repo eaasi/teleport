@@ -10,9 +10,6 @@
 			<strong>{{ action.label }}</strong>
 			<p class="no-mb" v-if="action.description">{{ action.description }}</p>
 		</div>
-		<div class="ra-arrow flex flex-center">
-			<span class="fas fa-chevron-right" v-if="action.isEnabled"></span>
-		</div>
 	</div>
 </template>
 
@@ -40,9 +37,9 @@ export default class ResourceAction extends Vue {
 
 <style lang="scss">
 .resource-action {
-	background-color: lighten($light-neutral, 60%);
+	background-color: lighten($light-neutral, 80%);
 	border-bottom: solid 2px darken($light-neutral, 10%);
-	color: $dark-blue;
+	color: darken($dark-neutral, 80%);
 	cursor: pointer;
 	padding: 1rem 0.5rem;
 	transition: background-color 0.2s;
@@ -59,29 +56,23 @@ export default class ResourceAction extends Vue {
 }
 
 .disabled {
-	background-color: lighten($light-neutral, 82%);
-	border-bottom: solid 2px lighten($light-neutral, 10%);
-	color: lighten($grey, 30%);
 	cursor: not-allowed;
 
 	&:hover {
 		background-color: lighten($light-neutral, 80%);
 	}
+
+	.ra-icon,
+	.ra-info {
+		opacity: 0.45;
+	}
 }
 
 .ra-icon {
-	font-size: 2.4rem;
+	color: $dark-neutral;
+	font-size: 2rem;
+	padding-left: 0.4rem;
 	width: 4rem;
 }
 
-.ra-arrow {
-	background-color: #FFFFFF;
-	border-radius: 50%;
-	height: 2.8rem;
-	width: 2.8rem;
-
-	span.fas {
-		font-size: 1.2rem;
-	}
-}
 </style>

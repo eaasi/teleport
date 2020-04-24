@@ -68,7 +68,7 @@ export default class HeaderMenuDropdown extends Vue {
 	position: relative;
 
 	.icon {
-		color: darken($teal, 20%);
+		color: $dark-neutral;
 		font-size: 2rem;
 		margin-left: 5px;
 	}
