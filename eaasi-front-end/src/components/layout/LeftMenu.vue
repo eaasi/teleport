@@ -1,6 +1,6 @@
 <template>
 	<nav class="left-menu" role="navigation" v-if="user">
-		<div id="headerLogo" class="flex flex-center" @click="$router.push(ROUTES.DASHBOARD)">
+		<div id="headerLogo" class="flex flex-center" @click="navigateToDashboard">
 			<img src="@/assets/header-logo.png" alt="Eaasi Logo" class="left-menu-logo" />
 		</div>
 		<left-menu-item
@@ -88,6 +88,11 @@ export default class LeftMenu extends Vue {
 
 		return menu;
 	}
+
+	navigateToDashboard() {
+		this.$router.push(ROUTES.DASHBOARD);
+	}
+	
 }
 
 </script>
