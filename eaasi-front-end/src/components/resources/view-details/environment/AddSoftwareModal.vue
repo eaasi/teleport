@@ -3,6 +3,7 @@
 		v-if="!loading"
 		title="Add Software"
 		@click:cancel="$emit('cancel')"
+		@close="$emit('cancel')"
 		size="sm"
 		class="software-picker-modal"
 	>

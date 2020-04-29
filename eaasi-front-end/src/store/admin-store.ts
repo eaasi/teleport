@@ -129,6 +129,10 @@ const actions = {
 	============================================*/
 	async getErrorLogs(_): Promise<IApplicationLog[]> {
 		return await _svc.getErrorLogs();
+	},
+
+	async getMostRecentErrorLogs(_): Promise<IApplicationLog[]> {
+		return await _svc.getMostRecentErrorLogs();
 	}
 };
 

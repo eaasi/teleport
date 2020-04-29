@@ -38,4 +38,13 @@ export default class ApplicationLogController extends BaseController {
 		}
 	}
 
+	async getMostRecent(req: Request, res: Response) {
+		try {
+			const appLogs = await this._appLoggerService.getMostRecent();
+			res.send(appLogs);
+		} catch(e) {
+			this.sendError(e, res);
+		}
+	}
+
 }

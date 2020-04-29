@@ -78,14 +78,14 @@ export default class EnvironmentResourceCard extends Vue {
 	get resourceTypeTags(): ITag[] {
 		let tags = [{
 			text: resourceTypes.ENVIRONMENT as string,
-			icon: 'fa-box',
-			color: 'blue'
+			icon: 'fa-cube',
+			color: 'white'
 		}];
 		if (this.environment.hasOwnProperty('envType')) {
 			if (this.environment.envType === 'base') {
 				tags.push({
 					icon: 'fa-box',
-					color: 'blue',
+					color: 'white',
 					text: 'Base'
 				});
 			}
@@ -93,7 +93,7 @@ export default class EnvironmentResourceCard extends Vue {
 			if (this.environment.envType === 'object') {
 				tags.push({
 					icon: 'fa-save',
-					color: 'blue',
+					color: 'white',
 					text: 'Object'
 				});
 			}
@@ -157,7 +157,7 @@ export default class EnvironmentResourceCard extends Vue {
 			if (this.environment.archive === archiveTypes.REMOTE) {
 				tagGroup.push({
 					icon: 'fa-map-marker-alt',
-					color: 'blue',
+					color: 'white',
 					text: 'Remote'
 				});
 			} else if (this.environment.archive === archiveTypes.PUBLIC) {
@@ -194,7 +194,6 @@ export default class EnvironmentResourceCard extends Vue {
 		summary.content['Printing Enabled'] = !!this.environmentCardSummary.isPrintingEnabled;
 		summary.content['description'] = StringCleaner.stripHTML(this.environmentCardSummary.description);
 		summary.content['Installed Software'] = this.environmentCardSummary.installedSoftware.length;
-		summary.content['title'] = this.environmentCardSummary.title;
 		summary.content['archive'] = this.environmentCardSummary.archive;
 		summary.content['emulator'] = this.environmentCardSummary.emulator;
 

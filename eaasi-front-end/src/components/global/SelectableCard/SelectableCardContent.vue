@@ -31,7 +31,7 @@ export default class SelectableCardContent extends Vue {
 </script>
 
 <style lang="scss">
-	$defaultFontSize: 0.7em;
+	$defaultFontSize: 0.75em;
 	$defaultLineHeight: 1.4em;
 
 	.content-container {

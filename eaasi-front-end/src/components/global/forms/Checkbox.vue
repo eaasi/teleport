@@ -12,8 +12,9 @@
 				:checked="value"
 				@change="handleChange"
 				:disabled="disabled"
+				:indeterminate.prop="disabled && !value"
 			/>
-			<span :class="['checkmark', { checked: value, disabled }]"></span>
+			<span :class="['checkmark', { checked: value, disabled, indeterminate: disabled && !value }]"></span>
 		</label>
 	</form-field-wrapper>
 </template>
@@ -101,6 +102,16 @@ $checkboxSize: 18px;
 		&.checked {
 			border: 2px solid $dark-blue;
 		}
+		&.indeterminate::after {
+			background-color: $light-blue;
+			border-radius: 2px;
+			display: block;
+			height: 3px;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 12px;
+		}
 	}
 
 	label input:checked ~ .checkmark {
@@ -116,7 +127,7 @@ $checkboxSize: 18px;
 		position: absolute;
 	}
 
-	label .checkmark::after {
+	label .checkmark.checked::after {
 		border: solid #FFFFFF;
 		border-width: 0 3px 3px 0;
 		height: 10px;

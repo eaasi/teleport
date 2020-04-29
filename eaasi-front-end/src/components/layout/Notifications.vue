@@ -65,7 +65,7 @@ export default class Notifications extends Vue {
 #notifications {
 	position: absolute;
 	right: 1rem;
-	top: 2rem;
+	top: 7rem;
 	z-index: 100;
 	.notif-wrapper {
 		span {

@@ -132,7 +132,8 @@ export default class DescriptiveRadios extends Vue {
 		width: 1.6rem;
 
 		&.checked {
-			background-color: $light-blue;
+			background-color: $dark-blue;
+			border: solid 2px $dark-blue;
 			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
 		}
 	}

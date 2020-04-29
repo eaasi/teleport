@@ -47,8 +47,8 @@ export default class SoftwareResourceCard extends Vue {
 	resourceTypeTags: ITag[] =  [
 		{
 			text:'Software',
-			icon:'fa-circle',
-			color:'blue'
+			icon:'fa-browser',
+			color:'white'
 		}
 	];
 

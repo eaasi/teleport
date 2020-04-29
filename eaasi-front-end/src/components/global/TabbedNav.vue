@@ -52,9 +52,9 @@ export default class TabbedNav extends Vue {
 <style lang="scss">
 .eaasi-tabs {
 	$animation-time: 0.3s;
-	border-bottom: solid 4px lighten($dark-neutral, 70%);
+	// border-bottom: solid 4px lighten($dark-neutral, 70%);
 	border-top: solid 4px lighten($light-neutral, 10%);
-	padding-bottom: 5px;
+	padding-bottom: 6px;
 
 	ul {
 		margin: 0;

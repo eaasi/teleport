@@ -67,6 +67,7 @@ export default class DashboardBlogEntry extends Vue {
 
 		.entry-title {
 			font-size: 1.9rem;
+			min-height: 6rem;
 			padding: 2.8rem 1.6rem 4rem 1.6rem;
 
 			a {

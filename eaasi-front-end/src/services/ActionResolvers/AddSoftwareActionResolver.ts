@@ -20,7 +20,7 @@ export default class AddSoftwareActionResolver extends SlideMenuActionResolver {
 			label: 'Add Software',
 			description: 'Combine software with this environment',
 			icon: 'plus',
-			isEnabled: super.isResourceDetailPage() && (super.isSinglePublicResource() || super.isSingleDefaultResource())
+			isEnabled: super.isSinglePublicResource() || super.isSingleDefaultResource()
 		};
 	}
 }

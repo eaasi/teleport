@@ -8,7 +8,7 @@
 			<app-header v-show="!hideAppHeader" />
 			<app-content />
 			<!-- Error Modal visibility state managed in global store-->
-			<error-modal />
+			<error-modal v-if="error" />
 		</template>
 	</div>
 </template>
@@ -46,6 +46,9 @@ export default class App extends Vue {
 
 	@Get('loggedIn')
 	loggedIn: boolean;
+
+	@Get('appError')
+	error: string;
 
 	/* Methods
 	============================================*/
