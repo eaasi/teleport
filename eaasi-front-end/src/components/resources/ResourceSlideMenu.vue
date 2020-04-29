@@ -408,13 +408,12 @@ export default class ResourceSlideMenu extends Vue {
 	}
 
 	runInEmulator(software = null) {
-		const { id, archiveId } = software;
 		let environment = this.onlySelectedResource as IEnvironment;
 		let route = `${ROUTES.ACCESS_INTERFACE}/${environment.envId}`;
-		if (id) {
-			route += `?softwareId=${id}`;
-			if (archiveId) {
-				route += `&archiveId=${archiveId}`;
+		if (software && software.id) {
+			route += `?softwareId=${software.id}`;
+			if (software.archiveId) {
+				route += `&archiveId=${software.archiveId}`;
 			}
 		}
 		this.$router.push(route);

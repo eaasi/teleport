@@ -12,5 +12,5 @@ export default {
 	ENV: process.env.VUE_APP_ENV,
 	NODE_NAME: process.env.VUE_APP_NODE_NAME,
 	SAML_ENABLED: process.env.VUE_APP_SAML_ENABLED == 'true' || process.env.VUE_APP_SAML_ENABLED == 'True',
-	APP_VERSION: '1.8.5',
+	APP_VERSION: '1.8.6',
 };

@@ -9,10 +9,10 @@ const options = {
 		level: 'info',
 		filename: `${LOGS_ROOT_PATH}/app-${moment(Date.now()).format('DD-MM-YYYY')}.log`,
 		handleExceptions: true,
-		json: true,
+		json: false,
 		maxsize: 5242880, // 5MB
 		maxFiles: 1000,
-		colorize: false,
+		colorize: true,
 	},
 	console: {
 		level: 'debug',
