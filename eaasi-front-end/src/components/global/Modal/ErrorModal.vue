@@ -2,7 +2,6 @@
 	<modal
 		class="error-modal-container"
 		@close="closeModal"
-		v-if="error !== null"
 		:size="size"
 	>
 		<div class="eaasi-info-modal-title" slot="header">
@@ -129,7 +128,7 @@ export default class ErrorModal extends Vue {
 	}
 
 	async getApiEvents() {
-		const result = await this.$store.dispatch('admin/getErrorLogs');
+		const result = await this.$store.dispatch('admin/getMostRecentErrorLogs');
 		this.apiEvents = result;
 	}
 
@@ -138,10 +137,8 @@ export default class ErrorModal extends Vue {
 		let textToClipboard = `
 ##### Front-End Stack Trace #####
 ${this.objToString(this.error)}
-RAW: ${JSON.stringify(this.error)}
 ###### Web-Api Event List #######
 ${apiEventsString}
-RAW: ${JSON.stringify(this.apiEvents)}
 ########## < END > ##############`;
 		this.executeCopy(textToClipboard);
 		const notification = generateCompletedNotificationWithMessage('Error Details has been copied to your clipboard.');

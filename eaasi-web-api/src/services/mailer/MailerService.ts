@@ -18,6 +18,18 @@ export interface IMailPayload {
 	password: string;
 }
 
+interface ITransportOptions {
+	host: string;
+	port: number;
+	secure: boolean;
+	auth?: ITransportAuthOptions;
+}
+
+interface ITransportAuthOptions {
+	user: string;
+	pass: string;
+}
+
 /**
  * Handles business logic related to working with User and Role data
  */
@@ -27,15 +39,7 @@ export default class MailerService extends BaseService {
 
 	constructor() {
 		super();
-		this.transporter = nodemailer.createTransport({
-			host: MAILER_HOST,
-			port: MAILER_PORT,
-			secure: MAILER_PORT == 465,
-			auth: {
-				user: MAILER_USER,
-				pass: MAILER_PASSWORD
-			}
-		});
+		this.transporter = nodemailer.createTransport(this.transportOptions());
 	}
 
 	async sendMail(action: MailerAction, payload: IMailPayload) {
@@ -71,6 +75,21 @@ export default class MailerService extends BaseService {
 			subject,
 			text
 		}
+	}
+
+	private transportOptions(): ITransportOptions {
+		let options: ITransportOptions = {
+			host: MAILER_HOST,
+			port: MAILER_PORT,
+			secure: MAILER_PORT == 465,
+		};
+		if (MAILER_USER && MAILER_PASSWORD) {
+			options.auth = {
+				user: MAILER_USER,
+				pass: MAILER_PASSWORD
+			};
+		}
+		return options;
 	}
 	
 }

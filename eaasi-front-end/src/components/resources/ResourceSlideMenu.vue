@@ -111,6 +111,11 @@
 				</span>
 			</alert>
 		</confirm-modal>
+		<add-software
+			v-if="addingSoftware"
+			@cancel="addingSoftware = false"
+			@run-in-emulator="runInEmulator"
+		/>
 	</div>
 </template>
 
@@ -134,6 +139,7 @@ import TaskList from '@/components/admin/running-tasks/TaskList.vue';
 import { ITaskState } from '../../types/Task';
 import { IEaasiTaskListStatus } from '../../types/IEaasiTaskListStatus';
 import EaasiTask from '../../models/task/EaasiTask';
+import AddSoftware from '@/components/resources/view-details/environment/AddSoftwareModal.vue';
 import { ROUTES } from '../../router/routes.const';
 
 let menuService = new ResourceSlideMenuService();
@@ -145,6 +151,7 @@ let resourceService = ResourceService;
 		LabeledItemList,
 		ResourceAction,
 		TaskList,
+		AddSoftware,
 		SlideMenu
 	}
 })
@@ -218,6 +225,7 @@ export default class ResourceSlideMenu extends Vue {
 	detailsItems: ILabeledItem[] = [];
 	confirmAction : string = null;
 	showTasks: boolean = true;
+	addingSoftware: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -322,6 +330,7 @@ export default class ResourceSlideMenu extends Vue {
 			});
 			await this.$store.dispatch('software/deleteContent', contentRequests);
 		}
+		this.resources = [];
 		this.$emit('resource-deleted');
 	}
 
@@ -340,11 +349,7 @@ export default class ResourceSlideMenu extends Vue {
 
 		switch (action.shortName) {
 			case 'run':
-				// When Run is clicked, we send to Access Interface @ environmentId
-				if (this.environmentIsSelected) {
-					let environment = this.onlySelectedResource as IEnvironment;
-					this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${environment.envId}`);
-				}
+				this.runInEmulator();
 				break;
 			case 'viewDetails':
 				// When View Details is clicked, we send to Resource Detail view
@@ -366,7 +371,8 @@ export default class ResourceSlideMenu extends Vue {
 				});
 				break;
 			case 'add-software':
-				this.$emit('add-software');
+				// this.$emit('add-software');
+				this.addingSoftware = true;
 				break;
 			case 'treat-as-software':
 				this.$emit('treat-as-software');
@@ -400,17 +406,30 @@ export default class ResourceSlideMenu extends Vue {
 			default: break;
 		}
 	}
+
+	runInEmulator(software = null) {
+		const { id, archiveId } = software;
+		let environment = this.onlySelectedResource as IEnvironment;
+		let route = `${ROUTES.ACCESS_INTERFACE}/${environment.envId}`;
+		if (id) {
+			route += `?softwareId=${id}`;
+			if (archiveId) {
+				route += `&archiveId=${archiveId}`;
+			}
+		}
+		this.$router.push(route);
+	}
 }
 
 </script>
 
 <style lang="scss">
 	.resource-slide-menu {
-		background-color: lighten($light-neutral, 60%);
+		background-color: lighten($light-neutral, 80%);
 		bottom: 0;
-		position: absolute;
+		position: fixed;
 		right: 0;
-		top: 0;
+		top: 80px;
 
 		.fa-times {
 			cursor: pointer;

@@ -4,6 +4,11 @@ import { loggedInGuard, updateMeta } from './middleware';
 import './register-hooks'; // Keep this import first
 import routes from './routes';
 
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err);
+};
+
 Vue.use(Router);
 
 const router = new Router({

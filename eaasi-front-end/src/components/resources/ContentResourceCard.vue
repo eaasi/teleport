@@ -51,8 +51,8 @@ export default class ContentResourceCard extends Vue {
 	resourceTypeTags: ITag[] =  [
 		{
 			text: 'Content',
-			icon:'fa-save',
-			color:'blue'
+			icon:'fa-file',
+			color:'white'
 		}
 	];
 

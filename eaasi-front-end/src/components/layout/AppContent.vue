@@ -126,6 +126,7 @@ export default class AppContent extends Mixins(TaskManager) {
 		left: $leftSidebarWidth * -1;
 		position: absolute;
 		right: 0;
+		z-index: 100;
 	}
 
 	#globalLoader {

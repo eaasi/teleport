@@ -99,6 +99,12 @@ class AdminService extends BaseHttpService {
 		return response.result;
 	}
 
+	async getMostRecentErrorLogs(): Promise<IApplicationLog[]> {
+		const response = await this.get<IApplicationLog[]>('/error-report/get-most-recent');
+		if (!response.ok) return [];
+		return response.result;
+	}
+
 }
 
 export default new AdminService();
