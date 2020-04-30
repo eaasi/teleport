@@ -1,4 +1,5 @@
 import AdminController from '@/controllers/AdminController';
+import { createAccountRequestLimit, resetPasswordRequestLimit } from '@/middleware/request-limit';
 import express from 'express';
 
 const router = express.Router();
@@ -35,7 +36,7 @@ router.get('/users/roles', (req, res) => controller.getRoles(req, res));
  * @apiPermission System Administrator only
  * @apiDescription Saves a new User
  */
-router.post('/users/save', (req, res) => controller.saveUser(req, res));
+router.post('/users/save', createAccountRequestLimit, (req, res) => controller.saveUser(req, res));
 
 /**
  * @api {post} admin/users/delete  Delete an EaaSI User
@@ -53,7 +54,7 @@ router.post('/users/delete', (req, res) => controller.deleteUser(req, res));
  * @apiPermission System Administrator only
  * @apiDescription Reset User Password
  */
-router.post('/users/reset-password', (req, res) => controller.resetUserPassword(req, res));
+router.post('/users/reset-password', resetPasswordRequestLimit, (req, res) => controller.resetUserPassword(req, res));
 
 /* Emulators
 ============================================*/

@@ -1,4 +1,5 @@
 import AuthController from '@/controllers/AuthController';
+import { authRequestLimit } from '@/middleware/request-limit';
 import express from 'express';
 import passport from 'passport';
 
@@ -23,7 +24,7 @@ router.get('/login', samlAuth, controller.login);
  * @apiPermission Any
  * @apiDescription Used to Log In a User.
  */
-router.post('/authenticate', (req, res) => controller.authenticate(req, res));
+router.post('/authenticate', authRequestLimit, (req, res) => controller.authenticate(req, res));
 
 /**
  * @api {post}  auth/callback SAML Callback Endpoint
