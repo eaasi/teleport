@@ -6,13 +6,36 @@
 		</div>
 
 		<transition name="fade">
-			<ul class="hmd-list" v-if="isDropDownVisible">
-				<li class="hmd-list-item" @click="logOut">
-					Log Out
+			<ul class="hmd-list" v-show="isDropDownVisible">
+				<li class="hmd-list-item flex flex-row justify-between" @click="isResetPasswordModalVisible = true">
+					<span>Reset Password</span>
+					<span class="icon fas fa-fw fa-key"></span>
+				</li>
+				<li class="hmd-list-item flex flex-row justify-between" @click="logOut">
+					<span>Log Out</span>
 					<span class="icon fas fa-fw fa-sign-out"></span>
 				</li>
 			</ul>
 		</transition>
+
+		<confirm-modal
+			cancel-label="Cancel"
+			confirm-label="Reset Password"
+			title="Reset Password"
+			v-if="isResetPasswordModalVisible"
+			@close="isResetPasswordModalVisible = false"
+			@click:confirm="resetPassword"
+		>
+			<alert-card type="warning" v-if="user">
+				<div class="delete-message">
+					You are about to reset your password
+				</div>
+				<div class="delete-message">
+					This will reset your password and send a new password to your email. 
+					This action cannot be undone.
+				</div>
+			</alert-card>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -20,6 +43,10 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import authService from '@/services/AuthService';
+import { Get } from 'vuex-pathify';
+import { IEaasiUser } from 'eaasi-admin';
+import { generateCompletedNotificationWithMessage, generateNotificationError } from '../../../helpers/NotificationHelper';
+import eventBus from '../../../utils/event-bus';
 
 @Component({
 	name: 'HeaderMenuDropDown'
@@ -41,19 +68,35 @@ export default class HeaderMenuDropdown extends Vue {
 	@Prop({type: String, required: false})
 	readonly icon: string;
 
+	/* Computed
+	============================================*/
+
+	@Get('loggedInUser')
+	user: IEaasiUser;
+
 	/* Data
 	============================================*/
+	
 	isDropDownVisible: boolean = false;
+	isResetPasswordModalVisible: boolean = false;
 
 	/* Methods
 	============================================*/
 
-	/**
-	 * Logs a User Out
-	 */
 	async logOut() {
 		await this.$store.dispatch('logout');
 	}
+
+	async resetPassword() {
+		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
+		this.isResetPasswordModalVisible = false;
+		const notification = success 
+			? generateCompletedNotificationWithMessage('You successfully reset your password.')
+			: generateNotificationError('Something went wrong, please try again.');
+		eventBus.$emit('notification:show', notification);
+		this.$emit('close');
+	}
+
 }
 
 </script>
@@ -88,15 +131,14 @@ export default class HeaderMenuDropdown extends Vue {
 	background: #ffffff;
 	list-style: none;
 	position: absolute;
+	right: 0;
 	top: 64px;
 
 	.hmd-list-item {
 		border: 1px solid $light-neutral;
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-		display: block;
-		float: left;
+		min-width: 15rem;
 		padding: 1.6rem;
-		position: relative;
 		z-index: 2;
 	}
 

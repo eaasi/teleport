@@ -39,6 +39,10 @@
 								</div>
 							</div>
 						</div>
+						<hr />
+						<div>
+							<p>EaaSi Version: {{ appVersion }}</p>
+						</div>
 					</div>
 				</div>
 				<ui-button
@@ -93,6 +97,7 @@ import { IApplicationLog } from '@/types/ApplicationLog';
 import { Get, Sync } from 'vuex-pathify';
 import { generateCompletedNotificationWithMessage } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
+import config from '../../../config';
 
 /**
  * A pop-up modal that notifies a user that an error has occurred
@@ -119,6 +124,7 @@ export default class ErrorModal extends Vue {
 	/* Data
 	============================================*/
 	apiEvents: IApplicationLog[] = [];
+	appVersion: string = '';
 
 	/* Methods
 	============================================*/
@@ -128,8 +134,8 @@ export default class ErrorModal extends Vue {
 	}
 
 	async getApiEvents() {
-		const result = await this.$store.dispatch('admin/getMostRecentErrorLogs');
-		this.apiEvents = result;
+		this.apiEvents = await this.$store.dispatch('admin/getMostRecentErrorLogs');
+		this.appVersion = config.APP_VERSION;
 	}
 
 	copyToClipboard() {
@@ -139,6 +145,8 @@ export default class ErrorModal extends Vue {
 ${this.objToString(this.error)}
 ###### Web-Api Event List #######
 ${apiEventsString}
+###### App Version #######
+EaaSi Version: ${this.appVersion}
 ########## < END > ##############`;
 		this.executeCopy(textToClipboard);
 		const notification = generateCompletedNotificationWithMessage('Error Details has been copied to your clipboard.');
