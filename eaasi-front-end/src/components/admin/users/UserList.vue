@@ -25,7 +25,8 @@
 				<tr v-for="u in users" :key="u.id">
 					<td>{{ u.username }}</td>
 					<td>{{ getRole(u) }}</td>
-					<td>{{ u.lastLogin || 'Unknown' }}</td>
+					<td v-if="u.lastLogin">{{ u.lastLogin | js-date-pretty-format }}</td>
+					<td v-else>Unknown</td>
 					<td class="details-cell">
 						<span
 							class="details-btn clickable"
