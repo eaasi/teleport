@@ -54,4 +54,16 @@ export default class UserService extends BaseService {
 		return result.result;
 	}
 
+	async recordLastLogin(userId: number) {
+		let result = await this._userCrudService.update(userId, { lastLogin: new Date() });
+
+		if (result.hasError) {
+			throw result.error;
+		}
+
+		if (result.result === null) {
+			throw `Cannot find user with id: ${userId}`
+		}
+	}
+
 }

@@ -71,6 +71,8 @@ export default class EaasiAuthController extends BaseController {
 			if (!isPasswordValid) {
 				res.json({ success: false, error: 'Invalid credentials' })
 			}
+			// record user login
+			await this._userService.recordLastLogin(plainUser.id);
 			let expires = new Date();
 			expires.setSeconds(expires.getSeconds() + MAX_AGE);
 			jwt.sign(plainUser, SECRET as JwtSecret, { expiresIn: MAX_AGE }, (err, token) => {
