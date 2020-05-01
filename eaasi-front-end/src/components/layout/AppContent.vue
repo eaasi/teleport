@@ -28,6 +28,8 @@ import AppFooter from '@/components/layout/AppFooter.vue';
 import Notifications from './Notifications.vue';
 import { mixins } from 'vue-class-component';
 import TaskManager from '../../mixins/TaskManager';
+import events from '../../config/events';
+import { generateNotificationError } from '../../helpers/NotificationHelper';
 
 @Component({
 	name: 'AppContent',

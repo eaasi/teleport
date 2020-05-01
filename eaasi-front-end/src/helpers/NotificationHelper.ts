@@ -55,3 +55,13 @@ export function generateNotificationError(message: string): INotification {
     };
     return notification;
 }
+
+export function generateNotificationWarning(message: string): INotification {
+    let notification: INotification = {
+        id: generateId(),
+        label: message,
+        time: 5000,
+        type: 'warning'
+    };
+    return notification;
+}

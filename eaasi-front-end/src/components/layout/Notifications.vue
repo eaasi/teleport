@@ -26,9 +26,6 @@ import eventBus from '../../utils/event-bus';
 })
 export default class Notifications extends Vue {
 
-    /* Computed
-    ============================================*/
-
     /* Data
     ============================================*/
     notifications: INotification[] = [];

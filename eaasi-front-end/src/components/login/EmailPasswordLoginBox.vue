@@ -1,5 +1,6 @@
 <template>
 	<div class="auth-wrapper">
+		<notifications />
 		<eaasi-form>
 			<div class="auth-group">
 				<text-input
@@ -34,9 +35,13 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import { ILoginRequest } from '../../types/Auth';
 import { Sync } from 'vuex-pathify';
 import formValidator from '../../utils/form-validator';
+import Notifications from '@/components/layout/Notifications.vue';
 
 @Component({
-    name: 'PerformLoginScreen'
+	name: 'PerformLoginScreen',
+	components: {
+		Notifications
+	}
 })
 export default class PerformLoginScreen extends Vue {
 
