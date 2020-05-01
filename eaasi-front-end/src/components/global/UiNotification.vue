@@ -31,13 +31,13 @@ export default class UiNotification extends Vue {
                 return 'check';
                 break;
             case 'danger':
-                return 'exclamation-triangle';
+                return 'times-circle';
                 break;
             case 'info':
                 return 'info-circle';
                 break;
             case 'warning':
-                return 'question-circle';
+                return 'exclamation-triangle';
                 break;
         }
     }

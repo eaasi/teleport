@@ -1,4 +1,5 @@
 import config from '@/config';
+import events from '@/config/events';
 import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiSearchQuery } from '@/types/Search';
 import eventBus from '@/utils/event-bus';
@@ -143,6 +144,8 @@ export default class BaseHttpService {
 			
 			// Let Vue know that an ajax request has been completed
 			if (!options.suppressSpinner) eventBus.$emit('ajaxEnd');
+
+			if (response.status === 429) eventBus.$emit(events.REQUEST_LIMIT_REACHED);
 			
 			return response;
 		} catch (e) {
