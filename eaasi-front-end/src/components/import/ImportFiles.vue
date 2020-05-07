@@ -287,6 +287,10 @@
 			this.selectNoFiles();
 		}
 
+		mounted() {
+			this.diskSize = '1024';
+		}
+
 		@Watch('filesAreAdded', { immediate: true })
 		onFilesAreAddedChange(filesAreAdded) {
 			// Ensure user are on the final step if files have been added

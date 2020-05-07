@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
@@ -109,6 +109,13 @@ export default class SearchSelectList extends BaseFormField {
 		this.query = null;
 		this.$emit('input', null);
 	}
+
+	@Watch('value')
+	onValueChange(val) {
+		if (!val) {
+			this.clearQuery();
+		}
+	}
 	
 }
 
@@ -119,6 +126,7 @@ export default class SearchSelectList extends BaseFormField {
 
 	.select-list {
 		background: lighten($light-blue, 90%);
+		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
 		left: 0;
 		max-height: 20rem;
 		min-height: 10rem;
@@ -127,6 +135,7 @@ export default class SearchSelectList extends BaseFormField {
 		right: 0;
 		top: 5rem;
 		z-index: 2;
+
 		.select-item {
 			margin-bottom: 0.75rem;
 			margin-top: 0.75rem;

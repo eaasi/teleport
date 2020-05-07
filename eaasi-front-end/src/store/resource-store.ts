@@ -2,6 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
+import { ITemplate } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
@@ -19,7 +20,7 @@ class ResourceState {
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
 	savingEnvironments: ISavingEnvironmentState[] = [];
-	availableTemplates: any[] = [];
+	availableTemplates: ITemplate[] = [];
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
 	resourceName: string = '';

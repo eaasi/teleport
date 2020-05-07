@@ -54,6 +54,7 @@
 	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';
+import { IEaasiUser } from 'eaasi-admin';
 	@Component({
 		name: 'AccessInterfaceScreen',
 		components: {
@@ -110,6 +111,9 @@
 		@Get('resource/resourceName')
 		runningResourceName: string;
 
+		@Get('loggedInUser')
+		loggedInUser: IEaasiUser;
+
 		/* Data
         ============================================*/
 		showConfirmExitModal: boolean = false;
@@ -119,9 +123,11 @@
         ============================================*/
 
 		async getEnvironment(envId: string) {
-
-			if (this.isImportedEnvironment) {
-				await this.runImportedEnvironment(envId);
+			const { createBaseEnvironment } = this.$route.query;
+			if (createBaseEnvironment) {
+				await this.runImportedEnvironment(envId, `Base Environment [${this.loggedInUser.firstName} ${this.loggedInUser.lastName}]`);
+			} else if (this.isImportedEnvironment) {
+				await this.runImportedEnvironment(envId, this.importedTitle);
 
 			} else if (this.isConstructedEnvironment) {
 				await this.runConstructedEnvironment(envId);
@@ -152,7 +158,7 @@
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', constructedEnvironment);
 		}
 
-		async runImportedEnvironment(envId: string) {
+		async runImportedEnvironment(envId: string, title: string) {
 			let environment = {
 				archive: 'default',
 				envId: envId,
@@ -161,7 +167,7 @@
 				object: null,
 				objectArchive: null,
 				software: null,
-				title: this.importedTitle,
+				title,
 				type: 'machine',
 				isImport: true,
 			};

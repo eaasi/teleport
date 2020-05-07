@@ -1,0 +1,76 @@
+version: "3.7"
+
+networks:
+  eaasi:
+    name: eaasi
+
+services:
+  # Nginx Reverse Proxy
+  eaasi-nginx:
+    image: nginx:latest
+    container_name: eaasi-nginx
+    depends_on:
+    - eaasi-front-end
+    - eaasi-web-api
+    volumes:
+    - ./eaasi-nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./eaasi-nginx/cache:/etc/nginx/cache
+    - ./eaasi-nginx/certs:/etc/nginx/certs
+    networks:
+    - eaasi
+    ports:
+    - 80:80
+    restart: always
+
+  # Vue.js Front End SPA
+  eaasi-front-end:
+    image: eaasi-front-end
+    container_name: eaasi-front-end
+    build:
+      context: ./eaasi-front-end
+    networks:
+    - eaasi
+    ports:
+    - 8080:80
+    restart: on-failure
+
+  # Express Web API
+  eaasi-web-api:
+    image: eaasi-web-api
+    container_name: eaasi-web-api
+    build:
+      context: ./eaasi-web-api
+    depends_on:
+     - eaasi-database
+    env_file:
+    - ./eaasi-web-api/.env.production
+    volumes:
+    - ./eaasi-web-api/certs:/app/certs
+    networks:
+    - eaasi
+    external_links:
+    - eaasi-nginx:eaasi.portalmedia.com
+    ports:
+    - 8081:8081
+    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"
+    restart: on-failure
+
+  # PostgreSQL Database
+  eaasi-database:
+    image: eaasi-database
+    container_name: eaasi-database
+    build:
+      context: ./eaasi-database
+    env_file:
+    - ./eaasi-database/vars.env
+    networks:
+    - eaasi
+    ports:
+    - 5432:5432
+    volumes:
+    - eaasi_db:/var/lib/postgresql/data
+    restart: on-failure
+
+volumes:
+  # Database Data
+  eaasi_db:

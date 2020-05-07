@@ -51,6 +51,11 @@ export interface ICreateEnvironmentPayload {
 	templateId: string;
 }
 
+export interface ICreateEnvironmentResponse {
+	status: string;
+	id: string;
+}
+
 /**
  * Used in a software or object request
  */
@@ -58,4 +63,17 @@ export interface IFileImport {
 	filename: string;
 	deviceId: string;
 	url: string;
+}
+
+
+export interface ITemplate {
+	id: string;
+	label: string;
+	native_config: string;
+	properties: ITemplateProperty[];
+}
+
+export interface ITemplateProperty {
+	name: string;
+	value: string;
 }

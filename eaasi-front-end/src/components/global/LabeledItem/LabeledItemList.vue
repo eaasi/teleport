@@ -1,5 +1,6 @@
 <template>
 	<div class="lil-container" v-if="labeledItems.length > 0">
+		<h6 class="uppercase" v-if="title">{{ title }}</h6>
 		<div v-for="(labeledItem, index) in labeledItems" :key="index">
 			<labeled-item :labeled-item="labeledItem" />
 		</div>
@@ -26,7 +27,10 @@ import LabeledItem from './LabeledItem.vue';
 })
 export default class LabeledDetailsList extends Vue {
 	@Prop({type: Array as () => ILabeledItem[], required: true })
-	labeledItems: ILabeledItem[]
+	readonly labeledItems: ILabeledItem[]
+
+	@Prop({ type: String, required: false })
+	readonly title: string;
 }
 </script>
 
@@ -39,6 +43,11 @@ export default class LabeledDetailsList extends Vue {
 
 		.lil-no-data {
 			padding: 1.2rem;
+		}
+
+		h6 {
+			font-size: 1.3rem;
+			margin-bottom: 1.5rem;
 		}
 	}
 </style>

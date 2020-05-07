@@ -53,7 +53,7 @@ export type FileSystemType = 'fat16' | 'fat32' | 'vfat' | 'ntfs' | 'ext2' | 'ext
 export interface IComponentRequest {
 	type: 'machine' | 'container' | 'slirp' | 'socks';
 	userId?: string;
-	input_data: IComponentInputMedium[];
+	input_data?: IComponentInputMedium[];
 }
 
 export interface IContainerComponentRequest extends IComponentRequest {
@@ -63,14 +63,14 @@ export interface IContainerComponentRequest extends IComponentRequest {
 
 export interface IMachineComponentRequest extends IComponentRequest {
 	archive: string;
-	input_data: IComponentInputMedium[];
+	input_data?: IComponentInputMedium[];
 	environment: string;
 	keyboardLayout: string;
 	keyboardModel: string;
 	object?: string;
 	objectArchive?: string;
 	software?: string;
-	lockEnvironment: boolean;
+	lockEnvironment?: boolean;
 	emulatorVersion?: string;
 }
 

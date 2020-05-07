@@ -46,7 +46,7 @@ export default class CheckboxFacet extends Vue {
 	/* Props
 	============================================*/
 
-	@Prop({type: Number, required: false, default: 3})
+	@Prop({type: Number, required: false, default: 4})
 	readonly maxDisplayLimit: Number
 
 	@Prop({type: Object as () => IResourceSearchFacet, required: true})
