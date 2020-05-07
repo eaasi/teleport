@@ -4,16 +4,16 @@
 			<div class="col-md-12">
 				<text-input
 					label="Name"
+					rules="required"
 					placeholder="Enter a name or title for this resource"
 					:readonly="readonly"
-					value=""
 					v-model="title"
 				/>
 			</div>
 
 			<div class="col-md-6">
 				<select-list
-					v-model="chosenTemplate"
+					v-model="chosenTemplateId"
 					class="no-mb flex-adapt"
 					label="Choose a System"
 					rules="required"
@@ -33,27 +33,24 @@
 		<div class="row">
 			<div class="col-md-6">
 				<text-input
-					v-if="chosenTemplate"
+					v-if="chosenTemplateId"
 					readonly
 					label="System Architecture"
-					v-model="chosenTemplateArchitecture"
-					value=""
+					:value="chosenTemplateArchitecture"
 				/>
 
 				<text-input
-					v-if="chosenTemplate"
+					v-if="chosenTemplateId"
 					readonly
 					label="Emulator"
-					v-model="chosenTemplateEmulator"
-					value=""
+					:value="chosenTemplateEmulator"
 				/>
 
 				<text-input
-					v-if="chosenTemplate"
-					readonly
+					v-if="chosenTemplateId"
+					:readonly="readonly"
 					label="Config"
-					v-model="chosenTemplateNativeConfig"
-					value=""
+					v-model="nativeConfig"
 				/>
 			</div>
 		</div>
@@ -62,9 +59,10 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { Component, Prop } from 'vue-property-decorator';
+	import { Component, Prop, Watch } from 'vue-property-decorator';
 	import { Get, Sync } from 'vuex-pathify';
 	import { operatingSystems } from '@/models/admin/OperatingSystems';
+import { ITemplate } from '../../../types/Import';
 
 	@Component({
 		name: 'EnvironmentImportMetadataFast',
@@ -77,7 +75,7 @@
 		/**
 		 * Pass-through as readonly attribute to all form fields
 		 */
-		@Prop({type: Boolean, required: false})
+		@Prop({ type: Boolean, required: false })
 		readonly readonly: boolean;
 
 		/* Computed
@@ -87,66 +85,42 @@
 		title: string;
 
 		@Sync('import/environment@chosenTemplateId')
-		chosenTemplate: string;
+		chosenTemplateId: string;
 
 		@Sync('import/environment@nativeConfig')
 		nativeConfig: string;
 
-		@Get('resource/availableTemplates')
-		readonly availableTemplates: any[];
+		@Sync('resource/availableTemplates')
+		availableTemplates: ITemplate[];
 
 		@Sync('import/filesToUpload')
 		filesToUpload: any[];
 
-		get chosenTemplateData() {
-			return this.availableTemplates.find(template => {
-				return template['id'] === this.chosenTemplate;
-			});
+		get activeTemplate(): ITemplate {
+			return this.availableTemplates.find(template => template.id === this.chosenTemplateId);
 		}
 
-		// TODO: Request update to structure the serialized data coming from the OpenSLX Eaasi API.
-		/* ie:
-        {
-            id: "qemu-win98",
-            label: "Windows 98 (USB pointer)",
-            properties: [
-                {
-                    name: "Architecture",            <-- why name keys "name" and "value"?
-                    value: "x86_64"
-                },
-                {
-                    name: "EmulatorContainer",
-                    value: "Qemu"
-                }
-            ]
-        },
-
-        // TODO: Suggestion - serialize to the interface that already implicitly exists -
-            properties: { architecture: 'foo', emulatorContainer: 'bar' }
-        */
-
-		get chosenTemplateEmulator() {
-			const result = this.chosenTemplateData.properties
-				.find(obj => obj['name'] === 'EmulatorContainer')['value'];
-			return result ? result : null;
+		get chosenTemplateEmulator(): string {
+			const { value } = this.activeTemplate.properties.find(prop => prop.name === 'EmulatorContainer');
+			return value;
 		}
 
-		get chosenTemplateArchitecture() {
-			const result = this.chosenTemplateData.properties
-				.find(obj => obj['name'] === 'Architecture')['value'];
-			return result ? result : null;
-		}
-
-		get chosenTemplateNativeConfig() {
-			let config = this.chosenTemplateData['native_config'];
-			this.nativeConfig = config;
-			return config;
+		get chosenTemplateArchitecture(): string {
+			const { value } = this.activeTemplate.properties.find(prop => prop.name === 'Architecture');
+			return value;
 		}
 
 		/* Lifecycle Hooks
         ============================================*/
-		created() {
-			this.$store.dispatch('resource/getTemplates');
+		async created() {
+			await this.$store.dispatch('resource/getTemplates');
+		}
+
+		@Watch('activeTemplate')
+		onActiveTemplate(nextTemplate: ITemplate, prevTemplate: ITemplate) {
+			if (!prevTemplate || (nextTemplate && nextTemplate.id !== prevTemplate.id)) {
+				this.nativeConfig = this.activeTemplate.native_config;
+			}
 		}
 	}
 

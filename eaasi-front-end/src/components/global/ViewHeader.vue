@@ -54,6 +54,7 @@ export default class ViewHeader extends Vue {
 	}
 
 	.vh-sub-section {
+		background: lighten($light-neutral, 40%);
 		border-bottom: 2px solid $light-neutral;
 		display: flex;
 		flex-direction: row;

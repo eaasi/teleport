@@ -3,7 +3,7 @@ import { IEnvironment } from '@/types/Resource';
 
 export default class MachineComponentRequest implements IMachineComponentRequest {
 	userId?: string;
-	input_data: IComponentInputMedium[];
+	input_data?: IComponentInputMedium[];
     environment: string;
     keyboardLayout: string = 'us';
     keyboardModel: string = 'pc105';

@@ -1,7 +1,6 @@
 import AdminController from '@/controllers/AdminController';
 import { createAccountRequestLimit, resetPasswordRequestLimit } from '@/middleware/request-limit';
 import express from 'express';
-
 const router = express.Router();
 const controller = new AdminController();
 

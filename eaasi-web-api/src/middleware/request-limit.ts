@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
-
 const ERROR_MESSAGE = 'You\'ve reached the request limit, please try again later.';
 const STATUS_CODE = 429;
 
