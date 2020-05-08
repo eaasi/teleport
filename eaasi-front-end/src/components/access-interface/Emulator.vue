@@ -52,7 +52,7 @@ import { generateId } from '@/utils/functions';
         ============================================*/
 
 		@Sync('showLoader')
-		loading: boolean;
+		showLoader: boolean;
 
 		@Sync('appError')
 		error: IAppError;
@@ -68,6 +68,7 @@ import { generateId } from '@/utils/functions';
 
 		bwfla: IbwflaController = null;
 		client: IEaasClient = null;
+		timeOutTimer = null
 		isStopping: boolean = false;
 
 		/* Methods
@@ -141,7 +142,7 @@ import { generateId } from '@/utils/functions';
 
 		async startEnvironment() {
 			let vm = this;
-			vm.loading = true;
+			this.showLoaderWithTimeout();
 			try {
 				let data = new MachineComponentRequest(vm.environment);
 				let params = new StartEnvironmentParams(vm.environment);
@@ -173,7 +174,20 @@ import { generateId } from '@/utils/functions';
 			} catch(e) {
 				vm.handleError(e);
 			}
-			vm.loading = false;
+			vm.showLoader = false;
+		}
+
+		private showLoaderWithTimeout() {
+			clearTimeout(this.timeOutTimer);
+			this.showLoader = true;
+			this.timeOutTimer = setTimeout(() => {
+				if (this.showLoader) {
+					const e = new Error('Connection timed out.');
+					this.handleError(e);
+					this.showLoader = false;
+					clearTimeout(this.timeOutTimer);
+				}
+			}, config.TIME_OUT_DURATION);
 		}
 
 		async stopEnvironment() {
