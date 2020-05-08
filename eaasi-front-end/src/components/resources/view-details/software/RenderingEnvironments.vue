@@ -72,7 +72,7 @@
 			</alert>
 		</confirm-modal>
 		<modal
-			v-if="showLoader"
+			v-if="loading"
 			@close="showEnvPicker = false"
 			@click:cancel="showEnvPicker = false"
 		>
@@ -128,7 +128,7 @@ export default class RenderingEnvironments extends Vue {
     ============================================*/
     environments: IEnvironment[] = [];
     showEnvPicker: boolean = false;
-	showLoader: boolean = false;
+	loading: boolean = false;
 	confirmAction: string = null;
 	renderingEnvs: any[] = [];
 	classifyTask: ITaskState = null;
@@ -170,7 +170,7 @@ export default class RenderingEnvironments extends Vue {
 
     async classify() {
 		this.confirmAction = null;
-        this.showLoader = true;
+        this.loading = true;
         const classifyRequest: IObjectClassificationRequest = {
             archiveId: this.archiveId,
 			objectId: this.resourceId,
@@ -231,7 +231,7 @@ export default class RenderingEnvironments extends Vue {
 		if (!currentTask) return;
 		const res = JSON.parse(currentTask.object);
 		this.renderingEnvs = res.environmentList;
-		this.showLoader = false;
+		this.loading = false;
 	}
 
 }
