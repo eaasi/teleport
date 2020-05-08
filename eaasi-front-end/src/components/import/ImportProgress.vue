@@ -46,6 +46,8 @@ import { IUserImportRelationRequest, IUserImportedResource } from '../../types/U
 import { IEaasiUser } from 'eaasi-admin';
 import { generateNotificationError, generateCompletedNotificationWithMessage, generateNotificationSuccess } from '../../helpers/NotificationHelper';
 import eventBus from '../../utils/event-bus';
+import { ITaskState } from '../../types/Task';
+import ContentImportResource from '../../models/import/ContentImportResource';
 
 	@Component({
 		name: 'ImportProgress',
@@ -88,6 +90,9 @@ import eventBus from '../../utils/event-bus';
 
 		@Get('import/software')
 		software: SoftwareImportResource;
+
+		@Get('import/content')
+		content: ContentImportResource;
 
 		@Get('import/environment')
 		environment: EnvironmentImportResource;
@@ -136,15 +141,23 @@ import eventBus from '../../utils/event-bus';
 			}
 			let task = await this.$store.dispatch('import/import');
 			if (!task) return;
-			const activeTask = await this.$store.dispatch('task/addTaskToQueue', task);
-			this.activeTask = activeTask;
+			let resourceName = '';
+			if (this.importType === importTypes.ENVIRONMENT) {
+				resourceName = this.environment.title;
+			} else if (this.importType === importTypes.SOFTWARE) {
+				resourceName = this.software.title;
+			} else if (this.importType === importTypes.CONTENT) {
+				resourceName = this.content.title;
+			}
+			const taskWithDescription: ITaskState = {...task, description: `Import ${this.importType}: ${resourceName}`};
+			this.activeTask = await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
 		}
 
 		reset() {
 			this.$store.commit('import/RESET');
 		}
 
-		async onTaskComplete(taskResult: EaasiTask) {
+		async onTaskComplete(taskResult: ITaskState) {
 			const { environmentId, objectId } = taskResult.userData;
 			if (environmentId || objectId) {
 				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
