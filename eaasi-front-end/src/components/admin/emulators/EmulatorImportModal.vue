@@ -59,7 +59,11 @@ export default class EmulatorImportModal extends Vue {
 	async doImport() {
 		let task = await this.$store.dispatch('admin/importEmulator', this.importRequest) as ITaskState;
 		if(!task) return;
-		await this.$store.dispatch('task/addTaskToQueue', task);
+		const taskWithDescription: ITaskState = {
+			...task, 
+			description: `Import Emulator: ${this.importRequest.urlString}`
+		};
+		await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
 		this.$emit('close');
 	}
 }

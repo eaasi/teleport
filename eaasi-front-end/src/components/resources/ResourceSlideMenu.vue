@@ -338,7 +338,7 @@ export default class ResourceSlideMenu extends Vue {
 		let envIds = this.resources.map(r => r.envId);
 		let result = await this.$store.dispatch('resource/publishToNetwork' , envIds);
 		let task = new EaasiTask(result.taskList[0],
-			`Replicating ${this.resources.length} resource(s) to your Node.`);
+			`Publishing ${this.resources.map(r => r.title).join(', ')} resource(s) to network.`);
 		await this.$store.dispatch('task/addTaskToQueue', task);
 	}
 

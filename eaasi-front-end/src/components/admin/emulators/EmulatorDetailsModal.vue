@@ -44,6 +44,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEmulator, IEmulatorEntry } from 'eaasi-admin';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import EaasiTask from '@/models/task/EaasiTask';
+import { ITaskState } from '../../../types/Task';
 
 @Component({
 	name: 'EmulatorDetailsModal'
@@ -109,7 +110,11 @@ export default class EmulatorModal extends Vue {
 		request.update = true;
 		const task = await this.$store.dispatch('admin/importEmulator', request) as EaasiTask;
 		if(!task) return;
-		await this.$store.dispatch('task/addTaskToQueue', task);
+		const taskWithDescription: ITaskState = {
+			...task, 
+			description: `Import Emulator: ${entry.provenance.ociSourceUrl}:${entry.provenance.versionTag}`
+		};
+		await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
 		this.$store.commit('SET_ACTIVE_TASK', task);
 		this.$emit('close');
 	}
