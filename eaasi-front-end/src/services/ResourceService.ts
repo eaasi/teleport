@@ -2,9 +2,9 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpe
 import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
-import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
-import {archiveTypes} from '@/utils/constants';
+import { archiveTypes } from '@/utils/constants';
 
 
 class ResourceService extends BaseHttpService {
@@ -134,7 +134,7 @@ class ResourceService extends BaseHttpService {
 		let res = await this.post<any>('/resource/save-environment-revision',
 			{ envId, componentId, description }
 		);
-		return res.json();
+		return res.result;
 	}
 
 	/**
