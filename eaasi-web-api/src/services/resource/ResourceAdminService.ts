@@ -5,7 +5,7 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse, ResourceType } from '@/types/resource/Resource';
+import { IClientEnvironmentRequest, IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
@@ -166,10 +166,10 @@ export default class ResourceAdminService extends BaseService {
 		return await res.json();
 	}
 
-	async saveNewEnvironment(newEnvRequest: any) {
+	async saveNewEnvironment(newEnvRequest: IClientEnvironmentRequest) {
 
-		let snapshotRequest = {
-			type: 'saveImport',
+		let snapshotRequest: ISnapshotRequest = {
+			type: 'newEnvironment',
 			envId: newEnvRequest.envId,
 			relativeMouse: false,
 			isRelativeMouse: false,
@@ -178,8 +178,7 @@ export default class ResourceAdminService extends BaseService {
 			objectId: null,
 			softwareId: null,
 			userId: null,
-			networking: {
-			}
+			networking: {}
 		};
 
 		let httpSvc: IHttpService = new HttpJSONService();
@@ -375,14 +374,15 @@ export default class ResourceAdminService extends BaseService {
 	 * @param revisionEnvRequest {
 	 * }
 	 */
-	async saveEnvironmentRevision(revisionEnvRequest: any) {
-		let snapshotRequest = {
+	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest) {
+		let snapshotRequest: ISnapshotRequest = {
 			envId: revisionEnvRequest.envId,
 			isRelativeMouse: false,
 			message: revisionEnvRequest.description,
 			objectId: null,
 			softwareId: null,
 			type: 'saveRevision',
+			relativeMouse: false,
 			userId: null
 		};
 
