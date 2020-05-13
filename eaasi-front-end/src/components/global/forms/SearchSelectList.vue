@@ -72,8 +72,7 @@ export default class SearchSelectList extends BaseFormField {
 	============================================*/
 	get filteredData() {
 		if (!this.query) return this.data;
-		if (this.data.some(i => i[this.optionLabel] === this.query)) return this.data;
-		return this.data.filter(d => d[this.optionLabel].trim().toLowerCase().indexOf(this.query.trim().toLowerCase()) > 0);
+		return this.data.filter(d => d[this.optionLabel].trim().toLowerCase().indexOf(this.query.trim().toLowerCase()) >= 0);
 	}
 
 	/* Data
