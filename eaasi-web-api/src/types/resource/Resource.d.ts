@@ -31,7 +31,7 @@ export interface ISaveEnvironmentResponse {
 export interface ISnapshotRequest {
 	// https://openslx.gitlab.io/eaas-api-docs/master/json_SnapshotRequest.html
 	envId: string;
-	archive: string;
+	archive?: string;
 	message: string;
 	author?: string;
 	isRelativeMouse: boolean;
@@ -39,11 +39,21 @@ export interface ISnapshotRequest {
 	userId: string;
 	connectEnvs?: boolean;
 	title?: string;
-	type?: string;
+	type?: SnapshotSaveType;
 	objectId?: string;
 	softwareId?: string;
+	networking?: INetworking | any;
+}
+
+export interface IClientEnvironmentRequest {
+	componentId: string;
+	description: string;
+	envId: string;
+	title: string;
 	networking?: INetworking;
 }
+
+export type SnapshotSaveType = 'newEnvironment' | 'saveImport' | 'objectEnvironment' | 'saveRevision';
 
 export interface INetworking {
 	// https://openslx.gitlab.io/eaas-api-docs/master/json_EmilNetworkingType.html

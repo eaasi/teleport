@@ -28,7 +28,7 @@ export default class TaskManager extends Vue {
 		this.timer = setInterval(async () => {
 			const task = await this.$store.dispatch('task/getTaskState', this.activePollingTask.taskId);
 			if (!task) clearInterval(this.timer);
-		}, 1000);
+		}, 3000);
     }
     
     /* Lifecycle hooks
