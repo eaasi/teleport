@@ -7,7 +7,7 @@
 
 		<transition name="fade">
 			<ul class="hmd-list" v-show="isDropDownVisible">
-				<li class="hmd-list-item flex flex-row justify-between" @click="isResetPasswordModalVisible = true">
+				<li v-if="allowResetPassword" class="hmd-list-item flex flex-row justify-between" @click="isResetPasswordModalVisible = true">
 					<span>Reset Password</span>
 					<span class="icon fas fa-fw fa-key"></span>
 				</li>
@@ -47,6 +47,7 @@ import { Get } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { generateCompletedNotificationWithMessage, generateNotificationError } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
+import config from '../../../config';
 
 @Component({
 	name: 'HeaderMenuDropDown'
@@ -79,6 +80,7 @@ export default class HeaderMenuDropdown extends Vue {
 	
 	isDropDownVisible: boolean = false;
 	isResetPasswordModalVisible: boolean = false;
+	allowResetPassword: boolean = !config.SAML_ENABLED;
 
 	/* Methods
 	============================================*/
