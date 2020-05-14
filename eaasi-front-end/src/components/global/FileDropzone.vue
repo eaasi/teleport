@@ -1,15 +1,18 @@
 <template>
 	<div
-		:class="['file-dropzone flex flex-center', { active: dragover }]"
+		:class="['file-dropzone flex flex-center flex-column', { active: dragover }]"
 		@drop.prevent="addFile"
 		@dragover.prevent="dragover = true"
 		@dragleave="dragover = false"
 	>
-		<div class="dfu-icon" @dragenter="dragover = true">
+		<div class="dfu-label flex flex-column flex-center relative" @dragenter="dragover = true">
 			<span class="fas fa-upload"></span>
-			<div class="dfu-content">
+			<div class="dfu-content text-center">
 				{{ label }}
 			</div>
+		</div>
+		<div style="margin-top: 1rem;">
+			<slot></slot>
 		</div>
 	</div>
 </template>
@@ -40,8 +43,7 @@ export default class FileDropzone extends Vue {
 	============================================*/
 
 	get label() {
-		if (this.limit === 1) return 'Drag File Here To Upload';
-		return 'Drag Files Here To Upload';
+		return 'Drag File Here To Upload';
 	}
 
 	/* Data
@@ -80,7 +82,7 @@ export default class FileDropzone extends Vue {
 <style lang="scss">
 .file-dropzone {
 	border: dashed 2px lighten($light-blue, 60%);
-	min-height: 15rem;
+	min-height: 16rem;
 	min-width: 20rem;
 	transition: background-color 0.3s;
 
@@ -89,19 +91,19 @@ export default class FileDropzone extends Vue {
 	}
 }
 
-.dfu-icon {
-	position: relative;
-	i {
+.dfu-label {
+	// 	position: relative;
+	min-width: 20rem;
+	.fas {
 		color: lighten($light-blue, 80%);
 		font-size: 8rem;
 	}
 	div {
 		color: $dark-blue;
 		font-weight: bold;
-		left: -5rem;
+		left: 0;
 		position: absolute;
-		top: 3rem;
-		width: 20rem;
+		right: 0;
 	}
 }
 </style>
