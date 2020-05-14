@@ -3,8 +3,8 @@
 		<!-- No Files Added -->
 		<div v-if="!filesAreAdded">
 			<h3>{{ headline }}</h3>
-			<div class="row justify-center">
-				<div class="col-md-6" v-if="isEnvImport">
+			<div class="row justify-left" style="margin-top: 3rem;">
+				<div class="col-md-5 import-option-block" v-if="isEnvImport">
 					<div class="irf-option">
 						<span class="text-center">URL</span>
 						<text-input
@@ -13,15 +13,6 @@
 							rules="url"
 							v-model="fileUrl"
 							ref="urlField"
-						/>
-					</div>
-				</div>
-				<div class="col-md-6" v-if="step < 3">
-					<div class="irf-option text-center">
-						<span>My Computer</span>
-						<file-upload-button
-							@change="addFiles"
-							:limit="isEnvImport ? 1 : Infinity"
 						/>
 					</div>
 				</div>
@@ -72,7 +63,7 @@
 
 		<!-- Files Added, Environment Import -->
 
-		<div v-if="filesAreAdded && isEnvImport">
+		<!-- <div v-if="filesAreAdded && isEnvImport">
 			<div class="flex-row justify-between mb-lg">
 				<text-input
 					:value="files[0].name"
@@ -125,7 +116,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<br />
 
@@ -138,7 +129,14 @@
 						v-show="!filesAreAdded"
 						@change="addFiles"
 						:limit="isEnvImport ? 1 : Infinity"
-					/>
+					>
+						<file-upload-button
+							@change="addFiles"
+							:limit="isEnvImport ? 1 : Infinity"
+							button-label="Browse My Computer"
+							secondary
+						/>
+					</file-dropzone>
 					<div class="sfu-file-list" v-if="filesAreAdded">
 						<draggable
 							v-model="files"
@@ -302,13 +300,13 @@
 
 <style lang="scss">
 
-	.import-resource-files {
+	.import-option-block {
 		background-color: lighten($light-neutral, 80%);
+		padding: 3rem 2rem 2rem 2rem;
 	}
 
 	.irf-option {
 		height: 9.5rem;
-		padding: 2rem;
 		> span {
 			color: darken($dark-neutral, 40%);
 			display: block;
