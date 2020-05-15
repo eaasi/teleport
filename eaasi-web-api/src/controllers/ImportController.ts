@@ -1,6 +1,6 @@
 import ImportService from '@/services/import/importService';
 import ResourceImportService from '@/services/rest-api/ResourceImportService';
-import { ICreateEnvironmentPayload, IUploadRequest } from '@/types/emil/Emil';
+import { ICreateEnvironmentPayload, IImageImportPayload, IUploadRequest } from '@/types/emil/Emil';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
@@ -21,7 +21,6 @@ export default class ImportController extends BaseController {
 	 * Makes a request to import a resource from a URL
 	 */
 	async importFromUrl(req: Request, res: Response) {
-		console.log(':: ImportController :: importFromUrl ');
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import resource from URL requires request body'), res);
 			// let userId = req.body.userId;
@@ -103,6 +102,21 @@ export default class ImportController extends BaseController {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to create image from ISO file upload requires request body'), res);
 			let result = await this._emilImportService.createEnvironment(req.body as ICreateEnvironmentPayload);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e, res);
+		}
+	}
+
+	/**
+	 * Makes a POST request to import image from url
+	 * @param req
+	 * @param res
+	 */
+	async importImage(req: Request, res: Response) {
+		try {
+			if (!req.body) this.sendClientError(new Error('Request to import image from url requires request body'), res);
+			let result = await this._emilImportService.importResourceFromUrl(req.body as IImageImportPayload);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);

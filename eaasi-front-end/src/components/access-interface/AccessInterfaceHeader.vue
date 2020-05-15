@@ -181,6 +181,8 @@
 				} else {
 					console.error('Error Saving Environment: ', res);
 				}
+			} else if (saveType === SaveEnvironmentOption.imageImport) {
+				eventBus.$emit('emulator:saveEnvironmentImport', { description, title });
 			}
 		}
 

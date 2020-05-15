@@ -34,6 +34,15 @@ router.post('/files', (req, res) => importController.importFiles(req, res));
 router.post('/createEnvironment', (req, res) => importController.createEnvironment(req, res));
 
 /**
+ * @api {get} import/import-image import image
+ * @apiVersion 1.0.0
+ * @apiGroup Import Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Triggers a importImage
+ */
+router.post('/import-image', (req, res) => importController.importImage(req, res));
+
+/**
  * @api {get} import/saveEnvironment snapshot of imported environment
  * @apiVersion 1.0.0
  * @apiGroup Import Resources

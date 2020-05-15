@@ -1,7 +1,7 @@
 import config from '@/config';
 import EaasiTask from '@/models/task/EaasiTask';
 import { IEmilUploadResponse } from '@/types/Eaas';
-import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImportObjectRequest, IResourceImport, IResourceImportFile } from '@/types/Import';
+import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImageImportPayload, IImportObjectRequest, IResourceImport, IResourceImportFile } from '@/types/Import';
 import { ISoftwareObject } from '@/types/Resource';
 import { IUserImportedResource, IUserImportRelationRequest } from '@/types/UserImportRelation';
 import BaseHttpService from './BaseHttpService';
@@ -98,6 +98,19 @@ class ImportService extends BaseHttpService {
 	 */
 	async createEnvironment(createEnvironmentPayload: ICreateEnvironmentPayload) {
 		const res = await this.post<any>('/import/createEnvironment', createEnvironmentPayload);
+		if (!res.ok) {
+			console.log('Response returned error: ', res);
+			return null;
+		}
+		return res.result;
+	}
+
+	/**
+	 *  Makes a POST request with URL string for importing an environment
+	 * @param {ICreateEnvironmentPayload} createEnvironmentPayload
+	 */
+	async importImage(payload: IImageImportPayload) {
+		const res = await this.post<any>('/import/import-image', payload);
 		if (!res.ok) {
 			console.log('Response returned error: ', res);
 			return null;
