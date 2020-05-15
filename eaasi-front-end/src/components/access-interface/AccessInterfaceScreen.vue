@@ -128,10 +128,8 @@ import { IEaasiUser } from 'eaasi-admin';
 				await this.runImportedEnvironment(envId, `Base Environment [${this.loggedInUser.firstName} ${this.loggedInUser.lastName}]`);
 			} else if (this.isImportedEnvironment) {
 				await this.runImportedEnvironment(envId, this.importedTitle);
-
 			} else if (this.isConstructedEnvironment) {
 				await this.runConstructedEnvironment(envId);
-
 			} else {
 				await this.runBaseEnvironment(envId);
 			}
@@ -170,6 +168,7 @@ import { IEaasiUser } from 'eaasi-admin';
 				title,
 				type: 'machine',
 				isImport: true,
+				userId: null
 			};
 
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', environment);

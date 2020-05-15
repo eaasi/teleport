@@ -57,6 +57,9 @@
 		@Get('import/isConstructedEnvironment')
 		isConstructedEnvironment: boolean;
 
+		@Get('import/isImportedEnvironment')
+		isImportedEnvironment: boolean;
+
 		get saveTitle() {
 			return this.isConstructedEnvironment
 				? 'Save New Content Environment'
@@ -87,6 +90,8 @@
 		created() {
 			if (this.environmentType == 'objectEnvironment') {
 				this.saveEnvOptions.saveType = SaveEnvironmentOption.objectEnvironment;
+			} else if (this.isImportedEnvironment) {
+				this.saveEnvOptions.saveType = SaveEnvironmentOption.imageImport;
 			}
 		}
 	}

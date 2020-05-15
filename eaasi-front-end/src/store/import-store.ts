@@ -4,7 +4,7 @@ import ResourceImportFile from '@/models/import/ResourceImportFile';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import EaasiTask from '@/models/task/EaasiTask';
 import _importService from '@/services/ImportService';
-import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
+import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImageImportPayload, ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
 import { ISoftwareObject } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
@@ -88,8 +88,6 @@ const actions = {
 		const importType = state.importType;
 		if (importType === importTypes.ENVIRONMENT && !state.filesToUpload.length) {
 			return await dispatch('importEnvironmentFromUrl') as EaasiTask;
-		} else if (importType === importTypes.ENVIRONMENT && state.filesToUpload.length) {   // explicit check
-			return await dispatch('importEnvironmentFromFile') as EaasiTask;
 		} else if (importType === importTypes.SOFTWARE) {
 			return await dispatch('importSoftwareFromFile') as EaasiTask;
 		} else if (importType === importTypes.CONTENT) {
@@ -242,8 +240,17 @@ const actions = {
 	 * @param createPayload
 	 * @param importData
 	 */
-	async createEnvironment({ state }: Store<ImportState>, createPayload: ICreateEnvironmentPayload) {
+	async createEnvironment(_: Store<ImportState>, createPayload: ICreateEnvironmentPayload) {
 		return await _importService.createEnvironment(createPayload);
+	},
+
+	/**
+	 * Triggers a saveEnvironment request
+	 * @param state: Store<ImportState>
+	 * @param payload: IImageImportPayload
+	 */
+	async importImage(_, payload: IImageImportPayload) {
+		return await _importService.importImage(payload);
 	},
 
 	/**

@@ -1,6 +1,6 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import IHttpService from '@/services/interfaces/IHttpService';
-import { ICreateEnvironmentPayload, IImportObjectRequest, IUploadRequest } from '@/types/emil/Emil';
+import { ICreateEnvironmentPayload, IImageImportPayload, IImportObjectRequest, IUploadRequest } from '@/types/emil/Emil';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 
@@ -26,8 +26,8 @@ export default class ImportService extends BaseService {
 	/**
 	 * Posts Resource Import Data to trigger import task from a URL
 	 */
-	async importResourceFromUrl(importData: any) {
-		let res = await this._emilEnvService.post('importImage', importData);
+	async importResourceFromUrl(payload: IImageImportPayload) {
+		let res = await this._emilEnvService.post('importImage', payload);
 		return await res.json();
 	}
 
@@ -57,7 +57,7 @@ export default class ImportService extends BaseService {
 			type: 'saveImport',
 			userId: null
 		};
-
+		
 		let url = `${EMIL_SERVICE_ENDPOINT}/components/${componentId}/snapshot`;
 		let res = await this._httpService.post(url, snapshot);
 		return await res.json();

@@ -9,9 +9,9 @@ export default class MachineComponentRequest implements IMachineComponentRequest
     keyboardModel: string = 'pc105';
     object?: string;
     archive: string = 'default';
-    objectArchive?: string = 'default';
+    objectArchive?: string;
     software?: string;
-    lockEnvironment: boolean = false;
+    lockEnvironment: boolean;
 	emulatorVersion?:string = 'latest';
 	driveId?: string;
 	readonly type = 'machine';
