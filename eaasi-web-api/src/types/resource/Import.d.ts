@@ -13,7 +13,7 @@ export interface IResourceImportFile extends ISortable {
 	physicalFormat?: PhysicalFormat;
 	fileLabel?: string;
 	name: string;
-	file: File;
+	file: any;
 }
 
 export interface IResourceImport {
@@ -75,7 +75,7 @@ export interface IFileImport {
 
 
 export interface ITemplate {
-	abstractDataResource: ​​[];
+	abstractDataResource: IAbstractDataResource[];
 	arch: string;
 	checkpointBindingId: string;
 	configurationType: string;
@@ -93,6 +93,11 @@ export interface ITemplate {
 	outputBindingId: string;
 	timestamp: string;
 	ui_options: IUIOptions;
+}
+
+export interface IAbstractDataResource {
+	dataResourceType: string;
+	id: string;
 }
 
 export interface ITemplateProperty {
