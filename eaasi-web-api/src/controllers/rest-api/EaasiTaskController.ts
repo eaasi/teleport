@@ -1,8 +1,8 @@
 import { EaasiTask } from '@/data_access/models/app';
 import CrudQuery from '@/services/base/CrudQuery';
-import EmilTaskService from '@/services/eaas/emil/EmilTaskService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import EaasiTaskService from '@/services/rest-api/EaasiTaskService';
+import EmilTaskService from '@/services/task/EmilTaskService';
 import { TaskState } from '@/types/emil/Emil';
 import { IEaasiTask } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';

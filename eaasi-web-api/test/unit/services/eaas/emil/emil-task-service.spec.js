@@ -1,5 +1,5 @@
 import {MockHttpService} from '../../../../helpers/doubles/mock-http-service';
-import EmilTaskService from '../../../../../src/services/eaas/emil/EmilTaskService';
+import EmilTaskService from '../../../../../src/services/task/EmilTaskService';
 
 describe('Emil Container Service', () => {
 

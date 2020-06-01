@@ -1,5 +1,5 @@
 import { TaskState } from '@/types/emil/Emil';
-import EmilBaseService from '../../base/EmilBaseService';
+import EmilBaseService from '../base/EmilBaseService';
 
 export default class EmilTaskService {
 
