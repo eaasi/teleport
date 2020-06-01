@@ -1,5 +1,4 @@
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
-import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
 import ContentService from '@/services/resource/ContentService';
 import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
@@ -240,8 +239,7 @@ export default class ResourceController extends BaseController {
 	async classify(req: Request, res: Response) {
 		try {
 			let classifyRequest = req.body as IObjectClassificationRequest;
-			let emilContainerSvc = new EmilContainerService();
-			let result = await emilContainerSvc.classify(classifyRequest);
+			let result = await this._svc.classify(classifyRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -266,9 +264,9 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
-	async getObjectArchive(req: Request, res: Response) {
+	async getObjectArchives(req: Request, res: Response) {
 		try {
-			let result = await this._environmentService.getObjectArchive();
+			let result = await this._contentService.getObjectArchives();
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);

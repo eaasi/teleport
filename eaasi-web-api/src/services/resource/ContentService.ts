@@ -4,7 +4,7 @@ import { ArchiveType, IContentRequest } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
 import { objectArchiveTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
-import EmilBaseService from '../eaas/emil/EmilBaseService';
+import EmilBaseService from '../base/EmilBaseService';
 
 export default class ContentService extends BaseService {
 

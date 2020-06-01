@@ -1,5 +1,5 @@
-import HttpJSONService from '../../base/HttpJSONService';
-import IHttpService from '../../interfaces/IHttpService';
+import IHttpService from '../interfaces/IHttpService';
+import HttpJSONService from './HttpJSONService';
 
 const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 

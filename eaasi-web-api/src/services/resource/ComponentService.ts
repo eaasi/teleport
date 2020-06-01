@@ -1,6 +1,6 @@
 import { IComponentRequest, ISnapshotRequest } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
-import EmilBaseService from '../eaas/emil/EmilBaseService';
+import EmilBaseService from '../base/EmilBaseService';
 
 export default class ComponentService extends BaseService {
 

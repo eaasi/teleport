@@ -167,17 +167,7 @@ router.get('/software', (req, res) => controller.getSoftwarePackageDescription(r
  * @apiPermission System Administrator only
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
  */
-router.get('/objectArchive', (req, res) => controller.getObjectArchive(req, res));
-
-/**
- * @api {get} gets software package description
- * @apiVersion 1.0.0
- * @apiName Software Resource Package Description
- * @apiGroup Resources
- * @apiPermission System Administrator only
- * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
- */
-router.get('/objectArchiveData', (req, res) => controller.getObjectArchive(req, res));
+router.get('/objectArchive', (req, res) => controller.getObjectArchives(req, res));
 
 /**
  * @api {get} gets content object metadata

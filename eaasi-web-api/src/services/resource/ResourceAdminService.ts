@@ -1,4 +1,5 @@
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
+import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
@@ -6,7 +7,7 @@ import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import BaseService from '../base/BaseService';
-import EmilBaseService from '../eaas/emil/EmilBaseService';
+import EmilBaseService from '../base/EmilBaseService';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
@@ -138,6 +139,21 @@ export default class ResourceAdminService extends BaseService {
 	async saveContent(contentOverride: IOverrideContentRequest) {
 		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride);
 		return res.json();
+	}
+
+	/**
+	 * creates a task to detect environments that uses requested software
+	 * @param classifyRequest: {
+	 * 	archiveId: string;
+	 *  objectId: string;
+	 *  updateClassification: boolean;
+	 *  updateProposal: boolean;
+	 * }
+	 */
+	async classify(classifyRequest: IObjectClassificationRequest) {
+		if(!classifyRequest) throw 'Did not receive Classification Request.';
+		let response = await this._emilClassificationService.post('', classifyRequest);
+		return await response.json();
 	}
 
 	/*============================================================

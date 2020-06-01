@@ -6,7 +6,7 @@ import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, 
 import { IEmilTask } from '@/types/task/Task';
 import { archiveTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
-import EmilBaseService from '../eaas/emil/EmilBaseService';
+import EmilBaseService from '../base/EmilBaseService';
 import ComponentService from './ComponentService';
 
 export default class EnvironmentService extends BaseService {

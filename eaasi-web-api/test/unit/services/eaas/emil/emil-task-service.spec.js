@@ -1,16 +1,16 @@
 import {MockHttpService} from '../../../../helpers/doubles/mock-http-service';
-import EmilContainerService from '../../../../../src/services/eaas/emil/EmilContainerService';
+import EmilTaskService from '../../../../../src/services/eaas/emil/EmilTaskService';
 
 describe('Emil Container Service', () => {
 
 	it('on initialization can assign HtmlService instance via ctor', () => {
 		let httpService = new MockHttpService();
-		let sut = new EmilContainerService(httpService);
+		let sut = new EmilTaskService(httpService);
 		expect(sut._svc).toBe(httpService);
 	});
 
 	it('throws an error if non-alphanumeric value is passed to getEnvironmentTaskState', async () => {
-		let sut = new EmilContainerService();
+		let sut = new EmilTaskService();
 		try {
 			await sut.getTaskState({'foo':'bar'});
 			expect(true).toBe(false);
@@ -21,14 +21,14 @@ describe('Emil Container Service', () => {
 
 	it('when getTaskState is called invokes `get` using the IHttpService implementation to query the expected URL', async () => {
 		let httpService = new MockHttpService();
-		let sut = new EmilContainerService(httpService);
+		let sut = new EmilTaskService(httpService);
 		sut.getTaskState(-29348);
-		expect(httpService.getUrl).toEqual(expect.stringContaining('tasks/-29348'));
+		expect(httpService.getUrl).toEqual(expect.stringContaining('-29348'));
 	});
 
 	it('when getTaskState is called invokes `get` using the IHttpService implementation to query the taskState exactly once', async () => {
 		let httpService = new MockHttpService();
-		let sut = new EmilContainerService(httpService);
+		let sut = new EmilTaskService(httpService);
 		sut.getTaskState(19);
 		expect(httpService.getCount).toEqual(1);
 	});

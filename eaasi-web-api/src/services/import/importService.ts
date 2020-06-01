@@ -3,6 +3,7 @@ import { IEnvironmentImportSnapshot } from '@/types/resource/Import';
 import { IComponentRequest } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
 import BaseService from '../base/BaseService';
+import EmilBaseService from '../base/EmilBaseService';
 import HttpJSONService from '../base/HttpJSONService';
 import IHttpService from '../interfaces/IHttpService';
 import ComponentService from '../resource/ComponentService';
@@ -20,18 +21,21 @@ export default class ImportService extends BaseService {
 	private readonly _environmentService: EnvironmentService;
 	private readonly _contentService: ContentService;
 	private readonly _componentService: ComponentService;
+	private readonly _uploadService: EmilBaseService;
 
 	constructor(
 		httpService: IHttpService = new HttpJSONService(),
 		environmentService: EnvironmentService = new EnvironmentService(),
 		contentService: ContentService = new ContentService(),
-		componentService: ComponentService = new ComponentService()
+		componentService: ComponentService = new ComponentService(),
+		uploadService: EmilBaseService = new EmilBaseService('upload')
 	) {
 		super();
 		this._httpService = httpService;
 		this._environmentService = environmentService;
 		this._contentService = contentService;
 		this._componentService = componentService;
+		this._uploadService = uploadService;
 	}
 
 	/**
@@ -77,10 +81,9 @@ export default class ImportService extends BaseService {
 	 * @param req : Request with req.files
 	 */
 	async uploadFiles(req: IUploadRequest) {
-		let url = `${EMIL_SERVICE_ENDPOINT}/upload`;
 		let responses = [];
 		req.files.forEach(async file => {
-			let res = await this._httpService.postUpload(url, file);
+			let res = await this._uploadService.postUpload('', file);
 			responses.push(res);
 		});
 		return responses;

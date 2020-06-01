@@ -5,7 +5,7 @@ export interface ISoftwareDescriptionList {
 	status: number | string;
 }
 
-export interface ISoftwarePackageDescription extends IEaasiResource {
+export interface ISoftwarePackage extends IEaasiResource {
 	id: string;
 	isOperatingSystem: boolean;
 	label: string;
