@@ -21,6 +21,7 @@ export interface IFileImport {
 	filename: string;
 	deviceId: string;
 	url: string;
+	fileFmt?: string;
 }
 
 /**

@@ -52,6 +52,19 @@ export default class HttpJSONService implements IHttpService {
 		let requestInit = this._createUploadRequestInit('POST', data);
 		return await fetch(url, requestInit);
 	}
+	
+	/**
+	 * Makes a PATCH request with a JSON body using Fetch
+	 *
+	 * @param {string} url - The request URL
+	 * @param {any} data - request data
+	 * @param {RequestInit} [options] - Request options
+	 * @return {Promise<Response>} - Response from fetch APY
+	 */
+	public async patch(url: string, data: any, options?: RequestInit): Promise<Response> {
+		let requestInit = this._createRequestInit('PATCH', data, options);
+		return await fetch(url, requestInit);
+	}
 
 	/**
 	 * Makes a DELETE request with a using Fetch
@@ -60,8 +73,8 @@ export default class HttpJSONService implements IHttpService {
 	 * @param {RequestInit} [options] - Request options
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async delete(url: string, options?: RequestInit): Promise<Response> {
-		let requestInit = this._createRequestInit('DELETE', null, options);
+	public async delete(url: string, data: any, options?: RequestInit): Promise<Response> {
+		let requestInit = this._createRequestInit('DELETE', data, options);
 		return await fetch(url, requestInit);
 	}
 

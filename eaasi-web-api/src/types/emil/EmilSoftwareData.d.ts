@@ -1,7 +1,7 @@
-import { IEaasiResource } from '../resource/Resource';
+import { ArchiveType, IEaasiResource } from '../resource/Resource';
 
-export interface ISoftwarePackageDescriptionsList {
-	descriptions: ISoftwarePackageDescription[];
+export interface ISoftwareDescriptionList {
+	descriptions: ISoftwareDescription[];
 	status: number | string;
 }
 
@@ -11,9 +11,9 @@ export interface ISoftwarePackageDescription extends IEaasiResource {
 	label: string;
 }
 
-export interface ISoftwareObject {
+export interface ISoftwareObject extends IEaasiResource {
 	allowedInstances: number;
-	archiveId: string;
+	archiveId: ArchiveType;
 	exportFMTs: any[];
 	importFMTs: any[];
 	isOperatingSystem: boolean;
@@ -21,4 +21,10 @@ export interface ISoftwareObject {
 	nativeFMTs: string[];
 	objectId: string;
 	qid: string;
+}
+
+export interface ISoftwareDescription extends IEaasiResource {
+	label: string;
+	isPublic: boolean;
+	isOperatingSystem: boolean;
 }

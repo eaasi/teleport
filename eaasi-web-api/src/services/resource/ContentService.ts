@@ -1,0 +1,69 @@
+import { IImportObjectRequest } from '@/types/emil/Emil';
+import { IContentItem, IObjectArchiveResonse } from '@/types/emil/EmilContentData';
+import { ArchiveType, IContentRequest } from '@/types/resource/Resource';
+import { IEmilTask } from '@/types/task/Task';
+import { objectArchiveTypes } from '@/utils/constants';
+import BaseService from '../base/BaseService';
+import EmilBaseService from '../eaas/emil/EmilBaseService';
+
+export default class ContentService extends BaseService {
+
+	private readonly _contentRepoService: EmilBaseService;
+
+	constructor(
+		contentRepository: EmilBaseService = new EmilBaseService('object-repository'),
+	) {
+		super();
+		this._contentRepoService = contentRepository;
+	}
+	
+	async getAll(archiveId: ArchiveType): Promise<IContentItem[]> {
+		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`);
+		const items = await res.json() as IContentItem[];
+		return this._mapContentItems(items);
+	}
+
+	private async _mapContentItems(items: IContentItem[]): Promise<IContentItem[]> {
+		let objects = [];
+		const ids: string[] = items.map(object => object.id);
+		for(let i = 0; i < ids.length; i++) {
+			let contentObject = await this.getObjectMetadata({
+				contentId: ids[i],
+				archiveName: items[i].archiveId
+			});
+			objects.push(contentObject);
+		}
+
+		return objects;
+	}
+
+	async getObjectMetadata(contentRequest: IContentRequest): Promise<IContentItem> {
+		let res = await this._contentRepoService.get(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
+		return await res.json() as IContentItem;
+	}
+
+	async getObjectArchives(): Promise<IObjectArchiveResonse> {
+		let res = await this._contentRepoService.get('archives');
+		return res.json();
+	}
+
+	/**
+	 * Deletes content using provided IContentRequest
+	 * @param contentRequest: {
+	 *   archiveName: string;
+	 *   contentId: string;
+	 * }
+	 */
+	async deleteContent(contentRequest: IContentRequest) {
+		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
+		if (!res) return null;
+		return await res.json() as IContentItem;
+	}
+
+	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL): Promise<IEmilTask> {
+		const res = await this._contentRepoService.post(`/archives/${archiveId}/objects`, importPayload);
+		return await res.json() as IEmilTask;
+	}
+
+	
+}

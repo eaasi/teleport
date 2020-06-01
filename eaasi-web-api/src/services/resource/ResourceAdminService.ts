@@ -1,45 +1,45 @@
-import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
-import IHttpService from '@/services/interfaces/IHttpService';
 import { IContentItem } from '@/types/emil/EmilContentData';
-import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
-import { ISoftwareObject, ISoftwarePackageDescription, ISoftwarePackageDescriptionsList } from '@/types/emil/EmilSoftwareData';
+import { IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IClientEnvironmentRequest, IContentRequest, IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse, ResourceType } from '@/types/resource/Resource';
+import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
-import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
-import HttpJSONService from '../base/HttpJSONService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ResourceImportService from '../rest-api/ResourceImportService';
-
-const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
+import ContentService from './ContentService';
+import EnvironmentService from './EnvironmentService';
+import SoftwareService from './SoftwareService';
 
 export default class ResourceAdminService extends BaseService {
 
-	private readonly _emilEnvSvc: EmilBaseService;
-	private readonly _emilSofSvc: EmilBaseService;
-	private readonly _emilContentSvc: EmilBaseService;
+	private readonly _environmentService: EnvironmentService;
+	private readonly _softwareService: SoftwareService;
+	private readonly _contentService: ContentService;
 	private readonly _emilClassificationService: EmilBaseService;
 	private readonly _bookmarkService: EaasiBookmarkService;
 	private readonly _resourceImportService: ResourceImportService;
 
+
 	constructor(
-		emilEnvService: EmilBaseService = new EmilBaseService('EmilEnvironmentData'),
-		emilSofService: EmilBaseService = new EmilBaseService('EmilSoftwareData'),
-		emilContentService: EmilBaseService = new EmilBaseService('objects'),
+		environmentService: EnvironmentService = new EnvironmentService(),
+		softwareService: SoftwareService = new SoftwareService(),
+		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		resourceImportService: ResourceImportService = new ResourceImportService()
+		resourceImportService: ResourceImportService = new ResourceImportService(),		
+
 	) {
 		super();
-		this._emilEnvSvc = emilEnvService;
-		this._emilSofSvc = emilSofService;
-		this._emilContentSvc = emilContentService;
 		this._emilClassificationService = emilClassificationService;
 		this._bookmarkService = bookmarkService;
 		this._resourceImportService = resourceImportService;
+		this._environmentService = environmentService;
+		this._softwareService = softwareService;
+		this._contentService = contentService;
+
 	}
 
 	/**
@@ -50,9 +50,10 @@ export default class ResourceAdminService extends BaseService {
 		// TODO: Refactor
 		let result = new ResourceSearchResponse();
 
-		const allEnvironments = await this.getAllEnvironments();
-		const allSoftware = await this.getAllSoftware();
-		const allContent = await this.getAllContent();
+		const allEnvironments = await this._environmentService.getAllEmilModels();
+		const softwareDescriptionResponse = await this._softwareService.getSoftwareDescriptionList();
+		const allSoftware = softwareDescriptionResponse.descriptions;
+		const allContent = await this._contentService.getAll('zero conf');
 
 		let environmentResult = {
 			result: allEnvironments,
@@ -71,7 +72,7 @@ export default class ResourceAdminService extends BaseService {
 			environmentResult.result = allEnvironments.filter(env => query.archives.includes(env.archive));
 			environmentResult.totalResults = environmentResult.result.length;
 
-			softwareResult.result = allSoftware.filter(sw => query.archives.includes(sw.archive || sw.archiveId));
+			softwareResult.result = allSoftware.filter(sw => query.archives.includes(sw.archiveId));
 			softwareResult.totalResults = softwareResult.result.length;
 
 			// Note: This double check because in the case of Content Archive, it appears to be referenced as archiveId
@@ -100,22 +101,21 @@ export default class ResourceAdminService extends BaseService {
 			}
 		}
 
-		contentResult.result = this._filterResults<IContentItem>(query, contentResult.result);
-		softwareResult.result = this._filterResults<ISoftwarePackageDescription>(query, softwareResult.result);
-		environmentResult.result = this._filterResults<IEnvironment>(query, environmentResult.result);
-
 		result.facets = this.populateFacets(environmentResult, softwareResult, contentResult);
 
-		environmentResult.result = this.paginate<IEnvironment>(query, environmentResult.result);
-		softwareResult.result = this.paginate<ISoftwarePackageDescription>(query, softwareResult.result);
-		contentResult.result = this.paginate<IContentItem>(query, contentResult.result);
+		const filteredContentResult = this._filterResults<IContentItem>(query, contentResult.result);
+		const filteredSoftwareResult = this._filterResults<ISoftwareDescription>(query, softwareResult.result);
+		const filteredEnvironmentResult = this._filterResults<IEnvironmentListItem>(query, environmentResult.result);
+		const paginatedEnvironmentResult = this.paginate<IEnvironmentListItem>(query, filteredEnvironmentResult);
+		const paginatedSoftwareResult = this.paginate<ISoftwareDescription>(query, filteredSoftwareResult);
+		const paginatedContentResult = this.paginate<IContentItem>(query, filteredContentResult);
 
-		result.content = contentResult;
-		result.software = softwareResult;
-
-		// get metadata for paginated envs
-		environmentResult.result = await this.getEnvironmentsMetadata(environmentResult.result);
-		result.environments = environmentResult;
+		const softwareMetadata = await this._softwareService.getSoftwarePackages(paginatedSoftwareResult);
+		const envMetadata = await this._environmentService.getEnvironmentsMetadata(paginatedEnvironmentResult);
+		
+		result.content = {...contentResult, result: paginatedContentResult };
+		result.software = {...softwareResult, result: softwareMetadata};
+		result.environments = {...environmentResult, result: envMetadata};
 
 		this.preselectResultFacets(result, query);
 
@@ -123,302 +123,20 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	/*============================================================
-	 == Environments
+	 == Classification
 	/============================================================*/
-
-	/**
-	 * Gets an Environment by ID
-	 * @param id: string environmentId
-	 */
-	async getEnvironment(id: string): Promise<IEnvironment> {
-		let res = await this._emilEnvSvc.get(id);
-		return await res.json() as IEnvironment;
-	}
-
-	/**
-	 * Replicate an Environment to local storage
-	 * @param replicateRequest: ReplicateEnvironmentRequest {
-	 *   destArchive: ArchiveType;
-	 *   replicateList: string[];
-	 * }
-	 */
-	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest): Promise<ISaveEnvironmentResponse | null> {
-	    // The endpoint currently takes a POST request payload containing a list of ids and a source destination.
-		// 'public' source destination makes the environment available locally to the requesting Node.
-		// TODO: Handle error responses from Emil API -- there are several cases to handle
-		// TODO: See https://gitlab.com/eaasi/eaas-server/blob/eaasi-release-2019.07/src/emil/src/main/java/de/bwl/bwfla/emil/EmilEnvironmentData.java#L772
-		let response = await this._emilEnvSvc.post('replicateImage', replicateRequest)
-		return response.json()
-	}
-
-	/**
-	 * Delete an Environment from local storage
-	 * @param id: environmentId
-	 */
-	async deleteEnvironment(id: string) {
-		let environmentToDelete = {
-			'envId': id,
-			'deleteMetaData': true,
-			'deleteImage': true,
-			'force': true
-		};
-		let res = await this._emilEnvSvc.post('delete', environmentToDelete);
-		return await res.json();
-	}
-
-	async saveNewEnvironment(newEnvRequest: IClientEnvironmentRequest) {
-
-		let snapshotRequest: ISnapshotRequest = {
-			type: 'newEnvironment',
-			envId: newEnvRequest.envId,
-			relativeMouse: false,
-			isRelativeMouse: false,
-			message: newEnvRequest.description,
-			title: newEnvRequest.title,
-			objectId: null,
-			softwareId: null,
-			userId: null,
-			networking: {}
-		};
-
-		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${EMIL_SERVICE_ENDPOINT}/components/${newEnvRequest.componentId}/snapshot`;
-		let res = await httpSvc.post(url, snapshotRequest);
-		return await res.json();
-	}
-
-	async saveNewObjectEnvironment(newEnvRequest: any): Promise<ISnapshotResponse> {
-
-		let snapshotRequest: ISnapshotRequest = {
-			archive: archiveTypes.DEFAULT,
-			envId: newEnvRequest.envId,
-			isRelativeMouse: false,
-			relativeMouse: false,
-			message: newEnvRequest.description,
-			title: newEnvRequest.title,
-			objectId: newEnvRequest.objectId,
-			softwareId: null,
-			type: 'objectEnvironment',
-			userId: null
-		};
-
-		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${EMIL_SERVICE_ENDPOINT}/components/${newEnvRequest.componentId}/snapshot`;
-
-		let res = await httpSvc.post(url, snapshotRequest);
-
-		return await res.json();
-	}
-
-	/**
-	 * Searches  for all environments using the provided IEaasiSearchQuery
-	 * @param query
-	 * @private
-	 */
-	private async getAllEnvironments(): Promise<IEnvironment[]> {
-		let res = await this._emilEnvSvc.get('');
-		const result = await res.json() as IEnvironment[];
-		result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
-		return result;
-	}
-
-	private async getEnvironmentsMetadata(envs: IEnvironment[]): Promise<IEnvironment[]> {
-		const metadataEnvs = [];
-		for(let i = 0; i < envs.length; i++) {
-			let envMetadata = await this.getEnvironment(envs[i].envId);
-			envMetadata.resourceType = resourceTypes.ENVIRONMENT;
-			if (envMetadata.hasOwnProperty('error')) {
-				metadataEnvs.push({...envs[i], error: envMetadata['error'] });
-			} else {
-				metadataEnvs.push(envMetadata);
-			}
-		}
-		return metadataEnvs;
-	}
-
-	/*============================================================
-	 == Software
-	/============================================================*/
-	/**
-	 * Saves software object
-	 * @param softwareObject: ISoftwareObject with req.body
-	 */
-	async saveSoftwareObject(softwareObject: ISoftwareObject) {
-		let res = await this._emilSofSvc.post('saveSoftwareObject', softwareObject);
-		return await res.json();
-	}
-
-	/**
-	 * Gets a Software Object by ID
-	 * @param id: string softwareId
-	 */
-	async getSoftwareObject(id: string): Promise<any> {
-		let res = await this._emilSofSvc.get(`getSoftwareObject?softwareId=${id}`);
-		return await res.json();
-	}
-
-	/**
-	 * Posts Object Import Request data
-	 * @param archiveId
-	 * @param objectId
-	 */
-	async getSoftwareMetadata(archiveId: string, objectId: string) {
-		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${EMIL_SERVICE_ENDPOINT}/objects/${archiveId}/${objectId}`;
-		let res = await httpSvc.get(url);
-		return await res.json();
-	}
-
-	/**
-	 * Gets a description of a software package by id
-	 * @param id: string softwareId
-	 */
-	async getSoftwarePackageDescription(id: string): Promise<IEnvironment> {
-		let res = await this._emilSofSvc.get(`getSoftwarePackageDescription?softwareId=${id}`);
-		return await res.json();
-	}
-
-	/**
-	 * Searches for all software using the provided IEaasiSearchQuery
-	 * @private
-	 */
-	private async getAllSoftware(): Promise<ISoftwarePackageDescription[]> {
-		let res = await this._emilSofSvc.get('getSoftwarePackageDescriptions');
-		let list = await res.json() as ISoftwarePackageDescriptionsList;
-		let software = list.descriptions;
-		// TODO: we need to ensure all responses adhere to IEaasiResource
-		software.forEach(x => {
-			x.title = x.label;
-			x.resourceType = resourceTypes.SOFTWARE;
-		});
-		return software;
-	}
-
-	/*============================================================
-	 == Content
-	/============================================================*/
-
-	/**
-	 * Searches for all content using the provided IEaasiSearchQuery
-	 * @private
-	 */
-	private async getAllContent(): Promise<IContentItem[]> {
-		// TODO: do not hard code 'zero conf'
-		let res = await this._emilContentSvc.get('zero%20conf');
-		const result = await res.json() as IContentItem[];
-		result.forEach(content => {
-			content.resourceType = resourceTypes.CONTENT;
-		});
-		return result;
-	}
-
-	async getObjectArchive() {
-		let res = await this._emilContentSvc.get('archives');
-		return res.json();
-	}
-
-	async getObjectArchiveItems(archiveId: string) {
-		let res = await this._emilContentSvc.get(archiveId);
-		return res.json();
-	}
-
-	async getContentMetadata(contentRequest: IContentRequest) {
-		let res = await this._emilContentSvc.get(`${contentRequest.archiveName}/${contentRequest.contentId}`);
-		return res.json();
-	}
-
-	/**
-	 * Deletes content using provided IContentRequest
-	 * @param contentRequest: {
-	 *   archiveName: string;
-	 *   contentId: string;
-	 * }
-	 */
-	async deleteContent(contentRequest: IContentRequest) {
-		let url = `${EMIL_SERVICE_ENDPOINT}/objects/${contentRequest.archiveName}/${contentRequest.contentId}`;
-		let httpSvc: IHttpService = new HttpJSONService();
-		await httpSvc.delete(url);
-	}
 
 	/**
 	 * Saves content metadata (Ovverrides Object Characterization) using provided IOverrideContentRequest
 	 * @param contentOverride: {
 	 *  description: string;
 	 * 	environments: [];
-	 *  objectArchive: string;
+	 *  objectArchive: ArchiveType;
 	 * 	objectId: string;
 	 * }
 	 */
 	async saveContent(contentOverride: IOverrideContentRequest) {
 		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride);
-		return res.json();
-	}
-
-	/*============================================================
-	 == Revisions
-	/============================================================*/
-
-	/**
-	* Fork revision request
-	* @param revisionRequest {
-	*   id: string;
-	* }
-	*/
-	async forkRevision(revisionRequest: any) {
-		let res = await this._emilEnvSvc.post('forkRevision', revisionRequest);
-		return res.json();
-	}
-
-	/**
-	 * Saves a revision from an existing running environment
-	 * @param revisionEnvRequest {
-	 * }
-	 */
-	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest) {
-		let snapshotRequest: ISnapshotRequest = {
-			envId: revisionEnvRequest.envId,
-			isRelativeMouse: false,
-			message: revisionEnvRequest.description,
-			objectId: null,
-			softwareId: null,
-			type: 'saveRevision',
-			relativeMouse: false,
-			userId: null
-		};
-
-		let httpSvc: IHttpService = new HttpJSONService();
-		let url = `${EMIL_SERVICE_ENDPOINT}/components/${revisionEnvRequest.componentId}/snapshot`;
-		let res = await httpSvc.post(url, snapshotRequest);
-		return await res.json();
-	}
-
-	/*============================================================
-	 == Templates and Patches
-	/============================================================*/
-
-	/**
-	 * Gets a list of all available environment templates
-	 */
-	async getEnvironmentTemplates() {
-		let res = await this._emilEnvSvc.get('getEnvironmentTemplates');
-		return res.json();
-	}
-
-	/**
-	 * Gets a list of all available patches
-	 */
-	async getPatches() {
-		let res = await this._emilEnvSvc.get('getPatches');
-		return res.json();
-	}
-
-	async getOperatingSystemMetadata() {
-		let res = await this._emilEnvSvc.get('operatingSystemMetadata');
-		return res.json();
-	}
-
-	async getNameIndexes() {
-		let res = await this._emilEnvSvc.get('getNameIndexes');
 		return res.json();
 	}
 
@@ -471,8 +189,8 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	private populateFacets (
-		environments: IEaasiSearchResponse<IEnvironment>,
-		software: IEaasiSearchResponse<ISoftwarePackageDescription>,
+		environments: IEaasiSearchResponse<IEnvironmentListItem>,
+		software: IEaasiSearchResponse<ISoftwareDescription>,
 		content: IEaasiSearchResponse<IContentItem>
 	): IResourceSearchFacet[] {
 		const facets: IResourceSearchFacet[] = [

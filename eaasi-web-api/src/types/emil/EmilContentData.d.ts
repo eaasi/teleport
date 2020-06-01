@@ -7,3 +7,8 @@ export interface IContentItem extends IEaasiResource {
 	id: string;
 	archiveId: ArchiveType;
 }
+
+export interface IObjectArchiveResonse {
+	status: string;
+	archives: ArchiveType[];
+}

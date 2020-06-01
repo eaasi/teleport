@@ -1,14 +1,17 @@
 import { ResourceType } from '../resource/Resource';
 
-export interface IEaasiTask {
-	id: number;
+export interface IEmilTask {
 	taskId: string;
-	description?: string;
 	isDone: boolean;
-	status?: string;
-	message?: string;
 	userData?: JSON | string;
 	object?: JSON | string;
+	message?: string;
+	status?: string;
+}
+
+export interface IEaasiTask extends IEmilTask {
+	id: number;
+	description?: string;
 }
 
 export interface IEaasiTaskState {

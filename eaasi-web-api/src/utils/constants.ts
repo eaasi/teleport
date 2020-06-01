@@ -12,6 +12,11 @@ export const archiveTypes: IArchiveTypes = {
 	REMOTE: 'remote',
 };
 
+export const objectArchiveTypes: IObjectArchiveTypes = {
+	REMOTE: 'Remote Objects',
+	LOCAL: 'zero conf'
+}
+
 export enum userRoles {
 	ADMIN = 1,
 	MANAGER = 2,
@@ -22,6 +27,11 @@ interface IArchiveTypes {
 	DEFAULT: ArchiveType;
 	PUBLIC: ArchiveType;
 	REMOTE: ArchiveType;
+}
+
+interface IObjectArchiveTypes {
+	REMOTE: ArchiveType;
+	LOCAL: ArchiveType;
 }
 
 interface IResourceTypes {

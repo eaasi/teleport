@@ -1,5 +1,5 @@
+import { ArchiveType, IEaasiResource } from '../resource/Resource';
 import { KeyValuePair } from './Emil';
-import {ArchiveType, IEaasiResource} from '../resource/Resource';
 
 /*============================================================
  == Emulators
@@ -100,4 +100,17 @@ export interface IDrive {
 	type: string;
 	boot: boolean;
 	plugged: boolean;
+}
+
+export interface IEnvironmentListItem extends IEaasiResource {
+	envId: string;
+	title: string;
+	archive: ArchiveType;
+	owner: string;
+	envType: string;
+	operatingSystem: string;
+	timestamp: string;
+	description: string;
+	isLinuxRuntime: boolean;
+	networkEnabled: boolean;
 }

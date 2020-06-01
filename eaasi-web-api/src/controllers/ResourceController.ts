@@ -1,7 +1,9 @@
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
-import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
+import ContentService from '@/services/resource/ContentService';
+import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
+import SoftwareService from '@/services/resource/SoftwareService';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
@@ -14,10 +16,21 @@ import BaseController from './base/BaseController';
 export default class ResourceController extends BaseController {
 
 	private readonly _svc: ResourceAdminService;
+	private readonly _environmentService: EnvironmentService;
+	private readonly _softwareService: SoftwareService;
+	private readonly _contentService: ContentService;
 
-	constructor(resourceService: ResourceAdminService = new ResourceAdminService()) {
+	constructor(
+		resourceService: ResourceAdminService = new ResourceAdminService(),
+		environmentService: EnvironmentService = new EnvironmentService(),
+		softwareService: SoftwareService = new SoftwareService(),
+		contentService: ContentService = new ContentService(),
+	) {
 		super();
 		this._svc = resourceService;
+		this._environmentService = environmentService;
+		this._softwareService = softwareService;
+		this._contentService = contentService;
 	}
 
 	/**
@@ -26,7 +39,7 @@ export default class ResourceController extends BaseController {
 	async getEnvironment(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
-			let result = await this._svc.getEnvironment(id);
+			let result = await this._environmentService.getEnvironment(id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -39,7 +52,7 @@ export default class ResourceController extends BaseController {
 	async saveSoftwareObject(req: Request, res: Response) {
 		try {
 			let softwareObject = req.body as ISoftwareObject;
-			let result = await this._svc.saveSoftwareObject(softwareObject);
+			let result = await this._softwareService.saveSoftwareObject(softwareObject);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -52,7 +65,7 @@ export default class ResourceController extends BaseController {
 	async getSoftwarePackageDescription(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
-			let result = await this._svc.getSoftwarePackageDescription(id);
+			let result = await this._softwareService.getSoftwareDescription(id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -65,7 +78,7 @@ export default class ResourceController extends BaseController {
 	async getSoftwareObject(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
-			let result = await this._svc.getSoftwareObject(id);
+			let result = await this._softwareService.getSoftwarePackage(id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -78,7 +91,11 @@ export default class ResourceController extends BaseController {
 	async getSoftwareMetadata(req: Request, res: Response) {
 		try {
 			let { archiveId, objectId } = req.query;
-			let result = await this._svc.getSoftwareMetadata(archiveId, objectId);
+			const contentRequest: IContentRequest = {
+				archiveName: archiveId,
+				contentId: objectId
+			}
+			let result = await this._contentService.getObjectMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -91,7 +108,7 @@ export default class ResourceController extends BaseController {
 	async getContent(req: Request, res: Response) {
 		try {
 			const contentRequest = req.query as IContentRequest;
-			let result = await this._svc.getContentMetadata(contentRequest);
+			let result = await this._contentService.getObjectMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -117,7 +134,7 @@ export default class ResourceController extends BaseController {
 	async deleteContent(req: Request, res: Response) {
 		try {
 			const contentRequest = req.query as IContentRequest;
-			await this._svc.deleteContent(contentRequest);
+			await this._contentService.deleteContent(contentRequest);
 			res.send(true);
 		} catch(e) {
 			this.sendError(e, res);
@@ -130,9 +147,8 @@ export default class ResourceController extends BaseController {
 	async updateEnvironmentDetails(req: Request, res: Response) {
 		try {
 			const { environment } = req.body;
-			if (!environment) return this.sendError('no environment', res);
-			const emilEnvironmentService = new EmilEnvironmentService();
-			const result = await emilEnvironmentService.updateDescription(environment);
+			if (!environment) return this.sendError(new Error('no environment'), res);
+			const result = await this._environmentService.updateEnvironmentDescription(environment);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -146,7 +162,7 @@ export default class ResourceController extends BaseController {
 		try {
 			let replicateRequest = req.body as IReplicateEnvironmentRequest;
 			const replicateEnvironmentRequest = new ReplicateEnvironmentRequest(replicateRequest)
-			let result = await this._svc.replicateEnvironment(replicateEnvironmentRequest);
+			let result = await this._environmentService.replicateEnvironment(replicateEnvironmentRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -159,7 +175,7 @@ export default class ResourceController extends BaseController {
 	async forkRevision(req: Request, res: Response) {
 		try {
 			let revisionRequest = req.body;
-			let result = await this._svc.forkRevision(revisionRequest);
+			let result = await this._environmentService.forkRevision(revisionRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -185,7 +201,7 @@ export default class ResourceController extends BaseController {
 	async deleteEnvironment(req: Request, res: Response) {
 		try {
 			let id = req.query.id;
-			let result = await this._svc.deleteEnvironment(id);
+			let result = await this._environmentService.deleteEnvironment(id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -195,9 +211,10 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Gets available environment templates object
 	 */
-	async getEnvironmentTemplates(req: Request, res: Response) {
+	async getTemplates(req: Request, res: Response) {
 		try {
-			let result = await this._svc.getEnvironmentTemplates();
+			let result = await this._environmentService.getTemplates();
+			console.log(result);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -209,7 +226,8 @@ export default class ResourceController extends BaseController {
 	 */
 	async getPatches(req: Request, res: Response) {
 		try {
-			let result = await this._svc.getPatches();
+			let result = await this._environmentService.getPatches();
+			console.log(result);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -232,7 +250,7 @@ export default class ResourceController extends BaseController {
 
 	async getOperatingSystemMetadata(req: Request, res: Response) {
 		try {
-			let result = await this._svc.getOperatingSystemMetadata();
+			let result = await this._environmentService.getOperatingSystemMetadata();
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -241,7 +259,7 @@ export default class ResourceController extends BaseController {
 
 	async getNameIndexes(req: Request, res: Response) {
 		try {
-			let result = await this._svc.getNameIndexes();
+			let result = await this._environmentService.getNameIndexes();
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -250,7 +268,7 @@ export default class ResourceController extends BaseController {
 
 	async getObjectArchive(req: Request, res: Response) {
 		try {
-			let result = await this._svc.getObjectArchive();
+			let result = await this._environmentService.getObjectArchive();
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -260,7 +278,7 @@ export default class ResourceController extends BaseController {
 	async saveNewEnvironment(req: Request, res: Response) {
 		try {
 			let newEnvRequest = req.body;
-			let result = await this._svc.saveNewEnvironment(newEnvRequest);
+			let result = await this._environmentService.saveNewEnvironment(newEnvRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -270,7 +288,7 @@ export default class ResourceController extends BaseController {
 	async saveNewObjectEnvironment(req: Request, res: Response) {
 		try {
 			let newEnvRequest = req.body;
-			let result = await this._svc.saveNewObjectEnvironment(newEnvRequest);
+			let result = await this._environmentService.saveNewObjectEnvironment(newEnvRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -280,7 +298,7 @@ export default class ResourceController extends BaseController {
 	async saveEnvironmentRevision(req: Request, res: Response) {
 		try {
 			let revisionEnvRequest = req.body;
-			let result = await this._svc.saveEnvironmentRevision(revisionEnvRequest);
+			let result = await this._environmentService.saveEnvironmentRevision(revisionEnvRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);

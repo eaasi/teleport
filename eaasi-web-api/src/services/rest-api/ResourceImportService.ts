@@ -1,15 +1,13 @@
-import AppLogger from '@/logging/appLogger';
 import ImportedContentService from '@/services/rest-api/ImportedContentService';
 import ImportedEnvironmentService from '@/services/rest-api/ImportedEnvironmentService';
 import ImportedSoftwareService from '@/services/rest-api/ImportedSoftwareService';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
+import BaseService from '../base/BaseService';
 
 /**
  * Handles CRUD operations for User-Imported Resources (Environment, Software, Content)
  */
-export default class ResourceImportService {
-
-	protected readonly _logger: AppLogger;
+export default class ResourceImportService extends BaseService {
 
 	private readonly _importedEnvironmentService: ImportedEnvironmentService;
 	private readonly _importedSoftwareService: ImportedSoftwareService;
@@ -20,8 +18,7 @@ export default class ResourceImportService {
 		importedSoftwareService: ImportedSoftwareService = new ImportedSoftwareService(),
 		importedContentService: ImportedContentService = new ImportedContentService()
 	) {
-
-		this._logger = new AppLogger(this.constructor.name);
+		super();
 		this._importedEnvironmentService = importedEnvironmentService;
 		this._importedSoftwareService = importedSoftwareService;
 		this._importedContentService = importedContentService;
