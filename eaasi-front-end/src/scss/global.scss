@@ -504,6 +504,17 @@ strong {
 	float: right;
 }
 
+.transparent-button {
+	background: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+
+	&.clickable {
+		cursor: pointer;
+	}
+}
+
 /*============================================================
  == Detail Pages
 /============================================================*/

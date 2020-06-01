@@ -44,7 +44,7 @@ import EaasiTask from '@/models/task/EaasiTask';
 import { ROUTES } from '../../router/routes.const';
 import { IUserImportRelationRequest, IUserImportedResource } from '../../types/UserImportRelation';
 import { IEaasiUser } from 'eaasi-admin';
-import { generateNotificationError, generateCompletedNotificationWithMessage, generateNotificationSuccess } from '../../helpers/NotificationHelper';
+import { generateNotificationError, generateNotificationSuccess } from '../../helpers/NotificationHelper';
 import eventBus from '../../utils/event-bus';
 import { ITaskState } from '../../types/Task';
 import ContentImportResource from '../../models/import/ContentImportResource';

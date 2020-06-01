@@ -45,7 +45,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import authService from '@/services/AuthService';
 import { Get } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { generateCompletedNotificationWithMessage, generateNotificationError } from '../../../helpers/NotificationHelper';
+import { generateNotificationSuccess, generateNotificationError } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
 import config from '../../../config';
 
@@ -93,7 +93,7 @@ export default class HeaderMenuDropdown extends Vue {
 		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
 		this.isResetPasswordModalVisible = false;
 		const notification = success 
-			? generateCompletedNotificationWithMessage('You successfully reset your password.')
+			? generateNotificationSuccess('You successfully reset your password.')
 			: generateNotificationError('Something went wrong, please try again.');
 		eventBus.$emit('notification:show', notification);
 		this.$emit('close');

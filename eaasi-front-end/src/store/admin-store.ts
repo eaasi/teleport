@@ -8,7 +8,7 @@ import { IApplicationLog } from '@/types/ApplicationLog';
 import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
-import { IEaasiRole, IEmulator, IEmulatorEntry } from 'eaasi-admin';
+import { IEaasiRole, IEmulator, IEmulatorEntry, IKeyboardSettings } from 'eaasi-admin';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
@@ -133,7 +133,28 @@ const actions = {
 
 	async getMostRecentErrorLogs(_): Promise<IApplicationLog[]> {
 		return await _svc.getMostRecentErrorLogs();
+	},
+
+	/* 
+	Node Preferences
+	============================================*/
+	getKeyboardSettings(_): IKeyboardSettings {
+		return _svc.getKeyboardSettings();
+	},
+
+	setKeyboardSettings(_, keyboardSettings: IKeyboardSettings) {
+		_svc.setKeyboardSettings(keyboardSettings);
+	},
+
+	async dbDataMigration(_) {
+		return await _svc.dbDataMigration();
+	},
+	
+	async syncEnvironments(_) {
+		return await _svc.syncEnvironments();
 	}
+
+
 };
 
 /*============================================================

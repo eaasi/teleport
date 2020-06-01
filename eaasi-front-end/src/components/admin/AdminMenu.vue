@@ -48,18 +48,28 @@ export default class AdminMenu extends Vue {
 		{
 			icon: 'server',
 			label: 'Emulators',
-			route: '/manage-node/emulators'
+			route: ROUTES.MANAGE_NODE_EMULATORS
 		},
 		{
 			icon: 'sync-alt',
 			label: 'Endpoints / Metadata Sync',
-			route: '/manage-node/metadata-sync'
+			route: ROUTES.MANAGE_NODE_METADATA_SYNC
 		},
 		{
 			icon: 'tasks',
 			label: 'Running Tasks',
-			route: '/manage-node/running-tasks'
+			route: ROUTES.MANAGE_NODE_RUNNING_TASKS
 		},
+		{
+			label: 'Node Preferences',
+			route: ROUTES.MANAGE_NODE_NODE_PREFERENCES,
+			icon: 'edit'
+		},
+		{
+			label: 'Install & Updates',
+			route: ROUTES.MANAGE_NODE_INSTALL_AND_UPDATES,
+			icon: 'arrows'
+		}
 	];
 
 	userMenuItems: IMenuItem[] = [

@@ -1,10 +1,12 @@
+import config from '@/config';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import User from '@/models/admin/User';
 import { IApplicationLog } from '@/types/ApplicationLog';
 import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
-import { IEaasiRole, IEmulator } from 'eaasi-admin';
+import { IEaasiRole, IEmulator, IKeyboardSettings } from 'eaasi-admin';
+import Cookies from 'js-cookie';
 import BaseHttpService from './BaseHttpService';
 
 class AdminService extends BaseHttpService {
@@ -104,6 +106,29 @@ class AdminService extends BaseHttpService {
 		if (!response.ok) return [];
 		return response.result;
 	}
+
+	getKeyboardSettings(): IKeyboardSettings {
+		const keyboardSettigs = Cookies.get(config.KEYBOARD_SETTINGS_NAME);
+		if (!keyboardSettigs) return null;
+		return JSON.parse(keyboardSettigs) as IKeyboardSettings;
+	}
+
+	setKeyboardSettings(settings: IKeyboardSettings) {
+		Cookies.set(config.KEYBOARD_SETTINGS_NAME, JSON.stringify(settings));
+	}
+
+	async dbDataMigration() {
+		const response = await this.get<any>('/admin/db-migration');
+		if (!response.ok) return null;
+		return response.result;
+	}
+	async syncEnvironments() {
+		const response = await this.get<any>('/admin/sync-environments');
+		if (!response.ok) return null;
+		return response.result;
+	}
+
+
 
 }
 

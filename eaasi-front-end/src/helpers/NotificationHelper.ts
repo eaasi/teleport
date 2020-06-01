@@ -26,16 +26,6 @@ export function generateCompletedTaskNotification(task: EaasiTask): INotificatio
     return notification;
 }
 
-export function generateCompletedNotificationWithMessage(message: string): INotification {
-    let notification: INotification = {
-        id: generateId(),
-        label: message,
-        time: 5000,
-        type: 'success'
-    };
-    return notification;
-}
-
 export function generateNotificationSuccess(message: string): INotification {
     let notification: INotification = {
         id: generateId(),
