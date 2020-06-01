@@ -235,7 +235,7 @@ export default class AdminController extends BaseController {
 			let data = req.body as HarvesterReq;
 			let success = await this._harvesterSvc.addHarvester(data);
 			if(success) return res.send(true);
-			return this.sendError('Could not add new oai-pmh harvester', res);
+			return this.sendError(new Error('Could not add new oai-pmh harvester'), res);
 		} catch(e) {
 			return this.sendError(e, res);
 		}
@@ -266,9 +266,29 @@ export default class AdminController extends BaseController {
 			let { name } = req.query;
 			let success = await this._harvesterSvc.deleteHarvester(name);
 			if(success) return res.send(true);
-			return this.sendError(`Could not delete oai-pmh harvester: ${name}`, res);
+			return this.sendError(new Error(`Could not delete oai-pmh harvester: ${name}`), res);
 		} catch(e) {
 			return this.sendError(e, res);
 		}
 	}
+
+	async dbDataMigration(req: Request, res: Response) {
+		try {
+			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/db-migration
+			res.send(true);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	async syncEnvironments(req: Request, res: Response) {
+		try {
+			let result = true;
+			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/actions/sync
+			res.send(result)
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
 }

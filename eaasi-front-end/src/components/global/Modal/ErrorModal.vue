@@ -95,7 +95,7 @@ import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import { Component } from 'vue-property-decorator';
 import { IApplicationLog } from '@/types/ApplicationLog';
 import { Get, Sync } from 'vuex-pathify';
-import { generateCompletedNotificationWithMessage } from '../../../helpers/NotificationHelper';
+import { generateNotificationSuccess } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
 import config from '../../../config';
 
@@ -149,7 +149,7 @@ ${apiEventsString}
 EaaSi Version: ${this.appVersion}
 ########## < END > ##############`;
 		this.executeCopy(textToClipboard);
-		const notification = generateCompletedNotificationWithMessage('Error Details has been copied to your clipboard.');
+		const notification = generateNotificationSuccess('Error Details has been copied to your clipboard.');
 		eventBus.$emit('notification:show', notification);
 	}
 

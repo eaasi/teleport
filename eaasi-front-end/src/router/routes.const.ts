@@ -7,6 +7,8 @@ export const ROUTES: IRoutes = {
     MANAGE_NODE_EMULATORS: '/manage-node/emulators',
     MANAGE_NODE_RUNNING_TASKS: '/manage-node/running-tasks',
     MANAGE_NODE_METADATA_SYNC: '/manage-node/metadata-sync',
+    MANAGE_NODE_NODE_PREFERENCES: '/manage-node/node-preferences',
+    MANAGE_NODE_INSTALL_AND_UPDATES: '/manage-node/install-updates',
     EMULATION_PROJECT: '/emulation-project',
     IMPORT_RESOURCE: '/import-resource',
     RESOURCES_MY_RESOURCES: '/resources/my-resources',
@@ -27,6 +29,8 @@ export interface IRoutes {
     MANAGE_NODE_EMULATORS: string;
     MANAGE_NODE_RUNNING_TASKS: string;
     MANAGE_NODE_METADATA_SYNC: string;
+    MANAGE_NODE_NODE_PREFERENCES: string;
+    MANAGE_NODE_INSTALL_AND_UPDATES: string;
     EMULATION_PROJECT: string;
     IMPORT_RESOURCE: string;
     RESOURCES_MY_RESOURCES: string;
@@ -36,4 +40,4 @@ export interface IRoutes {
     RESOURCES_CONTENT: string;
     ACCESS_INTERFACE: string;
     WILD_CARD: string;
-}
+}   

@@ -124,4 +124,25 @@ router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res))
  */
 router.post('/delete-harvester', (req, res) => controller.deleteHarvester(req, res));
 
+/* Install and Update
+============================================*/
+
+/**
+ * @api {get} admin/db-migration Database Migration
+ * @apiVersion 1.0.0
+ * @apiGroup Install and Update
+ * @apiPermission System Administrator only
+ * @apiDescription Triggers old data migration in the EaaS database
+ */
+router.get('/db-migration', (req, res) => controller.dbDataMigration(req, res))
+
+/**
+ * @api {get} admin/sync-environments Syncronizes archives
+ * @apiVersion 1.0.0
+ * @apiGroup Install and Update
+ * @apiPermission System Administrator only
+ * @apiDescription Triggers synchronizing archives in EaaS
+ */
+router.get('/sync-environments', (req, res) => controller.syncEnvironments(req, res))
+
 module.exports = router;
