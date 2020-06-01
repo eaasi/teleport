@@ -110,9 +110,12 @@ export default class SearchSelectList extends BaseFormField {
 	}
 
 	@Watch('value')
-	onValueChange(val) {
-		if (!val) {
-			this.clearQuery();
+	onValueChange(nextVal, prevVal) {
+		if (nextVal === prevVal) return;
+		if (!nextVal) this.clearQuery();
+		const newItem = this.data.find(item => item[this.anchor] === nextVal);
+		if (newItem) {
+			this.selectItem(newItem);
 		}
 	}
 	

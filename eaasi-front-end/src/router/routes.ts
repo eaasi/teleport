@@ -1,7 +1,9 @@
 // TODO: Should routes be split into their own files?
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
+import InstallAndUpdateManagement from '@/components/admin/install-and-update/InstallAndUpdateManagement.vue';
 import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
+import NodePreferenceManagement from '@/components/admin/node-preferences/NodePreferenceManagement.vue';
 import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
@@ -65,6 +67,16 @@ export default [
 		path: ROUTES.MANAGE_NODE_METADATA_SYNC,
 		name: 'Metadata Sync',
 		component: MetadataSyncAdmin
+	},
+	{
+		path: ROUTES.MANAGE_NODE_NODE_PREFERENCES,
+		name: 'Node Preferences',
+		component: NodePreferenceManagement
+	},
+	{
+		path: ROUTES.MANAGE_NODE_INSTALL_AND_UPDATES,
+		name: 'Install and Updates',
+		component: InstallAndUpdateManagement
 	},
 
 	/* Emulation Project

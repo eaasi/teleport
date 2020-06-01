@@ -118,7 +118,7 @@ import TextInput from '@/components/global/forms/TextInput.vue';
 import Modal from '@/components/global/Modal/Modal.vue';
 import { userRoles } from '../../../utils/constants';
 import config from '../../../config';
-import { generateNotificationError, generateCompletedTaskNotification, generateCompletedNotificationWithMessage } from '../../../helpers/NotificationHelper';
+import { generateNotificationError, generateCompletedTaskNotification, generateNotificationSuccess } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
 
 @Component({
@@ -204,7 +204,7 @@ export default class UserModal extends Vue {
 		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
 		this.isResetPasswordModalVisible = false;
 		const notification = success 
-			? generateCompletedNotificationWithMessage(`You successfully reset a password for ${this.user.username}.`)
+			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}.`)
 			: generateNotificationError('Something went wrong, please try again.');
 		eventBus.$emit('notification:show', notification);
 		this.$emit('close');

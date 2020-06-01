@@ -59,4 +59,20 @@ declare module 'eaasi-admin' {
 		token: string
 	}
 
+	export interface IKeyboardSettings {
+		language: IKeyboardLanguage;
+		layout: IKeyboardLayout;
+	}
+
+	export interface IKeyboardLayout {
+		descriptions: string;
+		name: string;
+		vendor: string;
+	}
+
+	export interface IKeyboardLanguage {
+		descriptions: string;
+		name: string;
+	}
+
 }
