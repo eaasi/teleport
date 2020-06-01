@@ -19,8 +19,7 @@ export default class ContentService extends BaseService {
 	
 	async getAll(archiveId: ArchiveType): Promise<IContentItem[]> {
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`);
-		const items = await res.json() as IContentItem[];
-		return this._mapContentItems(items);
+		return await res.json() as IContentItem[];
 	}
 
 	private async _mapContentItems(items: IContentItem[]): Promise<IContentItem[]> {
