@@ -188,7 +188,7 @@ export default class NewBaseEnvironmentWizard extends Vue {
 	@Watch('activeTemplate')
 	onActiveTemplate(nextTemplate: ITemplate, prevTemplate: ITemplate) {
 		if (!prevTemplate || (nextTemplate && nextTemplate.id !== prevTemplate.id)) {
-			this.nativeConfig = nextTemplate.native_config;
+			this.nativeConfig = nextTemplate.nativeConfig.value;
 		}
 	}
 

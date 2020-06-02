@@ -1,4 +1,4 @@
-import { PhysicalFormat } from './Resource';
+import { IDrive, PhysicalFormat } from './Resource';
 
 export type ImportType = 'content' | 'software' | 'environment' | 'bulk';
 
