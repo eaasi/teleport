@@ -1,30 +1,7 @@
 <template>
 	<div :class="['software-file-list-item flex', { selected }]">
-		<div class="sfl-check">
-			<checkbox v-model="selected" @input="onToggle" />
-		</div>
 		<div class="sfl-info flex-adapt">
-			<div class="sfl-name">{{ file.name }}</div>
 			<div class="sfl-fields flex">
-				<div class="sfl-index">
-					<text-input
-						label="Order"
-						:value="file.sortIndex"
-						rules="numeric|required"
-						@input="updateSortIndex"
-					/>
-				</div>
-				<select-list
-					v-model="file.physicalFormat"
-					label="Physical Format"
-					class="sfl-format"
-					rules="required"
-				>
-					<option value="Q495265">ISO</option>
-					<option value="Q493576">Floppy</option>
-					<option value="disk">Disk</option>
-					<option value="Q82753">File</option>
-				</select-list>
 				<text-input
 					label="File Label"
 					v-model="file.fileLabel"
@@ -32,9 +9,6 @@
 					class="sfl-label"
 				/>
 			</div>
-		</div>
-		<div class="sfl-handle flex flex-center">
-			<span class="fas fa-bars"></span>
 		</div>
 	</div>
 </template>
@@ -55,34 +29,6 @@ export default class ResourceFileListItem extends Vue {
 	@Prop({type: Object as () => File, required: true})
 	readonly file: ResourceImportFile;
 
-	/* Computed
-	============================================*/
-
-	@Sync('import/selectedFiles')
-	selectedFiles: ResourceImportFile[];
-
-	get selected(): boolean {
-		return !!this.selectedFiles.find(f => f.name === this.file.name);
-    }
-
-    set selected(isSelected: boolean) {
-		if (isSelected) {
-			this.selectedFiles.push(this.file);
-		}
-	}
-
-	/* Methods
-	============================================*/
-	updateSortIndex(sortIndex: string | number) {
-		let i = Number(sortIndex);
-		this.$emit('sort', i);
-	}
-
-	onToggle(isChecked: boolean) {
-		if (!isChecked) {
-			this.selectedFiles = this.selectedFiles.filter(f => f.name !== this.file.name);
-		}
-	}
 }
 
 </script>

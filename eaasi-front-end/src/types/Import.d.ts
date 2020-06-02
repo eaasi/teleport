@@ -1,18 +1,15 @@
 import { PhysicalFormat } from './Resource';
 
-export interface ISortable {
-	sortIndex: number
-}
-
 export type ImportType = 'content' | 'software' | 'environment' | 'bulk';
 
 export type ResourceImportPath = 'Fast'; // | 'Detailed' | 'Unselected';
 
-export interface IResourceImportFile extends ISortable {
-	physicalFormat?: PhysicalFormat,
-	fileLabel?: string,
-	name: string,
-	file: File,
+export interface IResourceImportFile {
+	physicalFormat?: PhysicalFormat;
+	fileLabel?: string;
+	sortIndex?: number;
+	name: string;
+	file: File;
 }
 
 export interface IResourceImport {
@@ -52,10 +49,9 @@ export interface ICreateEnvironmentPayload {
 }
 
 export interface IImageImportPayload {
-	nativeConfig: string;
-	patchId: any;
-	templateId: string;
-	urlString: string;
+	url: string;
+	label: string;
+	imageType?: string;
 }
 
 export interface ICreateEnvironmentResponse {
@@ -73,14 +69,79 @@ export interface IFileImport {
 }
 
 
+
 export interface ITemplate {
+	abstractDataResource: IAbstractDataResource[];
+	arch: string;
+	checkpointBindingId: string;
+	configurationType: string;
+	description: IDescription;
+	drive: IDrive[];
+	emulator: IBean;
 	id: string;
-	label: string;
-	native_config: string;
-	properties: ITemplateProperty[];
+	installedSoftwareId: string[];
+	isLinuxRuntime: boolean;
+	metaDataVersion: string;
+	model: any;
+	nativeConfig: INativeConfig;
+	nic: any;
+	operatingSystemId: string;
+	outputBindingId: string;
+	timestamp: string;
+	ui_options: IUIOptions;
+}
+
+export interface IAbstractDataResource {
+	dataResourceType: string;
+	id: string;
 }
 
 export interface ITemplateProperty {
 	name: string;
 	value: string;
+}
+
+export interface IPatch {
+	imageGeneralization: IImageGeneralization;
+	description: IDescription;
+	configurationType: string;
+	metaDataVersion: string;
+	id: string;
+	timestamp: string;
+}
+
+export interface IImageGeneralization {
+	precondition: IPatchPrecondition;
+	modificationScript: string;
+}
+
+export interface IPatchPrecondition {
+	fileSystem: string;
+	partionLabel: string;
+	requiredFiles: IPatchFiles;
+}
+
+export interface IPatchFiles {
+	fileName: string[];
+}
+
+export interface IDescription {
+	title: string;
+}
+
+export interface INativeConfig {
+	value: string;
+}
+
+export interface IBean {
+	bean: string;
+}
+
+export interface IUIOptions {
+	html5: IUIOption;
+}
+
+export interface IUIOption {
+	pointer_lock: boolean;
+	crt: string;
 }
