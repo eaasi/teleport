@@ -124,6 +124,15 @@ router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res))
  */
 router.post('/delete-harvester', (req, res) => controller.deleteHarvester(req, res));
 
+/**
+ * @api {get} admin/api-key Get provider Api Key
+ * @apiVersion 1.0.0
+ * @apiGroup OAI-PMH
+ * @apiPermission System Administrator only
+ * @apiDescription Gets an API key for the provider
+ */
+router.get('/api-key', (req, res) => controller.getApiKey(req, res));
+
 /* Install and Update
 ============================================*/
 
