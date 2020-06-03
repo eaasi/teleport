@@ -102,11 +102,9 @@ const actions = {
 	 * Imports an Environment resource from a URL and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importEnvironment({ state, dispatch } : Store<ImportState>) {
-		await dispatch('uploadContentResourceFiles');
-
+	async importEnvironment({ state }: Store<ImportState>) {
 		let payload: IImageImportPayload = {
-			url: state.filesToUpload[0].fileLabel,
+			url: state.environment.urlSource,
 			label: state.environment.title
 		};
 

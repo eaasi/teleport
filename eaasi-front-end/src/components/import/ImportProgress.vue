@@ -163,7 +163,7 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 
 		async onTaskComplete(taskResult: ITaskState) {
 			const { environmentId, objectId } = taskResult.userData;
-			if (objectId) {
+			if (!environmentId && !objectId) {
 				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
 			}
 			switch(this.importType) {

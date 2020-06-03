@@ -34,8 +34,8 @@ export default class ImportService extends BaseService {
 	/**
 	 * Posts Resource Import Data to trigger import task from a URL
 	 */
-	async importResourceFromUrl(payload: IImageImportPayload): Promise<IEmilTask> {
-		return await this._environmentService.importResourceFromUrl(payload);
+	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
+		return await this._environmentService.importImage(payload);
 	}
 
 	/**

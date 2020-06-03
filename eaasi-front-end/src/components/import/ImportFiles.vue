@@ -3,48 +3,50 @@
 		<!-- No Files Added -->
 		<div v-if="!filesAreAdded">
 			<h3>{{ headline }}</h3>
+			<div class="row justify-left" style="margin-top: 3rem;">
+				<div class="col-md-5 import-option-block" v-if="isEnvImport">
+					<div class="irf-option">
+						<span class="text-center">URL</span>
+						<text-input
+							@change="checkUrl"
+							label="File URL"
+							rules="url"
+							v-model="urlSource"
+							ref="urlField"
+						/>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- Files Added, Non-Environment Import -->
 
 		<div v-if="filesAreAdded" class="if-attached">
-			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length">
-				<div v-if="isEnvImport">
-					<ui-button
-						icon="trash"
-						color-preset="light-blue"
-						@click="removeEnvironmentImageFile"
-						class="if-trash-file"
-					>
-						Remove Environment Image
-					</ui-button>
-				</div>
-				<div v-else-if="!isEnvImport">
-					<ui-button 
-						icon="check" 
-						color-preset="light-blue" 
-						@click="selectAllFiles" 
-					>
-						Select All
-					</ui-button>
-					<ui-button
-						icon="times"
-						color-preset="light-blue"
-						@click="selectNoFiles"
-						:disabled="!selectedFiles.length"
-					>
-						Select None
-					</ui-button>
-					<ui-button
-						icon="trash"
-						color-preset="light-blue"
-						@click="removeSelectedFiles"
-						class="if-trash-file"
-						:disabled="!selectedFiles.length"
-					>
-						Remove Selected Files
-					</ui-button>
-				</div>
+			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length && !isEnvImport">
+				<ui-button 
+					icon="check" 
+					color-preset="light-blue" 
+					@click="selectAllFiles" 
+				>
+					Select All
+				</ui-button>
+				<ui-button
+					icon="times"
+					color-preset="light-blue"
+					@click="selectNoFiles"
+					:disabled="!selectedFiles.length"
+				>
+					Select None
+				</ui-button>
+				<ui-button
+					icon="trash"
+					color-preset="light-blue"
+					@click="removeSelectedFiles"
+					class="if-trash-file"
+					:disabled="!selectedFiles.length"
+				>
+					Remove Selected Files
+				</ui-button>
 			</div>
 
 			<div class="flex-row justify-between mb-lg">
@@ -57,7 +59,7 @@
 					secondary
 					@change="addFiles"
 					icon="plus"
-					:button-label="isEnvImport ? 'Add Different Image' : 'Add More Files'"
+					button-label="Add More Files"
 					:limit="fileLimit"
 				/>
 			</div>
@@ -65,7 +67,7 @@
 
 		<br />
 
-		<div class="row">
+		<div class="row" v-if="!isEnvImport">
 			<div class="col-md-12">
 				<div class="software-file-uploader">
 					<file-dropzone
@@ -85,15 +87,6 @@
 							v-model="files"
 							@sort="sorted"
 							handle=".sfl-handle"
-							v-if="isEnvImport"
-						>
-							<environment-file-item :file="envFile" />
-						</draggable>
-						<draggable
-							v-model="files"
-							@sort="sorted"
-							handle=".sfl-handle"
-							v-else
 						>
 							<resource-file-list-item
 								v-for="file in files"
@@ -177,16 +170,8 @@
 			return 'I will attach files to this resource from...';
 		}
 
-		get envFile(): IResourceImportFile {
-			return {
-				name: this.files[0].name,
-				file: this.files[0].file,
-				fileLabel: this.files[0].fileLabel
-			};
-		}
-
-		get fileLimit(): number {
-			return this.isEnvImport ? 1 : Infinity;
+		get isUrlSource(): boolean {
+			return isValidUrl(this.urlSource);
 		}
 
 		/* Data
@@ -196,7 +181,17 @@
 		readonly operatingSystems = operatingSystems;
 
 		/* Methods
-        ============================================*/
+		============================================*/
+		
+		checkUrl() {
+			// noinspection TypeScriptUnresolvedVariable
+			this.$refs.urlField['canValidate'] = true;
+			// noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
+			let validate = this.$refs.urlField['validate'];
+			validate();
+			this.step = this.isUrlSource ? 3 : 2;
+		}
+
 
 		addFiles(fileList: File[]) {
 			let startingSortIndex = this.files.length + 1;
@@ -204,11 +199,7 @@
 				let f = fileList[i];
 				if (this.files.some(x => x.name === f.name)) continue;
 				let newFile = new ResourceImportFile(f, startingSortIndex + i);
-				if (this.isEnvImport) {
-					this.files = [newFile];
-				} else {
-					this.files.push(newFile);
-				}
+				this.files.push(newFile);
 			}
 			this.step = 3;
 		}
@@ -237,11 +228,6 @@
 			// If all files are removed, leaving 0 files, set step to 2
 			if (this.files.length === 0) this.step = 2;
 			this.selectNoFiles();
-		}
-
-		removeEnvironmentImageFile() {
-			this.selectedFiles.push(this.files[0]);
-			this.removeSelectedFiles();
 		}
 
 		mounted() {
