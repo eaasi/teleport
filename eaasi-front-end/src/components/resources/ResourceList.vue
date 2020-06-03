@@ -10,21 +10,21 @@
 		<div v-for="(resource, index) in result.result" :key="index" class="card-wrapper">
 			<environment-resource-card
 				:environment="resource"
-				@change="setActiveResource(resource, $event)"
+				@change="toggleResource(resource, $event)"
 				is-clickable
 				v-if="type === 'Environment'"
 				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"
 			/>
 			<software-resource-card
 				:software="resource"
-				@change="setActiveResource(resource, $event)"
+				@change="toggleResource(resource, $event)"
 				is-clickable
 				v-if="type === 'Software'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 			<content-resource-card
 				:content="resource"
-				@change="setActiveResource(resource, $event)"
+				@change="toggleResource(resource, $event)"
 				is-clickable
 				v-if="type === 'Content'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
@@ -44,6 +44,7 @@ import ContentResourceCard from '@/components/resources/ContentResourceCard.vue'
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import { resourceTypes } from '../../utils/constants';
+import { jsonEquals } from '@/utils/functions';
 
 @Component({
 	name: 'ResourceList',
@@ -86,9 +87,12 @@ export default class ResourceList extends Vue {
 		this.$emit('paginate', pageNum);
 	}
 
-	setActiveResource(resource: IEaasiResource, isActive: boolean) {
-		if (!isActive) this._removeFromActiveResources(resource);
-		else this.selectedResources.push(resource);
+	toggleResource(resource: IEaasiResource, isActive: boolean) {
+		if(this.selectedResources.some(x => jsonEquals(x, resource))) {
+			this.selectedResources = this.selectedResources.filter(x => !jsonEquals(x, resource));
+		} else {
+			this.selectedResources = [...this.selectedResources, resource];
+		}
 	}
 
 	_removeFromActiveResources(resource: IEaasiResource) {

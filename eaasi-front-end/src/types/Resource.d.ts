@@ -13,6 +13,7 @@ export interface IEaasiResource {
 	envId?: string;
 	archiveId?: string;
 	archive?: string;
+	isPublic: boolean;
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {
@@ -178,6 +179,7 @@ export interface ISoftwareObject {
 	nativeFMTs: string[];
 	objectId: string;
 	qid?: string;
+	isPublic: boolean;
 }
 
 export interface ISoftwareMetadataResponse {

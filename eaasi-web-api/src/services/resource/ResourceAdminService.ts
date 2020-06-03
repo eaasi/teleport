@@ -13,6 +13,7 @@ import HttpJSONService from '../base/HttpJSONService';
 import EmilBaseService from '../eaas/emil/EmilBaseService';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ResourceImportService from '../rest-api/ResourceImportService';
+import { IEmilResult } from '@/types/emil/Emil';
 
 const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
@@ -94,7 +95,7 @@ export default class ResourceAdminService extends BaseService {
 
 				softwareResult.result = allSoftware.filter(r => userImportedResources.userImportedSoftware.result.some(ir => ir.eaasiID === r.id));
 				softwareResult.totalResults = softwareResult.result.length;
-				
+
 				environmentResult.result = allEnvironments.filter(r => userImportedResources.userImportedEnvironments.result.some(ir => ir.eaasiID === r.envId));
 				environmentResult.totalResults = environmentResult.result.length;
 			}
@@ -218,7 +219,10 @@ export default class ResourceAdminService extends BaseService {
 	private async getAllEnvironments(): Promise<IEnvironment[]> {
 		let res = await this._emilEnvSvc.get('');
 		const result = await res.json() as IEnvironment[];
-		result.forEach(env => env.resourceType = resourceTypes.ENVIRONMENT);
+		result.forEach(env => {
+			env.resourceType = resourceTypes.ENVIRONMENT;
+			env.isPublic = env.archive === archiveTypes.PUBLIC
+		});
 		return result;
 	}
 
@@ -227,6 +231,7 @@ export default class ResourceAdminService extends BaseService {
 		for(let i = 0; i < envs.length; i++) {
 			let envMetadata = await this.getEnvironment(envs[i].envId);
 			envMetadata.resourceType = resourceTypes.ENVIRONMENT;
+			envMetadata.isPublic = envs[i].archive === archiveTypes.PUBLIC;
 			if (envMetadata.hasOwnProperty('error')) {
 				metadataEnvs.push({...envs[i], error: envMetadata['error'] });
 			} else {
@@ -243,7 +248,7 @@ export default class ResourceAdminService extends BaseService {
 	 * Saves software object
 	 * @param softwareObject: ISoftwareObject with req.body
 	 */
-	async saveSoftwareObject(softwareObject: ISoftwareObject) {
+	async saveSoftwareObject(softwareObject: ISoftwareObject): Promise<IEmilResult> {
 		let res = await this._emilSofSvc.post('saveSoftwareObject', softwareObject);
 		return await res.json();
 	}
@@ -252,9 +257,19 @@ export default class ResourceAdminService extends BaseService {
 	 * Gets a Software Object by ID
 	 * @param id: string softwareId
 	 */
-	async getSoftwareObject(id: string): Promise<any> {
+	async getSoftwareObject(id: string): Promise<ISoftwareObject> {
 		let res = await this._emilSofSvc.get(`getSoftwareObject?softwareId=${id}`);
-		return await res.json();
+		return await res.json() as ISoftwareObject;
+	}
+
+	/**
+	 * Gets software Objects by a list of IDs
+	 * @param id: string softwareId
+	 */
+	async getSoftwareObjects(ids: string[]): Promise<ISoftwareObject[]> {
+		return await Promise.all(ids.map(id => {
+			return this.getSoftwareObject(id);
+		}))
 	}
 
 	/**

@@ -12,11 +12,11 @@
 						</span>
 						<span class="fas fa-times" @click="$emit('close')"></span>
 					</div>
-					<tabbed-nav 
-						v-if="tabs.length > 1" 
-						:value="activeTab.label" 
-						:tabs="tabs" 
-						@input="navigateToTab" 
+					<tabbed-nav
+						v-if="tabs.length > 1"
+						:value="activeTab.label"
+						:tabs="tabs"
+						@input="navigateToTab"
 					/>
 				</div>
 
@@ -121,7 +121,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 import ResourceService from '@/services/ResourceService';
 import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
@@ -130,7 +130,7 @@ import {IEaasiUser} from 'eaasi-admin';
 import {IAction, IEaasiTab} from 'eaasi-nav';
 import {MultiBookmarkRequest} from '@/types/Bookmark';
 import {ILabeledItem} from '@/types/ILabeledItem';
-import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {IEaasiResource, IEnvironment, ISoftwareObject, IContent, ISoftwarePackage} from '@/types/Resource';
 import ResourceAction from './ResourceAction.vue';
 import stringCleaner from '@/utils/string-cleaner';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
@@ -141,6 +141,7 @@ import { IEaasiTaskListStatus } from '../../types/IEaasiTaskListStatus';
 import EaasiTask from '../../models/task/EaasiTask';
 import AddSoftware from '@/components/resources/view-details/environment/AddSoftwareModal.vue';
 import { ROUTES } from '../../router/routes.const';
+import { jsonEquals } from '@/utils/functions';
 
 let menuService = new ResourceSlideMenuService();
 let resourceService = ResourceService;
@@ -190,16 +191,6 @@ export default class ResourceSlideMenu extends Vue {
 	@Get('resource/onlySelectedResource')
 	onlySelectedResource: IEaasiResource;
 
-	get hasDetails() {
-		// Reset this.detailsItems when hasDetails is checked
-		this.detailsItems = [];
-		if (this.onlySelectedResource && this.onlySelectedResource.title) {
-			this.setDetailsItems();
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * Populates the list of Local Actions in the Sidebar
 	 */
@@ -220,6 +211,19 @@ export default class ResourceSlideMenu extends Vue {
 		);
 	}
 
+	get selectedContent(): IEaasiResource[] {
+		return this.resources.filter(x => x.resourceType === resourceTypes.CONTENT);
+	}
+
+	get selectedEnvironments(): IEnvironment[] {
+		const arr = this.resources.filter(x => x.resourceType === resourceTypes.ENVIRONMENT);
+		return arr as IEnvironment[];
+	}
+
+	get selectedSoftware(): IEaasiResource[] {
+		return this.resources.filter(x => x.resourceType === resourceTypes.SOFTWARE);
+	}
+
 	/* Data
 	============================================*/
 	detailsItems: ILabeledItem[] = [];
@@ -236,6 +240,7 @@ export default class ResourceSlideMenu extends Vue {
 	}
 
 	async setDetailsItems() : Promise<void> {
+		this.detailsItems = [];
 		if (!this.onlySelectedResource) return;
 		const { resourceType } = this.onlySelectedResource;
 
@@ -259,13 +264,13 @@ export default class ResourceSlideMenu extends Vue {
 			}
 		];
 
-		if (softwareMetadata.mediaItems.file && softwareMetadata.mediaItems.file.length > 0) {
-			softwareMetadata.mediaItems.file.forEach(f => {
-				detailsItems.push({
+		if (softwareMetadata.mediaItems?.file?.length) {
+			detailsItems.concat(softwareMetadata.mediaItems.file.map(f => {
+				return {
 					label: `${f.dataResourceType} (${f.type})`,
 					value: f.localAlias ? f.localAlias : f.id
-				});
-			});
+				};
+			}));
 		}
 
 		this.detailsItems = detailsItems;
@@ -273,8 +278,6 @@ export default class ResourceSlideMenu extends Vue {
 
 	async setEnvironmentDetailsItems() {
 		const env = await resourceService.getEnvironment(this.onlySelectedResource.envId);
-		let enableInternet = env.enableInternet ? env.enableInternet.toString() : 'false';
-		let enablePrinting = env.enablePrinting ? env.enablePrinting.toString() : 'false';
 
 		let detailsItems = [
 			{
@@ -283,11 +286,11 @@ export default class ResourceSlideMenu extends Vue {
 			},
 			{
 				label: 'Internet Enabled',
-				value: enableInternet
+				value: env.enableInternet?.toString() ?? 'false'
 			},
 			{
 				label: 'Printing Enabled',
-				value: enablePrinting
+				value: env.enablePrinting?.toString() ?? 'false'
 			},
 			{
 				label: 'Operating System',
@@ -295,14 +298,12 @@ export default class ResourceSlideMenu extends Vue {
 			},
 		];
 
-		if (env.drives && env.drives.length) {
-			for (let i = 0; i < env.drives.length; i++) {
-				detailsItems.push({
-					label: `Drive (${i + 1})`,
-					value: env.drives[i].type
-				});
-			}
-		}
+		detailsItems.concat((env.drives ?? []).map((drive, i) => {
+			return {
+				label: `Drive (${i + 1})`,
+				value: env.drives[i].type
+			};
+		}));
 
 		this.detailsItems = detailsItems;
 	}
@@ -334,12 +335,28 @@ export default class ResourceSlideMenu extends Vue {
 		this.$emit('resource-deleted');
 	}
 
-	async publishSelectedResource() {
-		let envIds = this.resources.map(r => r.envId);
-		let result = await this.$store.dispatch('resource/publishToNetwork' , envIds);
-		let task = new EaasiTask(result.taskList[0],
-			`Publishing ${this.resources.map(r => r.title).join(', ')} resource(s) to network.`);
-		await this.$store.dispatch('task/addTaskToQueue', task);
+	publishSelectedResources() {
+		return Promise.all([
+			this.publishSoftware(),
+			this.publishEnvironments()
+		]);
+	}
+
+	async publishEnvironments() {
+		if(!this.selectedEnvironments.length) return;
+		let envIds = this.selectedEnvironments.map(x => x.envId);
+		let res = await this.$store.dispatch('resource/publishEnvironmentsToNetwork' , envIds);
+		if(!res?.taskList?.length) return;
+		return this.$store.dispatch('task/addTaskToQueue', new EaasiTask(
+			res.taskList[0],
+			`Publishing ${envIds.length} environment(s) to network.`
+		));
+	}
+
+	publishSoftware() {
+		if(!this.selectedSoftware.length) return;
+		let ids = this.selectedSoftware.map(x => x.id);
+		return this.$store.dispatch('software/publishSoftware' , ids);
 	}
 
 	// TODO: Refactor doAction and multiple / single selected resource logic
@@ -401,7 +418,7 @@ export default class ResourceSlideMenu extends Vue {
 				this.confirmAction = 'delete';
 				break;
 			case 'publish':
-				await this.publishSelectedResource();
+				await this.publishSelectedResources();
 				this.$emit('resource-published');
 			default: break;
 		}
@@ -417,6 +434,15 @@ export default class ResourceSlideMenu extends Vue {
 			}
 		}
 		this.$router.push(route);
+	}
+
+	/* Watchers
+	============================================*/
+
+	@Watch('onlySelectedResource')
+	onlySelectedResourceChanged(newVal, oldVal) {
+		if(jsonEquals(newVal, oldVal)) return;
+		this.setDetailsItems();
 	}
 }
 

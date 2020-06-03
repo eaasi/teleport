@@ -73,6 +73,19 @@ export default class ResourceController extends BaseController {
 	}
 
 	/**
+	 * Gets a list of Software Objects by `ids` array on the request query
+	 */
+	async getSoftwareObjects(req: Request, res: Response) {
+		try {
+			let ids = req.query.ids.split(',') as string[];
+			let result = await this._svc.getSoftwareObjects(ids)
+			res.send(result);
+		} catch(e) {
+			this.sendError(e, res);
+		}
+	}
+
+	/**
 	 * Gets a Software Metadata by `id` on the request query
 	 */
 	async getSoftwareMetadata(req: Request, res: Response) {

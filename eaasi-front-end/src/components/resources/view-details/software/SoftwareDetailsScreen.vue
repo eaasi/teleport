@@ -167,7 +167,8 @@ export default class SoftwareDetailsScreen extends Vue {
 			content: null,
 			subContent: null,
 			tagGroup: [],
-			resourceType: resourceTypes.SOFTWARE
+			resourceType: resourceTypes.SOFTWARE,
+			isPublic: false
 		};
 	}
 
@@ -229,7 +230,8 @@ export default class SoftwareDetailsScreen extends Vue {
 			id: this.softwareMetadata.metadata.id,
 			title: this.softwareMetadata.metadata.title,
 			archiveId,
-			resourceType: resourceTypes.SOFTWARE
+			resourceType: resourceTypes.SOFTWARE,
+			isPublic: false
 		};
 		this.resources = [{...softwareResource, resourceType: resourceTypes.SOFTWARE }];
 		this.$store.commit('resource/SET_RESOURCE_NAME', this.softwareMetadata.metadata.title);
@@ -262,7 +264,7 @@ export default class SoftwareDetailsScreen extends Vue {
     created() {
 		this.init();
 	}
-	
+
 	beforeDestroy() {
 		this.resources = [];
 	}
