@@ -11,6 +11,7 @@ export interface IHarvesterStream {
 
 export interface IHarvesterSource {
 	url: string;
+	secret?: string;
 }
 
 export interface IHarvesterSink {

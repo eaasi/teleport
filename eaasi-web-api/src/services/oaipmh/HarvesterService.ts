@@ -7,7 +7,9 @@ export default class HarvesterService {
 
 	private readonly _svc: HttpJSONService;
 
-	constructor(service = new HttpJSONService()) {
+	constructor(
+		service = new HttpJSONService(),
+	) {
 		this._svc = service;
 	}
 

@@ -13,7 +13,11 @@
 				rules="required"
 				placeholder="Enter a name..."
 			/>
-
+			<text-input
+				label="API Key"
+				v-model="secret"
+				placeholder="Enter API key"
+			/>
 			<text-input
 				label="Host Location"
 				v-model="endpointUrl"
@@ -42,6 +46,7 @@ export default class AddHarvesterModal extends Vue {
 
 	endpointName: string = '';
 	endpointUrl: string = '';
+	secret: string = '';
 	error: string = null;
 	loading: boolean = false;
 
@@ -61,7 +66,7 @@ export default class AddHarvesterModal extends Vue {
 				vm.error = 'Invalid endpoint URL. Please try again.';
 				return;
 			}
-			let request = new AddHarvesterRequest(vm.endpointName, vm.endpointUrl, syncTypes);
+			let request = new AddHarvesterRequest(vm.endpointName, vm.endpointUrl, syncTypes, this.secret);
 			let result = await vm.$store.dispatch('admin/addHarvester', request);
 			if(result) vm.$emit('close');
 		} catch(e) {

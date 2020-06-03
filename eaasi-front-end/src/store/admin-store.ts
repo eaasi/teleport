@@ -24,6 +24,7 @@ export class AdminState {
 	usersResult: IEaasiSearchResponse<User> = null;
 	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
+	apiKey: string = '';
 }
 
 const state = new AdminState();
@@ -152,6 +153,11 @@ const actions = {
 	
 	async syncEnvironments(_) {
 		return await _svc.syncEnvironments();
+	},
+
+	async getApiKey({ commit }: Store<AdminState>) {
+		const res = await _svc.getApiKey();
+		commit('SET_API_KEY', res.apikey);
 	}
 
 
