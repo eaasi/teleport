@@ -1,5 +1,5 @@
 import {MockHttpService} from '../../../../helpers/doubles/mock-http-service';
-import HarvesterService from '../../../../../src/services/eaas/oaipmh/HarvesterService';
+import HarvesterService from '../../../../../src/services/oaipmh/HarvesterService';
 
 describe('OAIPMH Harvester Service', () => {
 

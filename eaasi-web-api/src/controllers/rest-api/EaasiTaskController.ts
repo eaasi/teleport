@@ -1,9 +1,8 @@
 import { EaasiTask } from '@/data_access/models/app';
 import CrudQuery from '@/services/base/CrudQuery';
-import EmilContainerService from '@/services/eaas/emil/EmilContainerService';
-import EmilEnvironmentService from '@/services/eaas/emil/EmilEnvironmentService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import EaasiTaskService from '@/services/rest-api/EaasiTaskService';
+import EmilTaskService from '@/services/task/EmilTaskService';
 import { TaskState } from '@/types/emil/Emil';
 import { IEaasiTask } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
@@ -13,19 +12,16 @@ import BaseController from '../base/BaseController';
 
 export default class EaasiTaskController extends BaseController {
 
-	private readonly emilContainerService: EmilContainerService;
-	private readonly emilEnvironmentService: EmilEnvironmentService;
+	private readonly emilTaskService: EmilTaskService;
 	private readonly taskService: EaasiTaskService;
 
 	constructor(
-		emilContainerService = new EmilContainerService(), 
-		emilEnvironmentService = new EmilEnvironmentService(),
+		emilTaskService = new EmilTaskService(),
 		taskService = new EaasiTaskService()
 	) {
 		super();
 		this.taskService = taskService;
-		this.emilContainerService = emilContainerService;
-		this.emilEnvironmentService = emilEnvironmentService;
+		this.emilTaskService = emilTaskService;
 	}
 
 	/**
@@ -60,11 +56,11 @@ export default class EaasiTaskController extends BaseController {
 	async getState(req: Request, res: Response) {
 		try {
 			let { taskId } = req.params;
-			let emilTask: TaskState = await this.emilContainerService.getTaskState(taskId);
+			let emilTask: TaskState = await this.emilTaskService.getTaskState(taskId);
 			const serviceResult = await this.taskService.getByTaskId(taskId);
 			const eaasiTask: IEaasiTask = serviceResult && serviceResult.result ? serviceResult.result.dataValues : null;
 			
-			if (!emilTask) return this.sendError('Task not found', res);
+			if (!emilTask) return this.sendError(new Error('Task not found'), res);
 
 			let taskToSave = {
 				...emilTask, 
@@ -99,7 +95,7 @@ export default class EaasiTaskController extends BaseController {
 				this._handleDeleteError(req, res, deleteApiResponse);
 			}
 
-			let deleteResponse = await this.emilContainerService.deleteTask(taskId);
+			let deleteResponse = await this.emilTaskService.deleteTask(taskId);
 			res.status(HttpResponseCode.OK).send(deleteResponse);
 		} catch(e) {
 			this.sendError(e, res);
@@ -114,7 +110,7 @@ export default class EaasiTaskController extends BaseController {
 	async updateTaskDescription(req: Request, res: Response) {
 		try {
 			let task: IEaasiTask = req.body;
-			if (!task) return this.sendError('Task not found in request body', res);
+			if (!task) return this.sendError(new Error('Task not found in request body'), res);
 			const response = await this.taskService.update(task.id, { description: task.description });
 			res.send(response.result);
 		} catch(e) {

@@ -63,7 +63,7 @@ logger.stream = {
 /**
  * Application Logger
  */
-export default class AppLogger {
+export default class AppLogger implements IAppLogger {
 	/**
 	 * Logger implementation
 	 */
@@ -72,4 +72,8 @@ export default class AppLogger {
 	constructor(source: string) {
 		this.log = logger(source);
 	}
+}
+
+export interface IAppLogger {
+	log: NodeJS.EventEmitter;
 }

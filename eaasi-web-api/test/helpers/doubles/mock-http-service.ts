@@ -6,7 +6,7 @@ export class MockHttpService {
 	getCount: number = 0;
 	postCount: number = 0;
 	deleteCount: number= 0;
-
+	deleteData: object = {};
 	getUrl: string = '';
 	postUrl: string = '';
 	deleteUrl: string = '';
@@ -42,9 +42,10 @@ export class MockHttpService {
 	 * @param url
 	 * @param data
 	 */
-	async delete(url: string) {
+	async delete(url: string, data: object) {
 		this.deleteCount += 1;
 		this.deleteUrl = url;
+		this.deleteData = data;
 		return new Promise((resolve, reject) => {});
 	}
 }

@@ -1,0 +1,228 @@
+import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
+import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
+import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
+import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
+import { IEmilTask } from '@/types/task/Task';
+import { archiveTypes } from '@/utils/constants';
+import BaseService from '../base/BaseService';
+import EmilBaseService from '../base/EmilBaseService';
+import ComponentService from './ComponentService';
+
+export default class EnvironmentService extends BaseService {
+
+	private readonly _environmentRepoService: EmilBaseService;
+	private readonly _componentService: ComponentService;
+
+	constructor(
+		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
+		componentService: ComponentService = new ComponentService()
+	) {
+		super();
+		this._environmentRepoService = environmentRepository;
+		this._componentService = componentService;
+	}
+	
+	async getAll(): Promise<IEnvironment[]> {
+		let res = await this._environmentRepoService.get('environments');
+		const environments = await res.json() as IEnvironmentListItem[];
+		return this.getEnvironmentsMetadata(environments);
+	}
+
+	async getAllEmilModels(): Promise<IEnvironmentListItem[]> {
+		let res = await this._environmentRepoService.get('environments');
+		return await res.json() as IEnvironmentListItem[];
+	}
+
+	async getEnvironmentsMetadata(envs: IEnvironmentListItem[]): Promise<IEnvironment[]> {
+		let environments = [];
+		for(let i = 0; i < envs.length; i++) {
+			if (!envs[i] || !envs[i].envId) continue;
+			let envMetadata = await this.getEnvironment(envs[i].envId);
+			if (envMetadata.hasOwnProperty('error')) {
+				environments.push({...envs[i], error: envMetadata['error'] });
+				continue;
+			}
+			environments.push(envMetadata);
+		}
+		return environments;
+	}
+
+	/**
+	 * Gets an Environment by ID
+	 * @param id: string environmentId
+	 */
+	async getEnvironment(id: string): Promise<IEnvironment> {
+		let res = await this._environmentRepoService.get(`environments/${id}`);
+		return await res.json() as IEnvironment;
+	}
+
+	/**
+	 * Replicate an Environment to local storage
+	 * @param replicateRequest: ReplicateEnvironmentRequest {
+	 *   destArchive: ArchiveType;
+	 *   replicateList: string[];
+	 * }
+	 */
+	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest): Promise<ISaveEnvironmentResponse> {
+		let response = await this._environmentRepoService.post('actions/replicate-image', replicateRequest)
+		return response.json()
+	}
+
+	/**
+	 * Delete an Environment from local storage
+	 * @param id: environmentId
+	 */
+	async deleteEnvironment(id: string) {
+		let environmentToDelete = {
+			'envId': id,
+			'deleteMetaData': true,
+			'deleteImage': true,
+			'force': true
+		};
+		
+		let res = await this._environmentRepoService.delete(`environments/${id}`, environmentToDelete);
+		return await res.json();
+	}
+
+	async saveNewObjectEnvironment(newEnvRequest: IClientEnvironmentRequest): Promise<ISnapshotResponse> {
+		let snapshotRequest: ISnapshotRequest = {
+			archive: archiveTypes.DEFAULT,
+			envId: newEnvRequest.envId,
+			isRelativeMouse: false,
+			relativeMouse: false,
+			message: newEnvRequest.description,
+			title: newEnvRequest.title,
+			objectId: newEnvRequest.objectId,
+			softwareId: null,
+			type: 'objectEnvironment',
+			userId: null
+		};
+
+		return await this._componentService.saveSnapshot(newEnvRequest.componentId, snapshotRequest);
+	}
+
+	async saveNewEnvironment(newEnvRequest: IClientEnvironmentRequest) {
+		let snapshotRequest: ISnapshotRequest = {
+			type: 'newEnvironment',
+			envId: newEnvRequest.envId,
+			relativeMouse: false,
+			isRelativeMouse: false,
+			message: newEnvRequest.description,
+			title: newEnvRequest.title,
+			objectId: null,
+			softwareId: null,
+			userId: null,
+			networking: {}
+		};
+
+		return await this._componentService.saveSnapshot(newEnvRequest.componentId, snapshotRequest);
+	}
+
+	async updateEnvironmentDescription(env: IEnvironment): Promise<IEnvironment> {
+		const res = await this._environmentRepoService.patch(`environments/${env.envId}`, env);
+		return res.json();
+	}
+
+	async createEnvironment(payload: ICreateEnvironmentPayload) {
+		const res = await this._environmentRepoService.post('/actions/create-image', payload);
+		return res.json();
+	}
+
+	async importResourceFromUrl(payload: IImageImportPayload): Promise<IEmilTask> {
+		let res = await this._environmentRepoService.post('actions/import-image', payload);
+		return await res.json() as IEmilTask;
+	}
+
+	/*============================================================
+	 == Revisions
+	/============================================================*/
+
+	/**
+	* Fork revision request
+	* @param revisionRequest {
+	*   id: string;
+	* }
+	*/
+	async forkRevision(revisionRequest: IRevisionRequest) {
+		let res = await this._environmentRepoService.post(`environments/${revisionRequest.envId}/revisions`, revisionRequest);
+		return res.json();
+	}
+
+	/**
+	 * Saves a revision from an existing running environment
+	 * @param revisionEnvRequest {
+	 * 	componentId: string;
+	 *  description: string;
+	 *  envId: string;
+	 *  title: string;
+	 *  networking?: INetworking;
+	 *  objectId?: string;
+	 * }
+	 */
+	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest) {
+		let snapshotRequest: ISnapshotRequest = {
+			envId: revisionEnvRequest.envId,
+			isRelativeMouse: false,
+			message: revisionEnvRequest.description,
+			objectId: null,
+			softwareId: null,
+			type: 'saveRevision',
+			relativeMouse: false,
+			userId: null
+		};
+
+		return await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest);
+	}
+
+	/**
+	 * Posts Snapshot data to trigger saving an imported resource
+	 */
+	async snapshotImage(snapshotRequest: IEnvironmentImportSnapshot) {
+		const snapshot: ISnapshotRequest = {
+			envId: snapshotRequest.environmentId,
+			isRelativeMouse: snapshotRequest.isRelativeMouse,
+			message: snapshotRequest.importSaveDescription,
+			objectId: null,
+			softwareId: null,
+			title: snapshotRequest.title,
+			type: 'saveImport',
+			userId: null
+		};
+		
+		return await this._componentService.saveSnapshot(snapshotRequest.componentId, snapshot)
+	}
+
+	/*============================================================
+	 == Templates and Patches
+	/============================================================*/
+
+	// TODO: Add return interfaces to the methods above
+
+	/**
+	 * Gets a list of all available environment templates
+	 */
+	async getTemplates(): Promise<ITemplate[]> {
+		let res = await this._environmentRepoService.get('templates');
+		return res.json();
+	}
+
+	/**
+	 * Gets a list of all available patches
+	 */
+	async getPatches(): Promise<IPatch[]> {
+		let res = await this._environmentRepoService.get('patches');
+		return res.json();
+	}
+
+	async getOperatingSystemMetadata() {
+		let res = await this._environmentRepoService.get('os-metadata');
+		return res.json();
+	}
+
+	async getNameIndexes() {
+		let res = await this._environmentRepoService.get('image-name-index');
+		return res.json();
+	}
+	
+}

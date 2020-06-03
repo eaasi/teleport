@@ -1,5 +1,5 @@
 import { HarvesterReq, HarvesterSyncResult } from '@/types/oaipmh/Harvester';
-import HttpJSONService from '../../base/HttpJSONService';
+import HttpJSONService from '../base/HttpJSONService';
 
 const OAI_PMH_SERVICE_ENDPOINT = process.env.OAI_PMH_SERVICE_ENDPOINT;
 

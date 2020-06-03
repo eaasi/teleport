@@ -1,16 +1,17 @@
 import { IContentItem } from '../emil/EmilContentData';
 import { IEnvironment } from '../emil/EmilEnvironmentData';
-import { ISoftwarePackageDescription } from '../emil/EmilSoftwareData';
+import { ISoftwareDescription } from '../emil/EmilSoftwareData';
 import { IBookmark } from './Bookmark';
 
+export type PhysicalFormat = 'Q493576' | 'Q495265' | 'disk' | 'Q82753';
 export type ResourceType = 'Environment' | 'Software' | 'Content';
-export type ArchiveType = 'public' | 'default' | 'remote';
+export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | 'zero conf';
 
 export interface IEaasiResource {
-	id: number | string;
+	id: string;
 	title: string;
 	resourceType: ResourceType;
-	archive: ArchiveType;
+	archive?: ArchiveType;
 	archiveId?: ArchiveType;  // Content can return archiveId key
 	isPublic: boolean;
 }
@@ -35,8 +36,8 @@ export interface ISnapshotRequest {
 	archive?: string;
 	message: string;
 	author?: string;
-	isRelativeMouse: boolean;
-	relativeMouse: boolean;
+	isRelativeMouse?: boolean;
+	relativeMouse?: boolean;
 	userId: string;
 	connectEnvs?: boolean;
 	title?: string;
@@ -46,12 +47,44 @@ export interface ISnapshotRequest {
 	networking?: INetworking | any;
 }
 
+export interface IComponentRequest {
+	type: string;
+	userId: string;
+	connectEnvs: true;
+	networking: {
+		enableInternet: true;
+		serverMode: true;
+		localServerMode: true;
+		enableSocks: true;
+		serverPort: string;
+		serverIp: string;
+		gwPrivateIp: string;
+		gwPrivateMask: string;
+		connectEnvs: true;
+		helpText: string;
+	}
+}
+
 export interface IClientEnvironmentRequest {
 	componentId: string;
 	description: string;
 	envId: string;
 	title: string;
 	networking?: INetworking;
+	objectId?: string;
+}
+
+export interface IClientSnapshotRequest {
+	environmentId: string;
+	isRelativeMouse: boolean;
+	importSaveDescription: string;
+	title: string;
+	componentId: string;
+}
+
+export interface IRevisionRequest {
+	id: string;
+	envId?: string;
 }
 
 export type SnapshotSaveType = 'newEnvironment' | 'saveImport' | 'objectEnvironment' | 'saveRevision';
@@ -92,7 +125,7 @@ export interface IResourceSearchQuery extends IEaasiSearchQuery {
 
 export interface IResourceSearchResponse {
 	environments: IEaasiSearchResponse<IEnvironment>;
-	software: IEaasiSearchResponse<ISoftwarePackageDescription>;
+	software: IEaasiSearchResponse<ISoftwareDescription>;
 	content: IEaasiSearchResponse<IContentItem>;
 	facets: IResourceSearchFacet[];
 	bookmarks: IBookmark[];
@@ -137,6 +170,6 @@ export interface IContentRequest {
 export interface IOverrideContentRequest {
 	description: string;
 	environments: [];
-	objectArchive: string;
+	objectArchive: ArchiveType;
 	objectId: string;
 }

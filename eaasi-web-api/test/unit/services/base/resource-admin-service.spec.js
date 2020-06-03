@@ -2,39 +2,68 @@ import { MockHttpService } from '../../../helpers/doubles/mock-http-service';
 import ResourceAdminService from '../../../../src/services/resource/ResourceAdminService';
 import {resourceTypes} from '../../../../src/utils/constants';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
+import { MockCrudService } from '../../../helpers/doubles/mock-crud-service';
+import { MockBaseService } from '../../../helpers/doubles/mock-base-service';
 
 describe('UserAdminService', () => {
 	// Constructor Tests
 
 	it('on initialization sets an IHttpService service for _emilEnvSvc', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		expect(sut._emilEnvSvc).toBe(mockEnvSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService);
+		expect(sut._environmentService).toBe(mockEnvironmentService);
+	});
+
+	it('on initialization sets an IHttpService service for _emilEnvSvc', () => {
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService);
+		expect(sut._softwareService).toBe(mockSoftwareService);
+	});
+
+	it('on initialization sets an IHttpService service for _emilEnvSvc', () => {
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
+		expect(sut._contentService).toBe(mockContentService);
+	});
+
+	it('on initialization sets an IHttpService service for _emilEnvSvc', () => {
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let mockClassificationService = new MockHttpService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService, mockClassificationService);
+		expect(sut._emilClassificationService).toBe(mockClassificationService);
 	});
 
 	it('on initialization sets an IHttpService service for _emilSofSvc', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		expect(sut._emilSofSvc).toBe(mockSofSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let mockClassificationService = new MockHttpService();
+		let mockBookmarkService = new MockCrudService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService, mockClassificationService, mockBookmarkService);
+		expect(sut._bookmarkService).toBe(mockBookmarkService);
 	});
 
-	it('on initialization sets an IHttpService service for _emilContentSvc', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		expect(sut._emilContentSvc).toBe(mockContentSvc);
+	it('on initialization sets an IHttpService service for _emilSofSvc', () => {
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let mockClassificationService = new MockHttpService();
+		let mockBookmarkService = new MockCrudService();
+		let mockImportService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService, mockClassificationService, mockBookmarkService,  mockImportService);
+		expect(sut._resourceImportService).toBe(mockImportService);
 	});
 
 	it('on searchResources calls get on environment service exactly once given environments', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -46,10 +75,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on environment service given query keyword', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -61,10 +90,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on software service exactly once given software', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -74,10 +103,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on content service given query keyword', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -89,10 +118,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on software service with \'getSoftwarePackageDescriptions\' given query keyword', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -104,10 +133,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on content service exactly once given content', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -119,10 +148,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on content service with \'zero conf\' given query keyword', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -134,10 +163,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on content service given query keyword', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -149,10 +178,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on searchable types in query only - environment and content only', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			types: [resourceTypes.ENVIRONMENT, resourceTypes.CONTENT]
 		};
@@ -164,10 +193,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on searchable types in query only - software only', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			types: [resourceTypes.SOFTWARE]
 		};
@@ -179,10 +208,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on searchable types in query only - software and environment only', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			types: [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT]
 		};
@@ -194,10 +223,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on environment service given no query types', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -208,10 +237,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on software service given no query types', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -222,10 +251,10 @@ describe('UserAdminService', () => {
 	});
 
 	it('on searchResources calls get on content service given no query types', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
+		let mockEnvironmentService = new MockBaseService();
+		let mockSoftwareService = new MockBaseService();
+		let mockContentService = new MockBaseService();
+		let sut = new ResourceAdminService(mockEnvironmentService, mockSoftwareService, mockContentService);
 		let query = {
 			keyword: 'c++',
 			limit: 94,
@@ -233,139 +262,6 @@ describe('UserAdminService', () => {
 		sut.searchResources(query).then(_ => 
 			expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
 		);
-	});
-
-	it('on getEnvironment calls get on environment service', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getEnvironment('foo');
-		expect(mockEnvSvc.getUrl).toBe('foo');
-	});
-
-	it('on replicateEnvironment calls post on environment service with replcateImage', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		const replicateRequest = new ReplicateEnvironmentRequest({ 
-			destArchive: 'public', 
-			replicateList: ['foo']
-		});
-		sut.replicateEnvironment(replicateRequest);
-		expect(mockEnvSvc.postData).toStrictEqual(replicateRequest);
-	});
-
-	it('on replicateEnvironment calls post on environment service with replicateImage', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		const replicateRequest = new ReplicateEnvironmentRequest({ 
-			destArchive: 'public', 
-			replicateList: ['foo']
-		});
-		sut.replicateEnvironment(replicateRequest);
-		expect(mockEnvSvc.postData).toStrictEqual(replicateRequest);
-		expect(mockEnvSvc.postUrl).toStrictEqual('replicateImage');
-	});
-
-	it('on deleteEnvironment calls post (!) on environment service with delete payload', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.deleteEnvironment('foo');
-		expect(mockEnvSvc.postData).toStrictEqual(
-			{
-				'deleteImage': true,
-				'deleteMetaData': true,
-				'envId': 'foo',
-				'force': true,
-			}
-		);
-	});
-
-	it('on deleteEnvironment calls post (!) on environment service with path delete', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.deleteEnvironment('ufo');
-		expect(mockEnvSvc.postUrl).toStrictEqual('delete');
-	});
-
-	it('on getSoftwareObjectId calls get on software service with expected query params', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getSoftwareObject('baz');
-		expect(mockSofSvc.getUrl).toStrictEqual('getSoftwareObject?softwareId=baz');
-	});
-
-	it('on getSoftwarePackageDescription calls get on software service with expected query params', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getSoftwarePackageDescription('crux');
-		expect(mockSofSvc.getUrl).toStrictEqual('getSoftwarePackageDescription?softwareId=crux');
-	});
-
-	it('on getEnvironmentTemplates calls EnvSvc get => getEnvironmentTemplates', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getEnvironmentTemplates();
-		expect(mockEnvSvc.getUrl).toStrictEqual('getEnvironmentTemplates');
-	});
-
-	it('on getPatches calls EnvSvc get => getEnvironmentTemplates', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getPatches();
-		expect(mockEnvSvc.getUrl).toStrictEqual('getPatches');
-	});
-
-	it('on getOperatingSystemMetadata calls EnvSvc get => getOperatingSystemMetadata', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getOperatingSystemMetadata();
-		expect(mockEnvSvc.getUrl).toStrictEqual('operatingSystemMetadata');
-	});
-
-	it('on getNameIndexes calls getNameIndexes', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getNameIndexes();
-		expect(mockEnvSvc.getUrl).toStrictEqual('getNameIndexes');
-	});
-
-	it('on getObjectArchive calls content service archives', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getObjectArchive();
-		expect(mockContentSvc.getUrl).toStrictEqual('archives');
-	});
-
-	it('on getObjectArchiveItems calls content service by archiveId', () => {
-		let mockEnvSvc = new MockHttpService();
-		let mockSofSvc = new MockHttpService();
-		let mockContentSvc = new MockHttpService();
-		let sut = new ResourceAdminService(mockEnvSvc, mockSofSvc, mockContentSvc);
-		sut.getObjectArchiveItems('frodo');
-		expect(mockContentSvc.getUrl).toStrictEqual('frodo');
 	});
 
 });

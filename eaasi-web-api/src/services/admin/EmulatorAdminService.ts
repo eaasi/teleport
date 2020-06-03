@@ -1,5 +1,5 @@
 import { Emulator } from '@/data_access/models/app/Emulator';
-import EmilBaseService from '@/services/eaas/emil/EmilBaseService';
+import EmilBaseService from '@/services/base/EmilBaseService';
 import { IEmulator, IEmulatorViewModel } from '@/types/admin/Emulator';
 import { TaskState } from '@/types/emil/Emil';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';

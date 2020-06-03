@@ -24,14 +24,14 @@ router.post('/search', (req, res) => controller.search(req, res));
 router.get('/environment', (req, res) => controller.getEnvironment(req, res));
 
 /**
- * @api {get} resource/environmentTemplates get all environment templates
+ * @api {get} resource/templates get all environment templates
  * @apiVersion 1.0.0
  * @apiName Environment Templates
  * @apiGroup Resources
  * @apiPermission System Administrator only
  * @apiDescription Gets an object containing data about all environment templates
  */
-router.get('/environmentTemplates', (req, res) => controller.getEnvironmentTemplates(req, res));
+router.get('/templates', (req, res) => controller.getTemplates(req, res));
 
 /**
  * @api {post} resource/forkRevision creates a fork revision request
@@ -177,17 +177,7 @@ router.get('/software', (req, res) => controller.getSoftwarePackageDescription(r
  * @apiPermission System Administrator only
  * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
  */
-router.get('/objectArchive', (req, res) => controller.getObjectArchive(req, res));
-
-/**
- * @api {get} gets software package description
- * @apiVersion 1.0.0
- * @apiName Software Resource Package Description
- * @apiGroup Resources
- * @apiPermission System Administrator only
- * @apiDescription Gets the RSS Feed form the EaaSI Blog from the Software Preservation Network
- */
-router.get('/objectArchiveData', (req, res) => controller.getObjectArchive(req, res));
+router.get('/objectArchive', (req, res) => controller.getObjectArchives(req, res));
 
 /**
  * @api {get} gets content object metadata
