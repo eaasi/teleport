@@ -14,6 +14,9 @@
 		<template v-slot:tagsLeft>
 			<tag-group position="left" :tags="resourceTypeTags" />
 		</template>
+		<template v-slot:tagsRight>
+			<tag-group v-if="summary" position="right" :tags="tagGroup" />
+		</template>
 	</selectable-card>
 </template>
 
@@ -80,6 +83,15 @@ export default class SoftwareResourceCard extends Vue {
 
 	get isSelected(): Boolean {
 		return this.selectedResources.some(r => r.id === this.software.id);
+	}
+
+	get tagGroup(): ITag[] {
+		if(this.software.isPublic) return [];
+		return [{
+			text: 'Private',
+			icon: 'fa-cloud-download-alt',
+			color: 'yellow'
+		}];
 	}
 
 	/* Methods

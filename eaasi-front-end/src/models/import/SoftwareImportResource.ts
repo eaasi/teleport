@@ -15,4 +15,5 @@ export default class SoftwareImportResource implements IEaasiResource {
 	isKvmEnabled: boolean = false;
 	patchId: string = '';
 	saveDescription: string = '';
+	isPublic: boolean = false;
 }

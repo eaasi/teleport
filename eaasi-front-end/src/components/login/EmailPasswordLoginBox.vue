@@ -1,7 +1,7 @@
 <template>
 	<div class="auth-wrapper">
 		<notifications />
-		<eaasi-form>
+		<eaasi-form ref="_form" @submit="authenticate">
 			<div class="auth-group">
 				<text-input
 					rules="required"
@@ -21,7 +21,7 @@
 				/>
 			</div>
 			<div class="auth-group text-center">
-				<ui-button @click="authenticate">
+				<ui-button @click="$refs._form.submit()" type="submit">
 					Submit
 				</ui-button>
 			</div>
@@ -36,6 +36,7 @@ import { ILoginRequest } from '../../types/Auth';
 import { Sync } from 'vuex-pathify';
 import formValidator from '../../utils/form-validator';
 import Notifications from '@/components/layout/Notifications.vue';
+import { EaasiForm } from '../global';
 
 @Component({
 	name: 'PerformLoginScreen',
@@ -44,6 +45,10 @@ import Notifications from '@/components/layout/Notifications.vue';
 	}
 })
 export default class PerformLoginScreen extends Vue {
+
+	$refs!: {
+		_form: EaasiForm
+	};
 
     /* Props
     ============================================*/

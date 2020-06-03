@@ -1,7 +1,12 @@
 <template>
-	<div class="eaasi-form" role="form">
+	<form
+		@submit.prevent="submit"
+		action="javascript:void(0)"
+		class="eaasi-form"
+		role="form"
+	>
 		<slot></slot>
-	</div>
+	</form>
 </template>
 
 <script lang="ts">
