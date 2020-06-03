@@ -1,5 +1,5 @@
-import { IAppLogger } from '@/logging/appLogger';
 import { EventEmitter } from 'events';
+import { IAppLogger } from '../../../src/logging/appLogger';
 
 export default class MockAppLogger implements IAppLogger {
 
