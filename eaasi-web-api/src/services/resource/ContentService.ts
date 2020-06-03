@@ -22,19 +22,15 @@ export default class ContentService extends BaseService {
 		return await res.json() as IContentItem[];
 	}
 
-	private async _mapContentItems(items: IContentItem[]): Promise<IContentItem[]> {
-		let objects = [];
-		const ids: string[] = items.map(object => object.id);
-		for(let i = 0; i < ids.length; i++) {
-			let contentObject = await this.getObjectMetadata({
-				contentId: ids[i],
-				archiveName: items[i].archiveId
+	private mapContentItems(items: IContentItem[]): Promise<IContentItem[]> {
+		return Promise.all(items.map(item => {
+			return this.getObjectMetadata({
+				contentId: item.id,
+				archiveName: item.archiveId
 			});
-			objects.push(contentObject);
-		}
-
-		return objects;
+		}))
 	}
+	
 
 	async getObjectMetadata(contentRequest: IContentRequest): Promise<IContentItem> {
 		let res = await this._contentRepoService.get(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);

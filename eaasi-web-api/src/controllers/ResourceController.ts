@@ -226,7 +226,6 @@ export default class ResourceController extends BaseController {
 	async getTemplates(req: Request, res: Response) {
 		try {
 			let result = await this._environmentService.getTemplates();
-			console.log(result);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -239,7 +238,6 @@ export default class ResourceController extends BaseController {
 	async getPatches(req: Request, res: Response) {
 		try {
 			let result = await this._environmentService.getPatches();
-			console.log(result);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
