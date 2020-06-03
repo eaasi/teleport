@@ -74,7 +74,7 @@ router.post('/replicate-environment', (req, res) => controller.replicateEnvironm
 router.post('/save-software-object', (req, res) => controller.saveSoftwareObject(req, res));
 
 /**
- * @api {get} resource/software-object Get Software Objects by software id
+ * @api {get} resource/software-object Get Software Object by software id
  * @apiVersion 1.0.0
  * @apiName Software Resource Object
  * @apiGroup Resources
@@ -82,6 +82,16 @@ router.post('/save-software-object', (req, res) => controller.saveSoftwareObject
  * @apiDescription Gets software object
  */
 router.get('/software-object', (req, res) => controller.getSoftwareObject(req, res));
+
+/**
+ * @api {get} resource/software-object Get Software Object list by software ids
+ * @apiVersion 1.0.0
+ * @apiName Software Resource Object List
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Gets list of software objects by ids
+ */
+router.get('/software-objects', (req, res) => controller.getSoftwareObjects(req, res));
 
 /**
  * @api {get} resource/software-metadata Get Software Metadata by software id

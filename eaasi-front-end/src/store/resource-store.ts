@@ -192,9 +192,9 @@ const actions = {
 		);
 	},
 
-	async publishToNetwork({ state }, envIds) {
-		return await _svc.publishToNetwork(envIds);
-	}
+	publishEnvironmentsToNetwork(_store, envIds: string[]) {
+		return _svc.publishEnvironmentsToNetwork(envIds);
+	},
 };
 
 /*============================================================
@@ -227,8 +227,8 @@ const getters = {
 	},
 
 	onlySelectedResource(state) : IEaasiResource {
-		if (state.selectedResources.length === 1) return state.selectedResources[0];
-		else return null;
+		if(state.selectedResources.length !== 1) return null;
+		return state.selectedResources[0];
 	},
 
 	facetsOfResourceTypesSelected(_, getters): ResourceType[] {
@@ -256,7 +256,7 @@ const getters = {
 			})
 			.filter(i => i !== null);
 		return selectedFacets;
-	}
+	},
 };
 
 export default {

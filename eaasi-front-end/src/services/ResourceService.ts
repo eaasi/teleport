@@ -142,7 +142,7 @@ class ResourceService extends BaseHttpService {
 	 * Currently hits the same emil endpoint as 'replicate-environment' with 'public' destArchive
 	 * @param envId
 	 */
-	async publishToNetwork(envIds: string[]) {
+	async publishEnvironmentsToNetwork(envIds: string[]) {
 		let res = await this.post<any>('/resource/replicate-environment',
 			{
 				replicateList: envIds,

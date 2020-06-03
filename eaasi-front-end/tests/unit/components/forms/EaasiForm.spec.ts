@@ -5,7 +5,7 @@ describe('EaasiForm.vue', () => {
 
 	it('Has a form role', () => {
 		const wrapper = shallowMount(EaasiForm, {});
-		expect(wrapper.find('div[role=form]')
+		expect(wrapper.find('form[role=form]')
 			.exists())
 			.toBe(true);
 	});

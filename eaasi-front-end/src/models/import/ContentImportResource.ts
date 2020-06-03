@@ -14,4 +14,5 @@ export default class ContentImportResource implements IEaasiResource {
 	chosenTemplateId: string = '';
 	isImport: boolean = false;
 	saveDescription: string = '';
+	isPublic: boolean = false;
 }

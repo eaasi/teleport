@@ -13,6 +13,7 @@ export interface IEaasiResource {
 	resourceType: ResourceType;
 	archive?: ArchiveType;
 	archiveId?: ArchiveType;  // Content can return archiveId key
+	isPublic: boolean;
 }
 
 /*============================================================

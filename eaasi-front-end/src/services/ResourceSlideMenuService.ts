@@ -5,7 +5,7 @@ import PublishToNetworkActionResolver from '@/services/ActionResolvers/PublishTo
 import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulatorActionResolver';
 import SaveToMyNodeActionResolver from '@/services/ActionResolvers/SaveToMyNodeActionResolver';
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
-import { IEnvironment } from '@/types/Resource';
+import { IEnvironment, IEaasiResource } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
 import TreatAsSoftwareActionResolver from './ActionResolvers/TreatAsSoftwareActionResolver';
@@ -21,7 +21,7 @@ export default class ResourceSlideMenuService {
 	 * @param selected: Selected Resources
 	 * @param roleId: Logged-in User RoleID
 	 */
-	getLocalActions(selected: IEnvironment[], roleId: number) {
+	getLocalActions(selected: IEaasiResource[], roleId: number) {
 		let localActions =  [
 			new ViewDetailsActionResolver(selected, roleId).action,
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
@@ -41,7 +41,7 @@ export default class ResourceSlideMenuService {
 	 * @param selected: Selected Resources
 	 * @param roleId: Logged-in User RoleID
 	 */
-	getNodeActions(selected: IEnvironment[], roleId: number) {
+	getNodeActions(selected: IEaasiResource[], roleId: number) {
 		return [
 			new SaveToMyNodeActionResolver(selected, roleId).resolveAction(),
 			new PublishToNetworkActionResolver(selected, roleId).resolveAction(),

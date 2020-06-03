@@ -96,7 +96,7 @@ export default class ResourceAdminService extends BaseService {
 
 				softwareResult.result = allSoftware.filter(r => userImportedResources.userImportedSoftware.result.some(ir => ir.eaasiID === r.id));
 				softwareResult.totalResults = softwareResult.result.length;
-				
+
 				environmentResult.result = allEnvironments.filter(r => userImportedResources.userImportedEnvironments.result.some(ir => ir.eaasiID === r.envId));
 				environmentResult.totalResults = environmentResult.result.length;
 			}

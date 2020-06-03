@@ -1,6 +1,7 @@
 import { IContent, IContentRequest, IObjectClassificationRequest, IOverrideContentRequest, ISoftwareObject, ISoftwarePackage } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import BaseHttpService from './BaseHttpService';
+import { IEmilResult } from '@/types/Http';
 
 class SoftwareService extends BaseHttpService {
 
@@ -10,8 +11,15 @@ class SoftwareService extends BaseHttpService {
 		return res.result;
 	}
 
-	async getSoftwareObject(softwareId : string): Promise<ISoftwarePackage> {
-		let res = await this.get<ISoftwarePackage>(`/resource/software-object?id=${softwareId}`);
+	async getSoftwareObject(softwareId : string): Promise<ISoftwareObject> {
+		let res = await this.get<ISoftwareObject>(`/resource/software-object?id=${softwareId}`);
+		if(!res.ok) return null;
+		return res.result;
+	}
+
+	async getSoftwareObjects(softwareIds : string[]): Promise<ISoftwareObject[]> {
+		let ids = softwareIds.join(',');
+		let res = await this.get<ISoftwareObject[]>(`/resource/software-objects?ids=${ids}`);
 		if(!res.ok) return null;
 		return res.result;
 	}
@@ -34,10 +42,10 @@ class SoftwareService extends BaseHttpService {
 		return res.result;
 	}
 
-	async saveSoftwareObject(softwareObject: ISoftwareObject) {
-		let res = await this.post('/resource/save-software-object', softwareObject);
+	async saveSoftwareObject(softwareObject: ISoftwareObject): Promise<IEmilResult> {
+		let res = await this.post<IEmilResult>('/resource/save-software-object', softwareObject);
 		if (!res.ok) return null;
-		return res.result;
+		return res.result as IEmilResult;
 	}
 
 	async getContent({ archiveName, contentId }: IContentRequest): Promise<IContent> {
@@ -54,6 +62,18 @@ class SoftwareService extends BaseHttpService {
 		let res = await this.post<any>('/resource/content', overrideRequest);
 		if (!res.ok) return null;
 		return res.result;
+	}
+
+	async publishSoftware(softwareIds: string[]): Promise<IEmilResult[]> {
+		let self = this;
+		let objects = await this.getSoftwareObjects(softwareIds);
+		if(!objects) return null;
+		let results = await Promise.all(objects.map(object => {
+			object.isPublic = true;
+			return self.saveSoftwareObject(object);
+		}));
+		if(results.some(x => x === null)) return null;
+		return results;
 	}
 }
 

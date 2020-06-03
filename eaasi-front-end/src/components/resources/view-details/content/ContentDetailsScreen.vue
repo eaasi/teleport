@@ -151,7 +151,8 @@ export default class ContentDetailsScreen extends Vue {
 			content: null,
 			subContent: null,
 			tagGroup: [],
-			resourceType: resourceTypes.CONTENT
+			resourceType: resourceTypes.CONTENT,
+			isPublic: false
 		};
 	}
 
@@ -176,7 +177,7 @@ export default class ContentDetailsScreen extends Vue {
 	}
 
 	get resourceTitle(): string {
-		return this.activeContent && this.activeContent.metadata && this.activeContent.metadata.title 
+		return this.activeContent && this.activeContent.metadata && this.activeContent.metadata.title
 			? `${this.activeContent.metadata.title}` : 'Content Details';
 	}
 
@@ -211,6 +212,7 @@ export default class ContentDetailsScreen extends Vue {
 			licenseInformation: '',
 			nativeFMTs: [],
 			objectId: this.activeContent.metadata.id,
+			isPublic: false
 		};
 		const result = await this.$store.dispatch('software/saveSoftwareObject', softwareObject);
 		if (!result || result.status !== '0') {
@@ -236,7 +238,8 @@ export default class ContentDetailsScreen extends Vue {
 			id: this.activeContent.metadata.id,
 			title: this.activeContent.metadata.title,
 			archiveId: archiveName,
-			resourceType: resourceTypes.CONTENT
+			resourceType: resourceTypes.CONTENT,
+			isPublic: false
 		};
 		this.resources = [{...contentResource, resourceType: resourceTypes.CONTENT }];
 		if (!this.activeContent) return;
@@ -257,7 +260,7 @@ export default class ContentDetailsScreen extends Vue {
     created() {
 		this.init();
 	}
-		
+
 	beforeDestroy() {
 		this.resources = [];
 	}
