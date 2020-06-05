@@ -11,7 +11,7 @@
 						Software Resource
 					</option>
 					<option value="environment" v-if="userCanImportEnvironment">
-						Environment Resource
+						Content Environment Resource
 					</option>
 				</select-list>
 			</div>
@@ -51,7 +51,7 @@
 
 				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">
 					<options-box
-						title="Environment Resource"
+						title="Content Environment Resource"
 						icon="file"
 						header="Less Common"
 					>
