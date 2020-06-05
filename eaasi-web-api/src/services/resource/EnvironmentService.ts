@@ -131,7 +131,6 @@ export default class EnvironmentService extends BaseService {
 
 	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
 		let res = await this._environmentRepoService.post('actions/import-image', payload);
-		console.log(res);
 		return await res.json() as IEmilTask;
 	}
 
