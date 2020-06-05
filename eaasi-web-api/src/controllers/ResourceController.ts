@@ -200,7 +200,7 @@ export default class ResourceController extends BaseController {
 	async search(req: Request, res: Response) {
 		try {
 			let query = req.body as IResourceSearchQuery;
-			let result = await this._svc.searchResources(query);
+			let result = await this._svc.searchResources(query, req.user.id);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
