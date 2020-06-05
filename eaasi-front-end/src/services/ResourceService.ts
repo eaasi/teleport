@@ -1,7 +1,7 @@
 import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpers/ResourceHelper';
 import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
-import { ITemplate } from '@/types/Import';
+import { IImageDeletePayload, ITemplate } from '@/types/Import';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
@@ -150,6 +150,16 @@ class ResourceService extends BaseHttpService {
 		);
 		return res.result;
 	}
+
+	/**
+	 * Makes a POST request to delete an image
+	 * @param payload: IImageDeletePayload
+	 */
+	async deleteImage(payload: IImageDeletePayload) {
+		let res = await this.post('/resource/delete-image', payload);
+		return res.result;
+	}
+
 }
 
 export default new ResourceService();

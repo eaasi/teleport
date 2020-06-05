@@ -47,6 +47,11 @@ export interface IImageImportPayload {
 	imageType?: string;
 }
 
+export interface IImageDeletePayload {
+	imageArchive: string;
+	imageId: string;
+}
+
 export interface IUploadRequest extends Request {
 	files: Blob[];
 }

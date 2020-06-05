@@ -1,6 +1,6 @@
 import ImageListItem from '@/models/resource/ImageListItem';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
-import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
+import { ICreateEnvironmentPayload, IImageDeletePayload, IImageImportPayload } from '@/types/emil/Emil';
 import { EmulatorNamedIndexes, IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
@@ -201,6 +201,10 @@ export default class EnvironmentService extends BaseService {
 	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
 		let res = await this._environmentRepoService.post('actions/import-image', payload);
 		return await res.json() as IEmilTask;
+	}
+
+	async deleteImage(payload: IImageDeletePayload) {
+		await this._environmentRepoService.post('actions/delete-image', payload);
 	}
 
 	/*============================================================

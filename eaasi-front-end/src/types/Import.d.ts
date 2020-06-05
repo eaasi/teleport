@@ -54,6 +54,11 @@ export interface IImageImportPayload {
 	imageType?: string;
 }
 
+export interface IImageDeletePayload {
+	imageArchive: string;
+	imageId: string;
+}
+
 export interface ICreateEnvironmentResponse {
 	status: string;
 	id: string;
