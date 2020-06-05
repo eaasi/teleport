@@ -99,7 +99,8 @@ export default class ResourceAdminService extends BaseService {
 				const allImages = await this._environmentService.getImages();
 				const imageResult = allImages.filter(r => userImportedResources.userImportedImage.result.some(ir => ir.eaasiID === r.id));
 				contentResult.totalResults += imageResult.length;
-				contentResult.result.concat(allImages.map(image => image.toContent()));
+				//@ts-ignore
+				contentResult.result = [...contentResult.result, ...imageResult];
 
 				softwareResult.result = allSoftware.filter(r => userImportedResources.userImportedSoftware.result.some(ir => ir.eaasiID === r.id));
 				softwareResult.totalResults = softwareResult.result.length;

@@ -19,7 +19,7 @@ export default class ImageListItem implements IImageListItem {
 			id: this.id,
 			archiveId: null,
 			title: this.title,
-			resourceType: this.resourceType,
+			resourceType: resourceTypes.CONTENT,
 			isPublic: false,
 		}
 	}
