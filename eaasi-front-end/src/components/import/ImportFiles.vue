@@ -111,7 +111,6 @@
 	// noinspection TypeScriptCheckImport
 	import Draggable from 'vuedraggable';
 	import ResourceFileListItem from './ResourceFileListItem.vue';
-	import EnvironmentFileItem from './EnvironmentFileItem.vue';
 	import ResourceImportFile from '@/models/import/ResourceImportFile';
 	import { ImportType, IResourceImportFile } from '@/types/Import';
 	import {operatingSystems} from '@/models/admin/OperatingSystems';
@@ -123,7 +122,6 @@
 		components: {
 			Draggable,
 			ResourceFileListItem,
-			EnvironmentFileItem
 		}
 	})
 	export default class ImportFiles extends Vue {
