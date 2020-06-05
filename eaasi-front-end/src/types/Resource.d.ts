@@ -3,7 +3,7 @@
  */
 import { ITag } from './Tag';
 
-export type ResourceType = 'Environment' | 'Software' | 'Content';
+export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
 
 export interface IEaasiResource {
 	id: number | string

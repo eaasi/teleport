@@ -4,7 +4,7 @@ import { ISoftwareDescription } from '../emil/EmilSoftwareData';
 import { IBookmark } from './Bookmark';
 
 export type PhysicalFormat = 'Q493576' | 'Q495265' | 'disk' | 'Q82753';
-export type ResourceType = 'Environment' | 'Software' | 'Content';
+export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
 export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | 'zero conf';
 
 export interface IEaasiResource {

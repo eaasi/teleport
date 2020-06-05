@@ -1,4 +1,5 @@
-import {UserImportedContent, UserImportedEnvironment, UserImportedSoftware} from '@/data_access/models/app';
+import { UserImportedContent, UserImportedEnvironment, UserImportedSoftware } from '@/data_access/models/app';
+import { UserImportedImage } from '@/data_access/models/app/UserImportedImage';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 
 export default interface IResourceImportResult {
@@ -6,4 +7,5 @@ export default interface IResourceImportResult {
 	userImportedEnvironments: ICrudServiceResult<UserImportedEnvironment[]>;
 	userImportedSoftware: ICrudServiceResult<UserImportedSoftware[]>;
 	userImportedContent: ICrudServiceResult<UserImportedContent[]>;
+	userImportedImage: ICrudServiceResult<UserImportedImage[]>;
 }

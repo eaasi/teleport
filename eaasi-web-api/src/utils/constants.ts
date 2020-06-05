@@ -3,7 +3,8 @@ import { ArchiveType, ResourceType } from '@/types/resource/Resource';
 export const resourceTypes: IResourceTypes = {
 	ENVIRONMENT: 'Environment',
 	SOFTWARE: 'Software',
-	CONTENT: 'Content'
+	CONTENT: 'Content',
+	IMAGE: 'Image'
 };
 
 export const archiveTypes: IArchiveTypes = {
@@ -38,12 +39,7 @@ interface IResourceTypes {
 	ENVIRONMENT: ResourceType;
 	SOFTWARE: ResourceType;
 	CONTENT: ResourceType;
-}
-
-interface IResourceTypes {
-	ENVIRONMENT: ResourceType;
-	SOFTWARE: ResourceType;
-	CONTENT: ResourceType;
+	IMAGE: ResourceType;
 }
 
 export const taskStatus = {

@@ -1,0 +1,35 @@
+import { EaasiUser } from '@/data_access/models/app/EaasiUser';
+import { DataTypes } from 'sequelize';
+import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+
+@Table({
+	tableName: 'imported_image'
+})
+export class UserImportedImage extends Model<UserImportedImage> {
+    @CreatedAt
+	readonly createdAt: Date = new Date();
+
+    @UpdatedAt
+    updatedAt: Date = new Date();
+
+    @Column({
+    	type: DataTypes.INTEGER,
+    	allowNull: false,
+    	primaryKey: true,
+    	autoIncrement: true
+    })
+    readonly id: number;
+
+    @ForeignKey(() => EaasiUser)
+    @Column({
+    	type: DataTypes.INTEGER,
+    	allowNull: false,
+    })
+    userID: number;
+
+    @Column({
+    	type: DataTypes.STRING(64),
+    	allowNull: true,
+    })
+    eaasiID: string;
+}

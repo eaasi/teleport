@@ -140,13 +140,13 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		 *  Starts the import process for Environment, Software, or Content resource(s)
 		 **/
 		async doImport() {
-			if (this.importType === importTypes.ENVIRONMENT) {
+			if (this.importType === importTypes.IMAGE) {
 				this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
 			}
 			let task = await this.$store.dispatch('import/import');
 			if (!task) return;
 			let resourceName = '';
-			if (this.importType === importTypes.ENVIRONMENT) {
+			if (this.importType === importTypes.IMAGE) {
 				resourceName = this.environment.title;
 			} else if (this.importType === importTypes.SOFTWARE) {
 				resourceName = this.software.title;
@@ -162,13 +162,13 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		}
 
 		async onTaskComplete(taskResult: ITaskState) {
-			const { environmentId, objectId } = taskResult.userData;
-			if (!environmentId && !objectId) {
+			const { imageId, objectId } = taskResult.userData;
+			if (!imageId && !objectId) {
 				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
 			}
 			switch(this.importType) {
-				case importTypes.ENVIRONMENT:
-					await this.onImportEnvironment(environmentId);
+				case importTypes.IMAGE:
+					await this.onImportImage(imageId);
 					break;
 				case importTypes.CONTENT:
 					await this.onImportContentTask(objectId);
@@ -180,9 +180,8 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 			}
 		}
 
-		async onImportEnvironment(environmentId: string) {
-			await this.createUserImportRelation(resourceTypes.ENVIRONMENT, environmentId);
-			this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.environmentEaasiID}`);
+		async onImportImage(imageId: string) {
+			await this.createUserImportRelation(resourceTypes.IMAGE, imageId);
 		}
 
 		async onImportContentTask(objectId: string) {

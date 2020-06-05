@@ -1,6 +1,7 @@
+import ImageListItem from '@/models/resource/ImageListItem';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
-import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { EmulatorNamedIndexes, IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
@@ -129,11 +130,6 @@ export default class EnvironmentService extends BaseService {
 		return res.json();
 	}
 
-	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
-		let res = await this._environmentRepoService.post('actions/import-image', payload);
-		return await res.json() as IEmilTask;
-	}
-
 	/*============================================================
 	 == Revisions
 	/============================================================*/
@@ -194,11 +190,22 @@ export default class EnvironmentService extends BaseService {
 	}
 
 	/*============================================================
+	 == Images
+	/============================================================*/	
+	async getImages(): Promise<ImageListItem[]> {
+		let res = await this._environmentRepoService.get('images-index');
+		const nameIndexes = await res.json() as EmulatorNamedIndexes;
+		return nameIndexes.entries.entry.map(entry => new ImageListItem(entry.value));
+	}
+
+	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
+		let res = await this._environmentRepoService.post('actions/import-image', payload);
+		return await res.json() as IEmilTask;
+	}
+
+	/*============================================================
 	 == Templates and Patches
 	/============================================================*/
-
-	// TODO: Add return interfaces to the methods above
-
 	/**
 	 * Gets a list of all available environment templates
 	 */

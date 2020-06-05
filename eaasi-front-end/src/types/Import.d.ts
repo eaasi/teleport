@@ -1,6 +1,6 @@
 import { IDrive, PhysicalFormat } from './Resource';
 
-export type ImportType = 'content' | 'software' | 'environment' | 'bulk';
+export type ImportType = 'content' | 'software' | 'environment' | 'bulk' | 'image';
 
 export type ResourceImportPath = 'Fast'; // | 'Detailed' | 'Unselected';
 

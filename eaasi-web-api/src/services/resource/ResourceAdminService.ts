@@ -91,8 +91,15 @@ export default class ResourceAdminService extends BaseService {
 				environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
 			} else if(query.onlyImportedResources) {
 				const userImportedResources: IResourceImportResult = await this._resourceImportService.getByUserID(query.userId);
+
 				contentResult.result = allContent.filter(r => userImportedResources.userImportedContent.result.some(ir => ir.eaasiID === r.id));
 				contentResult.totalResults = contentResult.result.length;
+
+				// only include images for "My Resources" page
+				const allImages = await this._environmentService.getImages();
+				const imageResult = allImages.filter(r => userImportedResources.userImportedImage.result.some(ir => ir.eaasiID === r.id));
+				contentResult.totalResults += imageResult.length;
+				contentResult.result.concat(allImages.map(image => image.toContent()));
 
 				softwareResult.result = allSoftware.filter(r => userImportedResources.userImportedSoftware.result.some(ir => ir.eaasiID === r.id));
 				softwareResult.totalResults = softwareResult.result.length;

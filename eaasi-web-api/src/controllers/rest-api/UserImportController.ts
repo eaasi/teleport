@@ -1,9 +1,12 @@
 import { UserImportedContent, UserImportedEnvironment, UserImportedSoftware } from '@/data_access/models/app';
+import { UserImportedImage } from '@/data_access/models/app/UserImportedImage';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import ImportedContentService from '@/services/rest-api/ImportedContentService';
 import ImportedEnvironmentService from '@/services/rest-api/ImportedEnvironmentService';
+import ImportedImageService from '@/services/rest-api/ImportedImageService';
 import ImportedSoftwareService from '@/services/rest-api/ImportedSoftwareService';
 import { IUserImportedResource, IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
+import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
 import HttpResponseCode from '@/utils/HttpResponseCode';
@@ -15,17 +18,20 @@ export default class UserImportController extends BaseController {
 	readonly importedEnvironmentService: ImportedEnvironmentService;
 	readonly importedSoftwareService: ImportedSoftwareService;
 	readonly importedContentService: ImportedContentService;
+	readonly importedImageService: ImportedImageService;
 
 	constructor(
 		importedEnvironmentService = new ImportedEnvironmentService(),
 		importedSoftwareService = new ImportedSoftwareService(),
-		importedContentService = new ImportedContentService()
+		importedContentService = new ImportedContentService(),
+		importedImageService = new ImportedImageService(),
 	)
 	{
 		super();
 		this.importedEnvironmentService = importedEnvironmentService;
 		this.importedSoftwareService = importedSoftwareService;
 		this.importedContentService = importedContentService;
+		this.importedImageService = importedImageService;
 	}
 
 	/**
@@ -46,14 +52,16 @@ export default class UserImportController extends BaseController {
 		let importedContent = await this.importedContentService.getByUserID(userID);
 		let importedSoftware = await this.importedSoftwareService.getByUserID(userID);
 		let importedEnvironments = await this.importedEnvironmentService.getByUserID(userID);
+		let importedImages = await this.importedImageService.getByUserID(userID);
 
 		let response = {
 			importedContent: importedContent.result,
 			importedSoftware: importedSoftware.result,
-			importedEnvironments: importedEnvironments.result
+			importedEnvironments: importedEnvironments.result,
+			importedImages: importedImages.result
 		};
 
-		let imports = { importedContent, importedSoftware, importedEnvironments };
+		let imports: IResourceImportResult = { importedContent, importedSoftware, importedEnvironments, importedImages };
 
 		if (UserImportController.hasAnyError(imports)) {
 			let error = UserImportController.handleImportError(imports);
@@ -122,7 +130,32 @@ export default class UserImportController extends BaseController {
 	}
 
 	/**
-	 * Creates a new imported environment resource and persists to database
+	 * Creates a new imported content resource and persists to database
+	 * @param req request
+	 * @param res response
+	 */
+	async createImportedImageRelation(req: Request, res: Response) {
+		const newObject = req.body;
+
+		if (newObject == null) {
+			return res
+				.status(HttpResponseCode.BAD_REQUEST)
+				.send(build_400_response(req.body));
+		}
+
+		let response = await this.importedImageService.create(newObject);
+
+		if (response.hasError) {
+			return res
+				.status(HttpResponseCode.SERVER_ERROR)
+				.send(build_500_response(response.error));
+		}
+
+		return res.status(HttpResponseCode.CREATED).send(response.result);
+	}
+
+	/**
+	 * DEPRECATED: Creates a new imported environment resource and persists to database
 	 * @param req request
 	 * @param res response
 	 */
@@ -153,13 +186,20 @@ export default class UserImportController extends BaseController {
 	private static handleImportError(imports: {
 		importedEnvironments: ICrudServiceResult<UserImportedEnvironment[]>;
 		importedSoftware: ICrudServiceResult<UserImportedSoftware[]>;
-		importedContent: ICrudServiceResult<UserImportedContent[]>;}): string {
+		importedContent: ICrudServiceResult<UserImportedContent[]>;
+		importedImage: ICrudServiceResult<UserImportedImage[]>;
+	}): string {
 
 		let error = '';
 
 		if (imports.importedContent && imports.importedContent.error) {
 			let contentError = imports.importedContent.error;
 			error += `Imported Content Error: ${contentError}`;
+		}
+
+		if (imports.importedImage && imports.importedImage.error) {
+			let imageError = imports.importedImage.error;
+			error += `Imported Image Error: ${imageError}`;
 		}
 
 		if (imports.importedEnvironments && imports.importedEnvironments.error) {
@@ -178,13 +218,17 @@ export default class UserImportController extends BaseController {
 	async createUserImportRelation(req: Request, res: Response) {
 		try {
 			const userImportRelation = req.body as IUserImportRelationRequest;
-			if (!req.body) this.sendClientError('Request to create user reference requires request body', res);
+			if (!req.body) this.sendClientError(new Error('Request to create user reference requires request body'), res);
 			const userImportResource: IUserImportedResource = {
 				userID: userImportRelation.userId,
 				eaasiID: userImportRelation.resourceId
 			}
 			let result: IUserImportedResource;
 			switch(userImportRelation.resourceType) {
+				case resourceTypes.IMAGE:
+					const imageResult = await this.importedImageService.create(userImportResource);
+					result = imageResult.result.get({ plain: true }) as IUserImportedResource;
+					break;
 				case resourceTypes.CONTENT:
 					const contentresult = await this.importedContentService.create(userImportResource);
 					result = contentresult.result.get({ plain: true }) as IUserImportedResource;
@@ -208,13 +252,11 @@ export default class UserImportController extends BaseController {
 	 * True if any imported resource object hasError property is truthy
 	 * @param imports
 	 */
-	private static hasAnyError(imports: {
-		importedEnvironments: ICrudServiceResult<UserImportedEnvironment[]>;
-		importedSoftware: ICrudServiceResult<UserImportedSoftware[]>;
-		importedContent: ICrudServiceResult<UserImportedContent[]>;}): boolean {
-		return (imports.importedContent && imports.importedContent.hasError)
-		|| (imports.importedSoftware && imports.importedSoftware.hasError)
-		|| (imports.importedEnvironments && imports.importedEnvironments.hasError)
+	private static hasAnyError(imports: IResourceImportResult): boolean {
+		return imports.userImportedContent?.hasError
+		|| imports.userImportedSoftware?.hasError
+		|| imports.userImportedEnvironments?.hasError
+		|| imports.userImportedImage?.hasError
 	}
 
 	/**
@@ -222,9 +264,10 @@ export default class UserImportController extends BaseController {
 	 * @param response
 	 */
 	private hasNoResults(response): boolean {
-		return response.importedSoftware == null
-			&& response.importedEnvironments == null
-			&& response.importedContent == null
+		return response.result.importedSoftware == null
+			&& response.result.importedEnvironments == null
+			&& response.result.importedContent == null
+			&& response.result.importedImage == null
 	}
 
 }
