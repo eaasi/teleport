@@ -4,7 +4,7 @@
 		<div v-if="!filesAreAdded">
 			<h3>{{ headline }}</h3>
 			<div class="row justify-left" style="margin-top: 3rem;">
-				<div class="col-md-5 import-option-block" v-if="isEnvImport">
+				<div class="col-md-5 import-option-block" v-if="isImageImport">
 					<div class="irf-option">
 						<span class="text-center">URL</span>
 						<text-input
@@ -22,7 +22,7 @@
 		<!-- Files Added, Non-Environment Import -->
 
 		<div v-if="filesAreAdded" class="if-attached">
-			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length && !isEnvImport">
+			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length && !isImageImport">
 				<ui-button 
 					icon="check" 
 					color-preset="light-blue" 
@@ -67,7 +67,7 @@
 
 		<br />
 
-		<div class="row" v-if="!isEnvImport">
+		<div class="row" v-if="!isImageImport">
 			<div class="col-md-12">
 				<div class="software-file-uploader">
 					<file-dropzone
@@ -107,7 +107,7 @@
 	import {isValidUrl} from '@/helpers/UrlHelper';
 	import BaseHttpService from '@/services/BaseHttpService';
 	import { Component, Watch } from 'vue-property-decorator';
-	import { Sync } from 'vuex-pathify';
+	import { Sync, Get } from 'vuex-pathify';
 	// noinspection TypeScriptCheckImport
 	import Draggable from 'vuedraggable';
 	import ResourceFileListItem from './ResourceFileListItem.vue';
@@ -153,16 +153,15 @@
 		@Sync('import/environment@nativeFMTs')
 		nativeFMTs: string[];
 
+		@Get('import/isImageImport')
+		readonly isImageImport: boolean;
+
 		get filesAreAdded(): boolean {
 			return !!this.files.length;
 		}
 
-		get isEnvImport() {
-			return this.importType === importTypes.ENVIRONMENT;
-		}
-
 		get headline() {
-			if (this.isEnvImport) {
+			if (this.isImageImport) {
 				return 'I will attach my disk image from...';
 			}
 			return 'I will attach files to this resource from...';

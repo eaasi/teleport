@@ -9,3 +9,10 @@ export default interface IResourceImportResult {
 	userImportedContent: ICrudServiceResult<UserImportedContent[]>;
 	userImportedImage: ICrudServiceResult<UserImportedImage[]>;
 }
+
+export interface IUserImportResponse {
+	importedContent: ICrudServiceResult<UserImportedEnvironment[]>;
+	importedSoftware: ICrudServiceResult<UserImportedSoftware[]>;
+	importedEnvironments: ICrudServiceResult<UserImportedContent[]>;
+	importedImages: ICrudServiceResult<UserImportedImage[]>;
+}

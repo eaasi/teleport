@@ -87,8 +87,8 @@ const actions = {
 	 */
 	async import({ state, dispatch }: Store<ImportState>) {
 		const importType = state.importType;
-		if (importType === importTypes.ENVIRONMENT) {
-			return await dispatch('importEnvironment') as EaasiTask;
+		if (importType === importTypes.IMAGE) {
+			return await dispatch('importImage') as EaasiTask;
 		} else if (importType === importTypes.SOFTWARE) {
 			return await dispatch('importSoftwareFromFile') as EaasiTask;
 		} else if (importType === importTypes.CONTENT) {
@@ -99,17 +99,17 @@ const actions = {
 	},
 
 	/**
-	 * Imports an Environment resource from a URL and returns an EaasiTask object
+	 * Imports an Image from a URL and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importEnvironment({ state }: Store<ImportState>) {
+	async importImage({ state }: Store<ImportState>) {
 		let payload: IImageImportPayload = {
 			url: state.environment.urlSource,
 			label: state.environment.title
 		};
 
 		let taskState = await _importService.importImage(payload) as ITaskState;
-		return new EaasiTask(taskState.taskId, `Environment Import: ${payload.label}`);
+		return new EaasiTask(taskState.taskId, `Image Import: ${payload.label}`);
 	},
 
 	/**
@@ -215,15 +215,6 @@ const actions = {
 	},
 
 	/**
-	 * Triggers a saveEnvironment request
-	 * @param state: Store<ImportState>
-	 * @param payload: IImageImportPayload
-	 */
-	async importImage(_, payload: IImageImportPayload) {
-		return await _importService.importImage(payload);
-	},
-
-	/**
 	 * Triggers a saveSoftwareObject request
 	 * @param state: Store<ImportState>
 	 * @param software
@@ -271,7 +262,25 @@ const actions = {
  == Getters
 /============================================================*/
 
-const getters = {};
+const getters = {
+	
+	isImageImport(state: ImportState) {
+		return state.importType === importTypes.IMAGE;
+	},
+
+	isContentImport(state: ImportState) {
+		return state.importType === importTypes.CONTENT;
+	},
+
+	isSoftwareImport(state: ImportState) {
+		return state.importType === importTypes.SOFTWARE;
+	},
+
+	isEnvironmentImport(state: ImportState) {
+		return state.importType === importTypes.ENVIRONMENT;
+	}
+
+};
 
 export default {
 	state,

@@ -1,12 +1,9 @@
-import { UserImportedContent, UserImportedEnvironment, UserImportedSoftware } from '@/data_access/models/app';
-import { UserImportedImage } from '@/data_access/models/app/UserImportedImage';
-import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import ImportedContentService from '@/services/rest-api/ImportedContentService';
 import ImportedEnvironmentService from '@/services/rest-api/ImportedEnvironmentService';
 import ImportedImageService from '@/services/rest-api/ImportedImageService';
 import ImportedSoftwareService from '@/services/rest-api/ImportedSoftwareService';
 import { IUserImportedResource, IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
-import IResourceImportResult from '@/types/resource/ResourceImportResult';
+import { IUserImportResponse } from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
 import HttpResponseCode from '@/utils/HttpResponseCode';
@@ -60,8 +57,8 @@ export default class UserImportController extends BaseController {
 			importedEnvironments: importedEnvironments.result,
 			importedImages: importedImages.result
 		};
-
-		let imports: IResourceImportResult = { importedContent, importedSoftware, importedEnvironments, importedImages };
+		
+		let imports: IUserImportResponse = { importedContent, importedSoftware, importedEnvironments, importedImages };
 
 		if (UserImportController.hasAnyError(imports)) {
 			let error = UserImportController.handleImportError(imports);
@@ -70,7 +67,7 @@ export default class UserImportController extends BaseController {
 				.send(build_500_response(error));
 		}
 
-		if (this.hasNoResults(response)) {
+		if (this.hasNoResults(imports)) {
 			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_404_response(req.originalUrl));
@@ -183,12 +180,7 @@ export default class UserImportController extends BaseController {
 	 * Builds an error message
 	 * @param imports
 	 */
-	private static handleImportError(imports: {
-		importedEnvironments: ICrudServiceResult<UserImportedEnvironment[]>;
-		importedSoftware: ICrudServiceResult<UserImportedSoftware[]>;
-		importedContent: ICrudServiceResult<UserImportedContent[]>;
-		importedImage: ICrudServiceResult<UserImportedImage[]>;
-	}): string {
+	private static handleImportError(imports: IUserImportResponse): string {
 
 		let error = '';
 
@@ -197,8 +189,8 @@ export default class UserImportController extends BaseController {
 			error += `Imported Content Error: ${contentError}`;
 		}
 
-		if (imports.importedImage && imports.importedImage.error) {
-			let imageError = imports.importedImage.error;
+		if (imports.importedImages && imports.importedImages.error) {
+			let imageError = imports.importedImages.error;
 			error += `Imported Image Error: ${imageError}`;
 		}
 
@@ -252,22 +244,22 @@ export default class UserImportController extends BaseController {
 	 * True if any imported resource object hasError property is truthy
 	 * @param imports
 	 */
-	private static hasAnyError(imports: IResourceImportResult): boolean {
-		return imports.userImportedContent?.hasError
-		|| imports.userImportedSoftware?.hasError
-		|| imports.userImportedEnvironments?.hasError
-		|| imports.userImportedImage?.hasError
+	private static hasAnyError(imports: IUserImportResponse): boolean {
+		return imports.importedContent.hasError
+		|| imports.importedSoftware.hasError
+		|| imports.importedEnvironments.hasError
+		|| imports.importedImages.hasError
 	}
 
 	/**
 	 * True if all imported resources on response are null
 	 * @param response
 	 */
-	private hasNoResults(response): boolean {
-		return response.result.importedSoftware == null
-			&& response.result.importedEnvironments == null
-			&& response.result.importedContent == null
-			&& response.result.importedImage == null
+	private hasNoResults(response: IUserImportResponse): boolean {
+		return response.importedSoftware == null
+			&& response.importedEnvironments == null
+			&& response.importedContent == null
+			&& response.importedImages == null
 	}
 
 }

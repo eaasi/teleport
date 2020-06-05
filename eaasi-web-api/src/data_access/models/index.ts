@@ -1,7 +1,7 @@
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 
-import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EaasiUser, Emulator, UserImportedContent, UserImportedEnvironment, UserImportedSoftware } from '@/data_access/models/app';
+import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EaasiUser, Emulator, UserImportedContent, UserImportedEnvironment, UserImportedImage, UserImportedSoftware } from '@/data_access/models/app';
 import { AudioDevice, AudioDeviceHasDriverSoftware, AudioDeviceHasEquivalent } from '@/data_access/models/audio-device';
 import { ChipSet, ColorDepth, Developer, EventType, FrequencyUnit, Language, MediaType } from '@/data_access/models/base';
 import { ComputingEnvironment, CpuArchitecture } from '@/data_access/models/computing';
@@ -43,6 +43,7 @@ export const sequelize = new Sequelize({
 		UserImportedSoftware,
 		UserImportedEnvironment,
 		UserImportedContent,
+		UserImportedImage,
 
 		// Audio Device
 		AudioDevice,

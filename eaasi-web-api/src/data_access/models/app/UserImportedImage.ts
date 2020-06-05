@@ -3,7 +3,7 @@ import { DataTypes } from 'sequelize';
 import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
-	tableName: 'imported_image'
+	tableName: 'user_imported_image'
 })
 export class UserImportedImage extends Model<UserImportedImage> {
     @CreatedAt

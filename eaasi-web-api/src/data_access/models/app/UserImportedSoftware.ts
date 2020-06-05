@@ -1,9 +1,9 @@
-import {EaasiUser} from '@/data_access/models/app/EaasiUser';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
+import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
-	tableName: 'imported_software'
+	tableName: 'user_imported_software'
 })
 export class UserImportedSoftware extends Model<UserImportedSoftware> {
     @CreatedAt

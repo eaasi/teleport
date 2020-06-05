@@ -10,8 +10,8 @@
 					<option value="software">
 						Software Resource
 					</option>
-					<option value="environment" v-if="userCanImportEnvironment">
-						Content Environment Resource
+					<option value="image" v-if="userCanImportEnvironment">
+						Image Import
 					</option>
 				</select-list>
 			</div>
@@ -51,7 +51,7 @@
 
 				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">
 					<options-box
-						title="Content Environment Resource"
+						title="Image Import"
 						icon="file"
 						header="Less Common"
 					>
@@ -60,9 +60,9 @@
 							<ui-button
 								block
 								sub-label="Examples: .iso / .dd / .raw / .e01"
-								@click="chooseImportType('environment')"
+								@click="chooseImportType('image')"
 							>
-								Import Environment
+								Import Image
 							</ui-button>
 						</template>
 					</options-box>

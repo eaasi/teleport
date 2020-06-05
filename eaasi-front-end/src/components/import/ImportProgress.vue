@@ -140,9 +140,6 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		 *  Starts the import process for Environment, Software, or Content resource(s)
 		 **/
 		async doImport() {
-			if (this.importType === importTypes.IMAGE) {
-				this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
-			}
 			let task = await this.$store.dispatch('import/import');
 			if (!task) return;
 			let resourceName = '';
