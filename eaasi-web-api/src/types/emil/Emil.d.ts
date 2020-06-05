@@ -57,3 +57,8 @@ export interface IObjectClassificationRequest {
 	updateClassification: boolean;
 	updateProposal: boolean;
 }
+
+export interface IEmilResult {
+	status: '0' | '1';
+	message: string;
+}

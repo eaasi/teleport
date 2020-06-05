@@ -5,5 +5,12 @@
         "lastName": "Kost",
         "email": "andrii@portalmedia.com",
         "roleId": 1
-    }
+	},
+	{
+		"username": "brandon",
+        "firstName": "Brandon",
+        "lastName": "Wiemann",
+        "email": "brandon@portalmedia.com",
+        "roleId": 1
+	}
 ]

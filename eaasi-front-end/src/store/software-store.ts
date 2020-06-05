@@ -53,11 +53,11 @@ const actions = {
 	},
 
 	async deleteContent(_, contentRequests: IContentRequest[]) {
-		contentRequests.forEach(async contentRequest => 
+		contentRequests.forEach(async contentRequest =>
 			await _svc.deleteContent(contentRequest)
 		);
 	},
-	
+
 	async saveContent(_, overrideRequest: IOverrideContentRequest) {
 		return await _svc.saveContent(overrideRequest);
 	},
@@ -67,6 +67,10 @@ const actions = {
 		if(!result) return;
 		commit('SET_RESULT', result);
 		return result;
+	},
+
+	async publishSoftware(_: Store<SoftwareState>, softwareIds: string[]) {
+		return await _svc.publishSoftware(softwareIds);
 	}
 };
 

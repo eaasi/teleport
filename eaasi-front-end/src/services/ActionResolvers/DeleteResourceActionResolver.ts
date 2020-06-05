@@ -1,13 +1,13 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
-import { IEnvironment } from '@/types/Resource';
+import { IEaasiResource } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
 
 export default class DeleteResourceActionResolver extends SlideMenuActionResolver {
-	selectedResources: IEnvironment[];
+	selectedResources: IEaasiResource[];
 	userRoleId: number;
 
-	constructor(selectedResources: IEnvironment[], roleId: number) {
+	constructor(selectedResources: IEaasiResource[], roleId: number) {
 		super(selectedResources, roleId);
 	}
 

@@ -1,4 +1,4 @@
-import { IEnvironment } from '@/types/Resource';
+import { IEaasiResource } from '@/types/Resource';
 import { archiveTypes, resourceTypes, userRoles } from '@/utils/constants';
 import { IAction } from 'eaasi-nav';
 
@@ -9,11 +9,11 @@ import { IAction } from 'eaasi-nav';
  * an action is enabled.
  */
 export default class SlideMenuActionResolver {
-	selectedResources: IEnvironment[];
+	selectedResources: IEaasiResource[];
 	userRoleId: number;
 	action: IAction;
 
-	constructor(selectedResources: IEnvironment[], roleId: number) {
+	constructor(selectedResources: IEaasiResource[], roleId: number) {
 		this.selectedResources = selectedResources;
 		this.userRoleId = roleId;
 	}
@@ -32,15 +32,16 @@ export default class SlideMenuActionResolver {
 	}
 
 	isResourceDetailPage(): boolean {
-		let resourceId = this.selectedResources[0].id != null 
+		let resourceId = this.selectedResources[0].id != null
 			? this.selectedResources[0].id as string
 			: this.selectedResources[0].envId;
 		return window.location.href.indexOf(resourceId) > 0;
 	}
 
 	isSinglePublicResource() : boolean {
-		return this.isSingleSelected()
-			&& this.selectedResources[0].archive === 'public';
+		if(!this.isSingleSelected()) return false;
+		return this.selectedResources[0].archive === 'public'
+			|| this.selectedResources[0].isPublic === true;
 	}
 
 	isSingleDefaultResource() : boolean {
@@ -48,7 +49,7 @@ export default class SlideMenuActionResolver {
 			&& this.selectedResources[0].archive === 'default';
 	}
 
-	isSingleRemoteResource() {
+	isSingleRemoteResource(): boolean {
 		return this.isSingleSelected()
 			&& this.selectedResources[0].archive === 'remote';
 	}
@@ -61,12 +62,28 @@ export default class SlideMenuActionResolver {
 		return !this.selectedResources.some(r => r.archiveId === 'Remote Objects' || r.archive === archiveTypes.REMOTE);
 	}
 
+	isAnyContentSelected(): boolean {
+		return this.selectedResources.some(x => x.resourceType === resourceTypes.CONTENT);
+	}
+
+	isAnyRemoteSelected(): boolean {
+		return this.selectedResources.some(x => x.archive === archiveTypes.REMOTE);
+	}
+
 	isAnySoftwareSelected(): boolean {
 		return this.selectedResources.some(r => r.resourceType === resourceTypes.SOFTWARE);
 	}
 
-	areOnlyDefaultResources() {
+	areOnlyDefaultResources(): boolean {
 		let resourceArchives = this.selectedResources.map(res => res.archive);
 		return resourceArchives.every(v => v === 'default');
+	}
+
+	areOnlyPublishableResources(): boolean {
+		if(this.isAnyContentSelected()) return false;
+		return this.selectedResources.every((r) => {
+			return (r.resourceType === resourceTypes.SOFTWARE && r.isPublic === false)
+				|| (r.resourceType === resourceTypes.ENVIRONMENT && r.archive === 'default');
+		});
 	}
 }

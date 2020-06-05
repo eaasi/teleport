@@ -1,5 +1,6 @@
 import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
 import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
+import EmilAdminService from '@/services/admin/EmilAdminService';
 import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
 import AuthService from '@/services/auth/AuthService';
@@ -22,11 +23,13 @@ export default class AdminController extends BaseController {
 	readonly _userHashService: UserHashService;
 	readonly _authService: AuthService;
 	readonly _mailerService: MailerService;
+	readonly _adminService: EmilAdminService;
 
 	constructor() {
 		super();
 		this._userSvc = new UserAdminService();
 		this._emulatorAdminSvc = new EmulatorAdminService();
+		this._adminService = new EmilAdminService();
 		this._harvesterSvc = new HarvesterService();
 		if (!SAML_ENABLED) {
 			this._userHashService = new UserHashService();
@@ -286,6 +289,15 @@ export default class AdminController extends BaseController {
 			let result = true;
 			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/actions/sync
 			res.send(result)
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	async getApiKey(req: Request, res: Response) {
+		try {
+			const result = await this._adminService.getApiKey();
+			return res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);
 		}

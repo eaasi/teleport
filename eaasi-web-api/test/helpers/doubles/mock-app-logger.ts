@@ -1,5 +1,12 @@
-export default class MockAppLogger {
+import { EventEmitter } from 'events';
+import { IAppLogger } from '../../../src/logging/appLogger';
 
-	constructor(_: string) {
+export default class MockAppLogger implements IAppLogger {
+
+	log: NodeJS.EventEmitter;
+
+	constructor(source: string, emitter = new EventEmitter()) {
+		this.log = emitter;
 	}
+	
 }

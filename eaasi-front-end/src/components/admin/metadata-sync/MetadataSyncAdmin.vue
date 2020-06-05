@@ -15,6 +15,10 @@
 					@input="search"
 				/>
 			</div>
+			<div class="provider-info">
+				<p v-if="providerUrl"><span class="medium">Provider URL:</span> {{ providerUrl }}</p>
+				<p v-if="apiKey"><span class="medium">API Key:</span> {{ apiKey }}</p>
+			</div>
 		</div>
 		<div class="padded-xl container-xs" v-if="list">
 			<pagination
@@ -41,6 +45,7 @@ import { Component } from 'vue-property-decorator';
 import HarvesterList from './HarvesterList.vue';
 import AddHarvesterModal from './AddHarvesterModal.vue';
 import { Get } from 'vuex-pathify';
+import config from '@/config/index';
 
 @Component({
 	name: 'EmulatorManagement',
@@ -57,6 +62,9 @@ export default class EmulatorManagement extends AdminScreen {
 	@Get('admin/harvesters')
 	list: string[]
 
+	@Get('admin/apiKey')
+	readonly apiKey: string;
+
 	get result() {
 		if(!this.list || !this.list.length) return [];
 		let q = this.keyword.toLowerCase();
@@ -68,6 +76,7 @@ export default class EmulatorManagement extends AdminScreen {
 
 	keyword: string = '';
 	showAddModal: boolean = false;
+	readonly providerUrl: string = `${config.BASE_URL}/oaipmh/providers`;
 
 
 	/* Methods
@@ -86,6 +95,7 @@ export default class EmulatorManagement extends AdminScreen {
 
 	mounted() {
 		this.$store.dispatch('admin/getHarvesters');
+		this.$store.dispatch('admin/getApiKey');
 	}
 }
 </script>
@@ -97,6 +107,17 @@ export default class EmulatorManagement extends AdminScreen {
 
 	h1 {
 		font-size: 1.8rem;
+	}
+
+	.provider-info {
+		margin-top: 2rem;
+
+		p {
+			margin-top: 1rem;
+			&:first-of-type {
+				margin: 0;
+			}
+		}
 	}
 }
 </style>

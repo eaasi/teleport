@@ -2,6 +2,7 @@ import {IEnvironment} from '@/types/Resource';
 import faker from 'faker';
 import {IEaasiRole, IEaasiUser} from 'eaasi-admin';
 import User from '@/models/admin/User';
+import { resourceTypes, archiveTypes } from '@/utils/constants';
 
 export function generateFakeUsers(userCount: number) : User[] {
 	let users = [];
@@ -47,7 +48,7 @@ export function generateFakeEnvironments(numberEnvs: number): IEnvironment[] {
 	for (let i = 1; i <= numberEnvs; i++) {
 		envs.push(
 			{
-				archive: faker.hacker.noun(),
+				archive: archiveTypes.DEFAULT,
 				author: faker.name.firstName(),
 				branches: [],
 				canProcessAdditionalFiles: false,
@@ -69,6 +70,7 @@ export function generateFakeEnvironments(numberEnvs: number): IEnvironment[] {
 				helpText: faker.hacker.verb(),
 				id: undefined,
 				installedSoftwareIds: [],
+				isPublic: false,
 				localServerMode: false,
 				nativeConfig: '',
 				networking: undefined,
@@ -76,6 +78,7 @@ export function generateFakeEnvironments(numberEnvs: number): IEnvironment[] {
 				owner: 'fakeOwner',
 				parentEnvId: faker.random.uuid(),
 				permissions: undefined,
+				resourceType: resourceTypes.ENVIRONMENT,
 				revisions: [],
 				serverIp: undefined,
 				serverMode: false,

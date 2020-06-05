@@ -81,6 +81,7 @@ export default class ContentResourceCard extends Vue {
 			resourceType: resourceTypes.CONTENT,
 			content: { },
 			subContent: { },
+			isPublic: false
 		};
 	}
 

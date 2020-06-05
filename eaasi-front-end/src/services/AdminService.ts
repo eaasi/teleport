@@ -128,7 +128,11 @@ class AdminService extends BaseHttpService {
 		return response.result;
 	}
 
-
+	async getApiKey() {
+		const response = await this.get<any>('/admin/api-key');
+		if (!response.ok) return null;
+		return response.result;
+	}
 
 }
 

@@ -1,11 +1,11 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
-import {IEnvironment} from '@/types/Resource';
+import {IEaasiResource} from '@/types/Resource';
 
 export default class PublishToNetworkActionResolver extends SlideMenuActionResolver {
-	selectedResources: IEnvironment[];
+	selectedResources: IEaasiResource[];
 	userRoleId: number;
 
-	constructor(selectedResources: IEnvironment[], roleId: number) {
+	constructor(selectedResources: IEaasiResource[], roleId: number) {
 		super(selectedResources, roleId);
 	}
 
@@ -18,7 +18,7 @@ export default class PublishToNetworkActionResolver extends SlideMenuActionResol
 			label: 'Publish to Network',
 			description: 'Make this resource available to all users of my node.',
 			icon: 'cloud-upload',
-			isEnabled: super.areOnlyDefaultResources()
+			isEnabled: super.areOnlyPublishableResources()
 		};
 	}
 }
