@@ -85,18 +85,24 @@ export default class ResourceAdminService extends BaseService {
 		if (bookmarkResponse.result) result.bookmarks = bookmarkResponse.result.map(b => b.toJSON()) as IBookmark[];
 
 		if (query.userId) {
+			// only include images for "My Resources" page
+			const allImages = await this._environmentService.getImages();
+			
 			if (query.onlyBookmarks) {
 				contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
 				softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
 				environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
+
+				const imageResult = allImages.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
+				contentResult.totalResults += imageResult.length;
+				//@ts-ignore
+				contentResult.result = [...contentResult.result, ...imageResult];
 			} else if(query.onlyImportedResources) {
 				const userImportedResources: IResourceImportResult = await this._resourceImportService.getByUserID(query.userId);
 
 				contentResult.result = allContent.filter(r => userImportedResources.userImportedContent.result.some(ir => ir.eaasiID === r.id));
 				contentResult.totalResults = contentResult.result.length;
 
-				// only include images for "My Resources" page
-				const allImages = await this._environmentService.getImages();
 				const imageResult = allImages.filter(r => userImportedResources.userImportedImage.result.some(ir => ir.eaasiID === r.id));
 				contentResult.totalResults += imageResult.length;
 				//@ts-ignore
