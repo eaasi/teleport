@@ -3,6 +3,7 @@ import ContentService from '@/services/resource/ContentService';
 import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
+import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
@@ -18,18 +19,21 @@ export default class ResourceController extends BaseController {
 	private readonly _environmentService: EnvironmentService;
 	private readonly _softwareService: SoftwareService;
 	private readonly _contentService: ContentService;
+	private readonly _bookmarkService: EaasiBookmarkService;
 
 	constructor(
 		resourceService: ResourceAdminService = new ResourceAdminService(),
 		environmentService: EnvironmentService = new EnvironmentService(),
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
+		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService()
 	) {
 		super();
 		this._svc = resourceService;
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
+		this._bookmarkService = bookmarkService;
 	}
 
 	/**
@@ -185,6 +189,7 @@ export default class ResourceController extends BaseController {
 		try {
 			const payload = req.body as IImageDeletePayload;
 			await this._environmentService.deleteImage(payload);
+			await this._bookmarkService.destroyAllByResource(payload.imageId);
 			res.send(true);
 		} catch(e) {
 			this.sendError(e, res);

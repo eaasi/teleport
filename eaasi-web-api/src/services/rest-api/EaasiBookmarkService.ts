@@ -51,4 +51,44 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
     		});
 	}
 
+	/**
+	 * Removes all Bookmarks for all resources passed
+	 * @param resourceIds: string[]
+	 */
+	async destroyAllByResources(resourceIds: string[]) {
+		return await this.model
+			.destroy({
+				where: {
+					resourceID: resourceIds
+				}
+			})
+			.then((result: object) => {
+    			return new CrudServiceResult(null, result);
+    		})
+    		.catch((error: string) => {
+				this._logger.log.error(error);
+    			return new CrudServiceResult(error);
+    		});
+	}
+
+	/**
+	 * Removes all Bookmarks for all resources passed
+	 * @param resourceIds: string[]
+	 */
+	async destroyAllByResource(resourceID: string) {
+		return await this.model
+			.destroy({
+				where: {
+					resourceID
+				}
+			})
+			.then((result: object) => {
+    			return new CrudServiceResult(null, result);
+    		})
+    		.catch((error: string) => {
+				this._logger.log.error(error);
+    			return new CrudServiceResult(error);
+    		});
+	}
+
 }
