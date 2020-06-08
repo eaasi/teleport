@@ -120,6 +120,7 @@ export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	archives?: ArchiveType[];
 	onlyBookmarks?: boolean;
 	onlyImportedResources?: boolean;
+	userId?: number | string;
 }
 
 export interface IResourceSearchResponse {
