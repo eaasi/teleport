@@ -13,7 +13,7 @@ export default class SoftwareService extends BaseService {
 		super();
 		this._softwareRepoService = softwareRepoService;
 	}
-	
+
 	async getAll(): Promise<ISoftwarePackage[]> {
 		const result = await this.getSoftwareDescriptionList();
 		return this.getSoftwarePackages(result.descriptions);
@@ -60,5 +60,5 @@ export default class SoftwareService extends BaseService {
 		let res = await this._softwareRepoService.post('packages', softwareObject);
 		return await res.json();
 	}
-	
+
 }
