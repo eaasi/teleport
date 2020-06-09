@@ -9,7 +9,7 @@ describe('UserAdminService', () => {
 	const MOCK_USER_ID = 1;
 	let mockEnvironmentSvc,
 		mockSoftwareSvc,
-		mockImportedContentSvc,
+		mockContentSvc,
 		mockClassificationSvc,
 		mockBookmarkSvc,
 		mockImportSvc,
@@ -18,11 +18,11 @@ describe('UserAdminService', () => {
 	beforeEach(() => {
 		mockEnvironmentSvc = new MockBaseService();
 		mockSoftwareSvc = new MockBaseService();
-		mockImportedContentSvc = new MockBaseService();
+		mockContentSvc = new MockBaseService();
 		mockClassificationSvc = new MockHttpService();
 		mockBookmarkSvc = new MockCrudService();
 		mockImportSvc = new MockBaseService();
-		sut = new ResourceAdminService(mockEnvironmentSvc, mockSoftwareSvc, mockImportedContentSvc, mockClassificationSvc, mockBookmarkSvc,  mockImportSvc);
+		sut = new ResourceAdminService(mockEnvironmentSvc, mockSoftwareSvc, mockContentSvc, mockClassificationSvc, mockBookmarkSvc,  mockImportSvc);
 	});
 
 	describe('constructor tests', () => {
@@ -34,8 +34,8 @@ describe('UserAdminService', () => {
 			expect(sut._softwareService).toBe(mockSoftwareSvc);
 		});
 
-		it('on initialization sets an IHttpService service for _importedContentService', () => {
-			expect(sut._importedContentService).toBe(mockImportedContentSvc);
+		it('on initialization sets an IHttpService service for _contentService', () => {
+			expect(sut._contentService).toBe(mockContentSvc);
 		});
 
 		it('on initialization sets an IHttpService service for _emilClassificationService', () => {
@@ -80,7 +80,7 @@ describe('UserAdminService', () => {
 
 		it('on searchResources calls get on content service given query keyword', () => {
 			sut.searchResources(query, MOCK_USER_ID).then(() =>
-				expect(mockImportedContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+				expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
 			);
 		});
 
@@ -92,13 +92,13 @@ describe('UserAdminService', () => {
 
 		it('on searchResources calls get on content service exactly once given content', () => {
 			sut.searchResources(query, MOCK_USER_ID).then(() =>
-				expect(mockImportedContentSvc.getCount).toBe(1)
+				expect(mockContentSvc.getCount).toBe(1)
 			);
 		});
 
 		it('on searchResources calls get on content service given query keyword', () => {
 			sut.searchResources(query, MOCK_USER_ID).then(() =>
-				expect(mockImportedContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+				expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
 			);
 		});
 
@@ -106,7 +106,7 @@ describe('UserAdminService', () => {
 			query.types = [resourceTypes.ENVIRONMENT, resourceTypes.CONTENT]
 			sut.searchResources(query, MOCK_USER_ID).then(() =>  {
 				expect(mockEnvironmentSvc.getCount).toBe(1);
-				expect(mockImportedContentSvc.getCount).toBe(1);
+				expect(mockContentSvc.getCount).toBe(1);
 				expect(mockSoftwareSvc.getCount).toBe(0);
 			});
 		});
@@ -115,7 +115,7 @@ describe('UserAdminService', () => {
 			query.types = [resourceTypes.SOFTWARE]
 			sut.searchResources(query, MOCK_USER_ID).then(() =>  {
 				expect(mockEnvironmentSvc.getCount).toBe(0);
-				expect(mockImportedContentSvc.getCount).toBe(0);
+				expect(mockContentSvc.getCount).toBe(0);
 				expect(mockSoftwareSvc.getCount).toBe(1);
 			});
 		});
@@ -124,7 +124,7 @@ describe('UserAdminService', () => {
 			query.types = [resourceTypes.SOFTWARE, resourceTypes.ENVIRONMENT]
 			sut.searchResources(query, MOCK_USER_ID).then(() =>  {
 				expect(mockEnvironmentSvc.getCount).toBe(1);
-				expect(mockImportedContentSvc.getCount).toBe(0);
+				expect(mockContentSvc.getCount).toBe(0);
 				expect(mockSoftwareSvc.getCount).toBe(1);
 			});
 		});
@@ -146,7 +146,7 @@ describe('UserAdminService', () => {
 		it('on searchResources calls get on content service given no query types', () => {
 			query.types = undefined;
 			sut.searchResources(query, MOCK_USER_ID).then(() =>
-				expect(mockImportedContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
+				expect(mockContentSvc.getUrl).toBe('zero%20conf') // getUrl for Content service currently needs to be 'zero conf'
 			);
 		});
 
