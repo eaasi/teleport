@@ -4,7 +4,7 @@ import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironment
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
-import { archiveTypes } from '@/utils/constants';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ComponentService from './ComponentService';
@@ -31,7 +31,9 @@ export default class EnvironmentService extends BaseService {
 
 	async getAllEmilModels(): Promise<IEnvironmentListItem[]> {
 		let res = await this._environmentRepoService.get('environments');
-		return await res.json() as IEnvironmentListItem[];
+		let environments = await res.json() as IEnvironmentListItem[];
+		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		return environments;
 	}
 
 	/**
@@ -39,9 +41,11 @@ export default class EnvironmentService extends BaseService {
 	 * @param {IEnvironmentListItem[]} envs A list of EnvironmentListItems
 	 */
 	async getEnvironmentsMetadata(envs: IEnvironmentListItem[]): Promise<IEnvironment[]> {
-		return await Promise.all(envs.map(env => {
+		let environments = await Promise.all(envs.map(env => {
 			return this.getEnvironmentMetadata(env);
 		}));
+		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		return environments;
 	}
 
 	/**
@@ -60,7 +64,9 @@ export default class EnvironmentService extends BaseService {
 	 */
 	async getEnvironment(id: string): Promise<IEnvironment> {
 		let res = await this._environmentRepoService.get(`environments/${id}`);
-		return await res.json() as IEnvironment;
+		let environment = await res.json() as IEnvironment;
+		environment.resourceType = resourceTypes.ENVIRONMENT;
+		return environment;
 	}
 
 	/**
