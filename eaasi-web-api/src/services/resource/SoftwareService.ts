@@ -1,6 +1,7 @@
 import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import { resourceTypes } from '@/utils/constants';
 
 
 export default class SoftwareService extends BaseService {
@@ -13,25 +14,30 @@ export default class SoftwareService extends BaseService {
 		super();
 		this._softwareRepoService = softwareRepoService;
 	}
-	
+
 	async getAll(): Promise<ISoftwarePackage[]> {
 		const result = await this.getSoftwareDescriptionList();
 		return this.getSoftwarePackages(result.descriptions);
 	}
 
 	async getSoftwarePackages(descriptions: ISoftwareDescription[]): Promise<ISoftwarePackage[]> {
-		let packages: ISoftwarePackage[] = [];
-		for(let i = 0; i < descriptions.length; i++) {
-			if (!descriptions[i] || !descriptions[i].id) continue;
-			let softwarePackage: ISoftwarePackage = await this.getSoftwarePackage(descriptions[i].id);
-			packages.push({...descriptions[i], ...softwarePackage});
-		}
-		return packages;
+		return await Promise.all(descriptions.map(x => {
+			return this.getSoftwarePackageFromDescription(x);
+		}));
+	}
+
+	async getSoftwarePackageFromDescription(description: ISoftwareDescription): Promise<ISoftwarePackage> {
+		if (!description || !description.id) return null;
+		let pkg = await this.getSoftwarePackage(description.id);
+		pkg.resourceType = resourceTypes.SOFTWARE;
+		return {...description, ...pkg};
 	}
 
 	async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
 		let res = await this._softwareRepoService.get('descriptions');
-		return await res.json() as ISoftwareDescriptionList;
+		let list = await res.json() as ISoftwareDescriptionList;
+		list.descriptions.forEach(x => x.resourceType = resourceTypes.SOFTWARE);
+		return list;
 	}
 
 	/**
@@ -40,7 +46,9 @@ export default class SoftwareService extends BaseService {
 	 */
 	async getSoftwarePackage(id: string): Promise<ISoftwarePackage> {
 		let res = await this._softwareRepoService.get(`packages/${id}`);
-		return await res.json() as ISoftwarePackage;
+		let software = await res.json() as ISoftwarePackage;
+		software.resourceType = resourceTypes.SOFTWARE;
+		return software;
 	}
 
 	/**
@@ -49,7 +57,9 @@ export default class SoftwareService extends BaseService {
 	 */
 	async getSoftwareDescription(id: string): Promise<ISoftwareDescription> {
 		let res = await this._softwareRepoService.get(`descriptions/${id}`);
-		return await res.json();
+		let software = await res.json();
+		software.resourceType = resourceTypes.SOFTWARE;
+		return software;
 	}
 
 	/**
@@ -60,5 +70,5 @@ export default class SoftwareService extends BaseService {
 		let res = await this._softwareRepoService.post('packages', softwareObject);
 		return await res.json();
 	}
-	
+
 }

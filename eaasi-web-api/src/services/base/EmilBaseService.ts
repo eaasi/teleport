@@ -1,5 +1,6 @@
 import IHttpService from '../interfaces/IHttpService';
 import HttpJSONService from './HttpJSONService';
+import { Response } from 'node-fetch';
 
 const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
@@ -9,29 +10,29 @@ export default class EmilBaseService implements IHttpService {
 	private readonly _svc: IHttpService;
 
 	constructor(
-		servicePath: string, 
-		service: IHttpService = new HttpJSONService(), 
+		servicePath: string,
+		service: IHttpService = new HttpJSONService(),
 	) {
 		this._path = servicePath;
 		this._svc = service;
 	}
 
-	public async get(methodName: string) {
+	public async get(methodName: string): Promise<Response> {
 		let url = this._createUrl(methodName);
 		return await this._svc.get(url);
 	}
 
-	public async post(methodName: string, data: any) {
+	public async post(methodName: string, data: any): Promise<Response> {
 		let url = this._createUrl(methodName);
 		return await this._svc.post(url, data);
 	}
 
-	public async patch(methodName: string, data: any) {
+	public async patch(methodName: string, data: any): Promise<Response> {
 		let url = this._createUrl(methodName);
 		return await this._svc.patch(url, data);
 	}
 
-	public async delete(methodName: string, data: any = null) {
+	public async delete(methodName: string, data: any = null): Promise<Response> {
 		let url = this._createUrl(methodName);
 		return await this._svc.delete(url, data);
 	}

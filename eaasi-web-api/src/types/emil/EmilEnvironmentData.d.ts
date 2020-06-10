@@ -1,5 +1,6 @@
 import { ArchiveType, IEaasiResource } from '../resource/Resource';
 import { KeyValuePair } from './Emil';
+import { AnyObject } from '../general/generic';
 
 /*============================================================
  == Emulators
@@ -63,6 +64,7 @@ export interface IEnvironment extends IEaasiResource {
 	enableSocks: boolean;
 	envId: string;
 	envType: string;
+	error?: string | AnyObject;
 	gwPrivateIp?: any;
 	gwPrivateMask?: any;
 	helpText?: string;
