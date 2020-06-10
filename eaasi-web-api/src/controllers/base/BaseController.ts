@@ -12,13 +12,19 @@ export default class BaseController {
 		this._logger = new AppLogger(this.constructor.name);
 	}
 
-	protected sendClientError(error: Error, response: Response) {
+	protected sendClientError(error: Error | string, response: Response) {
+		if(typeof error === 'string') {
+			error = new Error(error);
+		}
 		this._logger.log.error(error.stack);
 		response.status(HttpResponseCode.BAD_REQUEST)
 			.send(build_400_response(error.message));
 	}
 
-	protected sendError(error: Error, response: Response) {
+	protected sendError(error: Error | string, response: Response) {
+		if(typeof error === 'string') {
+			error = new Error(error);
+		}
 		this._logger.log.error(error.stack);
 		response.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(error));

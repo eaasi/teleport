@@ -64,7 +64,10 @@ export function _getStandardizedServerError(errorName: string): string {
  * Internal server error response
  * @type {{}}
  */
-export function build_500_response(serverError: Error) {
+export function build_500_response(serverError: Error | string) {
+	if(typeof serverError === 'string') {
+		serverError = new Error(serverError);
+	}
 	const nodeEnvironment = process.env.NODE_ENV || '';
 
 	if(['test', 'development', 'local'].includes(nodeEnvironment)) {

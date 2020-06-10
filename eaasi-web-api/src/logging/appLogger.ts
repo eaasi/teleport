@@ -15,11 +15,7 @@ const options = {
 		colorize: true,
 	},
 	console: {
-		level: 'debug',
-		handleExceptions: true,
-		json: false,
-		colorize: true,
-		simple: true
+		level: 'error',
 	},
 }
 
@@ -34,11 +30,7 @@ function buildTransports(source: string) {
 			stream: fs.createWriteStream('/dev/null')
 		})];
 	} else {
-		return [
-			new winston.transports.File(options.file),
-			new OrmTransport(source),
-			new winston.transports.Console(options.console)
-		];
+		return null;
 	}
 }
 
@@ -54,7 +46,7 @@ export const logger = (source: string = 'unknown') => winston.createLogger({
 
 // create a stream object with a 'write' function that will be used by `morgan`
 logger.stream = {
-	write: function(message, encoding) {
+	write: function(message: any): void {
 		// use the 'info' log level so the output will be picked up by both transports (file and console)
 		logger().info(message);
 	},

@@ -62,6 +62,10 @@ export default class SoftwareService extends BaseService {
 		return software;
 	}
 
+	getSoftwareObjects(ids: string[]) {
+		throw new Error('Method not implemented.');
+	}
+
 	/**
 	 * Saves software object
 	 * @param softwareObject: ISoftwareObject with req.body

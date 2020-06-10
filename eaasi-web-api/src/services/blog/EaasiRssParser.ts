@@ -23,6 +23,7 @@ export default class EaasiRssParser implements RssParser {
 	}
 
 	getBlogArticles(numberOfArticles: number = 6) {
+		if(!this.rssResponse.rss.channel[0]) return [];
 		return this.rssResponse.rss.channel[0].item
 			.slice(0, numberOfArticles)
 			.map(entry => new EaasiBlogArticleLink(entry))
