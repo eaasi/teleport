@@ -1,5 +1,5 @@
-import DisplayInterface from '@/data_access/models/display/DisplayInterface';
-import GpuDevice from '@/data_access/models/gpu/GpuDevice';
+import { DisplayInterface } from '@/data_access/models/display/DisplayInterface';
+import { GpuDevice } from '@/data_access/models/gpu/GpuDevice';
 import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 

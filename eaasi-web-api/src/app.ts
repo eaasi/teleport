@@ -15,8 +15,7 @@ require('dotenv-flow').config();
 require('./middleware/passport');
 
 const multer = require('multer');
-let upload = multer();
-
+const upload = multer();
 const port = normalizePort(process.env.EXPRESS_PORT || '8081');
 const app = express();
 

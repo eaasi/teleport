@@ -90,7 +90,7 @@ export default class ResourceController extends BaseController {
 	async getSoftwareObjects(req: Request, res: Response) {
 		try {
 			let ids = req.query.ids.split(',') as string[];
-			let result = await this._svc.getSoftwareObjects(ids)
+			let result = await this._softwareService.getSoftwareObjects(ids)
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);

@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 module.exports = {
 	// Used for local development, postgres database
 	// must be available on localhost:5432
