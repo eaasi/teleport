@@ -42,6 +42,19 @@ export default class HttpJSONService implements IHttpService {
 	}
 
 	/**
+	 * Makes a PATCH request with a JSON body using Fetch
+	 *
+	 * @param {string} url - The request URL
+	 * @param {any} data - request data
+	 * @param {RequestInit} [options] - Request options
+	 * @return {Promise<Response>} - Response from fetch APY
+	 */
+	public async patch(url: string, data: any, options?: RequestInit): Promise<Response> {
+		let requestInit = this._createRequestInit('PATCH', data, options);
+		return await fetch(url, requestInit);
+	}
+
+	/**
 	 * Makes a POST request for with files an upload
 	 *
 	 * @param {string} url - The request URL

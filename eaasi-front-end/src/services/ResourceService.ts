@@ -1,6 +1,7 @@
 import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpers/ResourceHelper';
 import BaseHttpService from '@/services/BaseHttpService';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import { IPatch, ITemplate } from '@/types/Import';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
@@ -71,11 +72,17 @@ class ResourceService extends BaseHttpService {
 	/**
 	 * Makes a GET request to get available system templates
 	 */
-	async getTemplates() {
-		let res = await this.get<any>(
-			'/resource/environmentTemplates'
-		);
-		return res.result['systems'];
+	async getTemplates(): Promise<ITemplate[]> {
+		const res = await this.get<ITemplate[]>('/resource/templates');
+		return res.result;
+	}
+
+	/**
+	 * Makes a GET request to get available system patches
+	 */
+	async getPatches(): Promise<IPatch[]> {
+		const res = await this.get<IPatch[]>('/resource/patches');
+		return res.result;
 	}
 
 	/**

@@ -373,7 +373,7 @@ export default class ResourceSlideMenu extends Vue {
 				if (this.environmentIsSelected) {
 					const resourceId = this.onlySelectedResource.envId.toString();
 					this.$router.push({
-						path: ROUTES.RESOURCES_ENVIRONMENT,
+						path: ROUTES.RESOURCES.ENVIRONMENT,
 						query: { resourceId }
 					});
 					break;
@@ -381,7 +381,7 @@ export default class ResourceSlideMenu extends Vue {
 				// @ts-ignore
 				const archiveId = this.onlySelectedResource.archiveId;
 				const resourceId = this.onlySelectedResource.id.toString();
-				const path = this.softwareIsSelected ? ROUTES.RESOURCES_SOFTWARE : ROUTES.RESOURCES_CONTENT;
+				const path = this.softwareIsSelected ? ROUTES.RESOURCES.SOFTWARE : ROUTES.RESOURCES.CONTENT;
 				this.$router.push({
 					path,
 					query: { resourceId, archiveId }

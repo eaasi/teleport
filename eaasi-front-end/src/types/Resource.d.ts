@@ -1,12 +1,13 @@
 /**
  * Data specification for a Resource component
  */
+import { ResourceArchive } from './Search';
 import { ITag } from './Tag';
 
 export type ResourceType = 'Environment' | 'Software' | 'Content';
 
 export interface IEaasiResource {
-	id: number | string
+	id?: number | string
 	title: string
 	resourceType: ResourceType;
 	description?: string;
@@ -68,45 +69,52 @@ export interface IEnvironment extends IEaasiResource {
 	enablePrinting: boolean;
 	shutdownByOs: boolean;
 	timeContext?: any;
-	serverMode: boolean;
-	localServerMode: boolean;
-	enableSocks: boolean;
+	serverMode?: boolean;
+	localServerMode?: boolean;
+	enableSocks?: boolean;
 	serverPort?: any;
 	serverIp?: any;
 	gwPrivateIp?: any;
 	gwPrivateMask?: any;
-	enableInternet: boolean;
-	connectEnvs: boolean;
+	enableInternet?: boolean;
+	connectEnvs?: boolean;
 	author?: any;
 	canProcessAdditionalFiles: boolean;
-	archive: string;
+	archive: ResourceArchive;
 	xpraEncoding?: any;
 	owner: string;
 	revisions: IEnvironmentRevision[];
-	installedSoftwareIds: string[];
+	installedSoftwareIds: IInstalledSoftware[];
 	userTag?: string;
 	os?: string;
 	nativeConfig: string;
 	useXpra: boolean;
 	envType: string;
-	type: string;
-	childrenEnvIds: any[];
-	branches: any[];
-	visible: boolean;
-	permissions: IEaasPermissions;
-	timestamp: Date;
-	networking: INetwork;
+	type?: string;
+	childrenEnvIds?: any[];
+	branches?: any[];
+	visible?: boolean;
+	permissions?: IEaasPermissions;
+	timestamp: string;
+	networking?: INetwork;
 	containerName?: string;
 	containerVersion?: string;
 	drives: IDrive[];
 	error?: string;
-	isImport: boolean;
+	isImport?: boolean;
 	useWebRTC: boolean;
 	containerEmulatorName?: string;
 	containerEmulatorVersion?: string;
 	isLinuxRuntime?: boolean;
+	isServiceContainer?: boolean;
 	processAdditionalFiles?: boolean;
 	time?: number;
+}
+
+export interface IInstalledSoftware {
+	id: string;
+	label: string;
+	archive: ResourceArchive;
 }
 
 export interface IEaasiEnvironmentCardSummary {
@@ -140,6 +148,12 @@ export interface IDrive {
 	type: string;
 	boot: boolean;
 	plugged: boolean;
+	uid?: string;
+}
+
+export interface IResourceDrive extends IDrive {
+	resourceId: string;
+	resourceType: ResourceType;
 }
 
 export interface INetwork {

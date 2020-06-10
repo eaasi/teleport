@@ -3,46 +3,48 @@
 		<!-- No Files Added -->
 		<div v-if="!filesAreAdded">
 			<h3>{{ headline }}</h3>
-			<div class="row justify-left" style="margin-top: 3rem;">
-				<div class="col-md-5 import-option-block" v-if="isEnvImport">
-					<div class="irf-option">
-						<span class="text-center">URL</span>
-						<text-input
-							@change="checkUrl"
-							label="File URL"
-							rules="url"
-							v-model="fileUrl"
-							ref="urlField"
-						/>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		<!-- Files Added, Non-Environment Import -->
 
-		<div v-if="filesAreAdded && !isEnvImport" class="if-attached">
+		<div v-if="filesAreAdded" class="if-attached">
 			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length">
-				<ui-button icon="check" color-preset="light-blue" @click="selectAllFiles">
-					Select All
-				</ui-button>
-				<ui-button
-					icon="times"
-					color-preset="light-blue"
-					@click="selectNoFiles"
-					:disabled="!selectedFiles.length"
-				>
-					Select None
-				</ui-button>
-				<ui-button
-					icon="trash"
-					color-preset="light-blue"
-					@click="removeSelectedFiles"
-					class="if-trash-file"
-					:disabled="!selectedFiles.length"
-				>
-					Remove Selected Files
-				</ui-button>
+				<div v-if="isEnvImport">
+					<ui-button
+						icon="trash"
+						color-preset="light-blue"
+						@click="removeEnvironmentImageFile"
+						class="if-trash-file"
+					>
+						Remove Environment Image
+					</ui-button>
+				</div>
+				<div v-else-if="!isEnvImport">
+					<ui-button 
+						icon="check" 
+						color-preset="light-blue" 
+						@click="selectAllFiles" 
+					>
+						Select All
+					</ui-button>
+					<ui-button
+						icon="times"
+						color-preset="light-blue"
+						@click="selectNoFiles"
+						:disabled="!selectedFiles.length"
+					>
+						Select None
+					</ui-button>
+					<ui-button
+						icon="trash"
+						color-preset="light-blue"
+						@click="removeSelectedFiles"
+						class="if-trash-file"
+						:disabled="!selectedFiles.length"
+					>
+						Remove Selected Files
+					</ui-button>
+				</div>
 			</div>
 
 			<div class="flex-row justify-between mb-lg">
@@ -55,84 +57,25 @@
 					secondary
 					@change="addFiles"
 					icon="plus"
-					button-label="Add More Files"
-					:limit="isEnvImport ? 1 : Infinity"
+					:button-label="isEnvImport ? 'Add Different Image' : 'Add More Files'"
+					:limit="fileLimit"
 				/>
 			</div>
 		</div>
 
-		<!-- Files Added, Environment Import -->
-
-		<!-- <div v-if="filesAreAdded && isEnvImport">
-			<div class="flex-row justify-between mb-lg">
-				<text-input
-					:value="files[0].name"
-					label="Disk Image"
-					class="flex-adapt"
-				/>
-				<ui-button
-					style="margin-left: 2rem;"
-					size="small"
-					secondary
-					@click="files = []"
-				>
-					Change
-				</ui-button>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<text-input
-						label="Disk Size (MB)"
-						rules="required|numeric|min:0|max:10000"
-						placeholder="1024"
-						value="1024"
-						v-model="diskSize"
-					/>
-				</div>
-				<div class="col-md-12">
-					<select-list
-						v-model="nativeFMTs"
-						label="Operating System Preset"
-						placeholder="Select OS Preset..."
-						class="no-mb flex-adapt"
-						rules="required"
-					>
-						<option
-							v-for="os in operatingSystems"
-							:key="os.id"
-							:value="os.puids.map(f => f.puid)"
-						>
-							{{ os.id }}
-						</option>
-					</select-list>
-				</div>
-				<div class="col-md-12">
-					<div id="kvm">
-						<checkbox
-							label="Enable KVM (Kernel-based Virtual Machine)"
-							v-model="isKvmEnabled"
-						/>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
 		<br />
 
-		<!-- Non-Environment Import Only -->
-
-		<div class="row" v-if="!isEnvImport">
+		<div class="row">
 			<div class="col-md-12">
 				<div class="software-file-uploader">
 					<file-dropzone
 						v-show="!filesAreAdded"
 						@change="addFiles"
-						:limit="isEnvImport ? 1 : Infinity"
+						:limit="fileLimit"
 					>
 						<file-upload-button
 							@change="addFiles"
-							:limit="isEnvImport ? 1 : Infinity"
+							:limit="fileLimit"
 							button-label="Browse My Computer"
 							secondary
 						/>
@@ -142,11 +85,20 @@
 							v-model="files"
 							@sort="sorted"
 							handle=".sfl-handle"
+							v-if="isEnvImport"
+						>
+							<environment-file-item :file="envFile" />
+						</draggable>
+						<draggable
+							v-model="files"
+							@sort="sorted"
+							handle=".sfl-handle"
+							v-else
 						>
 							<resource-file-list-item
-								v-for="f in files"
-								:key="f.name"
-								:file="f"
+								v-for="file in files"
+								:key="file.name"
+								:file="file"
 							/>
 						</draggable>
 					</div>
@@ -166,8 +118,9 @@
 	// noinspection TypeScriptCheckImport
 	import Draggable from 'vuedraggable';
 	import ResourceFileListItem from './ResourceFileListItem.vue';
+	import EnvironmentFileItem from './EnvironmentFileItem.vue';
 	import ResourceImportFile from '@/models/import/ResourceImportFile';
-	import { ImportType } from '@/types/Import';
+	import { ImportType, IResourceImportFile } from '@/types/Import';
 	import {operatingSystems} from '@/models/admin/OperatingSystems';
 
 	let http = new BaseHttpService();
@@ -176,7 +129,8 @@
 		name: 'ImportFiles',
 		components: {
 			Draggable,
-			ResourceFileListItem
+			ResourceFileListItem,
+			EnvironmentFileItem
 		}
 	})
 	export default class ImportFiles extends Vue {
@@ -185,10 +139,10 @@
         ============================================*/
 
 		@Sync('import/filesToUpload')
-		files: ResourceImportFile[];
+		files: IResourceImportFile[];
 
 		@Sync('import/selectedFiles')
-		selectedFiles: ResourceImportFile[];
+		selectedFiles: IResourceImportFile[];
 
 		@Sync('import/importType')
 		importType: ImportType;
@@ -197,7 +151,7 @@
 		step: number;
 
 		@Sync('import/environment@urlSource')
-		fileUrl: string;
+		urlSource: string;
 
 		@Sync('import/environment@diskSize')
 		diskSize: string;
@@ -207,13 +161,6 @@
 
 		@Sync('import/environment@nativeFMTs')
 		nativeFMTs: string[];
-
-		/**
-		 * Returns true if the string in the URL field is a valid URL
-		 */
-		get isUrlSource(): boolean {
-			return isValidUrl(this.fileUrl);
-		}
 
 		get filesAreAdded(): boolean {
 			return !!this.files.length;
@@ -230,6 +177,18 @@
 			return 'I will attach files to this resource from...';
 		}
 
+		get envFile(): IResourceImportFile {
+			return {
+				name: this.files[0].name,
+				file: this.files[0].file,
+				fileLabel: this.files[0].fileLabel
+			};
+		}
+
+		get fileLimit(): number {
+			return this.isEnvImport ? 1 : Infinity;
+		}
+
 		/* Data
         ============================================*/
 
@@ -239,22 +198,17 @@
 		/* Methods
         ============================================*/
 
-		checkUrl() {
-			// noinspection TypeScriptUnresolvedVariable
-			this.$refs.urlField['canValidate'] = true;
-			// noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
-			let validate = this.$refs.urlField['validate'];
-			validate();
-			this.step = this.isUrlSource ? 3 : 2;
-		}
-
 		addFiles(fileList: File[]) {
 			let startingSortIndex = this.files.length + 1;
-			for (let i=0; i<fileList.length; i++) {
+			for (let i = 0; i < fileList.length; i++) {
 				let f = fileList[i];
 				if (this.files.some(x => x.name === f.name)) continue;
 				let newFile = new ResourceImportFile(f, startingSortIndex + i);
-				this.files.push(newFile);
+				if (this.isEnvImport) {
+					this.files = [newFile];
+				} else {
+					this.files.push(newFile);
+				}
 			}
 			this.step = 3;
 		}
@@ -283,6 +237,11 @@
 			// If all files are removed, leaving 0 files, set step to 2
 			if (this.files.length === 0) this.step = 2;
 			this.selectNoFiles();
+		}
+
+		removeEnvironmentImageFile() {
+			this.selectedFiles.push(this.files[0]);
+			this.removeSelectedFiles();
 		}
 
 		mounted() {

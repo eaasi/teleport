@@ -4,6 +4,7 @@ import ResourceImportFile from '@/models/import/ResourceImportFile';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import EaasiTask from '@/models/task/EaasiTask';
 import _importService from '@/services/ImportService';
+import { IEmilUploadResponse } from '@/types/Eaas';
 import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImageImportPayload, ImportType, IResourceImportFile, ResourceImportPath } from '@/types/Import';
 import { ISoftwareObject } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
@@ -86,8 +87,8 @@ const actions = {
 	 */
 	async import({ state, dispatch }: Store<ImportState>) {
 		const importType = state.importType;
-		if (importType === importTypes.ENVIRONMENT && !state.filesToUpload.length) {
-			return await dispatch('importEnvironmentFromUrl') as EaasiTask;
+		if (importType === importTypes.ENVIRONMENT) {
+			return await dispatch('importEnvironment') as EaasiTask;
 		} else if (importType === importTypes.SOFTWARE) {
 			return await dispatch('importSoftwareFromFile') as EaasiTask;
 		} else if (importType === importTypes.CONTENT) {
@@ -101,57 +102,24 @@ const actions = {
 	 * Imports an Environment resource from a URL and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importEnvironmentFromUrl({ state } : Store<ImportState>) {
+	async importEnvironment({ state, dispatch } : Store<ImportState>) {
+		await dispatch('uploadContentResourceFiles');
 
-		let environmentImport = {
-			patchId: null,
-			nativeConfig: state.environment.nativeConfig,
-			templateId: state.environment.chosenTemplateId,
-			urlString: state.environment.urlSource,
+		let payload: IImageImportPayload = {
+			url: state.filesToUpload[0].fileLabel,
+			label: state.environment.title
 		};
 
-		let taskState = await _importService.importFromUrl(environmentImport) as ITaskState;
-		return new EaasiTask(taskState.taskId, `Environment Import from URL: ${environmentImport.urlString}`);
-	},
-
-	/**
-	 * Imports an Environment resource (as a content object file upload) and returns an EaasiTask object
-	 * @param {Store<ImportState>} store
-	 */
-	async importEnvironmentFromFile({ state, commit }: Store<ImportState>): Promise<EaasiTask> {
-		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
-
-		if (uploadResponse.status === '0') {   // Success
-			let blobs = uploadResponse.uploads;
-
-			let importRequest = {
-				label: state.environment.title,
-				files: [],
-			};
-
-			let i = 0;
-
-			blobs.forEach(async url => {
-				let file = state.filesToUpload[i];
-				importRequest.files.push({
-					'filename': file.name,
-					'deviceId': 'Q495265',
-					'url': url,
-				});
-				i++;
-			});
-
-			commit('SET_FILES_TO_UPLOAD', []);
-			return await _importService.importUploadBlob(importRequest);
-		}
+		let taskState = await _importService.importImage(payload) as ITaskState;
+		return new EaasiTask(taskState.taskId, `Environment Import: ${payload.label}`);
 	},
 
 	/**
 	 * Imports a Software resource from file upload and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importSoftwareFromFile({ state, commit }: Store<ImportState>): Promise<EaasiTask> {
-		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
+	async importSoftwareFromFile({ state, dispatch, commit }: Store<ImportState>): Promise<EaasiTask> {
+		let uploadResponse = await dispatch('uploadContentResourceFiles');
 
 		if (uploadResponse.status === '0') {  // Success
 			let blobs = uploadResponse.uploads;
@@ -182,8 +150,8 @@ const actions = {
 	 * Imports a Content resource from file upload and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importContentFromFile({ state, commit, rootState }): Promise<EaasiTask> {
-		let uploadResponse = await _importService.uploadContentResourceFiles(state.filesToUpload);
+	async importContentFromFile({ state, commit, dispatch, rootState }): Promise<EaasiTask> {
+		let uploadResponse = await dispatch('uploadContentResourceFiles');
 		const globalState = rootState as GlobalState;
 		// uploadResponse.status 0 is success
 		if (uploadResponse.status === '0') {
@@ -209,6 +177,10 @@ const actions = {
 			commit('SET_FILES_TO_UPLOAD', []);
 			return await _importService.importUploadBlob(importRequest);
 		}
+	},
+
+	async uploadContentResourceFiles({ state }): Promise<IEmilUploadResponse> {
+		return await _importService.uploadContentResourceFiles(state.filesToUpload);
 	},
 
 

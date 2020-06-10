@@ -10,49 +10,6 @@
 					v-model="title"
 				/>
 			</div>
-
-			<div class="col-md-6">
-				<select-list
-					v-model="chosenTemplateId"
-					class="no-mb flex-adapt"
-					label="Choose a System"
-					rules="required"
-				>
-					<option value="" selected disabled>Please Choose a System</option>
-					<option
-						v-for="template in availableTemplates"
-						:key="template.id"
-						:value="template.id"
-					>
-						{{ template.label }}
-					</option>
-				</select-list>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-6">
-				<text-input
-					v-if="chosenTemplateId"
-					readonly
-					label="System Architecture"
-					:value="chosenTemplateArchitecture"
-				/>
-
-				<text-input
-					v-if="chosenTemplateId"
-					readonly
-					label="Emulator"
-					:value="chosenTemplateEmulator"
-				/>
-
-				<text-input
-					v-if="chosenTemplateId"
-					:readonly="readonly"
-					label="Config"
-					v-model="nativeConfig"
-				/>
-			</div>
 		</div>
 	</div>
 </template>
@@ -101,13 +58,11 @@ import { ITemplate } from '../../../types/Import';
 		}
 
 		get chosenTemplateEmulator(): string {
-			const { value } = this.activeTemplate.properties.find(prop => prop.name === 'EmulatorContainer');
-			return value;
+			return this.activeTemplate.emulator.bean;
 		}
 
 		get chosenTemplateArchitecture(): string {
-			const { value } = this.activeTemplate.properties.find(prop => prop.name === 'Architecture');
-			return value;
+			return this.activeTemplate.arch;
 		}
 
 		/* Lifecycle Hooks
@@ -119,7 +74,7 @@ import { ITemplate } from '../../../types/Import';
 		@Watch('activeTemplate')
 		onActiveTemplate(nextTemplate: ITemplate, prevTemplate: ITemplate) {
 			if (!prevTemplate || (nextTemplate && nextTemplate.id !== prevTemplate.id)) {
-				this.nativeConfig = this.activeTemplate.native_config;
+				this.nativeConfig = this.activeTemplate.nativeConfig?.value;
 			}
 		}
 	}

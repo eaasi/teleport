@@ -12,6 +12,7 @@ export class MockHttpService {
 	deleteUrl: string = '';
 
 	postData: object = {};
+	deleteData: object = {};
 
 	constructor() { }
 

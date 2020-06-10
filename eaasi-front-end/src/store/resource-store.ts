@@ -2,7 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
-import { ITemplate } from '@/types/Import';
+import { IPatch, ITemplate } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
@@ -21,6 +21,7 @@ class ResourceState {
 	result: IResourceSearchResponse = null;
 	savingEnvironments: ISavingEnvironmentState[] = [];
 	availableTemplates: ITemplate[] = [];
+	availablePatches: IPatch[] = [];
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
 	resourceName: string = '';
@@ -134,6 +135,11 @@ const actions = {
 	async getTemplates({ commit }) {
 		let result = await _svc.getTemplates();
 		commit('SET_AVAILABLE_TEMPLATES', result);
+	},
+
+	async getPatches({ commit }) {
+		let result = await _svc.getPatches();
+		commit('SET_AVAILABLE_PATCHES', result);
 	},
 
 	async getNameIndexes(_) {

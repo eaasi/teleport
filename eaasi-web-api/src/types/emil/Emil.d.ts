@@ -42,10 +42,9 @@ export interface ICreateEnvironmentPayload {
 }
 
 export interface IImageImportPayload {
-	nativeConfig: string;
-	patchId: any;
-	templateId: string;
-	urlString: string;
+	url: string;
+	label: string;
+	imageType?: string;
 }
 
 export interface IUploadRequest extends Request {

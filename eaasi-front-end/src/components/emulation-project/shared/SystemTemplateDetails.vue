@@ -35,11 +35,11 @@ export default class SystemTemplateDetails extends Vue {
         let items = [
             {
                 label: 'Emulator',
-                value: this.template.properties.find(prop => prop.name === 'EmulatorContainer')?.value,
+                value: this.template.emulator.bean
             },
             {
                 label: 'CPU Architecture',
-                value: this.template.properties.find(prop => prop.name === 'Architecture')?.value,
+                value: this.template.arch
             }
         ];
 		return items;

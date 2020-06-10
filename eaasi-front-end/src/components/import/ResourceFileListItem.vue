@@ -46,9 +46,9 @@ import ResourceImportFile from '@/models/import/ResourceImportFile';
 import {Sync} from 'vuex-pathify';
 
 @Component({
-	name: 'SoftwareFileListItem',
+	name: 'ResourceFileListItem',
 })
-export default class SoftwareFileListItem extends Vue {
+export default class ResourceFileListItem extends Vue {
 
 	/* Props
 	============================================*/

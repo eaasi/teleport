@@ -48,12 +48,12 @@ export default class LeftMenu extends Vue {
 			{
 				icon: 'file-search',
 				label: 'Explore Resources',
-				route: ROUTES.RESOURCES_EXPLORE,
+				route: ROUTES.RESOURCES.EXPLORE,
 			},
 			{
 				icon: 'clipboard-list',
 				label: 'My Resources',
-				route: ROUTES.RESOURCES_MY_RESOURCES,
+				route: ROUTES.RESOURCES.MY_RESOURCES,
 			},
 			{
 				icon: '',
@@ -64,7 +64,7 @@ export default class LeftMenu extends Vue {
 			{
 				icon: 'atom',
 				label: 'Emulation Project',
-				route: ROUTES.EMULATION_PROJECT,
+				route: ROUTES.EMULATION_PROJECT.OPTIONS,
 			},
 			{
 				icon: 'upload',
@@ -82,7 +82,7 @@ export default class LeftMenu extends Vue {
 			menu.push({
 				icon: 'manage',
 				label: 'Manage Node',
-				route: ROUTES.MANAGE_NODE,
+				route: ROUTES.MANAGE_NODE.ROOT,
 			});
 		}
 

@@ -2,42 +2,66 @@ export const ROUTES: IRoutes = {
     INDEX: '/',
     LOGIN: '/login',
     DASHBOARD: '/dashboard',
-    MANAGE_NODE: '/manage-node',
-    MANAGE_NODE_USERS: '/manage-node/users',
-    MANAGE_NODE_EMULATORS: '/manage-node/emulators',
-    MANAGE_NODE_RUNNING_TASKS: '/manage-node/running-tasks',
-    MANAGE_NODE_METADATA_SYNC: '/manage-node/metadata-sync',
-    MANAGE_NODE_NODE_PREFERENCES: '/manage-node/node-preferences',
-    MANAGE_NODE_INSTALL_AND_UPDATES: '/manage-node/install-updates',
-    EMULATION_PROJECT: '/emulation-project',
+    MANAGE_NODE: {
+        ROOT: '/manage-node',
+        USERS: '/manage-node/users',
+        EMULATORS: '/manage-node/emulators',
+        RUNNING_TASKS: '/manage-node/running-tasks',
+        METADATA_SYNC: '/manage-node/metadata-sync',
+        NODE_PREFERENCES: '/manage-node/node-preferences',
+        INSTALL_AND_UPDATES: '/manage-node/install-updates',
+    },
+    EMULATION_PROJECT: {
+        ROOT: '/emulation-project',
+        DETAILS: '/emulation-project:id',
+        OPTIONS: '/emulation-project/options',
+        CREATE_BASE_ENVIRONMENT: '/emulation-project/create-base-environment',
+    },
     IMPORT_RESOURCE: '/import-resource',
-    RESOURCES_MY_RESOURCES: '/resources/my-resources',
-    RESOURCES_EXPLORE: '/resources/explore',
-    RESOURCES_SOFTWARE: '/resources/software',
-    RESOURCES_ENVIRONMENT: '/resources/environment',
-    RESOURCES_CONTENT: '/resources/content',
+    RESOURCES: {
+        MY_RESOURCES: '/resources/my-resources',
+        EXPLORE: '/resources/explore',
+        SOFTWARE: '/resources/software',
+        ENVIRONMENT: '/resources/environment',
+        CONTENT: '/resources/content',
+    },
     ACCESS_INTERFACE: '/access-interface',
     WILD_CARD: '*',
 };
 
-export interface IRoutes {
+interface IRoutes {
     INDEX: string;
     LOGIN: string;
     DASHBOARD: string;
-    MANAGE_NODE: string;
-    MANAGE_NODE_USERS: string;
-    MANAGE_NODE_EMULATORS: string;
-    MANAGE_NODE_RUNNING_TASKS: string;
-    MANAGE_NODE_METADATA_SYNC: string;
-    MANAGE_NODE_NODE_PREFERENCES: string;
-    MANAGE_NODE_INSTALL_AND_UPDATES: string;
-    EMULATION_PROJECT: string;
+    MANAGE_NODE: IManageNodeRoutes;
+    EMULATION_PROJECT: IEmulationProjectRoutes;
     IMPORT_RESOURCE: string;
-    RESOURCES_MY_RESOURCES: string;
-    RESOURCES_EXPLORE: string;
-    RESOURCES_SOFTWARE: string;
-    RESOURCES_ENVIRONMENT: string;
-    RESOURCES_CONTENT: string;
+    RESOURCES: IResourcesRoutes;
     ACCESS_INTERFACE: string;
     WILD_CARD: string;
-}   
+}
+
+interface IManageNodeRoutes {
+    ROOT: string;
+    USERS: string;
+    EMULATORS: string;
+    RUNNING_TASKS: string;
+    METADATA_SYNC: string;
+    NODE_PREFERENCES: string;
+    INSTALL_AND_UPDATES: string;
+}
+
+interface IEmulationProjectRoutes {
+    ROOT: string;
+    DETAILS: string;
+    OPTIONS: string;
+    CREATE_BASE_ENVIRONMENT: string;
+}
+
+interface IResourcesRoutes {
+    MY_RESOURCES: string;
+    EXPLORE: string;
+    SOFTWARE: string;
+    ENVIRONMENT: string;
+    CONTENT: string;
+}

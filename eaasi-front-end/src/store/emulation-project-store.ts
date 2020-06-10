@@ -1,10 +1,10 @@
+import BaseEnvironment from '@/models/emulation-project/BaseEnvironment';
 import ContentImportResource from '@/models/import/ContentImportResource';
-import EnvironmentImportResource from '@/models/import/EnvironmentImportResource';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import _importService from '@/services/ImportService';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
+import { IEaasiResource } from '@/types/Resource';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
-import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
 /*============================================================
@@ -21,10 +21,12 @@ class EmulationProjectStore {
 
     chosenTemplateId: string = '';
     
-	environment: EnvironmentImportResource = new EnvironmentImportResource();
+	environment: BaseEnvironment = new BaseEnvironment();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	content: ContentImportResource = new ContentImportResource();
-    componentId: string = '';
+	componentId: string = '';
+	
+	projectResources: IEaasiResource[] = [];
     
 	// True when we're running an environment as an Object (Content) or Software Environment
 	isConstructedEnvironment: boolean = false;
@@ -49,6 +51,7 @@ mutations.RESET = (state) => {
 	state.createEnvironmentPayload.templateId = '';
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
+	state.environment = new BaseEnvironment();
 };
 
 /*============================================================
@@ -72,7 +75,7 @@ const actions = {
 	 * @param state: Store<EmulationProjectStore>
 	 * @param createPayload
 	 */
-	async postComponents({ state }: Store<EmulationProjectStore>, payload: any) {
+	async postComponents(_, payload: any) {
 		return await _importService.postComponents(payload);
 	},
 

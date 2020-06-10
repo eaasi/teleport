@@ -1,7 +1,7 @@
 import { IBookmark } from './Bookmark';
 import { IEaasiResource, IEnvironment, ResourceType } from './Resource';
 
-export type ResourceArchive = 'remote' | 'public' | 'default' | 'zero conf';
+export type ResourceArchive = 'remote' | 'public' | 'default' | 'zero conf' | 'Remote Objects';
 
 export interface IEaasiSearchResponse<T> {
 	result: T[],

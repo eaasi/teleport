@@ -12,21 +12,6 @@ import BaseHttpService from './BaseHttpService';
  */
 class ImportService extends BaseHttpService {
 	/**
-	 * Imports a resource from a URL string
-	 * @param {IResourceImport} resourceImport: specified image data
-	 */
-	async importFromUrl(resourceImport: IResourceImport) : Promise<EaasiTask> {
-		const res = await this.post<IResourceImport>(
-			'/import/url', resourceImport
-		);
-		if (!res.ok) {
-			console.log('Response returned error: ', res);
-			return null;
-		}
-		return res.result as EaasiTask;
-	}
-
-	/**
 	 * Makes a POST request to save an imported environment
 	 * @param {IEnvironmentImportSnapshot} snapshot
 	 */

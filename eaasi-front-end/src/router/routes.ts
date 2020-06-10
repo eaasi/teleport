@@ -7,6 +7,9 @@ import NodePreferenceManagement from '@/components/admin/node-preferences/NodePr
 import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
+import CreateBaseEnvironment from '@/components/emulation-project/base-environment/CreateBaseEnvironment.vue';
+import EmulationProjectDetails from '@/components/emulation-project/EmulationProjectDetails.vue';
+import EmulationProjectOptions from '@/components/emulation-project/EmulationProjectOptions.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 import ImportScreen from '@/components/import/ImportResourceScreen.vue';
 import LoginScreen from '@/components/login/LoginScreen.vue';
@@ -44,37 +47,37 @@ export default [
 	/* Admin
 	============================================*/
 	{
-		path: ROUTES.MANAGE_NODE,
+		path: ROUTES.MANAGE_NODE.ROOT,
 		name: 'Admin',
 		component: EmulatorManagement
 	},
 	{
-		path: ROUTES.MANAGE_NODE_USERS,
+		path: ROUTES.MANAGE_NODE.USERS,
 		name: 'User Management',
 		component: UserManagement
 	},
 	{
-		path: ROUTES.MANAGE_NODE_EMULATORS,
+		path: ROUTES.MANAGE_NODE.EMULATORS,
 		name: 'Emulators',
 		component: EmulatorManagement
 	},
 	{
-		path: ROUTES.MANAGE_NODE_RUNNING_TASKS,
+		path: ROUTES.MANAGE_NODE.RUNNING_TASKS,
 		name: 'Running Tasks',
 		component: RunningTaskManagement
 	},
 	{
-		path: ROUTES.MANAGE_NODE_METADATA_SYNC,
+		path: ROUTES.MANAGE_NODE.METADATA_SYNC,
 		name: 'Metadata Sync',
 		component: MetadataSyncAdmin
 	},
 	{
-		path: ROUTES.MANAGE_NODE_NODE_PREFERENCES,
+		path: ROUTES.MANAGE_NODE.NODE_PREFERENCES,
 		name: 'Node Preferences',
 		component: NodePreferenceManagement
 	},
 	{
-		path: ROUTES.MANAGE_NODE_INSTALL_AND_UPDATES,
+		path: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
 		name: 'Install and Updates',
 		component: InstallAndUpdateManagement
 	},
@@ -83,9 +86,29 @@ export default [
 	============================================*/
 
 	{
-		path: ROUTES.EMULATION_PROJECT,
+		path: ROUTES.EMULATION_PROJECT.ROOT,
 		name: 'Emulation Project',
-		component: EmulationProjectScreen
+		component: EmulationProjectScreen,
+		redirect: to => {
+			return ROUTES.EMULATION_PROJECT.OPTIONS;
+		},
+		children: [
+			{
+				path: ROUTES.EMULATION_PROJECT.DETAILS,
+				name: 'Emulation Project Details',
+				component: EmulationProjectDetails
+			},
+			{
+				path: ROUTES.EMULATION_PROJECT.OPTIONS,
+				name: 'Emulation Project Options',
+				component: EmulationProjectOptions
+			},
+			{
+				path: ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT,
+				name: 'Create Base Environment',
+				component: CreateBaseEnvironment
+			},
+		]
 	},
 
 	/* Import Resource
@@ -97,29 +120,29 @@ export default [
 		component: ImportScreen,
 	},
 	{
-		path: ROUTES.RESOURCES_MY_RESOURCES,
+		path: ROUTES.RESOURCES.MY_RESOURCES,
 		name: 'My Resources',
 		component: MyResourcesScreen,
 		props: true
 	},
 	{
-		path: ROUTES.RESOURCES_EXPLORE,
+		path: ROUTES.RESOURCES.EXPLORE,
 		name: 'Explore Resources',
 		component: ExploreResourcesScreen,
 		props: true
 	},
 	{
-		path: ROUTES.RESOURCES_SOFTWARE,
+		path: ROUTES.RESOURCES.SOFTWARE,
 		name: 'Software Resource Detail',
 		component: SoftwareDetailsScreen
 	},
 	{
-		path: ROUTES.RESOURCES_ENVIRONMENT,
+		path: ROUTES.RESOURCES.ENVIRONMENT,
 		name: 'Environment Resource Detail',
 		component: EnvironmentDetailsScreen
 	},
 	{
-		path: ROUTES.RESOURCES_CONTENT,
+		path: ROUTES.RESOURCES.CONTENT,
 		name: 'Content Resource Detail',
 		component: ContentDetailsScreen
 	},

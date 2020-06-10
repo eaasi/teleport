@@ -13,7 +13,7 @@
 				<ui-button color-preset="light-blue" @click="raiseClearBookmarksModal" v-if="bookmarks && bookmarks.length">
 					Clear All Bookmarks
 				</ui-button>
-				<ui-button color-preset="light-blue" @click="$router.push(RESOURCES_EXPLORE)" v-else>
+				<ui-button color-preset="light-blue" @click="$router.push(exploreResourcesPath)" v-else>
 					Add Bookmarks
 				</ui-button>
 			</div>
@@ -178,7 +178,7 @@ export default class MyBookmarksSection extends Vue {
 
 	/* Data
     ============================================*/
-	readonly RESOURCES_EXPLORE = ROUTES.RESOURCES_EXPLORE;
+	readonly exploreResourcesPath = ROUTES.RESOURCES.EXPLORE;
 	isClearBookmarksModalVisible: boolean = false;
 
     /* Methods
