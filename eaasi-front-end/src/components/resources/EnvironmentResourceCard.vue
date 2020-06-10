@@ -212,7 +212,7 @@ export default class EnvironmentResourceCard extends Vue {
 	}
 
 	goToDetailsPage() {
-		this.$router.push({ path: ROUTES.RESOURCES_ENVIRONMENT, query: { resourceId: this.environment.envId.toString()} });
+		this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: this.environment.envId.toString()} });
 	}
 
 	@Watch('savingEnvTask')

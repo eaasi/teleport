@@ -289,7 +289,7 @@ export default class ContentDetailsScreen extends Vue {
 	};
 
 	goBackToResults() {
-		this.$router.push(ROUTES.RESOURCES_EXPLORE);
+		this.$router.push(ROUTES.RESOURCES.EXPLORE);
 	}
 }
 

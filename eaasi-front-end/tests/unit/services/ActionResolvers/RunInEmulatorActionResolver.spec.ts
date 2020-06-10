@@ -31,7 +31,7 @@ describe('RunInEmulatorActionResolver', () => {
 
 	it('should be disabled if a single non-public resource is selected', () => {
 		let fakeEnvs = generateFakeEnvironments(1);
-		fakeEnvs[0].archive = 'foo';
+		fakeEnvs[0].archive = 'remote';
 		let sut = new RunInEmulatorActionResolver(fakeEnvs, 1);
 		expect(sut.action.isEnabled).toBe(false);
 	});

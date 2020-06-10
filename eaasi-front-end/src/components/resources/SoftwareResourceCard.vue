@@ -99,7 +99,7 @@ export default class SoftwareResourceCard extends Vue {
 	goToDetailsPage() {
 		this.$router.push(
 			{
-				path: ROUTES.RESOURCES_SOFTWARE,
+				path: ROUTES.RESOURCES.SOFTWARE,
 				query: {
 					resourceId: this.software.id.toString(),
 					archiveId: this.software.archiveId.toString()

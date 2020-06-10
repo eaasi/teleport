@@ -48,7 +48,7 @@ import { generateNotificationError, generateNotificationSuccess } from '../../he
 import eventBus from '../../utils/event-bus';
 import { ITaskState } from '../../types/Task';
 import ContentImportResource from '../../models/import/ContentImportResource';
-import { IEnvironment } from '../../types/Resource';
+import { IEnvironment, ResourceType } from '../../types/Resource';
 
 	@Component({
 		name: 'ImportProgress',
@@ -163,37 +163,30 @@ import { IEnvironment } from '../../types/Resource';
 
 		async onTaskComplete(taskResult: ITaskState) {
 			const { environmentId, objectId } = taskResult.userData;
-			if (environmentId || objectId) {
+			if (objectId) {
 				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
 			}
 			switch(this.importType) {
 				case importTypes.ENVIRONMENT:
-					await this.onImportEnvFromURLTask(environmentId);
+					await this.onImportEnvironment(environmentId);
 					break;
 				case importTypes.CONTENT:
-					this.onImportContentTask(objectId);
+					await this.onImportContentTask(objectId);
 					break;
 				case importTypes.SOFTWARE:
 					// This path occurs when a user uploads a Software Object
-					this.onImportSoftwareTask(objectId);
+					await this.onImportSoftwareTask(objectId);
 					break;
 			}
 		}
 
-		async onImportEnvFromURLTask(environmentId: string) {
-			this.environmentEaasiID = environmentId;
-			this.userImportRequest.resourceId = environmentId;
-			this.userImportRequest.resourceType = resourceTypes.ENVIRONMENT;
-			const { eaasiID }: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
-			this.notifyUserOnImportedResource(eaasiID, importTypes.ENVIRONMENT);
+		async onImportEnvironment(environmentId: string) {
+			await this.createUserImportRelation(resourceTypes.ENVIRONMENT, environmentId);
 			this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.environmentEaasiID}`);
 		}
 
 		async onImportContentTask(objectId: string) {
-			this.userImportRequest.resourceId = objectId;
-			this.userImportRequest.resourceType = resourceTypes.CONTENT;
-			const { eaasiID } = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
-			this.notifyUserOnImportedResource(eaasiID, importTypes.CONTENT);
+			await this.createUserImportRelation(resourceTypes.CONTENT, objectId);
 			// This path occurs when a user uploads a Content Object
 			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources' }});
 		}
@@ -211,18 +204,21 @@ import { IEnvironment } from '../../types/Resource';
 				objectId
 			});
 
-			this.userImportRequest.resourceId = objectId;
-			this.userImportRequest.resourceType = resourceTypes.SOFTWARE;
-			const { eaasiID } = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
-			this.notifyUserOnImportedResource(eaasiID, importTypes.SOFTWARE);
-			
+			await this.createUserImportRelation(resourceTypes.SOFTWARE, objectId);
 			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources' } });
 		}
 
-		notifyUserOnImportedResource(resourceId: string, importType: ImportType) {
+		async createUserImportRelation(resourceType: ResourceType, resourceId: string) {
+			this.userImportRequest.resourceId = resourceId;
+			this.userImportRequest.resourceType = resourceType;
+			const { eaasiID } = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			this.notifyUserOnImportedResource(eaasiID, resourceType);
+		}
+
+		notifyUserOnImportedResource(resourceId: string, resourceType: ResourceType) {
 			resourceId != null
-				? this.scheduleNotificationSuccess(`${importType} has been successfully imported to "My Resources"`)
-				: this.scheduleNotificationFailure(`Having troubles importing requested ${importType}.`);
+				? this.scheduleNotificationSuccess(`${resourceType} has been successfully imported to "My Resources"`)
+				: this.scheduleNotificationFailure(`Having troubles importing requested ${resourceType}.`);
 		}
 
 		scheduleNotificationFailure(message: string) {
