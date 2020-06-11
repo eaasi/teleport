@@ -1,6 +1,6 @@
-import AppLogger from '../../../src/logging/appLogger';
+import { AppLogger } from '../../../src/logging/appLogger';
 import BaseController from '../../../src/controllers/base/BaseController';
-import HttpResponseCode from '../../../src/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import {mockRequest, mockResponse} from '../../helpers/doubles/express-doubles';
 import CrudQuery from '../../../src/services/base/CrudQuery';
 

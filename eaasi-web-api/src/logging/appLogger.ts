@@ -3,6 +3,7 @@ import fs from 'fs';
 import moment from 'moment';
 import winston from 'winston';
 import OrmTransport from './ormTransport';
+import { IAppLogger } from '@/types/general/log';
 
 const options = {
 	file: {
@@ -19,11 +20,11 @@ const options = {
 	},
 }
 
-function buildTransports(source: string) {
+function buildTransports() {
 	if (process.env.NODE_ENV === 'production') {
 		return [
 			new winston.transports.File(options.file),
-			new OrmTransport(source),
+			new OrmTransport(),
 		];
 	} else if (process.env.NODE_ENV === 'test') {
 		return [new winston.transports.Stream({
@@ -36,12 +37,11 @@ function buildTransports(source: string) {
 
 /**
  * Custom application logger with specified transports
- * @param source Origin of the logging event in the application
  */
-export const logger = (source: string = 'unknown') => winston.createLogger({
-	transports: buildTransports(source),
+export const logger = () => winston.createLogger({
+	transports: buildTransports(),
 	exitOnError: false,
-	exceptionHandlers: buildTransports(source)
+	exceptionHandlers: buildTransports()
 });
 
 // create a stream object with a 'write' function that will be used by `morgan`
@@ -55,17 +55,15 @@ logger.stream = {
 /**
  * Application Logger
  */
-export default class AppLogger implements IAppLogger {
+export class AppLogger implements IAppLogger {
 	/**
 	 * Logger implementation
 	 */
 	public log: winston.Logger;
 
-	constructor(source: string) {
-		this.log = logger(source);
+	constructor() {
+		this.log = logger();
 	}
 }
 
-export interface IAppLogger {
-	log: NodeJS.EventEmitter;
-}
+export default new AppLogger();

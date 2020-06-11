@@ -2,7 +2,6 @@ import { DOMAIN, MAX_AGE } from '@/config/jwt-config';
 import samlConfig from '@/config/saml-config';
 import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
 import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
-import AppLogger from '@/logging/appLogger';
 import AuthService from '@/services/auth/AuthService';
 import UserHashService from '@/services/auth/UserHashService';
 import UserService from '@/services/user/UserService';
@@ -24,14 +23,12 @@ const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENAB
 
 export default class EaasiAuthController extends BaseController {
 
-	readonly _logger: AppLogger;
 	private readonly _userService: UserService;
 	private readonly _authService: AuthService;
 	private readonly _userHashService: UserHashService;
 
 	constructor() {
 		super();
-		this._logger = new AppLogger(this.constructor.name);
 		this._userService = new UserService();
 		if (!SAML_ENABLED) {
 			this._authService = new AuthService();

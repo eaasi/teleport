@@ -1,6 +1,6 @@
 import ICrudController from '@/controllers/interfaces/ICrudController';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import { areAllValidIntegerParams } from '@/utils/validators';
 import { Request, Response } from 'express';
 import { Result } from 'express-validator';

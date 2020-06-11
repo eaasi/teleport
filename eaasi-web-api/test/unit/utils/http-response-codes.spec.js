@@ -1,4 +1,4 @@
-import HttpResponseCode from '../../../src/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 
 describe('The HTTP response code', () => {
 	it('for \'OK\' returns 200', () => {

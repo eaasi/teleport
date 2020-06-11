@@ -2,8 +2,8 @@
  * Standard Error Responses for web API Requests
  */
 
-import ErrorResponse from './ErrorResponse';
-import HttpResponseCode from './HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import ErrorResponse from '@/classes/ErrorResponse';
 
 /**
  * Provides a common message response object

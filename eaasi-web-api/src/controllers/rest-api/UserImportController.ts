@@ -6,7 +6,7 @@ import ImportedSoftwareService from '@/services/rest-api/ImportedSoftwareService
 import { IUserImportedResource, IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
 import { resourceTypes } from '@/utils/constants';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import { Request, Response } from 'express-serve-static-core';
 import BaseController from '../base/BaseController';
 
