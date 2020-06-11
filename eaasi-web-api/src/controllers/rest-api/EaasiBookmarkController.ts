@@ -1,7 +1,7 @@
 import BaseCrudController from '@/controllers/base/BaseCrudController';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
 import { Request, Response } from 'express-serve-static-core';
-import HttpResponseCode from '@/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import { build_400_response, build_500_response, build_404_response } from '@/utils/error-helpers';
 import BaseController from '../base/BaseController';
 

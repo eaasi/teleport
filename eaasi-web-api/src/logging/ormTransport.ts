@@ -7,19 +7,14 @@ import Transport from 'winston-transport';
  * Custom Winston Transport for persisting logs to database via ORM
  */
 export default class OrmTransport extends Transport {
-	/**
-	 * Application source of logged event
-	 */
-	protected source: string;
 
 	/**
 	 * Model
 	 */
 	protected model: any;
 
-	constructor(source: string, model: any = ApplicationLog) {
+	constructor(model: any = ApplicationLog) {
 		super();
-		this.source = source;
 		this.model = model;
 	}
 
@@ -32,10 +27,9 @@ export default class OrmTransport extends Transport {
 		const log = () => {
 			const data = {
 				message: info.message,
-				level: info.level,
-				source: this.source,
+				level: info.level
 			};
-			
+
 			this.model.create(data)
 				.then((log: any) => {
 					this.emit('logged');

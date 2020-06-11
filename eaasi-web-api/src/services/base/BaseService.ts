@@ -1,10 +1,11 @@
 import AppLogger from '@/logging/appLogger';
+import { IAppLogger } from '@/types/general/log';
 
 export default class BaseService {
 
-	protected readonly _logger: AppLogger;
+	protected readonly _logger: IAppLogger;
 
 	constructor() {
-    	this._logger = new AppLogger(this.constructor.name);
+    	this._logger = AppLogger;
 	}
 }

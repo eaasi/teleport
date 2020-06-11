@@ -6,7 +6,7 @@ import EmilTaskService from '@/services/task/EmilTaskService';
 import { TaskState } from '@/types/emil/Emil';
 import { IEaasiTask } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import { Request, Response } from 'express';
 import BaseController from '../base/BaseController';
 

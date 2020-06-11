@@ -1,4 +1,4 @@
-import IErrorResponse from './interfaces/IErrorResponse';
+import { IErrorResponse } from '@/types/general/http';
 
 export default class ErrorResponse implements IErrorResponse {
 	constructor(httpStatusCode: number, message: string) {
