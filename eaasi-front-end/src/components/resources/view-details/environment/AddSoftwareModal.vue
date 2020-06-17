@@ -18,9 +18,9 @@
 				:data="softwareList"
 			/>
 		</div>
-		<alert-card v-if="errorMessage" type="error">
+		<alert card v-if="errorMessage" type="error">
 			{{ errorMessage }}
-		</alert-card>
+		</alert>
 
 		<template #buttonsRight>
 			<div class="justify-end buttons-right">

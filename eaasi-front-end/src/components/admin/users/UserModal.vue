@@ -54,10 +54,10 @@
 				<hr class="btn-wrapper-hr" />
 				<div class="btn-wrapper">
 					<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
-					<ui-button 
-						v-if="showResetPassword" 
-						@click="isResetPasswordModalVisible = true" 
-						color-preset="light-blue" 
+					<ui-button
+						v-if="showResetPassword"
+						@click="isResetPasswordModalVisible = true"
+						color-preset="light-blue"
 						style="margin-left: 2rem;"
 					>
 						Reset Password
@@ -74,7 +74,7 @@
 			@close="isDeleteModalVisible = false"
 			@click:confirm="confirmDeleteUser"
 		>
-			<alert-card type="warning" v-if="user">
+			<alert card type="warning" v-if="user">
 				<div class="delete-message">
 					You are about to delete the user <span class="user-to-delete">{{ user.username }}</span>.
 				</div>
@@ -82,7 +82,7 @@
 					This will remove all data associated with the user in the system. Please confirm you would like to continue.
 					This action cannot be undone.
 				</div>
-			</alert-card>
+			</alert>
 		</confirm-modal>
 
 		<confirm-modal
@@ -93,15 +93,15 @@
 			@close="isResetPasswordModalVisible = false"
 			@click:confirm="resetPassword"
 		>
-			<alert-card type="warning" v-if="user">
+			<alert card type="warning" v-if="user">
 				<div class="delete-message">
 					You are about to reset a password for user <span class="user-to-reset">{{ user.username }} - {{ user.email }}</span>.
 				</div>
 				<div class="delete-message">
-					This will reset the current user password and send a new password to the user's email. 
+					This will reset the current user password and send a new password to the user's email.
 					This action cannot be undone.
 				</div>
-			</alert-card>
+			</alert>
 		</confirm-modal>
 	</div>
 </template>
@@ -203,7 +203,7 @@ export default class UserModal extends Vue {
 	async resetPassword() {
 		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
 		this.isResetPasswordModalVisible = false;
-		const notification = success 
+		const notification = success
 			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}.`)
 			: generateNotificationError('Something went wrong, please try again.');
 		eventBus.$emit('notification:show', notification);

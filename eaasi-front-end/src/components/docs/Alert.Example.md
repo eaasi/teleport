@@ -1,7 +1,7 @@
 ### Example Usage
 
-The Alert component has a default slot to wrap alert text.  For example, it is used as a container for 
-content in an <a href='#alertcard'>AlertCard</a> component.
+The Alert component has a default slot to wrap alert text.  For example, it is used as a container for
+content in an <a href='#alert'>Alert</a> component.
 
 Provide a `type` of `info`, `success`, `warning`, or `error` to change the Alert style
 

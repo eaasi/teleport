@@ -24,9 +24,9 @@
 				rules="required|url"
 				placeholder="Enter a URL..."
 			/>
-			<alert-card class="ah-error" type="error" v-if="error">
+			<alert card class="ah-error" type="error" v-if="error">
 				{{ error }}
-			</alert-card>
+			</alert>
 		</div>
 	</form-modal>
 </template>

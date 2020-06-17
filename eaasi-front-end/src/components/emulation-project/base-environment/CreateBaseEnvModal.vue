@@ -64,7 +64,6 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
-import AlertCard from '@/components/global/Alert/AlertCard.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
 import HardwareTemplateSelection from '@/components/emulation-project/HardwareTemplateSelection.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
@@ -75,7 +74,6 @@ import {IOsTypeOptions} from '@/types/IOsTypeOptions';
 	name: 'CreateBaseEnvModal',
 	components: {
 		HardwareTemplateSelection,
-		AlertCard,
 		InfoModal,
 		UiButton,
 		SelectList,

@@ -7,13 +7,13 @@
 			<div class="tm-message" v-if="!isComplete">
 				{{ task.description || 'Please Wait' }}...
 			</div>
-			<alert-card type="error" v-if="error">
+			<alert card type="error" v-if="error">
 				<strong>Error: </strong>
 				{{ error }}
-			</alert-card>
-			<alert-card type="success" v-if="success">
+			</alert>
+			<alert card type="success" v-if="success">
 				This task was succesfully completed
-			</alert-card>
+			</alert>
 		</div>
 	</modal>
 </template>

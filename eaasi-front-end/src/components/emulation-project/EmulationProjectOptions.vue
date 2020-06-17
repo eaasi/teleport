@@ -1,14 +1,16 @@
 <template>
 	<div class="emu-project-content padded">
 		<!-- Error message -->
-		<info-message v-if="error" type="error" :message="error" />
+		<alert card no-icon type="warning" class="mb">
+			Add a base environment to continue
+		</alert>
 		<!-- Find a Base -->
-		<div class="emu-option-item flex flex-row justify-between">
+		<div class="emu-option-item flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Find a Base</h4>
 				<p>Find an exisating base environment.</p>
 			</div>
-			<div class="btn-wrapper flex flex-row">
+			<div class="btn-wrapper flex-row">
 				<ui-button
 					@click="search"
 					style="margin-right: 3rem;"
@@ -134,10 +136,6 @@ export default class EmulationProjectOptions extends Vue {
 				font-size: 1.4rem;
 				font-weight: 400;
 				width: 20rem;
-			}
-			.labeled-btn-label {
-				font-size: 1rem;
-				max-width: 100%;
 			}
 		}
 	}

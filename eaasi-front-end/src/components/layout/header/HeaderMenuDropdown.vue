@@ -26,15 +26,15 @@
 			@close="isResetPasswordModalVisible = false"
 			@click:confirm="resetPassword"
 		>
-			<alert-card type="warning" v-if="user">
+			<alert card type="warning" v-if="user">
 				<div class="delete-message">
 					You are about to reset your password
 				</div>
 				<div class="delete-message">
-					This will reset your password and send a new password to your email. 
+					This will reset your password and send a new password to your email.
 					This action cannot be undone.
 				</div>
-			</alert-card>
+			</alert>
 		</confirm-modal>
 	</div>
 </template>
@@ -77,7 +77,7 @@ export default class HeaderMenuDropdown extends Vue {
 
 	/* Data
 	============================================*/
-	
+
 	isDropDownVisible: boolean = false;
 	isResetPasswordModalVisible: boolean = false;
 	allowResetPassword: boolean = !config.SAML_ENABLED;
@@ -92,7 +92,7 @@ export default class HeaderMenuDropdown extends Vue {
 	async resetPassword() {
 		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
 		this.isResetPasswordModalVisible = false;
-		const notification = success 
+		const notification = success
 			? generateNotificationSuccess('You successfully reset your password.')
 			: generateNotificationError('Something went wrong, please try again.');
 		eventBus.$emit('notification:show', notification);
@@ -112,7 +112,7 @@ export default class HeaderMenuDropdown extends Vue {
 	padding: 0 2rem;
 	position: relative;
 
-	.icon {
+	.hmd-user .icon, .hmd-list .icon {
 		color: $dark-neutral;
 		font-size: 2rem;
 		margin-left: 5px;

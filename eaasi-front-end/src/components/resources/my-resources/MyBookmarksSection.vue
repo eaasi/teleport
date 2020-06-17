@@ -90,9 +90,9 @@
 			@close="closeClearBookmarksModal"
 			@click:confirm="clearBookmarks"
 		>
-			<alert-card type="warning">
+			<alert card type="warning">
 				You are about to clear all of your bookmarks! Your bookmarked environments will no longer appear under "My Bookmarks." This action cannot be undone.
-			</alert-card>
+			</alert>
 		</confirm-modal>
 	</div>
 </template>
@@ -216,7 +216,7 @@ export default class MyBookmarksSection extends Vue {
         await this.$store.dispatch('bookmark/clearBookmarks', this.user.id);
         this.isClearBookmarksModalVisible = false;
 	}
-	
+
 	openActionMenu(tab: IEaasiTab) {
 		this.$emit('open-action-menu', tab);
 	}

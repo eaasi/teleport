@@ -73,9 +73,9 @@
 			@click:confirm="moveToSoftware"
 			@close="confirmModal = false"
 		>
-			<alert-card v-if="errorMessage" type="error">
+			<alert card v-if="errorMessage" type="error">
 				{{ errorMessage }}
-			</alert-card>
+			</alert>
 			<alert v-else type="info">
 				<span class="ers-rep-msg">
 					Are you sure you want to treat this object as software?
