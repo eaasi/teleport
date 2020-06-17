@@ -1,11 +1,11 @@
-import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { Column, CreatedAt, Table, UpdatedAt } from 'sequelize-typescript';
+import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
 	tableName: 'bookmark'
 })
-export class Bookmark extends Model<Bookmark> {
+export class Bookmark extends EaasiUserOwnedModel {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -19,13 +19,6 @@ export class Bookmark extends Model<Bookmark> {
 		autoIncrement: true
 	})
 	id: number;
-
-	@ForeignKey(() => EaasiUser)
-	@Column({
-		type: DataTypes.INTEGER,
-		allowNull: false,
-	})
-	userID: number;
 
 	@Column({
 		type: DataTypes.STRING(128),

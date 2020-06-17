@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { Column, CreatedAt, ForeignKey, HasOne, Model, Table, UpdatedAt } from 'sequelize-typescript';
 import { EaasiRole } from './EaasiRole';
+import { EaasiRoles } from '@/types/auth/User';
 
 @Table({
 	tableName: 'eaasi_user'
@@ -48,7 +49,7 @@ export class EaasiUser extends Model<EaasiUser> {
     @Column({
     	type: DataTypes.INTEGER,
     })
-    roleId: number;
+    roleId: EaasiRoles;
 
     @Column({
     	type: DataTypes.TIME,

@@ -1,11 +1,11 @@
-import {EaasiUser} from '@/data_access/models/app/EaasiUser';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import {CreatedAt, UpdatedAt, Column, Table} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
 	tableName: 'user_imported_environment'
 })
-export class UserImportedEnvironment extends Model<UserImportedEnvironment> {
+export class UserImportedEnvironment extends EaasiUserOwnedModel {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -20,16 +20,9 @@ export class UserImportedEnvironment extends Model<UserImportedEnvironment> {
     })
     readonly id: number;
 
-    @ForeignKey(() => EaasiUser)
-    @Column({
-    	type: DataTypes.INTEGER,
-    	allowNull: false,
-    })
-    userID: number;
-
     @Column({
     	type: DataTypes.STRING(64),
     	allowNull: true,
     })
-    eaasiID: string;
+    eaasiId: string;
 }

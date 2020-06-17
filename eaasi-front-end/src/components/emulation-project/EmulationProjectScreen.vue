@@ -85,19 +85,15 @@ export default class EmulationProjectScreen extends Vue {
 		};
 
 		this.activeEnvironment = environment;
-		
+
 		this.$router.push(route);
 	}
-	
+
 	clear() {
 		this.$store.commit('emulationProject/RESET');
 		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
-	beforeDestroy() {
-		this.clear();
-	}
- 
 }
 
 </script>

@@ -20,14 +20,14 @@ class EmulationProjectStore {
     selectedSoftwareId: string = null;
 
     chosenTemplateId: string = '';
-    
+
 	environment: BaseEnvironment = new BaseEnvironment();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	content: ContentImportResource = new ContentImportResource();
 	componentId: string = '';
-	
+
 	projectResources: IEaasiResource[] = [];
-    
+
 	// True when we're running an environment as an Object (Content) or Software Environment
 	isConstructedEnvironment: boolean = false;
 	constructedTitle: string = '';

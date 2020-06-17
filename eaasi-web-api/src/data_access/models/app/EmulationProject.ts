@@ -1,11 +1,12 @@
-import {CreatedAt, UpdatedAt, Column, Table} from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Table, HasMany } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { EmulationProjectResource } from '.';
 import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
-	tableName: 'imported_content'
+	tableName: 'emulation_project'
 })
-export class UserImportedContent extends EaasiUserOwnedModel {
+export class EmulationProject extends EaasiUserOwnedModel {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -20,9 +21,6 @@ export class UserImportedContent extends EaasiUserOwnedModel {
     })
     readonly id: number;
 
-    @Column({
-    	type: DataTypes.STRING(64),
-    	allowNull: true,
-    })
-    eaasiId: string;
+	@HasMany(() => EmulationProjectResource, 'emulationProjectId')
+    resources: EmulationProjectResource[]
 }

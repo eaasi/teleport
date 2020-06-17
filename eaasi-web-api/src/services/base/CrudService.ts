@@ -193,7 +193,7 @@ export default class CrudService<T extends Model> extends BaseService implements
     		});
 	}
 
-	private createFindAllOptions(query: CrudQuery, raw: boolean = false) {
+	protected createFindAllOptions(query: CrudQuery, raw: boolean = false) {
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1) || 0;
     	let options = {

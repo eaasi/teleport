@@ -85,14 +85,12 @@ import { ROUTES } from '../../router/routes.const';
 })
 export default class EmulationProjectOptions extends Vue {
 
-	error: string = 'Add a base environment to continue';
-
 	search() {
-		// TODO
+		this.$router.push(ROUTES.RESOURCES.EXPLORE);
 	}
 
 	myResources() {
-		// TODO
+		this.$router.push(ROUTES.RESOURCES.MY_RESOURCES);
 	}
 
 	createBaseEnvironment() {

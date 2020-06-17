@@ -181,7 +181,7 @@ export default class UserImportController extends BaseController {
 			if (!req.body) this.sendClientError('Request to create user reference requires request body', res);
 			const userImportResource: IUserImportedResource = {
 				userID: userImportRelation.userId,
-				eaasiID: userImportRelation.resourceId
+				eaasiId: userImportRelation.resourceId
 			}
 			let result: IUserImportedResource;
 			switch(userImportRelation.resourceType) {

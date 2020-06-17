@@ -198,9 +198,9 @@ export default class Alert extends Vue {
 	}
 
 	.eaasi-alert-details {
-		color: #222;
-		margin-top: 1rem;
+		color: #222222;
 		line-height: 1.3em;
+		margin-top: 1rem;
 	}
 }
 </style>

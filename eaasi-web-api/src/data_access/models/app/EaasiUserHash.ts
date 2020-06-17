@@ -24,5 +24,5 @@ export class EaasiUserHash extends Model<EaasiUserHash> {
     	type: DataTypes.STRING(9999)
     })
     hash: string;
-    
+
 }

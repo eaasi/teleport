@@ -165,7 +165,7 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		if(results.length && userResources && (query.onlyImportedResources || results[0].resourceType === resourceTypes.CONTENT)) {
-			results = results.filter(r => userResources.some(ir => ir.eaasiID === r.id));
+			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
 		}
 
 		if (results.length && query.keyword) {
