@@ -1,7 +1,12 @@
 <template>
 	<div class="emu-project-content padded">
 		<!-- Error message -->
-		<alert card no-icon type="warning" class="mb">
+		<alert
+			card
+			no-icon
+			type="warning"
+			class="mb"
+		>
 			Add a base environment to continue
 		</alert>
 		<!-- Find a Base -->

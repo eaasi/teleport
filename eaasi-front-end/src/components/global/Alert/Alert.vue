@@ -1,10 +1,20 @@
 <template>
-	<div :class="['eaasi-alert flex-row', color, { card }]">
-		<div class="icon" v-if="!noIcon">
-			<span :class="`fas fa-${icon}`"></span>
+	<div :class="['eaasi-alert', color, { bordered, card }]">
+		<div :class="['flex-row justify-between', { clickable: collapsable }]" @click="collapse">
+			<div class="flex-row">
+				<div class="icon" v-if="!noIcon">
+					<span :class="`fas fa-${icon}`"></span>
+				</div>
+				<div class="eaasi-alert-content">
+					<slot></slot>
+				</div>
+			</div>
+			<div class="collapse clickable" v-if="isCollapsable">
+				<span :class="`fas fa-chevron-${collapsed ? 'down' : 'up'}`"></span>
+			</div>
 		</div>
-		<div class="content">
-			<slot></slot>
+		<div class="eaasi-alert-details" v-if="hasDetails && !collapsed">
+			<slot name="details"></slot>
 		</div>
 	</div>
 </template>
@@ -24,10 +34,22 @@ import isValidAlert from '@/types/validators/AlertType.validator';
 export default class Alert extends Vue {
 
 	/**
+	 * Adds border and border-radius when true)
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly bordered: boolean
+
+	/**
 	 * Apply card styles (padding and background-color)
 	 */
 	@Prop({type: Boolean, required: false})
 	readonly card: boolean
+
+	/**
+	 * Makes details slot collapseable
+	 */
+	@Prop({type: Boolean, required: false})
+	readonly collapsable: boolean
 
 	/**
 	 * Determines the icon and font color
@@ -63,6 +85,13 @@ export default class Alert extends Vue {
 	}
 
 	/**
+	 * Return true if details slot is populated
+	 */
+	get hasDetails(): boolean {
+		return !!this.$slots['details'];
+	}
+
+	/**
 	 * Icon based on AlertType
 	 */
 	get icon() {
@@ -77,6 +106,26 @@ export default class Alert extends Vue {
 		}
 	}
 
+	/**
+	 * Return true if details slot is populated
+	 */
+	get isCollapsable(): boolean {
+		return this.collapsable && this.hasDetails;
+	}
+
+	/* Data
+	============================================*/
+
+	collapsed: boolean = this.isCollapsable;
+
+	/* Methods
+	============================================*/
+
+	collapse() {
+		if(!this.isCollapsable) return;
+		this.collapsed = !this.collapsed;
+	}
+
 };
 </script>
 
@@ -84,6 +133,11 @@ export default class Alert extends Vue {
 .eaasi-alert {
 	font-size: 1.6rem;
 	text-align: left;
+	user-select: none;
+
+	.collapse {
+		font-size: 1.8rem;
+	}
 
 	&.card {
 		border-left: 2px solid #DDDDDD;
@@ -91,50 +145,62 @@ export default class Alert extends Vue {
 		padding: 16px;
 	}
 
+	&.bordered {
+		border: solid 2px #DDDDDD;
+		border-radius: 1rem;
+		padding: 16px;
+	}
+
 	&.red {
 		color: darken($red, 35%);
 		&.card {
-			border-color: darken($red, 35%);
 			background-color: lighten($red, 85%);
+			border-color: darken($red, 10%);
 		}
 	}
 
 	&.orange {
 		color: darken($orange, 40%);
 		&.card {
-			border-color: darken($orange, 40%);
 			background-color: lighten($orange, 90%);
+			border-color: darken($orange, 40%);
 		}
 	}
 
 	&.neutral {
 		color: darken($light-neutral, 30%);
 		&.card {
-			border-color: darken($light-neutral, 30%);
 			background: transparent;
+			border-color: darken($light-neutral, 30%);
 		}
 	}
 
 	&.blue {
 		color: $dark-blue;
 		&.card {
-			border-color: $dark-blue;
 			background-color: lighten($light-blue, 80%);
+			border-color: $dark-blue;
 		}
 	}
 
 	&.green {
 		color: darken($green, 20%);
 		&.card {
-			border-color: darken($green, 20%);
 			background-color: lighten($green, 95%);
+			border-color: darken($green, 20%);
 		}
 	}
 
 	.icon {
-		font-size: 1.6em;
+		font-size: 1.4em;
 		margin-right: 1rem;
 		padding: 0;
+	}
+
+	.eaasi-alert-details {
+		color: #222;
+		margin-top: 1rem;
+		line-height: 1.3em;
 	}
 }
 </style>

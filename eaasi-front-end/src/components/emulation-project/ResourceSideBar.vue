@@ -1,13 +1,18 @@
 <template>
 	<div class="resource-side-bar">
-		<info-message
+		<alert
+			bordered
+			card
+			collapsable
 			v-if="!hasDevicesAvailable"
-			message="Available Devices Full"
-			description="Unmark a selected resource to free up a drive to mark a new one."
 			type="error"
 			style="margin: 1rem 2rem 2rem 2rem;"
-			collapsible
-		/>
+		>
+			Available Devices Full
+			<div slot="details">
+				Unmark a selected resource to free up a drive to mark a new one.
+			</div>
+		</alert>
 		<tabbed-nav
 			:value="activeTab.label"
 			:tabs="tabs"
@@ -41,7 +46,7 @@ export default class ResourceSideBar extends Vue {
 	/* Computed
 	============================================*/
 	get hasDevicesAvailable(): boolean {
-		return false;
+		return true;
 	}
 
 	/* Data
