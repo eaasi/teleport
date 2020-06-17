@@ -18,12 +18,6 @@ export class ApplicationLog extends Model<ApplicationLog> {
 	level: string;
 
 	@Column({
-		type: DataTypes.STRING(64),
-		allowNull: true
-	})
-	source: string;
-
-	@Column({
 		type: DataTypes.JSONB,
 		allowNull: true
 	})
