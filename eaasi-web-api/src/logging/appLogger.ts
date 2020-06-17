@@ -31,7 +31,10 @@ function buildTransports() {
 			stream: fs.createWriteStream('/dev/null')
 		})];
 	} else {
-		return null;
+		return [
+			new OrmTransport(),
+			new winston.transports.Console()
+		]
 	}
 }
 
