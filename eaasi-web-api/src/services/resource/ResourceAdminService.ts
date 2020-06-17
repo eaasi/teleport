@@ -160,24 +160,24 @@ export default class ResourceAdminService extends BaseService {
 			results = results.filter(sw => query.archives.includes(sw.archiveId));
 		}
 
-		if (bookmarks && query.onlyBookmarks) {
+		if (results.length && bookmarks && query.onlyBookmarks) {
 			results = results.filter(r => bookmarks.some(b => b.resourceID === r.id));
 		}
 
-		if(userResources && (query.onlyImportedResources || results[0].resourceType === resourceTypes.CONTENT)) {
+		if(results.length && userResources && (query.onlyImportedResources || results[0].resourceType === resourceTypes.CONTENT)) {
 			results = results.filter(r => userResources.some(ir => ir.eaasiID === r.id));
 		}
 
-		if (query.keyword) {
+		if (results.length && query.keyword) {
 			let q = query.keyword.toLowerCase();
 			results = results.filter(r => r.title && r.title.toLowerCase().indexOf(q) > -1);
 		}
 
-		if (query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
+		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
 
-		if (query.sortCol) {
+		if (results.length && query.sortCol) {
 			results = results.sort((a, b) => {
 				const nameA = a.title.toLowerCase();
 				const nameB = b.title.toLowerCase();
