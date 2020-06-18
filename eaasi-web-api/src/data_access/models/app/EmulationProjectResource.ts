@@ -1,13 +1,12 @@
-import { BelongsTo, CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } from 'sequelize-typescript';
+import { BelongsTo, CreatedAt, Column, Model, Table, ForeignKey, Index } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import { EmulationProject } from './EmulationProject';
 import { ResourceType } from '@/types/resource/Resource';
-import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
 	tableName: 'emulation_project_resource'
 })
-export class EmulationProjectResource extends EaasiUserOwnedModel {
+export class EmulationProjectResource extends Model<EmulationProjectResource> {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 
@@ -19,6 +18,10 @@ export class EmulationProjectResource extends EaasiUserOwnedModel {
     })
     readonly id: number;
 
+	@Index({
+		name: 'project-resource-index',
+		type: 'UNIQUE'
+	})
 	@ForeignKey(() => EmulationProject)
 	@Column({
     	type: DataTypes.INTEGER,
@@ -26,6 +29,10 @@ export class EmulationProjectResource extends EaasiUserOwnedModel {
 	})
     emulationProjectId: number;
 
+	@Index({
+		name: 'project-resource-index',
+		type: 'UNIQUE'
+	})
 	@Column({
     	type: DataTypes.STRING,
     	allowNull: false,
