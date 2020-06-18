@@ -1,6 +1,6 @@
 import AppLogger from '@/logging/appLogger';
 import CrudQuery from '@/classes/CrudQuery';
-import { build_400_response, build_500_response } from '@/utils/error-helpers';
+import { build_400_response, build_500_response, build_404_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
 import { IAppLogger } from '@/types/general/log';
 import HttpResponseCode from '@/classes/HttpResponseCode';
@@ -29,6 +29,11 @@ export default class BaseController {
 		this._logger.log.error(error.stack);
 		response.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(error));
+	}
+
+	protected sendNotFound(response: Response) {
+		response.status(HttpResponseCode.NOT_FOUND)
+			.send(build_404_response())
 	}
 
 	protected _getQueryFromParams(req: Request) {

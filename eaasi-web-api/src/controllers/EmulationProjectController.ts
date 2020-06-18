@@ -3,6 +3,8 @@ import { IAuthorizedGetRequest } from '@/types/auth/Auth';
 import { Response } from 'express';
 import { EmulationProject } from '@/data_access/models/app';
 import UserOwnedCrudController from './base/UserOwnedCrudController';
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import { build_500_response, build_404_response } from '@/utils/error-helpers';
 
 export default class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
 
@@ -15,16 +17,26 @@ export default class EmulationProjectController extends UserOwnedCrudController<
 	 */
 	async getForUser(req: IAuthorizedGetRequest, res: Response) {
 		try {
-			let userId = req.user.id;
-			let result = await this.service.getOneWhere({
-				userId
-			})
-			if(!result) {
-				return this.sendNotFound(res);
+			let userId = Number(req.user.id);
+			let response = await this.service.getOneWhere({userId})
+			if(!response.hasError && !response.result) {
+				response = await this.service.create({userId})
 			}
-			res.send(result);
+			if (response.hasError) {
+				return res
+					.status(HttpResponseCode.SERVER_ERROR)
+					.send(build_500_response(response.error));
+			}
+
+			if (response.result == null) {
+				return res
+					.status(HttpResponseCode.NOT_FOUND)
+					.send(build_404_response(req.originalUrl));
+			}
+
+			return res.send(response.result);
 		} catch(e) {
-			this.sendError(e, res);
+			return this.sendError(e, res);
 		}
 	}
 }

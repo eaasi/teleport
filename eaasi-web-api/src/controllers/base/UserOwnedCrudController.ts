@@ -10,7 +10,6 @@ import { IAuthorizedRequest,
 	IAuthorizedDeleteRequest,
 	IAuthorizedGetRequest
 } from '@/types/auth/Auth';
-import { EaasiRoles } from '@/types/auth/User';
 
 /**
  * Base class for Controllers that handle user-owned CRUD logic
@@ -190,4 +189,10 @@ export default abstract class UserOwnedCrudController<T extends EaasiUserOwnedMo
 			.status(HttpResponseCode.SERVER_ERROR)
 			.send(build_500_response(err));
 	}
+}
+
+export enum EaasiRoles {
+	ADMIN = 1,
+	MANAGER = 2,
+	USER = 3
 }

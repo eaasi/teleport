@@ -1,10 +1,12 @@
 import EmulationProjectResourceService from '@/services/rest-api/EmulationProjectResourceService';
-import UserOwnedCrudController from './base/UserOwnedCrudController';
 import { EmulationProjectResource } from '@/data_access/models/app';
 import { IAuthorizedRequest } from '@/types/auth/Auth';
 import { Response } from 'express';
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import { build_500_response } from '@/utils/error-helpers';
+import BaseCrudController from './base/BaseCrudController';
 
-export default class EmulationProjectResourceController extends UserOwnedCrudController<EmulationProjectResource> {
+export default class EmulationProjectResourceController extends BaseCrudController<EmulationProjectResource> {
 
 	constructor(service: EmulationProjectResourceService = new EmulationProjectResourceService()) {
 		super(service);
@@ -15,12 +17,17 @@ export default class EmulationProjectResourceController extends UserOwnedCrudCon
 	 */
 	async getForProject(req: IGetEmulationProjectResourcesRequest, res: Response) {
 		try {
-			let result = await this.service.getAllWhere({
+			let response = await this.service.getAllWhere({
 				emulationProjectId: Number(req.params.projectId)
 			})
-			res.send(result);
+			if (response.hasError) {
+				return res
+					.status(HttpResponseCode.SERVER_ERROR)
+					.send(build_500_response(response.error));
+			}
+			return res.send(response.result);
 		} catch(e) {
-			this.sendError(e, res);
+			return this.sendError(e, res);
 		}
 	}
 

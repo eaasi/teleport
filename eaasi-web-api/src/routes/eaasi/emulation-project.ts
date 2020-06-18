@@ -1,7 +1,7 @@
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import EmulationProjectController from '@/controllers/EmulationProjectController';
-import { IAuthorizedGetRequest, IAuthorizedPostRequest, IAuthorizedPutRequest, IAuthorizedDeleteRequest } from '@/types/auth/Auth';
+import { IAuthorizedGetRequest, IAuthorizedPutRequest } from '@/types/auth/Auth';
 import { EmulationProject } from '@/data_access/models/app';
 import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest } from '@/controllers/EmulationProjectResourceController';
 
@@ -22,20 +22,6 @@ router.get('/:id',
 			: controller.get(req, res);
 	});
 
-router.get('/:id/resources',
-	[check('id').isNumeric()],
-	(req: IGetEmulationProjectResourcesRequest, res: Response) => {
-		const errors = validationResult(req);
-		return !errors.isEmpty()
-			? resourcesController.sendMalformedRequestResponse(req, res, errors)
-			: resourcesController.getForProject(req, res);
-	});
-
-router.post('/',
-	(req: IAuthorizedPostRequest<EmulationProject>, res: Response) => {
-		return controller.create(req, res);
-	});
-
 router.put('/:id',
 	[check('id').isNumeric()],
 	(req: IAuthorizedPutRequest<EmulationProject>, res: Response) => {
@@ -45,13 +31,13 @@ router.put('/:id',
 			: controller.update(req, res);
 	});
 
-router.delete('/:id',
-	[check('id').isNumeric()],
-	(req: IAuthorizedDeleteRequest, res: Response) => {
+router.get('/:projectId/resources',
+	[check('projectId').isNumeric()],
+	(req: IGetEmulationProjectResourcesRequest, res: Response) => {
 		const errors = validationResult(req);
 		return !errors.isEmpty()
-			? controller.sendMalformedRequestResponse(req, res, errors)
-			: controller.delete(req, res);
+			? resourcesController.sendMalformedRequestResponse(req, res, errors)
+			: resourcesController.getForProject(req, res);
 	});
 
 module.exports = router;
