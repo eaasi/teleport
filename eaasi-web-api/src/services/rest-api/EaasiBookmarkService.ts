@@ -19,7 +19,7 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 		return await this.model
     		.findAll({
 				where: {
-					userID: userID
+					userId: userID
 				}
 			})
 			.then((result: object) => {

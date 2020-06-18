@@ -41,7 +41,7 @@ export function build_403_response() {
  * Resource not found response
  * @type {{}}
  */
-export function build_404_response(requestedUrl: string) {
+export function build_404_response(requestedUrl?: string) {
 	const messageDetail =
 		`Resource was not found at the requested location: ${requestedUrl}`;
 	return new ErrorResponse(HttpResponseCode.NOT_FOUND, messageDetail);

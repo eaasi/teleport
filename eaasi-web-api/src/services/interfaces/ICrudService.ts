@@ -1,4 +1,4 @@
-import CrudQuery from '@/services/base/CrudQuery';
+import CrudQuery from '@/classes/CrudQuery';
 import {IPaginatedResult} from '@/types/Crud';
 import {WhereOptions} from 'sequelize';
 import ICrudServiceResult from './ICrudServiceResult';

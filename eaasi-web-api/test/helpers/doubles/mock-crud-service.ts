@@ -1,7 +1,7 @@
 /**
  * HSequelizeModelFakeSequelizeModelFakePService SequelizeModelFakeest Mock
  */
-import CrudQuery from '@/services/base/CrudQuery';
+import CrudQuery from '@/classes/CrudQuery';
 import ICrudService from '@/services/interfaces/ICrudService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import {IPaginatedResult} from '@/types/Crud';

@@ -8,10 +8,10 @@
 			<template v-slot:actions>
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
-						<ui-button disabled>Run</ui-button>
+						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
+						<ui-button :disabled="canRunProject">Run</ui-button>
 					</div>
 				</div>
 			</template>
@@ -37,7 +37,7 @@
 import { Component } from 'vue-property-decorator';
 import Vue from 'vue';
 import EmulationProjectOptions from './EmulationProjectOptions.vue';
-import { Sync } from 'vuex-pathify';
+import { Get, Sync } from 'vuex-pathify';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../types/Import';
 import { ROUTES } from '../../router/routes.const';
 import { IEnvironmentList, IEnvironment } from '../../types/Resource';
@@ -63,6 +63,9 @@ export default class EmulationProjectScreen extends Vue {
 
 	@Sync('resource/activeEnvironment')
 	activeEnvironment: IEnvironment;
+
+	@Get('emulationProject/canRunProject')
+	readonly canRunProject: boolean;
 
 	get isReadyToRun(): boolean {
 		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.size && !!this.createEnvironmentPayload.templateId;

@@ -104,7 +104,11 @@ const actions = {
  == Getters
 /============================================================*/
 
-const getters = {};
+const getters = {
+	canRunProject(): boolean {
+		return true; // TODO:
+	}
+};
 
 export default {
 	state,

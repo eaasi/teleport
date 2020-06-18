@@ -4,21 +4,26 @@ import { Response } from 'express';
 import { Result } from 'express-validator';
 import { EaasiUserOwnedModel } from '@/data_access/models/app/base-models/EaasiIUserOwnedModel';
 import BaseCrudController from './BaseCrudController';
-import { IAuthorizedRequest } from '@/types/auth/Auth';
+import { IAuthorizedRequest,
+	IAuthorizedPostRequest,
+	IAuthorizedPutRequest,
+	IAuthorizedDeleteRequest,
+	IAuthorizedGetRequest
+} from '@/types/auth/Auth';
 import { EaasiRoles } from '@/types/auth/User';
 
 /**
  * Base class for Controllers that handle user-owned CRUD logic
  */
-export default class BaseUserOwnedCrudController<T extends EaasiUserOwnedModel> extends BaseCrudController<T> {
+export default abstract class UserOwnedCrudController<T extends EaasiUserOwnedModel> extends BaseCrudController<T> {
 
 	/**
 	 * Gets a resource by ID
 	 * @param req request
 	 * @param res response
 	 */
-	async get(req: IAuthorizedRequest, res: Response) {
-		const id = Number(req.params['id']);
+	async get(req: IAuthorizedGetRequest, res: Response) {
+		const id = Number(req.params.id);
 
 		if (req.params['id'] == null) {
 			return res
@@ -53,7 +58,7 @@ export default class BaseUserOwnedCrudController<T extends EaasiUserOwnedModel> 
 	 * @param req request
 	 * @param res response
 	 */
-	async create(req: IAuthorizedRequest, res: Response) {
+	async create(req: IAuthorizedPostRequest<T>, res: Response) {
 		const newObject = req.body;
 
 		if (newObject == null) {
@@ -78,7 +83,7 @@ export default class BaseUserOwnedCrudController<T extends EaasiUserOwnedModel> 
 	 * @param req request
 	 * @param res response
 	 */
-	async update(req: IAuthorizedRequest, res: Response) {
+	async update(req: IAuthorizedPutRequest<T>, res: Response) {
 		const id = Number(req.params['id']);
 		const updateData = req.body;
 		let existing = await this.service.getByPk(id);
@@ -102,8 +107,8 @@ export default class BaseUserOwnedCrudController<T extends EaasiUserOwnedModel> 
 	 * @param req request
 	 * @param res response
 	 */
-	async delete(req: IAuthorizedRequest, res: Response) {
-		const id = Number(req.params['id']);
+	async delete(req: IAuthorizedDeleteRequest, res: Response) {
+		const id = Number(req.params.id);
 		let existing = await this.service.getByPk(id);
 		if(!existing.result) {
 			res.status(HttpResponseCode.BAD_REQUEST).send({error: 'Invalid id'});

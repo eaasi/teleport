@@ -1,24 +1,22 @@
-import { EaasiRoles } from '@/types/auth/User';
-
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.bulkInsert('eaasi_role', [
 			{
-				id: EaasiRoles.ADMIN,
+				id: 1,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				roleName: 'Admin',
 				roleDescription: 'Power user with all permissions to manage a node, its users, and resources'
 			},
 			{
-				id: EaasiRoles.MANAGER,
+				id: 2,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				roleName: 'Manager',
 				roleDescription: 'Second tier user with permission to manage contributions to node and Network'
 			},
 			{
-				id: EaasiRoles.USER,
+				id: 3,
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				roleName: 'Configuration User',

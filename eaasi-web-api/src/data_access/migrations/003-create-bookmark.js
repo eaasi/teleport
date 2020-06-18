@@ -10,7 +10,7 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			userID: {
+			userId: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {

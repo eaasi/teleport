@@ -1,5 +1,5 @@
 import AppLogger from '@/logging/appLogger';
-import CrudQuery from '@/services/base/CrudQuery';
+import CrudQuery from '@/classes/CrudQuery';
 import { build_400_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
 import { IAppLogger } from '@/types/general/log';

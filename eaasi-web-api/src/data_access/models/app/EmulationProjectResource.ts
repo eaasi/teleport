@@ -2,11 +2,12 @@ import { BelongsTo, CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey } fro
 import { DataTypes } from 'sequelize';
 import { EmulationProject } from './EmulationProject';
 import { ResourceType } from '@/types/resource/Resource';
+import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
 	tableName: 'emulation_project_resource'
 })
-export class EmulationProjectResource extends Model<EmulationProjectResource> {
+export class EmulationProjectResource extends EaasiUserOwnedModel {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

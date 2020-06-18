@@ -1,6 +1,6 @@
 import { MockCrudService } from '../../../helpers/doubles/mock-crud-service';
 import UserAdminService from '../../../../src/services/admin/UserAdminService';
-import CrudQuery from '../../../../src/services/base/CrudQuery';
+import CrudQuery from '../../../../src/classes/CrudQuery';
 
 describe('UserAdminService', () => {
 	// Constructor Tests
