@@ -4,7 +4,7 @@ import { Response } from 'express';
 import { EmulationProject } from '@/data_access/models/app';
 import UserOwnedCrudController from './base/UserOwnedCrudController';
 
-class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
+export default class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
 
 	constructor(service: EmulationProjectService = new EmulationProjectService()) {
 		super(service);
@@ -28,5 +28,3 @@ class EmulationProjectController extends UserOwnedCrudController<EmulationProjec
 		}
 	}
 }
-
-module.exports = EmulationProjectController;
