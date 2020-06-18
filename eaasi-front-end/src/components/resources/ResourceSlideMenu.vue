@@ -369,47 +369,19 @@ export default class ResourceSlideMenu extends Vue {
 				this.runInEmulator();
 				break;
 			case 'viewDetails':
-				// When View Details is clicked, we send to Resource Detail view
-				if (this.environmentIsSelected) {
-					const resourceId = this.onlySelectedResource.envId.toString();
-					this.$router.push({
-						path: ROUTES.RESOURCES.ENVIRONMENT,
-						query: { resourceId }
-					});
-					break;
-				}
-				// @ts-ignore
-				const archiveId = this.onlySelectedResource.archiveId;
-				const resourceId = this.onlySelectedResource.id.toString();
-				const path = this.softwareIsSelected ? ROUTES.RESOURCES.SOFTWARE : ROUTES.RESOURCES.CONTENT;
-				this.$router.push({
-					path,
-					query: { resourceId, archiveId }
-				});
+				this.viewDetails();
 				break;
 			case 'add-software':
-				// this.$emit('add-software');
 				this.addingSoftware = true;
 				break;
 			case 'treat-as-software':
 				this.$emit('treat-as-software');
 				break;
 			case 'bookmark':
-				// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
-				let resourceIds = this.resources.map(resource =>
-					resource.resourceType === resourceTypes.ENVIRONMENT
-						? resource.envId
-						: resource.id
-				);
-
-				let bookmarksRequest: MultiBookmarkRequest = {
-					userID: this.user.id,
-					resourceIDs: resourceIds as string[]
-				};
-
-				this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
-					this.$emit('bookmarks-updated');
-				});
+				this.bookmark();
+				break;
+			case 'addToEmuProject':
+				this.addToEmulationProject();
 				break;
 			case 'save':
 				this.confirmAction = 'save';
@@ -424,6 +396,27 @@ export default class ResourceSlideMenu extends Vue {
 		}
 	}
 
+	addToEmulationProject() {
+		this.$store.dispatch('emulationProject/addResources', this.resources);
+	}
+
+	bookmark() {
+		let resourceIds = this.resources.map(resource =>
+			resource.resourceType === resourceTypes.ENVIRONMENT
+				? resource.envId
+				: resource.id
+		);
+
+		let bookmarksRequest: MultiBookmarkRequest = {
+			userId: this.user.id,
+			resourceIDs: resourceIds as string[]
+		};
+
+		this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
+			this.$emit('bookmarks-updated');
+		});
+	}
+
 	runInEmulator(software = null) {
 		let environment = this.onlySelectedResource as IEnvironment;
 		let route = `${ROUTES.ACCESS_INTERFACE}/${environment.envId}`;
@@ -434,6 +427,26 @@ export default class ResourceSlideMenu extends Vue {
 			}
 		}
 		this.$router.push(route);
+	}
+
+	viewDetails() {
+		// When View Details is clicked, we send to Resource Detail view
+		if (this.environmentIsSelected) {
+			const resourceId = this.onlySelectedResource.envId.toString();
+			this.$router.push({
+				path: ROUTES.RESOURCES.ENVIRONMENT,
+				query: { resourceId }
+			});
+			return;
+		}
+		// @ts-ignore
+		const archiveId = this.onlySelectedResource.archiveId;
+		const resourceId = this.onlySelectedResource.id.toString();
+		const path = this.softwareIsSelected ? ROUTES.RESOURCES.SOFTWARE : ROUTES.RESOURCES.CONTENT;
+		this.$router.push({
+			path,
+			query: { resourceId, archiveId }
+		});
 	}
 
 	/* Watchers

@@ -62,7 +62,7 @@ const actions = {
 	 * @param bookmarksRequest
 	 */
 	async bookmarkMany({ state, dispatch }: Store<BookmarkStore>, bookmarksRequest: MultiBookmarkRequest) {
-    	const userId = bookmarksRequest.userID;
+    	const userId = bookmarksRequest.userId;
     	const resourceIds = bookmarksRequest.resourceIDs;
     	resourceIds.forEach(id => {
     		if (!state.bookmarks.find(bm => bm.resourceID === id)) {

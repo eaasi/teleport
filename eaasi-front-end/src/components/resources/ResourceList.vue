@@ -104,8 +104,8 @@ export default class ResourceList extends Vue {
 		await this.$store.dispatch('resource/clearSearch');
 	}
 
-	async handleBookmark(resourceID: number, isActive: boolean) {
-		const bookmarkRequest = { userID: this.user.id, resourceID };
+	async handleBookmark(resourceID: string | number, isActive: boolean) {
+		const bookmarkRequest = { userId: this.user.id, resourceID };
 		isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);

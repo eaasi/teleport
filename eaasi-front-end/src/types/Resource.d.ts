@@ -7,7 +7,7 @@ import { ITag } from './Tag';
 export type ResourceType = 'Environment' | 'Software' | 'Content';
 
 export interface IEaasiResource {
-	id?: number | string
+	id?: string
 	title: string
 	resourceType: ResourceType;
 	description?: string;
@@ -18,8 +18,6 @@ export interface IEaasiResource {
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {
-	id: number | string
-	title: string
 	tagGroup?: ITag[]
 
 	/**

@@ -19,8 +19,8 @@
 			color-preset="clear-white"
 		/>
 		<div class="content flex flex-column">
-			<ui-button color-preset="light-blue" icon="plus">
-				Add Object
+			<ui-button color-preset="light-blue">
+				Find Resource(s)
 			</ui-button>
 		</div>
 	</div>
@@ -31,6 +31,8 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
+import { Get } from 'vuex-pathify';
+import { IEmulationProjectResource } from '../../types/Emulation';
 
 @Component({
 	name: 'ResourceSideBar',
@@ -45,6 +47,10 @@ export default class ResourceSideBar extends Vue {
 
 	/* Computed
 	============================================*/
+
+	@Get('emulationProject/projectResources')
+	readonly projectResources: IEmulationProjectResource[]
+
 	get hasDevicesAvailable(): boolean {
 		return true;
 	}

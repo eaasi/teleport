@@ -1,5 +1,6 @@
 import BaseHttpService from './BaseHttpService';
 import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
+import { IEaasiResource } from '@/types/Resource';
 
 class EmulationProjectService extends BaseHttpService {
 
@@ -30,6 +31,13 @@ class EmulationProjectService extends BaseHttpService {
 	async addResource(resource: IEmulationProjectResource) {
 		let res = await this.post<IEmulationProjectResource>('/emulation-project-resource', resource);
 		return res.ok ? res.result : null;
+	}
+
+	async addResources(resources: IEmulationProjectResource[]) {
+		let results = await Promise.all(resources.map((resource) => {
+			return this.addResource(resource);
+		}));
+		return !results.some(x => x === null);
 	}
 
 	async removeResource(resource: IEmulationProjectResource) {

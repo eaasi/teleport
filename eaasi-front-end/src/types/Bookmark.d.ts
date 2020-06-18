@@ -8,10 +8,10 @@ export interface IBookmark {
 
 export interface BookmarkRequest {
     resourceID: string;
-    userID: number;
+    userId: number;
 }
 
 export interface MultiBookmarkRequest {
 	resourceIDs: string[];
-	userID: number;
+	userId: number;
 }

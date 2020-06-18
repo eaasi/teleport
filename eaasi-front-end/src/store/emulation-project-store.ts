@@ -8,6 +8,8 @@ import { IEaasiResource } from '@/types/Resource';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
 import { make, dispatch } from 'vuex-pathify';
 import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
+import { Store } from 'vuex';
+import { resourceTypes } from '@/utils/constants';
 
 /*============================================================
  == State
@@ -64,16 +66,26 @@ mutations.RESET = (state) => {
 
 const actions = {
 
+	async addResources({dispatch, state}: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
+		let ids = resources.filter(x => !state.projectResources.find(r => r.resourceId === x.id));
+		let result = await _projectService.addResources(ids.map(r => ({
+			id: undefined,
+			emulationProjectId: state.project.id,
+			resourceId: r.id,
+			resourceType: r.resourceType
+		})));
+		if(!result) return;
+		return await dispatch('loadProjectResources', state.project.id);
+	},
+
 	async loadProject({commit, dispatch}) {
 		let project = await _projectService.getProject();
 		if(!project) return;
 		commit('SET_PROJECT', project);
-		console.log(project, project.id);
 		return await dispatch('loadProjectResources', project.id);
 	},
 
 	async loadProjectResources({commit}, projectId) {
-		console.log('projectId Payload', projectId);
 		let resources = await _projectService.getResources(projectId);
 		if(!resources) return;
 		commit('SET_PROJECT_RESOURCES', resources);

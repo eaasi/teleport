@@ -192,12 +192,12 @@ export default class ExploreResourcesScreen extends Vue {
     /* Methods
 	============================================*/
 
-	async paginate(page) {
+	paginate(page) {
 		this.query.page = page;
-		await this.$store.dispatch('resource/searchResources');
+		this.$store.dispatch('resource/searchResources');
 	}
 
-    async search() {
+    search() {
 		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id });
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
@@ -208,21 +208,21 @@ export default class ExploreResourcesScreen extends Vue {
 		});
 	}
 
-    async getAll(types) {
+    getAll(types) {
 		this.query.keyword = null;
 		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
-		await this.search();
+		this.search();
 	}
 
 	onResourcePublished() {
     	this.$router.go(0);
 	}
 
-	async init() {
+	init() {
 		const { keyword } = this.$route.params;
 		if (keyword) this.query.keyword = keyword;
-		await this.search();
+		this.search();
 	}
 
 	openActionMenu(tab: IEaasiTab = this.tabs[1]) {
@@ -236,8 +236,8 @@ export default class ExploreResourcesScreen extends Vue {
     /* Lifecycle Hooks
     ============================================*/
 
-    async mounted() {
-		await this.init();
+    mounted() {
+		this.init();
     }
 
 	beforeDestroy() {
@@ -247,10 +247,10 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	@Watch('hasSelectedFacets')
-	async onSelectedFacets(curVal, prevVal) {
+	onSelectedFacets(curVal, prevVal) {
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
-			await this.$store.dispatch('resource/clearSearch');
+			this.$store.dispatch('resource/clearSearch');
 		}
 	}
 
