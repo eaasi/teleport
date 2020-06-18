@@ -2,10 +2,12 @@ import BaseEnvironment from '@/models/emulation-project/BaseEnvironment';
 import ContentImportResource from '@/models/import/ContentImportResource';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import _importService from '@/services/ImportService';
+import _projectService from '@/services/EmulationProjectService';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
 import { IEaasiResource } from '@/types/Resource';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
-import { make } from 'vuex-pathify';
+import { make, dispatch } from 'vuex-pathify';
+import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
 
 /*============================================================
  == State
@@ -26,7 +28,7 @@ class EmulationProjectStore {
 	content: ContentImportResource = new ContentImportResource();
 	componentId: string = '';
 
-	projectResources: IEaasiResource[] = [];
+	projectResources: IEmulationProjectResource[] = [];
 
 	// True when we're running an environment as an Object (Content) or Software Environment
 	isConstructedEnvironment: boolean = false;
@@ -36,6 +38,8 @@ class EmulationProjectStore {
 	environmentType: string = '';
 	environmentSoftwareId: string = '';
 	environmentContentId: string = '';
+
+	project: IEmulationProject = null;
 }
 
 const state = new EmulationProjectStore();
@@ -60,21 +64,25 @@ mutations.RESET = (state) => {
 
 const actions = {
 
-	/**
-	 * Triggers a saveEnvironment request
-	 * @param state: Store<EmulationProjectStore>
-	 * @param createPayload
-	 * @param importData
-	 */
+	async loadProject({commit, dispatch}) {
+		let project = await _projectService.getProject();
+		if(!project) return;
+		commit('SET_PROJECT', project);
+		console.log(project, project.id);
+		return await dispatch('loadProjectResources', project.id);
+	},
+
+	async loadProjectResources({commit}, projectId) {
+		console.log('projectId Payload', projectId);
+		let resources = await _projectService.getResources(projectId);
+		if(!resources) return;
+		commit('SET_PROJECT_RESOURCES', resources);
+	},
+
 	async createEnvironment(_, createPayload: ICreateEnvironmentPayload): Promise<ICreateEnvironmentResponse> {
 		return await _importService.createEnvironment(createPayload);
 	},
 
-	/**
-	 * Triggers a POST request to components
-	 * @param state: Store<EmulationProjectStore>
-	 * @param createPayload
-	 */
 	async postComponents(_, payload: any) {
 		return await _importService.postComponents(payload);
 	},
