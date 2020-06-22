@@ -5,7 +5,7 @@ import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
 import AuthService from '@/services/auth/AuthService';
 import UserHashService from '@/services/auth/UserHashService';
 import UserService from '@/services/user/UserService';
-import { ILoginRequest } from '@/types/auth/Auth';
+import { ILoginRequest, IChangePasswordRequest } from '@/types/auth/Auth';
 import { Request, Response } from 'express';
 import fs from 'fs';
 import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
@@ -105,6 +105,27 @@ export default class EaasiAuthController extends BaseController {
 		});
 
 		res.redirect(CLIENT_URL);
+	}
+
+	/***
+	 * Changes a user's password
+     * @param req request
+     * @param res response
+	 */
+	async changePassword(req: IChangePasswordRequest, res: Response) {
+		try {
+			let userHash = await this._userHashService.getUserHash(req.user.id);
+			if(!this._authService.verifyUserHash(req.body.password, userHash.hash)) {
+				return this.sendClientError('Incorrect password', res);
+			}
+			await this._userHashService.saveUserHash({
+				hash: this._authService.createUserHash(req.body.newPassword),
+				userId: req.user.id
+			});
+			res.json(true);
+		} catch(e) {
+			this.sendError(e, res);
+		}
 	}
 
 	/**

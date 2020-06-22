@@ -7,8 +7,8 @@
 
 		<transition name="fade">
 			<ul class="hmd-list" v-show="isDropDownVisible">
-				<li v-if="allowResetPassword" class="hmd-list-item flex flex-row justify-between" @click="isResetPasswordModalVisible = true">
-					<span>Reset Password</span>
+				<li v-if="allowChangePassword" class="hmd-list-item flex flex-row justify-between" @click="isChangePasswordModalVisible = true">
+					<span>Change Password</span>
 					<span class="icon fas fa-fw fa-key"></span>
 				</li>
 				<li class="hmd-list-item flex flex-row justify-between" @click="logOut">
@@ -17,25 +17,10 @@
 				</li>
 			</ul>
 		</transition>
-
-		<confirm-modal
-			cancel-label="Cancel"
-			confirm-label="Reset Password"
-			title="Reset Password"
-			v-if="isResetPasswordModalVisible"
-			@close="isResetPasswordModalVisible = false"
-			@click:confirm="resetPassword"
-		>
-			<alert-card type="warning" v-if="user">
-				<div class="delete-message">
-					You are about to reset your password
-				</div>
-				<div class="delete-message">
-					This will reset your password and send a new password to your email. 
-					This action cannot be undone.
-				</div>
-			</alert-card>
-		</confirm-modal>
+		<change-password-modal
+			v-if="isChangePasswordModalVisible"
+			@close="isChangePasswordModalVisible = false"
+		/>
 	</div>
 </template>
 
@@ -48,9 +33,13 @@ import { IEaasiUser } from 'eaasi-admin';
 import { generateNotificationSuccess, generateNotificationError } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
 import config from '../../../config';
+import ChangePasswordModal from './ChangePasswordModal.vue';
 
 @Component({
-	name: 'HeaderMenuDropDown'
+	name: 'HeaderMenuDropDown',
+	components: {
+		ChangePasswordModal
+	}
 })
 export default class HeaderMenuDropdown extends Vue {
 
@@ -77,26 +66,16 @@ export default class HeaderMenuDropdown extends Vue {
 
 	/* Data
 	============================================*/
-	
+
 	isDropDownVisible: boolean = false;
-	isResetPasswordModalVisible: boolean = false;
-	allowResetPassword: boolean = !config.SAML_ENABLED;
+	isChangePasswordModalVisible: boolean = false;
+	allowChangePassword: boolean = !config.SAML_ENABLED;
 
 	/* Methods
 	============================================*/
 
 	async logOut() {
 		await this.$store.dispatch('logout');
-	}
-
-	async resetPassword() {
-		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
-		this.isResetPasswordModalVisible = false;
-		const notification = success 
-			? generateNotificationSuccess('You successfully reset your password.')
-			: generateNotificationError('Something went wrong, please try again.');
-		eventBus.$emit('notification:show', notification);
-		this.$emit('close');
 	}
 
 }

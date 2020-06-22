@@ -6,7 +6,9 @@
 					<div class="eaasi-modal-close" @click="$emit('close')">
 						<span class="fal fa-times"></span>
 					</div>
-					<slot name="header"></slot>
+					<slot name="header">
+						<h2 v-if="title">{{ title }}</h2>
+					</slot>
 				</div>
 				<div class="eaasi-modal-content">
 					<slot></slot>
@@ -38,14 +40,20 @@ export default class Modal extends Vue {
      * Alternative size of the modal. Accepts 'sm, small, lg, or large'
      */
     @Prop({type: String, default: 'medium'})
-    readonly size: string
+	readonly size: string
+
+	/**
+     * Modal header headline
+     */
+    @Prop({type: String, required: false})
+    readonly title: string
 
 
     /* Lifecycle Hooks
     ============================================*/
 
     mounted() {
-    	document.body.classList.add('modal-open');
+		document.body.classList.add('modal-open');
     }
 
     beforeDestroy() {

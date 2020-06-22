@@ -86,8 +86,12 @@ export default class BaseFormField extends Vue {
 	}
 
 	get isRequired(): boolean {
-		return typeof this.rules === 'string'
-			&& this.rules.indexOf('required') > -1;
+		return (
+			typeof this.rules === 'string'
+			&& this.rules.indexOf('required') > -1
+		) || (
+			typeof this.rules === 'function' && typeof this.rules('') === 'string'
+		);
 	}
 
 	get isValid(): boolean {
