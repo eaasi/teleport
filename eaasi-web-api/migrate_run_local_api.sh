@@ -6,7 +6,7 @@ cd ../ && docker-compose down -v \
 
 cd ./eaasi-web-api
 
-sleep 5
+sleep 20
 
 # Run database migrations
 npx sequelize-cli db:migrate --env=local

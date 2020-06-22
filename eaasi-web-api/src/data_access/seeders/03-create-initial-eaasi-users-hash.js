@@ -1,8 +1,19 @@
-const data = require('../data/eaasiUserHash');
-
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('eaasi_user_hash', data);
+		return queryInterface.bulkInsert('eaasi_user_hash', [
+			{
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				userId: 1,
+				hash: '$2b$10$e5SsSSnBl2RNSiiQOolAeemdCq.d4TpfaCuvJi.uQ5LbPBgZAvrLy'
+			},
+			{
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				userId: 2,
+				hash: '$2b$10$e5SsSSnBl2RNSiiQOolAeemdCq.d4TpfaCuvJi.uQ5LbPBgZAvrLy'
+			}
+		])
 	},
 
 	down: (queryInterface) => {
