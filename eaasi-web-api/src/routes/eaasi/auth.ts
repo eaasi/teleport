@@ -2,6 +2,7 @@ import AuthController from '@/controllers/AuthController';
 import { authRequestLimit } from '@/middleware/request-limit';
 import express from 'express';
 import passport from 'passport';
+import { IChangePasswordRequest } from '@/types/auth/Auth';
 
 const router = express.Router();
 const controller = new AuthController();
@@ -34,6 +35,15 @@ router.post('/authenticate', authRequestLimit, (req, res) => controller.authenti
  * @apiDescription Endpoint to which SAML assertions are posted.  This sets a cookie and redirects the user to the base client application URL. This route should be added to the IDP's list of Allowed Callback URLs.
  */
 router.post('/callback', samlAuth, controller.callback);
+
+/**
+ * @api {post}  change password endpoint
+ * @apiVersion 1.0.0
+ * @apiGroup Auth
+ * @apiPermission Any
+ * @apiDescription Authorized route for changing a user's password
+ */
+router.post('/change-password', jwtAuth, (req, res) => controller.changePassword(req as IChangePasswordRequest, res));
 
 /**
  * @api {get} auth/user Get User Data
