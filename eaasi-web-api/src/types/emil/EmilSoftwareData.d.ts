@@ -5,6 +5,11 @@ export interface ISoftwareDescriptionList {
 	status: number | string;
 }
 
+export interface ISoftwarePackageList {
+	packages: ISoftwarePackage[];
+	status: number | string;
+}
+
 export interface ISoftwarePackage extends IEaasiResource {
 	id: string;
 	isOperatingSystem: boolean;
