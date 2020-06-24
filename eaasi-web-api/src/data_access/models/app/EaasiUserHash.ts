@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { BelongsTo, Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { EaasiUser } from '.';
 
 @Table({
 	tableName: 'eaasi_user_hash'
@@ -12,6 +13,7 @@ export class EaasiUserHash extends Model<EaasiUserHash> {
     @UpdatedAt
 	updatedAt: Date = new Date();
 
+	@ForeignKey(() => EaasiUser)
     @Column({
     	type: DataTypes.INTEGER,
     	allowNull: false,
@@ -23,6 +25,12 @@ export class EaasiUserHash extends Model<EaasiUserHash> {
     	allowNull: false,
     	type: DataTypes.STRING(9999)
     })
-    hash: string;
+	hash: string;
+
+	@BelongsTo(() => EaasiUser, {
+		foreignKey: 'userId',
+		onDelete: 'CASCADE'
+	})
+    user: EaasiUser
 
 }

@@ -1,5 +1,6 @@
-import { CreatedAt, UpdatedAt, Column, Model, Table } from 'sequelize-typescript';
+import { CreatedAt, UpdatedAt, Column, Model, Table, HasMany } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { EaasiUser } from './EaasiUser';
 
 @Table({
 	tableName: 'eaasi_role'
@@ -31,4 +32,7 @@ export class EaasiRole extends Model<EaasiRole> {
     	allowNull: false
     })
     roleDescription: string;
+
+	@HasMany(() => EaasiUser)
+    users: EaasiUser[]
 }
