@@ -1,9 +1,9 @@
+import EmulationProjectController from '@/controllers/EmulationProjectController';
+import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest } from '@/controllers/EmulationProjectResourceController';
+import { EmulationProject } from '@/data_access/models/app';
+import { IAuthorizedGetRequest, IAuthorizedPutRequest } from '@/types/auth/Auth';
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
-import EmulationProjectController from '@/controllers/EmulationProjectController';
-import { IAuthorizedGetRequest, IAuthorizedPutRequest } from '@/types/auth/Auth';
-import { EmulationProject } from '@/data_access/models/app';
-import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest } from '@/controllers/EmulationProjectResourceController';
 
 const router = express.Router();
 const controller = new EmulationProjectController();

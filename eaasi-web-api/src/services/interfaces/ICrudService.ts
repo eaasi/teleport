@@ -1,8 +1,8 @@
 import CrudQuery from '@/classes/CrudQuery';
-import {IPaginatedResult} from '@/types/Crud';
-import {WhereOptions} from 'sequelize';
-import ICrudServiceResult from './ICrudServiceResult';
+import { IPaginatedResult } from '@/types/Crud';
+import { WhereOptions } from 'sequelize';
 import { Model } from 'sequelize-typescript';
+import ICrudServiceResult from './ICrudServiceResult';
 
 /**
  * Behavior of a CRUD Service

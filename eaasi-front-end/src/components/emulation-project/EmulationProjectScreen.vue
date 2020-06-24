@@ -11,7 +11,7 @@
 						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button :disabled="canRunProject">Run</ui-button>
+						<ui-button :disabled="canRunProject" @click="run">Run</ui-button>
 					</div>
 				</div>
 			</template>
@@ -88,7 +88,7 @@ export default class EmulationProjectScreen extends Vue {
 		};
 
 		this.activeEnvironment = environment;
-
+		
 		this.$router.push(route);
 	}
 

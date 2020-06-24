@@ -1,15 +1,14 @@
 import BaseEnvironment from '@/models/emulation-project/BaseEnvironment';
 import ContentImportResource from '@/models/import/ContentImportResource';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
-import _importService from '@/services/ImportService';
 import _projectService from '@/services/EmulationProjectService';
+import _importService from '@/services/ImportService';
+import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
 import { IEaasiResource } from '@/types/Resource';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
-import { make, dispatch } from 'vuex-pathify';
-import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
 import { Store } from 'vuex';
-import { resourceTypes } from '@/utils/constants';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State

@@ -8,19 +8,23 @@ import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ComponentService from './ComponentService';
+import TempEnvironmentService from './TempEnvironmentService';
 
 export default class EnvironmentService extends BaseService {
 
 	private readonly _environmentRepoService: EmilBaseService;
 	private readonly _componentService: ComponentService;
+	private readonly _tempEnvironmentService: TempEnvironmentService;
 
 	constructor(
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
-		componentService: ComponentService = new ComponentService()
+		componentService: ComponentService = new ComponentService(),
+		tempEnvService: TempEnvironmentService = new TempEnvironmentService()
 	) {
 		super();
 		this._environmentRepoService = environmentRepository;
 		this._componentService = componentService;
+		this._tempEnvironmentService = tempEnvService;
 	}
 
 	async getAll(): Promise<IEnvironment[]> {
