@@ -1,6 +1,7 @@
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
 import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
@@ -31,6 +32,13 @@ export default class EnvironmentService extends BaseService {
 		let res = await this._environmentRepoService.get('environments?detailed=true');
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		
+		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
+		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
+			let tempEnvs = tempEnvResponse.result.get({ plain: true }) as ITempEnvironmentRecord[];
+			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
+		}
+
 		return environments;
 	}
 
