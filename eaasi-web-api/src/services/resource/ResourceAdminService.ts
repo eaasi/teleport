@@ -1,3 +1,4 @@
+import { Bookmark, UserImportedContent } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
@@ -5,16 +6,15 @@ import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
+import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ResourceImportService from '../rest-api/ResourceImportService';
+import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
-import ContentService from './ContentService';
-import { Bookmark, UserImportedContent } from '@/data_access/models/app';
-import { resourceTypes } from '@/utils/constants';
-import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -79,11 +79,10 @@ export default class ResourceAdminService extends BaseService {
 		bookmarks: Bookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let allEnvironments = await this._environmentService.getAllEmilModels();
+		let allEnvironments = await this._environmentService.getAll();
 		let filtered = this._filterResults(allEnvironments, query, bookmarks, userResources);
-		let result = await this._environmentService.getEnvironmentsMetadata(filtered.result);
 		return {
-			result,
+			result: filtered.result,
 			totalResults: filtered.totalResults
 		};
 	}
@@ -93,9 +92,8 @@ export default class ResourceAdminService extends BaseService {
 		bookmarks: Bookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
-		let softwareRes = await this._softwareService.getSoftwareDescriptionList();
-		let result = this._filterResults(softwareRes.descriptions, query, bookmarks, userResources);
-		result.result = await this._softwareService.getSoftwarePackages(result.result);
+		let softwareRes = await this._softwareService.getAll();
+		let result = this._filterResults(softwareRes, query, bookmarks, userResources);
 		return result;
 	}
 
@@ -163,8 +161,8 @@ export default class ResourceAdminService extends BaseService {
 		if (bookmarks && query.onlyBookmarks) {
 			results = results.filter(r => bookmarks.some(b => b.resourceID === r.id));
 		}
-
-		if(userResources && (query.onlyImportedResources || results[0].resourceType === resourceTypes.CONTENT)) {
+		
+		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
 			results = results.filter(r => userResources.some(ir => ir.eaasiID === r.id));
 		}
 

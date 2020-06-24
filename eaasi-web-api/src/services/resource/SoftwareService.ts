@@ -1,7 +1,7 @@
-import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
+import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftwarePackage, ISoftwarePackageList } from '@/types/emil/EmilSoftwareData';
+import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import { resourceTypes } from '@/utils/constants';
 
 
 export default class SoftwareService extends BaseService {
@@ -16,28 +16,9 @@ export default class SoftwareService extends BaseService {
 	}
 
 	async getAll(): Promise<ISoftwarePackage[]> {
-		const result = await this.getSoftwareDescriptionList();
-		return this.getSoftwarePackages(result.descriptions);
-	}
-
-	async getSoftwarePackages(descriptions: ISoftwareDescription[]): Promise<ISoftwarePackage[]> {
-		return await Promise.all(descriptions.map(x => {
-			return this.getSoftwarePackageFromDescription(x);
-		}));
-	}
-
-	async getSoftwarePackageFromDescription(description: ISoftwareDescription): Promise<ISoftwarePackage> {
-		if (!description || !description.id) return null;
-		let pkg = await this.getSoftwarePackage(description.id);
-		pkg.resourceType = resourceTypes.SOFTWARE;
-		return {...description, ...pkg};
-	}
-
-	async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
-		let res = await this._softwareRepoService.get('descriptions');
-		let list = await res.json() as ISoftwareDescriptionList;
-		list.descriptions.forEach(x => x.resourceType = resourceTypes.SOFTWARE);
-		return list;
+		const descriptionList = await this.getSoftwareDescriptionList();
+		const packageList = await this.getSoftwarePackageList();
+		return this._mergeDescriptionsWithPackages(descriptionList, packageList);
 	}
 
 	/**
@@ -60,6 +41,23 @@ export default class SoftwareService extends BaseService {
 		let software = await res.json();
 		software.resourceType = resourceTypes.SOFTWARE;
 		return software;
+	}
+
+	private _mergeDescriptionsWithPackages(descriptionList: ISoftwareDescriptionList, packageList: ISoftwarePackageList): ISoftwarePackage[] {
+		return descriptionList.descriptions.map(description => {
+			let descriptionPackage = packageList.packages.find(p => description.id === p.id);
+			return {...description, ...descriptionPackage, resourceType: resourceTypes.SOFTWARE};
+		})
+	}
+
+	private async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
+		let res = await this._softwareRepoService.get('descriptions');
+		return await res.json() as ISoftwareDescriptionList;
+	}
+
+	private async getSoftwarePackageList(): Promise<ISoftwarePackageList> {
+		let res = await this._softwareRepoService.get('packages');
+		return await res.json() as ISoftwarePackageList;
 	}
 
 	getSoftwareObjects(ids: string[]) {

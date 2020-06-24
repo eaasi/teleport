@@ -24,9 +24,10 @@ export default class EnvironmentService extends BaseService {
 	}
 
 	async getAll(): Promise<IEnvironment[]> {
-		let res = await this._environmentRepoService.get('environments');
-		let environments = await res.json() as IEnvironmentListItem[];
-		return this.getEnvironmentsMetadata(environments);
+		let res = await this._environmentRepoService.get('environments?detailed=true');
+		let environments = await res.json() as IEnvironment[];
+		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		return environments;
 	}
 
 	async getAllEmilModels(): Promise<IEnvironmentListItem[]> {
