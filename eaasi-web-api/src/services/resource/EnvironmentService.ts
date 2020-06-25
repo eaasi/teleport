@@ -3,7 +3,7 @@ import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emi
 import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
 import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
-import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
+import { IClientEnvironmentRequest, IEmulatorComponentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
@@ -159,6 +159,24 @@ export default class EnvironmentService extends BaseService {
 		return await res.json() as IEmilTask;
 	}
 
+	async createDerivative(payload: IEmulatorComponentRequest): Promise<IEnvironment> {
+		// const emilSvc = new EmilBaseService('EmilEnvironmentData');
+		const environment = await this.getEnvironment(payload.environment);
+		// const initResponse = await emilSvc.get('init');
+		const response = await this._componentService.postEmulatorComponent(payload);
+		await this._componentService.controlurls(response.id);
+		await this._componentService.keepAlive(response.id);
+		const newEnvRequest: IClientEnvironmentRequest = {
+			componentId: response.id,
+			description: environment.description,
+			envId: payload.environment,
+			title: environment.title,
+		}
+		const derivative: IEnvironment = await this.saveNewEnvironment(newEnvRequest);
+		await this._componentService.stopComponent(response.id);
+		return derivative;
+	}
+
 	/*============================================================
 	 == Revisions
 	/============================================================*/
@@ -248,6 +266,27 @@ export default class EnvironmentService extends BaseService {
 	async getNameIndexes() {
 		let res = await this._environmentRepoService.get('image-name-index');
 		return res.json();
+	}
+
+	/*============================================================
+	 == Temporary Environments
+	/============================================================*/
+
+	async addToTempArchive(userId: number, envId: string): Promise<ITempEnvironmentRecord> {
+		let tempEnvRecord: ITempEnvironmentRecord = { userId, envId };
+		let response = await this._tempEnvironmentService.create(tempEnvRecord);
+		return await response.result.get({ plain: true })  as ITempEnvironmentRecord;
+	}
+
+	async deleteFromTempArchive(userId: number, envId: string): Promise<ITempEnvironmentRecord> {
+		let tempEnvRecord = await this._tempEnvironmentService.getOneWhere({ userId, envId });
+		let plain = tempEnvRecord.result.get({ plain: true }) as ITempEnvironmentRecord;
+		await this._tempEnvironmentService.destroy(plain.id);
+		return plain;
+	}
+
+	async retrieveAll() {
+		return await this._tempEnvironmentService.getAllWhere({});
 	}
 
 }

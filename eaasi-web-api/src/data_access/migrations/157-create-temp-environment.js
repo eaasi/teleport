@@ -12,10 +12,19 @@ module.exports = {
 				type: Sq.DATE,
 				defaultValue: new Date()
 			},
+			updatedAt: {
+				type: Sq.DATE,
+				defaultValue: new Date()
+			},
+			id: {
+				type: Sq.INTEGER,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true
+			},
 			envId: {
 				type: Sq.STRING,
 				allowNull: false,
-				primaryKey: true,
 			},
 			userId: {
 				type: Sq.INTEGER,

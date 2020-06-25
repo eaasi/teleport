@@ -1,7 +1,7 @@
-import { BelongsTo, CreatedAt, Column, Model, Table, ForeignKey, Index } from 'sequelize-typescript';
-import { DataTypes } from 'sequelize';
-import { EmulationProject } from './EmulationProject';
 import { ResourceType } from '@/types/resource/Resource';
+import { DataTypes } from 'sequelize';
+import { BelongsTo, Column, CreatedAt, ForeignKey, Index, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { EmulationProject } from './EmulationProject';
 
 @Table({
 	tableName: 'emulation_project_resource'
@@ -9,6 +9,9 @@ import { ResourceType } from '@/types/resource/Resource';
 export class EmulationProjectResource extends Model<EmulationProjectResource> {
     @CreatedAt
 	readonly createdAt: Date = new Date();
+
+    @UpdatedAt
+    updatedAt: Date = new Date()
 
     @Column({
     	type: DataTypes.INTEGER,

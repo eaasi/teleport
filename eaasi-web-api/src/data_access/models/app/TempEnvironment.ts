@@ -13,7 +13,7 @@ export class TempEnvironment extends EaasiUserOwnedModel {
     updatedAt: Date = new Date();
 
     @Column({
-    	type: DataTypes.NUMBER,
+    	type: DataTypes.INTEGER,
     	allowNull: false,
     	primaryKey: true,
     	autoIncrement: true

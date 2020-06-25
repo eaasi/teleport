@@ -47,6 +47,20 @@ export interface ISnapshotRequest {
 	networking?: INetworking | any;
 }
 
+export interface IEmulatorComponentRequest {
+	archive: string;
+	emulatorVersion: string;
+	environment: string;
+	keyboardLayout: string;
+	keyboardModel: string;
+	type: string;
+}
+
+export interface IEmulatorComponentresponse {
+	id: string;
+	status?: string;
+}
+
 export interface IComponentRequest {
 	type: string;
 	userId: string;

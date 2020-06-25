@@ -1,11 +1,14 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import ContentService from '@/services/resource/ContentService';
 import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
+import { IAuthorizedDeleteRequest } from '@/types/auth/Auth';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
-import { IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { IContentRequest, IEmulatorComponentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
@@ -313,4 +316,63 @@ export default class ResourceController extends BaseController {
 			this.sendError(e, res);
 		}
 	}
+
+	/*============================================================
+	 == Temporary Environments
+	/============================================================*/
+
+	/**
+	 * Adds an Environment to a temporary archive
+	 */
+	async addToTempArchive(req: Request, res: Response) {
+		try {
+			let emuComponentRequest: IEmulatorComponentRequest = req.body;
+			// make Emil copy of an environment
+			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
+			let userId = Number(req.user.id);
+			let savedEnvironment = await this._environmentService.addToTempArchive(userId, derivative.envId);
+			return res.send(savedEnvironment);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	/**
+	 * Deletes an Environment from a temporary archive
+	 */
+	async deleteFromTempArchive(req: IAuthorizedDeleteRequest, res: Response) {
+		try {
+			let id = req.params.id;
+			let userId = req.user.id;
+			let emilResponse = await this._environmentService.deleteEnvironment(id);
+			let success = await this._environmentService.deleteFromTempArchive(userId, id);
+			return res.send(success);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	/**
+	 * Gets All Environments from a temporary archive
+	 */
+	async getAll(req: Request, res: Response) {
+		try {
+			let response = await this._environmentService.retrieveAll();
+			if (response.hasError) {
+				return res
+					.status(HttpResponseCode.SERVER_ERROR)
+					.send(build_500_response(response.error));
+			}
+
+			if (response.result == null) {
+				return res
+					.status(HttpResponseCode.NOT_FOUND)
+					.send(build_404_response(req.originalUrl));
+			}
+			return res.send(response.result);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
 }
