@@ -2,6 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
+import { IEmulatorComponentRequest } from '@/types/EmulationProject';
 import { IPatch, ITemplate } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
@@ -201,6 +202,11 @@ const actions = {
 	publishEnvironmentsToNetwork(_store, envIds: string[]) {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
+
+	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest) {
+		return await _svc.addEnvironmentToTempArchive(payload);
+	},
+
 };
 
 /*============================================================

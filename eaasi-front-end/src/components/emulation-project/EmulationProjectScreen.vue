@@ -11,7 +11,7 @@
 						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button :disabled="canRunProject" @click="run">Run</ui-button>
+						<ui-button :disabled="!canRunProject" @click="run">Run</ui-button>
 					</div>
 				</div>
 			</template>
@@ -42,6 +42,9 @@ import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../typ
 import { ROUTES } from '../../router/routes.const';
 import { IEnvironmentList, IEnvironment } from '../../types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
+import { IEmulatorComponentRequest } from '@/types/EmulationProject';
+import { IKeyboardSettings } from 'eaasi-admin';
+import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -72,6 +75,18 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	async run() {
+		const { path } = this.$route;
+		switch (path) {
+			case ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT:
+				return await this.runBaseEnvironment();
+				break;
+			case ROUTES.EMULATION_PROJECT.DETAILS:
+				return await this.runEmulationProject();
+				break;
+		}
+	}
+
+	async runBaseEnvironment() {
 		this.createEnvironmentPayload.size += 'M';
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
 		if (response.status === '0') {
@@ -90,6 +105,29 @@ export default class EmulationProjectScreen extends Vue {
 		this.activeEnvironment = environment;
 		
 		this.$router.push(route);
+	}
+
+	async runEmulationProject() {
+		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
+		const payload: IEmulatorComponentRequest = {
+			archive: this.environment.archive,
+			emulatorVersion: this.environment.containerEmulatorVersion && 'latest',
+			environment: this.environment.envId,
+			keyboardLayout: keyboardSettings.layout.name,
+			keyboardModel: keyboardSettings.language.name,
+			type: 'machine'
+		};
+		// create a copy of active environment
+		const tempEnv: IEnvironment = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
+		console.log(tempEnv);
+		// update the copy with emulation project properties
+		let pendingEmuProjectEnv = {...tempEnv}; // TODO: Add emu project properties to the emu project env
+		const emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/updateEnvironmentDetails', pendingEmuProjectEnv);
+		
+		// TODO: prepare emulator for launch with emulationProjectEnv
+
+		// Route to access interface screen
+		this.$router.push(buildAccessInterfaceQuery(emulationProjectEnv.envId));
 	}
 
 	clear() {

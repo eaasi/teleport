@@ -327,7 +327,6 @@ export default class ResourceController extends BaseController {
 	async addToTempArchive(req: Request, res: Response) {
 		try {
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;
-			// make Emil copy of an environment
 			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
 			let userId = Number(req.user.id);
 			let savedEnvironment = await this._environmentService.addToTempArchive(userId, derivative.envId);
@@ -344,7 +343,7 @@ export default class ResourceController extends BaseController {
 		try {
 			let id = req.params.id;
 			let userId = req.user.id;
-			let emilResponse = await this._environmentService.deleteEnvironment(id);
+			await this._environmentService.deleteEnvironment(id);
 			let success = await this._environmentService.deleteFromTempArchive(userId, id);
 			return res.send(success);
 		} catch(e) {

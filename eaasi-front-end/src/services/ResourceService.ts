@@ -1,5 +1,6 @@
 import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpers/ResourceHelper';
 import BaseHttpService from '@/services/BaseHttpService';
+import { IEmulatorComponentRequest } from '@/types/EmulationProject';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { IPatch, ITemplate } from '@/types/Import';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
@@ -158,6 +159,12 @@ class ResourceService extends BaseHttpService {
 		);
 		return res.result;
 	}
+
+	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest) {
+		let res = await this.post<IEnvironment>('resource/temp/create', payload);
+		return res.result;
+	}
+	
 }
 
 export default new ResourceService();
