@@ -108,7 +108,8 @@ export default class EmulationProjectScreen extends Vue {
 		this.$router.push(route);
 	}
 
-	async runEmulationProject() {
+	async runEmulationProject() { 
+		// TODO: test env dummy json needs to be removed
 		const testEnv: IEnvironment = JSON.parse('{"networking":{"enableInternet":false,"serverMode":false,"localServerMode":false,"enableSocks":false,"serverPort":"","serverIp":"","connectEnvs":false,"helpText":""},"envId":"6b4c9691-b5d3-4f76-ac92-6541b0bdee0d","title":"Alpine base test save after import","description":"test","emulator":"Qemu","enableRelativeMouse":false,"enablePrinting":false,"shutdownByOs":false,"timeContext":"1589924959722","canProcessAdditionalFiles":false,"archive":"default","owner":"shared","envType":"base","revisions":[],"installedSoftwareIds":[],"nativeConfig":"-m 1024 -soundhw ac97 -net nic,model=rtl8139 -net user -usb -usbdevice tablet","useXpra":false,"useWebRTC":false,"drives":[{"data":"binding://main_hdd","iface":"ide","bus":"0","unit":"0","type":"disk","boot":true,"plugged":true},{"data":"","iface":"ide","bus":"0","unit":"1","type":"cdrom","filesystem":"ISO","boot":false,"plugged":false},{"data":"","iface":"floppy","bus":"0","unit":"0","type":"floppy","filesystem":"fat12","boot":false,"plugged":false}],"timestamp":"2020-05-19T21:49:23.069Z","isLinuxRuntime":false,"isServiceContainer":false,"resourceType":"Environment"}');
 		this.environment = testEnv;
 		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
