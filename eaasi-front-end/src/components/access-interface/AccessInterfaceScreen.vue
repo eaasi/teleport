@@ -118,12 +118,14 @@ import { IEaasiUser } from 'eaasi-admin';
         ============================================*/
 		showConfirmExitModal: boolean = false;
 		showConfirmRestartModal: boolean = false;
+		isTemporaryEnv: boolean = false;
 
 		/* Methods
         ============================================*/
 
 		async getEnvironment(envId: string) {
-			const { createBaseEnvironment } = this.$route.query;
+			const { createBaseEnvironment, tmp } = this.$route.query;
+			this.isTemporaryEnv = !!tmp;
 			if (createBaseEnvironment) {
 				await this.runImportedEnvironment(envId, `Base Environment [${this.loggedInUser.firstName} ${this.loggedInUser.lastName}]`);
 			} else if (this.isImportedEnvironment) {
@@ -204,14 +206,6 @@ import { IEaasiUser } from 'eaasi-admin';
 			return true;
 		}
 
-		initCloseEvent() {
-			window.addEventListener('beforeunload', e => this.cleanTempEnvironment());
-		}
-
-		async cleanTempEnvironment() {
-			await this.$store.dispatch('resource/cleanTempEnvironment');
-		}
-
 		/* Lifecycle Hooks
         ============================================*/
 
@@ -221,14 +215,12 @@ import { IEaasiUser } from 'eaasi-admin';
 				await vm.getEnvironment(envId);
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
-				vm.initCloseEvent();
 			});
 		}
 
 		beforeRouteLeave(to: Route, from: Route, next: Function) {
 			this.hideAppHeader = false;
 			this.hideLeftMenu = false;
-			this.cleanTempEnvironment();
 			this.stop().then(() => {
 				next();
 			});

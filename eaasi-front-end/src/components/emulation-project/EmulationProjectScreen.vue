@@ -132,7 +132,7 @@ export default class EmulationProjectScreen extends Vue {
 		this.activeEnvironment = tempEnvironment;
 
 		// Route to access interface screen
-		this.$router.push(buildAccessInterfaceQuery(tempEnvironment.envId));
+		this.$router.push(buildAccessInterfaceQuery({ envId: tempEnvironment.envId, isTemporary: true }));
 	}
 
 	clear() {

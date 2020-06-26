@@ -85,6 +85,7 @@
 		/>
 		<save-environment-modal
 			v-if="showSaveEnvironment"
+			:include-revision="!isTemporaryEnv"
 			@close="showSaveEnvironment = false"
 			@save-environment="saveEnvironment"
 		/>
@@ -133,6 +134,7 @@
 		showSaveEnvironment: boolean = false;
 		showPrintJobsModal: boolean = false;
 		printJobLabels: string[] = [];
+		isTemporaryEnv: boolean = false;
 
 		/* Methods
         ============================================*/
@@ -207,8 +209,19 @@
 			eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
 		}
 
+		initBrowserEvents() {
+			window.addEventListener('beforeunload', e => this.cleanTempEnvironment());
+		}
+
+		async cleanTempEnvironment() {
+			if (this.isTemporaryEnv) {
+				await this.$store.dispatch('resource/cleanTempEnvironment');
+			}
+		}
+
 		async mounted() {
-			const { softwareId, objectId, archiveId } = this.$route.query;
+			const { softwareId, objectId, archiveId, tmp } = this.$route.query;
+			this.isTemporaryEnv = !!tmp;
 			if ((softwareId || objectId) && archiveId) {
 				const result = await this.$store.dispatch('software/getSoftwareMetadata', {
 					archiveId,
@@ -217,10 +230,12 @@
 				this.mediaItems = result.mediaItems.file;
 			}
 			this.initEmulatorListeners();
+			this.initBrowserEvents();
 		}
 
 		beforeDestroy() {
 			eventBus.$off('emulator:print:add-print-job');
+			this.cleanTempEnvironment();
 		}
 	}
 

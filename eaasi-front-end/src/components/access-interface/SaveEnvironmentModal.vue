@@ -40,7 +40,7 @@
 	import {ISaveEnvOptions} from '@/types/SaveEnvironment';
 	import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
 	import Vue from 'vue';
-	import {Component} from 'vue-property-decorator';
+	import {Component, Prop} from 'vue-property-decorator';
 	import {Get} from 'vuex-pathify';
 
 	@Component({
@@ -50,6 +50,9 @@
 		}
 	})
 	export default class SaveEnvironmentModal extends Vue {
+
+		@Prop({ type: Boolean, default: false })
+		readonly includeRevision: boolean;
 
 		@Get('import/environmentType')
 		environmentType: string;
@@ -67,18 +70,19 @@
 		}
 
 		get radioOptions(): IRadioOption[] {
-			return [
-				{
-					value: SaveEnvironmentOption.newEnvironment,
-					label: 'New Environment',
-					description: 'Create a New Environment Resource'
-				},
-				{
+			let options = [{
+				value: SaveEnvironmentOption.newEnvironment,
+				label: 'New Environment',
+				description: 'Create a New Environment Resource'
+			}];
+			if (this.includeRevision) {
+				options.push({
 					value: SaveEnvironmentOption.createRevision,
 					label: 'Create Revision',
 					description: 'Create a Revision of this Environment Resource'
-				}
-			];
+				});
+			}
+			return options;
 		}
 
 		saveEnvOptions: ISaveEnvOptions = {
