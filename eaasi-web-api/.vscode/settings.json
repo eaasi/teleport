@@ -1,4 +1,4 @@
 {
 	"typescript.tsdk": "node_modules/typescript/lib",
-	"debug.node.autoAttach": "off"
+	"debug.node.autoAttach": "on"
 }

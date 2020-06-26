@@ -381,7 +381,7 @@ export default class ResourceSlideMenu extends Vue {
 				this.bookmark();
 				break;
 			case 'addToEmuProject':
-				this.addToEmulationProject();
+				await this.addToEmulationProject();
 				break;
 			case 'save':
 				this.confirmAction = 'save';
@@ -396,8 +396,9 @@ export default class ResourceSlideMenu extends Vue {
 		}
 	}
 
-	addToEmulationProject() {
-		this.$store.dispatch('emulationProject/addResources', this.resources);
+	async addToEmulationProject() {
+		await this.$store.dispatch('emulationProject/addResources', this.resources);
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 	}
 
 	bookmark() {

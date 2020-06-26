@@ -45,6 +45,7 @@ import ResourceSideBar from './ResourceSideBar.vue';
 import { IEmulatorComponentRequest } from '@/types/EmulationProject';
 import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
+import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -108,26 +109,29 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	async runEmulationProject() {
+		const testEnv: IEnvironment = JSON.parse('{"networking":{"enableInternet":false,"serverMode":false,"localServerMode":false,"enableSocks":false,"serverPort":"","serverIp":"","connectEnvs":false,"helpText":""},"envId":"6b4c9691-b5d3-4f76-ac92-6541b0bdee0d","title":"Alpine base test save after import","description":"test","emulator":"Qemu","enableRelativeMouse":false,"enablePrinting":false,"shutdownByOs":false,"timeContext":"1589924959722","canProcessAdditionalFiles":false,"archive":"default","owner":"shared","envType":"base","revisions":[],"installedSoftwareIds":[],"nativeConfig":"-m 1024 -soundhw ac97 -net nic,model=rtl8139 -net user -usb -usbdevice tablet","useXpra":false,"useWebRTC":false,"drives":[{"data":"binding://main_hdd","iface":"ide","bus":"0","unit":"0","type":"disk","boot":true,"plugged":true},{"data":"","iface":"ide","bus":"0","unit":"1","type":"cdrom","filesystem":"ISO","boot":false,"plugged":false},{"data":"","iface":"floppy","bus":"0","unit":"0","type":"floppy","filesystem":"fat12","boot":false,"plugged":false}],"timestamp":"2020-05-19T21:49:23.069Z","isLinuxRuntime":false,"isServiceContainer":false,"resourceType":"Environment"}');
+		this.environment = testEnv;
 		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
 		const payload: IEmulatorComponentRequest = {
 			archive: this.environment.archive,
-			emulatorVersion: this.environment.containerEmulatorVersion && 'latest',
+			emulatorVersion: 'latest',
 			environment: this.environment.envId,
-			keyboardLayout: keyboardSettings.layout.name,
-			keyboardModel: keyboardSettings.language.name,
-			type: 'machine'
+			keyboardLayout: keyboardSettings.language.name,
+			keyboardModel: keyboardSettings.layout.name,
+			type: 'machine' // TODO: Only have seen machine being type here, could there be another option?
 		};
 		// create a copy of active environment
-		const tempEnv: IEnvironment = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
-		console.log(tempEnv);
+		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
+		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
+		console.log(tempEnvRecord, tempEnvironment);
+		tempEnvironment.title += ' [TMP]';
 		// update the copy with emulation project properties
-		let pendingEmuProjectEnv = {...tempEnv}; // TODO: Add emu project properties to the emu project env
-		const emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/updateEnvironmentDetails', pendingEmuProjectEnv);
-		
-		// TODO: prepare emulator for launch with emulationProjectEnv
+		const emulationProjectEnv = await this.$store.dispatch('resource/updateEnvironmentDetails', tempEnvironment);
+
+		this.activeEnvironment = tempEnvironment;
 
 		// Route to access interface screen
-		this.$router.push(buildAccessInterfaceQuery(emulationProjectEnv.envId));
+		this.$router.push(buildAccessInterfaceQuery(tempEnvironment.envId));
 	}
 
 	clear() {

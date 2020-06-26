@@ -7,6 +7,7 @@ import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation'
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
 import { IEaasiResource } from '@/types/Resource';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
+import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
@@ -70,7 +71,7 @@ const actions = {
 		let result = await _projectService.addResources(ids.map(r => ({
 			id: undefined,
 			emulationProjectId: state.project.id,
-			resourceId: r.id,
+			resourceId: r.resourceType === resourceTypes.ENVIRONMENT ? r.envId : r.id,
 			resourceType: r.resourceType
 		})));
 		if(!result) return;

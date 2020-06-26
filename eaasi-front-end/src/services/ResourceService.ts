@@ -161,7 +161,7 @@ class ResourceService extends BaseHttpService {
 	}
 
 	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest) {
-		let res = await this.post<IEnvironment>('resource/temp/create', payload);
+		let res = await this.post<IEnvironment>('/resource/temp/create', payload);
 		return res.result;
 	}
 	

@@ -293,6 +293,10 @@ export default class EmulationProjectDetails extends Vue {
         // pull emulation project with provided id
 	}
 
+	async edit() {
+		throw new Error('not defined');
+	}
+
 	selectOSItem(osItem) {
 		this.selectedOs = this.selectedOs === osItem.value ? null : osItem.value;
 	}

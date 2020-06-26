@@ -161,6 +161,8 @@ export default class EnvironmentService extends BaseService {
 
 	async createDerivative(payload: IEmulatorComponentRequest): Promise<IEnvironment> {
 		const environment = await this.getEnvironment(payload.environment);
+		const httpSvc = new EmilBaseService('EmilEnvironmentData');
+		const initResponse = await httpSvc.get('init');
 		const response = await this._componentService.postEmulatorComponent(payload);
 		await this._componentService.controlurls(response.id);
 		await this._componentService.keepAlive(response.id);

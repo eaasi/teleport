@@ -93,8 +93,6 @@ const actions = {
 	},
 
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
-		// TODO: Deleting an environment is currently not working on the back end.
-		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
 		const resource = state.selectedResources[0];
 		if (!resource) return;
 
@@ -203,7 +201,7 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
-	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest) {
+	async addEnvironmentToTempArchive(_, payload: IEmulatorComponentRequest) {
 		return await _svc.addEnvironmentToTempArchive(payload);
 	},
 
