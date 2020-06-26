@@ -1,6 +1,6 @@
 import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpers/ResourceHelper';
 import BaseHttpService from '@/services/BaseHttpService';
-import { IEmulatorComponentRequest } from '@/types/EmulationProject';
+import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { IPatch, ITemplate } from '@/types/Import';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
@@ -162,6 +162,16 @@ class ResourceService extends BaseHttpService {
 
 	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest) {
 		let res = await this.post<IEnvironment>('/resource/temp/create', payload);
+		return res.result;
+	}
+
+	async deleteEnvironmentFromTempArchive(envId: string) {
+		let res = await this.delete(`/resource/temp/${envId}`);
+		return res.result;
+	}
+
+	async getAllTemp(): Promise<ITempEnvironmentRecord[]> {
+		let res = await this.get<ITempEnvironmentRecord[]>('/resource/temp/get-all');
 		return res.result;
 	}
 	

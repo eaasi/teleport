@@ -42,7 +42,7 @@ import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../typ
 import { ROUTES } from '../../router/routes.const';
 import { IEnvironmentList, IEnvironment } from '../../types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
-import { IEmulatorComponentRequest } from '@/types/EmulationProject';
+import { IEmulatorComponentRequest } from '@/types/Emulation';
 import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
 import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';

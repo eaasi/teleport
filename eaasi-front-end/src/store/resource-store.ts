@@ -2,7 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
-import { IEmulatorComponentRequest } from '@/types/EmulationProject';
+import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
 import { IPatch, ITemplate } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
@@ -204,6 +204,23 @@ const actions = {
 	async addEnvironmentToTempArchive(_, payload: IEmulatorComponentRequest) {
 		return await _svc.addEnvironmentToTempArchive(payload);
 	},
+
+	async deleteEnvironmentFromTempArchive(_, envId: string) {
+		return await _svc.deleteEnvironmentFromTempArchive(envId);
+	},
+
+	async getAllTemp(_): Promise<ITempEnvironmentRecord[]> {
+		return await _svc.getAllTemp();
+	},
+
+	async cleanTempEnvironment({ commit, dispatch, state }: Store<ResourceState>) {
+		let tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
+		if (tempRecords.some(tmp => tmp.envId === state.activeEnvironment.envId)) {
+			await dispatch('deleteEnvironmentFromTempArchive', state.activeEnvironment.envId);
+			commit('SET_ACTIVE_ENVIRONMENT', null);
+		}
+		return null;
+	}
 
 };
 

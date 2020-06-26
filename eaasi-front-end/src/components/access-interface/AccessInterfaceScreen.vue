@@ -204,6 +204,14 @@ import { IEaasiUser } from 'eaasi-admin';
 			return true;
 		}
 
+		initCloseEvent() {
+			window.addEventListener('beforeunload', e => this.cleanTempEnvironment());
+		}
+
+		async cleanTempEnvironment() {
+			await this.$store.dispatch('resource/cleanTempEnvironment');
+		}
+
 		/* Lifecycle Hooks
         ============================================*/
 
@@ -213,12 +221,14 @@ import { IEaasiUser } from 'eaasi-admin';
 				await vm.getEnvironment(envId);
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
+				vm.initCloseEvent();
 			});
 		}
 
 		beforeRouteLeave(to: Route, from: Route, next: Function) {
 			this.hideAppHeader = false;
 			this.hideLeftMenu = false;
+			this.cleanTempEnvironment();
 			this.stop().then(() => {
 				next();
 			});

@@ -1,3 +1,4 @@
+import { TempEnvironment } from '@/data_access/models/app/TempEnvironment';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
 import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
@@ -8,6 +9,7 @@ import { IEmilTask } from '@/types/task/Task';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
 import TempEnvironmentService from './TempEnvironmentService';
 
@@ -35,7 +37,7 @@ export default class EnvironmentService extends BaseService {
 		
 		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
 		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
-			let tempEnvs = tempEnvResponse.result.get({ plain: true }) as ITempEnvironmentRecord[];
+			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
 			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
 		}
 
@@ -286,7 +288,7 @@ export default class EnvironmentService extends BaseService {
 		return plain;
 	}
 
-	async retrieveAll() {
+	async getAllTemp(): Promise<ICrudServiceResult<TempEnvironment[]>> {
 		return await this._tempEnvironmentService.getAllWhere({});
 	}
 

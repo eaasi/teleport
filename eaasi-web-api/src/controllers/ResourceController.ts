@@ -7,6 +7,7 @@ import SoftwareService from '@/services/resource/SoftwareService';
 import { IAuthorizedDeleteRequest } from '@/types/auth/Auth';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
+import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IContentRequest, IEmulatorComponentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
@@ -343,9 +344,16 @@ export default class ResourceController extends BaseController {
 		try {
 			let id = req.params.id;
 			let userId = req.user.id;
-			await this._environmentService.deleteEnvironment(id);
-			let success = await this._environmentService.deleteFromTempArchive(userId, id);
-			return res.send(success);
+			let tempEnvResponse = await this._environmentService.getAllTemp();
+			if (tempEnvResponse.result != null) {
+				let tempEnvrecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
+				let curTempRecord = tempEnvrecords.find(temp => temp.envId === id);
+				if (!curTempRecord) return res.send(false);
+				await this._environmentService.deleteEnvironment(id);
+				let success = await this._environmentService.deleteFromTempArchive(userId, id);
+				return res.send(success);
+			}
+			return res.send(false);
 		} catch(e) {
 			return this.sendError(e, res);
 		}
@@ -354,9 +362,9 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Gets All Environments from a temporary archive
 	 */
-	async getAll(req: Request, res: Response) {
+	async getAllTemp(req: Request, res: Response) {
 		try {
-			let response = await this._environmentService.retrieveAll();
+			let response = await this._environmentService.getAllTemp();
 			if (response.hasError) {
 				return res
 					.status(HttpResponseCode.SERVER_ERROR)

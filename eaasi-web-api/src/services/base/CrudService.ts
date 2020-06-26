@@ -85,7 +85,7 @@ export default class CrudService<T extends Model> extends BaseService implements
 	 * Accepts Sequelize WhereOptions to query a matched object
 	 * @param whereOptions
 	 */
-	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult<T>> {
+	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult<T[]>> {
 		return await this.model.findAll({
 			where: whereOptions
 		}).then((result: T[]) => {

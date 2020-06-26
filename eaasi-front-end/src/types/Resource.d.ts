@@ -107,6 +107,7 @@ export interface IEnvironment extends IEaasiResource {
 	isServiceContainer?: boolean;
 	processAdditionalFiles?: boolean;
 	time?: number;
+	temp?: boolean;
 }
 
 export interface IInstalledSoftware {

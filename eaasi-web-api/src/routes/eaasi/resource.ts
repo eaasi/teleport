@@ -272,7 +272,7 @@ router.delete('/temp/:id', (req: IAuthorizedGetRequest, res: Response) =>
  * @apiPermission All Users
  */
 router.get('/temp/get-all', (req: IAuthorizedGetRequest, res: Response) => 
-	controller.getAll(req, res)
+	controller.getAllTemp(req, res)
 );
 
 module.exports = router;
