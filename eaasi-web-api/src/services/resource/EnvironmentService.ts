@@ -163,17 +163,18 @@ export default class EnvironmentService extends BaseService {
 		const environment = await this.getEnvironment(payload.environment);
 		const httpSvc = new EmilBaseService('EmilEnvironmentData');
 		const initResponse = await httpSvc.get('init');
-		const response = await this._componentService.postEmulatorComponent(payload);
-		await this._componentService.controlurls(response.id);
-		await this._componentService.keepAlive(response.id);
+		const { error, id } = await this._componentService.postEmulatorComponent(payload);
+		if (error) throw new Error(error);
+		await this._componentService.controlurls(id);
+		await this._componentService.keepAlive(id);
 		const newEnvRequest: IClientEnvironmentRequest = {
-			componentId: response.id,
+			componentId: id,
 			description: environment.description,
 			envId: payload.environment,
 			title: environment.title,
 		}
 		const derivative: IEnvironment = await this.saveNewEnvironment(newEnvRequest);
-		await this._componentService.stopComponent(response.id);
+		await this._componentService.stopComponent(id);
 		return derivative;
 	}
 

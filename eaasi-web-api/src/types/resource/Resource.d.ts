@@ -59,6 +59,7 @@ export interface IEmulatorComponentRequest {
 export interface IEmulatorComponentresponse {
 	id: string;
 	status?: string;
+	error?: string;
 }
 
 export interface IComponentRequest {
