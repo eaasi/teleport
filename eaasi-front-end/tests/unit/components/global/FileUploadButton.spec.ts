@@ -115,12 +115,12 @@ describe('FileUploadButton.vue', () => {
 		expect(changeFiles).toBeCalled();
 	});
 
-	it('builds id data as 10 character string', () => {
+	it('builds id data as 9 character string', () => {
 		const wrapper = mount(FileUploadButton, {
 			components: {
 				UiButton
 			},
 		});
-		expect(wrapper.vm.$data.id.length).toBe(10);
+		expect(wrapper.vm.$data.id.length).toBe(9);
 	});
 });

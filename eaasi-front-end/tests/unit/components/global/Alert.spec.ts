@@ -1,5 +1,5 @@
-import { shallowMount } from '@vue/test-utils';
 import Alert from '@/components/global/Alert/Alert.vue';
+import { shallowMount } from '@vue/test-utils';
 
 describe('Alert.vue', () => {
 	it('Displays error icon when type is error', () => {
@@ -76,6 +76,6 @@ describe('Alert.vue', () => {
 				default: 'wherever you go'
 			}
 		});
-		expect(wrapper.find('.content').text()).toContain('wherever you go');
+		expect(wrapper.find('.eaasi-alert-content').text()).toContain('wherever you go');
 	});
 });
