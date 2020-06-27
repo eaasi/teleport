@@ -175,9 +175,10 @@ export default class EnvironmentService extends BaseService {
 			envId: payload.environment,
 			title: environment.title,
 		}
-		const derivative: IEnvironment = await this.saveNewEnvironment(newEnvRequest);
+		const derivativeResponse: IEnvironment = await this.saveNewEnvironment(newEnvRequest);
+		if (derivativeResponse.error) throw new Error(derivativeResponse.error as string);
 		await this._componentService.stopComponent(id);
-		return derivative;
+		return derivativeResponse;
 	}
 
 	/*============================================================

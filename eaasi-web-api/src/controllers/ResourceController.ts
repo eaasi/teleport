@@ -327,9 +327,10 @@ export default class ResourceController extends BaseController {
 	 */
 	async addToTempArchive(req: Request, res: Response) {
 		try {
+			let userId = Number(req.user.id);
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;
 			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
-			let userId = Number(req.user.id);
+			this._logger.log.info(`Temporary Environment with id ${derivative.envId} has been created for user ${userId}`);
 			let savedEnvironment = await this._environmentService.addToTempArchive(userId, derivative.envId);
 			return res.send(savedEnvironment);
 		} catch(e) {
@@ -350,6 +351,7 @@ export default class ResourceController extends BaseController {
 				let curTempRecord = tempEnvrecords.find(temp => temp.envId === id);
 				if (!curTempRecord) return res.send(false);
 				await this._environmentService.deleteEnvironment(id);
+				this._logger.log.info(`Temporary Environment with id ${id} has been deleted for user ${userId}`);
 				let success = await this._environmentService.deleteFromTempArchive(userId, id);
 				return res.send(success);
 			}
