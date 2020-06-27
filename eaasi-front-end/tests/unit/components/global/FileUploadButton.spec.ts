@@ -121,6 +121,6 @@ describe('FileUploadButton.vue', () => {
 				UiButton
 			},
 		});
-		expect(wrapper.vm.$data.id.length).toBe(9);
+		expect(wrapper.vm.$data.id.length).toBe(10);
 	});
 });
