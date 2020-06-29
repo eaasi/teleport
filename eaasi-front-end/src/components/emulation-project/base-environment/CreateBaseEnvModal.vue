@@ -11,6 +11,12 @@
 
 			<div class="section-os row">
 				<div class="left col-md-7">
+					<text-input
+						v-model="environmentTitle"
+						label="Environment Name"
+						placeholder="Environment name"
+						rules="required"
+					/>
 					<os-picker
 						list
 						:selected-os="selectedOs"
@@ -39,9 +45,6 @@
 				</div>
 			</div>
 
-			<!-- <div v-if="hardwareTemplates.length > 0">
-				<hardware-template-selection :templates="hardwareTemplates" />
-			</div> -->
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
