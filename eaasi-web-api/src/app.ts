@@ -52,7 +52,6 @@ app.use(errorHandler);
 app.use(notFoundHandler);
 
 sequelize.sync().then(() => {
-	clearCache();
 	/**
 	 * Create HTTP server.
 	 */

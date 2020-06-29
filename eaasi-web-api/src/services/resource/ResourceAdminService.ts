@@ -15,6 +15,7 @@ import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
+import EmulationProjectResourceService from '../rest-api/EmulationProjectResourceService';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -42,6 +43,10 @@ export default class ResourceAdminService extends BaseService {
 		this._contentService = contentService;
 	}
 
+	/*============================================================
+	 == General
+	/============================================================*/
+
 	/**
 	 * Gets all environments, software packages, and content items
 	 */
@@ -58,6 +63,10 @@ export default class ResourceAdminService extends BaseService {
 
 		return [...environments, ...software, ...content] as IEaasiResource[];
 	}
+
+	/*============================================================
+	 == Searching
+	/============================================================*/
 
 	/**
 	 * Searches Environment, Software, and Content Resources using the  provided IResourceSearchQuery
@@ -88,7 +97,7 @@ export default class ResourceAdminService extends BaseService {
 		]);
 
 		this.preselectResultFacets(result, query);
-		
+
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
 		result.content.result = this.paginate(query, result.content.result);
