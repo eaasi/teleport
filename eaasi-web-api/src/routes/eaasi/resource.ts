@@ -1,5 +1,5 @@
 import ResourceController from '@/controllers/ResourceController';
-import { IAuthorizedGetRequest } from '@/types/auth/Auth';
+import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
 import express, { Response } from 'express';
 
 const router = express.Router();
@@ -248,7 +248,7 @@ router.post('/save-environment-revision', (req, res) => controller.saveEnvironme
  * @apiPermission All Users
  * @apiDescription Creates a record in the database 
  */
-router.post('/temp/create', (req: IAuthorizedGetRequest, res: Response) => 
+router.post('/temp/create', (req: IAuthorizedPostRequest, res: Response) => 
 	controller.addToTempArchive(req, res)
 );
 
@@ -260,7 +260,7 @@ router.post('/temp/create', (req: IAuthorizedGetRequest, res: Response) =>
  * @apiPermission All Users
  * @apiDescription Removes a record from the database 
  */
-router.delete('/temp/:id', (req: IAuthorizedGetRequest, res: Response) => 
+router.delete('/temp/:id', (req: IAuthorizedDeleteRequest, res: Response) => 
 	controller.deleteFromTempArchive(req, res)
 );
 

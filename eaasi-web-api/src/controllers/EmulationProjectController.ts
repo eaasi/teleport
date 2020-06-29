@@ -1,6 +1,5 @@
 import HttpResponseCode from '@/classes/HttpResponseCode';
 import { EmulationProject } from '@/data_access/models/app';
-import TempEnvironmentService from '@/services/resource/TempEnvironmentService';
 import EmulationProjectService from '@/services/rest-api/EmulationProjectService';
 import { IAuthorizedGetRequest } from '@/types/auth/Auth';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
@@ -9,14 +8,11 @@ import UserOwnedCrudController from './base/UserOwnedCrudController';
 
 export default class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
 	
-	private readonly _tempEnvironmentService: TempEnvironmentService;
 
 	constructor(
 		service: EmulationProjectService = new EmulationProjectService(),
-		tempEnvService: TempEnvironmentService = new TempEnvironmentService()
 	) {
 		super(service);
-		this._tempEnvironmentService = tempEnvService;
 	}
 
 	/**

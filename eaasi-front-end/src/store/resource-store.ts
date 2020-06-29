@@ -201,11 +201,11 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
-	async addEnvironmentToTempArchive(_, payload: IEmulatorComponentRequest) {
+	async addEnvironmentToTempArchive(_, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
 		return await _svc.addEnvironmentToTempArchive(payload);
 	},
 
-	async deleteEnvironmentFromTempArchive(_, envId: string) {
+	async deleteEnvironmentFromTempArchive(_, envId: string): Promise<ITempEnvironmentRecord> {
 		return await _svc.deleteEnvironmentFromTempArchive(envId);
 	},
 
