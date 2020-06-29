@@ -71,6 +71,11 @@ export default class ResourceAdminService extends BaseService {
 		]);
 
 		this.preselectResultFacets(result, query);
+		
+		result.environments.result = this.paginate(query, result.environments.result);
+		result.software.result = this.paginate(query, result.software.result);
+		result.content.result = this.paginate(query, result.content.result);
+
 		return result;
 	}
 
@@ -187,7 +192,7 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		return {
-			result: this.paginate(query, results),
+			result: results,
 			totalResults: results.length
 		}
 	}
