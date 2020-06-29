@@ -242,8 +242,6 @@ export default class CreateBaseEnvironment extends Vue {
 	============================================*/
 	
 	readonly operatingSystems = operatingSystems;
-
-	chosenOsId: string = null;
 	kvmFlag: string = '-enable-kvm';
 	softwareOpertaingSystems: ISoftwareObject[] = [];
 	

@@ -1,6 +1,5 @@
 <template>
 	<info-modal
-		v-if="isOpen"
 		@close="$emit('close')"
 		title="Create Base Environment"
 		button-text="Cancel"
@@ -12,25 +11,21 @@
 
 			<div class="section-os row">
 				<div class="left col-md-7">
-					<select-list label="Operating System Type" v-model="selectedOsType">
-						<option
-							v-for="osType in osTypeOptions"
-							:value="osType.name"
-							:key="osType.id"
-						>
-							{{ osType.name }}
-						</option>
-					</select-list>
-
-					<select-list label="Operating System Version" v-model="selectedOsVersion">
-						<option
-							v-for="osVersion in osVersionOptions"
-							:value="osVersion.name"
-							:key="osVersion.id"
-						>
-							{{ osVersion.name }}
-						</option>
-					</select-list>
+					<os-picker
+						list
+						:selected-os="selectedOs"
+						@input="selectOs"
+						:readonly="!!operatingSystemId"
+					/>
+					<search-select-list
+						v-model="operatingSystemId"
+						label="Choose a System"
+						option-label="label"
+						anchor="id"
+						placeholder="Please select a System Template"
+						:data="osTemplates"
+						rules="required"
+					/>
 				</div>
 
 				<div class="right col-md-5">
@@ -44,9 +39,9 @@
 				</div>
 			</div>
 
-			<div v-if="hardwareTemplates.length > 0">
+			<!-- <div v-if="hardwareTemplates.length > 0">
 				<hardware-template-selection :templates="hardwareTemplates" />
-			</div>
+			</div> -->
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
@@ -61,7 +56,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
@@ -69,49 +64,89 @@ import HardwareTemplateSelection from '@/components/emulation-project/HardwareTe
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
 import {IOsVersionOptions} from '@/types/IOsVersionOptions';
 import {IOsTypeOptions} from '@/types/IOsTypeOptions';
+import OsPicker, { IOsItem } from '../shared/OsPicker.vue';
+import { ISoftwareObject, IDrive } from '@/types/Resource';
+import { Sync } from 'vuex-pathify';
+import { operatingSystems, ITemplateParams, IOsListItem } from '@/models/admin/OperatingSystems';
+import { populateNativeConfig } from '@/helpers/NativeConfigHelper';
 
 @Component({
 	name: 'CreateBaseEnvModal',
 	components: {
 		HardwareTemplateSelection,
+		OsPicker,
 		InfoModal,
 		UiButton,
 		SelectList,
 	}
 })
 export default class CreateBaseEnvModal extends Vue {
-		isOpen = true;
-		selectedOsType = null;
-		selectedOsVersion = null;
 
-		/**
-		 * Array of available OS Types
-		 */
-		osTypeOptions: IOsTypeOptions[] = [];
+	/* Computed
+	============================================*/
+	@Sync('emulationProject/createEnvironmentPayload@label')
+	environmentTitle: string;
 
-		/**
-		 * Array of available OS Versions
-		 */
-		osVersionOptions: IOsVersionOptions[] = [];
+	@Sync('emulationProject/createEnvironmentPayload@driveSettings')
+	drives: IDrive[];
 
-		/**
-		 * Array of available Hardware Templates
-		 */
-		hardwareTemplates: IHardwareTemplate[];
+	@Sync('emulationProject/createEnvironmentPayload@operatingSystemId')
+	operatingSystemId: string;
+
+	@Sync('emulationProject/createEnvironmentPayload@templateId')
+	templateId: string;
+
+	@Sync('emulationProject/createEnvironmentPayload@nativeConfig')
+	nativeConfig: string;
 
 
-		getOsTypes() {
-			this.osTypeOptions = [];
-		}
+	/* Data
+	============================================*/
+	readonly operatingSystems = operatingSystems;
+	kvmFlag: string = '-enable-kvm';
+	softwareOpertaingSystems: ISoftwareObject[] = [];
+	showAdvancedOptions: boolean = false;
+	selectedOs: IOsItem = null;
 
-		getHardwareTemplates() {
-			this.hardwareTemplates = [];
-		}
+	/**
+	 * Array of available OS Types
+	 */
+	osTypeOptions: IOsTypeOptions[] = [];
 
-		created() {
-			this.getOsTypes();
-			this.getHardwareTemplates();
-		}
+	/**
+	 * Array of available OS Versions
+	 */
+	osVersionOptions: IOsVersionOptions[] = [];
+
+	/**
+	 * Array of available Hardware Templates
+	 */
+	hardwareTemplates: IHardwareTemplate[];
+
+	get osTemplates(): IOsListItem[] {
+		if (!this.selectedOs) return this.operatingSystems;
+		return this.operatingSystems.filter(os => os.id.indexOf(this.selectedOs.value) >= 0);
+	}
+
+	reset() {
+		const currentEnvTitle = this.environmentTitle;
+		this.$store.commit('emulationProject/RESET');
+		this.environmentTitle = currentEnvTitle;
+	}
+
+	selectOs(os: IOsItem) {
+		this.selectedOs = os;
+	}
+
+	@Watch('operatingSystemId')
+	onActiveTemplate(template) {
+		console.log(template);
+		if (!template) this.reset();
+		const chosenOS = this.operatingSystems.find(os => os.id === template);
+		if (!chosenOS) return;
+		this.nativeConfig = populateNativeConfig(chosenOS.template_params);
+		this.templateId = chosenOS.template;
+	}
 
 }
 

@@ -47,7 +47,8 @@
 			</div>
 		</div>
 		<!-- Auto Match -->
-		<div class="emu-option-item flex flex-row justify-between">
+		<!-- Not in next release -->
+		<!-- <div class="emu-option-item flex flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Auto Match <span class="bg-red">BETA</span></h4>
 				<p>Try to find a base environment match for your objects automatically.</p>
@@ -60,7 +61,11 @@
 					Try Auto Match
 				</ui-button>
 			</div>
-		</div>
+		</div> -->
+		<create-base-env-modal 
+			v-if="createBaseEnvModal" 
+			@close="createBaseEnvModal = false" 
+		/>
 	</div>
 </template>
 
@@ -73,6 +78,7 @@ import ContentResourcesWizard from './ContentResourcesWizard.vue';
 import EmulationProjectScreen from './EmulationProjectScreen.vue';
 import InfoMessage from './shared/InfoMessage.vue';
 import { ROUTES } from '../../router/routes.const';
+import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -80,10 +86,13 @@ import { ROUTES } from '../../router/routes.const';
 		BaseEnvironmentWizard,
 		SoftwareResourcesWizard,
 		InfoMessage,
+		CreateBaseEnvModal,
 		ContentResourcesWizard
 	}
 })
 export default class EmulationProjectOptions extends Vue {
+
+	createBaseEnvModal: boolean = false;
 
 	search() {
 		this.$router.push(ROUTES.RESOURCES.EXPLORE);
@@ -94,11 +103,7 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	createBaseEnvironment() {
-		this.$router.push(ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT);
-	}
-
-	autoMatch() {
-		// TODO
+		this.createBaseEnvModal = true;
 	}
 
 }
