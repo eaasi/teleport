@@ -8,4 +8,5 @@ export default class BaseService {
 	constructor() {
     	this._logger = AppLogger;
 	}
+
 }

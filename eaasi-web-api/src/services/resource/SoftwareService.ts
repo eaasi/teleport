@@ -2,12 +2,17 @@ import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftw
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import { getFromCache, addToCache } from '@/utils/cache.utility';
+import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.utility';
 
 
 export default class SoftwareService extends BaseService {
 
 	private readonly _softwareRepoService: EmilBaseService;
+	private readonly CACHE_KEYS = {
+		ALL_SOFTWARE: 'all-software',
+		PACKAGES: 'software-packages',
+		DESCRIPTIONS: 'software-descriptions'
+	}
 
 	constructor(
 		softwareRepoService: EmilBaseService = new EmilBaseService('software-repository'),
@@ -17,15 +22,14 @@ export default class SoftwareService extends BaseService {
 	}
 
 	async getAll(bypassCache: boolean = false): Promise<ISoftwarePackage[]> {
-		const CACHE_KEY = 'all-software-packages';
 		if(!bypassCache) {
-			let results = getFromCache<ISoftwarePackage[]>(CACHE_KEY)
+			let results = getFromCache<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
 			if(results) return results;
 		}
 		const descriptionList = await this.getSoftwareDescriptionList();
 		const packageList = await this.getSoftwarePackageList();
 		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
-		addToCache(CACHE_KEY, packages);
+		addToCache(this.CACHE_KEYS.ALL_SOFTWARE, packages);
 		return packages;
 	}
 
@@ -58,12 +62,20 @@ export default class SoftwareService extends BaseService {
 		})
 	}
 
-	private async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
+	private async getSoftwareDescriptionList(bypassCache: boolean = false): Promise<ISoftwareDescriptionList> {
+		if(!bypassCache) {
+			let results = getFromCache<ISoftwareDescriptionList>(this.CACHE_KEYS.DESCRIPTIONS)
+			if(results) return results;
+		}
 		let res = await this._softwareRepoService.get('descriptions');
 		return await res.json() as ISoftwareDescriptionList;
 	}
 
-	private async getSoftwarePackageList(): Promise<ISoftwarePackageList> {
+	private async getSoftwarePackageList(bypassCache: boolean = false): Promise<ISoftwarePackageList> {
+		if(!bypassCache) {
+			let results = getFromCache<ISoftwarePackageList>(this.CACHE_KEYS.PACKAGES)
+			if(results) return results;
+		}
 		let res = await this._softwareRepoService.get('packages');
 		return await res.json() as ISoftwarePackageList;
 	}
@@ -78,7 +90,18 @@ export default class SoftwareService extends BaseService {
 	 */
 	async saveSoftwareObject(softwareObject: ISoftwareObject) {
 		let res = await this._softwareRepoService.post('packages', softwareObject);
+		if(res.ok) this.clearCache();
 		return await res.json();
+	}
+
+	/*============================================================
+	 == Cache
+	/============================================================*/
+
+	clearCache() {
+		Object.values(this.CACHE_KEYS).forEach(key => {
+			deleteFromCache(key);
+		})
 	}
 
 }
