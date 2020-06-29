@@ -361,7 +361,7 @@ export default class ResourceSlideMenu extends Vue {
 
 	// TODO: Refactor doAction and multiple / single selected resource logic
 
-	async doAction(action: IAction) {
+	doAction(action: IAction) {
 		if (!action.isEnabled) return;
 
 		switch (action.shortName) {
@@ -390,14 +390,15 @@ export default class ResourceSlideMenu extends Vue {
 				this.confirmAction = 'delete';
 				break;
 			case 'publish':
-				await this.publishSelectedResources();
+				this.publishSelectedResources();
 				this.$emit('resource-published');
 			default: break;
 		}
 	}
 
-	addToEmulationProject() {
-		this.$store.dispatch('emulationProject/addResources', this.resources);
+	async addToEmulationProject() {
+		await this.$store.dispatch('emulationProject/addResources', this.resources);
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 	}
 
 	bookmark() {

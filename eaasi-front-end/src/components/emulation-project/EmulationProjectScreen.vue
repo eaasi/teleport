@@ -11,7 +11,7 @@
 						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button :disabled="canRunProject">Run</ui-button>
+						<ui-button :disabled="!canRunProject" @click="run">Run</ui-button>
 					</div>
 				</div>
 			</template>
@@ -42,6 +42,10 @@ import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../typ
 import { ROUTES } from '../../router/routes.const';
 import { IEnvironmentList, IEnvironment } from '../../types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
+import { IEmulatorComponentRequest } from '@/types/Emulation';
+import { IKeyboardSettings } from 'eaasi-admin';
+import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
+import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -72,6 +76,18 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	async run() {
+		const { path } = this.$route;
+		switch (path) {
+			case ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT:
+				return await this.runBaseEnvironment();
+				break;
+			case ROUTES.EMULATION_PROJECT.DETAILS:
+				return await this.runEmulationProject();
+				break;
+		}
+	}
+
+	async runBaseEnvironment() {
 		this.createEnvironmentPayload.size += 'M';
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
 		if (response.status === '0') {
@@ -88,8 +104,32 @@ export default class EmulationProjectScreen extends Vue {
 		};
 
 		this.activeEnvironment = environment;
-
+		
 		this.$router.push(route);
+	}
+
+	async runEmulationProject() { 
+		// TODO: test env dummy json needs to be removed
+		const testEnv: IEnvironment = JSON.parse('{"networking":{"enableInternet":false,"serverMode":false,"localServerMode":false,"enableSocks":false,"serverPort":"","serverIp":"","connectEnvs":false,"helpText":""},"envId":"6b4c9691-b5d3-4f76-ac92-6541b0bdee0d","title":"Alpine base test save after import","description":"test","emulator":"Qemu","enableRelativeMouse":false,"enablePrinting":false,"shutdownByOs":false,"timeContext":"1589924959722","canProcessAdditionalFiles":false,"archive":"default","owner":"shared","envType":"base","revisions":[],"installedSoftwareIds":[],"nativeConfig":"-m 1024 -soundhw ac97 -net nic,model=rtl8139 -net user -usb -usbdevice tablet","useXpra":false,"useWebRTC":false,"drives":[{"data":"binding://main_hdd","iface":"ide","bus":"0","unit":"0","type":"disk","boot":true,"plugged":true},{"data":"","iface":"ide","bus":"0","unit":"1","type":"cdrom","filesystem":"ISO","boot":false,"plugged":false},{"data":"","iface":"floppy","bus":"0","unit":"0","type":"floppy","filesystem":"fat12","boot":false,"plugged":false}],"timestamp":"2020-05-19T21:49:23.069Z","isLinuxRuntime":false,"isServiceContainer":false,"resourceType":"Environment"}');
+		this.environment = testEnv;
+		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
+		const payload: IEmulatorComponentRequest = {
+			archive: this.environment.archive,
+			emulatorVersion: 'latest',
+			environment: this.environment.envId,
+			keyboardLayout: keyboardSettings.language.name,
+			keyboardModel: keyboardSettings.layout.name,
+			type: 'machine' // TODO: Only have seen machine being type here, could there be another option?
+		};
+		// create a copy of active environment
+		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
+		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
+		// update the copy with emulation project properties
+		const emulationProjectEnv = await this.$store.dispatch('resource/updateEnvironmentDetails', tempEnvironment);
+		this.activeEnvironment = tempEnvironment;
+		await this.$store.dispatch('resource/refreshTempEnvs');
+		// Route to access interface screen
+		this.$router.push(buildAccessInterfaceQuery({ envId: tempEnvironment.envId }));
 	}
 
 	clear() {

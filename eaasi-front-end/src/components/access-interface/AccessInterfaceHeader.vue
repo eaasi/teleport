@@ -107,6 +107,7 @@
 	import ChangeMediaModal from './ChangeMediaModal.vue';
 	import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 	import PrintJobsModal from './PrintJobsModal.vue';
+import { IEnvironment } from '../../types/Resource';
 
 	@Component({
 		name: 'AccessInterfaceHeader',
@@ -125,6 +126,9 @@
 
 		@Get('driveId')
 		readonly driveId: number;
+
+		@Get('resource/activeEnvironment')
+		activeEnvironment: IEnvironment;
 
 		/* Data
 		============================================*/
@@ -207,8 +211,22 @@
 			eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
 		}
 
+		initBrowserEvents() {
+			window.addEventListener('beforeunload', e => this.cleanTempEnvironment());
+		}
+
+		removeBrowserEvents() {
+			window.removeEventListener('beforeunload', () => {});
+		}
+
+		async cleanTempEnvironment() {
+			if (this.$store.dispatch('resource/isTemporaryEnv', this.activeEnvironment.envId)) {
+				await this.$store.dispatch('resource/cleanTempEnvironment');
+			}
+		}
+
 		async mounted() {
-			const { softwareId, objectId, archiveId } = this.$route.query;
+			const { softwareId, objectId, archiveId} = this.$route.query;
 			if ((softwareId || objectId) && archiveId) {
 				const result = await this.$store.dispatch('software/getSoftwareMetadata', {
 					archiveId,
@@ -217,10 +235,13 @@
 				this.mediaItems = result.mediaItems.file;
 			}
 			this.initEmulatorListeners();
+			this.initBrowserEvents();
 		}
 
 		beforeDestroy() {
 			eventBus.$off('emulator:print:add-print-job');
+			this.cleanTempEnvironment();
+			this.removeBrowserEvents();
 		}
 	}
 

@@ -118,12 +118,14 @@ import { IEaasiUser } from 'eaasi-admin';
         ============================================*/
 		showConfirmExitModal: boolean = false;
 		showConfirmRestartModal: boolean = false;
+		isTemporaryEnv: boolean = false;
 
 		/* Methods
         ============================================*/
 
 		async getEnvironment(envId: string) {
-			const { createBaseEnvironment } = this.$route.query;
+			const { createBaseEnvironment, tmp } = this.$route.query;
+			this.isTemporaryEnv = !!tmp;
 			if (createBaseEnvironment) {
 				await this.runImportedEnvironment(envId, `Base Environment [${this.loggedInUser.firstName} ${this.loggedInUser.lastName}]`);
 			} else if (this.isImportedEnvironment) {

@@ -1,32 +1,46 @@
+import { TempEnvironment } from '@/data_access/models/app/TempEnvironment';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
 import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
-import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
+import { IClientEnvironmentRequest, IEmulatorComponentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
+import TempEnvironmentService from './TempEnvironmentService';
 
 export default class EnvironmentService extends BaseService {
 
 	private readonly _environmentRepoService: EmilBaseService;
 	private readonly _componentService: ComponentService;
+	private readonly _tempEnvironmentService: TempEnvironmentService;
 
 	constructor(
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
-		componentService: ComponentService = new ComponentService()
+		componentService: ComponentService = new ComponentService(),
+		tempEnvService: TempEnvironmentService = new TempEnvironmentService()
 	) {
 		super();
 		this._environmentRepoService = environmentRepository;
 		this._componentService = componentService;
+		this._tempEnvironmentService = tempEnvService;
 	}
 
 	async getAll(): Promise<IEnvironment[]> {
 		let res = await this._environmentRepoService.get('environments?detailed=true');
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		
+		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
+		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
+			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
+			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
+		}
+
 		return environments;
 	}
 
@@ -147,6 +161,26 @@ export default class EnvironmentService extends BaseService {
 		return await res.json() as IEmilTask;
 	}
 
+	async createDerivative(payload: IEmulatorComponentRequest): Promise<IEnvironment> {
+		const environment = await this.getEnvironment(payload.environment);
+		const httpSvc = new EmilBaseService('EmilEnvironmentData');
+		await httpSvc.get('init');
+		const { error, id } = await this._componentService.postEmulatorComponent(payload);
+		if (error) throw new Error(error);
+		await this._componentService.controlurls(id);
+		await this._componentService.keepAlive(id);
+		const newEnvRequest: IClientEnvironmentRequest = {
+			componentId: id,
+			description: environment.description,
+			envId: payload.environment,
+			title: environment.title,
+		}
+		const derivativeResponse: IEnvironment = await this.saveNewEnvironment(newEnvRequest);
+		if (derivativeResponse.error) throw new Error(derivativeResponse.error as string);
+		await this._componentService.stopComponent(id);
+		return derivativeResponse;
+	}
+
 	/*============================================================
 	 == Revisions
 	/============================================================*/
@@ -236,6 +270,27 @@ export default class EnvironmentService extends BaseService {
 	async getNameIndexes() {
 		let res = await this._environmentRepoService.get('image-name-index');
 		return res.json();
+	}
+
+	/*============================================================
+	 == Temporary Environments
+	/============================================================*/
+
+	async addToTempArchive(userId: number, envId: string): Promise<ITempEnvironmentRecord> {
+		let tempEnvRecord: ITempEnvironmentRecord = { userId, envId };
+		let response = await this._tempEnvironmentService.create(tempEnvRecord);
+		return await response.result.get({ plain: true })  as ITempEnvironmentRecord;
+	}
+
+	async deleteFromTempArchive(userId: number, envId: string): Promise<ITempEnvironmentRecord> {
+		let tempEnvRecord = await this._tempEnvironmentService.getOneWhere({ userId, envId });
+		let plain = tempEnvRecord.result.get({ plain: true }) as ITempEnvironmentRecord;
+		await this._tempEnvironmentService.destroy(plain.id);
+		return plain;
+	}
+
+	async getAllTemp(): Promise<ICrudServiceResult<TempEnvironment[]>> {
+		return await this._tempEnvironmentService.getAllWhere({});
 	}
 
 }

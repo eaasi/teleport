@@ -1,4 +1,4 @@
-import { ResourceType } from './Resource';
+import { ResourceType } from "../resource/Resource";
 
 export interface IEmulationProject {
 	id: number;
@@ -10,7 +10,7 @@ export interface IEmulationProjectResource {
 	id: number;
 	emulationProjectId: number;
 	resourceId: string;
-	resourceType: ResourceType
+	resourceType: ResourceType;
 }
 
 export interface IEmulatorComponentRequest {

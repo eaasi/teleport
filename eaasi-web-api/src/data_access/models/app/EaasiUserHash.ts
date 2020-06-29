@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt, BelongsTo } from 'sequelize-typescript';
+import { BelongsTo, Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 import { EaasiUser } from '.';
 
 @Table({

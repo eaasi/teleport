@@ -13,7 +13,7 @@ export const ROUTES: IRoutes = {
     },
     EMULATION_PROJECT: {
         ROOT: '/emulation-project',
-        DETAILS: '/emulation-project:id',
+        DETAILS: '/emulation-project/details',
         OPTIONS: '/emulation-project/options',
         CREATE_BASE_ENVIRONMENT: '/emulation-project/create-base-environment',
     },

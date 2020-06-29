@@ -1,13 +1,14 @@
+import EmulationProjectController from '@/controllers/EmulationProjectController';
+import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest } from '@/controllers/EmulationProjectResourceController';
+import { EmulationProject } from '@/data_access/models/app';
+import { IAuthorizedGetRequest, IAuthorizedPutRequest } from '@/types/auth/Auth';
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
-import EmulationProjectController from '@/controllers/EmulationProjectController';
-import { IAuthorizedGetRequest, IAuthorizedPutRequest } from '@/types/auth/Auth';
-import { EmulationProject } from '@/data_access/models/app';
-import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest } from '@/controllers/EmulationProjectResourceController';
 
 const router = express.Router();
 const controller = new EmulationProjectController();
 const resourcesController = new EmulationProjectResourceController();
+
 
 router.get('/get-for-user', (req: IAuthorizedGetRequest, res: Response) => {
 	controller.getForUser(req, res);
@@ -39,5 +40,6 @@ router.get('/:projectId/resources',
 			? resourcesController.sendMalformedRequestResponse(req, res, errors)
 			: resourcesController.getForProject(req, res);
 	});
+
 
 module.exports = router;

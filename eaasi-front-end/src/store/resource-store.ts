@@ -2,6 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
+import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
 import { IPatch, ITemplate } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
@@ -25,6 +26,7 @@ class ResourceState {
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
 	resourceName: string = '';
+	tempEnvironments: ITempEnvironmentRecord[] = [];
 }
 
 const state = new ResourceState();
@@ -92,8 +94,6 @@ const actions = {
 	},
 
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
-		// TODO: Deleting an environment is currently not working on the back end.
-		// Issue is being tracked: https://gitlab.com/eaasi/eaasi-client-dev/issues/283
 		const resource = state.selectedResources[0];
 		if (!resource) return;
 
@@ -201,6 +201,38 @@ const actions = {
 	publishEnvironmentsToNetwork(_store, envIds: string[]) {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
+
+	async addEnvironmentToTempArchive(_, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
+		return await _svc.addEnvironmentToTempArchive(payload);
+	},
+
+	async deleteEnvironmentFromTempArchive(_, envId: string): Promise<ITempEnvironmentRecord> {
+		return await _svc.deleteEnvironmentFromTempArchive(envId);
+	},
+
+	async getAllTemp(_): Promise<ITempEnvironmentRecord[]> {
+		return await _svc.getAllTemp();
+	},
+
+	async cleanTempEnvironment({ commit, dispatch, state }: Store<ResourceState>) {
+		let tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
+		if (tempRecords.some(tmp => tmp.envId === state.activeEnvironment.envId)) {
+			await dispatch('deleteEnvironmentFromTempArchive', state.activeEnvironment.envId);
+			commit('SET_ACTIVE_ENVIRONMENT', null);
+		}
+		await dispatch('refreshTempEnvs');
+		return null;
+	},
+
+	async refreshTempEnvs({ dispatch, commit }: Store<ResourceState>) {
+		let allTemp = await dispatch('getAllTemp');
+		commit('SET_TEMP_ENVIRONMENTS', allTemp);
+	},
+
+	isTemporaryEnv({ state }: Store<ResourceState>, envId: string): boolean {
+		return state.tempEnvironments.some(temp => temp.envId === envId);
+	},
+
 };
 
 /*============================================================
@@ -263,6 +295,7 @@ const getters = {
 			.filter(i => i !== null);
 		return selectedFacets;
 	},
+
 };
 
 export default {

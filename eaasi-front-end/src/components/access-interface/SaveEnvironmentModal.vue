@@ -40,7 +40,7 @@
 	import {ISaveEnvOptions} from '@/types/SaveEnvironment';
 	import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
 	import Vue from 'vue';
-	import {Component} from 'vue-property-decorator';
+	import {Component, Prop} from 'vue-property-decorator';
 	import {Get} from 'vuex-pathify';
 
 	@Component({

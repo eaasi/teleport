@@ -1,14 +1,17 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import { EmulationProject } from '@/data_access/models/app';
 import EmulationProjectService from '@/services/rest-api/EmulationProjectService';
 import { IAuthorizedGetRequest } from '@/types/auth/Auth';
+import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Response } from 'express';
-import { EmulationProject } from '@/data_access/models/app';
 import UserOwnedCrudController from './base/UserOwnedCrudController';
-import HttpResponseCode from '@/classes/HttpResponseCode';
-import { build_500_response, build_404_response } from '@/utils/error-helpers';
 
 export default class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
+	
 
-	constructor(service: EmulationProjectService = new EmulationProjectService()) {
+	constructor(
+		service: EmulationProjectService = new EmulationProjectService(),
+	) {
 		super(service);
 	}
 
@@ -39,4 +42,5 @@ export default class EmulationProjectController extends UserOwnedCrudController<
 			return this.sendError(e, res);
 		}
 	}
+
 }

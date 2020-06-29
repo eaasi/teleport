@@ -43,7 +43,9 @@ describe('API Service', () => {
 		expect(sut.model.findAll_calledWith).toStrictEqual({
 			limit: query.limit,
 			offset: expectedOffset,
-			raw: raw
+			raw: raw,
+			order: undefined,
+			where: undefined
 		});
 	});
 
