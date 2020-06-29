@@ -215,6 +215,10 @@ import { IEnvironment } from '../../types/Resource';
 			window.addEventListener('beforeunload', e => this.cleanTempEnvironment());
 		}
 
+		removeBrowserEvents() {
+			window.removeEventListener('beforeunload', () => {});
+		}
+
 		async cleanTempEnvironment() {
 			if (this.$store.dispatch('resource/isTemporaryEnv', this.activeEnvironment.envId)) {
 				await this.$store.dispatch('resource/cleanTempEnvironment');
@@ -237,6 +241,7 @@ import { IEnvironment } from '../../types/Resource';
 		beforeDestroy() {
 			eventBus.$off('emulator:print:add-print-job');
 			this.cleanTempEnvironment();
+			this.removeBrowserEvents();
 		}
 	}
 
