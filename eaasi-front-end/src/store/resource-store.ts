@@ -26,6 +26,7 @@ class ResourceState {
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
 	resourceName: string = '';
+	tempEnvironments: ITempEnvironmentRecord[] = [];
 }
 
 const state = new ResourceState();
@@ -219,8 +220,18 @@ const actions = {
 			await dispatch('deleteEnvironmentFromTempArchive', state.activeEnvironment.envId);
 			commit('SET_ACTIVE_ENVIRONMENT', null);
 		}
+		await dispatch('refreshTempEnvs');
 		return null;
-	}
+	},
+
+	async refreshTempEnvs({ dispatch, commit }: Store<ResourceState>) {
+		let allTemp = await dispatch('getAllTemp');
+		commit('SET_TEMP_ENVIRONMENTS', allTemp);
+	},
+
+	isTemporaryEnv({ state }: Store<ResourceState>, envId: string): boolean {
+		return state.tempEnvironments.some(temp => temp.envId === envId);
+	},
 
 };
 
@@ -284,6 +295,7 @@ const getters = {
 			.filter(i => i !== null);
 		return selectedFacets;
 	},
+
 };
 
 export default {

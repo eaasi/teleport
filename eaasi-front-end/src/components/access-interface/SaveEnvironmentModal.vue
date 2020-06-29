@@ -51,9 +51,6 @@
 	})
 	export default class SaveEnvironmentModal extends Vue {
 
-		@Prop({ type: Boolean, default: false })
-		readonly includeRevision: boolean;
-
 		@Get('import/environmentType')
 		environmentType: string;
 
@@ -70,19 +67,18 @@
 		}
 
 		get radioOptions(): IRadioOption[] {
-			let options = [{
-				value: SaveEnvironmentOption.newEnvironment,
-				label: 'New Environment',
-				description: 'Create a New Environment Resource'
-			}];
-			if (this.includeRevision) {
-				options.push({
+			return [
+				{
+					value: SaveEnvironmentOption.newEnvironment,
+					label: 'New Environment',
+					description: 'Create a New Environment Resource'
+				},
+				{
 					value: SaveEnvironmentOption.createRevision,
 					label: 'Create Revision',
 					description: 'Create a Revision of this Environment Resource'
-				});
-			}
-			return options;
+				}
+			];
 		}
 
 		saveEnvOptions: ISaveEnvOptions = {

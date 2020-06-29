@@ -85,7 +85,6 @@
 		/>
 		<save-environment-modal
 			v-if="showSaveEnvironment"
-			:include-revision="!isTemporaryEnv"
 			@close="showSaveEnvironment = false"
 			@save-environment="saveEnvironment"
 		/>
@@ -108,6 +107,7 @@
 	import ChangeMediaModal from './ChangeMediaModal.vue';
 	import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 	import PrintJobsModal from './PrintJobsModal.vue';
+import { IEnvironment } from '../../types/Resource';
 
 	@Component({
 		name: 'AccessInterfaceHeader',
@@ -127,6 +127,9 @@
 		@Get('driveId')
 		readonly driveId: number;
 
+		@Get('resource/activeEnvironment')
+		activeEnvironment: IEnvironment;
+
 		/* Data
 		============================================*/
 		mediaItems: [] = [];
@@ -134,7 +137,6 @@
 		showSaveEnvironment: boolean = false;
 		showPrintJobsModal: boolean = false;
 		printJobLabels: string[] = [];
-		isTemporaryEnv: boolean = false;
 
 		/* Methods
         ============================================*/
@@ -214,14 +216,13 @@
 		}
 
 		async cleanTempEnvironment() {
-			if (this.isTemporaryEnv) {
+			if (this.$store.dispatch('resource/isTemporaryEnv', this.activeEnvironment.envId)) {
 				await this.$store.dispatch('resource/cleanTempEnvironment');
 			}
 		}
 
 		async mounted() {
-			const { softwareId, objectId, archiveId, tmp } = this.$route.query;
-			this.isTemporaryEnv = !!tmp;
+			const { softwareId, objectId, archiveId} = this.$route.query;
 			if ((softwareId || objectId) && archiveId) {
 				const result = await this.$store.dispatch('software/getSoftwareMetadata', {
 					archiveId,

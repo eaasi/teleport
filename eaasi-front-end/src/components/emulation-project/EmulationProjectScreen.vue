@@ -124,15 +124,12 @@ export default class EmulationProjectScreen extends Vue {
 		// create a copy of active environment
 		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
 		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
-		console.log(tempEnvRecord, tempEnvironment);
-		tempEnvironment.title += ' [TMP]';
 		// update the copy with emulation project properties
 		const emulationProjectEnv = await this.$store.dispatch('resource/updateEnvironmentDetails', tempEnvironment);
-
 		this.activeEnvironment = tempEnvironment;
-
+		await this.$store.dispatch('resource/refreshTempEnvs');
 		// Route to access interface screen
-		this.$router.push(buildAccessInterfaceQuery({ envId: tempEnvironment.envId, isTemporary: true }));
+		this.$router.push(buildAccessInterfaceQuery({ envId: tempEnvironment.envId }));
 	}
 
 	clear() {
