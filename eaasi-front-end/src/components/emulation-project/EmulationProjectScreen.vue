@@ -88,7 +88,7 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	async runBaseEnvironment() {
-		this.createEnvironmentPayload.size += 'M';
+		// this.createEnvironmentPayload.size += 'M';
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
 		if (response.status === '0') {
 			this.environment.envId = response.id;

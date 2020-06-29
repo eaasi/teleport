@@ -152,8 +152,9 @@ export default class EnvironmentService extends BaseService {
 	}
 
 	async createEnvironment(payload: ICreateEnvironmentPayload) {
-		const res = await this._environmentRepoService.post('/actions/create-image', payload);
-		return res.json();
+		const res = await this._environmentRepoService.post('environments', payload);
+		let response = await res.json();
+		return response
 	}
 
 	async importResourceFromUrl(payload: IImageImportPayload): Promise<IEmilTask> {

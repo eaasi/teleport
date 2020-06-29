@@ -136,10 +136,10 @@ export default class CreateBaseEnvironment extends Vue {
 	/* Computed
 	============================================*/
 
-	@Sync('emulationProject/environment@label')
+	@Sync('emulationProject/createEnvironmentPayload@label')
 	environmentTitle: string;
 
-	@Sync('emulationProject/environment@drives')
+	@Sync('emulationProject/createEnvironmentPayload@driveSettings')
 	drives: IDrive[];
 
 	@Sync('emulationProject/createEnvironmentPayload@operatingSystemId')
@@ -298,6 +298,8 @@ export default class CreateBaseEnvironment extends Vue {
 		this.nativeConfig = populateNativeConfig(chosenOS.template_params);
 		this.cpu = chosenOS.template_params.cpu;
 		this.diskSize = chosenOS.template_params.memory;
+		this.templateId = chosenOS.template;
+		console.log(chosenOS.template, this.templateId);
 	}
 
 }
