@@ -1,5 +1,6 @@
 import ResourceController from '@/controllers/ResourceController';
 import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
+import { IEmulatorComponentRequest } from '@/types/resource/Resource';
 import express, { Response } from 'express';
 
 const router = express.Router();
@@ -248,7 +249,7 @@ router.post('/save-environment-revision', (req, res) => controller.saveEnvironme
  * @apiPermission All Users
  * @apiDescription Creates a record in the database 
  */
-router.post('/temp/create', (req: IAuthorizedPostRequest, res: Response) => 
+router.post('/temp/create', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
 	controller.addToTempArchive(req, res)
 );
 
