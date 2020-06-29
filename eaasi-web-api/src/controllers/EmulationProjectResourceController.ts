@@ -19,7 +19,7 @@ export default class EmulationProjectResourceController extends BaseCrudControll
 		try {
 			let response = await this.service.getAllWhere({
 				emulationProjectId: Number(req.params.projectId)
-			})
+			});
 			if (response.hasError) {
 				return res
 					.status(HttpResponseCode.SERVER_ERROR)

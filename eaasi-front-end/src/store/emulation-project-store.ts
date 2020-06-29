@@ -67,6 +67,7 @@ mutations.RESET = (state) => {
 const actions = {
 
 	async addResources({dispatch, state}: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
+		console.log('Adding!');
 		let ids = resources.filter(x => !state.projectResources.find(r => r.resourceId === x.id));
 		let result = await _projectService.addResources(ids.map(r => ({
 			id: undefined,

@@ -12,12 +12,15 @@ import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
 import TempEnvironmentService from './TempEnvironmentService';
+import cache from 'memory-cache';
+import { getFromCache, addToCache } from '@/utils/cache.utility';
 
 export default class EnvironmentService extends BaseService {
 
 	private readonly _environmentRepoService: EmilBaseService;
 	private readonly _componentService: ComponentService;
 	private readonly _tempEnvironmentService: TempEnvironmentService;
+	private readonly CACHE_KEY: string = 'environments';
 
 	constructor(
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
@@ -30,17 +33,22 @@ export default class EnvironmentService extends BaseService {
 		this._tempEnvironmentService = tempEnvService;
 	}
 
-	async getAll(): Promise<IEnvironment[]> {
+	async getAll(bypassCache: boolean = false): Promise<IEnvironment[]> {
+		if(!bypassCache) {
+			let results = getFromCache<IEnvironment[]>(this.CACHE_KEY)
+			if(results) return results;
+		}
 		let res = await this._environmentRepoService.get('environments?detailed=true');
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
-		
+
 		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
 		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
 			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
 			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
 		}
 
+		addToCache(this.CACHE_KEY, environments, )
 		return environments;
 	}
 

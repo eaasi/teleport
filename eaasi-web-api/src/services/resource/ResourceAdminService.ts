@@ -3,7 +3,7 @@ import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
-import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
+import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
@@ -40,6 +40,23 @@ export default class ResourceAdminService extends BaseService {
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
+	}
+
+	/**
+	 * Gets all environments, software packages, and content items
+	 */
+	async getAllResources(): Promise<IEaasiResource[]> {
+		let environments: IEnvironment[],
+			software: ISoftwarePackage[],
+			content: IContentItem[];
+
+		[environments, software, content] = await Promise.all([
+			this._environmentService.getAll(),
+			this._softwareService.getAll(),
+			this._contentService.getAll('zero conf')
+		]);
+
+		return [...environments, ...software, ...content] as IEaasiResource[];
 	}
 
 	/**

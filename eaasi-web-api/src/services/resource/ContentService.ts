@@ -5,6 +5,7 @@ import { IEmilTask } from '@/types/task/Task';
 import { objectArchiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import { getFromCache, addToCache } from '@/utils/cache.utility';
 
 export default class ContentService extends BaseService {
 
@@ -17,10 +18,16 @@ export default class ContentService extends BaseService {
 		this._contentRepoService = contentRepository;
 	}
 
-	async getAll(archiveId: ArchiveType): Promise<IContentItem[]> {
+	async getAll(archiveId: ArchiveType, bypassCache: boolean = false): Promise<IContentItem[]> {
+		const CACHE_KEY = 'all-content-items';
+		if(!bypassCache) {
+			let results = getFromCache<IContentItem[]>(CACHE_KEY)
+			if(results) return results;
+		}
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`);
 		let content = await res.json() as IContentItem[];
 		content.forEach(x => x.resourceType = resourceTypes.CONTENT);
+		addToCache(CACHE_KEY, content);
 		return content;
 	}
 

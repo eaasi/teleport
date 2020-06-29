@@ -33,6 +33,7 @@ import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get } from 'vuex-pathify';
 import { IEmulationProjectResource } from '../../types/Emulation';
+import { IEaasiResource } from '../../types/Resource';
 
 @Component({
 	name: 'ResourceSideBar',
@@ -47,6 +48,9 @@ export default class ResourceSideBar extends Vue {
 
 	/* Computed
 	============================================*/
+
+	@Get('resources/resources')
+	readonly resources: IEaasiResource[]
 
 	@Get('emulationProject/projectResources')
 	readonly projectResources: IEmulationProjectResource[]
