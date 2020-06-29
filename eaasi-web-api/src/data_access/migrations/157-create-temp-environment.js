@@ -12,10 +12,6 @@ module.exports = {
 				type: Sq.DATE,
 				defaultValue: new Date()
 			},
-			updatedAt: {
-				type: Sq.DATE,
-				defaultValue: new Date()
-			},
 			id: {
 				type: Sq.INTEGER,
 				allowNull: false,

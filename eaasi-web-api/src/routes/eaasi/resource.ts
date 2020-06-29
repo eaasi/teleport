@@ -272,7 +272,7 @@ router.delete('/temp/:id', (req: IAuthorizedDeleteRequest, res: Response) =>
  * @apiGroup Resources
  * @apiPermission All Users
  */
-router.get('/temp/get-all', (req: IAuthorizedGetRequest, res: Response) => 
+router.get('/temp', (req: IAuthorizedGetRequest, res: Response) => 
 	controller.getAllTemp(req, res)
 );
 

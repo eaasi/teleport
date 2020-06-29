@@ -346,7 +346,7 @@ export default class ResourceController extends BaseController {
 			let id = req.params.id;
 			let userId = req.user.id;
 			let tempEnvResponse = await this._environmentService.getAllTemp();
-			if (tempEnvResponse.result != null) {
+			if (tempEnvResponse.result != null && tempEnvResponse.result.length) {
 				let tempEnvrecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
 				let curTempRecord = tempEnvrecords.find(temp => temp.envId === id);
 				if (!curTempRecord) return res.send(false);

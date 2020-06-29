@@ -171,7 +171,7 @@ class ResourceService extends BaseHttpService {
 	}
 
 	async getAllTemp(): Promise<ITempEnvironmentRecord[]> {
-		let res = await this.get<ITempEnvironmentRecord[]>('/resource/temp/get-all');
+		let res = await this.get<ITempEnvironmentRecord[]>('/resource/temp');
 		return res.result;
 	}
 	
