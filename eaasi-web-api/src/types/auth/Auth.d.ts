@@ -39,3 +39,11 @@ export interface ILoginResponse {
 	success: boolean;
 	token?: string;
 }
+
+export interface IChangePasswordRequest extends IAuthorizedRequest {
+	body: {
+		password: string;
+		newPassword: string;
+		newPasswordConfirm: string;
+	};
+}

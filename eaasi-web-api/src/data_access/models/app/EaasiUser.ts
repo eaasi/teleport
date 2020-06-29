@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, HasOne, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { Column, CreatedAt, ForeignKey, BelongsTo, Model, Table, UpdatedAt } from 'sequelize-typescript';
 import { EaasiRole } from './EaasiRole';
 import { EaasiRoles } from '@/types/auth/User';
 
@@ -47,6 +47,7 @@ export class EaasiUser extends Model<EaasiUser> {
 
     @ForeignKey(() => EaasiRole)
     @Column({
+    	allowNull: true,
     	type: DataTypes.INTEGER,
     })
     roleId: EaasiRoles;
@@ -57,6 +58,10 @@ export class EaasiUser extends Model<EaasiUser> {
     })
     lastLogin: Date;
 
-    @HasOne(() => EaasiRole, 'id')
+	@BelongsTo(() => EaasiRole, {
+		foreignKey: 'roleId',
+		onUpdate: 'CASCADE',
+		onDelete: 'SET NULL'
+	})
     role: EaasiRole;
 }

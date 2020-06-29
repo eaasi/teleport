@@ -8,3 +8,9 @@ export interface ILoginResponse {
 	success: boolean;
 	token?: string;
 }
+
+export interface IChangePasswordRequest {
+	password: string;
+	newPassword: string;
+	newPasswordConfirm: string;
+}
