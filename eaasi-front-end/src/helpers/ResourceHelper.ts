@@ -1,4 +1,5 @@
-import { IDrive, IEnvironment } from '@/types/Resource';
+import { IDrive, IEnvironment, IEaasiResource } from '@/types/Resource';
+import { resourceTypes } from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
@@ -32,6 +33,11 @@ export interface ISaveEnvironmentResponse {
 }
 
 type ArchiveType = 'remote' | 'public' | 'private';
+
+export function getResourceId(resource: IEaasiResource): string {
+	if(resource.resourceType === resourceTypes.ENVIRONMENT) return resource.envId;
+	return resource.id;
+}
 
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {
     return {

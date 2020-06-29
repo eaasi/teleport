@@ -3,13 +3,14 @@ import ContentImportResource from '@/models/import/ContentImportResource';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import _projectService from '@/services/EmulationProjectService';
 import _importService from '@/services/ImportService';
-import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
+import { IEmulationProject } from '@/types/Emulation';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
 import { IEaasiResource } from '@/types/Resource';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+import { getResourceId } from '@/helpers/ResourceHelper';
 
 /*============================================================
  == State
@@ -30,7 +31,7 @@ class EmulationProjectStore {
 	content: ContentImportResource = new ContentImportResource();
 	componentId: string = '';
 
-	projectResources: IEmulationProjectResource[] = [];
+	projectResources: IEaasiResource[] = [];
 
 	// True when we're running an environment as an Object (Content) or Software Environment
 	isConstructedEnvironment: boolean = false;
@@ -67,12 +68,13 @@ mutations.RESET = (state) => {
 const actions = {
 
 	async addResources({dispatch, state}: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
-		console.log('Adding!');
-		let ids = resources.filter(x => !state.projectResources.find(r => r.resourceId === x.id));
-		let result = await _projectService.addResources(ids.map(r => ({
+		let notInProject = resources.filter(r => !state.projectResources.find(pr => {
+			return getResourceId(r) === getResourceId(pr);
+		}));
+		let result = await _projectService.addResources(notInProject.map(r => ({
 			id: undefined,
 			emulationProjectId: state.project.id,
-			resourceId: r.resourceType === resourceTypes.ENVIRONMENT ? r.envId : r.id,
+			resourceId: getResourceId(r),
 			resourceType: r.resourceType
 		})));
 		if(!result) return;
