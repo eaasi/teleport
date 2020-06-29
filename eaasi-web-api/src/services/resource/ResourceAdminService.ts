@@ -161,8 +161,8 @@ export default class ResourceAdminService extends BaseService {
 		if (results.length && bookmarks && query.onlyBookmarks) {
 			results = results.filter(r => bookmarks.some(b => b.resourceID === r.id));
 		}
-		
-		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
+
+		if(results.length && userResources && (query.onlyImportedResources || results[0].resourceType === resourceTypes.CONTENT)) {
 			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
 		}
 
