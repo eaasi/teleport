@@ -1,4 +1,4 @@
- <template>
+<template>
 	<info-modal
 		@close="$emit('close')"
 		title="Create Base Environment"
