@@ -1,7 +1,7 @@
 <template>
 	<div class="flex flex-row justify-between os-template-config">
 		<labeled-item-list :labeled-items="firstSet" />
-        <labeled-item-list :labeled-items="secondSet" />
+		<labeled-item-list :labeled-items="secondSet" />
 	</div>
 </template>
 
@@ -87,9 +87,9 @@ export default class OsTemplateConfig extends Vue {
 
 <style lang='scss'>
 .os-template-config {
-    
-    .lil-container {
-        flex: 1;
-    }
+
+	.lil-container {
+		flex: 1;
+	}
 }
 </style>
