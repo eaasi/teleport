@@ -47,7 +47,9 @@ export default class ContentService extends BaseService {
 			if(result) return result;
 		}
 		let res = await this._contentRepoService.get('archives');
-		return res.json();
+		let archives = await res.json();
+		addToCache(this.CACHE_KEYS.ARCHIVES, archives);
+		return archives;
 	}
 
 	/**
@@ -77,7 +79,7 @@ export default class ContentService extends BaseService {
 	private clearCache() {
 		Object.values(this.CACHE_KEYS).forEach(key => {
 			deleteFromCache(key);
-		})
+		});
 	}
 
 
