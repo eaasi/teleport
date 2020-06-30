@@ -46,7 +46,7 @@ export default class ContentResourceCard extends Vue {
 	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
 
-	@Prop({ type: Boolean, default: true })
+	@Prop({ type: Boolean, default: false })
 	readonly bookmark: boolean;
 
 	/* Data
@@ -82,8 +82,6 @@ export default class ContentResourceCard extends Vue {
 			id: this.content.id,
 			title: this.content.title,
 			resourceType: resourceTypes.CONTENT,
-			content: { },
-			subContent: { },
 			isPublic: false
 		};
 	}

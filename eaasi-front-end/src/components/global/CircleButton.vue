@@ -1,10 +1,10 @@
 <template>
 	<button
-		:class="['circle-button', `${colorPreset}`, size]"
+		:class="['circle-button flex-center', `${colorPreset}`, size]"
 		v-on="$listeners"
 		v-bind="$attrs"
 	>
-		<span :class="`fas fa-${icon} eb-icon`"></span>
+		<span :class="`far fa-${icon}`"></span>
 	</button>
 </template>
 
@@ -48,13 +48,14 @@ export default class CircleButton extends Vue {
 
 .circle-button {
 	appearance: none;
+	border: none;
 	border-radius: 50%;
 	cursor: pointer;
-	font-size: 1.6rem;
-	font-weight: 600;
-	min-width: 17.5rem;
+	font-size: 1.8rem;
+	font-weight: 300;
+	height: 3.2rem;
+	width: 3.2rem;
 	outline: none;
-	padding: 0.8rem 1.6rem;
 	transition: background-color 0.3s;
 
 	&[disabled] {
@@ -91,20 +92,12 @@ export default class CircleButton extends Vue {
 		min-width: 0;
 	}
 
-	.eb-icon {
-		margin-right: 0.4em;
-	}
-
-	.eb-icon-right {
-		margin-left: 0.4rem;
-	}
-
 	/**
 	Color presets
 	 */
 	&.default {
 		background-color: $dark-blue;
-		border: solid 2px darken($dark-blue, 20%);
+		// border: solid 2px darken($dark-blue, 20%);
 		color: #FFFFFF;
 
 		&:hover {
@@ -114,7 +107,7 @@ export default class CircleButton extends Vue {
 
 	&.light-blue {
 		background-color: lighten($light-blue, 80%);
-		border: solid 2px lighten($light-blue, 50%);
+		// border: solid 2px lighten($light-blue, 50%);
 		color: $dark-blue;
 
 		&:hover {
@@ -124,7 +117,7 @@ export default class CircleButton extends Vue {
 
 	&.white {
 		background-color: #FFFFFF;
-		border: solid 2px lighten($light-blue, 30%);
+		// border: solid 2px lighten($light-blue, 30%);
 		color: lighten($dark-blue, 20%);
 		font-weight: normal;
 

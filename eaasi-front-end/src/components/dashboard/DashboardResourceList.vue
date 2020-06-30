@@ -13,6 +13,7 @@
 				v-if="isSoftware(resource)"
 				:disable-select="true"
 				:software="resource"
+				bookmark
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
@@ -20,6 +21,7 @@
 				v-if="isContent(resource)"
 				:disable-select="true"
 				:software="resource"
+				bookmark
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>

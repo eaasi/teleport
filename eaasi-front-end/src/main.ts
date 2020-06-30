@@ -1,3 +1,4 @@
+import GlobalComponents from '@/components/global';
 import EaasiVueConfig from '@/plugins/EaasiVueConfig';
 import StringCleaner from '@/utils/string-cleaner';
 import Vue from 'vue';
@@ -8,6 +9,7 @@ import './scss/global.scss';
 import store from './store';
 
 Vue.use(EaasiVueConfig);
+Vue.use(GlobalComponents);
 
 /*============================================================
  == Filters

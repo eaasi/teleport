@@ -81,6 +81,13 @@ const actions = {
 		return await dispatch('loadProjectResources', state.project.id);
 	},
 
+	async removeResource({dispatch, state}: Store<EmulationProjectStore>, resource: IEaasiResource) {
+		let resourceId = getResourceId(resource);
+		let result = await _projectService.removeResource(state.project.id, resourceId);
+		if(!result) return;
+		return await dispatch('loadProjectResources', state.project.id);
+	},
+
 	async loadProject({commit, dispatch}) {
 		let project = await _projectService.getProject();
 		if(!project) return;

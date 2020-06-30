@@ -3,7 +3,7 @@ import { IAuthorizedRequest, IAuthorizedPostRequest, IAuthorizedPatchRequest, IA
 import { Response } from 'express';
 import BaseController from './base/BaseController';
 import HttpResponseCode from '@/classes/HttpResponseCode';
-import { build_500_response } from '@/utils/error-helpers';
+import { build_500_response, build_400_response } from '@/utils/error-helpers';
 import BaseCrudController from './base/BaseCrudController';
 import { EmulationProjectResource } from '@/data_access/models/app';
 
@@ -23,7 +23,7 @@ export default class EmulationProjectResourceController extends BaseController {
 	 */
 	async getForProject(req: IGetEmulationProjectResourcesRequest, res: Response) {
 		try {
-			let result = await this._svc.getEaasiResources(Number(req.params.projectId));
+			const result = await this._svc.getEaasiResources(Number(req.params.projectId));
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -36,7 +36,7 @@ export default class EmulationProjectResourceController extends BaseController {
 	 * @param res response
 	 */
 	async create(req: IAuthorizedPostRequest<EmulationProjectResource>, res: Response) {
-		let response = await this._svc.create(req.body);
+		const response = await this._svc.create(req.body);
 		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
@@ -47,30 +47,20 @@ export default class EmulationProjectResourceController extends BaseController {
 	}
 
 	/**
-	 * Updates a resource by ID
-	 * @param req request
-	 * @param res response
-	 */
-	async update(req: IAuthorizedPatchRequest<EmulationProjectResource>, res: Response) {
-		const id = Number(req.params.id);
-		const updateData = req.body;
-		let updateResponse = await this._svc.update(id, updateData);
-
-		if (updateResponse.hasError) {
-			return BaseCrudController._handleUpdateError(req, res, updateResponse);
-		}
-
-		return res.status(HttpResponseCode.OK).send(updateResponse);
-	}
-
-	/**
 	 * Deletes a resource by ID
 	 * @param req request
 	 * @param res response
 	 */
-	async delete(req: IAuthorizedDeleteRequest, res: Response) {
-		const id = Number(req.params.id);
-		let deleteResponse = await this._svc.destroy(id);
+	async delete(req: IDeleteEmulationProjectResourceRequest, res: Response) {
+		const resourceId = req.params.resourceId;
+		const emulationProjectId = Number(req.params.projectId);
+		const result = await this._svc.getOneWhere({ resourceId, emulationProjectId });
+		if(!result || !result.result) {
+			return res
+				.status(HttpResponseCode.NOT_FOUND)
+				.send(build_400_response(JSON.stringify(req.params)));
+		}
+		const deleteResponse = await this._svc.destroy(result.result.id);
 
 		if (deleteResponse.hasError) {
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
@@ -84,5 +74,12 @@ export default class EmulationProjectResourceController extends BaseController {
 export interface IGetEmulationProjectResourcesRequest extends IAuthorizedRequest {
 	params: {
 		projectId: string;
+	};
+}
+
+export interface IDeleteEmulationProjectResourceRequest extends IAuthorizedRequest {
+	params: {
+		projectId: string;
+		resourceId: string;
 	};
 }
