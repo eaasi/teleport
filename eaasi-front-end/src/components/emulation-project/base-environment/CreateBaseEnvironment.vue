@@ -297,7 +297,6 @@ export default class CreateBaseEnvironment extends Vue {
 		this.cpu = chosenOS.template_params.cpu;
 		this.diskSize = chosenOS.template_params.memory;
 		this.templateId = chosenOS.template;
-		console.log(chosenOS.template, this.templateId);
 	}
 
 }
