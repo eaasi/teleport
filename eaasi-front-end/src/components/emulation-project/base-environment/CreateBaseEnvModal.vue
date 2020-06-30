@@ -44,14 +44,16 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="">
+				<os-template-conig v-if="selectedOSTemplate" :os-template="selectedOSTemplate" />
+			</div>
 		</div>
 		<template v-slot:buttons>
 			<div class="justify-end buttons-right">
 				<ui-button @click="$emit('close')" color-preset="light-blue">Cancel</ui-button>
 			</div>
 			<div class="justify-end buttons-right">
-				<ui-button @click="$emit('save')">Save</ui-button>
+				<ui-button :disabled="!canSave" @click="$emit('save')">Save</ui-button>
 			</div>
 		</template>
 	</info-modal>
@@ -63,21 +65,20 @@ import {Component, Watch} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
-import HardwareTemplateSelection from '@/components/emulation-project/HardwareTemplateSelection.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
-import {IOsVersionOptions} from '@/types/IOsVersionOptions';
-import {IOsTypeOptions} from '@/types/IOsTypeOptions';
 import OsPicker, { IOsItem } from '../shared/OsPicker.vue';
 import { ISoftwareObject, IDrive } from '@/types/Resource';
 import { Sync } from 'vuex-pathify';
 import { operatingSystems, ITemplateParams, IOsListItem } from '@/models/admin/OperatingSystems';
 import { populateNativeConfig } from '@/helpers/NativeConfigHelper';
+import { ITemplate } from '../../../types/Import';
+import OsTemplateConig from '../shared/OsTemplateConig.vue';
 
 @Component({
 	name: 'CreateBaseEnvModal',
 	components: {
-		HardwareTemplateSelection,
 		OsPicker,
+		OsTemplateConig,
 		InfoModal,
 		UiButton,
 		SelectList,
@@ -102,34 +103,23 @@ export default class CreateBaseEnvModal extends Vue {
 	@Sync('emulationProject/createEnvironmentPayload@nativeConfig')
 	nativeConfig: string;
 
-
-	/* Data
-	============================================*/
-	readonly operatingSystems = operatingSystems;
-	kvmFlag: string = '-enable-kvm';
-	softwareOpertaingSystems: ISoftwareObject[] = [];
-	showAdvancedOptions: boolean = false;
-	selectedOs: IOsItem = null;
-
-	/**
-	 * Array of available OS Types
-	 */
-	osTypeOptions: IOsTypeOptions[] = [];
-
-	/**
-	 * Array of available OS Versions
-	 */
-	osVersionOptions: IOsVersionOptions[] = [];
-
-	/**
-	 * Array of available Hardware Templates
-	 */
-	hardwareTemplates: IHardwareTemplate[];
+	get canSave(): boolean {
+		return !!this.templateId && !!this.operatingSystemId && !!this.environmentTitle;
+	}
 
 	get osTemplates(): IOsListItem[] {
 		if (!this.selectedOs) return this.operatingSystems;
 		return this.operatingSystems.filter(os => os.id.indexOf(this.selectedOs.value) >= 0);
 	}
+
+	get selectedOSTemplate(): IOsListItem {
+		return this.operatingSystems.find(os => os.id === this.operatingSystemId);
+	}
+
+	/* Data
+	============================================*/
+	readonly operatingSystems = operatingSystems;
+	selectedOs: IOsItem = null;
 
 	reset() {
 		const currentEnvTitle = this.environmentTitle;
@@ -143,7 +133,6 @@ export default class CreateBaseEnvModal extends Vue {
 
 	@Watch('operatingSystemId')
 	onActiveTemplate(template) {
-		console.log(template);
 		if (!template) this.reset();
 		const chosenOS = this.operatingSystems.find(os => os.id === template);
 		if (!chosenOS) return;

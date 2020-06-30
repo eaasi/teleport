@@ -65,6 +65,7 @@
 		<create-base-env-modal 
 			v-if="createBaseEnvModal" 
 			@close="createBaseEnvModal = false" 
+			@save="saveBaseEnvironment"
 		/>
 	</div>
 </template>
@@ -79,6 +80,8 @@ import EmulationProjectScreen from './EmulationProjectScreen.vue';
 import InfoMessage from './shared/InfoMessage.vue';
 import { ROUTES } from '../../router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
+import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -92,6 +95,9 @@ import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 })
 export default class EmulationProjectOptions extends Vue {
 
+	@Get('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
+
 	createBaseEnvModal: boolean = false;
 
 	search() {
@@ -104,6 +110,14 @@ export default class EmulationProjectOptions extends Vue {
 
 	createBaseEnvironment() {
 		this.createBaseEnvModal = true;
+	}
+
+	async saveBaseEnvironment() {
+		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
+		if (response.status === '0') {
+			// select newly created base env for current emu project
+			this.createBaseEnvModal = false;
+		}
 	}
 
 }
