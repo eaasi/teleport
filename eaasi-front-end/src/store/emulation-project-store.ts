@@ -23,6 +23,7 @@ class EmulationProjectStore {
 	environment: BaseEnvironment = null;
 	project: IEmulationProject = null;
 	projectResources: IEaasiResource[] = [];
+	selectedResources: IEaasiResource[] = [];
     selectedSoftwareId: string = null;
 }
 

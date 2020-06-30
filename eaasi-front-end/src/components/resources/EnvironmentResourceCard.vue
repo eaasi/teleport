@@ -12,7 +12,7 @@
 			@bookmarked="isActive => $emit('bookmarked', isActive)"
 			@change="setActiveEnvironment"
 			@click:header="goToDetailsPage"
-			:is-selected="isSelected"
+			:value="isSelected"
 		>
 			<template v-slot:tagsLeft>
 				<tag-group position="left" :tags="resourceTypeTags" />

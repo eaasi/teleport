@@ -32,13 +32,19 @@
 					:key="env.envId"
 					class="flex-row mb"
 				>
-					<environment-resource-card
-						:environment="env"
+					<selectable-card
+						footer
+						:data="env"
 						is-clickable
 						hide-details
 						class="flex-grow no-mb"
 						@change="setEnvironment(env, $event)"
-					/>
+						:value="!!environment && environment.envId == env.envId"
+					>
+						<template v-slot:tagsLeft>
+							<tag-group position="left" :tags="getTypeTags(env)" />
+						</template>
+					</selectable-card>
 					<div>
 						<circle-button
 							color-preset="light-blue"
@@ -59,20 +65,17 @@
 					:key="obj.id"
 					class="flex-row mb"
 				>
-					<software-resource-card
-						v-if="obj.resourceType === resourceTypes.SOFTWARE"
-						:software="obj"
-						is-clickable
-						hide-details
+					<selectable-card
+						footer
+						:data="{ title: obj.title || obj.label }"
+						:value="isSelected(obj)"
+						@change="selectResource(obj)"
 						class="flex-grow no-mb"
-					/>
-					<content-resource-card
-						v-if="obj.resourceType === resourceTypes.CONTENT"
-						:content="obj"
-						is-clickable
-						hide-details
-						class="flex-grow no-mb"
-					/>
+					>
+						<template v-slot:tagsLeft>
+							<tag-group position="left" :tags="getTypeTags(obj)" />
+						</template>
+					</selectable-card>
 					<div>
 						<circle-button
 							color-preset="light-blue"
@@ -96,7 +99,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEmulationProjectResource } from '../../types/Emulation';
 import { IEaasiResource, IEnvironment } from '../../types/Resource';
 import { resourceTypes, IResourceTypes } from '../../utils/constants';
-import { filterResourcesByType, removeResourcesByType } from '../../helpers/ResourceHelper';
+import { filterResourcesByType, getResourceTypeTags, removeResourcesByType } from '../../helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
@@ -124,6 +127,9 @@ export default class ResourceSideBar extends Vue {
 	@Get('emulationProject/projectResources')
 	readonly resources: IEaasiResource[];
 
+	@Sync('emulationProject/selectedResources')
+	selected: IEaasiResource[];
+
 	get environments(): IEnvironment[] {
 		return filterResourcesByType(this.resources, resourceTypes.ENVIRONMENT) as IEnvironment[];
 	}
@@ -149,12 +155,27 @@ export default class ResourceSideBar extends Vue {
 	/* Methods
 	============================================*/
 
+	getTypeTags(resource: IEaasiResource) {
+		return getResourceTypeTags(resource);
+	}
+
+	isSelected(resource: IEaasiResource) {
+		return this.selected.some(x => x.id === resource.id);
+	}
+
 	removeResource(resource: IEaasiResource) {
 		this.$store.dispatch('emulationProject/removeResource', resource);
 	}
 
+	selectResource(resource: IEaasiResource) {
+		if(this.isSelected(resource)) {
+			this.selected = this.selected.filter(x => x.id !== resource.id);
+		} else {
+			this.selected = [...this.selected, resource];
+		}
+	}
+
 	setEnvironment(environment: IEnvironment, checked: boolean) {
-		console.log(checked);
 		this.environment = checked ? environment : null;
 	}
 

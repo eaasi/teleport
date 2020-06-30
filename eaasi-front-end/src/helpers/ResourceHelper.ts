@@ -1,5 +1,6 @@
 import { IDrive, IEnvironment, IEaasiResource, ISoftwarePackage, ResourceType } from '@/types/Resource';
-import { resourceTypes } from '@/utils/constants';
+import { resourceTypes, archiveTypes } from '@/utils/constants';
+import { ITag } from '@/types/Tag';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
@@ -46,6 +47,84 @@ export function getResourceLabel(resource: IEaasiResource) {
 		default:
 			return resource.title;
 	}
+}
+
+export function getResourceTypeTags(resource: IEaasiResource): ITag[] {
+	if(resource.resourceType === resourceTypes.SOFTWARE) {
+		return [{
+			text:'Software',
+			icon:'fa-browser',
+			color:'white'
+		}];
+	}
+	if(resource.resourceType === resourceTypes.CONTENT) {
+		return [{
+			text: 'Content',
+			icon:'fa-file',
+			color:'white'
+		}];
+	}
+	if(resource.resourceType === resourceTypes.ENVIRONMENT) {
+		let tags = [{
+			text: resourceTypes.ENVIRONMENT as string,
+			icon: 'fa-cube',
+			color: 'white'
+		}];
+		if (resource.hasOwnProperty('envType')) {
+			if (resource['envType'] === 'base') {
+				tags.push({
+					icon: 'fa-box',
+					color: 'white',
+					text: 'Base'
+				});
+			}
+			if (resource['envType'] === 'object') {
+				tags.push({
+					icon: 'fa-save',
+					color: 'white',
+					text: 'Object'
+				});
+			}
+		}
+		return tags;
+	}
+	return [];
+}
+
+export function getResourceVisibilityTags(resource: IEaasiResource): ITag[] {
+	let tagGroup = [];
+	if(resource.resourceType !== resourceTypes.ENVIRONMENT) {
+		if(!resource.isPublic) {
+			tagGroup.push({
+				icon: 'fa-cloud-download-alt',
+				color: 'green',
+				text: 'Private'
+			});
+		}
+	}
+
+	else if (resource.hasOwnProperty('archive')) {
+		if (resource['archive'] === archiveTypes.REMOTE) {
+			tagGroup.push({
+				icon: 'fa-map-marker-alt',
+				color: 'white',
+				text: 'Remote'
+			});
+		} else if (resource['archive'] === archiveTypes.PUBLIC) {
+			tagGroup.push({
+				icon: 'fa-map-marker-alt',
+				color: 'green',
+				text: 'Saved'
+			});
+		} else if (resource['archive'] === archiveTypes.DEFAULT) {
+			tagGroup.push({
+				icon: 'fa-cloud-download-alt',
+				color: 'green',
+				text: 'Private'
+			});
+		}
+	}
+	return tagGroup;
 }
 
 export function filterResourcesByType(resources: IEaasiResource[], type: ResourceType) {
