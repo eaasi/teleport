@@ -54,9 +54,9 @@ export default class CircleButton extends Vue {
 	font-size: 1.8rem;
 	font-weight: 300;
 	height: 3.2rem;
-	width: 3.2rem;
 	outline: none;
 	transition: background-color 0.3s;
+	width: 3.2rem;
 
 	&[disabled] {
 		cursor: not-allowed;
@@ -66,15 +66,15 @@ export default class CircleButton extends Vue {
 	&.sm,
 	&.small {
 		font-size: 1.4rem;
-		min-width: 12rem;
-		padding: 0.6rem 1.6rem;
+		height: 2.5rem;
+		width: 2.5rem;
 	}
 
-	&.md,
-	&.medium {
-		font-size: 1.6rem;
-		min-width: 12rem;
-		padding: 1rem 1.6rem;
+	&.lg,
+	&.large {
+		font-size: 2rem;
+		height: 3.8rem;
+		width: 3.8rem;
 	}
 
 	&.block {
