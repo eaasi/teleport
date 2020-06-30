@@ -1,7 +1,15 @@
 <template>
 	<div class="new-base-environment-wizzard">
 		<div class="emulator-picker-wrapper">
-			<h4>Base Environment</h4>
+			<div class="flex flex-row justify-between">
+				<h4>Base Environment</h4>
+				<ui-button color-preset="blue-transparent">
+					<div style="font-size: 1.4rem; font-weight: 400;" class="flex flex-row flex-cetner">
+						Remove Resource
+						<span class="fas fa-times" style="font-weight: 400; margin-left: 1rem;"></span>
+					</div>
+				</ui-button>
+			</div>
 			<environment-card />
 
 			<div>
@@ -67,6 +75,7 @@
 			</div>
 
 			<div class="disk-cards-wrapper">
+				<h4>Environment Drives</h4>
 				<drive-resource-card
 					v-for="driveSetting in drives"
 					:key="driveSetting.drive.uid"
