@@ -62,20 +62,12 @@ export default class SoftwareService extends BaseService {
 		})
 	}
 
-	private async getSoftwareDescriptionList(bypassCache: boolean = false): Promise<ISoftwareDescriptionList> {
-		if(!bypassCache) {
-			let results = getFromCache<ISoftwareDescriptionList>(this.CACHE_KEYS.DESCRIPTIONS)
-			if(results) return results;
-		}
+	private async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
 		let res = await this._softwareRepoService.get('descriptions');
 		return await res.json() as ISoftwareDescriptionList;
 	}
 
-	private async getSoftwarePackageList(bypassCache: boolean = false): Promise<ISoftwarePackageList> {
-		if(!bypassCache) {
-			let results = getFromCache<ISoftwarePackageList>(this.CACHE_KEYS.PACKAGES)
-			if(results) return results;
-		}
+	private async getSoftwarePackageList(): Promise<ISoftwarePackageList> {
 		let res = await this._softwareRepoService.get('packages');
 		return await res.json() as ISoftwarePackageList;
 	}
