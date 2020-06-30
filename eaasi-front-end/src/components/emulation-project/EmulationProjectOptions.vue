@@ -82,6 +82,8 @@ import { ROUTES } from '../../router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
 import { Get } from 'vuex-pathify';
+import { generateNotificationError } from '../../helpers/NotificationHelper';
+import eventBus from '@/utils/event-bus';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -114,10 +116,13 @@ export default class EmulationProjectOptions extends Vue {
 
 	async saveBaseEnvironment() {
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
-		if (response.status === '0') {
-			// select newly created base env for current emu project
-			this.createBaseEnvModal = false;
+		if (!response.id) {
+			eventBus.$emit('notification:show', generateNotificationError('Having troubles creating base environment, please try again.'));
+			return;
 		}
+		// TODO: select newly created base env for current emu project
+		this.createBaseEnvModal = false;
+		this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 	}
 
 }

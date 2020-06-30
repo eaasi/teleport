@@ -1,4 +1,4 @@
-<template>
+ <template>
 	<info-modal
 		@close="$emit('close')"
 		title="Create Base Environment"
@@ -129,6 +129,14 @@ export default class CreateBaseEnvModal extends Vue {
 
 	selectOs(os: IOsItem) {
 		this.selectedOs = os;
+	}
+
+	beforeDestroy() {
+		this.environmentTitle = null;
+		this.drives = [];
+		this.operatingSystemId = null;
+		this.templateId = null;
+		this.nativeConfig = null;
 	}
 
 	@Watch('operatingSystemId')
