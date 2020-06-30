@@ -12,7 +12,7 @@ import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
 import TempEnvironmentService from './TempEnvironmentService';
-import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.utility';
+import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.util';
 
 export default class EnvironmentService extends BaseService {
 
@@ -102,7 +102,7 @@ export default class EnvironmentService extends BaseService {
 	 */
 	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest): Promise<ISaveEnvironmentResponse> {
 		let response = await this._environmentRepoService.post('actions/replicate-image', replicateRequest);
-		this.clearCache();
+		if(response.ok) this.clearCache();
 		return response.json()
 	}
 
@@ -160,13 +160,13 @@ export default class EnvironmentService extends BaseService {
 
 	async updateEnvironmentDescription(env: IEnvironment): Promise<IEnvironment> {
 		const res = await this._environmentRepoService.patch(`environments/${env.envId}`, env);
-		this.clearCache();
+		if(res.ok) this.clearCache();
 		return res.json();
 	}
 
 	async createEnvironment(payload: ICreateEnvironmentPayload) {
 		const res = await this._environmentRepoService.post('/actions/create-image', payload);
-		this.clearCache();
+		if(res.ok) this.clearCache();
 		return res.json();
 	}
 

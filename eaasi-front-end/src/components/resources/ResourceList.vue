@@ -11,6 +11,7 @@
 			<environment-resource-card
 				:environment="resource"
 				@change="toggleResource(resource, $event)"
+				bookmark
 				is-clickable
 				v-if="type === 'Environment'"
 				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"

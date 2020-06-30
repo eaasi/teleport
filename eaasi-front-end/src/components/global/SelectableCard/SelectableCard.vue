@@ -13,7 +13,7 @@
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
-			<div :class="['header', { clickable: isClickable }]" @click="handleClick">
+			<div :class="['header', { clickable: isClickable, mb: !data.content }]" @click="handleClick">
 				{{ data.title }}
 			</div>
 
@@ -121,7 +121,7 @@ export default class SelectableCard extends Vue {
 		background-color: #FFFFFF;
 		border: 2px solid lighten($light-blue, 70%);
 		margin-bottom: 1.5rem;
-		min-height: 8rem;
+		min-height: 7rem;
 		position: relative;
 
 		&.selected {

@@ -10,7 +10,7 @@ import path from 'path';
 import { logger } from './logging/appLogger';
 import { clientErrorHandler, errorHandler, notFoundHandler } from './middleware/error-handler';
 import { normalizePort, onError } from './utils/server';
-import { clearCache } from './utils/cache.utility';
+import { clearCache } from './utils/cache.util';
 
 require('dotenv-flow').config();
 require('./middleware/passport');

@@ -15,7 +15,7 @@ import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
-import EmulationProjectResourceService from '../rest-api/EmulationProjectResourceService';
+import { filterResourcesByKeyword } from '@/utils/resource.util';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -198,8 +198,7 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		if (results.length && query.keyword) {
-			let q = query.keyword.toLowerCase();
-			results = results.filter(r => r.title && r.title.toLowerCase().indexOf(q) > -1);
+			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
 		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
@@ -275,6 +274,10 @@ export default class ResourceAdminService extends BaseService {
 		});
 
 		return resources;
+	}
+
+	private filterByKeyword<T extends IEaasiResource>(resources: T[], keyword: string): T[] {
+		return filterResourcesByKeyword(resources, keyword) as T[];
 	}
 
 	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {

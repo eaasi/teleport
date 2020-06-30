@@ -2,7 +2,7 @@
 	<div>
 		<selectable-card
 			v-if="cardSummary"
-			bookmark
+			:bookmark="bookmark"
 			footer
 			:disable-select="disableSelect"
 			:data="cardSummary"
@@ -47,6 +47,9 @@ export default class EnvironmentResourceCard extends Vue {
 	/* Props
 	============================================*/
 
+	@Prop({type: Boolean, required: false, default: false})
+	readonly bookmark: boolean;
+
 	@Prop({type: Object as () => IEnvironment, required: true})
 	readonly environment: IEnvironment;
 
@@ -54,15 +57,20 @@ export default class EnvironmentResourceCard extends Vue {
 	readonly disableSelect: boolean;
 
 	@Prop({type: Boolean, required: false, default: false})
+	readonly hideDetails: boolean;
+
+	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
 
 	/* Data
 	============================================*/
+
 	hasNoDetails: boolean = false;
 	timer: number = null;
 
 	/* Computed
 	============================================*/
+
 	@Sync('resource/savingEnvironments')
 	savingEnvironments: ISavingEnvironmentState[];
 
@@ -129,10 +137,10 @@ export default class EnvironmentResourceCard extends Vue {
 			description: this.environment.description,
 			archive: this.environment.archive,
 			emulator: this.environment.emulator,
-			drives: this.environment.drives && this.environment.drives.length ? this.environment.drives : [],
+			drives: this.environment.drives ?? [],
 			isInternetEnabled: this.environment.enableInternet,
 			isPrintingEnabled: this.environment.enablePrinting,
-			installedSoftware: this.environment.installedSoftwareIds && this.environment.installedSoftwareIds.length ? this.environment.installedSoftwareIds : [],
+			installedSoftware: this.environment.installedSoftwareIds ?? [],
 			error: this.environment.error
 		} as IEaasiEnvironmentCardSummary;
 	}
@@ -180,15 +188,17 @@ export default class EnvironmentResourceCard extends Vue {
 	get cardSummary(): IEaasiResourceSummary {
 		let summary = {
 			id: this.environment.id,
-			title: this.environment.title,
-			content: {},
-			subContent: {}
+			title: this.environment.title
 		} as IEaasiResourceSummary;
 
+		if(this.hideDetails) return summary;
+
 		if (this.environment.hasOwnProperty('owner')) {
+			summary.subContent = {};
 			summary.subContent['owner'] = this.environment.owner;
 		}
 
+		summary.content = {};
 		summary.content['# Drives'] = this.environmentCardSummary.drives.length;
 		summary.content['Internet Enabled'] = !!this.environmentCardSummary.isInternetEnabled;
 		summary.content['Printing Enabled'] = !!this.environmentCardSummary.isPrintingEnabled;

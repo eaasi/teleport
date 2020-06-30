@@ -2,7 +2,7 @@ import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftw
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.utility';
+import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.util';
 
 
 export default class SoftwareService extends BaseService {

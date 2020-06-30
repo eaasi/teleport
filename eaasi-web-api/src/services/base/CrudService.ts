@@ -34,7 +34,7 @@ export default class CrudService<T extends Model> extends BaseService implements
 	 * @returns {Promise<{}>}
 	 * @param query CRUD query with pagination parameters
 	 */
-	async getAll(query: CrudQuery, raw: boolean = false): Promise<ICrudServiceResult<IPaginatedResult<T>>> {
+	async getAll(query: CrudQuery = null, raw: boolean = false): Promise<ICrudServiceResult<IPaginatedResult<T>>> {
 
 		let totalResults = await this.model.findAndCountAll(query)
     		.catch((error: string) => {

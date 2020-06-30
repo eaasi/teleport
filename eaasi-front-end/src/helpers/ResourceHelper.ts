@@ -1,4 +1,4 @@
-import { IDrive, IEnvironment, IEaasiResource } from '@/types/Resource';
+import { IDrive, IEnvironment, IEaasiResource, ISoftwarePackage, ResourceType } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
@@ -37,6 +37,25 @@ type ArchiveType = 'remote' | 'public' | 'private';
 export function getResourceId(resource: IEaasiResource): string {
 	if(resource.resourceType === resourceTypes.ENVIRONMENT) return resource.envId;
 	return resource.id;
+}
+
+export function getResourceLabel(resource: IEaasiResource) {
+	switch(resource.resourceType) {
+		case resourceTypes.SOFTWARE:
+			return (resource as ISoftwarePackage).label;
+		default:
+			return resource.title;
+	}
+}
+
+export function filterResourcesByType(resources: IEaasiResource[], type: ResourceType) {
+	if(!Array.isArray(resources)) return [];
+	return resources.filter(x => x.resourceType === type);
+}
+
+export function removeResourcesByType(resources: IEaasiResource[], type: ResourceType) {
+	if(!Array.isArray(resources)) return [];
+	return resources.filter(x => x.resourceType !== type);
 }
 
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {

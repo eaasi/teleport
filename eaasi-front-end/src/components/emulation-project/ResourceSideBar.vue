@@ -19,9 +19,33 @@
 			color-preset="clear-white"
 		/>
 		<div class="content flex flex-column">
-			<ui-button color-preset="light-blue">
+			<ui-button
+				v-if="!resources && !resources.length"
+				block
+				class="mb"
+				color-preset="light-blue"
+			>
 				Find Resource(s)
 			</ui-button>
+			<div class="rsb-environments" v-if="environments.length">
+				<div
+					v-for="env in environments"
+					:key="env.envId"
+					class="flex-row"
+				>
+					<environment-resource-card
+						:environment="env"
+						is-clickable
+						hide-details
+					/>
+				</div>
+			</div>
+			<!-- <div class="rsb-objects" v-if="objects.length">
+				<selectable-card
+					v-for="o in objects"
+					:key="o.id"
+				/>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -33,11 +57,15 @@ import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get } from 'vuex-pathify';
 import { IEmulationProjectResource } from '../../types/Emulation';
-import { IEaasiResource } from '../../types/Resource';
+import { IEaasiResource, IEnvironment } from '../../types/Resource';
+import { resourceTypes } from '../../utils/constants';
+import { filterResourcesByType, removeResourcesByType } from '../../helpers/ResourceHelper';
+import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 
 @Component({
 	name: 'ResourceSideBar',
 	components: {
+		EnvironmentResourceCard,
 		InfoMessage
 	}
 })
@@ -49,11 +77,16 @@ export default class ResourceSideBar extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('resources/resources')
-	readonly resources: IEaasiResource[]
-
 	@Get('emulationProject/projectResources')
-	readonly projectResources: IEmulationProjectResource[]
+	readonly resources: IEaasiResource[];
+
+	get environments(): IEnvironment[] {
+		return filterResourcesByType(this.resources, resourceTypes.ENVIRONMENT) as IEnvironment[];
+	}
+
+	get objects() {
+		return removeResourcesByType(this.resources, resourceTypes.ENVIRONMENT);
+	}
 
 	get hasDevicesAvailable(): boolean {
 		return true;
@@ -83,10 +116,6 @@ export default class ResourceSideBar extends Vue {
 
 	.content {
 		padding: 2rem;
-
-		button {
-			width: 30rem;
-		}
 	}
 }
 </style>
