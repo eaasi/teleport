@@ -1,4 +1,4 @@
-import BaseEnvironment from '@/models/emulation-project/BaseEnvironment';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import ContentImportResource from '@/models/import/ContentImportResource';
 import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import _projectService from '@/services/EmulationProjectService';
@@ -25,7 +25,7 @@ class EmulationProjectStore {
 
     chosenTemplateId: string = '';
 
-	environment: BaseEnvironment = new BaseEnvironment();
+	environment: EmulationProjectEnvironment = new EmulationProjectEnvironment();
 	software: SoftwareImportResource = new SoftwareImportResource();
 	content: ContentImportResource = new ContentImportResource();
 	componentId: string = '';
@@ -57,7 +57,7 @@ mutations.RESET = (state) => {
 	state.createEnvironmentPayload.templateId = '';
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
-	state.environment = new BaseEnvironment();
+	state.environment = new EmulationProjectEnvironment();
 };
 
 /*============================================================

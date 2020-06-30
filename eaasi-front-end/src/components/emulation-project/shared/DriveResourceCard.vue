@@ -1,5 +1,5 @@
 <template>
-	<drive-card :label="drive.type">
+	<drive-card :label="driveCardLabel">
 		<template #action v-if="hasResource">
 			<ui-button color-preset="blue-transparent">
 				<div style="font-size: 1.4rem;font-weight: 400;" class="flex flex-row flex-cetner">
@@ -44,7 +44,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IDrive, IEaasiResource, IResourceDrive } from '../../../types/Resource';
+import { IDrive, IEaasiResource, IResourceDrive, IDriveSetting } from '../../../types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
@@ -63,8 +63,8 @@ export default class DriveResourceCard extends Vue {
 
 	/* Props
 	============================================*/
-	@Prop({ type: Object as () => IDrive, required: true })
-	readonly drive: IResourceDrive;
+	@Prop({ type: Object as () => IDriveSetting, required: true })
+	readonly driveSetting: IDriveSetting;
 	
 	@Prop({ type: Array as () => IEaasiResource[] })
 	readonly resources: IEaasiResource[];
@@ -72,7 +72,7 @@ export default class DriveResourceCard extends Vue {
 	/* Computed
 	============================================*/
 	get resource(): IEaasiResource {
-		return null;
+		// return null;
 		return {
 			archiveId: 'zero conf',
 			id: '1fbc9d79-708d-4cb8-aecb-9be3c7405fab',
@@ -80,7 +80,7 @@ export default class DriveResourceCard extends Vue {
 			resourceType: resourceTypes.CONTENT,
 			isPublic: false
 		};
-		return this.resources.find(resource => resource.id === this.drive.resourceId);
+		return this.resources.find(resource => resource.id === this.driveSetting.objectId || resource.id === this.driveSetting.imageId);
 	}
 
 	get hasResource(): boolean {
@@ -93,6 +93,10 @@ export default class DriveResourceCard extends Vue {
 
 	get isContent() {
 		return this.hasResource && this.resource.resourceType === resourceTypes.CONTENT;
+	}
+
+	get driveCardLabel(): string {
+		return `${this.driveSetting.drive.type}`;
 	}
 
 }

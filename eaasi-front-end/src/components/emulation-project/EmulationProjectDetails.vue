@@ -1,58 +1,10 @@
 <template>
 	<div class="new-base-environment-wizzard">
 		<div class="emulator-picker-wrapper">
-			<os-picker :selected-os="selectedOs" @input="selectOSItem" />
-			<text-input
-				v-model="environmentTitle"
-				label="Environment Name"
-				placeholder="Environment name"
-				rules="required"
-			/>
+			<h4>Base Environment</h4>
+			<environment-card />
 
-			<search-select-list
-				v-model="operatingSystemId"
-				label="Choose a System"
-				option-label="label"
-				anchor="id"
-				placeholder="Please select a System Template"
-				:data="osTemplates"
-				rules="required"
-			/>
-
-			<!-- <div class="row">
-				<div class="col-md-6">
-					<select-list
-						class="no-mb flex-adapt"
-						label="Template Version"
-						value=""
-					>
-						<option value="" selected disabled>Select Template version...</option>
-						<option v-for="patch in availablePatches" :key="patch.id">
-							{{ patch.description.title }}
-						</option>
-					</select-list>
-				</div>
-			</div> -->
 			<div>
-				<environment-card />
-			</div>
-
-			<div v-show="operatingSystemId">
-				<h4>Hardware Settings</h4>
-				<text-input
-					label="cpu"
-					rules="required|numeric|min:1|max:9"
-					v-model.number="environmentCpu"
-				/>
-				<text-input
-					label="Disk Size (MB)"
-					rules="required|numeric|minlength:0|maxlength:10000"
-					v-model.number="environmentMemory"
-				/>
-				<checkbox-info
-					label="Virtualize CPU"
-					v-model="isKvmEnabled"
-				/>
 				<h4>Environment Options</h4>
 				<checkbox-info
 					label="Environment can print"
@@ -97,14 +49,28 @@
 						label="Config"
 						v-model="nativeConfig"
 					/>
+					<text-input
+						label="cpu"
+						rules="required|numeric|min:1|max:9"
+						v-model.number="environmentCpu"
+					/>
+					<text-input
+						label="Disk Size (MB)"
+						rules="required|numeric|minlength:0|maxlength:10000"
+						v-model.number="environmentMemory"
+					/>
+					<checkbox-info
+						label="Virtualize CPU"
+						v-model="isKvmEnabled"
+					/>
 				</div>
 			</div>
 
 			<div class="disk-cards-wrapper">
 				<drive-resource-card
-					v-for="drive in drivesWithIds"
-					:key="drive.uid"
-					:drive="drive"
+					v-for="driveSetting in drives"
+					:key="driveSetting.drive.uid"
+					:drive-setting="driveSetting"
 					@edit="edit"
 					:resources="projectResources"
 				/>
@@ -122,7 +88,7 @@ import { ITemplate, ICreateEnvironmentPayload, IPatch } from '../../types/Import
 import { ROUTES } from '../../router/routes.const';
 import { IResourceSearchQuery } from '../../types/Search';
 import { resourceTypes, archiveTypes } from '../../utils/constants';
-import { ISoftwareObject, IOsItem, IDrive, IEditableDrive, IEaasiResource, IResourceDrive } from '../../types/Resource';
+import { ISoftwareObject, IOsItem, IDrive, IEditableDrive, IEaasiResource, IResourceDrive, IDriveSetting } from '../../types/Resource';
 import SystemTemplateDetails from './shared/SystemTemplateDetails.vue';
 import OsPicker from './shared/OsPicker.vue';
 import CheckboxInfo from './shared/CheckboxInfo.vue';
@@ -150,12 +116,6 @@ export default class EmulationProjectDetails extends Vue {
 
 	@Sync('emulationProject/environment@label')
 	environmentTitle: string;
-
-	@Sync('emulationProject/createEnvironmentPayload@operatingSystemId')
-	operatingSystemId: string;
-
-	@Sync('emulationProject/createEnvironmentPayload@templateId')
-	templateId: string;
 
 	@Sync('resource/availableTemplates')
 	availableTemplates: ITemplate[];
@@ -196,14 +156,14 @@ export default class EmulationProjectDetails extends Vue {
 	@Sync('resource/query')
 	searchQuery: IResourceSearchQuery;
 
-	@Sync('emulationProject/createEnvironmentPayload@nativeConfig')
+	@Sync('emulationProject/environment@nativeConfig')
 	nativeConfig: string;
 
 	@Sync('emulationProject/selectedSoftwareId')
     selectedSoftwareId: string;
     
 	@Sync('emulationProject/environment@drives')
-	drives: IResourceDrive[];
+	drives: IDriveSetting[];
 
 	@Get('emulationProject/projectResources')
 	projectResources: IEaasiResource[];
@@ -231,18 +191,8 @@ export default class EmulationProjectDetails extends Vue {
 		this.diskSize = val;
 	}
 
-	get activeTemplate(): ITemplate {
-		if (!this.availableTemplates || !this.availableTemplates.length) return null;
-		return this.availableTemplates.find(template => template.id === this.operatingSystemId);
-	}
-
-	get osTemplates(): IOsItem[] {
-		if (!this.selectedOs) return this.operatingSystems;
-		return this.operatingSystems.filter(os => os.id.indexOf(this.selectedOs) >= 0);
-	}
-
 	get isKvmEnabled(): boolean {
-		return this.nativeConfig.indexOf(this.kvmFlag) >= 0;
+		return this.nativeConfig && this.nativeConfig.indexOf(this.kvmFlag) >= 0;
 	}
 
 	set isKvmEnabled(value) {
@@ -252,12 +202,6 @@ export default class EmulationProjectDetails extends Vue {
 			this.nativeConfig = this.nativeConfig.replace(this.kvmFlag, '');
 		}
     }
-    
-    get drivesWithIds(): IEditableDrive[] {
-		return this.drives.map(d => {
-			return {...d, uid: generateId()};
-		});
-	}
 
 	/* Data
 	============================================*/
@@ -311,16 +255,6 @@ export default class EmulationProjectDetails extends Vue {
 	============================================*/
 	async created() {
 		await this.init();
-	}
-
-	@Watch('operatingSystemId')
-	onActiveTemplate(template) {
-		if (!template) this.reset();
-		const chosenOS = this.operatingSystems.find(os => os.id === template);
-		if (!chosenOS) return;
-		this.nativeConfig = populateNativeConfig(chosenOS.template_params);
-		this.cpu = chosenOS.template_params.cpu;
-		this.diskSize = chosenOS.template_params.memory;
 	}
 
 }

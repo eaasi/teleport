@@ -138,6 +138,15 @@ export interface IEnvironmentRevision {
 	archive: string;
 }
 
+export interface IDriveSetting {
+	drive: IDrive;
+	driveIndex: number;
+	imageId?: string;
+	imageArchive?: string;
+	objectArchive?: string;
+	objectId?: string;
+}
+
 export interface IDrive {
 	data: string;
 	iface: string;
