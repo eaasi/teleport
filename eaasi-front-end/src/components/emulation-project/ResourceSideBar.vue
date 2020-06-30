@@ -37,6 +37,7 @@
 						is-clickable
 						hide-details
 						class="flex-grow no-mb"
+						@change="setEnvironment(env, $event)"
 					/>
 					<div>
 						<circle-button
@@ -91,7 +92,7 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
-import { Get } from 'vuex-pathify';
+import { Get, Sync } from 'vuex-pathify';
 import { IEmulationProjectResource } from '../../types/Emulation';
 import { IEaasiResource, IEnvironment } from '../../types/Resource';
 import { resourceTypes, IResourceTypes } from '../../utils/constants';
@@ -116,6 +117,9 @@ export default class ResourceSideBar extends Vue {
 
 	/* Computed
 	============================================*/
+
+	@Sync('emulationProject/environment')
+	environment: IEnvironment;
 
 	@Get('emulationProject/projectResources')
 	readonly resources: IEaasiResource[];
@@ -149,6 +153,11 @@ export default class ResourceSideBar extends Vue {
 		this.$store.dispatch('emulationProject/removeResource', resource);
 	}
 
+	setEnvironment(environment: IEnvironment, checked: boolean) {
+		console.log(checked);
+		this.environment = checked ? environment : null;
+	}
+
 	/* Lifecycle Hooks
 	============================================*/
 
@@ -162,7 +171,7 @@ export default class ResourceSideBar extends Vue {
 
 .rsb-header {
 	border-bottom: solid 2px lighten($dark-neutral, 80%);
-	padding-bottom: 1rem;
 	margin-bottom: 1.5rem;
+	padding-bottom: 1rem;
 }
 </style>
