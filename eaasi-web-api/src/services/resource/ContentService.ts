@@ -5,7 +5,7 @@ import { IEmilTask } from '@/types/task/Task';
 import { objectArchiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.util';
+import CacheHelper from '@/helpers/CacheHelper';
 
 export default class ContentService extends BaseService {
 
@@ -22,15 +22,13 @@ export default class ContentService extends BaseService {
 		this._contentRepoService = contentRepository;
 	}
 
-	async getAll(archiveId: ArchiveType, bypassCache: boolean = false): Promise<IContentItem[]> {
-		if(!bypassCache) {
-			let results = getFromCache<IContentItem[]>(this.CACHE_KEYS.ALL_CONTENT)
-			if(results) return results;
-		}
+	async getAll(archiveId: ArchiveType): Promise<IContentItem[]> {
+		let results = CacheHelper.get<IContentItem[]>(this.CACHE_KEYS.ALL_CONTENT)
+		if(results) return results;
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`);
 		let content = await res.json() as IContentItem[];
 		content.forEach(x => x.resourceType = resourceTypes.CONTENT);
-		addToCache(this.CACHE_KEYS.ALL_CONTENT, content);
+		CacheHelper.add(this.CACHE_KEYS.ALL_CONTENT, content);
 		return content;
 	}
 
@@ -41,14 +39,12 @@ export default class ContentService extends BaseService {
 		return content;
 	}
 
-	async getObjectArchives(bypassCache: boolean = false): Promise<IObjectArchiveResonse> {
-		if(!bypassCache) {
-			let result = getFromCache<IObjectArchiveResonse>(this.CACHE_KEYS.ARCHIVES)
-			if(result) return result;
-		}
+	async getObjectArchives(): Promise<IObjectArchiveResonse> {
+		let result = CacheHelper.get<IObjectArchiveResonse>(this.CACHE_KEYS.ARCHIVES)
+		if(result) return result;
 		let res = await this._contentRepoService.get('archives');
 		let archives = await res.json();
-		addToCache(this.CACHE_KEYS.ARCHIVES, archives);
+		CacheHelper.add(this.CACHE_KEYS.ARCHIVES, archives);
 		return archives;
 	}
 
@@ -78,7 +74,7 @@ export default class ContentService extends BaseService {
 
 	private clearCache() {
 		Object.values(this.CACHE_KEYS).forEach(key => {
-			deleteFromCache(key);
+			CacheHelper.delete(key);
 		});
 	}
 

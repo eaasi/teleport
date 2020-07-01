@@ -12,7 +12,7 @@ import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
 import TempEnvironmentService from './TempEnvironmentService';
-import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.util';
+import CacheHelper from '@/helpers/CacheHelper';
 
 export default class EnvironmentService extends BaseService {
 
@@ -34,11 +34,9 @@ export default class EnvironmentService extends BaseService {
 		this._tempEnvironmentService = tempEnvService;
 	}
 
-	async getAll(bypassCache: boolean = false): Promise<IEnvironment[]> {
-		if(!bypassCache) {
-			let results = getFromCache<IEnvironment[]>(this.CACHE_KEYS.ALL_ENVIRONMENTS);
-			if(results) return results;
-		}
+	async getAll(): Promise<IEnvironment[]> {
+		let results = CacheHelper.get<IEnvironment[]>(this.CACHE_KEYS.ALL_ENVIRONMENTS);
+		if(results) return results;
 		let res = await this._environmentRepoService.get('environments?detailed=true');
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
@@ -49,7 +47,7 @@ export default class EnvironmentService extends BaseService {
 			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
 		}
 
-		addToCache(this.CACHE_KEYS.ALL_ENVIRONMENTS, environments);
+		CacheHelper.add(this.CACHE_KEYS.ALL_ENVIRONMENTS, environments);
 		return environments;
 	}
 
@@ -316,7 +314,7 @@ export default class EnvironmentService extends BaseService {
 
 	clearCache() {
 		Object.values(this.CACHE_KEYS).forEach(key => {
-			deleteFromCache(key);
+			CacheHelper.delete(key);
 		})
 	}
 
