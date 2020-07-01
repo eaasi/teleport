@@ -91,6 +91,9 @@ const actions = {
 const getters = {
 	canRunProject(): boolean {
 		return true; // TODO:
+	},
+	constructedFromBaseEnvironment(state) {
+		state.createEnvironmentPayload != null;
 	}
 };
 

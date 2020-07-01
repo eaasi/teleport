@@ -23,15 +23,6 @@
 				:bookmark="false"
 				style="width: 100%;"
 			/>
-			<!-- <search-select-list
-				v-else-if="!resource"
-				v-model="drive.resourceId"
-				option-label="title"
-				anchor="id"
-				placeholder="Select a project resource..."
-				:data="resources"
-				rules="required"
-			/> -->
 		</div>
 		<div v-else-if="!hasResource" class="alert-wrapper">
 			<alert no-icon type="warning">
@@ -72,14 +63,7 @@ export default class DriveResourceCard extends Vue {
 	/* Computed
 	============================================*/
 	get resource(): IEaasiResource {
-		// return null;
-		return {
-			archiveId: 'zero conf',
-			id: '1fbc9d79-708d-4cb8-aecb-9be3c7405fab',
-			title: 'test object',
-			resourceType: resourceTypes.CONTENT,
-			isPublic: false
-		};
+		if (!this.driveSetting.imageId || !this.driveSetting.objectId) return null;
 		return this.resources.find(resource => resource.id === this.driveSetting.objectId || resource.id === this.driveSetting.imageId);
 	}
 

@@ -4,8 +4,8 @@
 			bordered
 			card
 			collapsable
-			v-if="!hasDevicesAvailable"
 			type="error"
+			v-if="resourceLimit === 0"
 			style="margin: 1rem 2rem 2rem 2rem;"
 		>
 			Available Devices Full
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="rsb-objects" v-if="objects.length">
+			<div class="rsb-objects" v-if="objects.length && isDetailsPage">
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Objects</h4>
 					<a class="clickable txt-sm bold">Clear All</a>
@@ -132,6 +132,14 @@ export default class ResourceSideBar extends Vue {
 	@Sync('emulationProject/selectedResources')
 	selected: IEaasiResource[];
 
+	@Get('emulationProject/constructedFromBaseEnvironment')
+	constructedFromBaseEnvironment: boolean;
+
+	get resourceLimit(): number {
+		if (this.constructedFromBaseEnvironment) return this.environment.drives.length;
+		else return 1;
+	}
+
 	get environments(): IEnvironment[] {
 		return filterResourcesByType(this.resources, resourceTypes.ENVIRONMENT) as IEnvironment[];
 	}
@@ -140,8 +148,12 @@ export default class ResourceSideBar extends Vue {
 		return removeResourcesByType(this.resources, resourceTypes.ENVIRONMENT);
 	}
 
-	get hasDevicesAvailable(): boolean {
-		return true;
+	get hasObjectSlots(): boolean {
+		return this.resourceLimit < this.selected.length;
+	}
+
+	get isDetailsPage(): boolean {
+		return this.$route.path === ROUTES.EMULATION_PROJECT.DETAILS;
 	}
 
 	/* Data
@@ -170,11 +182,14 @@ export default class ResourceSideBar extends Vue {
 	}
 
 	selectResource(resource: IEaasiResource) {
+		let resourcesToSelect = [];
+		this.selected = [];
 		if(this.isSelected(resource)) {
-			this.selected = this.selected.filter(x => x.id !== resource.id);
+			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
 		} else {
-			this.selected = [...this.selected, resource];
+			resourcesToSelect = [...this.selected, resource];
 		}
+		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
 	}
 
 	setEnvironment(environment: IEnvironment, checked: boolean) {

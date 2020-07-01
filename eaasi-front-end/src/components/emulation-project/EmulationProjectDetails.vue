@@ -76,13 +76,12 @@
 				</div>
 			</div>
 
-			<div class="disk-cards-wrapper" v-if="advancedMode">
+			<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
 				<h4>Environment Drives</h4>
 				<drive-resource-card
 					v-for="driveSetting in drives"
 					:key="driveSetting.drive.uid"
 					:drive-setting="driveSetting"
-					@edit="edit"
 					:resources="projectResources"
 				/>
 			</div>
@@ -187,9 +186,9 @@ export default class EmulationProjectDetails extends Vue {
 	@Get('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
-	get advancedMode(): boolean {
-		return this.createEnvironmentPayload != null;
-	}
+
+	@Get('emulationProject/constructedFromBaseEnvironment')
+	constructedFromBaseEnvironment: boolean;
 
 	get environmentCpu(): string {
 		return this.cpu;
@@ -240,14 +239,9 @@ export default class EmulationProjectDetails extends Vue {
 	============================================*/
 
 	init() {
-		console.log(this.environment);
 		if (!this.environment) {
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
-	}
-
-	async edit() {
-		throw new Error('not defined');
 	}
 
 	selectOSItem(osItem) {
@@ -259,9 +253,7 @@ export default class EmulationProjectDetails extends Vue {
 	}
 
 	beforeRouteEnter(to: Route, from: Route, next: Function) {
-		next(vm => {
-			if (!vm.environment) vm.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
-		});
+		next(vm => vm.init());
 	}
 
 	beforeRouteLeave(to: Route, from: Route, next: Function) {
