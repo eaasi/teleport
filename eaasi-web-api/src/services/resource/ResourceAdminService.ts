@@ -3,7 +3,7 @@ import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
-import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
+import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
@@ -15,6 +15,7 @@ import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
+import { filterResourcesByKeyword } from '@/utils/resource.util';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -41,6 +42,31 @@ export default class ResourceAdminService extends BaseService {
 		this._softwareService = softwareService;
 		this._contentService = contentService;
 	}
+
+	/*============================================================
+	 == General
+	/============================================================*/
+
+	/**
+	 * Gets all environments, software packages, and content items
+	 */
+	async getAllResources(): Promise<IEaasiResource[]> {
+		let environments: IEnvironment[],
+			software: ISoftwarePackage[],
+			content: IContentItem[];
+
+		[environments, software, content] = await Promise.all([
+			this._environmentService.getAll(),
+			this._softwareService.getAll(),
+			this._contentService.getAll('zero conf')
+		]);
+
+		return [...environments, ...software, ...content] as IEaasiResource[];
+	}
+
+	/*============================================================
+	 == Searching
+	/============================================================*/
 
 	/**
 	 * Searches Environment, Software, and Content Resources using the  provided IResourceSearchQuery
@@ -71,6 +97,11 @@ export default class ResourceAdminService extends BaseService {
 		]);
 
 		this.preselectResultFacets(result, query);
+
+		result.environments.result = this.paginate(query, result.environments.result);
+		result.software.result = this.paginate(query, result.software.result);
+		result.content.result = this.paginate(query, result.content.result);
+
 		return result;
 	}
 
@@ -167,8 +198,7 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		if (results.length && query.keyword) {
-			let q = query.keyword.toLowerCase();
-			results = results.filter(r => r.title && r.title.toLowerCase().indexOf(q) > -1);
+			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
 		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
@@ -187,7 +217,7 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		return {
-			result: this.paginate(query, results),
+			result: results,
 			totalResults: results.length
 		}
 	}
@@ -244,6 +274,10 @@ export default class ResourceAdminService extends BaseService {
 		});
 
 		return resources;
+	}
+
+	private filterByKeyword<T extends IEaasiResource>(resources: T[], keyword: string): T[] {
+		return filterResourcesByKeyword(resources, keyword) as T[];
 	}
 
 	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {

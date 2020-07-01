@@ -7,6 +7,9 @@ import EmilBaseService from '../base/EmilBaseService';
 export default class SoftwareService extends BaseService {
 
 	private readonly _softwareRepoService: EmilBaseService;
+	private readonly CACHE_KEYS = {
+		ALL_SOFTWARE: 'all-software'
+	}
 
 	constructor(
 		softwareRepoService: EmilBaseService = new EmilBaseService('software-repository'),
@@ -16,9 +19,13 @@ export default class SoftwareService extends BaseService {
 	}
 
 	async getAll(): Promise<ISoftwarePackage[]> {
+		let results = this._cache.get<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
+		if(results) return results;
 		const descriptionList = await this.getSoftwareDescriptionList();
 		const packageList = await this.getSoftwarePackageList();
-		return this._mergeDescriptionsWithPackages(descriptionList, packageList);
+		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
+		this._cache.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
+		return packages;
 	}
 
 	/**
@@ -70,7 +77,18 @@ export default class SoftwareService extends BaseService {
 	 */
 	async saveSoftwareObject(softwareObject: ISoftwareObject) {
 		let res = await this._softwareRepoService.post('packages', softwareObject);
+		if(res.ok) this.clearCache();
 		return await res.json();
+	}
+
+	/*============================================================
+	 == Cache
+	/============================================================*/
+
+	clearCache() {
+		Object.values(this.CACHE_KEYS).forEach(key => {
+			this._cache.delete(key);
+		})
 	}
 
 }

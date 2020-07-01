@@ -29,7 +29,8 @@ class EmulationProjectService extends BaseHttpService {
 	}
 
 	async addResource(resource: IEmulationProjectResource) {
-		let res = await this.post<IEmulationProjectResource>('/emulation-project-resource', resource);
+		let url = `/emulation-project/${resource.emulationProjectId}/resources`;
+		let res = await this.post<IEmulationProjectResource>(url, resource);
 		return res.ok ? res.result : null;
 	}
 
@@ -40,8 +41,9 @@ class EmulationProjectService extends BaseHttpService {
 		return !results.some(x => x === null);
 	}
 
-	async removeResource(resource: IEmulationProjectResource) {
-		let res = await this.delete<IEmulationProjectResource>(`/emulation-project-resource/${resource.id}`);
+	async removeResource(projectId: number, resourceId: string) {
+		let url = `/emulation-project/${projectId}/resources/${resourceId}`;
+		let res = await this.delete<IEmulationProjectResource>(url);
 		return res.ok ? res.result : null;
 	}
 

@@ -15,11 +15,11 @@ export interface IAuthorizedPostRequest<T> extends IAuthorizedRequest {
 	body: T;
 }
 
-export interface IAuthorizedPatchRequest<T> extends IAuthorizedRequest {
+export interface IAuthorizedPatchRequest<T> extends IAuthorizedGetRequest {
 	body: Partial<T>;
 }
 
-export interface IAuthorizedPutRequest<T> extends IAuthorizedRequest {
+export interface IAuthorizedPutRequest<T> extends IAuthorizedGetRequest {
 	body: Partial<T>;
 }
 

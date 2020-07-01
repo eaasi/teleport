@@ -11,7 +11,7 @@ export class EmulationProjectResource extends Model<EmulationProjectResource> {
 	readonly createdAt: Date = new Date();
 
     @UpdatedAt
-    updatedAt: Date = new Date()
+    updatedAt: Date = new Date();
 
     @Column({
     	type: DataTypes.INTEGER,
@@ -46,8 +46,8 @@ export class EmulationProjectResource extends Model<EmulationProjectResource> {
     	type: DataTypes.STRING,
     	allowNull: false,
 	})
-	resourceType: ResourceType
+	resourceType: ResourceType;
 
 	@BelongsTo(() => EmulationProject, 'emulationProjectId')
-	emulationProject: EmulationProject
+	emulationProject: EmulationProject;
 }
