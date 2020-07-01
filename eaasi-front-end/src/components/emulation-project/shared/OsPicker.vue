@@ -1,10 +1,24 @@
 <template>
-	<div class="flex flex-row justify-between">
+	<div v-if="list">
+		<select-list
+			class="no-mb flex-adapt"
+			label="Template Version"
+			:value="selectedOsTitle"
+			@input="onChange"
+			:disabled="readonly"
+		>
+			<option value="" selected disabled>Select Operating version...</option>
+			<option v-for="os in osList" :key="os.name">
+				{{ os.title }}
+			</option>
+		</select-list>
+	</div>
+	<div v-else class="flex flex-row justify-between">
 		<selectable-container 
 			v-for="item in osList" 
 			:key="item.title" 
 			:title="item.title"
-			:is-selected="item.value === selectedOs"
+			:is-selected="item.value === selectedOsValue"
 			@input="$emit('input', item)"
 		>
 			<div>
@@ -49,17 +63,33 @@ export default class OsPicker extends Vue {
 	@Prop({ type: Array as () => IOsItem[], default: () => defaultOsList })
 	readonly osList: IOsItem[];
 
-	@Prop({ type: String })
-	readonly selectedOs: string;
+	@Prop({ type: Object as () => IOsItem })
+	readonly selectedOs: IOsItem;
+
+	@Prop({ type: Boolean, default: false })
+	readonly list: boolean;
+
+	@Prop({ type: Boolean, default: false })
+	readonly readonly: boolean;
 
 	/* Computed
 	============================================*/
+	get selectedOsTitle(): string {
+		return this.selectedOs ? this.selectedOs.title : null;
+	}
+
+	get selectedOsValue(): string {
+		return this.selectedOs ? this.selectedOs.value : null;
+	}
 
 	/* Data
 	============================================*/
 
 	/* Methods
 	============================================*/
+	onChange(osName: string) {
+		return this.$emit('input', this.osList.find(os => os.title === osName));
+	}
 
 	/* Lifecycle Hooks
 	============================================*/

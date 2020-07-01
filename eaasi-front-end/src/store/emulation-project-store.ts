@@ -17,9 +17,11 @@ import { make } from 'vuex-pathify';
 
 class EmulationProjectStore {
     createEnvironmentPayload: ICreateEnvironmentPayload = {
-        size: '1024',
         nativeConfig: '',
-        templateId: '',
+		templateId: '',
+		driveSettings: [],
+		operatingSystemId: '',
+		label: ''
     }
     selectedSoftwareId: string = null;
 
