@@ -161,13 +161,13 @@ export default class EnvironmentService extends BaseService {
 	async updateEnvironmentDescription(env: IEnvironment): Promise<IEnvironment> {
 		const res = await this._environmentRepoService.patch(`environments/${env.envId}`, env);
 		if(res.ok) this.clearCache();
-		return res.json();
+		return await res.json();
 	}
 
 	async createEnvironment(payload: ICreateEnvironmentPayload) {
-		const res = await this._environmentRepoService.post('/actions/create-image', payload);
+		const res = await this._environmentRepoService.post('environments', payload);
 		if(res.ok) this.clearCache();
-		return res.json();
+		return await res.json();
 	}
 
 	async importResourceFromUrl(payload: IImageImportPayload): Promise<IEmilTask> {

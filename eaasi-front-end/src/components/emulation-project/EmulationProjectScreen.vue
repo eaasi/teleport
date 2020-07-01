@@ -24,12 +24,6 @@
 				<resource-side-bar />
 			</div>
 		</div>
-		<!-- <div class="emu-project-content padded">
-			<div>
-				<section-heading title="Base Environment" icon="fa-box" />
-				<new-base-environment-wizard />
-			</div>
-		</div> -->
 	</div>
 </template>
 
@@ -46,16 +40,20 @@ import { IEmulatorComponentRequest } from '@/types/Emulation';
 import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
 import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';
+import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 
 @Component({
 	name: 'EmulationProjectScreen',
 	components : {
 		EmulationProjectOptions,
+		CreateBaseEnvModal,
 		ResourceSideBar
 	}
 })
 export default class EmulationProjectScreen extends Vue {
 
+	/* Computed
+	============================================*/
 	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
@@ -72,9 +70,11 @@ export default class EmulationProjectScreen extends Vue {
 	readonly canRunProject: boolean;
 
 	get isReadyToRun(): boolean {
-		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.size && !!this.createEnvironmentPayload.templateId;
+		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.templateId;
 	}
 
+	/* Methods
+	============================================*/
 	async run() {
 		const { path } = this.$route;
 		switch (path) {
@@ -88,7 +88,6 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	async runBaseEnvironment() {
-		this.createEnvironmentPayload.size += 'M';
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
 		if (response.status === '0') {
 			this.environment.envId = response.id;

@@ -16,9 +16,11 @@ import { getResourceId } from '@/helpers/ResourceHelper';
 class EmulationProjectStore {
 	chosenTemplateId: string = '';
     createEnvironmentPayload: ICreateEnvironmentPayload = {
-        size: '1024',
         nativeConfig: '',
-        templateId: '',
+		templateId: '',
+		driveSettings: [],
+		operatingSystemId: '',
+		label: ''
     }
 	environment: BaseEnvironment = null;
 	project: IEmulationProject = null;

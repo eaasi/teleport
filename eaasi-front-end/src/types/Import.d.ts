@@ -44,8 +44,10 @@ export interface IImportObjectRequest {
  */
 export interface ICreateEnvironmentPayload {
 	nativeConfig: string;
-	size: string;
+	driveSettings: [];
 	templateId: string;
+	operatingSystemId: string;
+	label: string;
 }
 
 export interface IImageImportPayload {
