@@ -11,6 +11,7 @@ export default class CacheHelper {
 	}
 
 	public static clearCache() {
+		AppLogger.log.info('Clearing all cache');
 		cache.clear();
 	}
 
