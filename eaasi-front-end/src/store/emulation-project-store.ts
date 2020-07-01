@@ -13,13 +13,7 @@ import { make } from 'vuex-pathify';
 
 class EmulationProjectStore {
 	chosenTemplateId: string = '';
-    createEnvironmentPayload: ICreateEnvironmentPayload = {
-        nativeConfig: '',
-		templateId: '',
-		driveSettings: [],
-		operatingSystemId: '',
-		label: ''
-    }
+    createEnvironmentPayload: ICreateEnvironmentPayload = null;
 	environment: EmulationProjectEnvironment = null;
 	project: IEmulationProject = null;
 	projectResources: IEaasiResource[] = [];
@@ -36,11 +30,10 @@ const state = new EmulationProjectStore();
 const mutations = make.mutations(state);
 
 mutations.RESET = (state) => {
-	state.createEnvironmentPayload.nativeConfig = '';
-	state.createEnvironmentPayload.templateId = '';
+	state.createEnvironmentPayload = null;
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
-	state.environment = new EmulationProjectEnvironment();
+	state.environment = null;
 };
 
 /*============================================================

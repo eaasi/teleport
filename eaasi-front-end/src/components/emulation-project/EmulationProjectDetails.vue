@@ -10,7 +10,7 @@
 					</div>
 				</ui-button>
 			</div>
-			<environment-card />
+			<environment-card v-if="environment" />
 
 			<div>
 				<h4>Environment Options</h4>
@@ -49,32 +49,34 @@
 					label="Requires clean shutdown"
 					v-model="shutdownByOs"
 				/>
-				<ui-button @click="showAdvancedOptions = !showAdvancedOptions" color-preset="white">
-					advanced options ...
-				</ui-button>
-				<div v-show="showAdvancedOptions">
-					<text-input
-						label="Config"
-						v-model="nativeConfig"
-					/>
-					<text-input
-						label="cpu"
-						rules="required|numeric|min:1|max:9"
-						v-model.number="environmentCpu"
-					/>
-					<text-input
-						label="Disk Size (MB)"
-						rules="required|numeric|minlength:0|maxlength:10000"
-						v-model.number="environmentMemory"
-					/>
-					<checkbox-info
-						label="Virtualize CPU"
-						v-model="isKvmEnabled"
-					/>
+				<div>
+					<ui-button @click="showAdvancedOptions = !showAdvancedOptions" color-preset="white">
+						advanced options ...
+					</ui-button>
+					<div v-show="showAdvancedOptions">
+						<text-input
+							label="Config"
+							v-model="nativeConfig"
+						/>
+						<text-input
+							label="cpu"
+							rules="required|numeric|min:1|max:9"
+							v-model.number="environmentCpu"
+						/>
+						<text-input
+							label="Disk Size (MB)"
+							rules="required|numeric|minlength:0|maxlength:10000"
+							v-model.number="environmentMemory"
+						/>
+						<checkbox-info
+							label="Virtualize CPU"
+							v-model="isKvmEnabled"
+						/>
+					</div>
 				</div>
 			</div>
 
-			<div class="disk-cards-wrapper">
+			<div class="disk-cards-wrapper" v-if="advancedMode">
 				<h4>Environment Drives</h4>
 				<drive-resource-card
 					v-for="driveSetting in drives"
@@ -106,6 +108,8 @@ import DriveSettings from './shared/DriveSettings.vue';
 import EnvironmentCard from './shared/EnvironmentCard.vue';
 import DriveResourceCard from './shared/DriveResourceCard.vue';
 import { generateId } from '@/utils/functions';
+import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
+import { Route } from 'vue-router/types/router';
 
 @Component({
 	name: 'EmulationProjectDetails',
@@ -122,6 +126,9 @@ export default class EmulationProjectDetails extends Vue {
 
 	/* Computed
 	============================================*/
+
+	@Get('emulationProject/environment')
+	environment: EmulationProjectEnvironment;
 
 	@Sync('emulationProject/environment@label')
 	environmentTitle: string;
@@ -141,7 +148,7 @@ export default class EmulationProjectDetails extends Vue {
 	@Sync('emulationProject/environment@enablePrinting')
 	enablePrinting: boolean;
 
-	@Sync('emulationProject/environment@enableRelativeMouse')	
+	@Sync('emulationProject/environment@enableRelativeMouse')
 	enableRelativeMouse: boolean;
 
 	@Sync('emulationProject/environment@virtualizeCpu')
@@ -176,6 +183,13 @@ export default class EmulationProjectDetails extends Vue {
 
 	@Get('emulationProject/projectResources')
 	projectResources: IEaasiResource[];
+
+	@Get('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
+
+	get advancedMode(): boolean {
+		return this.createEnvironmentPayload != null;
+	}
 
 	get environmentCpu(): string {
 		return this.cpu;
@@ -216,34 +230,20 @@ export default class EmulationProjectDetails extends Vue {
 	============================================*/
 	
 	readonly operatingSystems = operatingSystems;
-
 	chosenOsId: string = null;
 	kvmFlag: string = '-enable-kvm';
 	softwareOpertaingSystems: ISoftwareObject[] = [];
-	
 	showAdvancedOptions: boolean = false;
 	selectedOs: string = null;
 
 	/* Methods
 	============================================*/
 
-	async init() {
-		await this.$store.dispatch('resource/getTemplates');
-		await this.$store.dispatch('resource/getPatches');
-		this.$store.dispatch('resource/clearSearchQuery');
-		const query: IResourceSearchQuery = {
-			...this.searchQuery, 
-			types: [resourceTypes.SOFTWARE], 
-			archives: ['zero conf'],
-			limit: 10000
-		};
-		this.searchQuery = query;
-		const { software } = await this.$store.dispatch('resource/searchResources');
-		this.softwareOpertaingSystems = software.result.filter((resource: ISoftwareObject) => resource.isOperatingSystem);
-
-        this.$store.dispatch('resource/clearSearchQuery');
-        
-        // pull emulation project with provided id
+	init() {
+		console.log(this.environment);
+		if (!this.environment) {
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
 	}
 
 	async edit() {
@@ -255,15 +255,24 @@ export default class EmulationProjectDetails extends Vue {
 	}
 
 	reset() {
-		const currentEnvTitle = this.environmentTitle;
 		this.$store.commit('emulationProject/RESET');
-		this.environmentTitle = currentEnvTitle;
+	}
+
+	beforeRouteEnter(to: Route, from: Route, next: Function) {
+		next(vm => {
+			if (!vm.environment) vm.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		});
+	}
+
+	beforeRouteLeave(to: Route, from: Route, next: Function) {
+		this.reset();
+		next();
 	}
 	
 	/* Lifecycle Hooks
 	============================================*/
-	async created() {
-		await this.init();
+	beforeMount() {
+		this.init();
 	}
 
 }

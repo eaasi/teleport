@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from './SoftwareResourcesWizard.vue';
@@ -81,9 +81,11 @@ import InfoMessage from './shared/InfoMessage.vue';
 import { ROUTES } from '../../router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
-import { Get } from 'vuex-pathify';
+import { Get, Sync } from 'vuex-pathify';
 import { generateNotificationError } from '../../helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
+import { IEnvironment } from '@/types/Resource';
+import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -97,8 +99,11 @@ import eventBus from '@/utils/event-bus';
 })
 export default class EmulationProjectOptions extends Vue {
 
-	@Get('emulationProject/createEnvironmentPayload')
+	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
+
+	@Sync('emulationProject/environment')
+	environment: EmulationProjectEnvironment;
 
 	createBaseEnvModal: boolean = false;
 
@@ -111,16 +116,25 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	createBaseEnvironment() {
+		this.createEnvironmentPayload = {
+			nativeConfig: '',
+			templateId: '',
+			driveSettings: [],
+			operatingSystemId: '',
+			label: ''
+		};
 		this.createBaseEnvModal = true;
 	}
 
 	async saveBaseEnvironment() {
-		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
+		const response: ICreateEnvironmentResponse = await this.$store.dispatch('import/createEnvironment', this.createEnvironmentPayload);
 		if (!response.id) {
 			eventBus.$emit('notification:show', generateNotificationError('Having troubles creating base environment, please try again.'));
 			return;
 		}
-		// TODO: select newly created base env for current emu project
+		const baseEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
+		this.$store.dispatch('emulationProject/addResources', [baseEnv]);
+		this.environment = new EmulationProjectEnvironment(baseEnv);
 		this.createBaseEnvModal = false;
 		this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 	}

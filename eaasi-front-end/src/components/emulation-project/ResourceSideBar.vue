@@ -103,6 +103,8 @@ import { filterResourcesByType, getResourceTypeTags, removeResourcesByType } fro
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
+import { ROUTES } from '@/router/routes.const';
+import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
 	name: 'ResourceSideBar',
@@ -122,7 +124,7 @@ export default class ResourceSideBar extends Vue {
 	============================================*/
 
 	@Sync('emulationProject/environment')
-	environment: IEnvironment;
+	environment: EmulationProjectEnvironment;
 
 	@Get('emulationProject/projectResources')
 	readonly resources: IEaasiResource[];
@@ -176,7 +178,13 @@ export default class ResourceSideBar extends Vue {
 	}
 
 	setEnvironment(environment: IEnvironment, checked: boolean) {
-		this.environment = checked ? environment : null;
+		if (checked) {
+			this.environment = new EmulationProjectEnvironment(environment);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		} else {
+			this.environment = null;
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
 	}
 
 	/* Lifecycle Hooks

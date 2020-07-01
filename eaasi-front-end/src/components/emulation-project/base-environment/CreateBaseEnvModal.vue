@@ -34,7 +34,7 @@
 					/>
 				</div>
 
-				<div class="right col-md-5">
+				<div class="right col-md-5 flex flex-center">
 					<div class="alert-container">
 						<alert type="warning">
 							Operating system will be attached to your emulation project as
@@ -71,7 +71,7 @@ import { ISoftwareObject, IDrive } from '@/types/Resource';
 import { Sync } from 'vuex-pathify';
 import { operatingSystems, ITemplateParams, IOsListItem } from '@/models/admin/OperatingSystems';
 import { populateNativeConfig } from '@/helpers/NativeConfigHelper';
-import { ITemplate } from '../../../types/Import';
+import { ITemplate, ICreateEnvironmentPayload } from '../../../types/Import';
 import OsTemplateConig from '../shared/OsTemplateConig.vue';
 
 @Component({
@@ -102,6 +102,9 @@ export default class CreateBaseEnvModal extends Vue {
 
 	@Sync('emulationProject/createEnvironmentPayload@nativeConfig')
 	nativeConfig: string;
+
+	@Sync('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
 
 	get canSave(): boolean {
 		return !!this.templateId && !!this.operatingSystemId && !!this.environmentTitle;
