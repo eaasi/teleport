@@ -335,11 +335,12 @@ export default class ResourceSlideMenu extends Vue {
 		this.$emit('resource-deleted');
 	}
 
-	publishSelectedResources() {
-		return Promise.all([
+	async publishSelectedResources() {
+		await Promise.all([
 			this.publishSoftware(),
 			this.publishEnvironments()
 		]);
+		this.$emit('resource-published');
 	}
 
 	async publishEnvironments() {
@@ -391,7 +392,7 @@ export default class ResourceSlideMenu extends Vue {
 				break;
 			case 'publish':
 				this.publishSelectedResources();
-				this.$emit('resource-published');
+				break;
 			default: break;
 		}
 	}

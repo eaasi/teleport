@@ -9,11 +9,11 @@
 		</div>
 
 		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
-			<checkbox :value="isSelected" @input="toggleSelected" />
+			<checkbox :value="value" @input="toggleSelected" />
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
-			<div :class="['header', { clickable: isClickable }]" @click="handleClick">
+			<div :class="['header', { clickable: isClickable, mb: !data.content }]" @click="handleClick">
 				{{ data.title }}
 			</div>
 
@@ -62,51 +62,51 @@ import Checkbox from '@/components/global/forms/Checkbox.vue';
 })
 export default class SelectableCard extends Vue {
 
-		/* Props
-        ============================================*/
-		@Prop({type: Object as () => IEaasiResourceSummary, required: true})
-		readonly data: IEaasiResourceSummary;
+	/* Props
+	============================================*/
+	@Prop({type: Object as () => IEaasiResourceSummary, required: true})
+	readonly data: IEaasiResourceSummary;
 
-		@Prop({type: Boolean, required: false, default: false})
-		readonly bookmark: boolean;
+	@Prop({type: Boolean, required: false, default: false})
+	readonly bookmark: boolean;
 
-        @Prop({type: Boolean, required: false, default: false})
-		readonly footer: boolean;
+	@Prop({type: Boolean, required: false, default: false})
+	readonly footer: boolean;
 
-        @Prop({type: Boolean, required: false, default: false})
-		readonly isLoading: boolean;
+	@Prop({type: Boolean, required: false, default: false})
+	readonly isLoading: boolean;
 
-		@Prop({ type: Boolean, default: false })
-		readonly isBookmarkSelected: boolean;
+	@Prop({ type: Boolean, default: false })
+	readonly isBookmarkSelected: boolean;
 
-        @Prop({type: Boolean, required: false, default: false})
-        readonly disableSelect: boolean;
+	@Prop({type: Boolean, required: false, default: false})
+	readonly disableSelect: boolean;
 
-        @Prop({type: Boolean, required: false, default: true})
-		readonly isClickable: boolean;
+	@Prop({type: Boolean, required: false, default: true})
+	readonly isClickable: boolean;
 
-		@Prop({ type: Boolean, default: false })
-		readonly isSelected: boolean;
+	@Prop({ type: Boolean, required: true })
+	readonly value: boolean;
 
-        /* Computed
-        ============================================*/
-        get selectStyle() : string {
-        	return this.isSelected ? 'selected' : '';
-        }
+	/* Computed
+	============================================*/
+	get selectStyle() : string {
+		return this.value ? 'selected' : '';
+	}
 
-        /* Methods
-		============================================*/
+	/* Methods
+	============================================*/
 
-        toggleSelected(isSelected) : void {
-        	this.$emit('input', isSelected);
-        	this.$emit('change', isSelected);
-        }
+	toggleSelected() : void {
+		this.$emit('input', !this.value);
+		this.$emit('change', !this.value);
+	}
 
-        handleClick() {
-        	if (this.isClickable) {
-				this.$emit('click:header');
-			}
+	handleClick() {
+		if (this.isClickable) {
+			this.$emit('click:header');
 		}
+	}
 
 }
 </script>
@@ -121,7 +121,7 @@ export default class SelectableCard extends Vue {
 		background-color: #FFFFFF;
 		border: 2px solid lighten($light-blue, 70%);
 		margin-bottom: 1.5rem;
-		min-height: 8rem;
+		min-height: 7rem;
 		position: relative;
 
 		&.selected {

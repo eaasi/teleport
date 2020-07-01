@@ -2,11 +2,17 @@ import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftw
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import { getFromCache, addToCache, deleteFromCache } from '@/utils/cache.util';
 
 
 export default class SoftwareService extends BaseService {
 
 	private readonly _softwareRepoService: EmilBaseService;
+	private readonly CACHE_KEYS = {
+		ALL_SOFTWARE: 'all-software',
+		PACKAGES: 'software-packages',
+		DESCRIPTIONS: 'software-descriptions'
+	}
 
 	constructor(
 		softwareRepoService: EmilBaseService = new EmilBaseService('software-repository'),
@@ -15,10 +21,16 @@ export default class SoftwareService extends BaseService {
 		this._softwareRepoService = softwareRepoService;
 	}
 
-	async getAll(): Promise<ISoftwarePackage[]> {
+	async getAll(bypassCache: boolean = false): Promise<ISoftwarePackage[]> {
+		if(!bypassCache) {
+			let results = getFromCache<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
+			if(results) return results;
+		}
 		const descriptionList = await this.getSoftwareDescriptionList();
 		const packageList = await this.getSoftwarePackageList();
-		return this._mergeDescriptionsWithPackages(descriptionList, packageList);
+		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
+		addToCache(this.CACHE_KEYS.ALL_SOFTWARE, packages);
+		return packages;
 	}
 
 	/**
@@ -70,7 +82,18 @@ export default class SoftwareService extends BaseService {
 	 */
 	async saveSoftwareObject(softwareObject: ISoftwareObject) {
 		let res = await this._softwareRepoService.post('packages', softwareObject);
+		if(res.ok) this.clearCache();
 		return await res.json();
+	}
+
+	/*============================================================
+	 == Cache
+	/============================================================*/
+
+	clearCache() {
+		Object.values(this.CACHE_KEYS).forEach(key => {
+			deleteFromCache(key);
+		})
 	}
 
 }

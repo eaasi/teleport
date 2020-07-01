@@ -13,6 +13,7 @@
 					ref="search_input"
 					class="search-select-list eaasi-input" 
 					:placeholder="placeholder" 
+					:disabled="readonly"
 				/>
 				<span class="clear" v-show="query != null && query != ''">
 					<span class="fas fa-times" @click="clearQuery"></span>

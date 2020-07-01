@@ -47,7 +47,8 @@
 			</div>
 		</div>
 		<!-- Auto Match -->
-		<div class="emu-option-item flex flex-row justify-between">
+		<!-- Not in next release -->
+		<!-- <div class="emu-option-item flex flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Auto Match <span class="bg-red">BETA</span></h4>
 				<p>Try to find a base environment match for your objects automatically.</p>
@@ -60,7 +61,12 @@
 					Try Auto Match
 				</ui-button>
 			</div>
-		</div>
+		</div> -->
+		<create-base-env-modal 
+			v-if="createBaseEnvModal" 
+			@close="createBaseEnvModal = false" 
+			@save="saveBaseEnvironment"
+		/>
 	</div>
 </template>
 
@@ -73,6 +79,11 @@ import ContentResourcesWizard from './ContentResourcesWizard.vue';
 import EmulationProjectScreen from './EmulationProjectScreen.vue';
 import InfoMessage from './shared/InfoMessage.vue';
 import { ROUTES } from '../../router/routes.const';
+import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
+import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
+import { Get } from 'vuex-pathify';
+import { generateNotificationError } from '../../helpers/NotificationHelper';
+import eventBus from '@/utils/event-bus';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -80,10 +91,16 @@ import { ROUTES } from '../../router/routes.const';
 		BaseEnvironmentWizard,
 		SoftwareResourcesWizard,
 		InfoMessage,
+		CreateBaseEnvModal,
 		ContentResourcesWizard
 	}
 })
 export default class EmulationProjectOptions extends Vue {
+
+	@Get('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
+
+	createBaseEnvModal: boolean = false;
 
 	search() {
 		this.$router.push(ROUTES.RESOURCES.EXPLORE);
@@ -94,11 +111,18 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	createBaseEnvironment() {
-		this.$router.push(ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT);
+		this.createBaseEnvModal = true;
 	}
 
-	autoMatch() {
-		// TODO
+	async saveBaseEnvironment() {
+		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
+		if (!response.id) {
+			eventBus.$emit('notification:show', generateNotificationError('Having troubles creating base environment, please try again.'));
+			return;
+		}
+		// TODO: select newly created base env for current emu project
+		this.createBaseEnvModal = false;
+		this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 	}
 
 }

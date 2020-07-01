@@ -14,6 +14,7 @@ export interface IEaasiResource {
 	archive?: ArchiveType;
 	archiveId?: ArchiveType;  // Content can return archiveId key
 	isPublic: boolean;
+	envId?: string;
 }
 
 /*============================================================
@@ -77,7 +78,7 @@ export interface IComponentRequest {
 		gwPrivateMask: string;
 		connectEnvs: true;
 		helpText: string;
-	}
+	};
 }
 
 export interface IClientEnvironmentRequest {

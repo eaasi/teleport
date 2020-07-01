@@ -25,14 +25,14 @@ export interface IEaasiResourceSummary extends IEaasiResource {
 	 * as an Object. Appears in the right pane of
 	 * a SelectableCard
 	 */
-	content: object
+	content?: object
 
 	/**
 	 * Contains key-value pairs of data represented as
 	 * an Object. Appears after a thematic break following
 	 * content in a SelectableCard
 	 */
-	subContent: object
+	subContent?: object
 }
 
 export interface ISaveEnvironmentPayload {

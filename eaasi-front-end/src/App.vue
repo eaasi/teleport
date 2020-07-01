@@ -67,9 +67,9 @@ export default class App extends Vue {
 			this.$store.commit('SET_APP_ERROR', err);
 		});
 
-		eventBus.$on(events.REQUEST_LIMIT_REACHED, 
+		eventBus.$on(events.REQUEST_LIMIT_REACHED,
 			() => eventBus.$emit(
-				'notification:show', 
+				'notification:show',
 				generateNotificationWarning('You\'ve reached the request limit, please try again later.')
 			)
 		);

@@ -1,13 +1,9 @@
+import { getResourceId } from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
-import ContentImportResource from '@/models/import/ContentImportResource';
-import SoftwareImportResource from '@/models/import/SoftwareImportResource';
 import _projectService from '@/services/EmulationProjectService';
-import _importService from '@/services/ImportService';
-import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
-import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
+import { IEmulationProject } from '@/types/Emulation';
+import { ICreateEnvironmentPayload } from '@/types/Import';
 import { IEaasiResource } from '@/types/Resource';
-import { IUserImportRelationRequest } from '@/types/UserImportRelation';
-import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
@@ -16,32 +12,19 @@ import { make } from 'vuex-pathify';
 /============================================================*/
 
 class EmulationProjectStore {
+	chosenTemplateId: string = '';
     createEnvironmentPayload: ICreateEnvironmentPayload = {
-        size: '1024',
         nativeConfig: '',
-        templateId: '',
+		templateId: '',
+		driveSettings: [],
+		operatingSystemId: '',
+		label: ''
     }
-    selectedSoftwareId: string = null;
-
-    chosenTemplateId: string = '';
-
-	environment: EmulationProjectEnvironment = new EmulationProjectEnvironment();
-	software: SoftwareImportResource = new SoftwareImportResource();
-	content: ContentImportResource = new ContentImportResource();
-	componentId: string = '';
-
-	projectResources: IEmulationProjectResource[] = [];
-
-	// True when we're running an environment as an Object (Content) or Software Environment
-	isConstructedEnvironment: boolean = false;
-	constructedTitle: string = '';
-
-	// Parameters used to define Environment Type when snapshot is called (objectEnvironment, etc)
-	environmentType: string = '';
-	environmentSoftwareId: string = '';
-	environmentContentId: string = '';
-
+	environment: EmulationProjectEnvironment = null;
 	project: IEmulationProject = null;
+	projectResources: IEaasiResource[] = [];
+	selectedResources: IEaasiResource[] = [];
+    selectedSoftwareId: string = null;
 }
 
 const state = new EmulationProjectStore();
@@ -66,17 +49,8 @@ mutations.RESET = (state) => {
 
 const actions = {
 
-	async addResources({dispatch, state}: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
-		let ids = resources.filter(x => !state.projectResources.find(r => r.resourceId === x.id));
-		let result = await _projectService.addResources(ids.map(r => ({
-			id: undefined,
-			emulationProjectId: state.project.id,
-			resourceId: r.resourceType === resourceTypes.ENVIRONMENT ? r.envId : r.id,
-			resourceType: r.resourceType
-		})));
-		if(!result) return;
-		return await dispatch('loadProjectResources', state.project.id);
-	},
+	/* Project
+	============================================*/
 
 	async loadProject({commit, dispatch}) {
 		let project = await _projectService.getProject();
@@ -85,37 +59,34 @@ const actions = {
 		return await dispatch('loadProjectResources', project.id);
 	},
 
+	/* Resources
+	============================================*/
+
 	async loadProjectResources({commit}, projectId) {
 		let resources = await _projectService.getResources(projectId);
 		if(!resources) return;
 		commit('SET_PROJECT_RESOURCES', resources);
 	},
 
-	async createEnvironment(_, createPayload: ICreateEnvironmentPayload): Promise<ICreateEnvironmentResponse> {
-		return await _importService.createEnvironment(createPayload);
+	async addResources({dispatch, state}: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
+		let notInProject = resources.filter(r => !state.projectResources.find(pr => {
+			return getResourceId(r) === getResourceId(pr);
+		}));
+		let result = await _projectService.addResources(notInProject.map(r => ({
+			id: undefined,
+			emulationProjectId: state.project.id,
+			resourceId: getResourceId(r),
+			resourceType: r.resourceType
+		})));
+		if(!result) return;
+		return await dispatch('loadProjectResources', state.project.id);
 	},
 
-	async postComponents(_, payload: any) {
-		return await _importService.postComponents(payload);
-	},
-
-	async setEnvironmentType({ commit }, { envType, softwareId, objectId }) {
-		commit('SET_ENVIRONMENT_TYPE', envType);
-		commit('SET_ENVIRONMENT_SOFTWARE_ID', softwareId);
-		commit('SET_ENVIRONMENT_CONTENT_ID', objectId);
-	},
-
-	async clearEnvironment({ commit }) {
-		commit('SET_ENVIRONMENT_TYPE', null);
-		commit('SET_ENVIRONMENT_SOFTWARE_ID', null);
-		commit('SET_ENVIRONMENT_CONTENT_ID', null);
-		commit('SET_IS_CONSTRUCTED_ENVIRONMENT', false);
-		commit('SET_IS_IMPORTED_ENVIRONMENT', false);
-		commit('SET_CONSTRUCTED_TITLE', '');
-	},
-
-	async createUserImportRelation(_, userImportRelationRequest: IUserImportRelationRequest) {
-		return await _importService.createUserImportRelation(userImportRelationRequest);
+	async removeResource({dispatch, state}: Store<EmulationProjectStore>, resource: IEaasiResource) {
+		let resourceId = getResourceId(resource);
+		let result = await _projectService.removeResource(state.project.id, resourceId);
+		if(!result) return;
+		return await dispatch('loadProjectResources', state.project.id);
 	},
 
 };

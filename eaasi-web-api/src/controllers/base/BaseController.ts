@@ -4,6 +4,7 @@ import { build_400_response, build_500_response, build_404_response } from '@/ut
 import { Request, Response } from 'express';
 import { IAppLogger } from '@/types/general/log';
 import HttpResponseCode from '@/classes/HttpResponseCode';
+import { Result } from 'express-validator';
 
 export default class BaseController {
 
@@ -43,5 +44,31 @@ export default class BaseController {
 		query.sortCol = req.query.sortCol;
 		query.descending = req.query.descending.toString() === 'true';
 		return query;
+	}
+
+	/**
+	 * Formats an express-validator error message when a malformed request is made
+	 * @param req request
+	 * @param res response
+	 * @param errors express-validator Result errors
+	 */
+	public async sendMalformedRequestResponse(req: Request, res: Response, errors: Result<any>) {
+		let allErrors = errors.array();
+		let errorMessage = '';
+
+		for (let i = 0; i < allErrors.length; i++) {
+
+			let thisError = allErrors[i],
+				value = thisError.value,
+				message = thisError.msg,
+				param = thisError.param,
+				location = thisError.location;
+
+			errorMessage +=
+				`${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `;
+		}
+
+		this._logger.log.error(errorMessage);
+		res.send(build_400_response(errorMessage));
 	}
 }

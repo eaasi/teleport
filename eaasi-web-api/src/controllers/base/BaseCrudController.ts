@@ -144,32 +144,6 @@ export default class BaseCrudController<T extends Model> extends BaseController 
 	}
 
 	/**
-	 * Formats an express-validator error message when a malformed request is made
-	 * @param req request
-	 * @param res response
-	 * @param errors express-validator Result errors
-	 */
-	async sendMalformedRequestResponse(req: Request, res: Response, errors: Result<any>) {
-		let allErrors = errors.array();
-		let errorMessage = '';
-
-		for (let i = 0; i < allErrors.length; i++) {
-
-			let thisError = allErrors[i],
-				value = thisError.value,
-				message = thisError.msg,
-				param = thisError.param,
-				location = thisError.location;
-
-			errorMessage +=
-				`${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `;
-		}
-
-		this._logger.log.error(errorMessage);
-		res.send(build_400_response(errorMessage));
-	}
-
-	/**
 	 * Handles sending an error response for an update action
 	 * @param req Express req
 	 * @param res Express res
