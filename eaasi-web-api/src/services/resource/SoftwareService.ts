@@ -2,7 +2,6 @@ import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftw
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import CacheHelper from '@/helpers/CacheHelper';
 
 
 export default class SoftwareService extends BaseService {
@@ -20,12 +19,12 @@ export default class SoftwareService extends BaseService {
 	}
 
 	async getAll(): Promise<ISoftwarePackage[]> {
-		let results = CacheHelper.get<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
+		let results = this._cache.get<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
 		if(results) return results;
 		const descriptionList = await this.getSoftwareDescriptionList();
 		const packageList = await this.getSoftwarePackageList();
 		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
-		CacheHelper.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
+		this._cache.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
 		return packages;
 	}
 
@@ -88,7 +87,7 @@ export default class SoftwareService extends BaseService {
 
 	clearCache() {
 		Object.values(this.CACHE_KEYS).forEach(key => {
-			CacheHelper.delete(key);
+			this._cache.delete(key);
 		})
 	}
 
