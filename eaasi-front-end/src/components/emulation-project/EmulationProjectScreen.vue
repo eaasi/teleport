@@ -41,6 +41,8 @@ import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
 import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import { Route } from 'vue-router/types/router';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -57,17 +59,23 @@ export default class EmulationProjectScreen extends Vue {
 	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
+	@Sync('showLoader')
+	showLoader: boolean;
+
 	@Sync('emulationProject/selectedSoftwareId')
 	selectedSoftwareId: string;
 
 	@Sync('emulationProject/environment')
-	environment: IEnvironment;
+	environment: EmulationProjectEnvironment;	
 
 	@Sync('resource/activeEnvironment')
 	activeEnvironment: IEnvironment;
 
 	@Get('emulationProject/canRunProject')
 	readonly canRunProject: boolean;
+
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
 
 	get isReadyToRun(): boolean {
 		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.templateId;
@@ -110,8 +118,9 @@ export default class EmulationProjectScreen extends Vue {
 	async runEmulationProject() {
 		// TODO: test env dummy json needs to be removed
 		const testEnv: IEnvironment = JSON.parse('{"networking":{"enableInternet":false,"serverMode":false,"localServerMode":false,"enableSocks":false,"serverPort":"","serverIp":"","connectEnvs":false,"helpText":""},"envId":"6b4c9691-b5d3-4f76-ac92-6541b0bdee0d","title":"Alpine base test save after import","description":"test","emulator":"Qemu","enableRelativeMouse":false,"enablePrinting":false,"shutdownByOs":false,"timeContext":"1589924959722","canProcessAdditionalFiles":false,"archive":"default","owner":"shared","envType":"base","revisions":[],"installedSoftwareIds":[],"nativeConfig":"-m 1024 -soundhw ac97 -net nic,model=rtl8139 -net user -usb -usbdevice tablet","useXpra":false,"useWebRTC":false,"drives":[{"data":"binding://main_hdd","iface":"ide","bus":"0","unit":"0","type":"disk","boot":true,"plugged":true},{"data":"","iface":"ide","bus":"0","unit":"1","type":"cdrom","filesystem":"ISO","boot":false,"plugged":false},{"data":"","iface":"floppy","bus":"0","unit":"0","type":"floppy","filesystem":"fat12","boot":false,"plugged":false}],"timestamp":"2020-05-19T21:49:23.069Z","isLinuxRuntime":false,"isServiceContainer":false,"resourceType":"Environment"}');
-		this.environment = testEnv;
+		this.environment = new EmulationProjectEnvironment(testEnv);
 		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
+		// add selected resources to the payload
 		const payload: IEmulatorComponentRequest = {
 			archive: this.environment.archive,
 			emulatorVersion: 'latest',
@@ -129,6 +138,23 @@ export default class EmulationProjectScreen extends Vue {
 		await this.$store.dispatch('resource/refreshTempEnvs');
 		// Route to access interface screen
 		this.$router.push(buildAccessInterfaceQuery({ envId: tempEnvironment.envId }));
+	}
+
+	async init() {
+		this.showLoader = true;
+		await this.$store.dispatch('emulationProject/loadProject');
+		if (this.environments.length === 1) {
+			this.environment = new EmulationProjectEnvironment(this.environments[0]);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		}
+		if (!this.environment) {
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
+		this.showLoader = false;
+	}
+
+	beforeMount() {
+		this.init();
 	}
 
 	clear() {

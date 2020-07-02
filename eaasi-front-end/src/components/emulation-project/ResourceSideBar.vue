@@ -140,13 +140,11 @@ export default class ResourceSideBar extends Vue {
 		else return 1;
 	}
 
-	get environments(): IEnvironment[] {
-		return filterResourcesByType(this.resources, resourceTypes.ENVIRONMENT) as IEnvironment[];
-	}
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
 
-	get objects() {
-		return removeResourcesByType(this.resources, resourceTypes.ENVIRONMENT);
-	}
+	@Get('emulationProject/projectObjects')
+	objects: IEaasiResource[];
 
 	get hasObjectSlots(): boolean {
 		return this.resourceLimit < this.selected.length;

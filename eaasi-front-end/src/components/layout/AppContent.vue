@@ -61,13 +61,6 @@ export default class AppContent extends Mixins(TaskManager) {
 	============================================*/
 
 	/**
-	 * Load initial global data
-	 */
-	initData() {
-		this.$store.dispatch('emulationProject/loadProject');
-	}
-
-	/**
 	 * Set up event bus listeners
 	 */
 	initBusListeners() {
@@ -88,7 +81,6 @@ export default class AppContent extends Mixins(TaskManager) {
 
 	mounted() {
 		this.initBusListeners();
-		this.initData();
 	}
 
 	beforeDestroy() {

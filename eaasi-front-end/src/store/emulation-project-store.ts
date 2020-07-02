@@ -1,9 +1,10 @@
-import { getResourceId } from '@/helpers/ResourceHelper';
+import { filterResourcesByType, getResourceId, removeResourcesByType } from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import _projectService from '@/services/EmulationProjectService';
 import { IEmulationProject } from '@/types/Emulation';
 import { ICreateEnvironmentPayload } from '@/types/Import';
-import { IEaasiResource } from '@/types/Resource';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
 
@@ -34,6 +35,11 @@ mutations.RESET = (state) => {
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
 	state.environment = null;
+};
+
+mutations.REMOVE_SELECTED_RESOURCE = (state: EmulationProjectStore, resourceId: string) => {
+	if (state.environment && state.environment.envId === resourceId) state.environment = null;
+	state.selectedResources = state.selectedResources.filter(sr => sr.id != resourceId || sr.envId != resourceId);
 };
 
 /*============================================================
@@ -75,10 +81,11 @@ const actions = {
 		return await dispatch('loadProjectResources', state.project.id);
 	},
 
-	async removeResource({dispatch, state}: Store<EmulationProjectStore>, resource: IEaasiResource) {
+	async removeResource({dispatch, state, commit}: Store<EmulationProjectStore>, resource: IEaasiResource) {
 		let resourceId = getResourceId(resource);
 		let result = await _projectService.removeResource(state.project.id, resourceId);
 		if(!result) return;
+		commit('REMOVE_SELECTED_RESOURCE', resourceId);
 		return await dispatch('loadProjectResources', state.project.id);
 	},
 
@@ -94,6 +101,12 @@ const getters = {
 	},
 	constructedFromBaseEnvironment(state) {
 		state.createEnvironmentPayload != null;
+	},
+	projectEnvironments(state): IEnvironment[] {
+		return filterResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT) as IEnvironment[];
+	},
+	projectObjects(state) {
+		return removeResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT);
 	}
 };
 

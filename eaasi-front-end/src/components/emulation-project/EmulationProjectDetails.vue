@@ -98,7 +98,7 @@ import { ITemplate, ICreateEnvironmentPayload, IPatch } from '../../types/Import
 import { ROUTES } from '../../router/routes.const';
 import { IResourceSearchQuery } from '../../types/Search';
 import { resourceTypes, archiveTypes } from '../../utils/constants';
-import { ISoftwareObject, IOsItem, IDrive, IEditableDrive, IEaasiResource, IResourceDrive, IDriveSetting } from '../../types/Resource';
+import { ISoftwareObject, IOsItem, IDrive, IEditableDrive, IEaasiResource, IResourceDrive, IDriveSetting, IEnvironment } from '../../types/Resource';
 import SystemTemplateDetails from './shared/SystemTemplateDetails.vue';
 import OsPicker from './shared/OsPicker.vue';
 import CheckboxInfo from './shared/CheckboxInfo.vue';
@@ -190,6 +190,9 @@ export default class EmulationProjectDetails extends Vue {
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
 
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
+
 	get environmentCpu(): string {
 		return this.cpu;
 	}
@@ -239,6 +242,10 @@ export default class EmulationProjectDetails extends Vue {
 	============================================*/
 
 	init() {
+		if (this.environments.length === 1) {
+			this.environment = new EmulationProjectEnvironment(this.environments[0]);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		}
 		if (!this.environment) {
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
@@ -246,25 +253,6 @@ export default class EmulationProjectDetails extends Vue {
 
 	selectOSItem(osItem) {
 		this.selectedOs = this.selectedOs === osItem.value ? null : osItem.value;
-	}
-
-	reset() {
-		this.$store.commit('emulationProject/RESET');
-	}
-
-	beforeRouteEnter(to: Route, from: Route, next: Function) {
-		next(vm => vm.init());
-	}
-
-	beforeRouteLeave(to: Route, from: Route, next: Function) {
-		this.reset();
-		next();
-	}
-	
-	/* Lifecycle Hooks
-	============================================*/
-	beforeMount() {
-		this.init();
 	}
 
 }
