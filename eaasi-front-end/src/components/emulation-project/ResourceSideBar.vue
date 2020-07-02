@@ -1,7 +1,7 @@
 <template>
 	<div class="resource-side-bar">
 		<alert
-			bordered
+			style-preset="bordered"
 			card
 			collapsable
 			type="error"
@@ -55,11 +55,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="rsb-objects" v-if="objects.length && isDetailsPage">
+			<div class="rsb-objects" v-if="objects.length">
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Objects</h4>
 					<a class="clickable txt-sm bold">Clear All</a>
 				</div>
+				<alert 
+					no-icon 
+					type="warning" 
+					style-preset="border-right" 
+					style="margin-bottom: 1rem;" 
+					v-if="resourceLimit === 1"
+				>
+					Only one object type can be emulated <br />
+					at a time - content OR software
+				</alert>
 				<div
 					v-for="obj in objects"
 					:key="obj.id"

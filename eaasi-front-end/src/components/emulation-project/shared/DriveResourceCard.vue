@@ -25,7 +25,7 @@
 			/>
 		</div>
 		<div v-else-if="!hasResource" class="alert-wrapper">
-			<alert no-icon type="warning">
+			<alert no-icon type="warning" style-preset="border-right">
 				Select project resources to fill drive
 			</alert>
 		</div>
@@ -109,12 +109,6 @@ export default class DriveResourceCard extends Vue {
 		.panel-footer {
 			padding-top: 0.5rem;
 		}
-	}
-}
-.alert-wrapper {
-	.eaasi-alert {
-		border-left: 2px solid $orange;
-		padding: 1rem;
 	}
 }
 </style>

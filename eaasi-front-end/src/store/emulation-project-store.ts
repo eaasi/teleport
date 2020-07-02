@@ -35,6 +35,7 @@ mutations.RESET = (state) => {
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
 	state.environment = null;
+	state.selectedResources = [];
 };
 
 mutations.REMOVE_SELECTED_RESOURCE = (state: EmulationProjectStore, resourceId: string) => {
