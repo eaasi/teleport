@@ -29,6 +29,15 @@
 				Select project resources to fill drive
 			</alert>
 		</div>
+		<search-select-list
+			style="margin-top: 1rem;"
+			v-model="driveSetting.objectId"
+			option-label="label"
+			anchor="id"
+			placeholder="Select a project resource..."
+			:data="resources"
+			rules="required"
+		/>
 	</drive-card>
 </template>
 
@@ -88,6 +97,7 @@ export default class DriveResourceCard extends Vue {
 
 <style lang='scss'>
 .drive-card {
+	flex-direction: column;
 	.eaasi-search-select {
 		width: 100%;
 	}

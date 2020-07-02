@@ -158,6 +158,7 @@ export default class EmulationProjectScreen extends Vue {
 
 	clear() {
 		this.$store.commit('emulationProject/RESET');
+		this.createEnvironmentPayload = null;
 		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 

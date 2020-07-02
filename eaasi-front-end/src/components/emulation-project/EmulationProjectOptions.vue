@@ -136,6 +136,7 @@ export default class EmulationProjectOptions extends Vue {
 		this.$store.dispatch('emulationProject/addResources', [baseEnv]);
 		this.environment = new EmulationProjectEnvironment(baseEnv);
 		this.createBaseEnvModal = false;
+		// mutate base env at this point 
 		this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 	}
 

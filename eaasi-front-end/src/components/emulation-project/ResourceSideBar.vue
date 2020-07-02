@@ -146,7 +146,9 @@ export default class ResourceSideBar extends Vue {
 	constructedFromBaseEnvironment: boolean;
 
 	get resourceLimit(): number {
-		if (this.constructedFromBaseEnvironment) return this.environment.drives.length;
+		if (this.constructedFromBaseEnvironment) {
+			return this.environment ? this.environment.drives.length : this.defaultDriveLimit;
+		}
 		else return 1;
 	}
 
@@ -171,6 +173,7 @@ export default class ResourceSideBar extends Vue {
 			label: 'Project Resources'
 		},
 	]
+	defaultDriveLimit: number = 3;
 	activeTab: IEaasiTab = this.tabs[0];
 	resourceTypes: IResourceTypes = resourceTypes;
 

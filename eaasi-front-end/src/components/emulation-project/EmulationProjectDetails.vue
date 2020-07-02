@@ -76,13 +76,13 @@
 				</div>
 			</div>
 
-			<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
+			<div class="disk-cards-wrapper" v-if="true || constructedFromBaseEnvironment">
 				<h4>Environment Drives</h4>
 				<drive-resource-card
 					v-for="driveSetting in drives"
 					:key="driveSetting.drive.uid"
 					:drive-setting="driveSetting"
-					:resources="projectResources"
+					:resources="projectObjects"
 				/>
 			</div>
 		</div>
@@ -180,8 +180,8 @@ export default class EmulationProjectDetails extends Vue {
 	@Sync('emulationProject/environment@drives')
 	drives: IDriveSetting[];
 
-	@Get('emulationProject/projectResources')
-	projectResources: IEaasiResource[];
+	@Get('emulationProject/projectObjects')
+	projectObjects: IEaasiResource[];
 
 	@Get('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;

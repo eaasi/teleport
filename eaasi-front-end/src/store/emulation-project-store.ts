@@ -31,7 +31,6 @@ const state = new EmulationProjectStore();
 const mutations = make.mutations(state);
 
 mutations.RESET = (state) => {
-	state.createEnvironmentPayload = null;
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
 	state.environment = null;
@@ -100,15 +99,15 @@ const getters = {
 	canRunProject(): boolean {
 		return true; // TODO:
 	},
-	constructedFromBaseEnvironment(state) {
-		state.createEnvironmentPayload != null;
+	constructedFromBaseEnvironment(state): boolean {
+		return state.createEnvironmentPayload != null;
 	},
 	projectEnvironments(state): IEnvironment[] {
 		return filterResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT) as IEnvironment[];
 	},
 	projectObjects(state) {
 		return removeResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT);
-	}
+	},
 };
 
 export default {
