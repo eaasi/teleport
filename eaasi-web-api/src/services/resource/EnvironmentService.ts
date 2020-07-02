@@ -116,6 +116,7 @@ export default class EnvironmentService extends BaseService {
 		};
 
 		let res = await this._environmentRepoService.delete(`environments/${id}`, environmentToDelete);
+		this.clearCache();
 		return await res.json();
 	}
 
@@ -179,6 +180,7 @@ export default class EnvironmentService extends BaseService {
 		await httpSvc.get('init');
 		const { error, id } = await this._componentService.postEmulatorComponent(payload);
 		if (error) throw new Error(error);
+		// add error handling for emil calls
 		await this._componentService.controlurls(id);
 		await this._componentService.keepAlive(id);
 		const newEnvRequest: IClientEnvironmentRequest = {
@@ -187,11 +189,11 @@ export default class EnvironmentService extends BaseService {
 			envId: payload.environment,
 			title: environment.title,
 		}
-		const derivativeResponse: IEnvironment = await this.saveNewEnvironment(newEnvRequest);
+		const derivativeResponse: ISnapshotResponse = await this.saveNewEnvironment(newEnvRequest);
 		if (derivativeResponse.error) throw new Error(derivativeResponse.error as string);
 		await this._componentService.stopComponent(id);
 		this.clearCache();
-		return derivativeResponse;
+		return await this.getEnvironment(derivativeResponse.envId);
 	}
 
 	/*============================================================
@@ -223,17 +225,34 @@ export default class EnvironmentService extends BaseService {
 	 */
 	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest) {
 		this.clearCache();
+		let envId = revisionEnvRequest.envId;
+		let isTempEnv = await this._isTempEnvironment(envId);
+		if (isTempEnv) {
+			let parentEnv = await this.getEnvironment(envId);
+			envId = parentEnv.parentEnvId;
+		}
 		let snapshotRequest: ISnapshotRequest = {
-			envId: revisionEnvRequest.envId,
+			envId,
 			isRelativeMouse: false,
 			message: revisionEnvRequest.description,
-			objectId: null,
-			softwareId: null,
+			objectId: revisionEnvRequest.objectId,
+			softwareId: revisionEnvRequest.softwareId,
+			archive: revisionEnvRequest.archive,
 			type: 'saveRevision',
 			relativeMouse: false,
 			userId: null
 		};
-		return await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest);
+		let snapshotResult = await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest);
+		if (isTempEnv) {
+			// snapshotResult.
+			let revisionEnv = await this.getEnvironment(snapshotResult.envId);
+			// update result environment
+			let updatedRevisionEnv: IEnvironment = {...revisionEnvRequest.environment, envId: revisionEnv.envId};
+			let res = await this.updateEnvironmentDescription(updatedRevisionEnv);
+			// delete temp environment
+			await this.deleteFromTempArchive(envId);
+		}
+		return snapshotResult;
 	}
 
 	/**
@@ -296,8 +315,8 @@ export default class EnvironmentService extends BaseService {
 		return await response.result.get({ plain: true })  as ITempEnvironmentRecord;
 	}
 
-	async deleteFromTempArchive(userId: number, envId: string): Promise<ITempEnvironmentRecord> {
-		let tempEnvRecord = await this._tempEnvironmentService.getOneWhere({ userId, envId });
+	async deleteFromTempArchive(envId: string): Promise<ITempEnvironmentRecord> {
+		let tempEnvRecord = await this._tempEnvironmentService.getOneWhere({ envId });
 		let plain = tempEnvRecord.result.get({ plain: true }) as ITempEnvironmentRecord;
 		await this._tempEnvironmentService.destroy(plain.id);
 		return plain;
@@ -305,6 +324,17 @@ export default class EnvironmentService extends BaseService {
 
 	async getAllTemp(): Promise<ICrudServiceResult<TempEnvironment[]>> {
 		return await this._tempEnvironmentService.getAllWhere({});
+	}
+
+	async _isTempEnvironment(envId: string): Promise<boolean> {
+		let res = await this._tempEnvironmentService.getOneWhere({
+			where: {
+				envId
+			}
+		})
+		if (!res.result || res.hasError) return false;
+		let plain = await res.result.get({ plain: true });
+		return plain != null;
 	}
 
 	/*============================================================

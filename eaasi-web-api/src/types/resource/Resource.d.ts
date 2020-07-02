@@ -88,6 +88,9 @@ export interface IClientEnvironmentRequest {
 	title: string;
 	networking?: INetworking;
 	objectId?: string;
+	environment?: IEnvironment;
+	softwareId?: string;
+	archive?: ArchiveType;
 }
 
 export interface IClientSnapshotRequest {
@@ -123,6 +126,7 @@ export interface ISnapshotResponse {
 	envId: string;
 	status: string;
 	message: string;
+	error?: string;
 }
 
 /*============================================================

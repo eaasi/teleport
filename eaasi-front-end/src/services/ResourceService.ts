@@ -138,7 +138,7 @@ class ResourceService extends BaseHttpService {
 	/**
 	 * Makes a POST request to save a revision of an existing Environment resource via snapshot
 	 */
-	async saveEnvironmentRevision(envId: string, componentId: string, description: any) {
+	async saveEnvironmentRevision(envId: string, componentId: string, description: any, environment: IEnvironment = null) {
 		let res = await this.post<any>('/resource/save-environment-revision',
 			{ envId, componentId, description }
 		);
