@@ -76,7 +76,7 @@
 				</div>
 			</div>
 
-			<div class="disk-cards-wrapper" v-if="true || constructedFromBaseEnvironment">
+			<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
 				<h4>Environment Drives</h4>
 				<drive-resource-card
 					v-for="driveSetting in drives"

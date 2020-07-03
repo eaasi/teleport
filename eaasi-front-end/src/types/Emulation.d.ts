@@ -19,6 +19,8 @@ export interface IEmulatorComponentRequest {
 	environment: string;
 	keyboardLayout: string;
 	keyboardModel: string;
+	software?: string;
+	objectArchive?: string;
 	type: string;
 }
 

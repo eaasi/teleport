@@ -87,6 +87,9 @@ export default class EmulationProjectScreen extends Vue {
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
 
+	@Get('emulationProject/selectedObjects')
+	selectedObjects: IEaasiResource[];
+
 	get isReadyToRun(): boolean {
 		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.templateId;
 	}
@@ -147,7 +150,10 @@ export default class EmulationProjectScreen extends Vue {
 		this.activeEnvironment = emulationProjectEnv;
 		await this.$store.dispatch('resource/refreshTempEnvs');
 		// Route to access interface screen
-		this.$router.push(buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId }));
+		let query = !this.constructedFromBaseEnvironment && this.selectedObjects.length > 0 
+			? buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId, objectId: this.selectedObjects[0].id, archiveId: this.selectedObjects[0].archiveId })
+			: buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId });
+		this.$router.push(query);
 	}
 
 	async init() {
@@ -166,14 +172,14 @@ export default class EmulationProjectScreen extends Vue {
 	prepareEnvironment(env: IEnvironment): IEnvironment {
 		let emuProjEnv: IEnvironment = {...env, drives: this.environment.drives.map(d => d.drive)};
 		// update emu proj properties
-		// if (this.constructedFromBaseEnvironment) {
+		if (this.constructedFromBaseEnvironment) {
 			emuProjEnv.driveSettings = this.environment.drives.map(d => {
 				if (!d.objectId) return d;
 				let selectedObject = this.objects.find(o => o.id === d.objectId);
 				if (!selectedObject) return d;
 				return {...d, objectArchive: selectedObject.archiveId};
 			});
-		// }
+		}
 		return emuProjEnv;
 	}
 
