@@ -59,6 +59,7 @@ export interface IEnvironment extends IEaasiResource {
 	parentEnvId: string;
 	envId: string;
 	title: string;
+	driveSettings?: IDriveSetting[];
 	description: string;
 	version?: string;
 	emulator: string;
