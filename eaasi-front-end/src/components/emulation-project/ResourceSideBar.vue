@@ -1,11 +1,11 @@
 <template>
 	<div class="resource-side-bar">
 		<alert
-			bordered
+			style-preset="bordered"
 			card
 			collapsable
-			v-if="!hasDevicesAvailable"
 			type="error"
+			v-if="resourceLimit === 0"
 			style="margin: 1rem 2rem 2rem 2rem;"
 		>
 			Available Devices Full
@@ -60,6 +60,16 @@
 					<h4 class="no-mb">Objects</h4>
 					<a class="clickable txt-sm bold">Clear All</a>
 				</div>
+				<alert 
+					no-icon 
+					type="warning" 
+					style-preset="border-right" 
+					style="margin-bottom: 1rem;" 
+					v-if="resourceLimit === 1"
+				>
+					Only one object type can be emulated <br />
+					at a time - content OR software
+				</alert>
 				<div
 					v-for="obj in objects"
 					:key="obj.id"
@@ -103,6 +113,8 @@ import { filterResourcesByType, getResourceTypeTags, removeResourcesByType } fro
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
+import { ROUTES } from '@/router/routes.const';
+import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
 	name: 'ResourceSideBar',
@@ -122,7 +134,7 @@ export default class ResourceSideBar extends Vue {
 	============================================*/
 
 	@Sync('emulationProject/environment')
-	environment: IEnvironment;
+	environment: EmulationProjectEnvironment;
 
 	@Get('emulationProject/projectResources')
 	readonly resources: IEaasiResource[];
@@ -130,16 +142,28 @@ export default class ResourceSideBar extends Vue {
 	@Sync('emulationProject/selectedResources')
 	selected: IEaasiResource[];
 
-	get environments(): IEnvironment[] {
-		return filterResourcesByType(this.resources, resourceTypes.ENVIRONMENT) as IEnvironment[];
+	@Get('emulationProject/constructedFromBaseEnvironment')
+	constructedFromBaseEnvironment: boolean;
+
+	get resourceLimit(): number {
+		if (this.constructedFromBaseEnvironment) {
+			return this.environment ? this.environment.drives.length : this.defaultDriveLimit;
+		}
+		else return 1;
 	}
 
-	get objects() {
-		return removeResourcesByType(this.resources, resourceTypes.ENVIRONMENT);
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
+
+	@Get('emulationProject/projectObjects')
+	objects: IEaasiResource[];
+
+	get hasObjectSlots(): boolean {
+		return this.resourceLimit < this.selected.length;
 	}
 
-	get hasDevicesAvailable(): boolean {
-		return true;
+	get isDetailsPage(): boolean {
+		return this.$route.path === ROUTES.EMULATION_PROJECT.DETAILS;
 	}
 
 	/* Data
@@ -149,6 +173,7 @@ export default class ResourceSideBar extends Vue {
 			label: 'Project Resources'
 		},
 	]
+	defaultDriveLimit: number = 3;
 	activeTab: IEaasiTab = this.tabs[0];
 	resourceTypes: IResourceTypes = resourceTypes;
 
@@ -168,15 +193,24 @@ export default class ResourceSideBar extends Vue {
 	}
 
 	selectResource(resource: IEaasiResource) {
+		let resourcesToSelect = [];
+		this.selected = [];
 		if(this.isSelected(resource)) {
-			this.selected = this.selected.filter(x => x.id !== resource.id);
+			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
 		} else {
-			this.selected = [...this.selected, resource];
+			resourcesToSelect = [...this.selected, resource];
 		}
+		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
 	}
 
 	setEnvironment(environment: IEnvironment, checked: boolean) {
-		this.environment = checked ? environment : null;
+		if (checked) {
+			this.environment = new EmulationProjectEnvironment(environment);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		} else {
+			this.environment = null;
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
 	}
 
 	/* Lifecycle Hooks

@@ -1,5 +1,5 @@
 <template>
-	<div :class="['eaasi-alert', color, { bordered, card }]">
+	<div :class="['eaasi-alert', color, stylePreset, { card }]">
 		<div :class="['flex-row justify-between', { clickable: collapsable }]" @click="collapse">
 			<div class="flex-row">
 				<div class="icon" v-if="!noIcon">
@@ -36,8 +36,8 @@ export default class Alert extends Vue {
 	/**
 	 * Adds border and border-radius when true)
 	 */
-	@Prop({type: Boolean, required: false})
-	readonly bordered: boolean
+	@Prop({type: String, required: false})
+	readonly stylePreset: string;
 
 	/**
 	 * Apply card styles (padding and background-color)
@@ -149,6 +149,11 @@ export default class Alert extends Vue {
 		border: solid 2px #DDDDDD;
 		border-radius: 1rem;
 		padding: 16px;
+	}
+
+	&.border-right {
+		border-left: 2px solid $orange;
+		padding: 1rem;
 	}
 
 	&.red {

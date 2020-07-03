@@ -1,4 +1,4 @@
-import { IComponentRequest, IEmulatorComponentRequest, IEmulatorComponentresponse, ISnapshotRequest } from '@/types/resource/Resource';
+import { IComponentRequest, IEmulatorComponentRequest, IEmulatorComponentresponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 
@@ -13,7 +13,7 @@ export default class ComponentService extends BaseService {
 		this._componentRepoService = componentRepoService;
 	}
 
-	async saveSnapshot(componentId: string, snapshotRequest: ISnapshotRequest) {
+	async saveSnapshot(componentId: string, snapshotRequest: ISnapshotRequest): Promise<ISnapshotResponse> {
 		const res = await this._componentRepoService.post(`${componentId}/snapshot`, snapshotRequest);
 		return await res.json();
 	}

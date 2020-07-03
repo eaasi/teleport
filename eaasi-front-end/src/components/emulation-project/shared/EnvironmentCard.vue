@@ -27,6 +27,8 @@ import { resourceTypes, archiveTypes } from '../../../utils/constants';
 import { ITag } from '../../../types/Tag';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
 import { ILabeledItem } from '../../../types/ILabeledItem';
+import EmulationProjectEnvironment from '../../../models/emulation-project/EmulationProjectEnvironment';
+import { Get } from 'vuex-pathify';
 
 @Component({
 	name: 'EnvironmentCard',
@@ -41,59 +43,8 @@ export default class EnvironmentCard extends Vue {
 
 	/* Computed
 	============================================*/
-	get environment(): IEnvironment {
-		return {
-			archive: 'public',
-			canProcessAdditionalFiles: false,
-			containerName: 'emucon-rootfs/qemu-system',
-			description: '<p>5/6/2019 - fix network card</p>',
-			drives: [
-				{
-					boot: false,
-					bus: '0',
-					data: '',
-					filesystem: 'ISO',
-					iface: 'ide',
-					plugged: true,
-					type: 'cdrom',
-					unit: '1',
-				}      
-			],
-			emulator: 'Qemu',
-			enablePrinting: true,
-			enableRelativeMouse: true,
-			envId: '5de84760-3dd0-4294-abe4-1cc687501f90',
-			envType: 'base',
-			installedSoftwareIds: [
-				{
-					id: 'Windows98SE', 
-					label: 'Windows98SE', 
-					archive: 'Remote Objects'
-				}
-			],
-			isLinuxRuntime: false,
-			isServiceContainer: false,
-			nativeConfig: '-usb -usbdevice tablet -vga cirrus -soundhw sb16 -net nic,model=pcnet',
-			owner: 'shared',
-			parentEnvId: 'dc25d789-87ce-44e3-9601-45fb4970c1aa',
-			revisions: [
-				{
-				   archive: 'remote',
-					id: 'dc25d789-87ce-44e3-9601-45fb4970c1aa',
-					text: '<p>4/15/2019 - removed daylight savings time pop-up that is somehow back again (EG)<br/></p>',
-				}
-			],
-			shutdownByOs: false,
-			timeContext: '925923840000',
-			timestamp: '2020-04-24T20:09:31.254Z',
-			title: 'Windows 98 SE - Base V2',
-			useWebRTC: false,
-			useXpra: false,
-			xpraEncoding: 'jpeg',
-			isPublic: true,
-			resourceType: resourceTypes.ENVIRONMENT,
-		};
-	};
+	@Get('emulationProject/environment')
+	environment: EmulationProjectEnvironment;
 
 	get environmentTags(): ITag[] {
 		let tagGroup = [];

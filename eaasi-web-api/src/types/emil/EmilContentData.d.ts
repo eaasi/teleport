@@ -6,6 +6,7 @@ import { ArchiveType, IEaasiResource } from '../resource/Resource';
 export interface IContentItem extends IEaasiResource {
 	id: string;
 	archiveId: ArchiveType;
+	label: string;
 }
 
 export interface IObjectArchiveResonse {

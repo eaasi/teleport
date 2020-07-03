@@ -1,8 +1,11 @@
 <template>
 	<div>
-		<h4 class="medium">
-			{{ label }}
-		</h4>
+		<div class="flex flex-row justify-between">
+			<h4 class="medium">
+				{{ label }}
+			</h4>
+			<slot name="action"></slot>
+		</div>
 		<div class="drive-card flex">
 			<slot></slot>
 		</div>

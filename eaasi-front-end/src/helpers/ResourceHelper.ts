@@ -1,12 +1,13 @@
-import { IDrive, IEnvironment, IEaasiResource, ISoftwarePackage, ResourceType } from '@/types/Resource';
-import { resourceTypes, archiveTypes } from '@/utils/constants';
+import { IDrive, IDriveSetting, IEaasiResource, IEnvironment, ISoftwarePackage, ResourceType } from '@/types/Resource';
 import { ITag } from '@/types/Tag';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
     containerEmulatorVersion: string;
     description: string;
-    drives: IDrive[];
+	drives: IDrive[];
+	driveSettings: IDriveSetting[];
     enablePrinting: boolean;
     enableRelativeMouse: boolean;
     envId: string;
@@ -156,7 +157,8 @@ export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironme
         title: environment.title,
         useWebRTC: environment.useWebRTC,
         useXpra: environment.useXpra,
-        xpraEncoding: environment.xpraEncoding,
+		xpraEncoding: environment.xpraEncoding,
+		driveSettings: environment.driveSettings,
     } as IEnvironmentUpdateRequest;
 }
 

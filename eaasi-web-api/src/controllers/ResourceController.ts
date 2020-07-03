@@ -8,7 +8,7 @@ import { IAuthorizedDeleteRequest } from '@/types/auth/Auth';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
-import { IContentRequest, IEmulatorComponentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { IClientEnvironmentRequest, IContentRequest, IEmulatorComponentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
@@ -310,7 +310,7 @@ export default class ResourceController extends BaseController {
 
 	async saveEnvironmentRevision(req: Request, res: Response) {
 		try {
-			let revisionEnvRequest = req.body;
+			let revisionEnvRequest = req.body as IClientEnvironmentRequest;
 			let result = await this._environmentService.saveEnvironmentRevision(revisionEnvRequest);
 			res.send(result);
 		} catch(e) {
@@ -352,7 +352,7 @@ export default class ResourceController extends BaseController {
 				if (!curTempRecord) return res.send(false);
 				await this._environmentService.deleteEnvironment(id);
 				this._logger.log.info(`Temporary Environment with id ${id} has been deleted for user ${userId}`);
-				let success = await this._environmentService.deleteFromTempArchive(userId, id);
+				let success = await this._environmentService.deleteFromTempArchive(id);
 				return res.send(success);
 			}
 			return res.send(false);

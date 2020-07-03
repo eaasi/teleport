@@ -171,11 +171,12 @@ const actions = {
 		commit('SET_RESULT', result);
 	},
 
-	async saveEnvironmentRevision({ state }, description) {
+	async saveEnvironmentRevision({ state }: Store<ResourceState>, description) {
 		return await _svc.saveEnvironmentRevision(
 			state.activeEnvironment.envId,
 			state.clientComponentId,
-			description
+			description,
+			state.activeEnvironment
 		);
 	},
 

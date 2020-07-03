@@ -8,7 +8,9 @@
 			<template v-slot:actions>
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
-						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
+						<ui-button color-preset="light-blue" @click="clear">
+							Clear Project
+						</ui-button>
 					</div>
 					<div class="emu-project-action">
 						<ui-button :disabled="!canRunProject" @click="run">Run</ui-button>
@@ -34,13 +36,17 @@ import EmulationProjectOptions from './EmulationProjectOptions.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../types/Import';
 import { ROUTES } from '../../router/routes.const';
-import { IEnvironmentList, IEnvironment } from '../../types/Resource';
+import { IEnvironmentList, IEnvironment, IEaasiResource } from '../../types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
 import { IEmulatorComponentRequest } from '@/types/Emulation';
 import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
 import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import { Route } from 'vue-router/types/router';
+import eventBus from '../../utils/event-bus';
+import { generateNotificationError } from '../../helpers/NotificationHelper';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -57,17 +63,32 @@ export default class EmulationProjectScreen extends Vue {
 	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
+	@Sync('showLoader')
+	showLoader: boolean;
+
 	@Sync('emulationProject/selectedSoftwareId')
 	selectedSoftwareId: string;
 
 	@Sync('emulationProject/environment')
-	environment: IEnvironment;
+	environment: EmulationProjectEnvironment;	
 
 	@Sync('resource/activeEnvironment')
 	activeEnvironment: IEnvironment;
 
 	@Get('emulationProject/canRunProject')
 	readonly canRunProject: boolean;
+
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
+
+	@Get('emulationProject/projectObjects')
+	objects: IEaasiResource[];
+
+	@Get('emulationProject/constructedFromBaseEnvironment')
+	constructedFromBaseEnvironment: boolean;
+
+	@Get('emulationProject/selectedObjects')
+	selectedObjects: IEaasiResource[];
 
 	get isReadyToRun(): boolean {
 		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.templateId;
@@ -108,10 +129,8 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	async runEmulationProject() {
-		// TODO: test env dummy json needs to be removed
-		const testEnv: IEnvironment = JSON.parse('{"networking":{"enableInternet":false,"serverMode":false,"localServerMode":false,"enableSocks":false,"serverPort":"","serverIp":"","connectEnvs":false,"helpText":""},"envId":"6b4c9691-b5d3-4f76-ac92-6541b0bdee0d","title":"Alpine base test save after import","description":"test","emulator":"Qemu","enableRelativeMouse":false,"enablePrinting":false,"shutdownByOs":false,"timeContext":"1589924959722","canProcessAdditionalFiles":false,"archive":"default","owner":"shared","envType":"base","revisions":[],"installedSoftwareIds":[],"nativeConfig":"-m 1024 -soundhw ac97 -net nic,model=rtl8139 -net user -usb -usbdevice tablet","useXpra":false,"useWebRTC":false,"drives":[{"data":"binding://main_hdd","iface":"ide","bus":"0","unit":"0","type":"disk","boot":true,"plugged":true},{"data":"","iface":"ide","bus":"0","unit":"1","type":"cdrom","filesystem":"ISO","boot":false,"plugged":false},{"data":"","iface":"floppy","bus":"0","unit":"0","type":"floppy","filesystem":"fat12","boot":false,"plugged":false}],"timestamp":"2020-05-19T21:49:23.069Z","isLinuxRuntime":false,"isServiceContainer":false,"resourceType":"Environment"}');
-		this.environment = testEnv;
 		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
+		// add selected resources to the payload
 		const payload: IEmulatorComponentRequest = {
 			archive: this.environment.archive,
 			emulatorVersion: 'latest',
@@ -122,17 +141,68 @@ export default class EmulationProjectScreen extends Vue {
 		};
 		// create a copy of active environment
 		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
-		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
+		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', this.environment.envId);
 		// update the copy with emulation project properties
-		const emulationProjectEnv = await this.$store.dispatch('resource/updateEnvironmentDetails', tempEnvironment);
-		this.activeEnvironment = tempEnvironment;
+		let emuProjEnv: IEnvironment = this.prepareEnvironment(tempEnvironment);
+		const { id, error } = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
+		if (error) return this.handleError(error);
+		let emulationProjectEnv = await this.$store.dispatch('resource/getEnvironment', id);
+		this.activeEnvironment = emulationProjectEnv;
 		await this.$store.dispatch('resource/refreshTempEnvs');
 		// Route to access interface screen
-		this.$router.push(buildAccessInterfaceQuery({ envId: tempEnvironment.envId }));
+		let query = '';
+		if (this.selectedObjects.length && !this.constructedFromBaseEnvironment) {
+			query = buildAccessInterfaceQuery({ 
+				envId: emulationProjectEnv.envId, 
+				archiveId: this.selectedObjects[0].archiveId,
+				objectId: this.selectedObjects[0].id
+			});
+		} else {
+			query = buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId });
+		}
+		this.$router.push(query);
+	}
+
+	async init() {
+		this.showLoader = true;
+		await this.$store.dispatch('emulationProject/loadProject');
+		if (this.environments.length === 1) {
+			this.environment = new EmulationProjectEnvironment(this.environments[0]);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		}
+		if (!this.environment) {
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
+		this.showLoader = false;
+	}
+
+	prepareEnvironment(env: IEnvironment): IEnvironment {
+		let emuProjEnv: IEnvironment = {
+			...env, 
+			drives: this.environment.drives.map(d => d.drive), 
+			driveSettings: this.environment.drives
+		};
+		// update emu proj properties
+		if (this.constructedFromBaseEnvironment) {
+			emuProjEnv.driveSettings.forEach(d => {
+				let selectedObject = this.objects.find(o => o.id === d.objectId);
+				if (selectedObject) d.objectArchive = selectedObject.archiveId;
+			});
+		}
+		return emuProjEnv;
+	}
+
+	handleError(err: string) {
+		eventBus.$emit('notification:show', generateNotificationError(err));
+	}
+
+	beforeMount() {
+		this.init();
 	}
 
 	clear() {
 		this.$store.commit('emulationProject/RESET');
+		this.createEnvironmentPayload = null;
 		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
