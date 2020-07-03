@@ -290,11 +290,11 @@ export default class EmulationProjectDetails extends Vue {
 	}
 
 	.rm-btn {
-		font-size: 1.4rem; 
+		font-size: 1.4rem;
 		font-weight: 400;
 
 		span {
-			font-weight: 400; 
+			font-weight: 400;
 			margin-left: 1rem;
 		}
 	}
