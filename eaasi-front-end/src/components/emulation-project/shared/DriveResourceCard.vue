@@ -1,7 +1,7 @@
 <template>
 	<drive-card :label="driveCardLabel">
 		<template #action v-if="hasResource">
-			<ui-button color-preset="blue-transparent">
+			<ui-button color-preset="blue-transparent" @click="removeResource">
 				<div style="font-size: 1.4rem; font-weight: 400;" class="flex flex-row flex-cetner">
 					Remove Resource
 					<span class="fas fa-times" style="font-weight: 400; margin-left: 1rem;"></span>
@@ -72,7 +72,7 @@ export default class DriveResourceCard extends Vue {
 	/* Computed
 	============================================*/
 	get resource(): IEaasiResource {
-		if (!this.driveSetting.imageId || !this.driveSetting.objectId) return null;
+		if (!this.driveSetting.objectId) return null;
 		return this.resources.find(resource => resource.id === this.driveSetting.objectId || resource.id === this.driveSetting.imageId);
 	}
 
@@ -90,6 +90,10 @@ export default class DriveResourceCard extends Vue {
 
 	get driveCardLabel(): string {
 		return `${this.driveSetting.drive.type}`;
+	}
+
+	removeResource() {
+		this.driveSetting.objectId = null;
 	}
 
 }
