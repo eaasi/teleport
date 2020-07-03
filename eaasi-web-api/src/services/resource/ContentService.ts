@@ -28,7 +28,7 @@ export default class ContentService extends BaseService {
 		let content = await res.json() as IContentItem[];
 		content.forEach((x: IContentItem) => {
 			x.resourceType = resourceTypes.CONTENT
-			if (x.hasOwnProperty('title')) x.label = x.title;
+			if (x.hasOwnProperty('title') && !x.hasOwnProperty('label')) x.label = x.title;
 		});
 		this._cache.add(this.CACHE_KEYS.ALL_CONTENT, content);
 		return content;
