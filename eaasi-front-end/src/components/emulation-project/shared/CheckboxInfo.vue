@@ -6,7 +6,7 @@
 			@input="$emit('input', !value)"
 			@change="$emit('change');"
 		/>
-		<span class="fas fa-info-circle"></span>
+		<span class="fas fa-info-circle" v-if="infoText"></span>
 	</div>
 </template>
 
@@ -30,6 +30,9 @@ export default class CheckboxInfo extends Vue {
 
     @Prop({ type: String, required: false })
     readonly label: string;
+
+    @Prop({ type: String, default: false })
+    readonly infoText: string;
 
     /* Computed
     ============================================*/

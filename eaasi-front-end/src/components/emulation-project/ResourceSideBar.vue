@@ -81,6 +81,8 @@
 						:value="isSelected(obj)"
 						@change="selectResource(obj)"
 						class="flex-grow no-mb"
+						style="width: 30rem;"
+						:disabled="isDisabled(obj)"
 					>
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(obj)" />
@@ -211,6 +213,10 @@ export default class ResourceSideBar extends Vue {
 			this.environment = null;
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
+	}
+
+	isDisabled(resource: IEaasiResource): boolean {
+		return !this.isSelected(resource) && !this.hasObjectSlots && this.selected.length > 0;
 	}
 
 	/* Lifecycle Hooks

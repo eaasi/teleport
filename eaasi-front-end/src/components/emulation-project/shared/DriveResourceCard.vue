@@ -2,9 +2,9 @@
 	<drive-card :label="driveCardLabel">
 		<template #action v-if="hasResource">
 			<ui-button color-preset="blue-transparent" @click="removeResource">
-				<div style="font-size: 1.4rem; font-weight: 400;" class="flex flex-row flex-cetner">
+				<div class="flex flex-row flex-cetner rm-btn">
 					Remove Resource
-					<span class="fas fa-times" style="font-weight: 400; margin-left: 1rem;"></span>
+					<span class="fas fa-times"></span>
 				</div>
 			</ui-button>
 		</template>

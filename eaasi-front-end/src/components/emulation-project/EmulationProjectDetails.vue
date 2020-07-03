@@ -1,12 +1,12 @@
 <template>
-	<div class="new-base-environment-wizzard">
+	<div class="emu-proj-details-wrapper">
 		<div class="emulator-picker-wrapper">
 			<div class="flex flex-row justify-between">
-				<h4>Base Environment</h4>
-				<ui-button color-preset="blue-transparent">
-					<div style="font-size: 1.4rem; font-weight: 400;" class="flex flex-row flex-cetner">
+				<h4 style="margin-top: 0;">Base Environment</h4>
+				<ui-button color-preset="blue-transparent" @click="clear">
+					<div class="flex flex-row flex-cetner rm-btn">
 						Remove Resource
-						<span class="fas fa-times" style="font-weight: 400; margin-left: 1rem;"></span>
+						<span class="fas fa-times"></span>
 					</div>
 				</ui-button>
 			</div>
@@ -77,7 +77,7 @@
 			</div>
 
 			<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
-				<h4>Environment Drives</h4>
+				<h4 class="border-after">Environment Drives</h4>
 				<drive-resource-card
 					v-for="driveSetting in drives"
 					:key="driveSetting.drive.uid"
@@ -241,6 +241,11 @@ export default class EmulationProjectDetails extends Vue {
 	/* Methods
 	============================================*/
 
+	clear() {
+		this.$store.commit('emulationProject/RESET');
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+	}
+
 	init() {
 		if (this.environments.length === 1) {
 			this.environment = new EmulationProjectEnvironment(this.environments[0]);
@@ -262,14 +267,36 @@ export default class EmulationProjectDetails extends Vue {
 <style lang="scss">
 .emulator-picker-wrapper {
 	margin-bottom: 5rem;
+
+	.checkbox-info {
+		margin-bottom: 2rem;
+	}
 }
 
-.new-base-environment-wizzard {
+.emu-proj-details-wrapper {
 	background: #ffffff;
 	padding: 3rem;
 
 	.row {
 		margin-bottom: 1rem;
+	}
+
+	h4 {
+		margin: 2rem 0;
+
+		&.border-after {
+			border-bottom: 1px solid darken($light-neutral, 10%);
+		}
+	}
+
+	.rm-btn {
+		font-size: 1.4rem; 
+		font-weight: 400;
+
+		span {
+			font-weight: 400; 
+			margin-left: 1rem;
+		}
 	}
 }
 </style>

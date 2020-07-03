@@ -1,5 +1,5 @@
 <template>
-	<div :class="['resource-object-container flex', selectStyle]">
+	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
 		<div v-if="bookmark && !isLoading">
 			<bookmark
 				class="bookmark"
@@ -88,6 +88,9 @@ export default class SelectableCard extends Vue {
 	@Prop({ type: Boolean, required: true })
 	readonly value: boolean;
 
+	@Prop({ type: Boolean, default: false })
+	readonly disabled: boolean;
+
 	/* Computed
 	============================================*/
 	get selectStyle() : string {
@@ -127,6 +130,11 @@ export default class SelectableCard extends Vue {
 		&.selected {
 			background-color: lighten($light-blue, 90%);
 			border: 2px solid $light-blue;
+		}
+
+		&.disabled {
+			opacity: .4;
+			pointer-events: none;
 		}
 
 		.bookmark {

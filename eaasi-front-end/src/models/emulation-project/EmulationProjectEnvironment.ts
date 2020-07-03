@@ -26,6 +26,7 @@ export default class EmulationProjectEnvironment implements IEaasiResource {
     emulator: string;
     os: string;
     envId: string;
+    nativeConfig = '';
 
     constructor(environment: IEnvironment = null) {
         if (environment) {
@@ -51,26 +52,8 @@ export default class EmulationProjectEnvironment implements IEaasiResource {
         this.os = env.os;
         this.emulator = env.emulator;
         this.envId = env.envId;
+        this.nativeConfig = env.nativeConfig;
     }
-
-    // getAsEnvironment(): IEnvironment {
-    //     return {
-    //         type: this.type,
-    //         diskSize: this.diskSize,
-    //         nativeFMTs: this.nativeFMTs,
-    //         enablePrinting:  this.enablePrinting,
-    //         enableRelativeMouse:  this.enableRelativeMouse,
-    //         virtualizeCpu:  this.virtualizeCpu,
-    //         useWebRTC:  this.useWebRTC,
-    //         useXpra:  this.useXpra,
-    //         xpraEncoding:  this.xpraEncoding,
-    //         shutdownByOs:  this.shutdownByOs,
-    //         drives: this.drives.map(drive => drive.drive),
-    //         title: this.title,
-    //         resourceType  this.resourceType,
-    //         isPublic = false,
-    //     } as IEnvironment;
-    // }
 
     private mapDrives(drives: IDrive[]): IDriveSetting[] {
         return drives.map((drive, index) => {
