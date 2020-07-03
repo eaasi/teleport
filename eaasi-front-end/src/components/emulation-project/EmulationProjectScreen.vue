@@ -150,7 +150,17 @@ export default class EmulationProjectScreen extends Vue {
 		this.activeEnvironment = emulationProjectEnv;
 		await this.$store.dispatch('resource/refreshTempEnvs');
 		// Route to access interface screen
-		this.$router.push(buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId }));
+		let query = '';
+		if (this.selectedObjects.length && !this.constructedFromBaseEnvironment) {
+			query = buildAccessInterfaceQuery({ 
+				envId: emulationProjectEnv.envId, 
+				archiveId: this.selectedObjects[0].archiveId,
+				objectId: this.selectedObjects[0].id
+			});
+		} else {
+			query = buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId });
+		}
+		this.$router.push(query);
 	}
 
 	async init() {
@@ -177,16 +187,6 @@ export default class EmulationProjectScreen extends Vue {
 			emuProjEnv.driveSettings.forEach(d => {
 				let selectedObject = this.objects.find(o => o.id === d.objectId);
 				if (selectedObject) d.objectArchive = selectedObject.archiveId;
-			});
-		} else if (this.selectedObjects.length) {
-			let { id, archiveId } = this.selectedObjects[0];
-			let assigned = false;
-			emuProjEnv.driveSettings.forEach(d => {
-				if (d.drive.data == '' && d.drive.type != 'disk' && !assigned) {
-					d.objectArchive = archiveId;
-					d.objectId = id;
-					assigned = true;
-				}
 			});
 		}
 		return emuProjEnv;
