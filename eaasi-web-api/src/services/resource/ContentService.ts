@@ -30,7 +30,7 @@ export default class ContentService extends BaseService {
 			x.resourceType = resourceTypes.CONTENT
 			if (x.hasOwnProperty('title') && !x.hasOwnProperty('label')) x.label = x.title;
 		});
-		this._cache.add(this.CACHE_KEYS.ALL_CONTENT, content);
+		if (content.length) this._cache.add(this.CACHE_KEYS.ALL_CONTENT, content);
 		return content;
 	}
 
@@ -46,7 +46,7 @@ export default class ContentService extends BaseService {
 		if(result) return result;
 		let res = await this._contentRepoService.get('archives');
 		let archives = await res.json();
-		this._cache.add(this.CACHE_KEYS.ARCHIVES, archives);
+		if (archives.length) this._cache.add(this.CACHE_KEYS.ARCHIVES, archives);
 		return archives;
 	}
 

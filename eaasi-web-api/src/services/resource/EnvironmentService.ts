@@ -45,8 +45,7 @@ export default class EnvironmentService extends BaseService {
 			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
 			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
 		}
-
-		this._cache.add(this.CACHE_KEYS.ALL_ENVIRONMENTS, environments);
+		if (environments.length) this._cache.add(this.CACHE_KEYS.ALL_ENVIRONMENTS, environments);
 		return environments;
 	}
 

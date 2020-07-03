@@ -24,7 +24,7 @@ export default class SoftwareService extends BaseService {
 		const descriptionList = await this.getSoftwareDescriptionList();
 		const packageList = await this.getSoftwarePackageList();
 		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
-		this._cache.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
+		if (packageList.packages.length) this._cache.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
 		return packages;
 	}
 
