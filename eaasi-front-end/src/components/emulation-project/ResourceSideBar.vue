@@ -161,7 +161,7 @@ export default class ResourceSideBar extends Vue {
 	objects: IEaasiResource[];
 
 	get hasObjectSlots(): boolean {
-		return this.resourceLimit < this.selected.length;
+		return this.resourceLimit > this.selected.length;
 	}
 
 	get isDetailsPage(): boolean {
@@ -196,7 +196,6 @@ export default class ResourceSideBar extends Vue {
 
 	selectResource(resource: IEaasiResource, selected: boolean) {
 		let resourcesToSelect = [];
-		this.selected = [];
 		if(!selected || this.isSelected(resource)) {
 			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
 		} else {
