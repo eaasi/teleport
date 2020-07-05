@@ -99,7 +99,7 @@ export default class DashboardResourceList extends Vue {
 	}
 
 	async handleBookmark(resourceID: number, isActive: boolean) {
-		const bookmarkRequest = { userID: this.user.id, resourceID };
+		const bookmarkRequest = { userId: this.user.id, resourceID };
 		return isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);

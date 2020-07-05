@@ -39,7 +39,7 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 		return await this.model
 			.destroy({
 				where: {
-					userID: userID
+					userId: userID
 				}
 			})
 			.then((result: object) => {

@@ -1,7 +1,7 @@
-import { make } from 'vuex-pathify';
 import _svc from '@/services/BookmarkService';
+import { BookmarkRequest, IBookmark, MultiBookmarkRequest } from '@/types/Bookmark';
 import { Store } from 'vuex';
-import {IBookmark, BookmarkRequest, MultiBookmarkRequest} from '@/types/Bookmark';
+import { make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -66,7 +66,7 @@ const actions = {
     	const resourceIds = bookmarksRequest.resourceIDs;
     	resourceIds.forEach(id => {
     		if (!state.bookmarks.find(bm => bm.resourceID === id)) {
-    			dispatch('createBookmark', { userID: userId, resourceID: id});
+    			dispatch('createBookmark', { userId: userId, resourceID: id});
 			}
 		});
 	}
