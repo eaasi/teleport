@@ -79,7 +79,7 @@
 						footer
 						:data="{ title: obj.title || obj.label }"
 						:value="isSelected(obj)"
-						@change="selectResource(obj)"
+						@change="(e) => selectResource(obj, e)"
 						class="flex-grow no-mb"
 						style="width: 30rem;"
 						:disabled="isDisabled(obj)"
@@ -194,10 +194,10 @@ export default class ResourceSideBar extends Vue {
 		this.$store.dispatch('emulationProject/removeResource', resource);
 	}
 
-	selectResource(resource: IEaasiResource) {
+	selectResource(resource: IEaasiResource, selected: boolean) {
 		let resourcesToSelect = [];
 		this.selected = [];
-		if(this.isSelected(resource)) {
+		if(!selected || this.isSelected(resource)) {
 			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
 		} else {
 			resourcesToSelect = [...this.selected, resource];
