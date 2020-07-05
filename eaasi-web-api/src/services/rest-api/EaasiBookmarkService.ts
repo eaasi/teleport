@@ -1,4 +1,5 @@
 import { Bookmark } from '@/data_access/models/app/Bookmark';
+import { IBookmark } from '@/types/resource/Bookmark';
 import CrudService from '../base/CrudService';
 import CrudServiceResult from '../base/CrudServiceResult';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
@@ -15,12 +16,12 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 	 * Gets all Bookmarks for a User
 	 * @param userID: number PK for the User
 	 */
-	async getByUserID(userID: number): Promise<ICrudServiceResult<Bookmark[]>> {
+	async getByUserID(userID: number): Promise<ICrudServiceResult<IBookmark[]>> {
 		return await this.model
     		.findAll({
 				where: {
 					userId: userID
-				}
+				},
 			})
 			.then((result: object) => {
     			return new CrudServiceResult(null, result);

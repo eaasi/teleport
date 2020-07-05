@@ -1,12 +1,14 @@
-import { Bookmark, UserImportedContent } from '@/data_access/models/app';
+import { UserImportedContent } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
+import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
+import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
@@ -15,7 +17,6 @@ import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
-import { filterResourcesByKeyword } from '@/utils/resource.util';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -74,7 +75,7 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: number): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
-		let bookmarksResponse: ICrudServiceResult<Bookmark[]>;
+		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
 		let userImportedResources: IResourceImportResult;
 
 		[bookmarksResponse, userImportedResources] = await Promise.all([
@@ -101,13 +102,14 @@ export default class ResourceAdminService extends BaseService {
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
 		result.content.result = this.paginate(query, result.content.result);
+		result.bookmarks = bookmarks;
 
 		return result;
 	}
 
 	private async _searchEnvironments (
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
 		let allEnvironments = await this._environmentService.getAll();
@@ -120,7 +122,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchSoftware (
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
 		let softwareRes = await this._softwareService.getAll();
@@ -130,7 +132,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchContent (
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<IContentItem>> {
 		let content = await this._contentService.getAll('zero conf');
@@ -177,7 +179,7 @@ export default class ResourceAdminService extends BaseService {
 	private _filterResults<T extends IEaasiResource>(
 		results: T[],
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): IEaasiSearchResponse<T> {
 
