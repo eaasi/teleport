@@ -82,7 +82,7 @@
 					v-for="driveSetting in drives"
 					:key="driveSetting.drive.uid"
 					:drive-setting="driveSetting"
-					:resources="projectObjects"
+					:resources="selectedObjects"
 				/>
 			</div>
 		</div>
@@ -192,6 +192,9 @@ export default class EmulationProjectDetails extends Vue {
 
 	@Get('emulationProject/projectEnvironments')
 	environments: IEnvironment[];
+
+	@Get('emulationProject/selectedObjects')
+	selectedObjects: IEaasiResource[];
 
 	get environmentCpu(): string {
 		return this.cpu;
