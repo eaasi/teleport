@@ -122,9 +122,6 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		@Get('import/environment@nativeFMTs')
 		nativeFMTs: string;
 
-		@Get('loggedInUser')
-		loggedInUser: IEaasiUser;
-
 		@Sync('resource/activeEnvironment')
 		activeEnvironment: IEnvironment;
 
@@ -233,7 +230,6 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 
 		mounted() {
 			this.userImportRequest = {
-				userId: this.loggedInUser.id,
 				resourceId: null,
 				resourceType: null
 			};
