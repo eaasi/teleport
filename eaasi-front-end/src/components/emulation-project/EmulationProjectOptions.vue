@@ -86,6 +86,8 @@ import { generateNotificationError } from '../../helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
 import { IEnvironment } from '@/types/Resource';
 import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
+import { IUserImportRelationRequest, IUserImportedResource } from '@/types/UserImportRelation';
+import { resourceTypes } from '../../utils/constants';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -131,6 +133,14 @@ export default class EmulationProjectOptions extends Vue {
 		if (!response.id) {
 			eventBus.$emit('notification:show', generateNotificationError('Having troubles creating base environment, please try again.'));
 			return;
+		}
+		let userImportRelationRequest: IUserImportRelationRequest = {
+			resourceType: resourceTypes.ENVIRONMENT,
+			resourceId: response.id,
+		};
+		let { id }: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', userImportRelationRequest);
+		if (!id) {
+			eventBus.$emit('notification:show', generateNotificationError('Failed to save Base Environment to My Resources.'));
 		}
 		const baseEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
 		this.$store.dispatch('emulationProject/addResources', [baseEnv]);

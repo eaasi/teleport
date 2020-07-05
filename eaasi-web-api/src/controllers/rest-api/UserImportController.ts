@@ -1,3 +1,4 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import { UserImportedContent, UserImportedEnvironment, UserImportedSoftware } from '@/data_access/models/app';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import ImportedContentService from '@/services/rest-api/ImportedContentService';
@@ -6,7 +7,6 @@ import ImportedSoftwareService from '@/services/rest-api/ImportedSoftwareService
 import { IUserImportedResource, IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
 import { resourceTypes } from '@/utils/constants';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import { Request, Response } from 'express-serve-static-core';
 import BaseController from '../base/BaseController';
 
@@ -177,24 +177,26 @@ export default class UserImportController extends BaseController {
 
 	async createUserImportRelation(req: Request, res: Response) {
 		try {
-			const userImportRelation = req.body as IUserImportRelationRequest;
-			if (!req.body) this.sendClientError('Request to create user reference requires request body', res);
+			let userImportRelation = req.body as IUserImportRelationRequest;
 			const userImportResource: IUserImportedResource = {
-				userID: userImportRelation.userId,
+				userId: req.user.id,
 				eaasiId: userImportRelation.resourceId
 			}
 			let result: IUserImportedResource;
 			switch(userImportRelation.resourceType) {
 				case resourceTypes.CONTENT:
 					const contentresult = await this.importedContentService.create(userImportResource);
+					if (contentresult.hasError) throw contentresult.error;
 					result = contentresult.result.get({ plain: true }) as IUserImportedResource;
 					break;
 				case resourceTypes.SOFTWARE:
 					const softwareResult = await this.importedSoftwareService.create(userImportResource);
+					if (softwareResult.hasError) throw softwareResult.error;
 					result = softwareResult.result.get({ plain: true }) as IUserImportedResource;
 					break;
 				case resourceTypes.ENVIRONMENT:
 					const environmentResult = await this.importedEnvironmentService.create(userImportResource);
+					if (environmentResult.hasError) throw environmentResult.error;
 					result = environmentResult.result.get({ plain: true }) as IUserImportedResource;
 					break;
 			}

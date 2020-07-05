@@ -1,7 +1,6 @@
 import { ResourceType } from './Resource';
 
 export interface IUserImportRelationRequest {
-	userId: number;
 	resourceId: string;
 	resourceType: ResourceType;
 }

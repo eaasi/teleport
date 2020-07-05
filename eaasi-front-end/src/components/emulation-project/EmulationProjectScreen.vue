@@ -97,35 +97,7 @@ export default class EmulationProjectScreen extends Vue {
 	/* Methods
 	============================================*/
 	async run() {
-		const { path } = this.$route;
-		switch (path) {
-			case ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT:
-				return await this.runBaseEnvironment();
-				break;
-			case ROUTES.EMULATION_PROJECT.DETAILS:
-				return await this.runEmulationProject();
-				break;
-		}
-	}
-
-	async runBaseEnvironment() {
-		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
-		if (response.status === '0') {
-			this.environment.envId = response.id;
-		}
-		let route = `${ROUTES.ACCESS_INTERFACE}/${response.id}`;
-		if (this.selectedSoftwareId) {
-			route += `?softwareId=${this.selectedSoftwareId}&archiveId=zero%20conf&createBaseEnvironment=true`;
-		}
-		// @ts-ignore
-		let environment: IEnvironment = {
-			archive: 'default',
-			envId: response.id,
-		};
-
-		this.activeEnvironment = environment;
-
-		this.$router.push(route);
+		await this.runEmulationProject();
 	}
 
 	async runEmulationProject() {

@@ -1,5 +1,5 @@
-import {CreatedAt, UpdatedAt, Column, Table} from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
+import { Column, CreatedAt, Table, UpdatedAt } from 'sequelize-typescript';
 import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({

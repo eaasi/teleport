@@ -8,6 +8,6 @@ export interface IUserImportRelationRequest {
 
 export interface IUserImportedResource {
 	id?: number;
-	userID: number;
+	userId: number;
 	eaasiId: string;
 }
