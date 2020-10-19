@@ -67,12 +67,13 @@ import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
 import OsPicker, { IOsItem } from '../shared/OsPicker.vue';
-import { ISoftwareObject, IDrive } from '@/types/Resource';
+import { ISoftwareObject, IDrive, IUIOsItem } from '@/types/Resource';
 import { Sync } from 'vuex-pathify';
 import { operatingSystems, ITemplateParams, IOsListItem } from '@/models/admin/OperatingSystems';
 import { populateNativeConfig } from '@/helpers/NativeConfigHelper';
 import { ITemplate, ICreateEnvironmentPayload } from '../../../types/Import';
 import OsTemplateConig from '../shared/OsTemplateConig.vue';
+import { defaultOsList } from '@/utils/constants';
 
 @Component({
 	name: 'CreateBaseEnvModal',
@@ -122,7 +123,7 @@ export default class CreateBaseEnvModal extends Vue {
 	/* Data
 	============================================*/
 	readonly operatingSystems = operatingSystems;
-	selectedOs: IOsItem = null;
+	selectedOs: IUIOsItem = null;
 
 	reset() {
 		const currentEnvTitle = this.environmentTitle;
@@ -131,6 +132,14 @@ export default class CreateBaseEnvModal extends Vue {
 	}
 
 	selectOs(os: IOsItem) {
+		this.selectedOs = os;
+	}
+
+	selectOsForTemplate(template: string) {
+		const templateVal = template.split(':')[1];
+		const os: IUIOsItem = defaultOsList.find(os => os.value.indexOf(templateVal) >= 0);
+		console.log(os);
+		if (!os) return;
 		this.selectedOs = os;
 	}
 
@@ -147,6 +156,7 @@ export default class CreateBaseEnvModal extends Vue {
 		if (!template) this.reset();
 		const chosenOS = this.operatingSystems.find(os => os.id === template);
 		if (!chosenOS) return;
+		this.selectOsForTemplate(template);
 		this.nativeConfig = populateNativeConfig(chosenOS.template_params);
 		this.templateId = chosenOS.template;
 	}

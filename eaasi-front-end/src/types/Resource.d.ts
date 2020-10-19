@@ -222,6 +222,12 @@ export interface IOsItem {
 	puids: IPuid[];
 }
 
+export interface IUIOsItem {
+	icon: string;
+	title: string;
+	value: string;
+}
+
 export interface IPuid {
 	puid: string;
 }

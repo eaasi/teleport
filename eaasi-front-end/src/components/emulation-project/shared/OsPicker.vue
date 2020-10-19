@@ -32,23 +32,8 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import SelectableContainer from '@/components/global/selectable-container/SelectableContainer.vue';
-const genericMachineIcon = require('../../../../assets/img/other.png');
-const linuxMachineIcon = require('../../../../assets/img/linux.png');
-const appleMachineIcon = require('../../../../assets/img/apple.png');
-const windowsMachineIcon = require('../../../../assets/img/windows.png');
-
-const defaultOsList: IOsItem[] = [
-	{ icon: windowsMachineIcon, title: 'Windows', value: 'windows' },
-	{ icon: linuxMachineIcon, title: 'Linux', value: 'linux' },
-	{ icon: appleMachineIcon, title: 'Apple', value: 'mac' },
-	{ icon: genericMachineIcon, title: 'Other', value: 'other' }
-];
-
-export interface IOsItem {
-	icon: string;
-	title: string;
-	value: string;
-}
+import { defaultOsList } from '@/utils/constants';
+import { IUIOsItem } from '@/types/Resource';
 
 @Component({
 	name: 'OsPicker',
@@ -60,11 +45,11 @@ export default class OsPicker extends Vue {
 
 	/* Props
 	============================================*/
-	@Prop({ type: Array as () => IOsItem[], default: () => defaultOsList })
-	readonly osList: IOsItem[];
+	@Prop({ type: Array as () => IUIOsItem[], default: () => defaultOsList })
+	readonly osList: IUIOsItem[];
 
-	@Prop({ type: Object as () => IOsItem })
-	readonly selectedOs: IOsItem;
+	@Prop({ type: Object as () => IUIOsItem })
+	readonly selectedOs: IUIOsItem;
 
 	@Prop({ type: Boolean, default: false })
 	readonly list: boolean;
