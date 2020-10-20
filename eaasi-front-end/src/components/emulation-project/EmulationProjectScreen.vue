@@ -1,15 +1,14 @@
 <template>
 	<div class="emulation-project-screen width-lg">
 		<view-header title="Emulation Project">
-			<div class="header-text flex flex-center">
-				Create a NEW base environment to emulate and save as a new resource
+			<div class="head-text">
+				Choose hardware and/or emulator settings, add imported or discovered resources, and run
+				your emulation. Save a new resource from this project by using the RUN emulation interface.
 			</div>
 			<template v-slot:actions>
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
-						<ui-button :disabled="!isReadyToRun" @click="run">
-							Run
-						</ui-button>
+						<ui-button disabled>Run</ui-button>
 					</div>
 					<div class="emu-project-action">
 						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
@@ -17,34 +16,38 @@
 				</div>
 			</template>
 		</view-header>
-		<div class="emu-project-content padded">
+		<div class="row main-content">
+			<div class="col-md-9 emulation-content">
+				<router-view />
+			</div>
+			<div class="col-md-3 side-bar">
+				<resource-side-bar />
+			</div>
+		</div>
+		<!-- <div class="emu-project-content padded">
 			<div>
 				<section-heading title="Base Environment" icon="fa-box" />
 				<new-base-environment-wizard />
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
 <script lang="ts">
 import { Component } from 'vue-property-decorator';
 import Vue from 'vue';
-import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
-import NewBaseEnvironmentWizard from './base-environment/NewBaseEnvironmentWizard.vue';
-import SoftwareResourcesWizard from '@/components/emulation-project/SoftwareResourcesWizard.vue';
-import ContentResourcesWizard from '@/components/emulation-project/ContentResourcesWizard.vue';
+import EmulationProjectOptions from './EmulationProjectOptions.vue';
 import { Sync } from 'vuex-pathify';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../types/Import';
 import { ROUTES } from '../../router/routes.const';
 import { IEnvironmentList, IEnvironment } from '../../types/Resource';
+import ResourceSideBar from './ResourceSideBar.vue';
 
 @Component({
 	name: 'EmulationProjectScreen',
 	components : {
-		BaseEnvironmentWizard,
-		NewBaseEnvironmentWizard,
-		SoftwareResourcesWizard,
-		ContentResourcesWizard
+		EmulationProjectOptions,
+		ResourceSideBar
 	}
 })
 export default class EmulationProjectScreen extends Vue {
@@ -88,6 +91,7 @@ export default class EmulationProjectScreen extends Vue {
 	
 	clear() {
 		this.$store.commit('emulationProject/RESET');
+		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
 	beforeDestroy() {
@@ -100,9 +104,23 @@ export default class EmulationProjectScreen extends Vue {
 
 <style lang="scss">
 .emulation-project-screen {
+	height: 100%;
+
+	.vh-sub-section,
+	.vh-description {
+		background-color: lighten($light-neutral, 80%);
+	}
+
+	.vh-title {
+		box-shadow: none;
+	}
+
+	.vh-description {
+		padding: 0 20rem 1rem 1.4rem;
+		width: auto;
+	}
 
 	.emu-project-actions {
-		border-left: 2px solid darken($light-neutral, 10%);
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -116,6 +134,21 @@ export default class EmulationProjectScreen extends Vue {
 	.header-text {
 		font-size: 1.6rem;
 		height: 100%;
+	}
+
+	.main-content {
+		height: 100%;
+		margin-left: 0;
+		margin-right: 0;
+
+		.emulation-content {
+			background-color: lighten($light-neutral, 60%);
+			padding: 3rem;
+		}
+
+		.side-bar {
+			padding: 0;
+		}
 	}
 }
 </style>

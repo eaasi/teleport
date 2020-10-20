@@ -87,6 +87,15 @@
 							v-model="files"
 							@sort="sorted"
 							handle=".sfl-handle"
+							v-if="isEnvImport"
+						>
+							<environment-file-item :file="envFile" />
+						</draggable>
+						<draggable
+							v-model="files"
+							@sort="sorted"
+							handle=".sfl-handle"
+							v-else
 						>
 							<resource-file-list-item
 								v-for="file in files"
@@ -111,6 +120,7 @@
 	// noinspection TypeScriptCheckImport
 	import Draggable from 'vuedraggable';
 	import ResourceFileListItem from './ResourceFileListItem.vue';
+	import EnvironmentFileItem from './EnvironmentFileItem.vue';
 	import ResourceImportFile from '@/models/import/ResourceImportFile';
 	import { ImportType, IResourceImportFile } from '@/types/Import';
 	import {operatingSystems} from '@/models/admin/OperatingSystems';
@@ -171,6 +181,10 @@
 			return isValidUrl(this.urlSource);
 		}
 
+		get isEnvImport(): boolean {
+			return false;
+		}
+
 		/* Data
         ============================================*/
 
@@ -196,7 +210,11 @@
 				let f = fileList[i];
 				if (this.files.some(x => x.name === f.name)) continue;
 				let newFile = new ResourceImportFile(f, startingSortIndex + i);
-				this.files.push(newFile);
+				if (this.isEnvImport) {
+					this.files = [newFile];
+				} else {
+					this.files.push(newFile);
+				}
 			}
 			this.step = 3;
 		}
@@ -225,6 +243,11 @@
 			// If all files are removed, leaving 0 files, set step to 2
 			if (this.files.length === 0) this.step = 2;
 			this.selectNoFiles();
+		}
+
+		removeEnvironmentImageFile() {
+			this.selectedFiles.push(this.files[0]);
+			this.removeSelectedFiles();
 		}
 
 		mounted() {

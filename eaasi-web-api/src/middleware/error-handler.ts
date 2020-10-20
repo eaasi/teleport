@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
-import HttpResponseCode from '../utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 
 /**
  * Handle XHR Errors

@@ -2,8 +2,8 @@
  * Standard Error Responses for web API Requests
  */
 
-import ErrorResponse from './ErrorResponse';
-import HttpResponseCode from './HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import ErrorResponse from '@/classes/ErrorResponse';
 
 /**
  * Provides a common message response object
@@ -64,7 +64,10 @@ export function _getStandardizedServerError(errorName: string): string {
  * Internal server error response
  * @type {{}}
  */
-export function build_500_response(serverError: Error) {
+export function build_500_response(serverError: Error | string) {
+	if(typeof serverError === 'string') {
+		serverError = new Error(serverError);
+	}
 	const nodeEnvironment = process.env.NODE_ENV || '';
 
 	if(['test', 'development', 'local'].includes(nodeEnvironment)) {

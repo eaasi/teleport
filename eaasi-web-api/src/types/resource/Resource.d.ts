@@ -114,13 +114,13 @@ export interface ISnapshotResponse {
 /============================================================*/
 
 export interface IResourceSearchQuery extends IEaasiSearchQuery {
-	selectedFacets: IResourceSearchFacet[];
-	types: ResourceType[];
-	archives: ArchiveType[];
 	keyword: string;
-	userId: number;
-	onlyBookmarks: boolean;
-	onlyImportedResources: boolean;
+	selectedFacets: IResourceSearchFacet[];
+	types?: ResourceType[];
+	archives?: ArchiveType[];
+	onlyBookmarks?: boolean;
+	onlyImportedResources?: boolean;
+	userId?: number | string;
 }
 
 export interface IResourceSearchResponse {

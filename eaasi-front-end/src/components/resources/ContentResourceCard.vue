@@ -1,6 +1,6 @@
 <template>
 	<selectable-card
-		bookmark
+		:bookmark="bookmark"
 		footer
 		:data="summary"
 		:disable-select="disableSelect"
@@ -46,6 +46,9 @@ export default class ContentResourceCard extends Vue {
 	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
 
+	@Prop({ type: Boolean, default: true })
+	readonly bookmark: boolean;
+
 	/* Data
 	============================================*/
 	resourceTypeTags: ITag[] =  [
@@ -86,7 +89,7 @@ export default class ContentResourceCard extends Vue {
 	}
 
 	get isBookmarkSelected(): Boolean {
-		return this.bookmarks.some(b => b.resourceID === this.content.id);
+		return this.bookmarks?.some(b => b.resourceID === this.content.id);
 	}
 
 	get isSelected(): Boolean {
@@ -97,7 +100,7 @@ export default class ContentResourceCard extends Vue {
 	============================================*/
 	goToDetailsPage() {
 		this.$router.push({
-			path: ROUTES.RESOURCES_CONTENT,
+			path: ROUTES.RESOURCES.CONTENT,
 			query: {
 				resourceId: this.content.id.toString(),
 				archiveId: this.content.archiveId.toString()

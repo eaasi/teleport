@@ -49,7 +49,7 @@ export default class AppHeader extends Vue {
 	/* Data
 	============================================*/
 	searchBorderColor = '#C7E4F5';
-	manageNodeRoute = ROUTES.MANAGE_NODE;
+	manageNodeRoute = ROUTES.MANAGE_NODE.ROOT;
 
 	/* Computed
 	============================================*/

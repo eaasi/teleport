@@ -5,7 +5,7 @@ import { EmulatorNamedIndexes, IEnvironment, IEnvironmentListItem } from '@/type
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
-import { archiveTypes } from '@/utils/constants';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ComponentService from './ComponentService';
@@ -23,30 +23,41 @@ export default class EnvironmentService extends BaseService {
 		this._environmentRepoService = environmentRepository;
 		this._componentService = componentService;
 	}
-	
+
 	async getAll(): Promise<IEnvironment[]> {
-		let res = await this._environmentRepoService.get('environments');
-		const environments = await res.json() as IEnvironmentListItem[];
-		return this.getEnvironmentsMetadata(environments);
+		let res = await this._environmentRepoService.get('environments?detailed=true');
+		let environments = await res.json() as IEnvironment[];
+		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		return environments;
 	}
 
 	async getAllEmilModels(): Promise<IEnvironmentListItem[]> {
 		let res = await this._environmentRepoService.get('environments');
-		return await res.json() as IEnvironmentListItem[];
+		let environments = await res.json() as IEnvironmentListItem[];
+		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
+		return environments;
 	}
 
+	/**
+	 * Gets environment data for an array of environment list items
+	 * @param {IEnvironmentListItem[]} envs A list of EnvironmentListItems
+	 */
 	async getEnvironmentsMetadata(envs: IEnvironmentListItem[]): Promise<IEnvironment[]> {
-		let environments = [];
-		for(let i = 0; i < envs.length; i++) {
-			if (!envs[i] || !envs[i].envId) continue;
-			let envMetadata = await this.getEnvironment(envs[i].envId);
-			if (envMetadata.hasOwnProperty('error')) {
-				environments.push({...envs[i], error: envMetadata['error'] });
-				continue;
-			}
-			environments.push(envMetadata);
-		}
+		let environments = await Promise.all(envs.map(env => {
+			return this.getEnvironmentMetadata(env);
+		}));
+		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
 		return environments;
+	}
+
+	/**
+	 * Gets the respective environment object for a given environment list item
+	 * @param {IEnvironmentListItem} env The environment list item
+	 */
+	async getEnvironmentMetadata(env: IEnvironmentListItem): Promise<IEnvironment> {
+		let envMetadata = await this.getEnvironment(env.envId);
+		if(envMetadata.hasOwnProperty('error') === false) return envMetadata;
+		return {...env, error: envMetadata['error']} as unknown as IEnvironment;
 	}
 
 	/**
@@ -55,7 +66,9 @@ export default class EnvironmentService extends BaseService {
 	 */
 	async getEnvironment(id: string): Promise<IEnvironment> {
 		let res = await this._environmentRepoService.get(`environments/${id}`);
-		return await res.json() as IEnvironment;
+		let environment = await res.json() as IEnvironment;
+		environment.resourceType = resourceTypes.ENVIRONMENT;
+		return environment;
 	}
 
 	/**
@@ -81,7 +94,7 @@ export default class EnvironmentService extends BaseService {
 			'deleteImage': true,
 			'force': true
 		};
-		
+
 		let res = await this._environmentRepoService.delete(`environments/${id}`, environmentToDelete);
 		return await res.json();
 	}
@@ -185,7 +198,7 @@ export default class EnvironmentService extends BaseService {
 			type: 'saveImport',
 			userId: null
 		};
-		
+
 		return await this._componentService.saveSnapshot(snapshotRequest.componentId, snapshot)
 	}
 
@@ -235,5 +248,5 @@ export default class EnvironmentService extends BaseService {
 		let res = await this._environmentRepoService.get('image-name-index');
 		return res.json();
 	}
-	
+
 }

@@ -88,7 +88,7 @@ const actions = {
 	async import({ state, dispatch }: Store<ImportState>) {
 		const importType = state.importType;
 		if (importType === importTypes.IMAGE) {
-			return await dispatch('importImage') as EaasiTask;
+			return await dispatch('importImage') as EaasiTask; // used to be import environment
 		} else if (importType === importTypes.SOFTWARE) {
 			return await dispatch('importSoftwareFromFile') as EaasiTask;
 		} else if (importType === importTypes.CONTENT) {

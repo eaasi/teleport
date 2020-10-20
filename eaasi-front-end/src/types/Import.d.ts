@@ -149,4 +149,27 @@ export interface IUIOptions {
 export interface IUIOption {
 	pointer_lock: boolean;
 	crt: string;
+	html5: IHTML5UIOption;
+	input?: IInputUIOption;
+}
+
+export interface IHTML5UIOption {
+	pointer_lock: boolean;
+	crt: string;
+}
+
+export interface IInputUIOption {
+	clientKbdLayout: string;
+	required: boolean;
+}
+
+export interface IOSMetadataResponse {
+	operatingSystemInformations: IOSMetadata[];
+}
+
+export interface IOSMetadata {
+	id: string;
+	label: string;
+	puids: string[];
+	extensions: string[];
 }

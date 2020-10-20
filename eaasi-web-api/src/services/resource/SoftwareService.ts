@@ -1,4 +1,5 @@
-import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
+import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftwarePackage, ISoftwarePackageList } from '@/types/emil/EmilSoftwareData';
+import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 
@@ -13,25 +14,11 @@ export default class SoftwareService extends BaseService {
 		super();
 		this._softwareRepoService = softwareRepoService;
 	}
-	
+
 	async getAll(): Promise<ISoftwarePackage[]> {
-		const result = await this.getSoftwareDescriptionList();
-		return this.getSoftwarePackages(result.descriptions);
-	}
-
-	async getSoftwarePackages(descriptions: ISoftwareDescription[]): Promise<ISoftwarePackage[]> {
-		let packages: ISoftwarePackage[] = [];
-		for(let i = 0; i < descriptions.length; i++) {
-			if (!descriptions[i] || !descriptions[i].id) continue;
-			let softwarePackage: ISoftwarePackage = await this.getSoftwarePackage(descriptions[i].id);
-			packages.push({...descriptions[i], ...softwarePackage});
-		}
-		return packages;
-	}
-
-	async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
-		let res = await this._softwareRepoService.get('descriptions');
-		return await res.json() as ISoftwareDescriptionList;
+		const descriptionList = await this.getSoftwareDescriptionList();
+		const packageList = await this.getSoftwarePackageList();
+		return this._mergeDescriptionsWithPackages(descriptionList, packageList);
 	}
 
 	/**
@@ -40,7 +27,9 @@ export default class SoftwareService extends BaseService {
 	 */
 	async getSoftwarePackage(id: string): Promise<ISoftwarePackage> {
 		let res = await this._softwareRepoService.get(`packages/${id}`);
-		return await res.json() as ISoftwarePackage;
+		let software = await res.json() as ISoftwarePackage;
+		software.resourceType = resourceTypes.SOFTWARE;
+		return software;
 	}
 
 	/**
@@ -49,7 +38,30 @@ export default class SoftwareService extends BaseService {
 	 */
 	async getSoftwareDescription(id: string): Promise<ISoftwareDescription> {
 		let res = await this._softwareRepoService.get(`descriptions/${id}`);
-		return await res.json();
+		let software = await res.json();
+		software.resourceType = resourceTypes.SOFTWARE;
+		return software;
+	}
+
+	private _mergeDescriptionsWithPackages(descriptionList: ISoftwareDescriptionList, packageList: ISoftwarePackageList): ISoftwarePackage[] {
+		return descriptionList.descriptions.map(description => {
+			let descriptionPackage = packageList.packages.find(p => description.id === p.id);
+			return {...description, ...descriptionPackage, resourceType: resourceTypes.SOFTWARE};
+		})
+	}
+
+	private async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
+		let res = await this._softwareRepoService.get('descriptions');
+		return await res.json() as ISoftwareDescriptionList;
+	}
+
+	private async getSoftwarePackageList(): Promise<ISoftwarePackageList> {
+		let res = await this._softwareRepoService.get('packages');
+		return await res.json() as ISoftwarePackageList;
+	}
+
+	getSoftwareObjects(ids: string[]) {
+		throw new Error('Method not implemented.');
 	}
 
 	/**
@@ -60,5 +72,5 @@ export default class SoftwareService extends BaseService {
 		let res = await this._softwareRepoService.post('packages', softwareObject);
 		return await res.json();
 	}
-	
+
 }

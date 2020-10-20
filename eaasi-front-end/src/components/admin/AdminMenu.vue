@@ -48,26 +48,26 @@ export default class AdminMenu extends Vue {
 		{
 			icon: 'server',
 			label: 'Emulators',
-			route: ROUTES.MANAGE_NODE_EMULATORS
+			route: ROUTES.MANAGE_NODE.EMULATORS
 		},
 		{
 			icon: 'sync-alt',
 			label: 'Endpoints / Metadata Sync',
-			route: ROUTES.MANAGE_NODE_METADATA_SYNC
+			route: ROUTES.MANAGE_NODE.METADATA_SYNC
 		},
 		{
 			icon: 'tasks',
 			label: 'Running Tasks',
-			route: ROUTES.MANAGE_NODE_RUNNING_TASKS
+			route: ROUTES.MANAGE_NODE.RUNNING_TASKS
 		},
 		{
 			label: 'Node Preferences',
-			route: ROUTES.MANAGE_NODE_NODE_PREFERENCES,
+			route: ROUTES.MANAGE_NODE.NODE_PREFERENCES,
 			icon: 'edit'
 		},
 		{
 			label: 'Install & Updates',
-			route: ROUTES.MANAGE_NODE_INSTALL_AND_UPDATES,
+			route: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
 			icon: 'arrows'
 		}
 	];
@@ -82,7 +82,7 @@ export default class AdminMenu extends Vue {
 		{
 			icon: 'users',
 			label: 'Manage Users',
-			route: ROUTES.MANAGE_NODE_USERS
+			route: ROUTES.MANAGE_NODE.USERS
 		},
 	];
 
@@ -96,7 +96,7 @@ export default class AdminMenu extends Vue {
 	============================================*/
 
 	addUser() {
-		this.$router.push(ROUTES.MANAGE_NODE_USERS);
+		this.$router.push(ROUTES.MANAGE_NODE.USERS);
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
 	}
 }

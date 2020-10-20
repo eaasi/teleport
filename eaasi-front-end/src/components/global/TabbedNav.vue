@@ -1,5 +1,5 @@
 <template>
-	<div class="eaasi-tabs">
+	<div :class="`eaasi-tabs ${colorPreset}`">
 		<ul class="flex justify-stretch">
 			<li
 				v-for="(t, i) in tabs"
@@ -38,6 +38,9 @@ export default class TabbedNav extends Vue {
 	@Prop({type: String, required: true})
 	readonly value: string;
 
+	@Prop({ type: String, default: 'default' })
+	readonly colorPreset: string;
+
 	/* Methods
 	============================================*/
 
@@ -55,6 +58,39 @@ export default class TabbedNav extends Vue {
 	// border-bottom: solid 4px lighten($dark-neutral, 70%);
 	border-top: solid 4px lighten($light-neutral, 10%);
 	padding-bottom: 6px;
+
+	&.clear-white {
+		border-bottom: solid 2px lighten($light-neutral, 10%);
+		border-top: none;
+		padding-bottom: 3px;
+
+		ul {
+			padding: 0 2rem;
+		}
+
+		li {
+			max-width: 16rem;
+			padding: 0;
+
+			span {
+				background-color: #ffffff;
+				padding: 1rem;
+			}
+
+			&::before {
+				bottom: -4px;
+				top: unset;
+			}
+
+			&.active {
+
+				span {
+					background-color: #ffffff;
+					color: #000000;
+				}
+			}
+		}
+	}
 
 	ul {
 		margin: 0;
@@ -85,12 +121,13 @@ export default class TabbedNav extends Vue {
 
 		&::before {
 			background-color: $dark-blue;
+			// top: -4px;
+			bottom: -4px;
 			content: '';
 			display: block;
 			height: 4px;
 			left: 0;
 			position: absolute;
-			top: -4px;
 			transition: width $animation-time;
 			width: 0;
 		}

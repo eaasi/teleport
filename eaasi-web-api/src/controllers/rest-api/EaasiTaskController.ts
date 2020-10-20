@@ -6,7 +6,7 @@ import EmilTaskService from '@/services/task/EmilTaskService';
 import { TaskState } from '@/types/emil/Emil';
 import { IEaasiTask } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/utils/HttpResponseCode';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import { Request, Response } from 'express';
 import BaseController from '../base/BaseController';
 
@@ -55,15 +55,15 @@ export default class EaasiTaskController extends BaseController {
 	 */
 	async getState(req: Request, res: Response) {
 		try {
-			let { taskId } = req.params;
+			let taskId = req.params['taskId'];
 			let emilTask: TaskState = await this.emilTaskService.getTaskState(taskId);
 			const serviceResult = await this.taskService.getByTaskId(taskId);
 			const eaasiTask: IEaasiTask = serviceResult && serviceResult.result ? serviceResult.result.dataValues : null;
-			
+
 			if (!emilTask) return this.sendError(new Error('Task not found'), res);
 
 			let taskToSave = {
-				...emilTask, 
+				...emilTask,
 				taskId,
 				userData: emilTask.userData ? JSON.stringify(emilTask.userData) : null,
 			};
@@ -72,7 +72,7 @@ export default class EaasiTaskController extends BaseController {
 				const response = await this.taskService.create(taskToSave);
 				return res.send(response.result);
 			}
-			
+
 			const response = await this.taskService.update(eaasiTask.id, taskToSave);
 			return res.send(response.result);
 		} catch(e) {
@@ -87,7 +87,7 @@ export default class EaasiTaskController extends BaseController {
 	 */
 	async deleteTask(req: Request, res: Response) {
 		try {
-			let { id } = req.params;
+			let id = req.params['id'];
 			const crudResult: ICrudServiceResult<EaasiTask> = await this.taskService.getByPk(id);
 			const taskId = crudResult.result.getDataValue('taskId');
 			let deleteApiResponse = await this.taskService.destroy(id);

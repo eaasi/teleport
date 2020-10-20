@@ -1,13 +1,15 @@
+import { Bookmark, UserImportedContent } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
-import { IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
-import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
+import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
@@ -23,15 +25,13 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _bookmarkService: EaasiBookmarkService;
 	private readonly _resourceImportService: ResourceImportService;
 
-
 	constructor(
 		environmentService: EnvironmentService = new EnvironmentService(),
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		resourceImportService: ResourceImportService = new ResourceImportService(),		
-
+		resourceImportService: ResourceImportService = new ResourceImportService()
 	) {
 		super();
 		this._emilClassificationService = emilClassificationService;
@@ -40,101 +40,75 @@ export default class ResourceAdminService extends BaseService {
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
-
 	}
 
 	/**
 	 * Searches Environment, Software, and Content Resources using the  provided IResourceSearchQuery
 	 * @param query
 	 */
-	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
-		// TODO: Refactor
+	async searchResources(query: IResourceSearchQuery, userId: number): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
+		let bookmarksResponse: ICrudServiceResult<Bookmark[]>;
+		let userImportedResources: IResourceImportResult;
 
-		const allEnvironments = await this._environmentService.getAllEmilModels();
-		const softwareDescriptionResponse = await this._softwareService.getSoftwareDescriptionList();
-		const allSoftware = softwareDescriptionResponse.descriptions;
-		const allContent = await this._contentService.getAll('zero conf');
+		[bookmarksResponse, userImportedResources] = await Promise.all([
+			this._bookmarkService.getByUserID(userId),
+			this._resourceImportService.getByUserID(userId)
+		])
 
-		let environmentResult = {
-			result: allEnvironments,
-			totalResults: allEnvironments.length
-		};
-		let softwareResult = {
-			result: allSoftware,
-			totalResults: allSoftware.length
-		};
-		let contentResult = {
-			result: allContent,
-			totalResults: allContent.length
-		};
+		const bookmarks = bookmarksResponse ? bookmarksResponse.result : null;
 
-		if (query.archives && query.archives.length > 0) {
-			environmentResult.result = allEnvironments.filter(env => query.archives.includes(env.archive));
-			environmentResult.totalResults = environmentResult.result.length;
+		[result.environments, result.software, result.content] = await Promise.all([
+			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result),
+			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result),
+			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result)
+		])
 
-			softwareResult.result = allSoftware.filter(sw => query.archives.includes(sw.archiveId));
-			softwareResult.totalResults = softwareResult.result.length;
-
-			// Note: This double check because in the case of Content Archive, it appears to be referenced as archiveId
-			contentResult.result = allContent.filter(content => query.archives.includes(content.archive || content.archiveId));
-			contentResult.totalResults = contentResult.result.length;
-		}
-
-		const bookmarkResponse = await this._bookmarkService.getByUserID(query.userId);
-		if (bookmarkResponse.result) result.bookmarks = bookmarkResponse.result.map(b => b.toJSON()) as IBookmark[];
-
-		if (query.userId) {
-			// only include images for "My Resources" page
-			const allImages = await this._environmentService.getImages();
-			
-			if (query.onlyBookmarks) {
-				contentResult.result = allContent.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
-				softwareResult.result = allSoftware.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
-				environmentResult.result = allEnvironments.filter(r => result.bookmarks.some(b => b.resourceID === r.envId));
-
-				const imageResult = allImages.filter(r => result.bookmarks.some(b => b.resourceID === r.id));
-				contentResult.totalResults += imageResult.length;
-				//@ts-ignore
-				contentResult.result = [...contentResult.result, ...imageResult];
-			} else if(query.onlyImportedResources) {
-				const userImportedResources: IResourceImportResult = await this._resourceImportService.getByUserID(query.userId);
-
-				contentResult.result = allContent.filter(r => userImportedResources.userImportedContent.result.some(ir => ir.eaasiID === r.id));
-				contentResult.totalResults = contentResult.result.length;
-
-				const imageResult = allImages.filter(r => userImportedResources.userImportedImage.result.some(ir => ir.eaasiID === r.id));
-				contentResult.totalResults += imageResult.length;
-				//@ts-ignore
-				contentResult.result = [...contentResult.result, ...imageResult];
-
-				softwareResult.result = allSoftware.filter(r => userImportedResources.userImportedSoftware.result.some(ir => ir.eaasiID === r.id));
-				softwareResult.totalResults = softwareResult.result.length;
-
-				environmentResult.result = allEnvironments.filter(r => userImportedResources.userImportedEnvironments.result.some(ir => ir.eaasiID === r.envId));
-				environmentResult.totalResults = environmentResult.result.length;
-			}
-		}
-
-		result.facets = this.populateFacets(environmentResult, softwareResult, contentResult);
-
-		const filteredContentResult = this._filterResults<IContentItem>(query, contentResult.result);
-		const filteredSoftwareResult = this._filterResults<ISoftwareDescription>(query, softwareResult.result);
-		const filteredEnvironmentResult = this._filterResults<IEnvironmentListItem>(query, environmentResult.result);
-		const paginatedEnvironmentResult = this.paginate<IEnvironmentListItem>(query, filteredEnvironmentResult);
-		const paginatedSoftwareResult = this.paginate<ISoftwareDescription>(query, filteredSoftwareResult);
-		const paginatedContentResult = this.paginate<IContentItem>(query, filteredContentResult);
-
-		const softwareMetadata = await this._softwareService.getSoftwarePackages(paginatedSoftwareResult);
-		const envMetadata = await this._environmentService.getEnvironmentsMetadata(paginatedEnvironmentResult);
-		
-		result.content = {...contentResult, result: paginatedContentResult };
-		result.software = {...softwareResult, result: softwareMetadata};
-		result.environments = {...environmentResult, result: envMetadata};
+		result.facets = this.populateFacets([
+			...result.environments.result,
+			...result.software.result,
+			...result.content.result
+		]);
 
 		this.preselectResultFacets(result, query);
+		
+		result.environments.result = this.paginate(query, result.environments.result);
+		result.software.result = this.paginate(query, result.software.result);
+		result.content.result = this.paginate(query, result.content.result);
 
 		return result;
+	}
+
+	private async _searchEnvironments (
+		query: IResourceSearchQuery,
+		bookmarks: Bookmark[],
+		userResources: UserImportedContent[]
+	): Promise<IEaasiSearchResponse<IEnvironment>> {
+		let allEnvironments = await this._environmentService.getAll();
+		let filtered = this._filterResults(allEnvironments, query, bookmarks, userResources);
+		return {
+			result: filtered.result,
+			totalResults: filtered.totalResults
+		};
+	}
+
+	private async _searchSoftware (
+		query: IResourceSearchQuery,
+		bookmarks: Bookmark[],
+		userResources: UserImportedContent[]
+	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
+		let softwareRes = await this._softwareService.getAll();
+		let result = this._filterResults(softwareRes, query, bookmarks, userResources);
+		return result;
+	}
+
+	private async _searchContent (
+		query: IResourceSearchQuery,
+		bookmarks: Bookmark[],
+		userResources: UserImportedContent[]
+	): Promise<IEaasiSearchResponse<IContentItem>> {
+		let content = await this._contentService.getAll('zero conf');
+		return this._filterResults(content, query, bookmarks, userResources);
 	}
 
 	/*============================================================
@@ -174,13 +148,29 @@ export default class ResourceAdminService extends BaseService {
 	 == Helpers
 	/============================================================*/
 
-	/**
-	 * Filters EaasiResource result using the provided case-insensitive query keyword
-	 * @param query: IEaasiSearchQuery
-	 * @param results: filtered IEaasiResource[]
-	 * @private
-	 */
-	private _filterResults<T extends IEaasiResource>(query: IEaasiSearchQuery, results: T[]): T[] {
+	private _filterResults<T extends IEaasiResource>(
+		results: T[],
+		query: IResourceSearchQuery,
+		bookmarks: Bookmark[],
+		userResources: UserImportedContent[]
+	): IEaasiSearchResponse<T> {
+
+		if(!results || !results.length) {
+			return { result: [], totalResults: 0 };
+		}
+
+		if (query.archives && query.archives.length > 0) {
+			results = results.filter(sw => query.archives.includes(sw.archiveId));
+		}
+
+		if (bookmarks && query.onlyBookmarks) {
+			results = results.filter(r => bookmarks.some(b => b.resourceID === r.id));
+		}
+		
+		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
+			results = results.filter(r => userResources.some(ir => ir.eaasiID === r.id));
+		}
+
 		if (query.keyword) {
 			let q = query.keyword.toLowerCase();
 			results = results.filter(r => r.title && r.title.toLowerCase().indexOf(q) > -1);
@@ -201,7 +191,10 @@ export default class ResourceAdminService extends BaseService {
 			});
 		}
 
-		return results;
+		return {
+			result: results,
+			totalResults: results.length
+		}
 	}
 
 	/**
@@ -214,14 +207,8 @@ export default class ResourceAdminService extends BaseService {
 		return results.slice((query.page - 1) * query.limit, query.page * query.limit) as T[];
 	}
 
-	private _filterByArchive(resources: any[], archive: string) {
-		return resources.filter(r => r.archive === archive);
-	}
-
 	private populateFacets (
-		environments: IEaasiSearchResponse<IEnvironmentListItem>,
-		software: IEaasiSearchResponse<ISoftwareDescription>,
-		content: IEaasiSearchResponse<IContentItem>
+		resources: IEaasiResource[],
 	): IResourceSearchFacet[] {
 		const facets: IResourceSearchFacet[] = [
 			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
@@ -230,20 +217,23 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
 			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
 		];
-		facets.forEach(facet => {
-			if (environments.result.length > 0) facet = this.getFacet(environments, facet);
-			if (software.result.length > 0) facet = this.getFacet(software, facet);
-			if (content.result.length > 0) this.getFacet(content, facet);
-		});
-		return facets;
+		return facets.map(facet => this.populateFacetValues(resources, facet));
 	};
 
-	private getFacet(resource: IEaasiSearchResponse<IEaasiResource>, facet: IResourceSearchFacet) {
-		resource.result.forEach(result => {
-			if (result[facet.name] == null) return facet;
-			const value = facet.values.find(v => v.label === result[facet.name]);
-			value ? facet.values.forEach(v => v.label === value.label && v.total++)
-				: facet.values.push({ label: result[facet.name], total: 1, isSelected: false, resourceType: result.resourceType });
+	private populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet) {
+		resources.forEach(resource => {
+			if (!resource[facet.name]) return;
+			let value = facet.values.find(x => x.label === resource[facet.name]);
+			if(!value) {
+				facet.values.push({
+					label: resource[facet.name],
+					total: 1,
+					isSelected: false,
+					resourceType: resource.resourceType
+				});
+			} else {
+				value.total++;
+			}
 		});
 		return facet;
 	}

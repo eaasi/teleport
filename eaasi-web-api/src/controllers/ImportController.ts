@@ -26,6 +26,10 @@ export default class ImportController extends BaseController {
 
 			// Invoke emil endpoint for importing a resource from URL
 			let emilResult = await this._emilImportService.importImage(req.body);
+
+			// Invoke internal endpoint for associating a user with an import
+			// let userImportResult =  await this._userImportService.getByUserID(userId);
+			
 			res.send(emilResult);
 		} catch(e) {
 			this.sendError(e, res);

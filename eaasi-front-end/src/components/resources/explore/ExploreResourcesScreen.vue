@@ -202,7 +202,7 @@ export default class ExploreResourcesScreen extends Vue {
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			await this.$store.dispatch('resource/searchResources');
-			if (this.bentoResult.bookmarks) {
+			if (this.bentoResult?.bookmarks) {
 				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 			}
 		});

@@ -2,7 +2,7 @@ import { IImportObjectRequest } from '@/types/emil/Emil';
 import { IContentItem, IObjectArchiveResonse } from '@/types/emil/EmilContentData';
 import { ArchiveType, IContentRequest } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
-import { objectArchiveTypes } from '@/utils/constants';
+import { objectArchiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 
@@ -16,10 +16,12 @@ export default class ContentService extends BaseService {
 		super();
 		this._contentRepoService = contentRepository;
 	}
-	
+
 	async getAll(archiveId: ArchiveType): Promise<IContentItem[]> {
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`);
-		return await res.json() as IContentItem[];
+		let content = await res.json() as IContentItem[];
+		content.forEach(x => x.resourceType = resourceTypes.CONTENT);
+		return content;
 	}
 
 	private mapContentItems(items: IContentItem[]): Promise<IContentItem[]> {
@@ -30,11 +32,13 @@ export default class ContentService extends BaseService {
 			});
 		}))
 	}
-	
+
 
 	async getObjectMetadata(contentRequest: IContentRequest): Promise<IContentItem> {
 		let res = await this._contentRepoService.get(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
-		return await res.json() as IContentItem;
+		let content = await res.json() as IContentItem;
+		content.resourceType = resourceTypes.CONTENT;
+		return content;
 	}
 
 	async getObjectArchives(): Promise<IObjectArchiveResonse> {
@@ -52,7 +56,7 @@ export default class ContentService extends BaseService {
 	async deleteContent(contentRequest: IContentRequest) {
 		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
 		if (!res) return null;
-		return await res.json() as IContentItem;
+		return await res.json();
 	}
 
 	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL): Promise<IEmilTask> {
@@ -60,5 +64,5 @@ export default class ContentService extends BaseService {
 		return await res.json() as IEmilTask;
 	}
 
-	
+
 }

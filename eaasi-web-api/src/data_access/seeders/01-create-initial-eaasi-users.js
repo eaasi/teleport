@@ -1,8 +1,25 @@
-const data = require('../data/eaasiUsers');
-
 module.exports = {
 	up: (queryInterface) => {
-		return queryInterface.bulkInsert('eaasi_user', data);
+		return queryInterface.bulkInsert('eaasi_user', [
+			{
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				username: 'andrii',
+				firstName: 'Andrii',
+				lastName: 'Kost',
+				email: 'andrii@portalmedia.com',
+				roleId: 1
+			},
+			{
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				username: 'brandon',
+				firstName: 'Brandon',
+				lastName: 'Wiemann',
+				email: 'brandon@portalmedia.com',
+				roleId: 1
+			}
+		])
 	},
 
 	down: (queryInterface) => {

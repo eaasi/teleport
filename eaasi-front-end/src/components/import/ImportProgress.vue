@@ -180,7 +180,7 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		async onImportImage(imageId: string) {
 			await this.createUserImportRelation(resourceTypes.IMAGE, imageId);
 			
-			this.$router.push(ROUTES.RESOURCES_MY_RESOURCES);
+			this.$router.push(ROUTES.RESOURCES.MY_RESOURCES);
 		}
 
 		async onImportContentTask(objectId: string) {
