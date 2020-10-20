@@ -34,16 +34,24 @@
 			<div class="resource-bento width-md">
 				<div class="bento-row">
 					<div
-						v-if="bentoResult.environments.result.length"
+						v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
 						class="bento-col"
 					>
 						<resource-list
+							v-if="bentoResult.environments.result.length"
 							:hide-header="facetsOfSingleTypeSelected"
 							:query="query"
 							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
-							@bookmarked="search"
+						/>
+						<resource-list
+							v-if="bentoResult.images.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
+							:query="query"
+							:result="bentoResult.images"
+							type="Image"
+							@click:all="getAll(['Images'])"
 						/>
 					</div>
 					<div
