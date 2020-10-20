@@ -173,7 +173,7 @@ export default class ResourceAdminService extends BaseService {
 			return { result: [], totalResults: 0 };
 		}
 
-		if (query.archives && query.archives.length > 0) {
+		if (query.archives && query.archives.length > 0 && results[0].resourceType !== 'Image') {
 			results = results.filter(sw => query.archives.includes(sw.archiveId));
 		}
 
