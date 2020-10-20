@@ -1,5 +1,5 @@
 import { IBookmark } from './Bookmark';
-import { IEaasiResource, IEnvironment, ResourceType } from './Resource';
+import { IEaasiResource, IEnvironment, IImageListItem, ResourceType } from './Resource';
 
 export type ResourceArchive = 'remote' | 'public' | 'default' | 'zero conf' | 'Remote Objects';
 
@@ -34,6 +34,7 @@ export interface IResourceSearchResponse {
 	environments: IEaasiSearchResponse<IEnvironment>;
 	software: IEaasiSearchResponse<IEaasiResource>;
 	content: IEaasiSearchResponse<IEaasiResource>;
+	images: IEaasiSearchResponse<IImageListItem>;
 	facets: IResourceSearchFacet[];
 	bookmarks?: IBookmark[];
 }

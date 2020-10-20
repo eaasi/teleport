@@ -67,7 +67,7 @@ const actions = {
     	const resourceIds = bookmarksRequest.resourceIds;
     	resourceIds.forEach(id => {
     		if (!state.bookmarks.find(bm => bm.resourceId === id)) {
-                const payload: BookmarkRequest = { userId: userId, resourceId: id };
+                const payload: BookmarkRequest = { userId, resourceId: id };
     			dispatch('createBookmark', payload);
 			}
 		});

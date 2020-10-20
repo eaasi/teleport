@@ -1,5 +1,5 @@
 import { IContentItem } from '../emil/EmilContentData';
-import { IEnvironment } from '../emil/EmilEnvironmentData';
+import { IEnvironment, IImageListItem } from '../emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '../emil/EmilSoftwareData';
 import { IBookmark } from './Bookmark';
 
@@ -127,6 +127,7 @@ export interface IResourceSearchResponse {
 	environments: IEaasiSearchResponse<IEnvironment>;
 	software: IEaasiSearchResponse<ISoftwareDescription>;
 	content: IEaasiSearchResponse<IContentItem>;
+	images: IEaasiSearchResponse<IImageListItem>;
 	facets: IResourceSearchFacet[];
 	bookmarks: IBookmark[];
 }

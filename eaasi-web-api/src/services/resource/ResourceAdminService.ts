@@ -1,8 +1,8 @@
-import { Bookmark, UserImportedContent } from '@/data_access/models/app';
+import { Bookmark, UserImportedContent, UserImportedImage } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
-import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironment, IImageListItem } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
@@ -59,16 +59,18 @@ export default class ResourceAdminService extends BaseService {
 
 		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
-		[result.environments, result.software, result.content] = await Promise.all([
+		[result.environments, result.software, result.content, result.images] = await Promise.all([
 			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result),
 			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result),
-			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result)
+			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result),
+			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result)
 		])
 
 		result.facets = this.populateFacets([
 			...result.environments.result,
 			...result.software.result,
-			...result.content.result
+			...result.content.result,
+			...result.images.result
 		]);
 
 		this.preselectResultFacets(result, query);
@@ -76,6 +78,7 @@ export default class ResourceAdminService extends BaseService {
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
 		result.content.result = this.paginate(query, result.content.result);
+		result.images.result = this.paginate(query, result.images.result);
 		result.bookmarks = bookmarks;
 
 		return result;
@@ -111,6 +114,15 @@ export default class ResourceAdminService extends BaseService {
 	): Promise<IEaasiSearchResponse<IContentItem>> {
 		let content = await this._contentService.getAll('zero conf');
 		return this._filterResults(content, query, bookmarks, userResources);
+	}
+
+	private async _searchImages (
+		query: IResourceSearchQuery,
+		bookmarks: IBookmark[],
+		userResources: UserImportedImage[]
+	): Promise<IEaasiSearchResponse<IImageListItem>> {
+		let images = await this._environmentService.getImages();
+		return this._filterResults(images, query, bookmarks, userResources);
 	}
 
 	/*============================================================

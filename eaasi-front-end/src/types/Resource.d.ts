@@ -17,6 +17,15 @@ export interface IEaasiResource {
 	isPublic: boolean;
 }
 
+export interface IImageListItem extends IEaasiResource {
+	id: string;
+	title: string;
+	resourceType: ResourceType;
+	archive?: string;
+	archiveId?: string;
+	isPublic: boolean;
+}
+
 export interface IEaasiResourceSummary extends IEaasiResource {
 	id: number | string
 	title: string
