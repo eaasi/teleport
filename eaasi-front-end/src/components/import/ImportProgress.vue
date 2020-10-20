@@ -159,7 +159,8 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		}
 
 		async onTaskComplete(taskResult: ITaskState) {
-			const { imageId, objectId } = taskResult.userData;
+			const responseData = this.parseUserData(taskResult.userData);
+			const { imageId, objectId } = responseData;
 			if (!imageId && !objectId) {
 				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
 			}
@@ -175,6 +176,11 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 					await this.onImportSoftwareTask(objectId);
 					break;
 			}
+		}
+
+		private parseUserData(userData: string | object) {
+			if (!userData) return {};
+			return typeof userData  === 'string' ? JSON.parse(userData) : userData;
 		}
 
 		async onImportImage(imageId: string) {

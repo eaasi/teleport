@@ -16,11 +16,11 @@ export default class ImportedImageService extends CrudService<UserImportedImage>
 	 * Gets all Imported Image for a User
 	 * @param userID: number PK for the User
 	 */
-	async getByUserID(userID: number): Promise<ICrudServiceResult<UserImportedImage[]>> {
+	async getByUserID(userId: number): Promise<ICrudServiceResult<UserImportedImage[]>> {
 		return await this.model
     		.findAll({
 				where: {
-					userID: userID
+					userId: userId
 				},
 				raw: true
 			})

@@ -13,13 +13,13 @@ export default class ImportedSoftwareService extends CrudService<UserImportedSof
 
 	/**
 	 * Gets all Imported Software for a User
-	 * @param userID: number PK for the User
+	 * @param userId: number PK for the User
 	 */
-	async getByUserID(userID: number): Promise<ICrudServiceResult<UserImportedSoftware[]>> {
+	async getByUserID(userId: number): Promise<ICrudServiceResult<UserImportedSoftware[]>> {
 		return await this.model
     		.findAll({
 				where: {
-					userID: userID
+					userId: userId
 				},
 				raw: true
 			})

@@ -45,6 +45,7 @@ import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceC
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import { resourceTypes } from '../../utils/constants';
 import { jsonEquals } from '@/utils/functions';
+import { BookmarkRequest } from '@/types/Bookmark';
 
 @Component({
 	name: 'ResourceList',
@@ -104,8 +105,9 @@ export default class ResourceList extends Vue {
 		await this.$store.dispatch('resource/clearSearch');
 	}
 
-	async handleBookmark(resourceID: number, isActive: boolean) {
-		const bookmarkRequest = { userID: this.user.id, resourceID };
+	async handleBookmark(resourceId: number, isActive: boolean) {
+		const resourceIdString = `${resourceId}`;
+		const bookmarkRequest: BookmarkRequest = { userId: this.user.id, resourceId: resourceIdString };
 		isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);

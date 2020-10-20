@@ -1,6 +1,6 @@
-import BaseHttpService from './BaseHttpService';
-import { BookmarkRequest, IBookmark } from '@/types/Bookmark';
 import config from '@/config';
+import { BookmarkRequest, IBookmark } from '@/types/Bookmark';
+import BaseHttpService from './BaseHttpService';
 
 class BookmarkService extends BaseHttpService {
 
@@ -16,14 +16,14 @@ class BookmarkService extends BaseHttpService {
         return res.result;
     }
 
-    async getBookmarks(userID: number): Promise<IBookmark> {
-        const res = await this.get<IBookmark>(`${config.REST_API_URL}/bookmark?userID=${userID}`);
+    async getBookmarks(userId: number): Promise<IBookmark> {
+        const res = await this.get<IBookmark>(`${config.REST_API_URL}/bookmark?userId=${userId}`);
         if (!res.ok) return null;
         return res.result;
     }
 
-    async clearBookmarks(userID: number) {
-        const res = await this.delete<IBookmark>(`${config.REST_API_URL}/bookmark/all?userID=${userID}`);
+    async clearBookmarks(userId: number) {
+        const res = await this.delete<IBookmark>(`${config.REST_API_URL}/bookmark/all?userId=${userId}`);
         if (!res.ok) return null;
         return res.result;
     }

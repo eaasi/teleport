@@ -13,7 +13,7 @@ module.exports = {
 				allowNull: false,
 				autoIncrement: true
 			},
-			eaasiID: {
+			eaasiId: {
 				type: Sq.STRING(64),
 				allowNull: false
 			},

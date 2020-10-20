@@ -1,5 +1,5 @@
 export interface IImportedEnvironmentResource {
-	eaasiID: string;
+	eaasiId: string;
 	environmentTemplateId: string;
 	isUrlSource: boolean;
 	urlSource?: string;

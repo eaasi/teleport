@@ -102,7 +102,7 @@ export default class EnvironmentResourceCard extends Vue {
 	};
 
 	get isBookmarkSelected(): Boolean {
-		return this.bookmarks?.some(b => b.resourceID === this.environment.envId);
+		return this.bookmarks?.some(b => b.resourceId === this.environment.envId);
 	}
 
 	get isSaving(): Boolean {

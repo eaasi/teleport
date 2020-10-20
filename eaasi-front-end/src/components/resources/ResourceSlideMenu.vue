@@ -411,8 +411,8 @@ export default class ResourceSlideMenu extends Vue {
 				);
 
 				let bookmarksRequest: MultiBookmarkRequest = {
-					userID: this.user.id,
-					resourceIDs: resourceIds as string[]
+					userId: this.user.id,
+					resourceIds: resourceIds as string[]
 				};
 
 				this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {

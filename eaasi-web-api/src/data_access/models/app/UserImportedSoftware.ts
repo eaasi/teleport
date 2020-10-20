@@ -25,11 +25,11 @@ export class UserImportedSoftware extends Model<UserImportedSoftware> {
     	type: DataTypes.INTEGER,
     	allowNull: false,
     })
-    userID: number;
+    userId: number;
 
     @Column({
     	type: DataTypes.STRING(64),
-    	allowNull: true,
+    	allowNull: false,
     })
-    eaasiID: string;
+    eaasiId: string;
 }

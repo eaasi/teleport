@@ -15,11 +15,11 @@ export default class ImportedContentService extends CrudService<UserImportedCont
 	 * Gets all Imported Content for a User
 	 * @param userID: number PK for the User
 	 */
-	async getByUserID(userID: number): Promise<ICrudServiceResult<UserImportedContent[]>> {
+	async getByUserID(userId: number): Promise<ICrudServiceResult<UserImportedContent[]>> {
 		return await this.model
     		.findAll({
 				where: {
-					userID: userID
+					userId: userId
 				},
 				raw: true
 			})

@@ -4,6 +4,7 @@ import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
+import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
@@ -56,7 +57,7 @@ export default class ResourceAdminService extends BaseService {
 			this._resourceImportService.getByUserID(userId)
 		])
 
-		const bookmarks = bookmarksResponse ? bookmarksResponse.result : null;
+		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
 		[result.environments, result.software, result.content] = await Promise.all([
 			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result),
@@ -75,13 +76,14 @@ export default class ResourceAdminService extends BaseService {
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
 		result.content.result = this.paginate(query, result.content.result);
+		result.bookmarks = bookmarks;
 
 		return result;
 	}
 
 	private async _searchEnvironments (
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
 		let allEnvironments = await this._environmentService.getAll();
@@ -94,7 +96,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchSoftware (
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
 		let softwareRes = await this._softwareService.getAll();
@@ -104,7 +106,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchContent (
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): Promise<IEaasiSearchResponse<IContentItem>> {
 		let content = await this._contentService.getAll('zero conf');
@@ -151,7 +153,7 @@ export default class ResourceAdminService extends BaseService {
 	private _filterResults<T extends IEaasiResource>(
 		results: T[],
 		query: IResourceSearchQuery,
-		bookmarks: Bookmark[],
+		bookmarks: IBookmark[],
 		userResources: UserImportedContent[]
 	): IEaasiSearchResponse<T> {
 
@@ -164,11 +166,11 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		if (bookmarks && query.onlyBookmarks) {
-			results = results.filter(r => bookmarks.some(b => b.resourceID === r.id));
+			results = results.filter(r => bookmarks.some(b => b.resourceId === r.id));
 		}
 		
 		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
-			results = results.filter(r => userResources.some(ir => ir.eaasiID === r.id));
+			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
 		}
 
 		if (query.keyword) {

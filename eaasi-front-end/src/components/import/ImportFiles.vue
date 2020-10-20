@@ -190,6 +190,7 @@
 
 		selectedOs: string = null;
 		readonly operatingSystems = operatingSystems;
+		fileLimit: number = 500000000;
 
 		/* Methods
 		============================================*/

@@ -15,11 +15,11 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 	 * Gets all Bookmarks for a User
 	 * @param userID: number PK for the User
 	 */
-	async getByUserID(userID: number): Promise<ICrudServiceResult<Bookmark[]>> {
+	async getByUserID(userId: number): Promise<ICrudServiceResult<Bookmark[]>> {
 		return await this.model
     		.findAll({
 				where: {
-					userID: userID
+					userId: userId
 				}
 			})
 			.then((result: object) => {
@@ -35,11 +35,11 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 	 * Removes all Bookmarks for a User
 	 * @param userID: number PK for the User
 	 */
-	async destroyAll(userID: number) {
+	async destroyAll(userId: number) {
 		return await this.model
 			.destroy({
 				where: {
-					userID: userID
+					userId: userId
 				}
 			})
 			.then((result: object) => {
@@ -59,7 +59,7 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 		return await this.model
 			.destroy({
 				where: {
-					resourceID: resourceIds
+					resourceId: resourceIds
 				}
 			})
 			.then((result: object) => {
@@ -75,11 +75,11 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 	 * Removes all Bookmarks for all resources passed
 	 * @param resourceIds: string[]
 	 */
-	async destroyAllByResource(resourceID: string) {
+	async destroyAllByResource(resourceId: string) {
 		return await this.model
 			.destroy({
 				where: {
-					resourceID
+					resourceId
 				}
 			})
 			.then((result: object) => {

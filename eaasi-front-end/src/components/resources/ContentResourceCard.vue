@@ -89,7 +89,7 @@ export default class ContentResourceCard extends Vue {
 	}
 
 	get isBookmarkSelected(): Boolean {
-		return this.bookmarks?.some(b => b.resourceID === this.content.id);
+		return this.bookmarks?.some(b => b.resourceId === this.content.id);
 	}
 
 	get isSelected(): Boolean {

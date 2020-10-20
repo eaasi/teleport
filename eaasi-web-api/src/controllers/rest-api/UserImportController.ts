@@ -1,3 +1,4 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import ImportedContentService from '@/services/rest-api/ImportedContentService';
 import ImportedEnvironmentService from '@/services/rest-api/ImportedEnvironmentService';
 import ImportedImageService from '@/services/rest-api/ImportedImageService';
@@ -6,7 +7,6 @@ import { IUserImportedResource, IUserImportRelationRequest } from '@/services/re
 import { IUserImportResponse } from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import { Request, Response } from 'express-serve-static-core';
 import BaseController from '../base/BaseController';
 
@@ -38,18 +38,18 @@ export default class UserImportController extends BaseController {
 	 */
 	async getByUserID(req: Request, res: Response) {
 
-		const userID = req.query.userID;
+		const userId = req.query.userId;
 
-		if (userID == null) {
+		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.query));
 		}
 
-		let importedContent = await this.importedContentService.getByUserID(userID);
-		let importedSoftware = await this.importedSoftwareService.getByUserID(userID);
-		let importedEnvironments = await this.importedEnvironmentService.getByUserID(userID);
-		let importedImages = await this.importedImageService.getByUserID(userID);
+		let importedContent = await this.importedContentService.getByUserID(userId);
+		let importedSoftware = await this.importedSoftwareService.getByUserID(userId);
+		let importedEnvironments = await this.importedEnvironmentService.getByUserID(userId);
+		let importedImages = await this.importedImageService.getByUserID(userId);
 
 		let response = {
 			importedContent: importedContent.result,
@@ -212,8 +212,8 @@ export default class UserImportController extends BaseController {
 			const userImportRelation = req.body as IUserImportRelationRequest;
 			if (!req.body) this.sendClientError(new Error('Request to create user reference requires request body'), res);
 			const userImportResource: IUserImportedResource = {
-				userID: userImportRelation.userId,
-				eaasiID: userImportRelation.resourceId
+				userId: userImportRelation.userId,
+				eaasiId: userImportRelation.resourceId
 			}
 			let result: IUserImportedResource;
 			switch(userImportRelation.resourceType) {

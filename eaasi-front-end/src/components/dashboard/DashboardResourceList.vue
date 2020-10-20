@@ -36,6 +36,8 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResource } from '@/types/Resource';
 import { IEaasiSearchResponse } from '@/types/Search';
 import { Get, Sync } from 'vuex-pathify';
+import Bookmark from '../global/SelectableCard/Bookmark.vue';
+import { BookmarkRequest } from '@/types/Bookmark';
 
 @Component({
 	name: 'DashboardResourceList',
@@ -95,8 +97,9 @@ export default class DashboardResourceList extends Vue {
 		await this.$store.dispatch('resource/clearSearch');
 	}
 
-	async handleBookmark(resourceID: number, isActive: boolean) {
-		const bookmarkRequest = { userID: this.user.id, resourceID };
+	async handleBookmark(resourceId: number, isActive: boolean) {
+		const resourceIdString = `${resourceId}`;
+		const bookmarkRequest: BookmarkRequest = { userId: this.user.id, resourceId: resourceIdString };
 		return isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);
