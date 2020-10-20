@@ -66,7 +66,7 @@ import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
 import {IHardwareTemplate} from '@/types/HardwareTemplate';
-import OsPicker, { IOsItem } from '../shared/OsPicker.vue';
+import OsPicker from '../shared/OsPicker.vue';
 import { ISoftwareObject, IDrive, IUIOsItem } from '@/types/Resource';
 import { Sync } from 'vuex-pathify';
 import { operatingSystems, ITemplateParams, IOsListItem } from '@/models/admin/OperatingSystems';
@@ -131,7 +131,7 @@ export default class CreateBaseEnvModal extends Vue {
 		this.environmentTitle = currentEnvTitle;
 	}
 
-	selectOs(os: IOsItem) {
+	selectOs(os: IUIOsItem) {
 		this.selectedOs = os;
 	}
 
