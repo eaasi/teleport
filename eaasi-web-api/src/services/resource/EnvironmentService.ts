@@ -23,8 +23,8 @@ export default class EnvironmentService extends BaseService {
 		this._componentService = componentService;
 	}
 
-	async getAll(): Promise<IEnvironment[]> {
-		let res = await this._environmentRepoService.get('environments?detailed=true');
+	async getAll(detailed: boolean = true, localOnly: boolean = false): Promise<IEnvironment[]> {
+		let res = await this._environmentRepoService.get(`environments?detailed=${detailed}&localOnly=${localOnly}`);
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
 		return environments;
