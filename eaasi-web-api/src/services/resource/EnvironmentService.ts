@@ -208,7 +208,8 @@ export default class EnvironmentService extends BaseService {
 	async getImages(): Promise<ImageListItem[]> {
 		let res = await this._environmentRepoService.get('images-index');
 		const nameIndexes = await res.json() as EmulatorNamedIndexes;
-		return nameIndexes.entries.entry.map(entry => new ImageListItem(entry.value));
+		return nameIndexes && nameIndexes.entries && nameIndexes.entries.entry && nameIndexes.entries.entry.length
+			? nameIndexes.entries.entry.map(entry => new ImageListItem(entry.value)) : [];
 	}
 
 	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {

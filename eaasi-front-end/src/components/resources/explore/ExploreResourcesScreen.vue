@@ -152,10 +152,11 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	get noResult() {
-		const { content, software, environments } = this.bentoResult;
+		const { content, software, environments, images } = this.bentoResult;
 		return content.result.length === 0
 			&& software.result.length === 0
-			&& environments.result.length === 0;
+			&& environments.result.length === 0
+			&& images.result.length === 0;
 	}
 
 	get hasActiveResources() {
