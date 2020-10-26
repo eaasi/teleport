@@ -1,9 +1,9 @@
 import { LOGS_ROOT_PATH } from '@/config/app-config';
+import { IAppLogger } from '@/types/general/log';
 import fs from 'fs';
 import moment from 'moment';
 import winston from 'winston';
 import OrmTransport from './ormTransport';
-import { IAppLogger } from '@/types/general/log';
 
 const options = {
 	file: {
