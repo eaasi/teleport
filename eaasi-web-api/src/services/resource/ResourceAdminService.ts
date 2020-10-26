@@ -178,7 +178,12 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		if (bookmarks && query.onlyBookmarks) {
-			results = results.filter(r => bookmarks.some(b => b.resourceId === r.id));
+			if (results[0].resourceType === 'Environment') {
+				// @ts-ignore
+				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.envId));
+			} else {
+				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.id));
+			}
 		}
 		
 		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
