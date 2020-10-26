@@ -181,6 +181,7 @@ export default class MyBookmarksSection extends Vue {
 		if (!this.bentoResult) return false;
 		return this.bentoResult.software.result.length > 0
 			|| this.bentoResult.content.result.length > 0
+			|| this.bentoResult.images.result.length > 0
 			|| this.bentoResult.environments.result.length > 0;
 	}
 
