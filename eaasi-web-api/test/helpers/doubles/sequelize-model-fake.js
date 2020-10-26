@@ -83,6 +83,7 @@ export default class SequelizeModelFake {
 	async create(fakeData) {
 		this.create_callCount += 1;
 		this.create_calledWith = fakeData;
+		return fakeData;
 	}
 
 	/**
