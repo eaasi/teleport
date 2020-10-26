@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, Table, UpdatedAt } from 'sequelize-typescript';
+import { Column, CreatedAt, ForeignKey, Table, UpdatedAt } from 'sequelize-typescript';
+import { EaasiUser } from '.';
 import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
@@ -20,9 +21,16 @@ export class Bookmark extends EaasiUserOwnedModel {
 	})
 	id: number;
 
+	@ForeignKey(() => EaasiUser)
+	@Column({
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	})
+	userId: number;
+
 	@Column({
 		type: DataTypes.STRING(128),
 		allowNull: false,
 	})
-	resourceID: string;
+	resourceId: string;
 }

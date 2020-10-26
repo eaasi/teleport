@@ -66,6 +66,16 @@ router.post('/save-software-object', (req, res) => controller.saveSoftwareObject
 router.post('/replicate-environment', (req, res) => controller.replicateEnvironment(req, res));
 
 /**
+ * @api {post} deletes an image
+ * @apiVersion 1.0.0
+ * @apiName Image Delete
+ * @apiGroup Resources
+ * @apiPermission System Administrator only
+ * @apiDescription Deletes an image
+ */
+router.post('/delete-image', (req, res) => controller.deleteImage(req, res));
+
+/**
  * @api {post} resource/software-object Saves Software Objects
  * @apiVersion 1.0.0
  * @apiName Save Software Resource Object

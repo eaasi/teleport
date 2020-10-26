@@ -16,15 +16,24 @@
 					<resource-sort-section v-if="facetsOfSingleTypeSelected" />
 					<div class="bento-row">
 						<div
-							v-if="bentoResult.environments.result.length"
+							v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
 							class="bento-col"
 						>
 							<resource-list
+								v-if="bentoResult.environments.result.length"
 								:hide-header="facetsOfSingleTypeSelected"
 								:query="query"
 								:result="bentoResult.environments"
 								type="Environment"
 								@click:all="getAll(['Environment'])"
+							/>
+							<resource-list
+								v-if="bentoResult.images.result.length"
+								:hide-header="facetsOfSingleTypeSelected"
+								:query="query"
+								:result="bentoResult.images"
+								type="Image"
+								@click:all="getAll(['Images'])"
 							/>
 						</div>
 						<div
@@ -143,10 +152,11 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	get noResult() {
-		const { content, software, environments } = this.bentoResult;
+		const { content, software, environments, images } = this.bentoResult;
 		return content.result.length === 0
 			&& software.result.length === 0
-			&& environments.result.length === 0;
+			&& environments.result.length === 0
+			&& images.result.length === 0;
 	}
 
 	get hasActiveResources() {

@@ -1,7 +1,8 @@
 import { TempEnvironment } from '@/data_access/models/app/TempEnvironment';
+import ImageListItem from '@/models/resource/ImageListItem';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
-import { ICreateEnvironmentPayload, IImageImportPayload } from '@/types/emil/Emil';
-import { IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { ICreateEnvironmentPayload, IImageDeletePayload, IImageImportPayload } from '@/types/emil/Emil';
+import { EmulatorNamedIndexes, IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
 import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IEmulatorComponentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
@@ -33,10 +34,10 @@ export default class EnvironmentService extends BaseService {
 		this._tempEnvironmentService = tempEnvService;
 	}
 
-	async getAll(): Promise<IEnvironment[]> {
+	async getAll(detailed: boolean = true, localOnly: boolean = false): Promise<IEnvironment[]> {
 		let results = this._cache.get<IEnvironment[]>(this.CACHE_KEYS.ALL_ENVIRONMENTS);
 		if(results) return results;
-		let res = await this._environmentRepoService.get('environments?detailed=true');
+		let res = await this._environmentRepoService.get(`environments?detailed=${detailed}&localOnly=${localOnly}`);
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
 
@@ -273,11 +274,27 @@ export default class EnvironmentService extends BaseService {
 	}
 
 	/*============================================================
+	 == Images
+	/============================================================*/	
+	async getImages(): Promise<ImageListItem[]> {
+		let res = await this._environmentRepoService.get('images-index');
+		const nameIndexes = await res.json() as EmulatorNamedIndexes;
+		return nameIndexes && nameIndexes.entries && nameIndexes.entries.entry && nameIndexes.entries.entry.length
+			? nameIndexes.entries.entry.map(entry => new ImageListItem(entry.value)) : [];
+	}
+
+	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
+		let res = await this._environmentRepoService.post('actions/import-image', payload);
+		return await res.json() as IEmilTask;
+	}
+
+	async deleteImage(payload: IImageDeletePayload) {
+		await this._environmentRepoService.post('actions/delete-image', payload);
+	}
+
+	/*============================================================
 	 == Templates and Patches
 	/============================================================*/
-
-	// TODO: Add return interfaces to the methods above
-
 	/**
 	 * Gets a list of all available environment templates
 	 */

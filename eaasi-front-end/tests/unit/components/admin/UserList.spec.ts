@@ -1,13 +1,11 @@
-import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
-import PermissionResolver from '@/services/Permissions/PermissionResolver';
-import {userRoles} from '@/utils/constants';
-import {createLocalVue, shallowMount} from '@vue/test-utils';
 import UserList from '@/components/admin/users/UserList.vue';
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
+import adminStore from '@/store/admin-store';
+import { userRoles } from '@/utils/constants';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import globalStore from '@/store/global-store';
-import adminStore from '@/store/admin-store';
-import {generateFakeUsers} from '../../generators';
+import { generateFakeUsers } from '../../generators';
 
 
 const localVue = createLocalVue();

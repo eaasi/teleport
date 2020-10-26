@@ -1,17 +1,17 @@
 export interface IBookmark {
     id: number;
-    resourceID: string;
+    resourceId: string;
     userId: number;
     createdAt: Date;
     updatedAt: Date;
 }
 
 export interface BookmarkRequest {
-    resourceID: string;
+    resourceId: string;
     userId: number;
 }
 
 export interface MultiBookmarkRequest {
-	resourceIDs: string[];
+	resourceIds: string[];
 	userId: number;
 }

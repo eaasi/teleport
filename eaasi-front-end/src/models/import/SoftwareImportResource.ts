@@ -9,7 +9,7 @@ export default class SoftwareImportResource {
 	resourceType: any = null;
 	nativeConfig: string = '';
 	urlSource: string = '';
-	eaasiID: string = '';
+	eaasiId: string = '';
 	chosenTemplateId: string = '';
 	isImport: boolean = false;
 	isKvmEnabled: boolean = false;

@@ -3,7 +3,7 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
 import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
-import { IPatch, ITemplate } from '@/types/Import';
+import { IImageDeletePayload, IPatch, ITemplate } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
@@ -111,6 +111,16 @@ const actions = {
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
 		const newSavingEnvs = state.savingEnvironments.filter(saveState => saveState.envId != environmentId);
 		commit('SET_SAVING_ENVIRONMENTS', newSavingEnvs);
+	},
+
+	async deleteImages(_, payloads: IImageDeletePayload[]) {
+		return await Promise.all(payloads.map(payload => {
+			return _svc.deleteImage(payload);
+		}));
+	},
+
+	async deleteImage(_, payload: IImageDeletePayload) {
+		return await _svc.deleteImage(payload);
 	},
 
 	async clearSearch({ commit, dispatch }) {
@@ -241,7 +251,7 @@ const actions = {
 /============================================================*/
 
 const getters = {
-	isSingleResult(state) {
+	isSingleResult(state: ResourceState) {
 		if (!state.result) return false;
 		const { environments, software, content } = state.result;
 		const lengthArr: number[] = [];
@@ -251,21 +261,27 @@ const getters = {
 		return lengthArr.filter(length => length > 0).length === 1;
 	},
 
-	bookmarks(state): IBookmark[] {
+	bookmarks(state: ResourceState): IBookmark[] {
 		return state.result && state.result.bookmarks ? state.result.bookmarks : [];
 	},
 
-	environmentIsSelected(state): boolean {
-		return state.selectedResources
-				.filter(res => res.resourceType === resourceTypes.ENVIRONMENT).length;
+	environmentIsSelected(state: ResourceState): boolean {
+		return state.selectedResources.some(res => res.resourceType === resourceTypes.ENVIRONMENT);
 	},
 
-	softwareIsSelected(state): boolean {
-		return state.selectedResources
-				.filter(res => res.resourceType === resourceTypes.SOFTWARE).length;
+	imageIsSelected(state: ResourceState): boolean {
+		return state.selectedResources.some(res => res.resourceType === resourceTypes.IMAGE);
 	},
 
-	onlySelectedResource(state) : IEaasiResource {
+	softwareIsSelected(state: ResourceState): boolean {
+		return state.selectedResources.some(res => res.resourceType === resourceTypes.SOFTWARE);
+	},
+
+	scontentIsSelected(state: ResourceState): boolean {
+		return state.selectedResources.some(res => res.resourceType === resourceTypes.CONTENT);
+	},
+
+	onlySelectedResource(state: ResourceState) : IEaasiResource {
 		if(state.selectedResources.length !== 1) return null;
 		return state.selectedResources[0];
 	},
@@ -281,7 +297,7 @@ const getters = {
 		return getters.facetsOfResourceTypesSelected.length === 1;
 	},
 
-	onlySelectedFacets(state): IResourceSearchFacet[] {
+	onlySelectedFacets(state: ResourceState): IResourceSearchFacet[] {
 		const selectedFacets = state.query.selectedFacets
 			.flatMap(f => {
 				if(f.values.some(v => v.isSelected)) {

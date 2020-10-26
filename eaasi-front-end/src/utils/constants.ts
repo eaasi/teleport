@@ -9,19 +9,22 @@ const windowsMachineIcon = require('../../assets/img/windows.png');
 export const resourceTypes: IResourceTypes = {
 	ENVIRONMENT: 'Environment',
 	SOFTWARE: 'Software',
-	CONTENT: 'Content'
+	CONTENT: 'Content',
+	IMAGE: 'Image'
 };
 
 export interface IResourceTypes {
 	ENVIRONMENT: ResourceType;
 	SOFTWARE: ResourceType;
 	CONTENT: ResourceType;
+	IMAGE: ResourceType;
 }
 
 export const importTypes: IImportTypes = {
 	ENVIRONMENT: 'environment',
 	SOFTWARE: 'software',
 	CONTENT: 'content',
+	IMAGE: 'image',
 	BULK: 'bulk'
 };
 
@@ -35,6 +38,7 @@ interface IImportTypes {
 	SOFTWARE: ImportType
 	CONTENT: ImportType
 	BULK: ImportType
+	IMAGE: ImportType;
 }
 
 export const archiveTypes: any = {

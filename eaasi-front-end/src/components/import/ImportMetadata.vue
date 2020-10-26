@@ -1,10 +1,9 @@
 <template>
 	<div class="import-metadata padded">
-		<content-import-metadata v-if="type === 'content'" />
-		<!-- <import-path-select v-model="path" v-if="type !== 'content'" class="mb-lg" /> -->
+		<content-import-metadata v-if="isContentImport" />
 		<div v-if="path !== 'Unselected'">
-			<software-metadata v-if="type === 'software'" />
-			<environment-import-metadata v-if="type === 'environment'" />
+			<software-metadata v-if="isSoftwareImport" />
+			<environment-import-metadata v-if="isImageImport" />
 		</div>
 	</div>
 </template>
@@ -32,9 +31,14 @@ export default class ImportMetadata extends Vue {
 
 	/* Computed
 	============================================*/
+	@Get('import/isImageImport')
+	isImageImport: boolean;
 
-	@Get('import/importType')
-	readonly type: ImportType;
+	@Get('import/isContentImport')
+	isContentImport: boolean;
+
+	@Get('import/isSoftwareImport')
+	isSoftwareImport: boolean;
 
 	@Sync('import/importPath')
 	readonly path: ResourceImportPath;

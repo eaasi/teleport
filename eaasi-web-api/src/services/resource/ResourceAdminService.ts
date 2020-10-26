@@ -1,8 +1,8 @@
-import { UserImportedContent } from '@/data_access/models/app';
+import { UserImportedContent, UserImportedImage } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
-import { IEnvironment } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironment, IImageListItem } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
@@ -83,18 +83,20 @@ export default class ResourceAdminService extends BaseService {
 			this._resourceImportService.getByUserID(userId)
 		])
 
-		const bookmarks = bookmarksResponse ? bookmarksResponse.result : null;
+		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
-		[result.environments, result.software, result.content] = await Promise.all([
+		[result.environments, result.software, result.content, result.images] = await Promise.all([
 			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result),
 			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result),
-			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result)
+			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result),
+			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result)
 		])
 
 		result.facets = this.populateFacets([
 			...result.environments.result,
 			...result.software.result,
-			...result.content.result
+			...result.content.result,
+			...result.images.result
 		]);
 
 		this.preselectResultFacets(result, query);
@@ -102,6 +104,7 @@ export default class ResourceAdminService extends BaseService {
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
 		result.content.result = this.paginate(query, result.content.result);
+		result.images.result = this.paginate(query, result.images.result);
 		result.bookmarks = bookmarks;
 
 		return result;
@@ -137,6 +140,15 @@ export default class ResourceAdminService extends BaseService {
 	): Promise<IEaasiSearchResponse<IContentItem>> {
 		let content = await this._contentService.getAll('zero conf');
 		return this._filterResults(content, query, bookmarks, userResources);
+	}
+
+	private async _searchImages (
+		query: IResourceSearchQuery,
+		bookmarks: IBookmark[],
+		userResources: UserImportedImage[]
+	): Promise<IEaasiSearchResponse<IImageListItem>> {
+		let images = await this._environmentService.getImages();
+		return this._filterResults(images, query, bookmarks, userResources);
 	}
 
 	/*============================================================
@@ -180,22 +192,27 @@ export default class ResourceAdminService extends BaseService {
 		results: T[],
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[]
+		userResources: UserImportedContent[] | UserImportedImage[]
 	): IEaasiSearchResponse<T> {
 
 		if(!results || !results.length) {
 			return { result: [], totalResults: 0 };
 		}
 
-		if (query.archives && query.archives.length > 0) {
+		if (query.archives && query.archives.length > 0 && results[0].resourceType !== 'Image') {
 			results = results.filter(sw => query.archives.includes(sw.archiveId));
 		}
 
-		if (results.length && bookmarks && query.onlyBookmarks) {
-			results = results.filter(r => bookmarks.some(b => b.resourceID === r.id));
+		if (bookmarks && query.onlyBookmarks) {
+			if (results[0].resourceType === 'Environment') {
+				// @ts-ignore
+				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.envId));
+			} else {
+				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.id));
+			}
 		}
-
-		if(results.length && userResources && (query.onlyImportedResources || results[0].resourceType === resourceTypes.CONTENT)) {
+		
+		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
 			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
 		}
 

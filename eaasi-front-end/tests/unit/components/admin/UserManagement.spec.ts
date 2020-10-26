@@ -1,13 +1,13 @@
+import UserList from '@/components/admin/users/UserList.vue';
+import UserManagement from '@/components/admin/users/UserManagement.vue';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
-import {userRoles} from '@/utils/constants';
-import {createLocalVue, mount, shallowMount} from '@vue/test-utils';
+import globalStore from '@/store/global-store';
+import { userRoles } from '@/utils/constants';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
-import adminStore from '@/store/admin-store';
-import globalStore from '@/store/global-store';
-import UserManagement from '@/components/admin/users/UserManagement.vue';
-import UserList from '@/components/admin/users/UserList.vue';
 import { makeAdminStoreState } from '../../store-helpers';
+import fakeAdminStore from '../../store/fake-admin-store';
 
 const localVue = createLocalVue();
 
@@ -25,7 +25,7 @@ describe('UserManagement.vue', () => {
 		// Note: this is testing as if a user is admin (role 1)
 		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
 
-		let localAdminStore = adminStore;
+		let localAdminStore = fakeAdminStore;
 
 		getters = {
 			permissions: () => permissionResolver,

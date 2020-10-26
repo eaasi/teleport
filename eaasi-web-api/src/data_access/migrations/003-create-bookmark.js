@@ -18,7 +18,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			resourceID: {
+			resourceId: {
 				type: Sq.STRING(128),
 				allowNull: false
 			},

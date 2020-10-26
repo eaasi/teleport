@@ -52,13 +52,6 @@ export interface ICreateEnvironmentPayload {
 	templateId: string;
 }
 
-export interface IImageImportPayload {
-	nativeConfig: string;
-	patchId: any;
-	templateId: string;
-	urlString: string;
-}
-
 export interface ICreateEnvironmentResponse {
 	status: string;
 	id: string;

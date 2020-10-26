@@ -27,17 +27,18 @@ const actions = {
 
     async createBookmark({ state, commit }: Store<BookmarkStore>, bookmarkRequest: BookmarkRequest) {
         const result = await _svc.createBookmark(bookmarkRequest);
+        const bookmarks = state.bookmarks ?? [];
         if (!result) return;
-        const updatedBookmarks = [...state.bookmarks, result];
+        const updatedBookmarks = [...bookmarks, result];
         commit('SET_BOOKMARKS', updatedBookmarks);
     },
 
     async removeBookmark({ state, commit }: Store<BookmarkStore>, bookmarkRequest: BookmarkRequest) {
-        const { id } = state.bookmarks.find(b => b.resourceID === bookmarkRequest.resourceID);
+        const { id } = state.bookmarks.find(b => b.resourceId === bookmarkRequest.resourceId);
         if (!id) return;
         await _svc.removeBookmark(id);
         const updatedBookmarks = state.bookmarks.filter(
-            b => b.resourceID !== bookmarkRequest.resourceID
+            b => b.resourceId !== bookmarkRequest.resourceId
         );
         commit('SET_BOOKMARKS', updatedBookmarks);
     },
@@ -63,10 +64,11 @@ const actions = {
 	 */
 	async bookmarkMany({ state, dispatch }: Store<BookmarkStore>, bookmarksRequest: MultiBookmarkRequest) {
     	const userId = bookmarksRequest.userId;
-    	const resourceIds = bookmarksRequest.resourceIDs;
+    	const resourceIds = bookmarksRequest.resourceIds;
     	resourceIds.forEach(id => {
-    		if (!state.bookmarks.find(bm => bm.resourceID === id)) {
-    			dispatch('createBookmark', { userId: userId, resourceID: id});
+    		if (!state.bookmarks.find(bm => bm.resourceId === id)) {
+                const payload: BookmarkRequest = { userId, resourceId: id };
+    			dispatch('createBookmark', payload);
 			}
 		});
 	}

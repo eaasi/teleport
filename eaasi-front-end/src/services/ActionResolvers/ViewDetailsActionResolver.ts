@@ -20,7 +20,7 @@ export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
 			label: 'View Details',
 			description: 'Review full resource details',
 			icon: 'file-alt',
-			isEnabled: super.isSingleSelected() && !super.isResourceDetailPage()
+			isEnabled: super.isSingleSelected() && !super.isResourceDetailPage() && super.hasDetailsPage()
 		};
 	}
 }

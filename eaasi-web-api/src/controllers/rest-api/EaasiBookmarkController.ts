@@ -1,8 +1,8 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import BaseCrudController from '@/controllers/base/BaseCrudController';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
+import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express-serve-static-core';
-import HttpResponseCode from '@/classes/HttpResponseCode';
-import { build_400_response, build_500_response, build_404_response } from '@/utils/error-helpers';
 import BaseController from '../base/BaseController';
 
 export default class EaasiBookmarkController extends BaseController {
@@ -20,14 +20,14 @@ export default class EaasiBookmarkController extends BaseController {
 	 * @param res response
 	 */
 	async getByUserID(req: Request, res: Response) {
-		const userID = req.query.userID;
-		if (userID == null) {
+		const userId = req.query.userId;
+		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.query));
 		}
 
-		let response = await this.bookmarkService.getByUserID(userID);
+		let response = await this.bookmarkService.getByUserID(userId);
 
 		if (response.hasError) {
 			return res
@@ -86,14 +86,14 @@ export default class EaasiBookmarkController extends BaseController {
 	}
 
 	async deleteAll(req: Request, res: Response) {
-		const userID = req.query.userID;
-		if (userID == null) {
+		const userId = req.query.userId;
+		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)
 				.send(build_400_response(req.query));
 		}
 
-		let deleteResponse = await this.bookmarkService.destroyAll(userID);
+		let deleteResponse = await this.bookmarkService.destroyAll(userId);
 
 		if (deleteResponse.hasError) {
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);

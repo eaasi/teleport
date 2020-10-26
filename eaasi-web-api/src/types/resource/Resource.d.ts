@@ -1,10 +1,10 @@
 import { IContentItem } from '../emil/EmilContentData';
-import { IEnvironment } from '../emil/EmilEnvironmentData';
+import { IEnvironment, IImageListItem } from '../emil/EmilEnvironmentData';
 import { ISoftwareDescription } from '../emil/EmilSoftwareData';
 import { IBookmark } from './Bookmark';
 
 export type PhysicalFormat = 'Q493576' | 'Q495265' | 'disk' | 'Q82753';
-export type ResourceType = 'Environment' | 'Software' | 'Content';
+export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
 export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | 'zero conf';
 
 export interface IEaasiResource {
@@ -147,6 +147,7 @@ export interface IResourceSearchResponse {
 	environments: IEaasiSearchResponse<IEnvironment>;
 	software: IEaasiSearchResponse<ISoftwareDescription>;
 	content: IEaasiSearchResponse<IContentItem>;
+	images: IEaasiSearchResponse<IImageListItem>;
 	facets: IResourceSearchFacet[];
 	bookmarks: IBookmark[];
 }

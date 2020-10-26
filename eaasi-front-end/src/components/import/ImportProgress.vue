@@ -137,13 +137,10 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		 *  Starts the import process for Environment, Software, or Content resource(s)
 		 **/
 		async doImport() {
-			if (this.importType === importTypes.ENVIRONMENT) {
-				this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
-			}
 			let task = await this.$store.dispatch('import/import');
 			if (!task) return;
 			let resourceName = '';
-			if (this.importType === importTypes.ENVIRONMENT) {
+			if (this.importType === importTypes.IMAGE) {
 				resourceName = this.environment.title;
 			} else if (this.importType === importTypes.SOFTWARE) {
 				resourceName = this.software.title;
@@ -159,13 +156,14 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 		}
 
 		async onTaskComplete(taskResult: ITaskState) {
-			const { environmentId, objectId } = taskResult.userData;
-			if (objectId) {
+			const responseData = this.parseUserData(taskResult.userData);
+			const { imageId, objectId } = responseData;
+			if (!imageId && !objectId) {
 				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
 			}
 			switch(this.importType) {
-				case importTypes.ENVIRONMENT:
-					await this.onImportEnvironment(environmentId);
+				case importTypes.IMAGE:
+					await this.onImportImage(imageId);
 					break;
 				case importTypes.CONTENT:
 					await this.onImportContentTask(objectId);
@@ -177,9 +175,15 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 			}
 		}
 
-		async onImportEnvironment(environmentId: string) {
-			await this.createUserImportRelation(resourceTypes.ENVIRONMENT, environmentId);
-			this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${this.environmentEaasiID}`);
+		private parseUserData(userData: string | object) {
+			if (!userData) return {};
+			return typeof userData  === 'string' ? JSON.parse(userData) : userData;
+		}
+
+		async onImportImage(imageId: string) {
+			await this.createUserImportRelation(resourceTypes.IMAGE, imageId);
+			
+			this.$router.push(ROUTES.RESOURCES.MY_RESOURCES);
 		}
 
 		async onImportContentTask(objectId: string) {

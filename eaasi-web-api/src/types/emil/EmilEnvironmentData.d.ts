@@ -1,5 +1,5 @@
 import { AnyObject } from '../general/generic';
-import { ArchiveType, IEaasiResource } from '../resource/Resource';
+import { ArchiveType, IEaasiResource, ResourceType } from '../resource/Resource';
 import { KeyValuePair } from './Emil';
 
 /*============================================================
@@ -25,6 +25,7 @@ export interface EmulatorEntry {
 	image: EmulatorImage;
 	provenance: EmulatorProvenance;
 	digest: string;
+	label?: string;
 }
 
 export interface EmulatorEntries {
@@ -44,6 +45,10 @@ export interface Aliases {
 export interface EmulatorNamedIndexes {
 	entries: EmulatorEntries;
 	aliases: Aliases;
+}
+
+export interface IEaasiEmulatorEntry extends EmulatorEntry {
+	resourceType: ResourceType;
 }
 
 /*============================================================
@@ -116,4 +121,13 @@ export interface IEnvironmentListItem extends IEaasiResource {
 	description: string;
 	isLinuxRuntime: boolean;
 	networkEnabled: boolean;
+}
+
+export interface IImageListItem extends IEaasiResource {
+	id: string;
+	title: string;
+	resourceType: ResourceType;
+	archive?: ArchiveType;
+	archiveId?: ArchiveType;
+	isPublic: boolean;
 }

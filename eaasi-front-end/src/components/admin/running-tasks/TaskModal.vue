@@ -62,7 +62,7 @@
 
 		/* Watcher
         ============================================*/
-		@Watch('taskQueue')
+		@Watch('taskQueue', { immediate: true })
 		onTaskQue(currentTaskQueue: EaasiTask[]) {
 			const currentTask = currentTaskQueue.find(task => task.taskId === this.task.taskId);
 			if (currentTask) {

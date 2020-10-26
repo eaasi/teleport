@@ -1,12 +1,11 @@
 import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, Table, UpdatedAt } from 'sequelize-typescript';
-import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
+import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
-	tableName: 'user_imported_environment'
+	tableName: 'user_imported_image'
 })
-export class UserImportedEnvironment extends EaasiUserOwnedModel {
+export class UserImportedImage extends Model<UserImportedImage> {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -1,12 +1,12 @@
-import PermissionResolver from '@/services/Permissions/PermissionResolver';
-import {userRoles} from '@/utils/constants';
-import Vuex from 'vuex';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import AdminMenuItem from '@/components/admin/AdminMenuItem.vue';
-import pathify from 'vuex-pathify';
-import globalStore from '@/store/global-store';
+import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import localAdminStore from '@/store/admin-store';
+import globalStore from '@/store/global-store';
+import { userRoles } from '@/utils/constants';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
+import Vuex from 'vuex';
+import pathify from 'vuex-pathify';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);

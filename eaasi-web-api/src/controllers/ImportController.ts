@@ -1,5 +1,4 @@
 import ImportService from '@/services/import/importService';
-import ResourceImportService from '@/services/rest-api/ResourceImportService';
 import { ICreateEnvironmentPayload, IImageImportPayload, IUploadRequest } from '@/types/emil/Emil';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
@@ -10,7 +9,6 @@ import BaseController from './base/BaseController';
 export default class ImportController extends BaseController {
 
 	private readonly _emilImportService: ImportService;
-	private readonly _userImportService: ResourceImportService;
 
 	constructor(importService: ImportService= new ImportService()) {
 		super();
@@ -27,7 +25,7 @@ export default class ImportController extends BaseController {
 			// if (!userId) this.sendClientError('Import requires a userId on request body', res);
 
 			// Invoke emil endpoint for importing a resource from URL
-			let emilResult = await this._emilImportService.importResourceFromUrl(req.body);
+			let emilResult = await this._emilImportService.importImage(req.body);
 
 			// Invoke internal endpoint for associating a user with an import
 			// let userImportResult =  await this._userImportService.getByUserID(userId);
@@ -113,7 +111,7 @@ export default class ImportController extends BaseController {
 	async importImage(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import image from url requires request body'), res);
-			let result = await this._emilImportService.importResourceFromUrl(req.body as IImageImportPayload);
+			let result = await this._emilImportService.importImage(req.body as IImageImportPayload);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);

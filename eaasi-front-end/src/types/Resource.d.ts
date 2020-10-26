@@ -4,7 +4,7 @@
 import { ResourceArchive } from './Search';
 import { ITag } from './Tag';
 
-export type ResourceType = 'Environment' | 'Software' | 'Content';
+export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
 
 export interface IEaasiResource {
 	id?: string
@@ -14,6 +14,15 @@ export interface IEaasiResource {
 	envId?: string;
 	archiveId?: string;
 	archive?: string;
+	isPublic: boolean;
+}
+
+export interface IImageListItem extends IEaasiResource {
+	id: string;
+	title: string;
+	resourceType: ResourceType;
+	archive?: string;
+	archiveId?: string;
 	isPublic: boolean;
 }
 
