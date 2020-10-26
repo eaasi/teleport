@@ -87,15 +87,6 @@
 							v-model="files"
 							@sort="sorted"
 							handle=".sfl-handle"
-							v-if="isEnvImport"
-						>
-							<environment-file-item :file="envFile" />
-						</draggable>
-						<draggable
-							v-model="files"
-							@sort="sorted"
-							handle=".sfl-handle"
-							v-else
 						>
 							<resource-file-list-item
 								v-for="file in files"
@@ -181,10 +172,6 @@
 			return isValidUrl(this.urlSource);
 		}
 
-		get isEnvImport(): boolean {
-			return false;
-		}
-
 		/* Data
         ============================================*/
 
@@ -211,11 +198,7 @@
 				let f = fileList[i];
 				if (this.files.some(x => x.name === f.name)) continue;
 				let newFile = new ResourceImportFile(f, startingSortIndex + i);
-				if (this.isEnvImport) {
-					this.files = [newFile];
-				} else {
-					this.files.push(newFile);
-				}
+				this.files.push(newFile);
 			}
 			this.step = 3;
 		}
