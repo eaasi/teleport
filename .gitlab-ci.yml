@@ -76,6 +76,6 @@ deploy:all:
     stage: deploy
     script:
         - ssh portalmedia@eaasi.portalmedia.com -tt -p "$SSH_PORT" \
-              "cd /eaasi/portal && sudo git stash && sudo git pull origin master && sudo git stash pop && sudo docker-compose up -d --force-recreate eaasi-web-api eaasi-front-end eaasi-database eaasi-nginx && exit"
+              "cd ~/eaasi/portal && sudo git stash && sudo git pull origin master && sudo git stash pop && sudo docker-compose up -d --force-recreate eaasi-web-api eaasi-front-end eaasi-database eaasi-nginx && exit"
     only:
-        - master
+        - staging
