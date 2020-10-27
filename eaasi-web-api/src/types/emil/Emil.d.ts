@@ -62,3 +62,8 @@ export interface IEmilResult {
 	status: '0' | '1';
 	message: string;
 }
+
+export interface IImageDeletePayload {
+	imageArchive: string;
+	imageId: string;
+}

@@ -1,6 +1,6 @@
 import { IDrive, PhysicalFormat } from './Resource';
 
-export type ImportType = 'content' | 'software' | 'environment' | 'bulk';
+export type ImportType = 'content' | 'software' | 'environment' | 'bulk' | 'image';
 
 export type ResourceImportPath = 'Fast'; // | 'Detailed' | 'Unselected';
 
@@ -52,6 +52,11 @@ export interface IImageImportPayload {
 	url: string;
 	label: string;
 	imageType?: string;
+}
+
+export interface IImageDeletePayload {
+	imageArchive: string;
+	imageId: string;
 }
 
 export interface ICreateEnvironmentResponse {
@@ -138,6 +143,12 @@ export interface IBean {
 }
 
 export interface IUIOptions {
+	html5: IUIOption;
+}
+
+export interface IUIOption {
+	pointer_lock: boolean;
+	crt: string;
 	html5: IHTML5UIOption;
 	input?: IInputUIOption;
 }

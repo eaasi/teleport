@@ -9,24 +9,30 @@
 		/>
 		<div v-for="(resource, index) in result.result" :key="index" class="card-wrapper">
 			<environment-resource-card
+				v-if="isEnvironment"
 				:environment="resource"
 				@change="toggleResource(resource, $event)"
 				is-clickable
-				v-if="type === 'Environment'"
 				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"
 			/>
 			<software-resource-card
+				v-if="isSoftware"
 				:software="resource"
 				@change="toggleResource(resource, $event)"
 				is-clickable
-				v-if="type === 'Software'"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 			<content-resource-card
+				v-if="isContent"
 				:content="resource"
 				@change="toggleResource(resource, $event)"
 				is-clickable
-				v-if="type === 'Content'"
+				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
+			/>
+			<image-resource-card
+				v-if="isImage"
+				:image="resource"
+				@change="toggleResource(resource, $event)"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 		</div>
@@ -39,12 +45,17 @@ import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiResource, ResourceType } from '@/types/Resource';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
+import { resourceTypes } from '../../utils/constants';
+import { jsonEquals } from '@/utils/functions';
+import { BookmarkRequest } from '@/types/Bookmark';
+
 import BentoHeader from '@/components/resources/search/BentoHeader.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
-import { resourceTypes } from '../../utils/constants';
-import { jsonEquals } from '@/utils/functions';
+import ImageResourceCard from '@/components/resources/ImageResourceCard.vue';
+
+type ResourceListType = 'Environment' | 'Software' | 'Content' | 'Image';
 
 @Component({
 	name: 'ResourceList',
@@ -53,6 +64,7 @@ import { jsonEquals } from '@/utils/functions';
 		EnvironmentResourceCard,
 		SoftwareResourceCard,
 		ContentResourceCard,
+		ImageResourceCard,
 	}
 })
 export default class ResourceList extends Vue {
@@ -80,6 +92,22 @@ export default class ResourceList extends Vue {
 	@Get('loggedInUser')
 	user: User;
 
+	get isEnvironment(): boolean {
+		return this.type === 'Environment';
+	}
+
+	get isSoftware(): boolean {
+		return this.type === 'Software';
+	}
+
+	get isContent(): boolean {
+		return this.type === 'Content';
+	}
+
+	get isImage(): boolean {
+		return this.type === 'Image';
+	}
+
 	/* Methods
 	============================================*/
 
@@ -104,8 +132,9 @@ export default class ResourceList extends Vue {
 		await this.$store.dispatch('resource/clearSearch');
 	}
 
-	async handleBookmark(resourceID: number, isActive: boolean) {
-		const bookmarkRequest = { userID: this.user.id, resourceID };
+	async handleBookmark(resourceId: number, isActive: boolean) {
+		const resourceIdString = `${resourceId}`;
+		const bookmarkRequest: BookmarkRequest = { userId: this.user.id, resourceId: resourceIdString };
 		isActive
 			? await this.$store.dispatch('bookmark/createBookmark', bookmarkRequest)
 			: await this.$store.dispatch('bookmark/removeBookmark', bookmarkRequest);

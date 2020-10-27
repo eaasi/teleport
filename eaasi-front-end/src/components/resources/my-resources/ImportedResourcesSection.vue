@@ -30,15 +30,24 @@
 			<div class="resource-bento width-md">
 				<div class="bento-row">
 					<div
-						v-if="bentoResult.environments.result.length"
+						v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
 						class="bento-col"
 					>
 						<resource-list
-							:query="query"
+							v-if="bentoResult.environments.result.length"
 							:hide-header="facetsOfSingleTypeSelected"
+							:query="query"
 							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
+						/>
+						<resource-list
+							v-if="bentoResult.images.result.length"
+							:hide-header="facetsOfSingleTypeSelected"
+							:query="query"
+							:result="bentoResult.images"
+							type="Image"
+							@click:all="getAll(['Images'])"
 						/>
 					</div>
 
@@ -153,6 +162,7 @@ export default class ImportedResourcesSection extends Vue {
 	get hasResults() {
 		if (!this.bentoResult) return false;
 		return this.bentoResult.software.result.length > 0
+			|| this.bentoResult.images.result.length > 0
 			|| this.bentoResult.content.result.length > 0
 			|| this.bentoResult.environments.result.length > 0;
 	}

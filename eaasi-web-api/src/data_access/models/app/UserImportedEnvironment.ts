@@ -1,6 +1,6 @@
-import {EaasiUser} from '@/data_access/models/app/EaasiUser';
-import {CreatedAt, UpdatedAt, Column, Model, Table, ForeignKey} from 'sequelize-typescript';
+import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
+import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
 	tableName: 'user_imported_environment'
@@ -25,11 +25,11 @@ export class UserImportedEnvironment extends Model<UserImportedEnvironment> {
     	type: DataTypes.INTEGER,
     	allowNull: false,
     })
-    userID: number;
+    userId: number;
 
     @Column({
     	type: DataTypes.STRING(64),
-    	allowNull: true,
+    	allowNull: false,
     })
-    eaasiID: string;
+    eaasiId: string;
 }

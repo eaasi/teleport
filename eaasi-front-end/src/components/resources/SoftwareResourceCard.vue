@@ -78,7 +78,7 @@ export default class SoftwareResourceCard extends Vue {
 	}
 
 	get isBookmarkSelected(): Boolean {
-		return this.bookmarks?.some(b => b.resourceID === this.software.id);
+		return this.bookmarks?.some(b => b.resourceId === this.software.id);
 	}
 
 	get isSelected(): Boolean {

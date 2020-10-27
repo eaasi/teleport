@@ -12,10 +12,10 @@
 		:is-selected="isSelected"
 	>
 		<template v-slot:tagsLeft>
-			<tag-group position="left" :tags="resourceTypeTags" />
+			<tag-group position="left" :tags="imageTypeTags" />
 		</template>
 		<template v-slot:tagsRight>
-			<tag-group v-if="summary" position="right" :tags="contentTagGroup" />
+			<tag-group v-if="summary" position="right" :tags="imageTagGroup" />
 		</template>
 	</selectable-card>
 </template>
@@ -24,21 +24,21 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary, IEaasiResource, IImageListItem } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
 import { resourceTypes } from '@/utils/constants';
 import { ROUTES } from '../../router/routes.const';
 
 @Component({
-	name: 'ContentResourceCard',
+	name: 'ImageResourceCard',
 })
-export default class ContentResourceCard extends Vue {
+export default class ImageResourceCard extends Vue {
 
 	/* Props
 	============================================*/
-	@Prop({type: Object as () => any, required: true})
-	readonly content: any;
+	@Prop({type: Object as () => IImageListItem, required: true})
+	readonly image: IImageListItem;
 
 	@Prop({type: Boolean, required: false, default: false})
 	readonly disableSelect: boolean;
@@ -51,11 +51,11 @@ export default class ContentResourceCard extends Vue {
 
 	/* Data
 	============================================*/
-	resourceTypeTags: ITag[] =  [
+	imageTypeTags: ITag[] =  [
 		{
-			text: 'Content',
-			icon:'fa-file',
-			color:'white'
+			text: 'Image',
+			icon:' fa-hdd',
+			color: 'white'
 		}
 	];
 
@@ -67,21 +67,27 @@ export default class ContentResourceCard extends Vue {
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
 
-	get contentTagGroup(): ITag[] {
-		if (this.content.archiveId === 'zero conf') {
+	get imageTagGroup(): ITag[] {
+		if (this.image.isPublic) {
+            return [{
+                text: 'Public',
+                icon: 'fa-map-marker-alt',
+                color: 'green'
+            }];
+		} else {
 			return [{
 				text: 'Private',
 				icon: 'fa-cloud-download-alt',
 				color: 'yellow'
 			}];
-		}
+        }
 	}
 
 	get summary(): IEaasiResourceSummary {
 		return {
-			id: this.content.id,
-			title: this.content.title,
-			resourceType: resourceTypes.CONTENT,
+			id: this.image.id,
+			title: this.image.title,
+			resourceType: resourceTypes.IMAGE,
 			content: { },
 			subContent: { },
 			isPublic: false
@@ -89,23 +95,24 @@ export default class ContentResourceCard extends Vue {
 	}
 
 	get isBookmarkSelected(): Boolean {
-		return this.bookmarks?.some(b => b.resourceId === this.content.id);
+		return this.bookmarks?.some(b => b.resourceId === this.image.id);
 	}
 
 	get isSelected(): Boolean {
-		return this.selectedResources.some(r => r.id === this.content.id);
+		return this.selectedResources.some(r => r.id === this.image.id);
 	}
 
 	/* Methods
 	============================================*/
 	goToDetailsPage() {
-		this.$router.push({
-			path: ROUTES.RESOURCES.CONTENT,
-			query: {
-				resourceId: this.content.id.toString(),
-				archiveId: this.content.archiveId.toString()
-			}
-		});
+        throw 'not implemented';
+		// this.$router.push({
+		// 	path: ROUTES.RESOURCES.CONTENT,
+		// 	query: {
+		// 		resourceId: this.content.id.toString(),
+		// 		archiveId: this.content.archiveId.toString()
+		// 	}
+		// });
 	}
 
 }

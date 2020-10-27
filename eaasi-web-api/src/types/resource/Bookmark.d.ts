@@ -1,7 +1,7 @@
 export interface IBookmark {
     id: number;
-    resourceID: string;
-    userID: number;
+    resourceId: string;
+    userId: number;
     createdAt: Date;
     updatedAt: Date;
 }

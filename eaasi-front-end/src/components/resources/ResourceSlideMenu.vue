@@ -185,6 +185,9 @@ export default class ResourceSlideMenu extends Vue {
 	@Get('resource/environmentIsSelected')
 	environmentIsSelected: boolean;
 
+	@Get('resource/imageIsSelected')
+	imageIsSelected: boolean;
+
 	@Get('resource/softwareIsSelected')
 	softwareIsSelected: boolean;
 
@@ -325,6 +328,11 @@ export default class ResourceSlideMenu extends Vue {
 		this.confirmAction = null;
 		if (this.environmentIsSelected) {
 			await this.$store.dispatch('resource/deleteSelectedResource');
+		} else if (this.imageIsSelected) {
+			const imagesRequest = this.resources.map(r => {
+				return { imageArchive: 'default', imageId: r.id };
+			});
+			await this.$store.dispatch('resource/deleteImages', imagesRequest);
 		} else {
 			const contentRequests = this.resources.map(r => {
 				return { archiveName: r.archiveId, contentId: r.id as string };
@@ -403,8 +411,8 @@ export default class ResourceSlideMenu extends Vue {
 				);
 
 				let bookmarksRequest: MultiBookmarkRequest = {
-					userID: this.user.id,
-					resourceIDs: resourceIds as string[]
+					userId: this.user.id,
+					resourceIds: resourceIds as string[]
 				};
 
 				this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {

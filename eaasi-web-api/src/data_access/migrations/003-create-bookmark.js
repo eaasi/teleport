@@ -10,7 +10,7 @@ module.exports = {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			userID: {
+			userId: {
 				type: Sq.INTEGER,
 				allowNull: false,
 				references: {
@@ -18,7 +18,7 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			resourceID: {
+			resourceId: {
 				type: Sq.STRING(128),
 				allowNull: false
 			},

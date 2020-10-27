@@ -28,7 +28,7 @@ router.get('/', (req, res) => controller.getByUserID(req, res));
  *
  * @apiParamExample {json} Request-Example:
  *     {
- *          resourceID: "some_resource_id"
+ *          resourceId: "some_resource_id"
  *          userID: 282
  *     }
  *

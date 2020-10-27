@@ -116,8 +116,8 @@ export default class DashboardLinks extends Vue {
 			let envResults = this.bentoResult.environments;
 			let swResults = this.bentoResult.software;
 
-			let envs = envResults.result.filter(r => this.bookmarks.some(b => b.resourceID === r.envId));
-			let software = swResults.result.filter(s => this.bookmarks.some(b => b.resourceID === s.id));
+			let envs = envResults.result.filter(r => this.bookmarks.some(b => b.resourceId === r.envId));
+			let software = swResults.result.filter(s => this.bookmarks.some(b => b.resourceId === s.id));
 			let myResources = [...envs, ...software];
 
 			return { result: myResources };

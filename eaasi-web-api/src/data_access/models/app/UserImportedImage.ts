@@ -3,9 +3,9 @@ import { DataTypes } from 'sequelize';
 import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
-	tableName: 'user_imported_software'
+	tableName: 'user_imported_image'
 })
-export class UserImportedSoftware extends Model<UserImportedSoftware> {
+export class UserImportedImage extends Model<UserImportedImage> {
     @CreatedAt
 	readonly createdAt: Date = new Date();
 

@@ -10,7 +10,7 @@ export default class ContentImportResource implements IEaasiResource {
 	nativeConfig: string = '';
 	patchId: string = '';
 	urlSource: string = '';
-	eaasiID: string = '';
+	eaasiId: string = '';
 	chosenTemplateId: string = '';
 	isImport: boolean = false;
 	saveDescription: string = '';

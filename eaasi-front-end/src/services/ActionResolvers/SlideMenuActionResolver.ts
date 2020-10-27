@@ -38,6 +38,10 @@ export default class SlideMenuActionResolver {
 		return window.location.href.indexOf(resourceId) > 0;
 	}
 
+	hasDetailsPage(): boolean {
+		return this.selectedResources[0].resourceType !== resourceTypes.IMAGE;
+	}
+
 	isSinglePublicResource() : boolean {
 		if(!this.isSingleSelected()) return false;
 		return this.selectedResources[0].archive === 'public'
