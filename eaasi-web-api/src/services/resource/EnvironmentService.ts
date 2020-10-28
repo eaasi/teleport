@@ -34,13 +34,16 @@ export default class EnvironmentService extends BaseService {
 		this._tempEnvironmentService = tempEnvService;
 	}
 
-	async getAll(detailed: boolean = true, localOnly: boolean = false): Promise<IEnvironment[]> {
+	async getAll(): Promise<IEnvironment[]> {
 		let results = this._cache.get<IEnvironment[]>(this.CACHE_KEYS.ALL_ENVIRONMENTS);
 		if(results) return results;
-		let res = await this._environmentRepoService.get(`environments?detailed=${detailed}&localOnly=${localOnly}`);
+		let res = await this._environmentRepoService.get(`environments?detailed=$true&localOnly=$true`);
+		let resLocal = await this._environmentRepoService.get(`environments`);
 		let environments = await res.json() as IEnvironment[];
+		let localEnvironments = await resLocal.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
-
+		localEnvironments.forEach(x => environments.push({...x, resourceType: resourceTypes.ENVIRONMENT }));
+		
 		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
 		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
 			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
