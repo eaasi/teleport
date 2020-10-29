@@ -12,6 +12,12 @@ module.exports = {
 				updatedAt: new Date(),
 				userId: 2,
 				hash: '$2b$10$e5SsSSnBl2RNSiiQOolAeemdCq.d4TpfaCuvJi.uQ5LbPBgZAvrLy'
+			},
+			{
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				userId: 3,
+				hash: '$2b$10$e5SsSSnBl2RNSiiQOolAeemdCq.d4TpfaCuvJi.uQ5LbPBgZAvrLy'
 			}
 		])
 	},
