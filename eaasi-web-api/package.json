@@ -12,6 +12,7 @@
 		"start": "npm run prod",
 		"watch": "nodemon",
 		"test:unit": "npm run build && jest --verbose --logHeapUsage",
+		"watch-test:unit": "jest --watch --verbose --logHeapUsage",
 		"test:unit:coverage": "npm run build && jest --verbose --logHeapUsage --coverage",
 		"test:e2e:open": "export NODE_ENV=test && run-p --race local:test cy:open",
 		"test:e2e": "export NODE_ENV=test && run-p --race local:test cy:run",
