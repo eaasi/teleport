@@ -11,7 +11,7 @@
 		/>
 
 		<editable-checkbox-item
-			:item="isLinuxRuntime"
+			:item="linuxRuntime"
 			:readonly="readonly"
 		/>
 
@@ -69,8 +69,8 @@ export default class ConfigureEmulator extends Vue {
     get nativeConfig() {
         return this.emulatorItems.find(i => i.property === 'nativeConfig');
     }
-    get isLinuxRuntime() {
-        return this.emulatorItems.find(i => i.property === 'isLinuxRuntime');
+    get linuxRuntime() {
+        return this.emulatorItems.find(i => i.property === 'linuxRuntime');
     }
     get timeContext() {
         return this.emulatorItems.find(i => i.property === 'timeContext');
