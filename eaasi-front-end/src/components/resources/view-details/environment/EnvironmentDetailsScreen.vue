@@ -328,9 +328,9 @@ export default class EnvironmentDetailsScreen extends Vue {
 			},
 			{
 				label: 'Linux Runtime',
-				value: this.activeEnvironment.isLinuxRuntime,
+				value: this.activeEnvironment.linuxRuntime,
 				readonly: false,
-				property: 'isLinuxRuntime',
+				property: 'linuxRuntime',
 				editType: 'checkbox',
 				changed: false
 			}

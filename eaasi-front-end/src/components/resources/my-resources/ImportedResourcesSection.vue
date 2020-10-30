@@ -90,7 +90,6 @@
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import { populateFacets } from '@/helpers/ResourceSearchFacetHelper';
 import User from '@/models/admin/User';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import ResourceList from '@/components/resources/ResourceList.vue';
@@ -105,6 +104,7 @@ import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { jsonCopy } from '../../../utils/functions';
 import { ROUTES } from '../../../router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
+import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 
 
 @Component({
@@ -167,6 +167,9 @@ export default class ImportedResourcesSection extends Vue {
 			|| this.bentoResult.environments.result.length > 0;
 	}
 
+	/* Data
+	============================================*/
+	private readonly queryService = new SearchQueryService(QuerySource.ImportedResources);
 
 	/* Methods
 	============================================*/
@@ -183,6 +186,10 @@ export default class ImportedResourcesSection extends Vue {
 	}
 
     async search() {
+		const query = this.queryService.retrieveQuery();
+		if (query) {
+			this.query = query;
+		};
 		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyImportedResources: true , archives: ['zero conf', 'default']});
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
@@ -206,6 +213,7 @@ export default class ImportedResourcesSection extends Vue {
 	}
 
 	beforeDestroy() {
+		this.queryService.persistQuery(this.query);
 		this.selectedResources = [];
 		this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);

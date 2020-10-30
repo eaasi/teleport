@@ -71,7 +71,7 @@ export default class EnvironmentCard extends Vue {
 					archive: 'Remote Objects'
 				}
 			],
-			isLinuxRuntime: false,
+			linuxRuntime: false,
 			isServiceContainer: false,
 			nativeConfig: '-usb -usbdevice tablet -vga cirrus -soundhw sb16 -net nic,model=pcnet',
 			owner: 'shared',
