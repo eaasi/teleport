@@ -85,7 +85,7 @@ import SoftwareGeneralInfoForm from '@/components/import/software/SoftwareGenera
 import SoftwareProductMetadataForm from '@/components/import/software/SoftwareProductMetadataForm.vue';
 import SoftwareRequirementsForm from '@/components/import/software/SoftwareRequirementsForm.vue';
 import SoftwareVersionForm from '@/components/import/software/SoftwareVersionForm.vue';
-import EaasiForm from '@/components/global/software/EaasiForm.vue';
+import EaasiForm from '@/components/global/forms/EaasiForm.vue';
 import { Get, Sync } from 'vuex-pathify';
 
 @Component({
