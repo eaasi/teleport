@@ -191,14 +191,15 @@ export default class ImportedResourcesSection extends Vue {
 			this.query = query;
 		};
 		
-		this.query = {
-			...this.query, 
-			userId: this.user.id, 
-			onlyImportedResources: true, 
-			archives: ['zero conf', 'default']
-		};
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
+			this.query = {
+				...this.query, 
+				userId: this.user.id, 
+				onlyImportedResources: true,
+				onlyBookmarks: false,
+				archives: ['zero conf', 'default']
+			};
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});
@@ -214,8 +215,8 @@ export default class ImportedResourcesSection extends Vue {
 
 	/* Lifecycle Hooks
 	============================================*/
-	async mounted() {
-		await this.search();
+	beforeMount() {
+		this.search();
 	}
 
 	beforeDestroy() {
@@ -227,10 +228,12 @@ export default class ImportedResourcesSection extends Vue {
 
 	@Watch('hasSelectedFacets')
 	async onSelectedFacets(curVal, prevVal) {
+		if (!curVal && prevVal === undefined) {
+			return;
+		}
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
-			this.$store.dispatch('resource/clearSearchQuery');
-			await this.search();
+			this.$store.dispatch('resource/clearSearch');
 		}
 	}
 

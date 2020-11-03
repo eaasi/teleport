@@ -210,10 +210,16 @@ export default class ExploreResourcesScreen extends Vue {
 		this.$store.dispatch('resource/searchResources');
 	}
 
-    search() {
+    async search() {
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
-			this.query = {...this.query, userId: this.user.id, onlyBookmarks: false };
+			this.query = {
+				...this.query, 
+				userId: this.user.id, 
+				onlyBookmarks: false,
+				onlyImportedResources: false,
+				archives: []
+			};
 			await this.$store.dispatch('resource/searchResources');
 			if (this.bentoResult?.bookmarks) {
 				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
@@ -255,7 +261,7 @@ export default class ExploreResourcesScreen extends Vue {
     /* Lifecycle Hooks
     ============================================*/
 
-    mounted() {
+    beforeMount() {
 		this.init();
     }
 
