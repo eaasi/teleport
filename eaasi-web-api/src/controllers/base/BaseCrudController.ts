@@ -1,12 +1,11 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import ICrudController from '@/controllers/interfaces/ICrudController';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import { areAllValidIntegerParams } from '@/utils/validators';
 import { Request, Response } from 'express';
-import { Result } from 'express-validator';
+import { Model } from 'sequelize-typescript';
 import CrudService from 'src/services/base/CrudService';
 import BaseController from './BaseController';
-import { Model } from 'sequelize-typescript';
 
 
 /**
@@ -38,7 +37,7 @@ export default class BaseCrudController<T extends Model> extends BaseController 
 				.send(build_400_response(JSON.stringify(req.query)));
 		}
 
-		let response = await this.service.getAll(req.query);
+		let response = await this.service.getAll(query);
 		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
@@ -56,7 +55,7 @@ export default class BaseCrudController<T extends Model> extends BaseController 
 	 */
 	async get(req: Request, res: Response) {
 		// @ts-ignore
-		const id = req.params.id;
+		const id = Number(req.params.id);
 
 		// @ts-ignore
 		if (req.params.id == null) {
@@ -114,8 +113,7 @@ export default class BaseCrudController<T extends Model> extends BaseController 
 	 * @param res response
 	 */
 	async update(req: Request, res: Response) {
-		// @ts-ignore
-		const id = req.params.id;
+		const id = Number(req.params.id);
 		const updateData = req.body;
 		let updateResponse = await this.service.update(id, updateData);
 
@@ -132,8 +130,7 @@ export default class BaseCrudController<T extends Model> extends BaseController 
 	 * @param res response
 	 */
 	async delete(req: Request, res: Response) {
-		// @ts-ignore
-		const id = req.params.id;
+		const id = Number(req.params.id);
 		let deleteResponse = await this.service.destroy(id);
 
 		if (deleteResponse.hasError) {

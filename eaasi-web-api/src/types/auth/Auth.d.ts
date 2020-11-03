@@ -1,8 +1,8 @@
-import { EaasiUser } from '@/data_access/models/app';
+import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
 import { Request } from 'express';
 
 export interface IAuthorizedRequest extends Request {
-	user: EaasiUser;
+	user: IEaasiUser;
 }
 
 export interface IAuthorizedGetRequest extends IAuthorizedRequest {

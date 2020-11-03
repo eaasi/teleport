@@ -109,7 +109,7 @@ export default class AdminController extends BaseController {
 	 */
 	async deleteUser(req: Request, res: Response) {
 		try {
-			let id = req.query.id as number;
+			let id = Number(req.query.id);
 			if (!SAML_ENABLED) {
 				await this._userHashService.deleteUserHash(id);
 			}
@@ -251,7 +251,8 @@ export default class AdminController extends BaseController {
 	 */
 	async syncHarvester(req: Request, res: Response) {
 		try {
-			let { name, full } = req.query;
+			const name = req.query.name as string;
+			const full = req.query.full;
 			let result = await this._harvesterSvc.syncHarvester(name, !!full);
 			res.send(result);
 		} catch(e) {
@@ -266,7 +267,7 @@ export default class AdminController extends BaseController {
 	 */
 	async deleteHarvester(req: Request, res: Response) {
 		try {
-			let { name } = req.query;
+			const name = req.query.name as string;
 			let success = await this._harvesterSvc.deleteHarvester(name);
 			if(success) return res.send(true);
 			return this.sendError(new Error(`Could not delete oai-pmh harvester: ${name}`), res);

@@ -5,7 +5,7 @@ import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
-import { IAuthorizedDeleteRequest } from '@/types/auth/Auth';
+import { IAuthorizedDeleteRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
@@ -45,7 +45,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async getEnvironment(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._environmentService.getEnvironment(id);
 			res.send(result);
 		} catch(e) {
@@ -71,7 +71,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwarePackageDescription(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._softwareService.getSoftwareDescription(id);
 			res.send(result);
 		} catch(e) {
@@ -84,7 +84,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareObject(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._softwareService.getSoftwarePackage(id);
 			res.send(result);
 		} catch(e) {
@@ -97,7 +97,8 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareObjects(req: Request, res: Response) {
 		try {
-			let ids = req.query.ids.split(',') as string[];
+			let queryIds = req.query.ids as string;
+			let ids = queryIds.split(',') as string[];
 			let result = await this._softwareService.getSoftwareObjects(ids)
 			res.send(result);
 		} catch(e) {
@@ -110,11 +111,9 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareMetadata(req: Request, res: Response) {
 		try {
-			let { archiveId, objectId } = req.query;
-			const contentRequest: IContentRequest = {
-				archiveName: archiveId,
-				contentId: objectId
-			}
+			const archiveName = req.query.archiveId as string;
+			const contentId = req.query.objectId as string;
+			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
@@ -127,7 +126,9 @@ export default class ResourceController extends BaseController {
 	 */
 	async getContent(req: Request, res: Response) {
 		try {
-			const contentRequest = req.query as IContentRequest;
+			const archiveName = req.query.archiveId as string;
+			const contentId = req.query.objectId as string;
+			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
@@ -153,7 +154,9 @@ export default class ResourceController extends BaseController {
 	 */
 	async deleteContent(req: Request, res: Response) {
 		try {
-			const contentRequest = req.query as IContentRequest;
+			const archiveName = req.query.archiveId as string;
+			const contentId = req.query.objectId as string;
+			const contentRequest: IContentRequest = { archiveName, contentId };
 			await this._contentService.deleteContent(contentRequest);
 			res.send(true);
 		} catch(e) {
@@ -216,7 +219,7 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Searches for resources using the request body as IResourceSearchQuery
 	 */
-	async search(req: Request, res: Response) {
+	async search(req: IAuthorizedRequest, res: Response) {
 		try {
 			let query = req.body as IResourceSearchQuery;
 			let result = await this._svc.searchResources(query, req.user.id);
@@ -231,7 +234,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async deleteEnvironment(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._environmentService.deleteEnvironment(id);
 			res.send(result);
 		} catch(e) {
@@ -340,7 +343,7 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Adds an Environment to a temporary archive
 	 */
-	async addToTempArchive(req: Request, res: Response) {
+	async addToTempArchive(req: IAuthorizedRequest, res: Response) {
 		try {
 			let userId = Number(req.user.id);
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;

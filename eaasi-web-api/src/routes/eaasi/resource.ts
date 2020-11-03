@@ -1,5 +1,5 @@
 import ResourceController from '@/controllers/ResourceController';
-import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
+import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IEmulatorComponentRequest } from '@/types/resource/Resource';
 import express, { Response } from 'express';
 
@@ -13,7 +13,7 @@ const controller = new ResourceController();
  * @apiPermission System Administrator only
  * @apiDescription Returns a list a list search results
  */
-router.post('/search', (req, res) => controller.search(req, res));
+router.post('/search', (req: IAuthorizedRequest, res) => controller.search(req, res));
 
 /**
  * @api {get} resource/environment Search All Environment Resources

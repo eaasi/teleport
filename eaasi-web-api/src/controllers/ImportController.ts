@@ -1,4 +1,5 @@
 import ImportService from '@/services/import/importService';
+import { IAuthorizedPostRequest } from '@/types/auth/Auth';
 import { ICreateEnvironmentPayload, IImageImportPayload, IUploadRequest } from '@/types/emil/Emil';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
@@ -93,12 +94,12 @@ export default class ImportController extends BaseController {
 	 * @param req
 	 * @param res
 	 */
-	async createEnvironment(req: Request, res: Response) {
+	async createEnvironment(req: IAuthorizedPostRequest<ICreateEnvironmentPayload>, res: Response) {
 		try {
 			if (!req.body) {
 				throw new Error('Request to create image from ISO file upload requires request body');
 			};
-			let result = await this._emilImportService.createEnvironment(req.body as ICreateEnvironmentPayload);
+			let result = await this._emilImportService.createEnvironment(req.body);
 			res.send(result);
 		} catch(err) {
 			this.sendError(err, res);

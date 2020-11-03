@@ -226,8 +226,8 @@ export default class ResourceAdminService extends BaseService {
 
 		if (results.length && query.sortCol) {
 			results = results.sort((a, b) => {
-				const nameA = a.title.toLowerCase();
-				const nameB = b.title.toLowerCase();
+				const nameA = a.title ? a.title.toLowerCase() : a.label.toLowerCase();
+				const nameB = b.title ? a.title.toLowerCase() : b.label.toLowerCase();
 				let comparison = 0;
 				if (nameA > nameB) comparison = 1;
 				else if (nameA < nameB) comparison = -1;

@@ -4,6 +4,7 @@ import ImportedEnvironmentService from '@/services/rest-api/ImportedEnvironmentS
 import ImportedImageService from '@/services/rest-api/ImportedImageService';
 import ImportedSoftwareService from '@/services/rest-api/ImportedSoftwareService';
 import { IUserImportedResource, IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
+import { IAuthorizedPostRequest } from '@/types/auth/Auth';
 import { IUserImportResponse } from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
@@ -38,7 +39,7 @@ export default class UserImportController extends BaseController {
 	 */
 	async getByUserID(req: Request, res: Response) {
 
-		const userId = req.query.userId;
+		const userId = Number(req.query.userId);
 
 		if (userId == null) {
 			return res
@@ -207,9 +208,9 @@ export default class UserImportController extends BaseController {
 		return error || 'Unspecified error'
 	}
 
-	async createUserImportRelation(req: Request, res: Response) {
+	async createUserImportRelation(req: IAuthorizedPostRequest<IUserImportRelationRequest>, res: Response) {
 		try {
-			const userImportRelation = req.body as IUserImportRelationRequest;
+			const userImportRelation = req.body;
 			if (!req.body) this.sendClientError(new Error('Request to create user reference requires request body'), res);
 			const user = req.user;
 			const userImportResource: IUserImportedResource = {

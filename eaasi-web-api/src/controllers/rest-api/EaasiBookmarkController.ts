@@ -20,7 +20,7 @@ export default class EaasiBookmarkController extends BaseController {
 	 * @param res response
 	 */
 	async getByUserID(req: Request, res: Response) {
-		const userId = req.query.userId;
+		const userId = Number(req.query.userId);
 		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)
@@ -75,7 +75,7 @@ export default class EaasiBookmarkController extends BaseController {
 	 * @param res response
 	 */
 	async delete(req: Request, res: Response) {
-		const id = req.query.id;
+		const id = Number(req.query.id);
 		let deleteResponse = await this.bookmarkService.destroy(id);
 
 		if (deleteResponse.hasError) {
@@ -86,7 +86,7 @@ export default class EaasiBookmarkController extends BaseController {
 	}
 
 	async deleteAll(req: Request, res: Response) {
-		const userId = req.query.userId;
+		const userId = Number(req.query.userId);
 		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)

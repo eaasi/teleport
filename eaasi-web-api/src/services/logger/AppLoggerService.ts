@@ -17,6 +17,7 @@ export default class ApplicationLogService {
 		const endDate = new Date();
 		return await this.model.findAll({
 			where: {
+				//@ts-ignore
 				updatedAt: {
 					[Op.between]: [startDate, endDate]
 				},

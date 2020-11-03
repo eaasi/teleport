@@ -1,8 +1,8 @@
 import AuthController from '@/controllers/AuthController';
 import { authRequestLimit } from '@/middleware/request-limit';
+import { IAuthorizedRequest, IChangePasswordRequest } from '@/types/auth/Auth';
 import express from 'express';
 import passport from 'passport';
-import { IChangePasswordRequest } from '@/types/auth/Auth';
 
 const router = express.Router();
 const controller = new AuthController();
@@ -43,7 +43,7 @@ router.post('/callback', samlAuth, controller.callback);
  * @apiPermission Any
  * @apiDescription Authorized route for changing a user's password
  */
-router.post('/change-password', jwtAuth, (req, res) => controller.changePassword(req as IChangePasswordRequest, res));
+router.post('/change-password', jwtAuth, (req: IAuthorizedRequest, res) => controller.changePassword(req as IChangePasswordRequest, res));
 
 /**
  * @api {get} auth/user Get User Data
@@ -74,7 +74,7 @@ router.post('/change-password', jwtAuth, (req, res) => controller.changePassword
  *    "exp":1571496422
  *    }
  */
-router.get('/user', jwtAuth, (req, res) => controller.user(req, res));
+router.get('/user', jwtAuth, (req: IAuthorizedRequest, res) => controller.user(req, res));
 
 /**
  * @api {delete} auth/logout Log a User out

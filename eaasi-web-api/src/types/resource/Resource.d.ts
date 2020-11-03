@@ -9,7 +9,8 @@ export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | '
 
 export interface IEaasiResource {
 	id: string;
-	title: string;
+	title?: string;
+	label?: string;
 	resourceType: ResourceType;
 	archive?: ArchiveType;
 	archiveId?: ArchiveType;  // Content can return archiveId key

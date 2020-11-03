@@ -1,12 +1,13 @@
-import { EaasiTask } from '@/data_access/models/app';
 import CrudQuery from '@/classes/CrudQuery';
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import { EaasiTask } from '@/data_access/models/app';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 import EaasiTaskService from '@/services/rest-api/EaasiTaskService';
 import EmilTaskService from '@/services/task/EmilTaskService';
+import { IAuthorizedDeleteRequest } from '@/types/auth/Auth';
 import { TaskState } from '@/types/emil/Emil';
 import { IEaasiTask } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import { Request, Response } from 'express';
 import BaseController from '../base/BaseController';
 
@@ -85,9 +86,9 @@ export default class EaasiTaskController extends BaseController {
 	 * @param req request
 	 * @param res response
 	 */
-	async deleteTask(req: Request, res: Response) {
+	async deleteTask(req: IAuthorizedDeleteRequest, res: Response) {
 		try {
-			let id = req.params['id'];
+			let id = Number(req.params.id);
 			const crudResult: ICrudServiceResult<EaasiTask> = await this.taskService.getByPk(id);
 			const taskId = crudResult.result.getDataValue('taskId');
 			let deleteApiResponse = await this.taskService.destroy(id);

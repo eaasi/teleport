@@ -1,9 +1,9 @@
-import AppLogger from '@/logging/appLogger';
 import CrudQuery from '@/classes/CrudQuery';
-import { build_400_response, build_500_response, build_404_response } from '@/utils/error-helpers';
-import { Request, Response } from 'express';
-import { IAppLogger } from '@/types/general/log';
 import HttpResponseCode from '@/classes/HttpResponseCode';
+import AppLogger from '@/logging/appLogger';
+import { IAppLogger } from '@/types/general/log';
+import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
+import { Request, Response } from 'express';
 import { Result } from 'express-validator';
 
 export default class BaseController {
@@ -39,9 +39,9 @@ export default class BaseController {
 
 	protected _getQueryFromParams(req: Request) {
 		let query = new CrudQuery();
-		query.limit = req.query.limit || 100;
-		query.page = req.query.page || 1;
-		query.sortCol = req.query.sortCol;
+		query.limit = Number(req.query.limit) || 100;
+		query.page = Number(req.query.page) || 1;
+		query.sortCol = req.query.sortCol as string;
 		query.descending = req.query.descending.toString() === 'true';
 		return query;
 	}
