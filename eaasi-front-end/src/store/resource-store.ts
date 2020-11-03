@@ -64,9 +64,9 @@ const actions = {
 		return await _svc.getEnvironment(environmentId);
 	},
 
-	async searchResources({ state, commit }: Store<ResourceState>) {
+	async searchResources({ state, commit }: Store<ResourceState>): Promise<IResourceSearchResponse> {
 		let result = await _svc.searchResources(state.query);
-		if (!result) return;
+		if (!result) return null;
 
 		commit('SET_RESULT', result);
 		const selectedFacets = jsonCopy(result.facets);

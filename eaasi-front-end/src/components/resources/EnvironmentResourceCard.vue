@@ -227,7 +227,7 @@ export default class EnvironmentResourceCard extends Vue {
 
 	@Watch('savingEnvTask')
 	onTaskCompletion(curTask: EaasiTask, prevTask: EaasiTask) {
-		if(curTask && curTask.isDone) {
+		if(!curTask || curTask.isDone) {
 			this.$store.dispatch('resource/onEnvironmentSaved');
 		}
 	}

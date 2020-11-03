@@ -190,7 +190,13 @@ export default class ImportedResourcesSection extends Vue {
 		if (query) {
 			this.query = query;
 		};
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyImportedResources: true , archives: ['zero conf', 'default']});
+		
+		this.query = {
+			...this.query, 
+			userId: this.user.id, 
+			onlyImportedResources: true, 
+			archives: ['zero conf', 'default']
+		};
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			await this.$store.dispatch('resource/searchResources');

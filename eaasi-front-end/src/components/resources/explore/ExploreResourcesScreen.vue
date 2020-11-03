@@ -124,7 +124,7 @@ export default class ExploreResourcesScreen extends Vue {
 	bentoResult: IResourceSearchResponse;
 
 	@Sync('resource/query')
-	query: ResourceSearchQuery;
+	query: IResourceSearchQuery;
 
     @Sync('resource/selectedResources')
     selectedResources: IEaasiResource[];
@@ -211,9 +211,9 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
     search() {
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id });
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
+			this.query = {...this.query, userId: this.user.id, onlyBookmarks: false };
 			await this.$store.dispatch('resource/searchResources');
 			if (this.bentoResult?.bookmarks) {
 				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);

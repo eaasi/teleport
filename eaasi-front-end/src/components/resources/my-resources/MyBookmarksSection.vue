@@ -114,7 +114,7 @@ import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse, IResourceSearchQuery } from '@/types/Search';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import { IBookmark } from '@/types/Bookmark';
@@ -149,7 +149,7 @@ export default class MyBookmarksSection extends Vue {
     selectedResources: IEaasiResource[];
 
     @Sync('resource/query')
-    query: ResourceSearchQuery;
+    query: IResourceSearchQuery;
 
     @Get('resource/result')
     bentoResult: IResourceSearchResponse;
@@ -197,13 +197,9 @@ export default class MyBookmarksSection extends Vue {
     ============================================*/
 
     async search() {
-		const query = this.queryService.retrieveQuery();
-		if (query) {
-			this.query = query;
-		}
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyBookmarks: true });
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
+			this.query = {...this.query, userId: this.user.id, onlyBookmarks: true };
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});
@@ -237,6 +233,13 @@ export default class MyBookmarksSection extends Vue {
 		this.$emit('open-action-menu', tab);
 	}
 
+	init() {
+		const query = this.queryService.retrieveQuery();
+		if (query) {
+			this.query = query;
+		}
+	}
+
     /* Lifecycle Hooks
     ============================================*/
 
@@ -247,10 +250,15 @@ export default class MyBookmarksSection extends Vue {
 		this.$store.commit('resource/SET_RESULT', null);
 	}
 
-	@Watch('hasSelectedFacets', { immediate: true })
+	beforeMount() {
+		this.init();
+		this.search();
+	}
+
+	@Watch('hasSelectedFacets')
 	async onSelectedFacets(curVal, prevVal) {
 		if (!curVal && prevVal === undefined) {
-			return this.search();
+			return;
 		}
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {

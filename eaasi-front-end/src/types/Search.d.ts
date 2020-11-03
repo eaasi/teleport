@@ -28,6 +28,8 @@ export interface IResourceSearchQuery {
 	limit: number;
 	page: number;
 	userId?: number;
+	onlyBookmarks?: boolean;
+	onlyImportedResources?: boolean;
 }
 
 export interface IResourceSearchResponse {
