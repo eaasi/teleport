@@ -1,5 +1,5 @@
 module.exports = {
-	moduleFileExtensions: ['js', 'json', 'ts'],
+	moduleFileExtensions: ['js', 'json', 'ts', 'd.ts'],
 	transformIgnorePatterns: ['/node_modules/'],
 	moduleNameMapper: {
 		'^@/(.*)$': '<rootDir>/src/$1',

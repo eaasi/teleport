@@ -114,6 +114,7 @@ export interface IEnvironment extends IEaasiResource {
 	containerEmulatorName?: string;
 	containerEmulatorVersion?: string;
 	isLinuxRuntime?: boolean;
+	linuxRuntime?: boolean;
 	isServiceContainer?: boolean;
 	processAdditionalFiles?: boolean;
 	time?: number;

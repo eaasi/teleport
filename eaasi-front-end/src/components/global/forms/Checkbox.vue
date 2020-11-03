@@ -12,9 +12,8 @@
 				:checked="value"
 				@change="handleChange"
 				:disabled="disabled"
-				:indeterminate.prop="disabled && !value"
 			/>
-			<span :class="['checkmark', { checked: value, disabled, indeterminate: disabled && !value }]"></span>
+			<span :class="['checkmark', { checked: value, disabled, indeterminate }]"></span>
 		</label>
 	</form-field-wrapper>
 </template>
@@ -43,6 +42,9 @@ export default class Checkbox extends BaseFormField {
 
 	@Prop({ type: Boolean })
 	readonly disabled: boolean;
+
+	@Prop({ type: Boolean, default: false })
+	readonly indeterminate: boolean;
 
 	handleChange(event) {
 		if (this.disabled) return;

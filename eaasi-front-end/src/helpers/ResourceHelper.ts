@@ -147,7 +147,7 @@ export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironme
         enablePrinting: environment.enablePrinting,
         enableRelativeMouse: environment.enableRelativeMouse,
         envId: environment.envId,
-        linuxRuntime: environment.isLinuxRuntime,
+        linuxRuntime: environment.linuxRuntime,
         nativeConfig: environment.nativeConfig,
         networking: environment.networking,
         os: environment.os,

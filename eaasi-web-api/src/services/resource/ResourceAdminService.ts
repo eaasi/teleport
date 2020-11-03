@@ -260,6 +260,10 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Environment Type', name: 'envType', values: [] },
 			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
 			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
+
+			{ displayLabel: 'Container Name', name: 'containerName', values: [] },
+			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
+			{ displayLabel: 'Operating System', name: 'os', values: [] },
 		];
 		return facets.map(facet => this.populateFacetValues(resources, facet));
 	};

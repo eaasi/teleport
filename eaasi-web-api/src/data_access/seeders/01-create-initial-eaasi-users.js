@@ -18,6 +18,15 @@ module.exports = {
 				lastName: 'Wiemann',
 				email: 'brandon@portalmedia.com',
 				roleId: 1
+			},
+			{
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				username: 'wes',
+				firstName: 'Wes',
+				lastName: 'Doyle',
+				email: 'wes@portalmedia.com',
+				roleId: 1
 			}
 		])
 	},

@@ -88,7 +88,7 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import { IResourceSearchResponse, IResourceSearchFacet } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
@@ -101,6 +101,7 @@ import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { IEaasiTab } from 'eaasi-nav';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
+import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 
 @Component({
 	name: 'ExploreResourcesScreen',
@@ -188,7 +189,9 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	/* Data
-    ============================================*/
+	============================================*/
+	private queryService = new SearchQueryService(QuerySource.ExploreResources);
+
 	tabs: IEaasiTab[] = [
 		{
 			label: 'Details'
@@ -229,10 +232,16 @@ export default class ExploreResourcesScreen extends Vue {
     	this.$router.go(0);
 	}
 
-	init() {
+	async init() {
 		const { keyword } = this.$route.params;
-		if (keyword) this.query.keyword = keyword;
-		this.search();
+		const query: IResourceSearchQuery = this.queryService.retrieveQuery();
+		if (query) {
+			this.query = query;
+		};
+		if (keyword) {
+			this.query.keyword = keyword;
+		}
+		await this.search();
 	}
 
 	openActionMenu(tab: IEaasiTab = this.tabs[1]) {
@@ -251,6 +260,7 @@ export default class ExploreResourcesScreen extends Vue {
     }
 
 	beforeDestroy() {
+		this.queryService.persistQuery(this.query);
 		this.selectedResources = [];
 		this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);
