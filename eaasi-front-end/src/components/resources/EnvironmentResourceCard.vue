@@ -80,8 +80,8 @@ export default class EnvironmentResourceCard extends Vue {
 	@Get('resource/selectedResources')
 	selectedResources: IEaasiResource[];
 
-	@Get('task/taskQueue')
-	taskQueue: EaasiTask[];
+	@Get('task/activePollingTask')
+	activePollingTask: EaasiTask;
 
 	get resourceTypeTags(): ITag[] {
 		let tags = [{
@@ -120,11 +120,11 @@ export default class EnvironmentResourceCard extends Vue {
 	}
 
 	get savingEnvTask(): EaasiTask {
-		if (!this.isSaving) return null;
+		if (!this.isSaving || !this.activePollingTask) return null;
 		const savingEnvState = this.savingEnvironments.find(
 			saveState => saveState.envId === this.environment.envId
 		);
-		return this.taskQueue.find(task => task.taskId === savingEnvState.taskId);
+		return this.activePollingTask.taskId === savingEnvState.taskId ? this.activePollingTask : null;
 	}
 
 	get isSelected(): Boolean {
