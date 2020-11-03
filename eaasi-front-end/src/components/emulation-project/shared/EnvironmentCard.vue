@@ -85,7 +85,7 @@ export default class EnvironmentCard extends Vue {
 				value: this.environment.os
 			});
 		}
-		if (this.environment.installedSoftwareIds.length) {
+		if (this.environment.installedSoftwareIds?.length) {
 			labeledItems.push({
 				label: 'Installed Software:',
 				value: this.environment.installedSoftwareIds.map(software => software.label).join(', '),
@@ -97,7 +97,7 @@ export default class EnvironmentCard extends Vue {
 				value: this.environment.emulator
 			});
 		}
-		if (this.environment.installedSoftwareIds.length) {
+		if (this.environment.installedSoftwareIds?.length) {
 			labeledItems.push({
 				label: 'Content',
 				value: this.environment.installedSoftwareIds.map(software => software.label).join(', '),
