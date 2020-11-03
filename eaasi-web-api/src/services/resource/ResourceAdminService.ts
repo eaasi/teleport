@@ -320,17 +320,13 @@ export default class ResourceAdminService extends BaseService {
 
 	private preselectResultFacets(result: IResourceSearchResponse, query: IResourceSearchQuery): void {
 		result.facets.forEach(facet => {
-			if (facet.values.length === 1 && facet.name === 'resourceType') {
-				facet.values[0].isSelected = true;
-			} else {
-				facet.values.forEach(value => {
-					const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
-					if (currentFacet) {
-						let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
-						if (selectedValue) value.isSelected = true;
-					}
-				})
-			}
+			facet.values.forEach(value => {
+				const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
+				if (currentFacet) {
+					let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
+					if (selectedValue) value.isSelected = true;
+				}
+			})
 		})
 	}
 
