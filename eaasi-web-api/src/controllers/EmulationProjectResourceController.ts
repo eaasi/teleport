@@ -1,11 +1,11 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import { EmulationProjectResource } from '@/data_access/models/app';
 import EmulationProjectResourceService from '@/services/rest-api/EmulationProjectResourceService';
-import { IAuthorizedRequest, IAuthorizedPostRequest, IAuthorizedPatchRequest, IAuthorizedDeleteRequest } from '@/types/auth/Auth';
+import { IAuthorizedPostRequest, IAuthorizedRequest } from '@/types/auth/Auth';
+import { build_400_response, build_500_response } from '@/utils/error-helpers';
 import { Response } from 'express';
 import BaseController from './base/BaseController';
-import HttpResponseCode from '@/classes/HttpResponseCode';
-import { build_500_response, build_400_response } from '@/utils/error-helpers';
 import BaseCrudController from './base/BaseCrudController';
-import { EmulationProjectResource } from '@/data_access/models/app';
 
 export default class EmulationProjectResourceController extends BaseController {
 
@@ -23,7 +23,8 @@ export default class EmulationProjectResourceController extends BaseController {
 	 */
 	async getForProject(req: IGetEmulationProjectResourcesRequest, res: Response) {
 		try {
-			const result = await this._svc.getEaasiResources(Number(req.params.projectId));
+			const projectId = Number(req.params.projectId);
+			const result = await this._svc.getEaasiResources(projectId);
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);

@@ -95,11 +95,13 @@ export default class ImportController extends BaseController {
 	 */
 	async createEnvironment(req: Request, res: Response) {
 		try {
-			if (!req.body) this.sendClientError(new Error('Request to create image from ISO file upload requires request body'), res);
+			if (!req.body) {
+				throw new Error('Request to create image from ISO file upload requires request body');
+			};
 			let result = await this._emilImportService.createEnvironment(req.body as ICreateEnvironmentPayload);
 			res.send(result);
-		} catch(e) {
-			this.sendError(e, res);
+		} catch(err) {
+			this.sendError(err, res);
 		}
 	}
 
@@ -110,7 +112,9 @@ export default class ImportController extends BaseController {
 	 */
 	async importImage(req: Request, res: Response) {
 		try {
-			if (!req.body) this.sendClientError(new Error('Request to import image from url requires request body'), res);
+			if (!req.body) {
+				this.sendClientError(new Error('Request to import image from url requires request body'), res);
+			};
 			let result = await this._emilImportService.importImage(req.body as IImageImportPayload);
 			res.send(result);
 		} catch(e) {

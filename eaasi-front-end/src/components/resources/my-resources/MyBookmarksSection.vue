@@ -240,10 +240,6 @@ export default class MyBookmarksSection extends Vue {
     /* Lifecycle Hooks
     ============================================*/
 
-    async mounted() {
-        await this.search();
-	}
-
 	beforeDestroy() {
 		this.queryService.persistQuery(this.query);
 		this.selectedResources = [];
@@ -251,8 +247,11 @@ export default class MyBookmarksSection extends Vue {
 		this.$store.commit('resource/SET_RESULT', null);
 	}
 
-	@Watch('hasSelectedFacets')
+	@Watch('hasSelectedFacets', { immediate: true })
 	async onSelectedFacets(curVal, prevVal) {
+		if (!curVal && prevVal === undefined) {
+			return this.search();
+		}
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
 			this.$store.dispatch('resource/clearSearchQuery');

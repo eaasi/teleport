@@ -16,8 +16,7 @@ export default class SearchQueryService {
     
     persistQuery(query: IResourceSearchQuery): boolean {
         try {
-            if (!query) throw new Error('query can not be null');
-            const queryString = JSON.stringify(query);
+            const queryString = JSON.stringify(query ?? '');
             this.queryStorage.setItem(this.getKey(), queryString);
             return true;
         } catch(err) {

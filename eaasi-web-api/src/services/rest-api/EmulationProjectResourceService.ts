@@ -1,9 +1,9 @@
 
-import CrudService from '../base/CrudService';
 import { EmulationProjectResource } from '@/data_access/models/app';
-import ResourceAdminService from '../resource/ResourceAdminService';
-import { resourceTypes } from '@/utils/constants';
+import { IEmulationProjectResource } from '@/types/emulation-porject/EmulationProject';
 import { IEaasiResource } from '@/types/resource/Resource';
+import CrudService from '../base/CrudService';
+import ResourceAdminService from '../resource/ResourceAdminService';
 
 /**
  * Handles CRUD operations for EaasIUser domain
@@ -22,16 +22,24 @@ export default class EmulationProjectResourceService extends CrudService<Emulati
 	 * @param emulationProjectId
 	 */
 	async getEaasiResources(emulationProjectId: number): Promise<IEaasiResource[]> {
-		let response = await this.getAllWhere({ emulationProjectId });
-		if(response.hasError) throw(response.error);
-		if(!response.result.length) return [];
-		let resources = await this._resourceSvc.getAllResources();
-
-		// Match emil resources to db
-		return resources.filter(x => response.result.find(y => {
-			return y.resourceType === resourceTypes.ENVIRONMENT && y.resourceId === x.envId
-				|| y.resourceType !== resourceTypes.ENVIRONMENT && y.resourceId === x.id
-		}));
+		const response = await this.getAllWhere({ emulationProjectId });
+		if (response.hasError && response.error) {
+			throw(response.error);
+		};
+		if (!response.result.length) {
+			return [];
+		};
+		const emulationProjectResources = response.result.map(res => res.get({ plain: true })) as IEmulationProjectResource[];
+		const resources = await this._resourceSvc.getAllResources();
+		if (!resources || !resources.length) {
+			return [];
+		};
+		
+		return emulationProjectResources
+			.map(res => resources.find(resource => 
+				resource.id === res.resourceId || resource.envId === res.resourceId)
+			)
+			.filter(resource => resource);
 	}
 
 }
