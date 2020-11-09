@@ -227,6 +227,10 @@ export default class ResourceSideBar extends Vue {
 <style lang='scss'>
 .resource-side-bar {
 	padding: 1.8rem;
+
+	.resource-object-container  {
+		width: 308px;
+	}
 }
 
 .rsb-header {

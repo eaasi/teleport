@@ -31,7 +31,7 @@ export default class CheckboxInfo extends Vue {
     @Prop({ type: String, required: false })
     readonly label: string;
 
-    @Prop({ type: String, default: false })
+    @Prop({ type: String })
     readonly infoText: string;
 
     /* Computed
