@@ -228,7 +228,7 @@ export default class ResourceSideBar extends Vue {
 .resource-side-bar {
 	padding: 1.8rem;
 
-	.resource-object-container  {
+	.resource-object-container {
 		width: 308px;
 	}
 }

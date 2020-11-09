@@ -110,16 +110,22 @@ export default class EmulationProjectScreen extends Vue {
 		// create a copy of active environment
 		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
 		if (!tempEnvRecord) {
-			const err = 'Having troubles creating temporary environment record.';
-			eventBus.$emit('notification:show', generateNotificationError(err));
-			return;
+			return this.handleError('Having troubles creating temporary environment record.');
 		}
 		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', this.environment.envId);
+		if (!tempEnvironment) {
+			return this.handleError('Having troubles creating temporary environment resource.');
+		}
 		// update the copy with emulation project properties
 		let emuProjEnv: IEnvironment = this.prepareEnvironment(tempEnvironment);
 		const { id, error } = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
-		if (error) return this.handleError(error);
+		if (error) {
+			return this.handleError(error);
+		}
 		let emulationProjectEnv = await this.$store.dispatch('resource/getEnvironment', id);
+		if (!emulationProjectEnv) {
+			return this.handleError('Having troubles retrieving emulation project environment.');
+		}
 		this.activeEnvironment = emulationProjectEnv;
 		await this.$store.dispatch('resource/refreshTempEnvs');
 		// Route to access interface screen
