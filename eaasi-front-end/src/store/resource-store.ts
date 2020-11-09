@@ -217,6 +217,10 @@ const actions = {
 		return await _svc.addEnvironmentToTempArchive(payload);
 	},
 
+	async createAndAddEnvironmenttoTempArchive(_, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
+		return await _svc.createAndAddEnvironmenttoTempArchive(payload);
+	},
+
 	async deleteEnvironmentFromTempArchive(_, envId: string): Promise<ITempEnvironmentRecord> {
 		return await _svc.deleteEnvironmentFromTempArchive(envId);
 	},
@@ -227,8 +231,6 @@ const actions = {
 
 	async removeTempEnvironment({ commit, dispatch }: Store<ResourceState>, envId: string) {
 		let tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
-		console.log('ALL TEMP ', tempRecords);
-		console.log('REQUESTED ENVID ', envId);
 		if (tempRecords.some(tmp => tmp.envId === envId)) {
 			await dispatch('deleteEnvironmentFromTempArchive', envId);
 			commit('SET_ACTIVE_ENVIRONMENT', null);

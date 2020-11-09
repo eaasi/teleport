@@ -20,7 +20,7 @@ class ImportService extends BaseHttpService {
 			'/import/saveEnvironment', snapshot
 		);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result;
@@ -58,7 +58,7 @@ class ImportService extends BaseHttpService {
 			'/import/files', objectUploadPayload
 		);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result as EaasiTask;
@@ -71,7 +71,7 @@ class ImportService extends BaseHttpService {
 	async saveSoftwareObject(payload: ISoftwareObject) {
 		const res = await this.post<any>('/resource/save-software-object', payload);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result;
@@ -84,7 +84,7 @@ class ImportService extends BaseHttpService {
 	async createEnvironment(createEnvironmentPayload: ICreateEnvironmentPayload) {
 		const res = await this.post<any>('/import/createEnvironment', createEnvironmentPayload);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result;
@@ -97,7 +97,7 @@ class ImportService extends BaseHttpService {
 	async importImage(payload: IImageImportPayload) {
 		const res = await this.post<any>('/import/import-image', payload);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result;
@@ -110,7 +110,7 @@ class ImportService extends BaseHttpService {
 	async postComponents(payload) {
 		const res = await this.post<any>('/import/postComponents', payload);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result;
@@ -119,7 +119,7 @@ class ImportService extends BaseHttpService {
 	async createUserImportRelation(userImportRelationRequest: IUserImportRelationRequest): Promise<IUserImportedResource> {
 		const res = await this.post<IUserImportedResource>('/import/user-import-relation', userImportRelationRequest);
 		if (!res.ok) {
-			console.log('Response returned error: ', res);
+			console.warn('Response returned error: ', res);
 			return null;
 		}
 		return res.result;

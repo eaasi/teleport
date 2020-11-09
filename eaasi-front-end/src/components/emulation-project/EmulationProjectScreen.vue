@@ -164,11 +164,11 @@ export default class EmulationProjectScreen extends Vue {
 			type: 'machine' // TODO: Only have seen machine being type here, could there be another option?
 		};
 		// create a copy of active environment
-		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
+		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/createAndAddEnvironmenttoTempArchive', payload);
 		if (!tempEnvRecord) {
 			throw new Error('Having troubles creating temporary environment record.');
 		}
-		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', environment.envId);
+		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
 		if (!tempEnvironment) {
 			throw new Error('Having troubles creating temporary environment resource.');
 		}
@@ -182,6 +182,7 @@ export default class EmulationProjectScreen extends Vue {
 		if (!emulationProjectEnv) {
 			throw new Error('Having troubles retrieving emulation project environment.');
 		}
+		debugger;
 		return emulationProjectEnv;
 	}
 

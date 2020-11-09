@@ -197,7 +197,7 @@ export default class BaseHttpService {
 			return response;
 
 		} catch (e) {
-			console.log(e);
+			console.warn(e);
 			eventBus.$emit('ajaxEnd');
 		}
 	}

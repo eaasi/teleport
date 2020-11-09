@@ -138,7 +138,6 @@ export default class CreateBaseEnvModal extends Vue {
 	selectOsForTemplate(template: string) {
 		const templateVal = template.split(':')[1];
 		const os: IUIOsItem = defaultOsList.find(os => os.value.indexOf(templateVal) >= 0);
-		console.log(os);
 		if (!os) return;
 		this.selectedOs = os;
 	}
