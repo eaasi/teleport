@@ -168,7 +168,6 @@ export default class CreateBaseEnvModal extends Vue {
 <style lang="scss">
 	.base-env-container {
 		padding: 1.2rem 3.4rem;
-
 	}
 	.create-env-modal {
 
