@@ -13,7 +13,7 @@
 						</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button :disabled="!canRunProject" @click="run">Run</ui-button>
+						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
 					</div>
 				</div>
 			</template>
@@ -96,10 +96,6 @@ export default class EmulationProjectScreen extends Vue {
 
 	/* Methods
 	============================================*/
-	async run() {
-		await this.runEmulationProject();
-	}
-
 	async runEmulationProject() {
 		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
 		// add selected resources to the payload
@@ -113,6 +109,11 @@ export default class EmulationProjectScreen extends Vue {
 		};
 		// create a copy of active environment
 		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
+		if (!tempEnvRecord) {
+			const err = 'Having troubles creating temporary environment record.';
+			eventBus.$emit('notification:show', generateNotificationError(err));
+			return;
+		}
 		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', this.environment.envId);
 		// update the copy with emulation project properties
 		let emuProjEnv: IEnvironment = this.prepareEnvironment(tempEnvironment);

@@ -12,7 +12,7 @@
 			</div>
 			<environment-card v-if="environment" />
 
-			<div>
+			<div v-if="environment">
 				<h4>Environment Options</h4>
 				<checkbox-info
 					label="Environment can print"

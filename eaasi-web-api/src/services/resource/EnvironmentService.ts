@@ -189,11 +189,13 @@ export default class EnvironmentService extends BaseService {
 			envId: payload.environment,
 			title: environment.title,
 		}
-		const derivativeResponse: ISnapshotResponse = await this.saveNewEnvironment(newEnvRequest);
-		if (derivativeResponse.error) throw new Error(derivativeResponse.error as string);
+		const response: ISnapshotResponse = await this.saveNewEnvironment(newEnvRequest);
+		if (response.status == '1') {
+			throw new Error(response.error ? response.error : response.message);
+		}
 		await this._componentService.stopComponent(id);
 		this.clearCache();
-		return await this.getEnvironment(derivativeResponse.envId);
+		return await this.getEnvironment(response.envId);
 	}
 
 	/*============================================================
