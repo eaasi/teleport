@@ -3,6 +3,7 @@
 		@close="$emit('close')"
 		title="Create Base Environment"
 		button-text="Cancel"
+		class="create-env-modal"
 	>
 		<div class="base-env-container">
 			<div class="base-env-heading">
@@ -167,8 +168,14 @@ export default class CreateBaseEnvModal extends Vue {
 <style lang="scss">
 	.base-env-container {
 		padding: 1.2rem 3.4rem;
-	}
 
+	}
+	.create-env-modal {
+
+		.eaasi-modal-content {
+			min-height: 50vh;
+		}
+	}
 	.section-os {
 		display: flex;
 		flex-direction: row;

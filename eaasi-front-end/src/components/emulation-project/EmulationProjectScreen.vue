@@ -182,7 +182,6 @@ export default class EmulationProjectScreen extends Vue {
 		if (!emulationProjectEnv) {
 			throw new Error('Having troubles retrieving emulation project environment.');
 		}
-		debugger;
 		return emulationProjectEnv;
 	}
 
