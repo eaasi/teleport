@@ -260,6 +260,10 @@ router.post('/save-environment-revision', (req, res) => controller.saveEnvironme
  * @apiDescription Creates a record in the database 
  */
 router.post('/temp/create', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
+	controller.createAndAddToTempArchive(req, res)
+);
+
+router.post('/temp/add', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
 	controller.addToTempArchive(req, res)
 );
 

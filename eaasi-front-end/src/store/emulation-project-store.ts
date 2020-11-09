@@ -51,7 +51,7 @@ const actions = {
 	/* Project
 	============================================*/
 
-	async loadProject({commit, dispatch}) {
+	async loadProject({ commit, dispatch }) {
 		let project = await _projectService.getProject();
 		if(!project) return;
 		commit('SET_PROJECT', project);
@@ -61,13 +61,16 @@ const actions = {
 	/* Resources
 	============================================*/
 
-	async loadProjectResources({commit}, projectId) {
+	async loadProjectResources({ commit }, projectId: number) {
 		let resources = await _projectService.getResources(projectId);
 		if(!resources) return;
 		commit('SET_PROJECT_RESOURCES', resources);
 	},
 
-	async addResources({dispatch, state}: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
+	async addResources({ dispatch, state }: Store<EmulationProjectStore>, resources: IEaasiResource[]) {
+		if (!state.project) {
+			await dispatch('loadProject');
+		}
 		let notInProject = resources.filter(r => !state.projectResources.find(pr => {
 			return getResourceId(r) === getResourceId(pr);
 		}));
@@ -77,11 +80,11 @@ const actions = {
 			resourceId: getResourceId(r),
 			resourceType: r.resourceType
 		})));
-		if(!result) return;
+		if (!result) return;
 		return await dispatch('loadProjectResources', state.project.id);
 	},
 
-	async removeResource({dispatch, state, commit}: Store<EmulationProjectStore>, resource: IEaasiResource) {
+	async removeResource({ dispatch, state, commit }: Store<EmulationProjectStore>, resource: IEaasiResource) {
 		let resourceId = getResourceId(resource);
 		let result = await _projectService.removeResource(state.project.id, resourceId);
 		if(!result) return;
@@ -96,8 +99,8 @@ const actions = {
 /============================================================*/
 
 const getters = {
-	canRunProject(): boolean {
-		return true; // TODO:
+	canRunProject(state): boolean {
+		return state.environment != null;
 	},
 	constructedFromBaseEnvironment(state): boolean {
 		return state.createEnvironmentPayload != null;

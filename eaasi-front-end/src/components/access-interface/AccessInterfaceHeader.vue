@@ -108,6 +108,7 @@
 	import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 	import PrintJobsModal from './PrintJobsModal.vue';
 import { IEnvironment } from '../../types/Resource';
+import { ITempEnvironmentRecord } from '@/types/Emulation';
 
 	@Component({
 		name: 'AccessInterfaceHeader',
@@ -128,7 +129,10 @@ import { IEnvironment } from '../../types/Resource';
 		readonly driveId: number;
 
 		@Get('resource/activeEnvironment')
-		activeEnvironment: IEnvironment;
+		readonly activeEnvironment: IEnvironment;
+
+		@Get('resource/tempEnvironments')
+		readonly tempEnvironments: ITempEnvironmentRecord[];
 
 		/* Data
 		============================================*/
@@ -212,17 +216,15 @@ import { IEnvironment } from '../../types/Resource';
 		}
 
 		initBrowserEvents() {
-			window.addEventListener('beforeunload', e => this.cleanTempEnvironment());
+			window.addEventListener('beforeunload', e => this.removeTempEnvironment());
 		}
 
 		removeBrowserEvents() {
 			window.removeEventListener('beforeunload', () => {});
 		}
 
-		async cleanTempEnvironment() {
-			if (this.$store.dispatch('resource/isTemporaryEnv', this.activeEnvironment.envId)) {
-				await this.$store.dispatch('resource/cleanTempEnvironment');
-			}
+		async removeTempEnvironment() {
+			await this.$store.dispatch('resource/removeTempEnvironment', this.activeEnvironment.envId);
 		}
 
 		async mounted() {
@@ -239,9 +241,9 @@ import { IEnvironment } from '../../types/Resource';
 		}
 
 		beforeDestroy() {
-			eventBus.$off('emulator:print:add-print-job');
-			this.cleanTempEnvironment();
+			this.removeTempEnvironment();
 			this.removeBrowserEvents();
+			eventBus.$off('emulator:print:add-print-job');
 		}
 	}
 

@@ -345,6 +345,17 @@ export default class ResourceController extends BaseController {
 	 */
 	async addToTempArchive(req: IAuthorizedRequest, res: Response) {
 		try {
+			let userId = req.user.id;
+			let payload: IEmulatorComponentRequest = req.body;
+			let tempEnvRecord = await this._environmentService.addToTempArchive(userId, payload.environment);
+			return res.send(tempEnvRecord);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	async createAndAddToTempArchive(req: IAuthorizedRequest, res: Response) {
+		try { 
 			let userId = Number(req.user.id);
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;
 			let derivative = await this._environmentService.createDerivative(emuComponentRequest);

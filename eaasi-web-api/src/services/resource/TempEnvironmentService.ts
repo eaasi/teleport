@@ -8,5 +8,6 @@ import CrudService from '../base/CrudService';
 export default class TempEnvironmentService extends CrudService<TempEnvironment> {
 	constructor() {
 		super(TempEnvironment);
-	}
+	};
+
 }

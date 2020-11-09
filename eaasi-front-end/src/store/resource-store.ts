@@ -225,10 +225,12 @@ const actions = {
 		return await _svc.getAllTemp();
 	},
 
-	async cleanTempEnvironment({ commit, dispatch, state }: Store<ResourceState>) {
+	async removeTempEnvironment({ commit, dispatch }: Store<ResourceState>, envId: string) {
 		let tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
-		if (tempRecords.some(tmp => tmp.envId === state.activeEnvironment.envId)) {
-			await dispatch('deleteEnvironmentFromTempArchive', state.activeEnvironment.envId);
+		console.log('ALL TEMP ', tempRecords);
+		console.log('REQUESTED ENVID ', envId);
+		if (tempRecords.some(tmp => tmp.envId === envId)) {
+			await dispatch('deleteEnvironmentFromTempArchive', envId);
 			commit('SET_ACTIVE_ENVIRONMENT', null);
 		}
 		await dispatch('refreshTempEnvs');
@@ -238,10 +240,6 @@ const actions = {
 	async refreshTempEnvs({ dispatch, commit }: Store<ResourceState>) {
 		let allTemp = await dispatch('getAllTemp');
 		commit('SET_TEMP_ENVIRONMENTS', allTemp);
-	},
-
-	isTemporaryEnv({ state }: Store<ResourceState>, envId: string): boolean {
-		return state.tempEnvironments.some(temp => temp.envId === envId);
 	},
 
 };

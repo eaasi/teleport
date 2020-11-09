@@ -47,6 +47,7 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 import { Route } from 'vue-router/types/router';
 import eventBus from '../../utils/event-bus';
 import { generateNotificationError } from '../../helpers/NotificationHelper';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -97,12 +98,67 @@ export default class EmulationProjectScreen extends Vue {
 	/* Methods
 	============================================*/
 	async runEmulationProject() {
+		try {
+			const emulationProjectEnv = await this.prepareEmulationProject(this.environment);
+
+			// Set newly create emulation project environment to active
+			this.activeEnvironment = emulationProjectEnv;
+
+			// refresh temporary environment lib
+			await this.$store.dispatch('resource/refreshTempEnvs');
+
+			// Route to access interface screen
+			this.$router.push(this.buildQuery(emulationProjectEnv.envId));
+		} catch(e) {
+			this.handleError(e);
+		}
+	}
+
+	private async prepareEmulationProject(env: EmulationProjectEnvironment): Promise<IEnvironment> {
+		if (env.archive === 'public') {
+			return await this.preparePublicEnvironment(env);
+		} else if (env.archive === 'default') {
+			return await this.preparePrivateEnvironment(env);
+		}
+		throw new Error('Emulationg project does not support remote environments.');
+	}
+
+	private buildQuery(envId: string) {
+		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
+			? buildAccessInterfaceQuery({ 
+				envId, 
+				archiveId: this.selectedObjects[0].archiveId,
+				objectId: this.selectedObjects[0].id
+			})
+			: buildAccessInterfaceQuery({ envId });
+	}
+
+	async preparePublicEnvironment(environment: EmulationProjectEnvironment): Promise<IEnvironment> {
+		const envCopy = jsonCopy<IEnvironment>(environment);
+		// update the copy with emulation project properties
+		let emuProjEnv: IEnvironment = this.prepareEnvironment(envCopy);
+		const response = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
+		if (response.error) {
+			throw new Error(response.error);
+		}
+		let emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
+		if (!emulationProjectEnv) {
+			throw new Error('Having troubles retrieving emulation project environment.');
+		}
+		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', { environment: emulationProjectEnv.envId });
+		if (!tempEnvRecord) {
+			throw new Error('Having troubles creating temporary environment record.');
+		}
+		return emulationProjectEnv;
+	}
+
+	async preparePrivateEnvironment(environment: EmulationProjectEnvironment): Promise<IEnvironment> {
 		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
 		// add selected resources to the payload
 		const payload: IEmulatorComponentRequest = {
-			archive: this.environment.archive,
+			archive: environment.archive,
 			emulatorVersion: 'latest',
-			environment: this.environment.envId,
+			environment: environment.envId,
 			keyboardLayout: keyboardSettings.language.name,
 			keyboardModel: keyboardSettings.layout.name,
 			type: 'machine' // TODO: Only have seen machine being type here, could there be another option?
@@ -110,36 +166,23 @@ export default class EmulationProjectScreen extends Vue {
 		// create a copy of active environment
 		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', payload);
 		if (!tempEnvRecord) {
-			return this.handleError('Having troubles creating temporary environment record.');
+			throw new Error('Having troubles creating temporary environment record.');
 		}
-		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', this.environment.envId);
+		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', environment.envId);
 		if (!tempEnvironment) {
-			return this.handleError('Having troubles creating temporary environment resource.');
+			throw new Error('Having troubles creating temporary environment resource.');
 		}
 		// update the copy with emulation project properties
 		let emuProjEnv: IEnvironment = this.prepareEnvironment(tempEnvironment);
 		const { id, error } = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
 		if (error) {
-			return this.handleError(error);
+			throw new Error(error);
 		}
-		let emulationProjectEnv = await this.$store.dispatch('resource/getEnvironment', id);
+		let emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', id);
 		if (!emulationProjectEnv) {
-			return this.handleError('Having troubles retrieving emulation project environment.');
+			throw new Error('Having troubles retrieving emulation project environment.');
 		}
-		this.activeEnvironment = emulationProjectEnv;
-		await this.$store.dispatch('resource/refreshTempEnvs');
-		// Route to access interface screen
-		let query = '';
-		if (this.selectedObjects.length && !this.constructedFromBaseEnvironment) {
-			query = buildAccessInterfaceQuery({ 
-				envId: emulationProjectEnv.envId, 
-				archiveId: this.selectedObjects[0].archiveId,
-				objectId: this.selectedObjects[0].id
-			});
-		} else {
-			query = buildAccessInterfaceQuery({ envId: emulationProjectEnv.envId });
-		}
-		this.$router.push(query);
+		return emulationProjectEnv;
 	}
 
 	async init() {
