@@ -74,6 +74,10 @@ const actions = {
 		return await _svc.saveUser(user);
 	},
 
+	async saveExistingUser(_store: Store<AdminState>, user: User) {
+		return await _svc.saveExistingUser(user);
+	},
+
 	async deleteUser(_store: Store<AdminState>, userId: number) : Promise<boolean> {
 		return await _svc.deleteUser(userId);
 	},
@@ -115,7 +119,7 @@ const actions = {
 	async resetPassword(_, email: string): Promise<boolean> {
 		return await _svc.resetUserPassword(email);
 	},
-	
+
 	/* Tasks
 	============================================*/
 	async getTaskState(_, taskId: string): Promise<ITaskState> {
@@ -136,7 +140,7 @@ const actions = {
 		return await _svc.getMostRecentErrorLogs();
 	},
 
-	/* 
+	/*
 	Node Preferences
 	============================================*/
 	getKeyboardSettings(_): IKeyboardSettings {
@@ -150,7 +154,7 @@ const actions = {
 	async dbDataMigration(_) {
 		return await _svc.dbDataMigration();
 	},
-	
+
 	async syncEnvironments(_) {
 		return await _svc.syncEnvironments();
 	},
