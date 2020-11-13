@@ -28,6 +28,8 @@ This app is "the back end of the front end," and has the following responsibilit
 
 [Sequelize ORM](#sequelize-orm)
 
+[Updating Database Schema](#updating-database-schema)
+
 [Deployment](#deployment)
 
 ---
