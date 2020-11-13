@@ -168,6 +168,8 @@ Changes to the database schema are enacted using migrations.  In this way, chang
 
 ### Creating or Updating a Database Table
 
+__Note__: It is highly recommended to run a database backup before running any migrations.
+
 #### Step 1 - Create or Update Typescript models corresponding to SQL tables.
 
 Create or modify the TypeScript model corresponding to the entity you would like to create or change.  These models are currently in subdirectories located in `src/data_access/models`.
