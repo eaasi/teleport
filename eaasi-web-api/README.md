@@ -174,7 +174,7 @@ Create or modify the TypeScript model corresponding to the entity you would like
 
 #### Step 2 - Generate a migration file.
 
-Generate a new migration file using the provided npm script: `npm migration:create <name_of_migration>`. Alternatively, you can use the sequelize tooling directly: `npx sequelize-cli migration:create --name <name_of_migration>`.  This will generate a file prefixed with a timestamp in `src/data_access/migrations`.
+Generate a new migration file using the provided npm script: `npm run migration:create <name_of_migration>`. Alternatively, you can use the sequelize tooling directly: `npx sequelize-cli migration:create --name <name_of_migration>`.  This will generate a file prefixed with a timestamp in `src/data_access/migrations`.
 
 #### Step 3 - Edit the migration file to perform database changes.
 
@@ -183,7 +183,7 @@ Open the newly-created migration file, and complete the functions for `up` and `
 #### Step 4 - Execute the migration.
 
 Up until this point, unless you are running a watch script locally, migrations have not run in the database you are developing against.
-To run migrations explicitly, run `npm migration:run`.  This will invoke `npx sequelize-cli db:migrate`, which will execute the migrations.
+To run migrations explicitly, run `npm run migration:run`.  This will invoke `npx sequelize-cli db:migrate`, which will execute the migrations.
 Additionally, running the API using the standard entry point script locally `./migrate_run_local_api.sh` will start the API.  In `src/app.ts`, `sequelize.sync()` is called, which synchronizes the database with current model state using the migration files.
 
 
