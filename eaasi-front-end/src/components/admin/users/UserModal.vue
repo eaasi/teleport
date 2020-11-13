@@ -5,7 +5,7 @@
 			:title="modalTitle"
 			save-text="Save Changes"
 			class="eaasi-user-modal"
-			@save="saveExistingUser"
+			@save="handleSaveUser"
 		>
 			<div class="user-info">
 				<h3>User Information</h3>
@@ -178,11 +178,22 @@ export default class UserModal extends Vue {
 	/* Methods
 	============================================*/
 
-	/**
-	 * Posts or puts the user via REST API and retrieves update user list
-	 */
+	async handleSaveUser() {
+		if (this.isNew) {
+			return await this.saveUser();
+		}
+		return await this.saveExistingUser();
+	}
+
 	async saveExistingUser() {
 		let success = await this.$store.dispatch('admin/saveExistingUser', this.user);
+		if(!success) return;
+		await this.$store.dispatch('admin/getUsers');
+		this.$emit('close');
+	}
+
+	async saveUser() {
+		let success = await this.$store.dispatch('admin/saveUser', this.user);
 		if(!success) return;
 		await this.$store.dispatch('admin/getUsers');
 		this.$emit('close');
