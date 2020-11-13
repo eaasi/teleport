@@ -1,4 +1,4 @@
-![EaaSI Logo](src/assets/header-logo.png)
+![EaaSI Logo](../eaasi-front-end/src/assets/header-logo.png)
 
 # eaasi-web-api
 
@@ -25,8 +25,6 @@ This app is "the back end of the front end," and has the following responsibilit
 [Checking Types](#checking-types)
 
 [Generating API Docs](#generating-api-documentation)
-
-[Typescript](#typescript)
 
 [Sequelize ORM](#sequelize-orm)
 
