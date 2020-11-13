@@ -20,7 +20,8 @@
 		"local:test:watch": "export NODE_ENV=test && npm run clean && npm run watch",
 		"local:watch": "export NODE_ENV=development && npm run clean && npm run watch",
 		"dev": "export NODE_ENV=development && npm run clean && npm run build && npm run server:prod",
-		"prod": "export NODE_ENV=production && npm run clean && npm run build && npm run server:prod"
+		"prod": "export NODE_ENV=production && npm run clean && npm run build && npm run server:prod",
+		"migration": "npx sequelize-cli migration:create --name"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-decorators": "^7.6.0",
