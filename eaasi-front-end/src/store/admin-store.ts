@@ -70,15 +70,15 @@ const actions = {
 		commit('SET_USERS_RESULT', usersResult);
 	},
 
-	async saveUser(_store: Store<AdminState>, user: User) {
+	async saveUser(_store: Store<AdminState>, user: User): Promise<boolean> {
 		return await _svc.saveUser(user);
 	},
 
-	async saveExistingUser(_store: Store<AdminState>, user: User) {
+	async saveExistingUser(_store: Store<AdminState>, user: User): Promise<boolean> {
 		return await _svc.saveExistingUser(user);
 	},
 
-	async deleteUser(_store: Store<AdminState>, userId: number) : Promise<boolean> {
+	async deleteUser(_store: Store<AdminState>, userId: number): Promise<boolean> {
 		return await _svc.deleteUser(userId);
 	},
 
