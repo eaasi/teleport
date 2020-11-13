@@ -168,13 +168,28 @@ Changes to the database schema are enacted using migrations.  In this way, chang
 
 ### Creating or Updating a Database Table
 
-1 - Create or modify the TypeScript model corresponding to the entity you would like to create or change.  These models are currently in subdirectories located in `src/data_access/models`.
+#### Step 1 - Create or Update Typescript models corresponding to SQL tables.
 
-2 - Generate a new migration file using the provided npm script: `npm migration <name_of_migration>`. Alternatively, you can use the sequelize tooling directly: `npx sequelize-cli migration:create --name <name_of_migration>`.  This will generate a file prefixed with a timestamp in `src/data_access/migrations`.
+Create or modify the TypeScript model corresponding to the entity you would like to create or change.  These models are currently in subdirectories located in `src/data_access/models`.
 
-3 - Open the newly-created migration file, and complete the functions for `up` and `down` using sequelize.  Examples and relevant syntax for creating, updating, or deleting new tables, columns, and relationships are provided in the [sequelize documentation](https://sequelize.org/master/manual/migrations.html#migration-skeleton).  It's important that the migrations define the schema properly, as it is these files that sequelize uses to execute the SQL commands to update the database.
+#### Step 2 - Generate a migration file.
 
-4 - Running the API using the standard entry point script locally `./migrate_run_local_api.sh` will start the API.  In `src/app.ts`, `sequelize.sync()` is called, which synchronizes the database with current model state using the migration files.
+Generate a new migration file using the provided npm script: `npm migration:create <name_of_migration>`. Alternatively, you can use the sequelize tooling directly: `npx sequelize-cli migration:create --name <name_of_migration>`.  This will generate a file prefixed with a timestamp in `src/data_access/migrations`.
+
+#### Step 3 - Edit the migration file to perform database changes.
+
+Open the newly-created migration file, and complete the functions for `up` and `down` using sequelize.  Examples and relevant syntax for creating, updating, or deleting new tables, columns, and relationships are provided in the [sequelize documentation](https://sequelize.org/master/manual/migrations.html#migration-skeleton).  It's important that the migrations define the schema properly, as it is these files that sequelize uses to execute the SQL commands to update the database.
+
+#### Step 4 - Execute the migration.
+
+Up until this point, unless you are running a watch script locally, migrations have not run in the database you are developing against.
+To run migrations explicitly, run `npm migration:run`.  This will invoke `npx sequelize-cli db:migrate`, which will execute the migrations.
+Additionally, running the API using the standard entry point script locally `./migrate_run_local_api.sh` will start the API.  In `src/app.ts`, `sequelize.sync()` is called, which synchronizes the database with current model state using the migration files.
+
+
+#### Detailed Sequelize Migrations Documentation:
+
+[Sequelize Manual - Migrations](https://sequelize.org/master/manual/migrations.html)
 
 ---
 
