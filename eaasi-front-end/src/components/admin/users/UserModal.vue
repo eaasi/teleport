@@ -5,7 +5,7 @@
 			:title="modalTitle"
 			save-text="Save Changes"
 			class="eaasi-user-modal"
-			@save="saveUser"
+			@save="handleSaveUser"
 		>
 			<div class="user-info">
 				<h3>User Information</h3>
@@ -54,10 +54,10 @@
 				<hr class="btn-wrapper-hr" />
 				<div class="btn-wrapper">
 					<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
-					<ui-button 
-						v-if="showResetPassword" 
-						@click="isResetPasswordModalVisible = true" 
-						color-preset="light-blue" 
+					<ui-button
+						v-if="showResetPassword"
+						@click="isResetPasswordModalVisible = true"
+						color-preset="light-blue"
 						style="margin-left: 2rem;"
 					>
 						Reset Password
@@ -98,7 +98,7 @@
 					You are about to reset a password for user <span class="user-to-reset">{{ user.username }} - {{ user.email }}</span>.
 				</div>
 				<div class="delete-message">
-					This will reset the current user password and send a new password to the user's email. 
+					This will reset the current user password and send a new password to the user's email.
 					This action cannot be undone.
 				</div>
 			</alert-card>
@@ -178,13 +178,24 @@ export default class UserModal extends Vue {
 	/* Methods
 	============================================*/
 
-	/**
-	 * Posts or puts the user via REST API and retrieves update user list
-	 */
+	async handleSaveUser() {
+		if (this.isNew) {
+			return await this.saveUser();
+		}
+		return await this.saveExistingUser();
+	}
+
+	async saveExistingUser() {
+		let success = await this.$store.dispatch('admin/saveExistingUser', this.user);
+		if(!success) return;
+		await this.$store.dispatch('admin/getUsers');
+		this.$emit('close');
+	}
+
 	async saveUser() {
 		let success = await this.$store.dispatch('admin/saveUser', this.user);
 		if(!success) return;
-		this.$store.dispatch('admin/getUsers');
+		await this.$store.dispatch('admin/getUsers');
 		this.$emit('close');
 	}
 
@@ -203,7 +214,7 @@ export default class UserModal extends Vue {
 	async resetPassword() {
 		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
 		this.isResetPasswordModalVisible = false;
-		const notification = success 
+		const notification = success
 			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}.`)
 			: generateNotificationError('Something went wrong, please try again.');
 		eventBus.$emit('notification:show', notification);

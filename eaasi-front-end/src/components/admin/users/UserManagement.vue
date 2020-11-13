@@ -51,7 +51,7 @@ export default class UserManagement extends AdminScreen {
 	============================================*/
 
 	@Prop({type: Boolean, required: false})
-	readonly showCreateModal: boolean
+	readonly showCreateModal: boolean;
 
 	/* Data
 	============================================*/

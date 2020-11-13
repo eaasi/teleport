@@ -43,7 +43,12 @@ class AdminService extends BaseHttpService {
 	}
 
 	async saveUser(user: User): Promise<boolean> {
-		let res = await this.post('/admin/users/save', user);
+		let res = await this.post('/admin/users/save', { user, isNewPasswordRequired: true });
+		return res.ok;
+	}
+
+	async saveExistingUser(user: User): Promise<boolean> {
+		let res = await this.post('/admin/users/save', { user, isNewPasswordRequired: false });
 		return res.ok;
 	}
 

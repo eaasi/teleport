@@ -40,11 +40,11 @@ const actions = {
 	============================================*/
 
 	getEmulators({ commit }: Store<AdminState>) {
-console.log('getEmulators');
+		console.log('getEmulators');
 	},
 
 	importEmulator(_: Store<AdminState>, req: EmulatorImportRequest) {
-	console.log('importEmulator');
+		console.log('importEmulator');
 	},
 
 	setDefaultEmulatorVersion(_: Store<AdminState>, entry: IEmulatorEntry) {
@@ -63,7 +63,6 @@ console.log('getEmulators');
 	},
 
 	deleteUser(_store: Store<AdminState>, userId: number)  {
-		
 	},
 
 	getRoles({ commit }: Store<AdminState>) {
@@ -86,17 +85,17 @@ console.log('getEmulators');
 	},
 
 	deleteHarvester({ dispatch }: Store<AdminState>, name: string) {
-console.log('deleteHarvester');
+		console.log('deleteHarvester');
 	},
 
 	resetPassword(_, email: string) {
-console.log('resetPassword');
+		console.log('resetPassword');
 	},
-	
+
 	/* Tasks
 	============================================*/
 	getTaskState(_, taskId: string) {
-	console.log('getTaskState');
+		console.log('getTaskState');
 	},
 
 	/* Error Logs
@@ -109,7 +108,7 @@ console.log('resetPassword');
 		console.log('getMostRecentErrorLogs');
 	},
 
-	/* 
+	/*
 	Node Preferences
 	============================================*/
 	getKeyboardSettings(_) {
@@ -123,7 +122,7 @@ console.log('resetPassword');
 	dbDataMigration(_) {
 		console.log('dbDataMigration');
 	},
-	
+
 	syncEnvironments(_) {
 		console.log('syncEnvironments');
 	},
@@ -131,7 +130,6 @@ console.log('resetPassword');
 	getApiKey({ commit }: Store<AdminState>) {
 		console.log('getApiKey');
 	}
-
 
 };
 
