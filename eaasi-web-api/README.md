@@ -1,4 +1,4 @@
-![EaaSI Logo](src/assets/header-logo.png)
+![EaaSI Logo](../eaasi-front-end/src/assets/header-logo.png)
 
 # eaasi-web-api
 
@@ -10,7 +10,32 @@ This app is "the back end of the front end," and has the following responsibilit
 - Reads and writes data to a SQL database for client-specific business logic
 - Provides client-specific business logic, including user management, interaction with SAML identity providers, bookmarking, background task management, blog syndication, and metadata serialization.
 
-## Project setup
+
+---
+
+
+## Quick Links
+
+[Project Setup](#project-setup)
+
+[Tests](#tests)
+
+[Linting](#linting)
+
+[Checking Types](#checking-types)
+
+[Generating API Docs](#generating-api-documentation)
+
+[Sequelize ORM](#sequelize-orm)
+
+[Updating Database Schema](#updating-database-schema)
+
+[Deployment](#deployment)
+
+---
+
+
+## Project Setup
 
 The application is a web API built on [Express.js](https://expressjs.com/) using Typescript.
 
@@ -25,7 +50,7 @@ npm install
 The application can run in development mode with hot reloading enabled mode using the following command:
 
 ```
-npm run local:watch 
+npm run local:watch
 ```
 
 After building, the app will run on port 8081 with hot reloading enabled.  In this mode, the `NODE_ENV` environment variable is set to `'local'`
@@ -37,7 +62,11 @@ npm run build
 
 `babel` is used to transpile Typescript and copy all artifacts to the `dist` directory.
 
-## Tests 
+
+---
+
+
+## Tests
 
 `jest` is used to run the tests.
 
@@ -55,6 +84,10 @@ Test coverage can be viewed using the following command:
 npm run test:unit:coverage
 ```
 
+
+---
+
+
 ## Linting
 
 A pre-push git hook is configured to lint the project.  Linting can be invoked manually using the following command:
@@ -63,7 +96,13 @@ A pre-push git hook is configured to lint the project.  Linting can be invoked m
 npm run lint
 ```
 
-## Checking Types 
+
+---
+
+
+## Checking Types
+
+Typescript is used throughout the project, and is the preferred language for current development.
 
 Smoke test Typescript using:
 
@@ -71,17 +110,21 @@ Smoke test Typescript using:
 npm run check-types
 ```
 
-## Generating API Documentation 
 
-The [apiDoc](https://apidocjs.com/) library is used to generate API documentation. 
+---
 
-### Generating the Documentation 
+
+## Generating API Documentation
+
+The [apiDoc](https://apidocjs.com/) library is used to generate API documentation.
+
+### Generating the Documentation
 
 API documentation can be generated using:
 
 `npm run generate-docs`
 
-This will create a static webpage available in the `apidoc` directory in the root of the project. 
+This will create a static webpage available in the `apidoc` directory in the root of the project.
 
 ### Conventions
 
@@ -102,15 +145,56 @@ Developers are strongly encouraged to annotate all new endpoints with docstrings
 router.get('/content', (req, res) => controller.getContent(req, res));
 ```
 
-## Typescript
 
-Typescript is used throughout the project, and is the preferred language for current development.
+---
 
-## Sequelize
+
+## Sequelize ORM
 
 [Sequelize](https://sequelize.org) is used in the application as an ORM.
 
 [sequelize-typescript](https://www.npmjs.com/package/sequelize-typescript) is used to provide decorators and better Typescript support.
+
+
+---
+
+
+## Updating Database Schema
+
+The project is developed in a code-first manner with respect to database modeling.
+TypeScript models define the entities that make up the database schema.
+Changes to the database schema are enacted using migrations.  In this way, changes to the schema are atomic, determinstic, and synchronized across any environment.
+
+
+### Creating or Updating a Database Table
+
+__Note__: It is highly recommended to run a database backup before running any migrations.
+
+#### Step 1 - Create or Update Typescript models corresponding to SQL tables.
+
+Create or modify the TypeScript model corresponding to the entity you would like to create or change.  These models are currently in subdirectories located in `src/data_access/models`.
+
+#### Step 2 - Generate a migration file.
+
+Generate a new migration file using the provided npm script: `npm run migration:create <name_of_migration>`. Alternatively, you can use the sequelize tooling directly: `npx sequelize-cli migration:create --name <name_of_migration>`.  This will generate a file prefixed with a timestamp in `src/data_access/migrations`.
+
+#### Step 3 - Edit the migration file to perform database changes.
+
+Open the newly-created migration file, and complete the functions for `up` and `down` using sequelize.  Examples and relevant syntax for creating, updating, or deleting new tables, columns, and relationships are provided in the [sequelize documentation](https://sequelize.org/master/manual/migrations.html#migration-skeleton).  It's important that the migrations define the schema properly, as it is these files that sequelize uses to execute the SQL commands to update the database.
+
+#### Step 4 - Execute the migration.
+
+Up until this point, unless you are running a watch script locally, migrations have not run in the database you are developing against.
+To run migrations explicitly, run `npm run migration:run`.  This will invoke `npx sequelize-cli db:migrate`, which will execute the migrations.
+Additionally, running the API using the standard entry point script locally `./migrate_run_local_api.sh` will start the API.  In `src/app.ts`, `sequelize.sync()` is called, which synchronizes the database with current model state using the migration files.
+
+
+#### Detailed Sequelize Migrations Documentation:
+
+[Sequelize Manual - Migrations](https://sequelize.org/master/manual/migrations.html)
+
+---
+
 
 ## Deployment
 
