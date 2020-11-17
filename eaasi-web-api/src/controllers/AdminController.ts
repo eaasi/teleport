@@ -81,26 +81,32 @@ export default class AdminController extends BaseController {
 	 */
 	async saveUser(req: Request, res: Response) {
 		try {
-			let user = req.body;
+			let user = req.body.user;
+			let isNewPasswordRequired = req.body.isNewPasswordRequired;
 			let savedUser = await this._userSvc.saveUser(user.id, user);
 			let plainUser = savedUser.get({ plain: true }) as IEaasiUser;
 			if (!SAML_ENABLED) {
-				const password = this.generatePassword();
-				const hash = this._authService.createUserHash(password);
-				const userHash = await this._userHashService.saveUserHash({ userId: plainUser.id, hash });
-				const mailPayload: IMailPayload = { password, receiver: plainUser.email };
-				const mailResponse =  await this._mailerService.sendMail(MailerAction.NewAccountRegister, mailPayload);
-				if (mailResponse.accepted.length > 0) {
-					res.send(true);
+				if (isNewPasswordRequired) {
+					const password = this.generatePassword();
+					const hash = this._authService.createUserHash(password);
+					const userHash = await this._userHashService.saveUserHash({ userId: plainUser.id, hash });
+					const mailPayload: IMailPayload = { password, receiver: plainUser.email };
+					const mailResponse =  await this._mailerService.sendMail(MailerAction.NewAccountRegister, mailPayload);
+					if (mailResponse.accepted.length > 0) {
+						res.send(true);
+					}
+					res.status(500);
+					res.send(false);
+				} else {
+					return res.send(true);
 				}
-				res.status(500);
-				res.send(false);
 			}
-			res.send(plainUser);
+			return res.send(plainUser);
 		} catch(e) {
 			return this.sendError(e, res);
 		}
 	}
+
 
 	/**
 	 * Deletes User
