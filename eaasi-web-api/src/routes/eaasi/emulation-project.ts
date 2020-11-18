@@ -1,7 +1,7 @@
 import EmulationProjectController from '@/controllers/EmulationProjectController';
 import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest, IDeleteEmulationProjectResourceRequest } from '@/controllers/EmulationProjectResourceController';
-import { EmulationProject, EmulationProjectResource } from '@/data_access/models/app';
-import { IAuthorizedGetRequest, IAuthorizedPutRequest, IAuthorizedPostRequest, IAuthorizedDeleteRequest } from '@/types/auth/Auth';
+import { EmulationProjectResource } from '@/data_access/models/app';
+import { IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
 
@@ -10,9 +10,9 @@ const controller = new EmulationProjectController();
 const resourcesController = new EmulationProjectResourceController();
 
 
-router.get('/get-for-user', (req: IAuthorizedGetRequest, res: Response) => {
-	controller.getForUser(req, res);
-});
+router.get('/get-for-user', (req: IAuthorizedGetRequest, res: Response) =>
+	controller.getForUser(req, res)
+);
 
 router.get('/:projectId/resources',
 	[check('projectId').isNumeric()],
