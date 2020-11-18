@@ -91,7 +91,6 @@ import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import User from '@/models/admin/User';
 import ResourceList from '@/components/resources/ResourceList.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
@@ -214,8 +213,8 @@ export default class ExploreResourcesScreen extends Vue {
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			this.query = {
-				...this.query, 
-				userId: this.user.id, 
+				...this.query,
+				userId: this.user.id,
 				onlyBookmarks: false,
 				onlyImportedResources: false,
 				archives: []
@@ -243,7 +242,7 @@ export default class ExploreResourcesScreen extends Vue {
 		const query: IResourceSearchQuery = this.queryService.retrieveQuery();
 		if (query) {
 			this.query = query;
-		};
+		}
 		if (keyword) {
 			this.query.keyword = keyword;
 		}

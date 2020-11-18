@@ -96,13 +96,11 @@ import ResourceList from '@/components/resources/ResourceList.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
-import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse, IResourceSearchQuery } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
-import { resourceTypes } from '@/utils/constants';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
-import { jsonCopy } from '../../../utils/functions';
-import { ROUTES } from '../../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
 import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 
@@ -189,13 +187,13 @@ export default class ImportedResourcesSection extends Vue {
 		const query = this.queryService.retrieveQuery();
 		if (query) {
 			this.query = query;
-		};
-		
+		}
+
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			this.query = {
-				...this.query, 
-				userId: this.user.id, 
+				...this.query,
+				userId: this.user.id,
 				onlyImportedResources: true,
 				onlyBookmarks: false,
 				archives: ['zero conf', 'default']

@@ -60,11 +60,11 @@
 					<h4 class="no-mb">Objects</h4>
 					<a class="clickable txt-sm bold">Clear All</a>
 				</div>
-				<alert 
-					no-icon 
-					type="warning" 
-					style-preset="border-right" 
-					style="margin-bottom: 1rem;" 
+				<alert
+					no-icon
+					type="warning"
+					style-preset="border-right"
+					style="margin-bottom: 1rem;"
 					v-if="resourceLimit === 1"
 				>
 					Only one object type can be emulated <br />
@@ -104,19 +104,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get, Sync } from 'vuex-pathify';
-import { IEmulationProjectResource } from '../../types/Emulation';
-import { IEaasiResource, IEnvironment } from '../../types/Resource';
-import { resourceTypes, IResourceTypes } from '../../utils/constants';
-import { filterResourcesByType, getResourceTypeTags, removeResourcesByType } from '../../helpers/ResourceHelper';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { resourceTypes, IResourceTypes } from '@/utils/constants';
+import { getResourceTypeTags } from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import { ROUTES } from '@/router/routes.const';
-import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
 	name: 'ResourceSideBar',
@@ -162,10 +161,6 @@ export default class ResourceSideBar extends Vue {
 
 	get hasObjectSlots(): boolean {
 		return this.resourceLimit > this.selected.length;
-	}
-
-	get isDetailsPage(): boolean {
-		return this.$route.path === ROUTES.EMULATION_PROJECT.DETAILS;
 	}
 
 	/* Data

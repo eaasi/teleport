@@ -41,14 +41,13 @@ import { NumberedSteps, UiButton } from '@/components/global';
 import { INumberedStep } from '@/types/NumberedStep';
 import TaskModal from '@/components/admin/running-tasks/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
-import { ROUTES } from '../../router/routes.const';
-import { IUserImportRelationRequest, IUserImportedResource } from '../../types/UserImportRelation';
-import { IEaasiUser } from 'eaasi-admin';
-import { generateNotificationError, generateNotificationSuccess } from '../../helpers/NotificationHelper';
-import eventBus from '../../utils/event-bus';
-import { ITaskState } from '../../types/Task';
-import ContentImportResource from '../../models/import/ContentImportResource';
-import { IEnvironment, ResourceType } from '../../types/Resource';
+import { ROUTES } from '@/router/routes.const';
+import { IUserImportRelationRequest } from '@/types/UserImportRelation';
+import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';
+import eventBus from '@/utils/event-bus';
+import { ITaskState } from '@/types/Task';
+import ContentImportResource from '@/models/import/ContentImportResource';
+import { IEnvironment, ResourceType } from '@/types/Resource';
 
 	@Component({
 		name: 'ImportProgress',
@@ -159,7 +158,7 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 			const responseData = this.parseUserData(taskResult.userData);
 			const { imageId, objectId } = responseData;
 			if (!imageId && !objectId) {
-				this.scheduleNotificationFailure('Someting went wrong during import, please try again.');
+				this.scheduleNotificationFailure('Something went wrong during import, please try again.');
 			}
 			switch(this.importType) {
 				case importTypes.IMAGE:
@@ -182,7 +181,7 @@ import { IEnvironment, ResourceType } from '../../types/Resource';
 
 		async onImportImage(imageId: string) {
 			await this.createUserImportRelation(resourceTypes.IMAGE, imageId);
-			
+
 			this.$router.push(ROUTES.RESOURCES.MY_RESOURCES);
 		}
 

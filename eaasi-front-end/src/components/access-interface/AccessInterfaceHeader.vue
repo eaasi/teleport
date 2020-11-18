@@ -98,155 +98,154 @@
 </template>
 
 <script lang="ts">
-	import {ISaveEnvOptions} from '@/types/SaveEnvironment';
-	import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
-	import eventBus from '@/utils/event-bus';
-	import Vue from 'vue';
-	import {Component} from 'vue-property-decorator';
-	import {Get} from 'vuex-pathify';
-	import ChangeMediaModal from './ChangeMediaModal.vue';
-	import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
-	import PrintJobsModal from './PrintJobsModal.vue';
-import { IEnvironment } from '../../types/Resource';
+import {ISaveEnvOptions} from '@/types/SaveEnvironment';
+import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
+import eventBus from '@/utils/event-bus';
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import {Get} from 'vuex-pathify';
+import ChangeMediaModal from './ChangeMediaModal.vue';
+import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
+import PrintJobsModal from './PrintJobsModal.vue';
+import { IEnvironment } from '@/types/Resource';
 import { ITempEnvironmentRecord } from '@/types/Emulation';
 
-	@Component({
-		name: 'AccessInterfaceHeader',
-		components: {
-			ChangeMediaModal,
-			PrintJobsModal,
-			SaveEnvironmentModal
-		}
-	})
-	export default class AccessInterfaceHeader extends Vue {
+@Component({
+	name: 'AccessInterfaceHeader',
+	components: {
+		ChangeMediaModal,
+		PrintJobsModal,
+		SaveEnvironmentModal
+	}
+})
+export default class AccessInterfaceHeader extends Vue {
 
-		/* Computed
-        ============================================*/
-		@Get('emulatorIsRunning')
-		readonly emulatorIsRunning: boolean;
+	/* Computed
+	============================================*/
+	@Get('emulatorIsRunning')
+	readonly emulatorIsRunning: boolean;
 
-		@Get('driveId')
-		readonly driveId: number;
+	@Get('driveId')
+	readonly driveId: number;
 
-		@Get('resource/activeEnvironment')
-		readonly activeEnvironment: IEnvironment;
+	@Get('resource/activeEnvironment')
+	readonly activeEnvironment: IEnvironment;
 
-		@Get('resource/tempEnvironments')
-		readonly tempEnvironments: ITempEnvironmentRecord[];
+	@Get('resource/tempEnvironments')
+	readonly tempEnvironments: ITempEnvironmentRecord[];
 
-		/* Data
-		============================================*/
-		mediaItems: [] = [];
-		showMediaOptions: boolean = false;
-		showSaveEnvironment: boolean = false;
-		showPrintJobsModal: boolean = false;
-		printJobLabels: string[] = [];
+	/* Data
+	============================================*/
+	mediaItems: [] = [];
+	showMediaOptions: boolean = false;
+	showSaveEnvironment: boolean = false;
+	showPrintJobsModal: boolean = false;
+	printJobLabels: string[] = [];
 
-		/* Methods
-        ============================================*/
-		emitTakeScreenshot() {
-			eventBus.$emit('emulator:takeScreenshot');
-		}
+	/* Methods
+	============================================*/
+	emitTakeScreenshot() {
+		eventBus.$emit('emulator:takeScreenshot');
+	}
 
-		emitSendEscape() {
-			eventBus.$emit('emulator:send:escape');
-		}
+	emitSendEscape() {
+		eventBus.$emit('emulator:send:escape');
+	}
 
-		emitSendCtrlAltDelete() {
-			eventBus.$emit('emulator:send:ctrlAltDelete');
-		}
+	emitSendCtrlAltDelete() {
+		eventBus.$emit('emulator:send:ctrlAltDelete');
+	}
 
-		downloadPrintJob(label: string) {
-			eventBus.$emit('emulator:print:download-print-job', label);
-		}
+	downloadPrintJob(label: string) {
+		eventBus.$emit('emulator:print:download-print-job', label);
+	}
 
-		async saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
-			let { title, description, saveType } = saveEnvOptions ;
+	async saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
+		let { title, description, saveType } = saveEnvOptions ;
 
-			// We are saving a new base environment resource
-			if (saveType === SaveEnvironmentOption.newEnvironment) {
-				let res = await this.$store.dispatch('resource/saveNewEnvironment', { title, description });
-				if (res.status === '0') {
-					this.$router.push({ name: 'Explore Resources' });
-				} else {
-					console.error('Error Saving Environment: ', res);
-				}
-
-            // We are making a revision to an existing environment resource
-			} else if (saveType === SaveEnvironmentOption.createRevision) {
-				let res = await this.$store.dispatch('resource/saveEnvironmentRevision', description);
-				if (res.status === '0') {
-					this.$router.push({ name: 'Explore Resources' });
-				} else {
-					console.error('Error Saving Environment: ', res);
-				}
-
-            // We are creating a new environment resource that is an 'Object Environment'
-			} else if (saveType === SaveEnvironmentOption.objectEnvironment) {
-				let res = await this.$store.dispatch('resource/saveObjectEnvironment', { title, description });
-				if (res.status === '0') {
-					this.$router.push({ name: 'Explore Resources' });
-				} else {
-					console.error('Error Saving Environment: ', res);
-				}
-			} else if (saveType === SaveEnvironmentOption.imageImport) {
-				eventBus.$emit('emulator:saveEnvironmentImport', { description, title });
+		// We are saving a new base environment resource
+		if (saveType === SaveEnvironmentOption.newEnvironment) {
+			let res = await this.$store.dispatch('resource/saveNewEnvironment', { title, description });
+			if (res.status === '0') {
+				this.$router.push({ name: 'Explore Resources' });
+			} else {
+				console.error('Error Saving Environment: ', res);
 			}
-		}
 
-		goToDashboard() {
-			this.$router.push({ 'name': 'Dashboard' });
-		}
-
-		changeMedia(mediaId) {
-			let EaasClient = (window as any).EaasClient || null;
-			const { softwareId, objectId, archiveId } = this.$route.query;
-			const label = mediaId === 'empty' ? '' : mediaId;
-			const changeMediaRequest = {
-				objectId: softwareId ? softwareId : objectId,
-				label,
-				driveId: this.driveId
-			};
-			eventBus.$emit('emulator:change-media', changeMediaRequest);
-			this.showMediaOptions = false;
-		}
-
-		initEmulatorListeners() {
-			eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
-		}
-
-		initBrowserEvents() {
-			window.addEventListener('beforeunload', e => this.removeTempEnvironment());
-		}
-
-		removeBrowserEvents() {
-			window.removeEventListener('beforeunload', () => {});
-		}
-
-		async removeTempEnvironment() {
-			await this.$store.dispatch('resource/removeTempEnvironment', this.activeEnvironment.envId);
-		}
-
-		async mounted() {
-			const { softwareId, objectId, archiveId} = this.$route.query;
-			if ((softwareId || objectId) && archiveId) {
-				const result = await this.$store.dispatch('software/getSoftwareMetadata', {
-					archiveId,
-					objectId: softwareId ? softwareId : objectId,
-				});
-				this.mediaItems = result.mediaItems.file;
+		// We are making a revision to an existing environment resource
+		} else if (saveType === SaveEnvironmentOption.createRevision) {
+			let res = await this.$store.dispatch('resource/saveEnvironmentRevision', description);
+			if (res.status === '0') {
+				this.$router.push({ name: 'Explore Resources' });
+			} else {
+				console.error('Error Saving Environment: ', res);
 			}
-			this.initEmulatorListeners();
-			this.initBrowserEvents();
-		}
 
-		beforeDestroy() {
-			this.removeTempEnvironment();
-			this.removeBrowserEvents();
-			eventBus.$off('emulator:print:add-print-job');
+		// We are creating a new environment resource that is an 'Object Environment'
+		} else if (saveType === SaveEnvironmentOption.objectEnvironment) {
+			let res = await this.$store.dispatch('resource/saveObjectEnvironment', { title, description });
+			if (res.status === '0') {
+				this.$router.push({ name: 'Explore Resources' });
+			} else {
+				console.error('Error Saving Environment: ', res);
+			}
+		} else if (saveType === SaveEnvironmentOption.imageImport) {
+			eventBus.$emit('emulator:saveEnvironmentImport', { description, title });
 		}
 	}
 
+	goToDashboard() {
+		this.$router.push({ 'name': 'Dashboard' });
+	}
+
+	changeMedia(mediaId) {
+		let EaasClient = (window as any).EaasClient || null;
+		const { softwareId, objectId } = this.$route.query;
+		const label = mediaId === 'empty' ? '' : mediaId;
+		const changeMediaRequest = {
+			objectId: softwareId ? softwareId : objectId,
+			label,
+			driveId: this.driveId
+		};
+		eventBus.$emit('emulator:change-media', changeMediaRequest);
+		this.showMediaOptions = false;
+	}
+
+	initEmulatorListeners() {
+		eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
+	}
+
+	initBrowserEvents() {
+		window.addEventListener('beforeunload', () => this.removeTempEnvironment());
+	}
+
+	removeBrowserEvents() {
+		window.removeEventListener('beforeunload', () => {});
+	}
+
+	async removeTempEnvironment() {
+		await this.$store.dispatch('resource/removeTempEnvironment', this.activeEnvironment.envId);
+	}
+
+	async mounted() {
+		const { softwareId, objectId, archiveId} = this.$route.query;
+		if ((softwareId || objectId) && archiveId) {
+			const result = await this.$store.dispatch('software/getSoftwareMetadata', {
+				archiveId,
+				objectId: softwareId ? softwareId : objectId,
+			});
+			this.mediaItems = result.mediaItems.file;
+		}
+		this.initEmulatorListeners();
+		this.initBrowserEvents();
+	}
+
+	beforeDestroy() {
+		this.removeTempEnvironment();
+		this.removeBrowserEvents();
+		eventBus.$off('emulator:print:add-print-job');
+	}
+}
 </script>
 
 <style lang="scss">

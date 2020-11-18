@@ -29,15 +29,12 @@ import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import ResourceService from '@/services/ResourceService';
 import StringCleaner from '@/utils/string-cleaner';
 import { resourceTypes, archiveTypes } from '@/utils/constants';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
-import EaasiTask from '../../models/task/EaasiTask';
-import { ROUTES } from '../../router/routes.const';
-
-let resourceSvc = ResourceService;
+import EaasiTask from '@/models/task/EaasiTask';
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
 	name: 'EnvironmentResourceCard',
@@ -226,7 +223,7 @@ export default class EnvironmentResourceCard extends Vue {
 	}
 
 	@Watch('savingEnvTask')
-	onTaskCompletion(curTask: EaasiTask, prevTask: EaasiTask) {
+	onTaskCompletion(curTask: EaasiTask) {
 		if(!curTask || curTask.isDone) {
 			this.$store.dispatch('resource/onEnvironmentSaved');
 		}

@@ -41,7 +41,7 @@ export function getResourceId(resource: IEaasiResource): string {
 	return resource.id;
 }
 
-export function getResourceLabel(resource: IEaasiResource) {
+export function getResourceLabel(resource: IEaasiResource): string {
 	switch(resource.resourceType) {
 		case resourceTypes.SOFTWARE:
 			return (resource as ISoftwarePackage).label;

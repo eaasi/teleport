@@ -114,8 +114,7 @@ import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse, IResourceSearchQuery } from '@/types/Search';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
@@ -200,8 +199,8 @@ export default class MyBookmarksSection extends Vue {
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			this.query = {
-				...this.query, 
-				userId: this.user.id, 
+				...this.query,
+				userId: this.user.id,
 				onlyBookmarks: true,
 				onlyImportedResources: false,
 				archives: []

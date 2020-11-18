@@ -14,15 +14,15 @@
 		</select-list>
 	</div>
 	<div v-else class="flex flex-row justify-between">
-		<selectable-container 
-			v-for="item in osList" 
-			:key="item.title" 
+		<selectable-container
+			v-for="item in osList"
+			:key="item.title"
 			:title="item.title"
 			:is-selected="item.value === selectedOsValue"
 			@input="$emit('input', item)"
 		>
 			<div>
-				<img :src="item.icon" />
+				<img :src="item.icon" :alt="`${item.title} icon`" />
 			</div>
 		</selectable-container>
 	</div>
@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import SelectableContainer from '@/components/global/selectable-container/SelectableContainer.vue';
 import { defaultOsList } from '@/utils/constants';
 import { IUIOsItem } from '@/types/Resource';

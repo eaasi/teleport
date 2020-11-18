@@ -34,19 +34,18 @@ import { Component } from 'vue-property-decorator';
 import Vue from 'vue';
 import EmulationProjectOptions from './EmulationProjectOptions.vue';
 import { Get, Sync } from 'vuex-pathify';
-import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../types/Import';
-import { ROUTES } from '../../router/routes.const';
-import { IEnvironmentList, IEnvironment, IEaasiResource } from '../../types/Resource';
+import { ICreateEnvironmentPayload } from '@/types/Import';
+import { ROUTES } from '@/router/routes.const';
+import { IEnvironment, IEaasiResource } from '@/types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
 import { IEmulatorComponentRequest } from '@/types/Emulation';
 import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
-import { IEmulationProject, ITempEnvironmentRecord } from '../../types/Emulation';
+import { ITempEnvironmentRecord } from '@/types/Emulation';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
-import { Route } from 'vue-router/types/router';
-import eventBus from '../../utils/event-bus';
-import { generateNotificationError } from '../../helpers/NotificationHelper';
+import eventBus from '@/utils/event-bus';
+import { generateNotificationError } from '@/helpers/NotificationHelper';
 import { jsonCopy } from '@/utils/functions';
 
 @Component({
@@ -71,7 +70,7 @@ export default class EmulationProjectScreen extends Vue {
 	selectedSoftwareId: string;
 
 	@Sync('emulationProject/environment')
-	environment: EmulationProjectEnvironment;	
+	environment: EmulationProjectEnvironment;
 
 	@Sync('resource/activeEnvironment')
 	activeEnvironment: IEnvironment;
@@ -90,10 +89,6 @@ export default class EmulationProjectScreen extends Vue {
 
 	@Get('emulationProject/selectedObjects')
 	selectedObjects: IEaasiResource[];
-
-	get isReadyToRun(): boolean {
-		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.templateId;
-	}
 
 	/* Methods
 	============================================*/
@@ -125,8 +120,8 @@ export default class EmulationProjectScreen extends Vue {
 
 	private buildQuery(envId: string) {
 		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
-			? buildAccessInterfaceQuery({ 
-				envId, 
+			? buildAccessInterfaceQuery({
+				envId,
 				archiveId: this.selectedObjects[0].archiveId,
 				objectId: this.selectedObjects[0].id
 			})
@@ -200,8 +195,8 @@ export default class EmulationProjectScreen extends Vue {
 
 	prepareEnvironment(env: IEnvironment): IEnvironment {
 		let emuProjEnv: IEnvironment = {
-			...env, 
-			drives: this.environment.drives.map(d => d.drive), 
+			...env,
+			drives: this.environment.drives.map(d => d.drive),
 			driveSettings: this.environment.drives
 		};
 		// update emu proj properties

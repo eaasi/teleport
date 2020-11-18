@@ -43,13 +43,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IDrive, IEaasiResource, IResourceDrive, IDriveSetting } from '../../../types/Resource';
+import { Component, Prop } from 'vue-property-decorator';
+import { IEaasiResource, IDriveSetting } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import DriveCard from './DriveCard.vue';
-import Alert from '@/components/global/Alert/Alert.vue';
 
 @Component({
 	name: 'DriveResourceCard',
@@ -65,7 +64,7 @@ export default class DriveResourceCard extends Vue {
 	============================================*/
 	@Prop({ type: Object as () => IDriveSetting, required: true })
 	readonly driveSetting: IDriveSetting;
-	
+
 	@Prop({ type: Array as () => IEaasiResource[] })
 	readonly resources: IEaasiResource[];
 

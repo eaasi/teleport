@@ -88,9 +88,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IContent, IContentRequest, ISoftwareObject, IOverrideContentRequest, IEaasiResource } from '@/types/Resource';
-import { ITaskState } from '@/types/Task';
-import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import { IEaasiResourceSummary, IContent, IContentRequest, ISoftwareObject, IEaasiResource } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
@@ -99,8 +97,7 @@ import ModeToggle from '../shared/ModeToggle.vue';
 import RenderingEnvironments from '../software/RenderingEnvironments.vue';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
-import EaasiTask from '@/models/task/EaasiTask';
-import { ROUTES } from '../../../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
 import { Sync } from 'vuex-pathify';
 
@@ -188,14 +185,6 @@ export default class ContentDetailsScreen extends Vue {
 	}
 
 	async saveDetails() {
-		const objectArchive = this.$route.query.archiveId as string;
-		const objectId = this.$route.query.resourceId as string;
-		const overrideRequest: IOverrideContentRequest = {
-			description: null,
-			environments: this.renderingEnvs,
-			objectArchive,
-			objectId
-		};
 		const result = await this.$store.dispatch('software/saveContent', this.activeContent);
 		if (result && result.status === '0') this.activeMode = this.mods[0];
 	}

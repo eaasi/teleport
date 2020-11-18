@@ -91,24 +91,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import { operatingSystems, ITemplateParams } from '@/models/admin/OperatingSystems';
-import { ITemplate, ICreateEnvironmentPayload, IPatch } from '../../types/Import';
-import { ROUTES } from '../../router/routes.const';
-import { IResourceSearchQuery } from '../../types/Search';
-import { resourceTypes, archiveTypes } from '../../utils/constants';
-import { ISoftwareObject, IOsItem, IDrive, IEditableDrive, IEaasiResource, IResourceDrive, IDriveSetting, IEnvironment } from '../../types/Resource';
+import { operatingSystems } from '@/models/admin/OperatingSystems';
+import { ITemplate, ICreateEnvironmentPayload, IPatch } from '@/types/Import';
+import { ROUTES } from '@/router/routes.const';
+import { IResourceSearchQuery } from '@/types/Search';
+import { IEaasiResource, IDriveSetting, IEnvironment } from '@/types/Resource';
 import SystemTemplateDetails from './shared/SystemTemplateDetails.vue';
 import OsPicker from './shared/OsPicker.vue';
 import CheckboxInfo from './shared/CheckboxInfo.vue';
-import { populateNativeConfig, updateNativeConfigForCpu, updateNativeConfigForMemory } from '@/helpers/NativeConfigHelper';
+import { updateNativeConfigForCpu, updateNativeConfigForMemory } from '@/helpers/NativeConfigHelper';
 import DriveSettings from './shared/DriveSettings.vue';
 import EnvironmentCard from './shared/EnvironmentCard.vue';
 import DriveResourceCard from './shared/DriveResourceCard.vue';
-import { generateId } from '@/utils/functions';
-import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
-import { Route } from 'vue-router/types/router';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
 	name: 'EmulationProjectDetails',
@@ -176,7 +173,7 @@ export default class EmulationProjectDetails extends Vue {
 
 	@Sync('emulationProject/selectedSoftwareId')
     selectedSoftwareId: string;
-    
+
 	@Sync('emulationProject/environment@drives')
 	drives: IDriveSetting[];
 
@@ -204,8 +201,7 @@ export default class EmulationProjectDetails extends Vue {
 		let valNumber = Number(val);
 		if (valNumber > 9) valNumber = 9;
 		else if (valNumber < 0) valNumber = 0;
-		const nativeConfig = updateNativeConfigForCpu(this.nativeConfig, valNumber);
-		this.nativeConfig = nativeConfig;
+		this.nativeConfig = updateNativeConfigForCpu(this.nativeConfig, valNumber);
 		this.cpu = `${valNumber}`;
 	}
 
@@ -214,8 +210,7 @@ export default class EmulationProjectDetails extends Vue {
 	}
 
 	set environmentMemory(val: string) {
-		const nativeConfig = updateNativeConfigForMemory(this.nativeConfig, val);
-		this.nativeConfig = nativeConfig;
+		this.nativeConfig = updateNativeConfigForMemory(this.nativeConfig, val);
 		this.diskSize = val;
 	}
 
@@ -233,11 +228,9 @@ export default class EmulationProjectDetails extends Vue {
 
 	/* Data
 	============================================*/
-	
+
 	readonly operatingSystems = operatingSystems;
-	chosenOsId: string = null;
 	kvmFlag: string = '-enable-kvm';
-	softwareOpertaingSystems: ISoftwareObject[] = [];
 	showAdvancedOptions: boolean = false;
 	selectedOs: string = null;
 

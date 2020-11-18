@@ -21,13 +21,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IEnvironment } from '../../../types/Resource';
-import { resourceTypes, archiveTypes } from '../../../utils/constants';
-import { ITag } from '../../../types/Tag';
+import { Component } from 'vue-property-decorator';
+import { archiveTypes } from '@/utils/constants';
+import { ITag } from '@/types/Tag';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
-import { ILabeledItem } from '../../../types/ILabeledItem';
-import EmulationProjectEnvironment from '../../../models/emulation-project/EmulationProjectEnvironment';
+import { ILabeledItem } from '@/types/ILabeledItem';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import { Get } from 'vuex-pathify';
 
 @Component({
@@ -48,13 +47,11 @@ export default class EnvironmentCard extends Vue {
 
 	get environmentTags(): ITag[] {
 		let tagGroup = [];
-		if (true) {
-			tagGroup.push({
-				text: 'CONTENT ENVIRONMENT',
-				icon: 'fa-file',
-				color: 'white'
-			});
-		}
+		tagGroup.push({
+			text: 'CONTENT ENVIRONMENT',
+			icon: 'fa-file',
+			color: 'white'
+		});
 		if (this.environment.archive === archiveTypes.PUBLIC) {
 			tagGroup.push({
 				icon: 'fa-map-marker-alt',
@@ -81,7 +78,7 @@ export default class EnvironmentCard extends Vue {
 		let labeledItems: ILabeledItem[] = [];
 		if (this.environment.os) {
 			labeledItems.push({
-				label: 'Operating System', 
+				label: 'Operating System',
 				value: this.environment.os
 			});
 		}

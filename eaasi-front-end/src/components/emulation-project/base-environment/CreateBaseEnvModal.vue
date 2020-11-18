@@ -66,21 +66,20 @@ import {Component, Watch} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
-import {IHardwareTemplate} from '@/types/HardwareTemplate';
 import OsPicker from '../shared/OsPicker.vue';
-import { ISoftwareObject, IDrive, IUIOsItem } from '@/types/Resource';
+import { IDrive, IUIOsItem } from '@/types/Resource';
 import { Sync } from 'vuex-pathify';
-import { operatingSystems, ITemplateParams, IOsListItem } from '@/models/admin/OperatingSystems';
+import { operatingSystems, IOsListItem } from '@/models/admin/OperatingSystems';
 import { populateNativeConfig } from '@/helpers/NativeConfigHelper';
-import { ITemplate, ICreateEnvironmentPayload } from '../../../types/Import';
-import OsTemplateConig from '../shared/OsTemplateConig.vue';
+import { ICreateEnvironmentPayload } from '@/types/Import';
+import OsTemplateConfig from '../shared/OsTemplateConfig.vue';
 import { defaultOsList } from '@/utils/constants';
 
 @Component({
 	name: 'CreateBaseEnvModal',
 	components: {
 		OsPicker,
-		OsTemplateConig,
+		OsTemplateConfig,
 		InfoModal,
 		UiButton,
 		SelectList,

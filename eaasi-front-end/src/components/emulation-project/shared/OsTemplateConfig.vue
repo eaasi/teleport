@@ -7,9 +7,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IOsListItem } from '../../../models/admin/OperatingSystems';
-import { ILabeledItem } from '../../../types/ILabeledItem';
+import { Component, Prop } from 'vue-property-decorator';
+import { IOsListItem } from '@/models/admin/OperatingSystems';
+import { ILabeledItem } from '@/types/ILabeledItem';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 
 @Component({
