@@ -1,14 +1,21 @@
 <template>
 	<div class="emu-project-content padded">
 		<!-- Error message -->
-		<info-message v-if="error" type="error" :message="error" />
+		<alert
+			card
+			no-icon
+			type="warning"
+			class="mb"
+		>
+			Add a base environment to continue
+		</alert>
 		<!-- Find a Base -->
-		<div class="emu-option-item flex flex-row justify-between">
+		<div class="emu-option-item flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Find a Base</h4>
 				<p>Find an exisating base environment.</p>
 			</div>
-			<div class="btn-wrapper flex flex-row">
+			<div class="btn-wrapper flex-row">
 				<ui-button
 					@click="search"
 					style="margin-right: 3rem;"
@@ -40,7 +47,8 @@
 			</div>
 		</div>
 		<!-- Auto Match -->
-		<div class="emu-option-item flex flex-row justify-between">
+		<!-- Not in next release -->
+		<!-- <div class="emu-option-item flex flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Auto Match <span class="bg-red">BETA</span></h4>
 				<p>Try to find a base environment match for your objects automatically.</p>
@@ -53,12 +61,17 @@
 					Try Auto Match
 				</ui-button>
 			</div>
-		</div>
+		</div> -->
+		<create-base-env-modal 
+			v-if="createBaseEnvModal" 
+			@close="createBaseEnvModal = false" 
+			@save="saveBaseEnvironment"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from './SoftwareResourcesWizard.vue';
@@ -66,6 +79,15 @@ import ContentResourcesWizard from './ContentResourcesWizard.vue';
 import EmulationProjectScreen from './EmulationProjectScreen.vue';
 import InfoMessage from './shared/InfoMessage.vue';
 import { ROUTES } from '../../router/routes.const';
+import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
+import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
+import { Get, Sync } from 'vuex-pathify';
+import { generateNotificationError } from '../../helpers/NotificationHelper';
+import eventBus from '@/utils/event-bus';
+import { IEnvironment } from '@/types/Resource';
+import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
+import { IUserImportRelationRequest, IUserImportedResource } from '@/types/UserImportRelation';
+import { resourceTypes } from '../../utils/constants';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -73,27 +95,59 @@ import { ROUTES } from '../../router/routes.const';
 		BaseEnvironmentWizard,
 		SoftwareResourcesWizard,
 		InfoMessage,
+		CreateBaseEnvModal,
 		ContentResourcesWizard
 	}
 })
 export default class EmulationProjectOptions extends Vue {
 
-	error: string = 'Add a base environment to continue';
+	@Sync('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
+
+	@Sync('emulationProject/environment')
+	environment: EmulationProjectEnvironment;
+
+	createBaseEnvModal: boolean = false;
 
 	search() {
-		// TODO
+		this.$router.push(ROUTES.RESOURCES.EXPLORE);
 	}
 
 	myResources() {
-		// TODO
+		this.$router.push(ROUTES.RESOURCES.MY_RESOURCES);
 	}
 
 	createBaseEnvironment() {
-		this.$router.push(ROUTES.EMULATION_PROJECT.CREATE_BASE_ENVIRONMENT);
+		this.createEnvironmentPayload = {
+			nativeConfig: '',
+			templateId: '',
+			driveSettings: [],
+			operatingSystemId: '',
+			label: ''
+		};
+		this.createBaseEnvModal = true;
 	}
 
-	autoMatch() {
-		// TODO
+	async saveBaseEnvironment() {
+		const response: ICreateEnvironmentResponse = await this.$store.dispatch('import/createEnvironment', this.createEnvironmentPayload);
+		if (!response.id) {
+			eventBus.$emit('notification:show', generateNotificationError('Having troubles creating base environment, please try again.'));
+			return;
+		}
+		let userImportRelationRequest: IUserImportRelationRequest = {
+			resourceType: resourceTypes.ENVIRONMENT,
+			resourceId: response.id,
+		};
+		let { id }: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', userImportRelationRequest);
+		if (!id) {
+			eventBus.$emit('notification:show', generateNotificationError('Failed to save Base Environment to My Resources.'));
+		}
+		const baseEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
+		this.$store.dispatch('emulationProject/addResources', [baseEnv]);
+		this.environment = new EmulationProjectEnvironment(baseEnv);
+		this.createBaseEnvModal = false;
+		// mutate base env at this point 
+		this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 	}
 
 }
@@ -134,10 +188,6 @@ export default class EmulationProjectOptions extends Vue {
 				font-size: 1.4rem;
 				font-weight: 400;
 				width: 20rem;
-			}
-			.labeled-btn-label {
-				font-size: 1rem;
-				max-width: 100%;
 			}
 		}
 	}

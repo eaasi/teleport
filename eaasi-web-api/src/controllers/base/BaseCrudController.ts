@@ -1,9 +1,9 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import ICrudController from '@/controllers/interfaces/ICrudController';
 import { build_400_response, build_404_response, build_500_response } from '@/utils/error-helpers';
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import { areAllValidIntegerParams } from '@/utils/validators';
 import { Request, Response } from 'express';
-import { Result } from 'express-validator';
+import { Model } from 'sequelize-typescript';
 import CrudService from 'src/services/base/CrudService';
 import BaseController from './BaseController';
 
@@ -11,15 +11,15 @@ import BaseController from './BaseController';
 /**
  * Base class for Controllers that handle CRUD logic
  */
-export default class BaseCrudController extends BaseController implements ICrudController {
+export default class BaseCrudController<T extends Model> extends BaseController implements ICrudController {
 
 	//eslint-disable-next-line @typescript-eslint/no-explicit-any
-	private _crudService: CrudService<any>;
+	protected service: CrudService<T>;
 
 	//eslint-disable-next-line @typescript-eslint/no-explicit-any
-	constructor(crudService: CrudService<any>) {
+	constructor(crudService: CrudService<T>) {
 		super();
-		this._crudService = crudService;
+		this.service = crudService;
 	}
 
 	/**
@@ -37,7 +37,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 				.send(build_400_response(JSON.stringify(req.query)));
 		}
 
-		let response = await this._crudService.getAll(req.query);
+		let response = await this.service.getAll(query);
 		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
@@ -55,7 +55,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 */
 	async get(req: Request, res: Response) {
 		// @ts-ignore
-		const id = req.params.id;
+		const id = Number(req.params.id);
 
 		// @ts-ignore
 		if (req.params.id == null) {
@@ -65,7 +65,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 				.send(build_400_response(req.params));
 		}
 
-		let response = await this._crudService.getByPk(id);
+		let response = await this.service.getByPk(id);
 		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
@@ -96,7 +96,7 @@ export default class BaseCrudController extends BaseController implements ICrudC
 				.send(build_400_response(req.body));
 		}
 
-		let response = await this._crudService.create(newObject);
+		let response = await this.service.create(newObject);
 		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
@@ -113,10 +113,9 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 * @param res response
 	 */
 	async update(req: Request, res: Response) {
-		// @ts-ignore
-		const id = req.params.id;
+		const id = Number(req.params.id);
 		const updateData = req.body;
-		let updateResponse = await this._crudService.update(id, updateData);
+		let updateResponse = await this.service.update(id, updateData);
 
 		if (updateResponse.hasError) {
 			return BaseCrudController._handleUpdateError(req, res, updateResponse);
@@ -131,41 +130,14 @@ export default class BaseCrudController extends BaseController implements ICrudC
 	 * @param res response
 	 */
 	async delete(req: Request, res: Response) {
-		// @ts-ignore
-		const id = req.params.id;
-		let deleteResponse = await this._crudService.destroy(id);
+		const id = Number(req.params.id);
+		let deleteResponse = await this.service.destroy(id);
 
 		if (deleteResponse.hasError) {
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 
 		return res.status(HttpResponseCode.OK).send(deleteResponse);
-	}
-
-	/**
-	 * Formats an express-validator error message when a malformed request is made
-	 * @param req request
-	 * @param res response
-	 * @param errors express-validator Result errors
-	 */
-	async sendMalformedRequestResponse(req: Request, res: Response, errors: Result<any>) {
-		let allErrors = errors.array();
-		let errorMessage = '';
-
-		for (let i = 0; i < allErrors.length; i++) {
-
-			let thisError = allErrors[i],
-				value = thisError.value,
-				message = thisError.msg,
-				param = thisError.param,
-				location = thisError.location;
-
-			errorMessage +=
-				`${message}: The value '${value}' for parameter '${param}' cannot be parsed. Location: ${location} `;
-		}
-
-		this._logger.log.error(errorMessage);
-		res.send(build_400_response(errorMessage));
 	}
 
 	/**

@@ -6,6 +6,6 @@ describe('AddToEmulationResolver', () => {
 	it('should be disabled', () => {
 		let fakeEnvs = generateFakeEnvironments(1);
 		let sut = new AddToEmulationProjectActionResolver(fakeEnvs, 1);
-		expect(sut.action.isEnabled).toBe(false);
+		expect(sut.action.isEnabled).toBe(true);
 	});
 });

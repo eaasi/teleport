@@ -8,28 +8,24 @@
 			<template v-slot:actions>
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
-						<ui-button disabled>Run</ui-button>
+						<ui-button color-preset="light-blue" @click="clear">
+							Clear Project
+						</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button color-preset="light-blue" @click="clear">Clear Project</ui-button>
+						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
 					</div>
 				</div>
 			</template>
 		</view-header>
-		<div class="row main-content">
-			<div class="col-md-9 emulation-content">
+		<div class="flex main-content">
+			<div class="emulation-content flex-adapt">
 				<router-view />
 			</div>
-			<div class="col-md-3 side-bar">
+			<div class="side-bar">
 				<resource-side-bar />
 			</div>
 		</div>
-		<!-- <div class="emu-project-content padded">
-			<div>
-				<section-heading title="Base Environment" icon="fa-box" />
-				<new-base-environment-wizard />
-			</div>
-		</div> -->
 	</div>
 </template>
 
@@ -37,67 +33,196 @@
 import { Component } from 'vue-property-decorator';
 import Vue from 'vue';
 import EmulationProjectOptions from './EmulationProjectOptions.vue';
-import { Sync } from 'vuex-pathify';
-import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '../../types/Import';
-import { ROUTES } from '../../router/routes.const';
-import { IEnvironmentList, IEnvironment } from '../../types/Resource';
+import { Get, Sync } from 'vuex-pathify';
+import { ICreateEnvironmentPayload } from '@/types/Import';
+import { ROUTES } from '@/router/routes.const';
+import { IEnvironment, IEaasiResource } from '@/types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
+import { IEmulatorComponentRequest } from '@/types/Emulation';
+import { IKeyboardSettings } from 'eaasi-admin';
+import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
+import { ITempEnvironmentRecord } from '@/types/Emulation';
+import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import eventBus from '@/utils/event-bus';
+import { generateNotificationError } from '@/helpers/NotificationHelper';
+import { jsonCopy } from '@/utils/functions';
 
 @Component({
 	name: 'EmulationProjectScreen',
 	components : {
 		EmulationProjectOptions,
+		CreateBaseEnvModal,
 		ResourceSideBar
 	}
 })
 export default class EmulationProjectScreen extends Vue {
 
+	/* Computed
+	============================================*/
 	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
+
+	@Sync('showLoader')
+	showLoader: boolean;
 
 	@Sync('emulationProject/selectedSoftwareId')
 	selectedSoftwareId: string;
 
 	@Sync('emulationProject/environment')
-	environment: IEnvironment;
+	environment: EmulationProjectEnvironment;
 
 	@Sync('resource/activeEnvironment')
 	activeEnvironment: IEnvironment;
 
-	get isReadyToRun(): boolean {
-		return !!this.selectedSoftwareId && !!this.createEnvironmentPayload.size && !!this.createEnvironmentPayload.templateId;
+	@Get('emulationProject/canRunProject')
+	readonly canRunProject: boolean;
+
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
+
+	@Get('emulationProject/projectObjects')
+	objects: IEaasiResource[];
+
+	@Get('emulationProject/constructedFromBaseEnvironment')
+	constructedFromBaseEnvironment: boolean;
+
+	@Get('emulationProject/selectedObjects')
+	selectedObjects: IEaasiResource[];
+
+	/* Methods
+	============================================*/
+	async runEmulationProject() {
+		try {
+			const emulationProjectEnv = await this.prepareEmulationProject(this.environment);
+
+			// Set newly create emulation project environment to active
+			this.activeEnvironment = emulationProjectEnv;
+
+			// refresh temporary environment lib
+			await this.$store.dispatch('resource/refreshTempEnvs');
+
+			// Route to access interface screen
+			this.$router.push(this.buildQuery(emulationProjectEnv.envId));
+		} catch(e) {
+			this.handleError(e);
+		}
 	}
 
-	async run() {
-		this.createEnvironmentPayload.size += 'M';
-		const response: ICreateEnvironmentResponse = await this.$store.dispatch('emulationProject/createEnvironment', this.createEnvironmentPayload);
-		if (response.status === '0') {
-			this.environment.envId = response.id;
+	private async prepareEmulationProject(env: EmulationProjectEnvironment): Promise<IEnvironment> {
+		if (env.archive === 'public') {
+			return await this.preparePublicEnvironment(env);
+		} else if (env.archive === 'default') {
+			return await this.preparePrivateEnvironment(env);
 		}
-		let route = `${ROUTES.ACCESS_INTERFACE}/${response.id}`;
-		if (this.selectedSoftwareId) {
-			route += `?softwareId=${this.selectedSoftwareId}&archiveId=zero%20conf&createBaseEnvironment=true`;
+		throw new Error('Emulationg project does not support remote environments.');
+	}
+
+	private buildQuery(envId: string) {
+		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
+			? buildAccessInterfaceQuery({
+				envId,
+				archiveId: this.selectedObjects[0].archiveId,
+				objectId: this.selectedObjects[0].id
+			})
+			: buildAccessInterfaceQuery({ envId });
+	}
+
+	async preparePublicEnvironment(environment: EmulationProjectEnvironment): Promise<IEnvironment> {
+		const envCopy = jsonCopy<IEnvironment>(environment);
+		// update the copy with emulation project properties
+		let emuProjEnv: IEnvironment = this.prepareEnvironment(envCopy);
+		const response = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
+		if (response.error) {
+			throw new Error(response.error);
 		}
-		// @ts-ignore
-		let environment: IEnvironment = {
-			archive: 'default',
-			envId: response.id,
+		let emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
+		if (!emulationProjectEnv) {
+			throw new Error('Having troubles retrieving emulation project environment.');
+		}
+		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', { environment: emulationProjectEnv.envId });
+		if (!tempEnvRecord) {
+			throw new Error('Having troubles creating temporary environment record.');
+		}
+		return emulationProjectEnv;
+	}
+
+	async preparePrivateEnvironment(environment: EmulationProjectEnvironment): Promise<IEnvironment> {
+		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
+		// add selected resources to the payload
+		const payload: IEmulatorComponentRequest = {
+			archive: environment.archive,
+			emulatorVersion: 'latest',
+			environment: environment.envId,
+			keyboardLayout: keyboardSettings.language.name,
+			keyboardModel: keyboardSettings.layout.name,
+			type: 'machine' // TODO: Only have seen machine being type here, could there be another option?
 		};
-
-		this.activeEnvironment = environment;
-		
-		this.$router.push(route);
+		// create a copy of active environment
+		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/createAndAddEnvironmenttoTempArchive', payload);
+		if (!tempEnvRecord) {
+			throw new Error('Having troubles creating temporary environment record.');
+		}
+		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
+		if (!tempEnvironment) {
+			throw new Error('Having troubles creating temporary environment resource.');
+		}
+		// update the copy with emulation project properties
+		let emuProjEnv: IEnvironment = this.prepareEnvironment(tempEnvironment);
+		const { id, error } = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
+		if (error) {
+			throw new Error(error);
+		}
+		let emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', id);
+		if (!emulationProjectEnv) {
+			throw new Error('Having troubles retrieving emulation project environment.');
+		}
+		return emulationProjectEnv;
 	}
-	
+
+	async init() {
+		this.showLoader = true;
+		await this.$store.dispatch('emulationProject/loadProject');
+		if (this.environments.length === 1) {
+			this.environment = new EmulationProjectEnvironment(this.environments[0]);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		}
+		if (!this.environment) {
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
+		this.showLoader = false;
+	}
+
+	prepareEnvironment(env: IEnvironment): IEnvironment {
+		let emuProjEnv: IEnvironment = {
+			...env,
+			drives: this.environment.drives.map(d => d.drive),
+			driveSettings: this.environment.drives
+		};
+		// update emu proj properties
+		if (this.constructedFromBaseEnvironment) {
+			emuProjEnv.driveSettings.forEach(d => {
+				let selectedObject = this.objects.find(o => o.id === d.objectId);
+				if (selectedObject) d.objectArchive = selectedObject.archiveId;
+			});
+		}
+		return emuProjEnv;
+	}
+
+	handleError(err: string) {
+		eventBus.$emit('notification:show', generateNotificationError(err));
+	}
+
+	beforeMount() {
+		this.init();
+	}
+
 	clear() {
 		this.$store.commit('emulationProject/RESET');
+		this.createEnvironmentPayload = null;
 		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
-	beforeDestroy() {
-		this.clear();
-	}
- 
 }
 
 </script>
@@ -147,7 +272,7 @@ export default class EmulationProjectScreen extends Vue {
 		}
 
 		.side-bar {
-			padding: 0;
+			width: 39rem;
 		}
 	}
 }

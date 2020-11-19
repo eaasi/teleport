@@ -10,5 +10,6 @@ router.use('/error-report', require('./logger'));
 router.use('/blog', require('./blog'));
 router.use('/resource', jwtAuth, require('./resource'));
 router.use('/import', jwtAuth, require('./import'));
+router.use('/emulation-project', jwtAuth, require('./emulation-project'));
 
 module.exports = router;

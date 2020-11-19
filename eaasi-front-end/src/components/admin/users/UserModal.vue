@@ -74,7 +74,7 @@
 			@close="isDeleteModalVisible = false"
 			@click:confirm="confirmDeleteUser"
 		>
-			<alert-card type="warning" v-if="user">
+			<alert card type="warning" v-if="user">
 				<div class="delete-message">
 					You are about to delete the user <span class="user-to-delete">{{ user.username }}</span>.
 				</div>
@@ -82,7 +82,7 @@
 					This will remove all data associated with the user in the system. Please confirm you would like to continue.
 					This action cannot be undone.
 				</div>
-			</alert-card>
+			</alert>
 		</confirm-modal>
 
 		<confirm-modal
@@ -93,7 +93,7 @@
 			@close="isResetPasswordModalVisible = false"
 			@click:confirm="resetPassword"
 		>
-			<alert-card type="warning" v-if="user">
+			<alert card type="warning" v-if="user">
 				<div class="delete-message">
 					You are about to reset a password for user <span class="user-to-reset">{{ user.username }} - {{ user.email }}</span>.
 				</div>
@@ -101,7 +101,7 @@
 					This will reset the current user password and send a new password to the user's email.
 					This action cannot be undone.
 				</div>
-			</alert-card>
+			</alert>
 		</confirm-modal>
 	</div>
 </template>

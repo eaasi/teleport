@@ -6,13 +6,13 @@
 			@input="$emit('input', !value)"
 			@change="$emit('change');"
 		/>
-		<span class="fas fa-info-circle"></span>
+		<span class="fas fa-info-circle" v-if="infoText"></span>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
 
 @Component({
@@ -30,6 +30,9 @@ export default class CheckboxInfo extends Vue {
 
     @Prop({ type: String, required: false })
     readonly label: string;
+
+    @Prop({ type: String })
+    readonly infoText: string;
 
     /* Computed
     ============================================*/

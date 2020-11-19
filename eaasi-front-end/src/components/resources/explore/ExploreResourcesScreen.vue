@@ -91,7 +91,6 @@ import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import User from '@/models/admin/User';
 import ResourceList from '@/components/resources/ResourceList.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
@@ -124,7 +123,7 @@ export default class ExploreResourcesScreen extends Vue {
 	bentoResult: IResourceSearchResponse;
 
 	@Sync('resource/query')
-	query: ResourceSearchQuery;
+	query: IResourceSearchQuery;
 
     @Sync('resource/selectedResources')
     selectedResources: IEaasiResource[];
@@ -205,15 +204,21 @@ export default class ExploreResourcesScreen extends Vue {
     /* Methods
 	============================================*/
 
-	async paginate(page) {
+	paginate(page) {
 		this.query.page = page;
-		await this.$store.dispatch('resource/searchResources');
+		this.$store.dispatch('resource/searchResources');
 	}
 
     async search() {
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id });
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
+			this.query = {
+				...this.query,
+				userId: this.user.id,
+				onlyBookmarks: false,
+				onlyImportedResources: false,
+				archives: []
+			};
 			await this.$store.dispatch('resource/searchResources');
 			if (this.bentoResult?.bookmarks) {
 				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
@@ -221,11 +226,11 @@ export default class ExploreResourcesScreen extends Vue {
 		});
 	}
 
-    async getAll(types) {
+    getAll(types) {
 		this.query.keyword = null;
 		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
-		await this.search();
+		this.search();
 	}
 
 	onResourcePublished() {
@@ -237,7 +242,7 @@ export default class ExploreResourcesScreen extends Vue {
 		const query: IResourceSearchQuery = this.queryService.retrieveQuery();
 		if (query) {
 			this.query = query;
-		};
+		}
 		if (keyword) {
 			this.query.keyword = keyword;
 		}
@@ -255,8 +260,8 @@ export default class ExploreResourcesScreen extends Vue {
     /* Lifecycle Hooks
     ============================================*/
 
-    async mounted() {
-		await this.init();
+    beforeMount() {
+		this.init();
     }
 
 	beforeDestroy() {
@@ -267,10 +272,10 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	@Watch('hasSelectedFacets')
-	async onSelectedFacets(curVal, prevVal) {
+	onSelectedFacets(curVal, prevVal) {
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
-			await this.$store.dispatch('resource/clearSearch');
+			this.$store.dispatch('resource/clearSearch');
 		}
 	}
 

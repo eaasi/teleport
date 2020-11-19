@@ -2,7 +2,7 @@ import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionR
 import {IEaasiResource} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
 
-export default class AddToEmulationProjectActionResolver extends  SlideMenuActionResolver {
+export default class AddToEmulationProjectActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
 	userRoleId: number;
 
@@ -17,9 +17,15 @@ export default class AddToEmulationProjectActionResolver extends  SlideMenuActio
 		return {
 			shortName: 'addToEmuProject',
 			label: 'Add to Emulation Project',
-			description: 'Emulate this resource without changes',
+			description: 'Add this resource to my emulation project',
 			icon: 'paperclip',
-			isEnabled: false
+			isEnabled: true,
+			// isEnabled: self.selectedResources.some(resource => {
+			// 	return self.projectResources.some(x => {
+			// 		return (x.resourceType === resourceTypes.ENVIRONMENT && x.resourceId === resource.envId)
+			// 			|| (x.resourceType !== resourceTypes.ENVIRONMENT && x.resourceId === resource.id);
+			// 	});
+			// })
 		};
 	}
 }

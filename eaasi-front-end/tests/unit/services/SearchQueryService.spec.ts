@@ -17,14 +17,6 @@ describe('SearchQueryService', () => {
             expect(mockStorage.storage).toStrictEqual(JSON.stringify(query));
         });
 
-        it('should fail to persist query', () => {
-            const mockStorage = new MockSearchQueryStorage();
-            const sut = new SearchQueryService(QuerySource.ExploreResources, mockStorage);
-            const persistResult = sut.persistQuery(null);
-            
-            expect(persistResult).toEqual(false);
-        });
-
     });
 
     describe('retrieveQuery', () => {

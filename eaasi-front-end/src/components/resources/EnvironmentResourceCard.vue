@@ -2,7 +2,7 @@
 	<div>
 		<selectable-card
 			v-if="cardSummary"
-			bookmark
+			:bookmark="bookmark"
 			footer
 			:disable-select="disableSelect"
 			:data="cardSummary"
@@ -12,7 +12,7 @@
 			@bookmarked="isActive => $emit('bookmarked', isActive)"
 			@change="setActiveEnvironment"
 			@click:header="goToDetailsPage"
-			:is-selected="isSelected"
+			:value="isSelected"
 		>
 			<template v-slot:tagsLeft>
 				<tag-group position="left" :tags="resourceTypeTags" />
@@ -29,15 +29,12 @@ import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import ResourceService from '@/services/ResourceService';
 import StringCleaner from '@/utils/string-cleaner';
 import { resourceTypes, archiveTypes } from '@/utils/constants';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
-import EaasiTask from '../../models/task/EaasiTask';
-import { ROUTES } from '../../router/routes.const';
-
-let resourceSvc = ResourceService;
+import EaasiTask from '@/models/task/EaasiTask';
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
 	name: 'EnvironmentResourceCard',
@@ -47,6 +44,9 @@ export default class EnvironmentResourceCard extends Vue {
 	/* Props
 	============================================*/
 
+	@Prop({type: Boolean, required: false, default: false})
+	readonly bookmark: boolean;
+
 	@Prop({type: Object as () => IEnvironment, required: true})
 	readonly environment: IEnvironment;
 
@@ -54,15 +54,20 @@ export default class EnvironmentResourceCard extends Vue {
 	readonly disableSelect: boolean;
 
 	@Prop({type: Boolean, required: false, default: false})
+	readonly hideDetails: boolean;
+
+	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
 
 	/* Data
 	============================================*/
+
 	hasNoDetails: boolean = false;
 	timer: number = null;
 
 	/* Computed
 	============================================*/
+
 	@Sync('resource/savingEnvironments')
 	savingEnvironments: ISavingEnvironmentState[];
 
@@ -72,8 +77,8 @@ export default class EnvironmentResourceCard extends Vue {
 	@Get('resource/selectedResources')
 	selectedResources: IEaasiResource[];
 
-	@Get('task/taskQueue')
-	taskQueue: EaasiTask[];
+	@Get('task/activePollingTask')
+	activePollingTask: EaasiTask;
 
 	get resourceTypeTags(): ITag[] {
 		let tags = [{
@@ -112,11 +117,11 @@ export default class EnvironmentResourceCard extends Vue {
 	}
 
 	get savingEnvTask(): EaasiTask {
-		if (!this.isSaving) return null;
+		if (!this.isSaving || !this.activePollingTask) return null;
 		const savingEnvState = this.savingEnvironments.find(
 			saveState => saveState.envId === this.environment.envId
 		);
-		return this.taskQueue.find(task => task.taskId === savingEnvState.taskId);
+		return this.activePollingTask.taskId === savingEnvState.taskId ? this.activePollingTask : null;
 	}
 
 	get isSelected(): Boolean {
@@ -129,10 +134,10 @@ export default class EnvironmentResourceCard extends Vue {
 			description: this.environment.description,
 			archive: this.environment.archive,
 			emulator: this.environment.emulator,
-			drives: this.environment.drives && this.environment.drives.length ? this.environment.drives : [],
+			drives: this.environment.drives ?? [],
 			isInternetEnabled: this.environment.enableInternet,
 			isPrintingEnabled: this.environment.enablePrinting,
-			installedSoftware: this.environment.installedSoftwareIds && this.environment.installedSoftwareIds.length ? this.environment.installedSoftwareIds : [],
+			installedSoftware: this.environment.installedSoftwareIds ?? [],
 			error: this.environment.error
 		} as IEaasiEnvironmentCardSummary;
 	}
@@ -180,15 +185,17 @@ export default class EnvironmentResourceCard extends Vue {
 	get cardSummary(): IEaasiResourceSummary {
 		let summary = {
 			id: this.environment.id,
-			title: this.environment.title,
-			content: {},
-			subContent: {}
+			title: this.environment.title
 		} as IEaasiResourceSummary;
 
+		if(this.hideDetails) return summary;
+
 		if (this.environment.hasOwnProperty('owner')) {
+			summary.subContent = {};
 			summary.subContent['owner'] = this.environment.owner;
 		}
 
+		summary.content = {};
 		summary.content['# Drives'] = this.environmentCardSummary.drives.length;
 		summary.content['Internet Enabled'] = !!this.environmentCardSummary.isInternetEnabled;
 		summary.content['Printing Enabled'] = !!this.environmentCardSummary.isPrintingEnabled;
@@ -216,8 +223,8 @@ export default class EnvironmentResourceCard extends Vue {
 	}
 
 	@Watch('savingEnvTask')
-	onTaskCompletion(curTask: EaasiTask, prevTask: EaasiTask) {
-		if(curTask && curTask.isDone) {
+	onTaskCompletion(curTask: EaasiTask) {
+		if(!curTask || curTask.isDone) {
 			this.$store.dispatch('resource/onEnvironmentSaved');
 		}
 	}

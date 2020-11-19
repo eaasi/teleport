@@ -5,7 +5,7 @@ import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
 import AuthService from '@/services/auth/AuthService';
 import UserHashService from '@/services/auth/UserHashService';
 import UserService from '@/services/user/UserService';
-import { ILoginRequest, IChangePasswordRequest } from '@/types/auth/Auth';
+import { IAuthorizedRequest, IChangePasswordRequest, ILoginRequest } from '@/types/auth/Auth';
 import { Request, Response } from 'express';
 import fs from 'fs';
 import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
@@ -91,7 +91,7 @@ export default class EaasiAuthController extends BaseController {
      * @param req request
      * @param res response
      */
-	callback(req: Request, res: Response) {
+	callback(req: IAuthorizedRequest, res: Response) {
 		req.method = 'GET';
 		// Set JWT cookie
 		let expires = new Date();
@@ -133,7 +133,7 @@ export default class EaasiAuthController extends BaseController {
      * @param req request
      * @param res response
      */
-	async user(req: Request, res: Response) {
+	async user(req: IAuthorizedRequest, res: Response) {
 		try {
 			const userId: number = req.user.id;
 			const userFromDb = await this._userService.getUser(userId);

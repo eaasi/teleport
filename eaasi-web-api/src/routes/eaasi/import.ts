@@ -1,5 +1,8 @@
 import ImportController from '@/controllers/ImportController';
 import UserImportController from '@/controllers/rest-api/UserImportController';
+import { IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
+import { IAuthorizedPostRequest } from '@/types/auth/Auth';
+import { ICreateEnvironmentPayload } from '@/types/emil/Emil';
 import express from 'express';
 
 const router = express.Router();
@@ -31,7 +34,7 @@ router.post('/files', (req, res) => importController.importFiles(req, res));
  * @apiPermission System Administrator only
  * @apiDescription Triggers a createEnvironment event
  */
-router.post('/createEnvironment', (req, res) => importController.createEnvironment(req, res));
+router.post('/createEnvironment', (req: IAuthorizedPostRequest<ICreateEnvironmentPayload>, res) => importController.createEnvironment(req, res));
 
 /**
  * @api {get} import/import-image import image
@@ -66,7 +69,7 @@ router.post('/postComponents', (req, res) => importController.postComponents(req
  * @apiGroup Import Resources
  * @apiPermission All Users
  */
-router.post('/user-import-relation', (req, res) => userImportController.createUserImportRelation(req, res));
+router.post('/user-import-relation', (req: IAuthorizedPostRequest<IUserImportRelationRequest>, res) => userImportController.createUserImportRelation(req, res));
 
 /**
  * @api {get} import/user-imported-resource fetches user imported resources

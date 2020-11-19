@@ -7,7 +7,7 @@ import { ITag } from './Tag';
 export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
 
 export interface IEaasiResource {
-	id?: number | string
+	id?: string
 	title: string
 	resourceType: ResourceType;
 	description?: string;
@@ -27,8 +27,6 @@ export interface IImageListItem extends IEaasiResource {
 }
 
 export interface IEaasiResourceSummary extends IEaasiResource {
-	id: number | string
-	title: string
 	tagGroup?: ITag[]
 
 	/**
@@ -36,14 +34,14 @@ export interface IEaasiResourceSummary extends IEaasiResource {
 	 * as an Object. Appears in the right pane of
 	 * a SelectableCard
 	 */
-	content: object
+	content?: object
 
 	/**
 	 * Contains key-value pairs of data represented as
 	 * an Object. Appears after a thematic break following
 	 * content in a SelectableCard
 	 */
-	subContent: object
+	subContent?: object
 }
 
 export interface ISaveEnvironmentPayload {
@@ -70,6 +68,7 @@ export interface IEnvironment extends IEaasiResource {
 	parentEnvId: string;
 	envId: string;
 	title: string;
+	driveSettings?: IDriveSetting[];
 	description: string;
 	version?: string;
 	emulator: string;
@@ -119,6 +118,7 @@ export interface IEnvironment extends IEaasiResource {
 	isServiceContainer?: boolean;
 	processAdditionalFiles?: boolean;
 	time?: number;
+	temp?: boolean;
 }
 
 export interface IInstalledSoftware {
@@ -147,6 +147,15 @@ export interface IEnvironmentRevision {
 	id: string;
 	text: string;
 	archive: string;
+}
+
+export interface IDriveSetting {
+	drive: IDrive;
+	driveIndex: number;
+	imageId?: string;
+	imageArchive?: string;
+	objectArchive?: string;
+	objectId?: string;
 }
 
 export interface IDrive {
@@ -221,6 +230,12 @@ export interface ISoftwareMetadata {
 export interface IOsItem {
 	id: string;
 	puids: IPuid[];
+}
+
+export interface IUIOsItem {
+	icon: string;
+	title: string;
+	value: string;
 }
 
 export interface IPuid {

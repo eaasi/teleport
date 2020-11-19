@@ -11,28 +11,30 @@
 			<environment-resource-card
 				v-if="isEnvironment"
 				:environment="resource"
-				@change="toggleResource(resource, $event)"
+				@change="toggleResource(resource)"
+				bookmark
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.envId, isActive)"
 			/>
 			<software-resource-card
 				v-if="isSoftware"
 				:software="resource"
-				@change="toggleResource(resource, $event)"
+				@change="toggleResource(resource)"
+				bookmark
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 			<content-resource-card
 				v-if="isContent"
 				:content="resource"
-				@change="toggleResource(resource, $event)"
+				@change="toggleResource(resource)"
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 			<image-resource-card
 				v-if="isImage"
 				:image="resource"
-				@change="toggleResource(resource, $event)"
+				@change="toggleResource(resource)"
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
 			/>
 		</div>
@@ -45,7 +47,6 @@ import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiResource, ResourceType } from '@/types/Resource';
 import { IResourceSearchQuery, IEaasiSearchResponse } from '@/types/Search';
-import { resourceTypes } from '../../utils/constants';
 import { jsonEquals } from '@/utils/functions';
 import { BookmarkRequest } from '@/types/Bookmark';
 
@@ -54,8 +55,6 @@ import ContentResourceCard from '@/components/resources/ContentResourceCard.vue'
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ImageResourceCard from '@/components/resources/ImageResourceCard.vue';
-
-type ResourceListType = 'Environment' | 'Software' | 'Content' | 'Image';
 
 @Component({
 	name: 'ResourceList',
@@ -115,7 +114,7 @@ export default class ResourceList extends Vue {
 		this.$emit('paginate', pageNum);
 	}
 
-	toggleResource(resource: IEaasiResource, isActive: boolean) {
+	toggleResource(resource: IEaasiResource) {
 		if(this.selectedResources.some(x => jsonEquals(x, resource))) {
 			this.selectedResources = this.selectedResources.filter(x => !jsonEquals(x, resource));
 		} else {

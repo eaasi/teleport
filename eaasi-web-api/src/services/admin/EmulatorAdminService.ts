@@ -5,7 +5,7 @@ import { TaskState } from '@/types/emil/Emil';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { AliasEntry, EmulatorEntry, EmulatorNamedIndexes } from '@/types/emil/EmilEnvironmentData';
 import BaseService from '../base/BaseService';
-import CrudQuery from '../base/CrudQuery';
+import CrudQuery from '../../classes/CrudQuery';
 import CrudService from '../base/CrudService';
 import ICrudService from '../interfaces/ICrudService';
 
@@ -99,7 +99,7 @@ export default class EmulatorAdminService extends BaseService {
 			if (indexes.entries && indexes.entries.entry) {
 				entries = indexes.entries.entry.filter(x => x.key.indexOf(em.name) > -1).map(x => x.value);
 			}
-			
+
 			emulators.push({
 				id: em.id,
 				name: em.name,

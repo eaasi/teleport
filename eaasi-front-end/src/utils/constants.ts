@@ -1,5 +1,10 @@
 import { ImportType } from '@/types/Import';
-import { ResourceType } from '@/types/Resource';
+import { IUIOsItem, ResourceType } from '@/types/Resource';
+
+const genericMachineIcon = require('../../assets/img/other.png');
+const linuxMachineIcon = require('../../assets/img/linux.png');
+const appleMachineIcon = require('../../assets/img/apple.png');
+const windowsMachineIcon = require('../../assets/img/windows.png');
 
 export const resourceTypes: IResourceTypes = {
 	ENVIRONMENT: 'Environment',
@@ -49,3 +54,10 @@ export const taskTypes: any = {
 };
 
 export const MIN_SEARCH_RESULT_LIMIT = 10;
+
+export const defaultOsList: IUIOsItem[] = [
+	{ icon: windowsMachineIcon, title: 'Windows', value: 'windows' },
+	{ icon: linuxMachineIcon, title: 'Linux', value: 'linux' },
+	{ icon: appleMachineIcon, title: 'Apple', value: 'mac' },
+	{ icon: genericMachineIcon, title: 'Other', value: 'other' }
+];

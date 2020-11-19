@@ -96,13 +96,11 @@ import ResourceList from '@/components/resources/ResourceList.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
-import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse, IResourceSearchQuery } from '@/types/Search';
+import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
-import { resourceTypes } from '@/utils/constants';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
-import { jsonCopy } from '../../../utils/functions';
-import { ROUTES } from '../../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
 import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 
@@ -189,10 +187,17 @@ export default class ImportedResourcesSection extends Vue {
 		const query = this.queryService.retrieveQuery();
 		if (query) {
 			this.query = query;
-		};
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyImportedResources: true , archives: ['zero conf', 'default']});
+		}
+
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
+			this.query = {
+				...this.query,
+				userId: this.user.id,
+				onlyImportedResources: true,
+				onlyBookmarks: false,
+				archives: ['zero conf', 'default']
+			};
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});
@@ -208,8 +213,8 @@ export default class ImportedResourcesSection extends Vue {
 
 	/* Lifecycle Hooks
 	============================================*/
-	async mounted() {
-		await this.search();
+	beforeMount() {
+		this.search();
 	}
 
 	beforeDestroy() {
@@ -221,10 +226,12 @@ export default class ImportedResourcesSection extends Vue {
 
 	@Watch('hasSelectedFacets')
 	async onSelectedFacets(curVal, prevVal) {
+		if (!curVal && prevVal === undefined) {
+			return;
+		}
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
-			this.$store.dispatch('resource/clearSearchQuery');
-			await this.search();
+			this.$store.dispatch('resource/clearSearch');
 		}
 	}
 

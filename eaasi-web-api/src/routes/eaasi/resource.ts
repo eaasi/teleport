@@ -1,5 +1,7 @@
 import ResourceController from '@/controllers/ResourceController';
-import express from 'express';
+import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest, IAuthorizedRequest } from '@/types/auth/Auth';
+import { IEmulatorComponentRequest } from '@/types/resource/Resource';
+import express, { Response } from 'express';
 
 const router = express.Router();
 const controller = new ResourceController();
@@ -11,7 +13,7 @@ const controller = new ResourceController();
  * @apiPermission System Administrator only
  * @apiDescription Returns a list a list search results
  */
-router.post('/search', (req, res) => controller.search(req, res));
+router.post('/search', (req: IAuthorizedRequest, res) => controller.search(req, res));
 
 /**
  * @api {get} resource/environment Search All Environment Resources
@@ -248,5 +250,44 @@ router.post('/save-new-object-environment', (req, res) => controller.saveNewObje
  * @apiDescription Revises existing Environment
  */
 router.post('/save-environment-revision', (req, res) => controller.saveEnvironmentRevision(req, res));
+
+/**
+ * @api {PUT} Adds a resource to temporary archive
+ * @apiVersion 1.0.0
+ * @apiName Add To Temporary Archive
+ * @apiGroup Resources
+ * @apiPermission All Users
+ * @apiDescription Creates a record in the database 
+ */
+router.post('/temp/create', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
+	controller.createAndAddToTempArchive(req, res)
+);
+
+router.post('/temp/add', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
+	controller.addToTempArchive(req, res)
+);
+
+/**
+ * @api {DELETE} Deletes a resource from temporary archive
+ * @apiVersion 1.0.0
+ * @apiName Delete from Temporary Archive
+ * @apiGroup Resources
+ * @apiPermission All Users
+ * @apiDescription Removes a record from the database 
+ */
+router.delete('/temp/:id', (req: IAuthorizedDeleteRequest, res: Response) => 
+	controller.deleteFromTempArchive(req, res)
+);
+
+/**
+ * @api {GET} Fetches all resources from the temporary archive
+ * @apiVersion 1.0.0
+ * @apiName Get All Temporary Archive Resources
+ * @apiGroup Resources
+ * @apiPermission All Users
+ */
+router.get('/temp', (req: IAuthorizedGetRequest, res: Response) => 
+	controller.getAllTemp(req, res)
+);
 
 module.exports = router;

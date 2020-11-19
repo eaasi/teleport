@@ -1,9 +1,9 @@
 import config from '@/config';
 import events from '@/config/events';
 import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
+import { IEaasiApiRequestOptions, IEaasiApiResponse } from '@/types/Http';
 import { IEaasiSearchQuery } from '@/types/Search';
 import eventBus from '@/utils/event-bus';
-import { IEaasiApiRequestOptions, IEaasiApiResponse } from '@/types/Http';
 
 export default class BaseHttpService {
 
@@ -197,7 +197,7 @@ export default class BaseHttpService {
 			return response;
 
 		} catch (e) {
-			console.log(e);
+			console.warn(e);
 			eventBus.$emit('ajaxEnd');
 		}
 	}
@@ -217,7 +217,7 @@ export default class BaseHttpService {
 		let res = response as IEaasiApiResponse<T>;
 		console.error('Received non-200 response from HttpService:', res.body);
 		if (suppressError) return res;
-
+		
 		try {
 			let error = await res.json();
 			error.request = request;

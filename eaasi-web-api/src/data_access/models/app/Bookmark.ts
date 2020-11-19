@@ -1,11 +1,12 @@
-import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { Column, CreatedAt, ForeignKey, Table, UpdatedAt } from 'sequelize-typescript';
+import { EaasiUser } from '.';
+import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
 	tableName: 'bookmark'
 })
-export class Bookmark extends Model<Bookmark> {
+export class Bookmark extends EaasiUserOwnedModel {
 	@CreatedAt
 	readonly createdAt: Date = new Date();
 

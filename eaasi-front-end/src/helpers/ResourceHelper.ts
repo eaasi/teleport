@@ -1,10 +1,13 @@
-import { IDrive, IEnvironment } from '@/types/Resource';
+import { IDrive, IDriveSetting, IEaasiResource, IEnvironment, ISoftwarePackage, ResourceType } from '@/types/Resource';
+import { ITag } from '@/types/Tag';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
     containerEmulatorVersion: string;
     description: string;
-    drives: IDrive[];
+	drives: IDrive[];
+	driveSettings: IDriveSetting[];
     enablePrinting: boolean;
     enableRelativeMouse: boolean;
     envId: string;
@@ -33,6 +36,63 @@ export interface ISaveEnvironmentResponse {
 
 type ArchiveType = 'remote' | 'public' | 'private';
 
+export function getResourceId(resource: IEaasiResource): string {
+	if(resource.resourceType === resourceTypes.ENVIRONMENT) return resource.envId;
+	return resource.id;
+}
+
+export function getResourceTypeTags(resource: IEaasiResource): ITag[] {
+	if(resource.resourceType === resourceTypes.SOFTWARE) {
+		return [{
+			text:'Software',
+			icon:'fa-browser',
+			color:'white'
+		}];
+	}
+	if(resource.resourceType === resourceTypes.CONTENT) {
+		return [{
+			text: 'Content',
+			icon:'fa-file',
+			color:'white'
+		}];
+	}
+	if(resource.resourceType === resourceTypes.ENVIRONMENT) {
+		let tags = [{
+			text: resourceTypes.ENVIRONMENT as string,
+			icon: 'fa-cube',
+			color: 'white'
+		}];
+		if (resource.hasOwnProperty('envType')) {
+			if (resource['envType'] === 'base') {
+				tags.push({
+					icon: 'fa-box',
+					color: 'white',
+					text: 'Base'
+				});
+			}
+			if (resource['envType'] === 'object') {
+				tags.push({
+					icon: 'fa-save',
+					color: 'white',
+					text: 'Object'
+				});
+			}
+		}
+		return tags;
+	}
+	return [];
+}
+
+export function filterResourcesByType(resources: IEaasiResource[], type: ResourceType) {
+	if(!Array.isArray(resources)) return [];
+	return resources.filter(x => x.resourceType === type);
+}
+
+export function removeResourcesByType(resources: IEaasiResource[], type: ResourceType) {
+	if(!Array.isArray(resources)) return [];
+	return resources.filter(x => x.resourceType !== type);
+}
+
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {
     return {
         containerEmulatorName: environment.containerEmulatorName,
@@ -52,7 +112,8 @@ export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironme
         title: environment.title,
         useWebRTC: environment.useWebRTC,
         useXpra: environment.useXpra,
-        xpraEncoding: environment.xpraEncoding,
+		xpraEncoding: environment.xpraEncoding,
+		driveSettings: environment.driveSettings,
     } as IEnvironmentUpdateRequest;
 }
 

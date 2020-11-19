@@ -1,6 +1,6 @@
+import { AnyObject } from '../general/generic';
 import { ArchiveType, IEaasiResource, ResourceType } from '../resource/Resource';
 import { KeyValuePair } from './Emil';
-import { AnyObject } from '../general/generic';
 
 /*============================================================
  == Emulators
@@ -58,6 +58,7 @@ export interface IEaasiEmulatorEntry extends EmulatorEntry {
 export interface IEnvironment extends IEaasiResource {
 	archive: ArchiveType;
 	author?: any;
+	userId?: string;
 	canProcessAdditionalFiles: boolean;
 	connectEnvs: boolean;
 	description: string;

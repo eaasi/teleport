@@ -343,11 +343,12 @@ export default class ResourceSlideMenu extends Vue {
 		this.$emit('resource-deleted');
 	}
 
-	publishSelectedResources() {
-		return Promise.all([
+	async publishSelectedResources() {
+		await Promise.all([
 			this.publishSoftware(),
 			this.publishEnvironments()
 		]);
+		this.$emit('resource-published');
 	}
 
 	async publishEnvironments() {
@@ -369,7 +370,7 @@ export default class ResourceSlideMenu extends Vue {
 
 	// TODO: Refactor doAction and multiple / single selected resource logic
 
-	async doAction(action: IAction) {
+	doAction(action: IAction) {
 		if (!action.isEnabled) return;
 
 		switch (action.shortName) {
@@ -377,32 +378,19 @@ export default class ResourceSlideMenu extends Vue {
 				this.runInEmulator();
 				break;
 			case 'viewDetails':
-				// When View Details is clicked, we send to Resource Detail view
-				if (this.environmentIsSelected) {
-					const resourceId = this.onlySelectedResource.envId.toString();
-					this.$router.push({
-						path: ROUTES.RESOURCES.ENVIRONMENT,
-						query: { resourceId }
-					});
-					break;
-				}
-				// @ts-ignore
-				const archiveId = this.onlySelectedResource.archiveId;
-				const resourceId = this.onlySelectedResource.id.toString();
-				const path = this.softwareIsSelected ? ROUTES.RESOURCES.SOFTWARE : ROUTES.RESOURCES.CONTENT;
-				this.$router.push({
-					path,
-					query: { resourceId, archiveId }
-				});
+				this.viewDetails();
 				break;
 			case 'add-software':
-				// this.$emit('add-software');
 				this.addingSoftware = true;
 				break;
 			case 'treat-as-software':
 				this.$emit('treat-as-software');
 				break;
 			case 'bookmark':
+				this.bookmark();
+				break;
+			case 'addToEmuProject':
+				this.addToEmulationProject();
 				// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
 				let resourceIds = this.resources.map(resource =>
 					resource.resourceType === resourceTypes.ENVIRONMENT
@@ -426,10 +414,32 @@ export default class ResourceSlideMenu extends Vue {
 				this.confirmAction = 'delete';
 				break;
 			case 'publish':
-				await this.publishSelectedResources();
-				this.$emit('resource-published');
+				this.publishSelectedResources();
+				break;
 			default: break;
 		}
+	}
+
+	async addToEmulationProject() {
+		await this.$store.dispatch('emulationProject/addResources', this.resources);
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+	}
+
+	bookmark() {
+		let resourceIds = this.resources.map(resource =>
+			resource.resourceType === resourceTypes.ENVIRONMENT
+				? resource.envId
+				: resource.id
+		);
+
+		let bookmarksRequest: MultiBookmarkRequest = {
+			userId: this.user.id,
+			resourceIds: resourceIds as string[]
+		};
+
+		this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
+			this.$emit('bookmarks-updated');
+		});
 	}
 
 	runInEmulator(software = null) {
@@ -442,6 +452,26 @@ export default class ResourceSlideMenu extends Vue {
 			}
 		}
 		this.$router.push(route);
+	}
+
+	viewDetails() {
+		// When View Details is clicked, we send to Resource Detail view
+		if (this.environmentIsSelected) {
+			const resourceId = this.onlySelectedResource.envId.toString();
+			this.$router.push({
+				path: ROUTES.RESOURCES.ENVIRONMENT,
+				query: { resourceId }
+			});
+			return;
+		}
+		// @ts-ignore
+		const archiveId = this.onlySelectedResource.archiveId;
+		const resourceId = this.onlySelectedResource.id.toString();
+		const path = this.softwareIsSelected ? ROUTES.RESOURCES.SOFTWARE : ROUTES.RESOURCES.CONTENT;
+		this.$router.push({
+			path,
+			query: { resourceId, archiveId }
+		});
 	}
 
 	/* Watchers

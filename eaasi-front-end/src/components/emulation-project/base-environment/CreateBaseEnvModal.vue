@@ -1,9 +1,9 @@
 <template>
 	<info-modal
-		v-if="isOpen"
 		@close="$emit('close')"
 		title="Create Base Environment"
 		button-text="Cancel"
+		class="create-env-modal"
 	>
 		<div class="base-env-container">
 			<div class="base-env-heading">
@@ -12,28 +12,30 @@
 
 			<div class="section-os row">
 				<div class="left col-md-7">
-					<select-list label="Operating System Type" v-model="selectedOsType">
-						<option
-							v-for="osType in osTypeOptions"
-							:value="osType.name"
-							:key="osType.id"
-						>
-							{{ osType.name }}
-						</option>
-					</select-list>
-
-					<select-list label="Operating System Version" v-model="selectedOsVersion">
-						<option
-							v-for="osVersion in osVersionOptions"
-							:value="osVersion.name"
-							:key="osVersion.id"
-						>
-							{{ osVersion.name }}
-						</option>
-					</select-list>
+					<text-input
+						v-model="environmentTitle"
+						label="Environment Name"
+						placeholder="Environment name"
+						rules="required"
+					/>
+					<os-picker
+						list
+						:selected-os="selectedOs"
+						@input="selectOs"
+						:readonly="!!operatingSystemId"
+					/>
+					<search-select-list
+						v-model="operatingSystemId"
+						label="Choose a System"
+						option-label="label"
+						anchor="id"
+						placeholder="Please select a System Template"
+						:data="osTemplates"
+						rules="required"
+					/>
 				</div>
 
-				<div class="right col-md-5">
+				<div class="right col-md-5 flex flex-center">
 					<div class="alert-container">
 						<alert type="warning">
 							Operating system will be attached to your emulation project as
@@ -43,9 +45,8 @@
 					</div>
 				</div>
 			</div>
-
-			<div v-if="hardwareTemplates.length > 0">
-				<hardware-template-selection :templates="hardwareTemplates" />
+			<div class="">
+				<os-template-conig v-if="selectedOSTemplate" :os-template="selectedOSTemplate" />
 			</div>
 		</div>
 		<template v-slot:buttons>
@@ -53,7 +54,7 @@
 				<ui-button @click="$emit('close')" color-preset="light-blue">Cancel</ui-button>
 			</div>
 			<div class="justify-end buttons-right">
-				<ui-button @click="$emit('save')">Save</ui-button>
+				<ui-button :disabled="!canSave" @click="$emit('save')">Save</ui-button>
 			</div>
 		</template>
 	</info-modal>
@@ -61,59 +62,103 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import { UiButton } from '@/components/global';
 import InfoModal from '@/components/global/Modal/InfoModal.vue';
-import AlertCard from '@/components/global/Alert/AlertCard.vue';
 import SelectList from '@/components/global/forms/SelectList.vue';
-import HardwareTemplateSelection from '@/components/emulation-project/HardwareTemplateSelection.vue';
-import {IHardwareTemplate} from '@/types/HardwareTemplate';
-import {IOsVersionOptions} from '@/types/IOsVersionOptions';
-import {IOsTypeOptions} from '@/types/IOsTypeOptions';
+import OsPicker from '../shared/OsPicker.vue';
+import { IDrive, IUIOsItem } from '@/types/Resource';
+import { Sync } from 'vuex-pathify';
+import { operatingSystems, IOsListItem } from '@/models/admin/OperatingSystems';
+import { populateNativeConfig } from '@/helpers/NativeConfigHelper';
+import { ICreateEnvironmentPayload } from '@/types/Import';
+import OsTemplateConfig from '../shared/OsTemplateConfig.vue';
+import { defaultOsList } from '@/utils/constants';
 
 @Component({
 	name: 'CreateBaseEnvModal',
 	components: {
-		HardwareTemplateSelection,
-		AlertCard,
+		OsPicker,
+		OsTemplateConfig,
 		InfoModal,
 		UiButton,
 		SelectList,
 	}
 })
 export default class CreateBaseEnvModal extends Vue {
-		isOpen = true;
-		selectedOsType = null;
-		selectedOsVersion = null;
 
-		/**
-		 * Array of available OS Types
-		 */
-		osTypeOptions: IOsTypeOptions[] = [];
+	/* Computed
+	============================================*/
+	@Sync('emulationProject/createEnvironmentPayload@label')
+	environmentTitle: string;
 
-		/**
-		 * Array of available OS Versions
-		 */
-		osVersionOptions: IOsVersionOptions[] = [];
+	@Sync('emulationProject/createEnvironmentPayload@driveSettings')
+	drives: IDrive[];
 
-		/**
-		 * Array of available Hardware Templates
-		 */
-		hardwareTemplates: IHardwareTemplate[];
+	@Sync('emulationProject/createEnvironmentPayload@operatingSystemId')
+	operatingSystemId: string;
 
+	@Sync('emulationProject/createEnvironmentPayload@templateId')
+	templateId: string;
 
-		getOsTypes() {
-			this.osTypeOptions = [];
-		}
+	@Sync('emulationProject/createEnvironmentPayload@nativeConfig')
+	nativeConfig: string;
 
-		getHardwareTemplates() {
-			this.hardwareTemplates = [];
-		}
+	@Sync('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
 
-		created() {
-			this.getOsTypes();
-			this.getHardwareTemplates();
-		}
+	get canSave(): boolean {
+		return !!this.templateId && !!this.operatingSystemId && !!this.environmentTitle;
+	}
+
+	get osTemplates(): IOsListItem[] {
+		if (!this.selectedOs) return this.operatingSystems;
+		return this.operatingSystems.filter(os => os.id.indexOf(this.selectedOs.value) >= 0);
+	}
+
+	get selectedOSTemplate(): IOsListItem {
+		return this.operatingSystems.find(os => os.id === this.operatingSystemId);
+	}
+
+	/* Data
+	============================================*/
+	readonly operatingSystems = operatingSystems;
+	selectedOs: IUIOsItem = null;
+
+	reset() {
+		const currentEnvTitle = this.environmentTitle;
+		this.$store.commit('emulationProject/RESET');
+		this.environmentTitle = currentEnvTitle;
+	}
+
+	selectOs(os: IUIOsItem) {
+		this.selectedOs = os;
+	}
+
+	selectOsForTemplate(template: string) {
+		const templateVal = template.split(':')[1];
+		const os: IUIOsItem = defaultOsList.find(os => os.value.indexOf(templateVal) >= 0);
+		if (!os) return;
+		this.selectedOs = os;
+	}
+
+	beforeDestroy() {
+		this.environmentTitle = null;
+		this.drives = [];
+		this.operatingSystemId = null;
+		this.templateId = null;
+		this.nativeConfig = null;
+	}
+
+	@Watch('operatingSystemId')
+	onActiveTemplate(template) {
+		if (!template) this.reset();
+		const chosenOS = this.operatingSystems.find(os => os.id === template);
+		if (!chosenOS) return;
+		this.selectOsForTemplate(template);
+		this.nativeConfig = populateNativeConfig(chosenOS.template_params);
+		this.templateId = chosenOS.template;
+	}
 
 }
 
@@ -123,7 +168,12 @@ export default class CreateBaseEnvModal extends Vue {
 	.base-env-container {
 		padding: 1.2rem 3.4rem;
 	}
+	.create-env-modal {
 
+		.eaasi-modal-content {
+			min-height: 50vh;
+		}
+	}
 	.section-os {
 		display: flex;
 		flex-direction: row;

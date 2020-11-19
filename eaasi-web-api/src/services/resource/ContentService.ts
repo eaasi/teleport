@@ -9,30 +9,30 @@ import EmilBaseService from '../base/EmilBaseService';
 export default class ContentService extends BaseService {
 
 	private readonly _contentRepoService: EmilBaseService;
+	private readonly CACHE_KEYS = {
+		ALL_CONTENT: 'all-content-items',
+		ARCHIVES: 'content-archives'
+	}
 
 	constructor(
-		contentRepository: EmilBaseService = new EmilBaseService('object-repository'),
+		contentRepository: EmilBaseService = new EmilBaseService('object-repository')
 	) {
 		super();
 		this._contentRepoService = contentRepository;
 	}
 
 	async getAll(archiveId: ArchiveType): Promise<IContentItem[]> {
+		let results = this._cache.get<IContentItem[]>(this.CACHE_KEYS.ALL_CONTENT)
+		if(results) return results;
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`);
 		let content = await res.json() as IContentItem[];
-		content.forEach(x => x.resourceType = resourceTypes.CONTENT);
+		content.forEach((x: IContentItem) => {
+			x.resourceType = resourceTypes.CONTENT
+			if (x.hasOwnProperty('title') && !x.hasOwnProperty('label')) x.label = x.title;
+		});
+		if (content.length) this._cache.add(this.CACHE_KEYS.ALL_CONTENT, content);
 		return content;
 	}
-
-	private mapContentItems(items: IContentItem[]): Promise<IContentItem[]> {
-		return Promise.all(items.map(item => {
-			return this.getObjectMetadata({
-				contentId: item.id,
-				archiveName: item.archiveId
-			});
-		}))
-	}
-
 
 	async getObjectMetadata(contentRequest: IContentRequest): Promise<IContentItem> {
 		let res = await this._contentRepoService.get(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
@@ -42,8 +42,12 @@ export default class ContentService extends BaseService {
 	}
 
 	async getObjectArchives(): Promise<IObjectArchiveResonse> {
+		let result = this._cache.get<IObjectArchiveResonse>(this.CACHE_KEYS.ARCHIVES)
+		if(result) return result;
 		let res = await this._contentRepoService.get('archives');
-		return res.json();
+		let archives = await res.json();
+		if (archives.length) this._cache.add(this.CACHE_KEYS.ARCHIVES, archives);
+		return archives;
 	}
 
 	/**
@@ -56,12 +60,24 @@ export default class ContentService extends BaseService {
 	async deleteContent(contentRequest: IContentRequest) {
 		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
 		if (!res) return null;
+		if(res.ok) this.clearCache();
 		return await res.json();
 	}
 
 	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL): Promise<IEmilTask> {
 		const res = await this._contentRepoService.post(`/archives/${archiveId}/objects`, importPayload);
+		if(res.ok) this.clearCache();
 		return await res.json() as IEmilTask;
+	}
+
+	/*============================================================
+	 == Cache
+	/============================================================*/
+
+	private clearCache() {
+		Object.values(this.CACHE_KEYS).forEach(key => {
+			this._cache.delete(key);
+		});
 	}
 
 

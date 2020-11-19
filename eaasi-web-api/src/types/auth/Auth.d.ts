@@ -1,8 +1,32 @@
+import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
 import { Request } from 'express';
-import { EaasiUser } from '@/data_access/models/app';
 
 export interface IAuthorizedRequest extends Request {
-	user: EaasiUser;
+	user: IEaasiUser;
+}
+
+export interface IAuthorizedGetRequest extends IAuthorizedRequest {
+	params: {
+		id: string;
+	};
+}
+
+export interface IAuthorizedPostRequest<T> extends IAuthorizedRequest {
+	body: T;
+}
+
+export interface IAuthorizedPatchRequest<T> extends IAuthorizedGetRequest {
+	body: Partial<T>;
+}
+
+export interface IAuthorizedPutRequest<T> extends IAuthorizedGetRequest {
+	body: Partial<T>;
+}
+
+export interface IAuthorizedDeleteRequest extends IAuthorizedRequest {
+	params: {
+		id: string;
+	};
 }
 
 export interface ILoginRequest {

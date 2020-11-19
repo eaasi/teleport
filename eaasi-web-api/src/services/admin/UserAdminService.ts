@@ -1,6 +1,6 @@
 import { EaasiRole } from '@/data_access/models/app/EaasiRole';
 import { EaasiUser } from '@/data_access/models/app/EaasiUser';
-import CrudQuery from '@/services/base/CrudQuery';
+import CrudQuery from '@/classes/CrudQuery';
 import CrudService from '@/services/base/CrudService';
 import ICrudService from '@/services/interfaces/ICrudService';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';

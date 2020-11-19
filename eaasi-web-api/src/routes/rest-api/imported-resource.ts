@@ -1,8 +1,7 @@
 import express from 'express';
+import UserImportController from '@/controllers/rest-api/UserImportController';
 
 let router = express.Router();
-
-const ImportedResourceController = require('@/controllers/rest-api/UserImportController');
 
 const controller = new UserImportController();
 

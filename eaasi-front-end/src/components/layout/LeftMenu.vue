@@ -64,7 +64,7 @@ export default class LeftMenu extends Vue {
 			{
 				icon: 'atom',
 				label: 'Emulation Project',
-				route: ROUTES.EMULATION_PROJECT.OPTIONS,
+				route: ROUTES.EMULATION_PROJECT.ROOT,
 			},
 			{
 				icon: 'upload',

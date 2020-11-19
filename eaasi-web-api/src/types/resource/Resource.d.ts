@@ -9,11 +9,13 @@ export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | '
 
 export interface IEaasiResource {
 	id: string;
-	title: string;
+	title?: string;
+	label?: string;
 	resourceType: ResourceType;
 	archive?: ArchiveType;
 	archiveId?: ArchiveType;  // Content can return archiveId key
 	isPublic: boolean;
+	envId?: string;
 }
 
 /*============================================================
@@ -47,6 +49,21 @@ export interface ISnapshotRequest {
 	networking?: INetworking | any;
 }
 
+export interface IEmulatorComponentRequest {
+	archive: string;
+	emulatorVersion: string;
+	environment: string;
+	keyboardLayout: string;
+	keyboardModel: string;
+	type: string;
+}
+
+export interface IEmulatorComponentresponse {
+	id: string;
+	status?: string;
+	error?: string;
+}
+
 export interface IComponentRequest {
 	type: string;
 	userId: string;
@@ -62,7 +79,7 @@ export interface IComponentRequest {
 		gwPrivateMask: string;
 		connectEnvs: true;
 		helpText: string;
-	}
+	};
 }
 
 export interface IClientEnvironmentRequest {
@@ -72,6 +89,9 @@ export interface IClientEnvironmentRequest {
 	title: string;
 	networking?: INetworking;
 	objectId?: string;
+	environment?: IEnvironment;
+	softwareId?: string;
+	archive?: ArchiveType;
 }
 
 export interface IClientSnapshotRequest {
@@ -107,6 +127,7 @@ export interface ISnapshotResponse {
 	envId: string;
 	status: string;
 	message: string;
+	error?: string;
 }
 
 /*============================================================

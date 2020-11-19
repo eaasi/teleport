@@ -1,35 +1,128 @@
 <template>
 	<div class="resource-side-bar">
-		<info-message
-			v-if="!hasDevicesAvailable"
-			message="Available Devices Full"
-			description="Unmark a selected resource to free up a drive to mark a new one."
+		<alert
+			style-preset="bordered"
+			card
+			collapsable
 			type="error"
+			v-if="resourceLimit === 0"
 			style="margin: 1rem 2rem 2rem 2rem;"
-			collapsible
-		/>
-		<tabbed-nav
-			:value="activeTab.label"
-			:tabs="tabs"
-			color-preset="clear-white"
-		/>
+		>
+			Available Devices Full
+			<div slot="details">
+				Unmark a selected resource to free up a drive to mark a new one.
+			</div>
+		</alert>
 		<div class="content flex flex-column">
-			<ui-button color-preset="light-blue" icon="plus">
-				Add Object
+			<ui-button
+				v-if="!resources && !resources.length"
+				block
+				class="mb"
+				color-preset="light-blue"
+			>
+				Find Resource(s)
 			</ui-button>
+			<div class="rsb-environments" v-if="environments.length">
+				<div class="flex-row justify-between rsb-header">
+					<h4 class="no-mb">Environments</h4>
+					<a class="clickable txt-sm bold">Clear All</a>
+				</div>
+				<div
+					v-for="env in environments"
+					:key="env.envId"
+					class="flex-row mb"
+				>
+					<selectable-card
+						footer
+						:data="env"
+						is-clickable
+						hide-details
+						class="flex-grow no-mb"
+						@change="setEnvironment(env, $event)"
+						:value="!!environment && environment.envId == env.envId"
+					>
+						<template v-slot:tagsLeft>
+							<tag-group position="left" :tags="getTypeTags(env)" />
+						</template>
+					</selectable-card>
+					<div>
+						<circle-button
+							color-preset="light-blue"
+							icon="times"
+							class="ml-sm"
+							@click="removeResource(env)"
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="rsb-objects" v-if="objects.length">
+				<div class="flex-row justify-between rsb-header">
+					<h4 class="no-mb">Objects</h4>
+					<a class="clickable txt-sm bold">Clear All</a>
+				</div>
+				<alert
+					no-icon
+					type="warning"
+					style-preset="border-right"
+					style="margin-bottom: 1rem;"
+					v-if="resourceLimit === 1"
+				>
+					Only one object type can be emulated <br />
+					at a time - content OR software
+				</alert>
+				<div
+					v-for="obj in objects"
+					:key="obj.id"
+					class="flex-row mb"
+				>
+					<selectable-card
+						footer
+						:data="{ title: obj.title || obj.label }"
+						:value="isSelected(obj)"
+						@change="(e) => selectResource(obj, e)"
+						class="flex-grow no-mb"
+						style="width: 30rem;"
+						:disabled="isDisabled(obj)"
+					>
+						<template v-slot:tagsLeft>
+							<tag-group position="left" :tags="getTypeTags(obj)" />
+						</template>
+					</selectable-card>
+					<div>
+						<circle-button
+							color-preset="light-blue"
+							icon="times"
+							class="ml-sm"
+							@click="removeResource(obj)"
+						/>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
+import { Get, Sync } from 'vuex-pathify';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import { resourceTypes, IResourceTypes } from '@/utils/constants';
+import { getResourceTypeTags } from '@/helpers/ResourceHelper';
+import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
+import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
+import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
+import { ROUTES } from '@/router/routes.const';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
 	name: 'ResourceSideBar',
 	components: {
+		EnvironmentResourceCard,
+		SoftwareResourceCard,
+		ContentResourceCard,
 		InfoMessage
 	}
 })
@@ -40,8 +133,34 @@ export default class ResourceSideBar extends Vue {
 
 	/* Computed
 	============================================*/
-	get hasDevicesAvailable(): boolean {
-		return false;
+
+	@Sync('emulationProject/environment')
+	environment: EmulationProjectEnvironment;
+
+	@Get('emulationProject/projectResources')
+	readonly resources: IEaasiResource[];
+
+	@Sync('emulationProject/selectedResources')
+	selected: IEaasiResource[];
+
+	@Get('emulationProject/constructedFromBaseEnvironment')
+	constructedFromBaseEnvironment: boolean;
+
+	get resourceLimit(): number {
+		if (this.constructedFromBaseEnvironment) {
+			return this.environment ? this.environment.drives.length : this.defaultDriveLimit;
+		}
+		else return 1;
+	}
+
+	@Get('emulationProject/projectEnvironments')
+	environments: IEnvironment[];
+
+	@Get('emulationProject/projectObjects')
+	objects: IEaasiResource[];
+
+	get hasObjectSlots(): boolean {
+		return this.resourceLimit > this.selected.length;
 	}
 
 	/* Data
@@ -51,10 +170,48 @@ export default class ResourceSideBar extends Vue {
 			label: 'Project Resources'
 		},
 	]
+	defaultDriveLimit: number = 3;
 	activeTab: IEaasiTab = this.tabs[0];
+	resourceTypes: IResourceTypes = resourceTypes;
 
 	/* Methods
 	============================================*/
+
+	getTypeTags(resource: IEaasiResource) {
+		return getResourceTypeTags(resource);
+	}
+
+	isSelected(resource: IEaasiResource) {
+		return this.selected.some(x => x.id === resource.id);
+	}
+
+	removeResource(resource: IEaasiResource) {
+		this.$store.dispatch('emulationProject/removeResource', resource);
+	}
+
+	selectResource(resource: IEaasiResource, selected: boolean) {
+		let resourcesToSelect = [];
+		if(!selected || this.isSelected(resource)) {
+			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
+		} else {
+			resourcesToSelect = [...this.selected, resource];
+		}
+		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
+	}
+
+	setEnvironment(environment: IEnvironment, checked: boolean) {
+		if (checked) {
+			this.environment = new EmulationProjectEnvironment(environment);
+			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		} else {
+			this.environment = null;
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
+	}
+
+	isDisabled(resource: IEaasiResource): boolean {
+		return !this.isSelected(resource) && !this.hasObjectSlots && this.selected.length > 0;
+	}
 
 	/* Lifecycle Hooks
 	============================================*/
@@ -64,14 +221,16 @@ export default class ResourceSideBar extends Vue {
 
 <style lang='scss'>
 .resource-side-bar {
-	margin-top: 2rem;
+	padding: 1.8rem;
 
-	.content {
-		padding: 2rem;
-
-		button {
-			width: 30rem;
-		}
+	.resource-object-container {
+		width: 308px;
 	}
+}
+
+.rsb-header {
+	border-bottom: solid 2px lighten($dark-neutral, 80%);
+	margin-bottom: 1.5rem;
+	padding-bottom: 1rem;
 }
 </style>

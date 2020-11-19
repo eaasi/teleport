@@ -1,6 +1,6 @@
 import { MockCrudService } from '../../../helpers/doubles/mock-crud-service';
 import UserService from '../../../../src/services/user/UserService';
-import CrudQuery from '../../../../src/services/base/CrudQuery';
+import CrudQuery from '../../../../src/classes/CrudQuery';
 
 describe('UserService', () => {
 	// Constructor Tests

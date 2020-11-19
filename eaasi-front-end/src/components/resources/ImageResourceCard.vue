@@ -9,7 +9,7 @@
 		@change="$emit('change', $event)"
 		@bookmarked="isActive => $emit('bookmarked', isActive)"
 		@click:header="goToDetailsPage"
-		:is-selected="isSelected"
+		:value="isSelected"
 	>
 		<template v-slot:tagsLeft>
 			<tag-group position="left" :tags="imageTypeTags" />

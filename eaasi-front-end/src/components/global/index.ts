@@ -4,9 +4,9 @@ import CheckboxFacet from '@/components/resources/search/CheckboxFacet.vue';
 import SearchFacetModal from '@/components/resources/search/SearchFacetModal.vue';
 import { VueConstructor } from 'vue';
 import Alert from './Alert/Alert.vue';
-import AlertCard from './Alert/AlertCard.vue';
 import BigButton from './BigButton.vue';
 import BigSectionHeading from './BigSectionHeading.vue';
+import CircleButton from './CircleButton.vue';
 import Collapsable from './Collapsable.vue';
 import DatePicker from './DatePicker.vue';
 import DateRange from './DateRange.vue';
@@ -58,13 +58,13 @@ export default {
 		Vue.component('DateRange', DateRange);
 		Vue.component('Alert', Alert);
 		Vue.component('DualToggle', DualToggle);
-		Vue.component('AlertCard', AlertCard);
 		Vue.component('AttachResourceCard', AttachResourceCard);
 		Vue.component('Autocomplete', Autocomplete);
 		Vue.component('BaseFormField', BaseFormField);
 		Vue.component('BigButton', BigButton);
 		Vue.component('BigSectionHeading', BigSectionHeading);
 		Vue.component('Checkbox', Checkbox);
+		Vue.component('CircleButton', CircleButton);
 		Vue.component('Collapsable', Collapsable);
 		Vue.component('Column', Column);
 		Vue.component('ConfirmModal', ConfirmModal);
@@ -109,5 +109,5 @@ export default {
  == Individual exports for testing purposes
 /============================================================*/
 
-export { Alert, DatePicker, DateRange, AlertCard, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader, SearchSelectList };
+export { Alert, CircleButton, DatePicker, DateRange, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader, SearchSelectList };
 

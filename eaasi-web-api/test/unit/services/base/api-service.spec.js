@@ -1,7 +1,7 @@
 import CrudService from '../../../../src/services/base/CrudService';
 import SequelizeModelFake from '../../../helpers/doubles/sequelize-model-fake';
 import CrudServiceResult from '../../../../src/services/base/CrudServiceResult';
-import CrudQuery from '../../../../src/services/base/CrudQuery';
+import CrudQuery from '../../../../src/classes/CrudQuery';
 
 describe('API Service', () => {
 	// Constructor Tests
@@ -43,7 +43,9 @@ describe('API Service', () => {
 		expect(sut.model.findAll_calledWith).toStrictEqual({
 			limit: query.limit,
 			offset: expectedOffset,
-			raw: raw
+			raw: raw,
+			order: undefined,
+			where: undefined
 		});
 	});
 

@@ -123,8 +123,7 @@ import { IEaasiUser } from 'eaasi-admin';
         ============================================*/
 
 		async getEnvironment(envId: string) {
-			const { createBaseEnvironment } = this.$route.query;
-			if (createBaseEnvironment) {
+			if (this.$route.query.createBaseEnvironment) {
 				await this.runImportedEnvironment(envId, `Base Environment [${this.loggedInUser.firstName} ${this.loggedInUser.lastName}]`);
 			} else if (this.isImportedEnvironment) {
 				await this.runImportedEnvironment(envId, this.importedTitle);

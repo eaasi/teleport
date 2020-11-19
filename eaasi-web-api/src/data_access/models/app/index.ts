@@ -3,6 +3,8 @@ export * from './Bookmark';
 export * from './EaasiRole';
 export * from './EaasiTask';
 export * from './EaasiUser';
+export * from './EmulationProject';
+export * from './EmulationProjectResource';
 export * from './Emulator';
 export * from './UserImportedContent';
 export * from './UserImportedEnvironment';

@@ -1,12 +1,16 @@
+import HttpResponseCode from '@/classes/HttpResponseCode';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import ContentService from '@/services/resource/ContentService';
 import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
+import { IAuthorizedDeleteRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
-import { IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
+import { IClientEnvironmentRequest, IContentRequest, IEmulatorComponentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
+import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
@@ -41,7 +45,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async getEnvironment(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._environmentService.getEnvironment(id);
 			res.send(result);
 		} catch(e) {
@@ -67,7 +71,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwarePackageDescription(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._softwareService.getSoftwareDescription(id);
 			res.send(result);
 		} catch(e) {
@@ -80,7 +84,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareObject(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._softwareService.getSoftwarePackage(id);
 			res.send(result);
 		} catch(e) {
@@ -93,7 +97,8 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareObjects(req: Request, res: Response) {
 		try {
-			let ids = req.query.ids.split(',') as string[];
+			let queryIds = req.query.ids as string;
+			let ids = queryIds.split(',') as string[];
 			let result = await this._softwareService.getSoftwareObjects(ids)
 			res.send(result);
 		} catch(e) {
@@ -106,11 +111,9 @@ export default class ResourceController extends BaseController {
 	 */
 	async getSoftwareMetadata(req: Request, res: Response) {
 		try {
-			let { archiveId, objectId } = req.query;
-			const contentRequest: IContentRequest = {
-				archiveName: archiveId,
-				contentId: objectId
-			}
+			const archiveName = req.query.archiveId as string;
+			const contentId = req.query.objectId as string;
+			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
@@ -123,7 +126,9 @@ export default class ResourceController extends BaseController {
 	 */
 	async getContent(req: Request, res: Response) {
 		try {
-			const contentRequest = req.query as IContentRequest;
+			const archiveName = req.query.archiveId as string;
+			const contentId = req.query.objectId as string;
+			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest);
 			res.send(result);
 		} catch(e) {
@@ -149,7 +154,9 @@ export default class ResourceController extends BaseController {
 	 */
 	async deleteContent(req: Request, res: Response) {
 		try {
-			const contentRequest = req.query as IContentRequest;
+			const archiveName = req.query.archiveId as string;
+			const contentId = req.query.objectId as string;
+			const contentRequest: IContentRequest = { archiveName, contentId };
 			await this._contentService.deleteContent(contentRequest);
 			res.send(true);
 		} catch(e) {
@@ -212,7 +219,7 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Searches for resources using the request body as IResourceSearchQuery
 	 */
-	async search(req: Request, res: Response) {
+	async search(req: IAuthorizedRequest, res: Response) {
 		try {
 			let query = req.body as IResourceSearchQuery;
 			let result = await this._svc.searchResources(query, req.user.id);
@@ -227,7 +234,7 @@ export default class ResourceController extends BaseController {
 	 */
 	async deleteEnvironment(req: Request, res: Response) {
 		try {
-			let id = req.query.id;
+			let id = req.query.id as string;
 			let result = await this._environmentService.deleteEnvironment(id);
 			res.send(result);
 		} catch(e) {
@@ -321,11 +328,89 @@ export default class ResourceController extends BaseController {
 
 	async saveEnvironmentRevision(req: Request, res: Response) {
 		try {
-			let revisionEnvRequest = req.body;
+			let revisionEnvRequest = req.body as IClientEnvironmentRequest;
 			let result = await this._environmentService.saveEnvironmentRevision(revisionEnvRequest);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
 		}
 	}
+
+	/*============================================================
+	 == Temporary Environments
+	/============================================================*/
+
+	/**
+	 * Adds an Environment to a temporary archive
+	 */
+	async addToTempArchive(req: IAuthorizedRequest, res: Response) {
+		try {
+			let userId = req.user.id;
+			let payload: IEmulatorComponentRequest = req.body;
+			let tempEnvRecord = await this._environmentService.addToTempArchive(userId, payload.environment);
+			return res.send(tempEnvRecord);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	async createAndAddToTempArchive(req: IAuthorizedRequest, res: Response) {
+		try { 
+			let userId = Number(req.user.id);
+			let emuComponentRequest: IEmulatorComponentRequest = req.body;
+			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
+			this._logger.log.info(`Temporary Environment with id ${derivative.envId} has been created for user ${userId}`);
+			let savedEnvironment = await this._environmentService.addToTempArchive(userId, derivative.envId);
+			return res.send(savedEnvironment);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	/**
+	 * Deletes an Environment from a temporary archive
+	 */
+	async deleteFromTempArchive(req: IAuthorizedDeleteRequest, res: Response) {
+		try {
+			let id = req.params.id;
+			let userId = req.user.id;
+			let tempEnvResponse = await this._environmentService.getAllTemp();
+			if (tempEnvResponse.result != null && tempEnvResponse.result.length) {
+				let tempEnvrecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
+				let curTempRecord = tempEnvrecords.find(temp => temp.envId === id);
+				if (!curTempRecord) return res.send(false);
+				await this._environmentService.deleteEnvironment(id);
+				this._logger.log.info(`Temporary Environment with id ${id} has been deleted for user ${userId}`);
+				let success = await this._environmentService.deleteFromTempArchive(id);
+				return res.send(success);
+			}
+			return res.send(false);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	/**
+	 * Gets All Environments from a temporary archive
+	 */
+	async getAllTemp(req: Request, res: Response) {
+		try {
+			let response = await this._environmentService.getAllTemp();
+			if (response.hasError) {
+				return res
+					.status(HttpResponseCode.SERVER_ERROR)
+					.send(build_500_response(response.error));
+			}
+
+			if (response.result == null) {
+				return res
+					.status(HttpResponseCode.NOT_FOUND)
+					.send(build_404_response(req.originalUrl));
+			}
+			return res.send(response.result);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
 }

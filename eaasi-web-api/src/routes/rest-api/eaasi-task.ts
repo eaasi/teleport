@@ -1,4 +1,5 @@
 import EaasiTaskController from '@/controllers/rest-api/EaasiTaskController';
+import { IAuthorizedDeleteRequest } from '@/types/auth/Auth';
 import express from 'express';
 
 const router = express.Router();
@@ -56,6 +57,6 @@ router.post('/', (req, res) => controller.updateTaskDescription(req, res));
  *
  * @apiSuccess (200 Success Response) {Object} Result Object containing the PK of the deleted resource.
  */
-router.delete('/:id', (req, res) => controller.deleteTask(req, res));
+router.delete('/:id', (req: IAuthorizedDeleteRequest, res) => controller.deleteTask(req, res));
 
 module.exports = router;

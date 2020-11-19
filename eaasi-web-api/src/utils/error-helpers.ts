@@ -2,8 +2,8 @@
  * Standard Error Responses for web API Requests
  */
 
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import ErrorResponse from '@/classes/ErrorResponse';
+import HttpResponseCode from '@/classes/HttpResponseCode';
 
 /**
  * Provides a common message response object
@@ -13,7 +13,7 @@ import ErrorResponse from '@/classes/ErrorResponse';
  * Malformed request error response
  * @type {{}}
  */
-export function build_400_response(requestBody: string) {
+export function build_400_response(requestBody: any) {
 	const messageDetail = `The provided request format is invalid: ${requestBody}`;
 	return new ErrorResponse(HttpResponseCode.BAD_REQUEST, messageDetail);
 }
@@ -41,7 +41,7 @@ export function build_403_response() {
  * Resource not found response
  * @type {{}}
  */
-export function build_404_response(requestedUrl: string) {
+export function build_404_response(requestedUrl?: string) {
 	const messageDetail =
 		`Resource was not found at the requested location: ${requestedUrl}`;
 	return new ErrorResponse(HttpResponseCode.NOT_FOUND, messageDetail);

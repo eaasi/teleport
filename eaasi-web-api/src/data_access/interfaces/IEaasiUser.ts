@@ -8,4 +8,5 @@ export default interface IEaasiUser {
 	email: string;
 	roleId: number;
 	lastLogin: Date;
+	token?: string;
 }

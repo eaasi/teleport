@@ -1,13 +1,14 @@
-import { Bookmark, UserImportedContent, UserImportedImage } from '@/data_access/models/app';
+import { UserImportedContent, UserImportedImage } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment, IImageListItem } from '@/types/emil/EmilEnvironmentData';
-import { ISoftwareDescription } from '@/types/emil/EmilSoftwareData';
+import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { resourceTypes } from '@/utils/constants';
+import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
@@ -43,13 +44,38 @@ export default class ResourceAdminService extends BaseService {
 		this._contentService = contentService;
 	}
 
+	/*============================================================
+	 == General
+	/============================================================*/
+
+	/**
+	 * Gets all environments, software packages, and content items
+	 */
+	async getAllResources(): Promise<IEaasiResource[]> {
+		let environments: IEnvironment[],
+			software: ISoftwarePackage[],
+			content: IContentItem[];
+
+		[environments, software, content] = await Promise.all([
+			this._environmentService.getAll(),
+			this._softwareService.getAll(),
+			this._contentService.getAll('zero conf')
+		]);
+
+		return [...environments, ...software, ...content] as IEaasiResource[];
+	}
+
+	/*============================================================
+	 == Searching
+	/============================================================*/
+
 	/**
 	 * Searches Environment, Software, and Content Resources using the  provided IResourceSearchQuery
 	 * @param query
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: number): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
-		let bookmarksResponse: ICrudServiceResult<Bookmark[]>;
+		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
 		let userImportedResources: IResourceImportResult;
 
 		[bookmarksResponse, userImportedResources] = await Promise.all([
@@ -74,7 +100,7 @@ export default class ResourceAdminService extends BaseService {
 		]);
 
 		this.preselectResultFacets(result, query);
-		
+
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
 		result.content.result = this.paginate(query, result.content.result);
@@ -166,7 +192,7 @@ export default class ResourceAdminService extends BaseService {
 		results: T[],
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[]
+		userResources: UserImportedContent[] | UserImportedImage[]
 	): IEaasiSearchResponse<T> {
 
 		if(!results || !results.length) {
@@ -190,19 +216,18 @@ export default class ResourceAdminService extends BaseService {
 			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
 		}
 
-		if (query.keyword) {
-			let q = query.keyword.toLowerCase();
-			results = results.filter(r => r.title && r.title.toLowerCase().indexOf(q) > -1);
+		if (results.length && query.keyword) {
+			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
-		if (query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
+		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
 
-		if (query.sortCol) {
+		if (results.length && query.sortCol) {
 			results = results.sort((a, b) => {
-				const nameA = a.title.toLowerCase();
-				const nameB = b.title.toLowerCase();
+				const nameA = a.title ? a.title.toLowerCase() : a.label.toLowerCase();
+				const nameB = b.title ? a.title.toLowerCase() : b.label.toLowerCase();
 				let comparison = 0;
 				if (nameA > nameB) comparison = 1;
 				else if (nameA < nameB) comparison = -1;
@@ -274,6 +299,10 @@ export default class ResourceAdminService extends BaseService {
 		return resources;
 	}
 
+	private filterByKeyword<T extends IEaasiResource>(resources: T[], keyword: string): T[] {
+		return filterResourcesByKeyword(resources, keyword) as T[];
+	}
+
 	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {
 		let selectedFacets = [];
 
@@ -291,17 +320,13 @@ export default class ResourceAdminService extends BaseService {
 
 	private preselectResultFacets(result: IResourceSearchResponse, query: IResourceSearchQuery): void {
 		result.facets.forEach(facet => {
-			if (facet.values.length === 1 && facet.name === 'resourceType') {
-				facet.values[0].isSelected = true;
-			} else {
-				facet.values.forEach(value => {
-					const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
-					if (currentFacet) {
-						let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
-						if (selectedValue) value.isSelected = true;
-					}
-				})
-			}
+			facet.values.forEach(value => {
+				const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
+				if (currentFacet) {
+					let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
+					if (selectedValue) value.isSelected = true;
+				}
+			})
 		})
 	}
 

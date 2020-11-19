@@ -1,4 +1,4 @@
-import CrudQuery from '@/services/base/CrudQuery';
+import CrudQuery from '@/classes/CrudQuery';
 import { IPaginatedResult } from '@/types/Crud';
 import { WhereOptions } from 'sequelize';
 import { Model } from 'sequelize-typescript';
@@ -36,7 +36,7 @@ export default class CrudService<T extends Model> extends BaseService implements
 	 */
 	async getAll(query: CrudQuery, raw: boolean = false): Promise<ICrudServiceResult<IPaginatedResult<T>>> {
 
-		let totalResults = await this.model.findAndCountAll()
+		let totalResults = await this.model.findAndCountAll(query)
     		.catch((error: string) => {
 				this._logger.log.error(error);
 				return new CrudServiceResult<IPaginatedResult<T>>(error);
@@ -85,7 +85,7 @@ export default class CrudService<T extends Model> extends BaseService implements
 	 * Accepts Sequelize WhereOptions to query a matched object
 	 * @param whereOptions
 	 */
-	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult<T>> {
+	async getAllWhere(whereOptions: WhereOptions): Promise<ICrudServiceResult<T[]>> {
 		return await this.model.findAll({
 			where: whereOptions
 		}).then((result: T[]) => {
@@ -193,14 +193,16 @@ export default class CrudService<T extends Model> extends BaseService implements
     		});
 	}
 
-	private createFindAllOptions(query: CrudQuery, raw: boolean = false) {
+	protected createFindAllOptions(query: CrudQuery, raw: boolean = false){
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1) || 0;
     	let options = {
 			limit,
 			offset,
-			raw
-		} as any;
+			raw,
+			order: undefined,
+			where: query.where
+		};
 
     	if (!query.sortCol) return options;
 

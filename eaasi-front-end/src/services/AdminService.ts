@@ -11,6 +11,18 @@ import BaseHttpService from './BaseHttpService';
 
 class AdminService extends BaseHttpService {
 
+	private readonly _defaultKeyboardSetting: IKeyboardSettings = {
+		language: {
+			name: 'us',
+			descriptions: ''
+		},
+		layout: {
+			descriptions: '',
+			name: '',
+			vendor: ''
+		}
+	};
+
 	/* Emulators
 	============================================*/
 
@@ -114,7 +126,7 @@ class AdminService extends BaseHttpService {
 
 	getKeyboardSettings(): IKeyboardSettings {
 		const keyboardSettigs = Cookies.get(config.KEYBOARD_SETTINGS_NAME);
-		if (!keyboardSettigs) return null;
+		if (!keyboardSettigs) return this._defaultKeyboardSetting;
 		return JSON.parse(keyboardSettigs) as IKeyboardSettings;
 	}
 

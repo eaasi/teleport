@@ -98,9 +98,9 @@
 			@close="closeClearBookmarksModal"
 			@click:confirm="clearBookmarks"
 		>
-			<alert-card type="warning">
+			<alert card type="warning">
 				You are about to clear all of your bookmarks! Your bookmarked environments will no longer appear under "My Bookmarks." This action cannot be undone.
-			</alert-card>
+			</alert>
 		</confirm-modal>
 	</div>
 </template>
@@ -114,8 +114,7 @@ import ResourceList from '../ResourceList.vue';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { IResourceSearchResponse, IResourceSearchFacet, IEaasiSearchResponse } from '@/types/Search';
-import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
+import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
@@ -149,7 +148,7 @@ export default class MyBookmarksSection extends Vue {
     selectedResources: IEaasiResource[];
 
     @Sync('resource/query')
-    query: ResourceSearchQuery;
+    query: IResourceSearchQuery;
 
     @Get('resource/result')
     bentoResult: IResourceSearchResponse;
@@ -197,13 +196,15 @@ export default class MyBookmarksSection extends Vue {
     ============================================*/
 
     async search() {
-		const query = this.queryService.retrieveQuery();
-		if (query) {
-			this.query = query;
-		}
-		this.$store.commit('resource/SET_QUERY', {...this.query, userId: this.user.id, onlyBookmarks: true });
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
+			this.query = {
+				...this.query,
+				userId: this.user.id,
+				onlyBookmarks: true,
+				onlyImportedResources: false,
+				archives: []
+			};
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 		});
@@ -232,17 +233,20 @@ export default class MyBookmarksSection extends Vue {
         await this.$store.dispatch('bookmark/clearBookmarks', this.user.id);
         this.isClearBookmarksModalVisible = false;
 	}
-	
+
 	openActionMenu(tab: IEaasiTab) {
 		this.$emit('open-action-menu', tab);
 	}
 
+	init() {
+		const query = this.queryService.retrieveQuery();
+		if (query) {
+			this.query = query;
+		}
+	}
+
     /* Lifecycle Hooks
     ============================================*/
-
-    async mounted() {
-        await this.search();
-	}
 
 	beforeDestroy() {
 		this.queryService.persistQuery(this.query);
@@ -251,12 +255,19 @@ export default class MyBookmarksSection extends Vue {
 		this.$store.commit('resource/SET_RESULT', null);
 	}
 
+	beforeMount() {
+		this.init();
+		this.search();
+	}
+
 	@Watch('hasSelectedFacets')
 	async onSelectedFacets(curVal, prevVal) {
+		if (!curVal && prevVal === undefined) {
+			return;
+		}
 		// if we unselecting the last facet, do a clear search
 		if (prevVal && !curVal) {
-			this.$store.dispatch('resource/clearSearchQuery');
-			await this.search();
+			this.$store.dispatch('resource/clearSearch');
 		}
 	}
 

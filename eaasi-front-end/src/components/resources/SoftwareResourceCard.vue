@@ -1,6 +1,6 @@
 <template>
 	<selectable-card
-		bookmark
+		:bookmark="bookmark"
 		footer
 		:data="summary"
 		:disable-select="disableSelect"
@@ -9,7 +9,7 @@
 		@change="$emit('change', $event)"
 		@bookmarked="isActive => $emit('bookmarked', isActive)"
 		@click:header="goToDetailsPage"
-		:is-selected="isSelected"
+		:value="isSelected"
 	>
 		<template v-slot:tagsLeft>
 			<tag-group position="left" :tags="resourceTypeTags" />
@@ -36,11 +36,18 @@ export default class SoftwareResourceCard extends Vue {
 
 	/* Props
 	============================================*/
+
+	@Prop({type: Boolean, required: false, default: false})
+	readonly bookmark: boolean;
+
 	@Prop({type: Object as () => ISoftwarePackage, required: true})
 	readonly software: ISoftwarePackage;
 
 	@Prop({type: Boolean, required: false, default: false})
 	readonly disableSelect: boolean;
+
+	@Prop({type: Boolean, required: false, default: false})
+	readonly hideDetails: boolean;
 
 	@Prop({type: Boolean, required: false, default: false})
 	readonly isClickable: boolean;
@@ -68,12 +75,13 @@ export default class SoftwareResourceCard extends Vue {
 		let summary = {
 			id: this.software.id,
 			title: this.software.label,
-			tagGroup: [],
-			content: {
-				'id': this.software.id,
-				'Is Operating System': this.software.isOperatingSystem
-			}
+			tagGroup: []
 		} as IEaasiResourceSummary;
+		if(this.hideDetails) return summary;
+		summary.content = {
+			'id': this.software.id,
+			'Is Operating System': this.software.isOperatingSystem
+		};
 		return summary;
 	}
 

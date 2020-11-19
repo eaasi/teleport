@@ -1,6 +1,6 @@
+import { Response } from 'node-fetch';
 import IHttpService from '../interfaces/IHttpService';
 import HttpJSONService from './HttpJSONService';
-import { Response } from 'node-fetch';
 
 const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 

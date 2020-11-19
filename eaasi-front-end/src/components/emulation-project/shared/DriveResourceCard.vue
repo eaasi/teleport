@@ -1,23 +1,38 @@
 <template>
-	<drive-card :label="drive.type">
-		<software-resource-card
-			v-if="resource && isSoftware"
-			:software="resource"
-			disable-select
-			:bookmark="false"
-			style="width: 100%;"
-		/>
-		<content-resource-card
-			v-else-if="resource && isContent"
-			:content="resource"
-			disable-select
-			:bookmark="false"
-			style="width: 100%;"
-		/>
+	<drive-card :label="driveCardLabel">
+		<template #action v-if="hasResource">
+			<ui-button color-preset="blue-transparent" @click="removeResource">
+				<div class="flex flex-row flex-cetner rm-btn">
+					Remove Resource
+					<span class="fas fa-times"></span>
+				</div>
+			</ui-button>
+		</template>
+		<div v-if="hasResource">
+			<software-resource-card
+				v-if="isSoftware"
+				:software="resource"
+				disable-select
+				:bookmark="false"
+				style="width: 100%;"
+			/>
+			<content-resource-card
+				v-else-if="isContent"
+				:content="resource"
+				disable-select
+				:bookmark="false"
+				style="width: 100%;"
+			/>
+		</div>
+		<div v-else-if="!hasResource" class="alert-wrapper">
+			<alert no-icon type="warning" style-preset="border-right">
+				Select project resources to fill drive
+			</alert>
+		</div>
 		<search-select-list
-			v-else-if="!resource"
-			v-model="drive.resourceId"
-			option-label="title"
+			style="margin-top: 1rem;"
+			v-model="driveSetting.objectId"
+			option-label="label"
 			anchor="id"
 			placeholder="Select a project resource..."
 			:data="resources"
@@ -28,8 +43,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IDrive, IEaasiResource, IResourceDrive } from '../../../types/Resource';
+import { Component, Prop } from 'vue-property-decorator';
+import { IEaasiResource, IDriveSetting } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
@@ -47,31 +62,37 @@ export default class DriveResourceCard extends Vue {
 
 	/* Props
 	============================================*/
-	@Prop({ type: Object as () => IDrive, required: true })
-	readonly drive: IResourceDrive;
-	
+	@Prop({ type: Object as () => IDriveSetting, required: true })
+	readonly driveSetting: IDriveSetting;
+
 	@Prop({ type: Array as () => IEaasiResource[] })
 	readonly resources: IEaasiResource[];
 
 	/* Computed
 	============================================*/
 	get resource(): IEaasiResource {
-		return {
-			archiveId: 'zero conf',
-			id: '1fbc9d79-708d-4cb8-aecb-9be3c7405fab',
-			title: 'test object',
-			resourceType: resourceTypes.CONTENT,
-			isPublic: false
-		};
-		return this.resources.find(resource => resource.id === this.drive.resourceId);
+		if (!this.driveSetting.objectId) return null;
+		return this.resources.find(resource => resource.id === this.driveSetting.objectId || resource.id === this.driveSetting.imageId);
+	}
+
+	get hasResource(): boolean {
+		return this.resource != null;
 	}
 
 	get isSoftware() {
-		return this.resource.resourceType === resourceTypes.SOFTWARE;
+		return this.hasResource && this.resource.resourceType === resourceTypes.SOFTWARE;
 	}
 
 	get isContent() {
-		return this.resource.resourceType === resourceTypes.CONTENT;
+		return this.hasResource && this.resource.resourceType === resourceTypes.CONTENT;
+	}
+
+	get driveCardLabel(): string {
+		return `${this.driveSetting.drive.type}`;
+	}
+
+	removeResource() {
+		this.driveSetting.objectId = null;
 	}
 
 }
@@ -79,6 +100,7 @@ export default class DriveResourceCard extends Vue {
 
 <style lang='scss'>
 .drive-card {
+	flex-direction: column;
 	.eaasi-search-select {
 		width: 100%;
 	}
