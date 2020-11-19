@@ -41,15 +41,6 @@ export function getResourceId(resource: IEaasiResource): string {
 	return resource.id;
 }
 
-export function getResourceLabel(resource: IEaasiResource): string {
-	switch(resource.resourceType) {
-		case resourceTypes.SOFTWARE:
-			return (resource as ISoftwarePackage).label;
-		default:
-			return resource.title;
-	}
-}
-
 export function getResourceTypeTags(resource: IEaasiResource): ITag[] {
 	if(resource.resourceType === resourceTypes.SOFTWARE) {
 		return [{
@@ -90,42 +81,6 @@ export function getResourceTypeTags(resource: IEaasiResource): ITag[] {
 		return tags;
 	}
 	return [];
-}
-
-export function getResourceVisibilityTags(resource: IEaasiResource): ITag[] {
-	let tagGroup = [];
-	if(resource.resourceType !== resourceTypes.ENVIRONMENT) {
-		if(!resource.isPublic) {
-			tagGroup.push({
-				icon: 'fa-cloud-download-alt',
-				color: 'green',
-				text: 'Private'
-			});
-		}
-	}
-
-	else if (resource.hasOwnProperty('archive')) {
-		if (resource['archive'] === archiveTypes.REMOTE) {
-			tagGroup.push({
-				icon: 'fa-map-marker-alt',
-				color: 'white',
-				text: 'Remote'
-			});
-		} else if (resource['archive'] === archiveTypes.PUBLIC) {
-			tagGroup.push({
-				icon: 'fa-map-marker-alt',
-				color: 'green',
-				text: 'Saved'
-			});
-		} else if (resource['archive'] === archiveTypes.DEFAULT) {
-			tagGroup.push({
-				icon: 'fa-cloud-download-alt',
-				color: 'green',
-				text: 'Private'
-			});
-		}
-	}
-	return tagGroup;
 }
 
 export function filterResourcesByType(resources: IEaasiResource[], type: ResourceType) {

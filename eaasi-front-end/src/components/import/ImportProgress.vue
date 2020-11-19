@@ -223,12 +223,12 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 
 		scheduleNotificationFailure(message: string) {
 			const notif = generateNotificationError(message);
-			eventBus.$emit('notificaiton:show', notif);
+			eventBus.$emit('notification:show', notif);
 		}
 
 		scheduleNotificationSuccess(message: string) {
 			const notif = generateNotificationSuccess(message);
-			eventBus.$emit('notificaiton:show', notif);
+			eventBus.$emit('notification:show', notif);
 		}
 
 		mounted() {
