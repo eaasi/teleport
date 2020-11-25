@@ -560,7 +560,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	}
 
 	goBackToResults() {
-		this.$router.push(ROUTES.RESOURCES.EXPLORE);
+		this.$router.push(`${ROUTES.RESOURCES.EXPLORE}?retrieveQuery=true`);
 	}
 
 }

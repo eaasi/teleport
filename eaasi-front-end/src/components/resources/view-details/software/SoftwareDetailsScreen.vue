@@ -340,7 +340,7 @@ export default class SoftwareDetailsScreen extends Vue {
 	};
 
 	goBackToResults() {
-		this.$router.push(ROUTES.RESOURCES.EXPLORE);
+		this.$router.push(`${ROUTES.RESOURCES.EXPLORE}?retrieveQuery=true`);
 	}
 }
 

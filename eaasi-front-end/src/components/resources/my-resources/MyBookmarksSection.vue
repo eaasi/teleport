@@ -239,9 +239,12 @@ export default class MyBookmarksSection extends Vue {
 	}
 
 	init() {
-		const query = this.queryService.retrieveQuery();
-		if (query) {
-			this.query = query;
+		const { retrieveQuery } = this.$route.query;
+		if (retrieveQuery) {
+			const query: IResourceSearchQuery = this.queryService.retrieveQuery();
+			if (query) {
+				this.query = query;
+			}
 		}
 	}
 
@@ -266,7 +269,7 @@ export default class MyBookmarksSection extends Vue {
 			return;
 		}
 		// if we unselecting the last facet, do a clear search
-		if (prevVal && !curVal) {
+		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
 			this.$store.dispatch('resource/clearSearch');
 		}
 	}
