@@ -77,6 +77,7 @@ const actions = {
 	/**
 	 * Triggers request to save an Environment to local storage
 	 * @param _store Store<ResourceState>
+	 * @param environment: IEnvironment
 	 */
 	async replicateEnvironment({ state, commit }: Store<ResourceState>, environment: IEnvironment): Promise<ISaveEnvironmentResponse> {
 		const req: IReplicateEnvironmentRequest = {
@@ -106,6 +107,10 @@ const actions = {
 		if (!id) return;
 
 		return await _svc.deleteEnvironment(resource.envId);
+	},
+
+	async deleteEnvironment(_, envId: string): Promise<void> {
+		await _svc.deleteEnvironment(envId);
 	},
 
 	async onEnvironmentSaved({ state, commit }: Store<ResourceState>, environmentId: string) {
@@ -298,7 +303,7 @@ const getters = {
 	},
 
 	onlySelectedFacets(state: ResourceState): IResourceSearchFacet[] {
-		const selectedFacets = state.query.selectedFacets
+		return state.query.selectedFacets
 			.flatMap(f => {
 				if(f.values.some(v => v.isSelected)) {
 					const values = f.values
@@ -310,7 +315,6 @@ const getters = {
 				}
 			})
 			.filter(i => i !== null);
-		return selectedFacets;
 	},
 
 };

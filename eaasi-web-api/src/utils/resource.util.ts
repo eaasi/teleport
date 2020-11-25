@@ -1,19 +1,29 @@
 import { IEaasiResource } from '@/types/resource/Resource';
 import { resourceTypes } from './constants';
-import { ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 
-export function getResourceLabel(resource: IEaasiResource) {
+export function getResourceLabel(resource: IEaasiResource): string {
 	switch(resource.resourceType) {
-		case resourceTypes.SOFTWARE:
-			return (resource as ISoftwarePackage).label;
-		default:
+		case resourceTypes.ENVIRONMENT:
 			return resource.title;
+		default:
+			return resource.label;
+	}
+}
+
+export function getResourceId(resource: IEaasiResource): string {
+	switch(resource.resourceType) {
+		case resourceTypes.ENVIRONMENT:
+			return resource.envId;;
+		default:
+			return resource.id;
 	}
 }
 
 export function filterResourcesByKeyword(resources: IEaasiResource[], keyword: string) {
 	keyword = keyword.toLowerCase();
 	return resources.filter(resource => {
-		return getResourceLabel(resource).toLowerCase().indexOf(keyword) > -1;
+		const resourceLabel = getResourceLabel(resource).toLowerCase();
+		const resourceId = getResourceId(resource);
+		return resourceLabel.indexOf(keyword) > -1 || resourceId == keyword;
 	});
 }

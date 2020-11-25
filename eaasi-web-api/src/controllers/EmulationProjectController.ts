@@ -1,5 +1,7 @@
 import HttpResponseCode from '@/classes/HttpResponseCode';
 import { EmulationProject } from '@/data_access/models/app';
+import { IBaseCronRoutine } from '@/routines/BaseCronRoutine';
+import EmulationProjectRoutine from '@/routines/EmulationProjectScheduler';
 import EmulationProjectService from '@/services/rest-api/EmulationProjectService';
 import { IAuthorizedGetRequest } from '@/types/auth/Auth';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
@@ -8,11 +10,14 @@ import UserOwnedCrudController from './base/UserOwnedCrudController';
 
 export default class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
 	
+	private readonly routine: IBaseCronRoutine;
 
 	constructor(
 		service: EmulationProjectService = new EmulationProjectService(),
 	) {
 		super(service);
+		this.routine = new EmulationProjectRoutine();
+		this.routine.start();
 	}
 
 	/**

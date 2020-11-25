@@ -2,8 +2,10 @@ import HttpResponseCode from '@/classes/HttpResponseCode';
 import { EmulationProjectResource } from '@/data_access/models/app';
 import EmulationProjectResourceService from '@/services/rest-api/EmulationProjectResourceService';
 import { IAuthorizedPostRequest, IAuthorizedRequest } from '@/types/auth/Auth';
+import { ResourceType } from '@/types/resource/Resource';
 import { build_400_response, build_500_response } from '@/utils/error-helpers';
 import { Response } from 'express';
+import { Op } from 'sequelize';
 import BaseController from './base/BaseController';
 import BaseCrudController from './base/BaseCrudController';
 
@@ -25,6 +27,17 @@ export default class EmulationProjectResourceController extends BaseController {
 		try {
 			const projectId = Number(req.params.projectId);
 			const result = await this._svc.getEaasiResources(projectId);
+			res.send(result);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	async deleteForTypes(req: IAuthorizedPostRequest<ResourceType[]>, res: Response) {
+		try {
+			const emulationProjectId = Number(req.params.projectId);
+			const resourceTypes = req.body as ResourceType[];
+			const result = await this._svc.destroyAllWhere({ emulationProjectId, resourceType: { [Op.or]: resourceTypes } });
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);

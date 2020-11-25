@@ -1,7 +1,8 @@
 import EmulationProjectController from '@/controllers/EmulationProjectController';
-import EmulationProjectResourceController, { IGetEmulationProjectResourcesRequest, IDeleteEmulationProjectResourceRequest } from '@/controllers/EmulationProjectResourceController';
+import EmulationProjectResourceController, { IDeleteEmulationProjectResourceRequest, IGetEmulationProjectResourcesRequest } from '@/controllers/EmulationProjectResourceController';
 import { EmulationProjectResource } from '@/data_access/models/app';
 import { IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
+import { ResourceType } from '@/types/resource/Resource';
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
 
@@ -31,6 +32,16 @@ router.post('/:projectId/resources/',
 			? resourcesController.sendMalformedRequestResponse(req, res, errors)
 			: resourcesController.create(req, res);
 	});
+
+router.post('/:projectId/delete-resources',
+	[check('projectId').isNumeric()],
+	(req: IAuthorizedPostRequest<ResourceType[]>, res: Response) => {
+		const errors = validationResult(req);
+		return !errors.isEmpty()
+			? resourcesController.sendMalformedRequestResponse(req, res, errors)
+			: resourcesController.deleteForTypes(req, res)
+	}
+);
 
 router.delete('/:projectId/resources/:resourceId',
 	[check('projectId').isNumeric()],

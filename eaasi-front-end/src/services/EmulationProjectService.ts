@@ -1,6 +1,6 @@
 import BaseHttpService from './BaseHttpService';
 import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
-import { IEaasiResource } from '@/types/Resource';
+import { ResourceType } from '@/types/Resource';
 
 class EmulationProjectService extends BaseHttpService {
 
@@ -44,6 +44,12 @@ class EmulationProjectService extends BaseHttpService {
 	async removeResource(projectId: number, resourceId: string) {
 		let url = `/emulation-project/${projectId}/resources/${resourceId}`;
 		let res = await this.delete<IEmulationProjectResource>(url);
+		return res.ok ? res.result : null;
+	}
+
+	async removeResourcesOfType(projectId: number, resourceTypes: ResourceType[]) {
+		let url = `/emulation-project/${projectId}/delete-resources`;
+		let res = await this.post<IEmulationProjectResource[]>(url, resourceTypes);
 		return res.ok ? res.result : null;
 	}
 

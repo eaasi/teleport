@@ -5,16 +5,7 @@
 			<tag-group position="left" :tags="environmentTags" />
 		</div>
 		<div class="flex flex-row flex-wrap content">
-			<!-- <labeled-item :labeled-item="{label: 'Some label', value: 'some value'}" /> -->
 			<labeled-item v-for="item in labeledItems" :key="item.label" :labeled-item="item" />
-		</div>
-		<div></div>
-		<div></div>
-		<div class="footer flex flex-row">
-			<span style="margin-right: 2rem;">
-				CREATED 03-06-18
-			</span>
-			<span>BY: Yale University Library</span>
 		</div>
 	</div>
 </template>
