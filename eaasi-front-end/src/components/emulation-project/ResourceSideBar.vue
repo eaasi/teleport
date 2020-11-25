@@ -25,7 +25,12 @@
 			<div class="rsb-environments" v-if="environments.length">
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Environments</h4>
-					<a class="clickable txt-sm bold">Clear All</a>
+					<a
+						class="clickable txt-sm bold"
+						@click="removeResourcesOfType([resourceTypes.ENVIRONMENT])"
+					>
+						Clear All
+					</a>
 				</div>
 				<div
 					v-for="env in environments"
@@ -58,7 +63,12 @@
 			<div class="rsb-objects" v-if="objects.length">
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Objects</h4>
-					<a class="clickable txt-sm bold">Clear All</a>
+					<a
+						class="clickable txt-sm bold"
+						@click="removeResourcesOfType([resourceTypes.CONTENT, resourceTypes.SOFTWARE])"
+					>
+						Clear All
+					</a>
 				</div>
 				<alert
 					no-icon
@@ -108,7 +118,7 @@ import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
 import { resourceTypes, IResourceTypes } from '@/utils/constants';
 import { getResourceTypeTags } from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
@@ -187,6 +197,10 @@ export default class ResourceSideBar extends Vue {
 
 	removeResource(resource: IEaasiResource) {
 		this.$store.dispatch('emulationProject/removeResource', resource);
+	}
+
+	removeResourcesOfType(resourceTypes: ResourceType[]) {
+		this.$store.dispatch('emulationProject/removeResourcesOfType', resourceTypes);
 	}
 
 	selectResource(resource: IEaasiResource, selected: boolean) {

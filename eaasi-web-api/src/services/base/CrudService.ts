@@ -193,6 +193,17 @@ export default class CrudService<T extends Model> extends BaseService implements
     		});
 	}
 
+	async destroyAllWhere(where: WhereOptions): Promise< ICrudServiceResult<T>> {
+		return await this.model.destroy({ where })
+			.then((result: T) => {
+				return new CrudServiceResult<T>(null, result);
+			})
+			.catch((error: string) => {
+				this._logger.log.error(error);
+				return new CrudServiceResult<T>(error);
+			});
+	}
+
 	protected createFindAllOptions(query: CrudQuery, raw: boolean = false){
 		let limit = query.limit || this.MAX_GET_ALL_PAGE_SIZE;
     	let offset = query.limit * (query.page - 1) || 0;

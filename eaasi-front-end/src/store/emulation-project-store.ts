@@ -3,7 +3,7 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 import _projectService from '@/services/EmulationProjectService';
 import { IEmulationProject } from '@/types/Emulation';
 import { ICreateEnvironmentPayload } from '@/types/Import';
-import { IEaasiResource, IEnvironment } from '@/types/Resource';
+import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
@@ -37,9 +37,21 @@ mutations.RESET = (state) => {
 	state.selectedResources = [];
 };
 
+mutations.REMOVE_RESOURCE_FROM_ENVIRONMENT = (state: EmulationProjectStore, resourceId: string) => {
+	if (state.environment && state.environment.envId === resourceId) {
+		state.environment = null;
+		return;
+	}
+	if (state.environment && state.environment.drives) {
+		state.environment.drives = state.environment.drives.map(
+			drive => drive.objectId == resourceId ? {...drive, objectId: null, objectArchive: null} : drive
+		);
+	}
+};
+
 mutations.REMOVE_SELECTED_RESOURCE = (state: EmulationProjectStore, resourceId: string) => {
 	if (state.environment && state.environment.envId === resourceId) state.environment = null;
-	state.selectedResources = state.selectedResources.filter(sr => sr.id != resourceId || sr.envId != resourceId);
+	state.selectedResources = state.selectedResources.filter(sr => sr.id != resourceId && sr.envId != resourceId);
 };
 
 /*============================================================
@@ -87,11 +99,30 @@ const actions = {
 	async removeResource({ dispatch, state, commit }: Store<EmulationProjectStore>, resource: IEaasiResource) {
 		let resourceId = getResourceId(resource);
 		let result = await _projectService.removeResource(state.project.id, resourceId);
-		if(!result) return;
+		if (!result) return;
 		commit('REMOVE_SELECTED_RESOURCE', resourceId);
+		commit('REMOVE_RESOURCE_FROM_ENVIRONMENT', resourceId);
 		return await dispatch('loadProjectResources', state.project.id);
 	},
 
+	async removeResourcesOfType({ dispatch, commit, state }, resourceTypeList: ResourceType[]) {
+		let result = await _projectService.removeResourcesOfType(state.project.id, resourceTypeList);
+		if (!result) return;
+		const resourcesToRemove = state.projectResources.filter(
+			sr => resourceTypeList.some(type => type === sr.resourceType)
+		);
+		if (resourcesToRemove.length > 0) {
+			resourcesToRemove.forEach(resource => {
+				const resourceId: string = resource.id && resource.envId;
+				commit('REMOVE_SELECTED_RESOURCE', resourceId);
+				commit('REMOVE_RESOURCE_FROM_ENVIRONMENT', resourceId);
+			});
+		}
+		if (resourceTypeList.some(resourceType => resourceType === resourceTypes.ENVIRONMENT)) {
+			commit('RESET');
+		}
+		return await dispatch('loadProjectResources', state.project.id);
+	}
 };
 
 /*============================================================

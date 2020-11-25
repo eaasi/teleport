@@ -391,21 +391,6 @@ export default class ResourceSlideMenu extends Vue {
 				break;
 			case 'addToEmuProject':
 				this.addToEmulationProject();
-				// When Bookmark This Resource clicked, we dispatch an event to bookmark all selected resources
-				let resourceIds = this.resources.map(resource =>
-					resource.resourceType === resourceTypes.ENVIRONMENT
-						? resource.envId
-						: resource.id
-				);
-
-				let bookmarksRequest: MultiBookmarkRequest = {
-					userId: this.user.id,
-					resourceIds: resourceIds as string[]
-				};
-
-				this.$store.dispatch('bookmark/bookmarkMany', bookmarksRequest).then(() => {
-					this.$emit('bookmarks-updated');
-				});
 				break;
 			case 'save':
 				this.confirmAction = 'save';

@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div class="">
-				<os-template-conig v-if="selectedOSTemplate" :os-template="selectedOSTemplate" />
+				<os-template-config v-if="selectedOSTemplate" :os-template="selectedOSTemplate" />
 			</div>
 		</div>
 		<template v-slot:buttons>

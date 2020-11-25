@@ -62,32 +62,31 @@
 				</ui-button>
 			</div>
 		</div> -->
-		<create-base-env-modal 
-			v-if="createBaseEnvModal" 
-			@close="createBaseEnvModal = false" 
+		<create-base-env-modal
+			v-if="createBaseEnvModal"
+			@close="createBaseEnvModal = false"
 			@save="saveBaseEnvironment"
 		/>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from './SoftwareResourcesWizard.vue';
 import ContentResourcesWizard from './ContentResourcesWizard.vue';
-import EmulationProjectScreen from './EmulationProjectScreen.vue';
 import InfoMessage from './shared/InfoMessage.vue';
-import { ROUTES } from '../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
-import { Get, Sync } from 'vuex-pathify';
-import { generateNotificationError } from '../../helpers/NotificationHelper';
+import { Sync } from 'vuex-pathify';
+import { generateNotificationError } from '@/helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
 import { IEnvironment } from '@/types/Resource';
-import EmulationProjectEnvironment from '../../models/emulation-project/EmulationProjectEnvironment';
+import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import { IUserImportRelationRequest, IUserImportedResource } from '@/types/UserImportRelation';
-import { resourceTypes } from '../../utils/constants';
+import { resourceTypes } from '@/utils/constants';
 
 @Component({
 	name: 'EmulationProjectOptions',
@@ -130,24 +129,26 @@ export default class EmulationProjectOptions extends Vue {
 
 	async saveBaseEnvironment() {
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('import/createEnvironment', this.createEnvironmentPayload);
-		if (!response.id) {
-			eventBus.$emit('notification:show', generateNotificationError('Having troubles creating base environment, please try again.'));
+		if (!response || !response.id) {
+			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${this.createEnvironmentPayload.label} environment, please try again.`));
 			return;
 		}
 		let userImportRelationRequest: IUserImportRelationRequest = {
 			resourceType: resourceTypes.ENVIRONMENT,
 			resourceId: response.id,
 		};
-		let { id }: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', userImportRelationRequest);
-		if (!id) {
-			eventBus.$emit('notification:show', generateNotificationError('Failed to save Base Environment to My Resources.'));
+		let importResponse: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', userImportRelationRequest);
+		if (!importResponse || !importResponse.id) {
+			await this.$store.dispatch('resource/deleteEnvironment', response.id);
+			eventBus.$emit('notification:show', generateNotificationError(`Having troubles saving ${this.createEnvironmentPayload.label} environment to My Resources, please try again.`));
+			return;
 		}
 		const baseEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
-		this.$store.dispatch('emulationProject/addResources', [baseEnv]);
+		await this.$store.dispatch('emulationProject/addResources', [baseEnv]);
 		this.environment = new EmulationProjectEnvironment(baseEnv);
 		this.createBaseEnvModal = false;
-		// mutate base env at this point 
-		this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		// mutate base env at this point
+		await this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 	}
 
 }

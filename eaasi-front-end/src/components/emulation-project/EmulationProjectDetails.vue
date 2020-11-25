@@ -91,7 +91,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { operatingSystems } from '@/models/admin/OperatingSystems';
 import { ITemplate, ICreateEnvironmentPayload, IPatch } from '@/types/Import';
@@ -183,7 +183,6 @@ export default class EmulationProjectDetails extends Vue {
 	@Get('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
-
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
 
@@ -239,7 +238,6 @@ export default class EmulationProjectDetails extends Vue {
 
 	clear() {
 		this.$store.commit('emulationProject/RESET');
-		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 	}
 
 	init() {
@@ -254,6 +252,13 @@ export default class EmulationProjectDetails extends Vue {
 
 	selectOSItem(osItem) {
 		this.selectedOs = this.selectedOs === osItem.value ? null : osItem.value;
+	}
+
+	@Watch('environment')
+	onEnvironmentClear(nextResult, prevResult) {
+		if (!nextResult && prevResult) {
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
 	}
 
 }
