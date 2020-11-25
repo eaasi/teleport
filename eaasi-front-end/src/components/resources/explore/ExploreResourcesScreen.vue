@@ -239,9 +239,12 @@ export default class ExploreResourcesScreen extends Vue {
 
 	async init() {
 		const { keyword } = this.$route.params;
-		const query: IResourceSearchQuery = this.queryService.retrieveQuery();
-		if (query) {
-			this.query = query;
+		const { retrieveQuery } = this.$route.query;
+		if (retrieveQuery) {
+			const query: IResourceSearchQuery = this.queryService.retrieveQuery();
+			if (query) {
+				this.query = query;
+			}
 		}
 		if (keyword) {
 			this.query.keyword = keyword;
@@ -273,8 +276,11 @@ export default class ExploreResourcesScreen extends Vue {
 
 	@Watch('hasSelectedFacets')
 	onSelectedFacets(curVal, prevVal) {
+		if (!curVal && prevVal === undefined) {
+			return;
+		}
 		// if we unselecting the last facet, do a clear search
-		if (prevVal && !curVal) {
+		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
 			this.$store.dispatch('resource/clearSearch');
 		}
 	}

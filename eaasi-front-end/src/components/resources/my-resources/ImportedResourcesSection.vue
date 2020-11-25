@@ -184,11 +184,6 @@ export default class ImportedResourcesSection extends Vue {
 	}
 
     async search() {
-		const query = this.queryService.retrieveQuery();
-		if (query) {
-			this.query = query;
-		}
-
 		// wait for facets update it's selected property on this tick, call search on next tick
 		this.$nextTick(async () => {
 			this.query = {
@@ -211,9 +206,20 @@ export default class ImportedResourcesSection extends Vue {
 		this.$emit('open-action-menu', tab);
 	}
 
+	init() {
+		const { retrieveQuery } = this.$route.query;
+		if (retrieveQuery) {
+			const query: IResourceSearchQuery = this.queryService.retrieveQuery();
+			if (query) {
+				this.query = query;
+			}
+		}
+	}
+
 	/* Lifecycle Hooks
 	============================================*/
 	beforeMount() {
+		this.init();
 		this.search();
 	}
 
@@ -230,7 +236,7 @@ export default class ImportedResourcesSection extends Vue {
 			return;
 		}
 		// if we unselecting the last facet, do a clear search
-		if (prevVal && !curVal) {
+		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
 			this.$store.dispatch('resource/clearSearch');
 		}
 	}
