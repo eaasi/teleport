@@ -10,6 +10,7 @@ export const ROUTES: IRoutes = {
         METADATA_SYNC: '/manage-node/metadata-sync',
         NODE_PREFERENCES: '/manage-node/node-preferences',
         INSTALL_AND_UPDATES: '/manage-node/install-updates',
+        TROUBLESHOOTING: '/manage-node/troubleshooting',
     },
     EMULATION_PROJECT: {
         ROOT: '/emulation-project',
@@ -49,6 +50,7 @@ interface IManageNodeRoutes {
     METADATA_SYNC: string;
     NODE_PREFERENCES: string;
     INSTALL_AND_UPDATES: string;
+    TROUBLESHOOTING: string;
 }
 
 interface IEmulationProjectRoutes {
