@@ -5,6 +5,7 @@ import InstallAndUpdateManagement from '@/components/admin/install-and-update/In
 import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
 import NodePreferenceManagement from '@/components/admin/node-preferences/NodePreferenceManagement.vue';
 import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';
+import TroubleshootingSection from '@/components/admin/troubleshooting/TroubleshootingSection.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
 import CreateBaseEnvironment from '@/components/emulation-project/base-environment/CreateBaseEnvironment.vue';
@@ -80,6 +81,11 @@ export default [
 		path: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
 		name: 'Install and Updates',
 		component: InstallAndUpdateManagement
+	},
+	{
+		path: ROUTES.MANAGE_NODE.TROUBLESHOOTING,
+		name: 'Troubleshooting',
+		component: TroubleshootingSection
 	},
 
 	/* Emulation Project

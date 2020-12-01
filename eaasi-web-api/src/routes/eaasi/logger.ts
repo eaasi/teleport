@@ -1,4 +1,5 @@
 import ApplicationLogController from '@/controllers/ApplicationLogController';
+import { IAuthorizedGetRequest } from '@/types/auth/Auth';
 import express from 'express';
 
 const router = express.Router();
@@ -33,5 +34,15 @@ router.get('/get-most-recent', (req, res) => controller.getMostRecent(req, res))
  * @apiDescription Gets full application log from log files
  */
 router.get('/get-all-from-file', (req, res) => controller.getAllFromFile(req, res));
+
+/**
+ * @api {get} error-report/download-all Downloads all App Logs from log files
+ * @apiVersion 1.0.0
+ * @apiName Application Logs
+ * @apiGroup Application Logs
+ * @apiPermission System Administrator only
+ * @apiDescription Downloads full application log from log files
+ */
+router.get('/download-all', (req: IAuthorizedGetRequest, res) => controller.downloadAllFromFile(req, res));
 
 module.exports = router;
