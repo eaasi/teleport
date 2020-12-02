@@ -6,3 +6,4 @@ eaasi-nginx/*.log
 eaasi-nginx/cache
 eaas-client.prod.yml
 eaasi_db/
+**/__pycache__

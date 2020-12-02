@@ -21,6 +21,8 @@
 		"local:watch": "export NODE_ENV=development && npm run clean && npm run watch",
 		"dev": "export NODE_ENV=development && npm run clean && npm run build && npm run server:prod",
 		"prod": "export NODE_ENV=production && npm run clean && npm run build && npm run server:prod",
+		"db:seed:local": "sh ./src/data_access/scripts/seed_local_database.sh",
+		"local:run": "sh ./scripts/migrate_run_local_api.sh",
 		"migration:create": "npx sequelize-cli migration:create --name",
 		"migration:run": "npx sequelize-cli db:migrate"
 	},
