@@ -52,7 +52,7 @@ services:
     - eaasi-nginx:eaasi.portalmedia.com
     ports:
     - 8081:8081
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh start.sh"
+    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh scripts/start.sh"
     restart: on-failure
 
   # PostgreSQL Database
