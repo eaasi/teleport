@@ -4,7 +4,14 @@ import fs from 'fs';
 import moment from 'moment';
 import winston from 'winston';
 import OrmTransport from './ormTransport';
+const colorizer = winston.format.colorize();
 
+winston.addColors({
+	error: 'red',
+	warn: 'yellow',
+	info: 'cyan',
+	debug: 'green'
+});
 
 const options = {
 	file: {
@@ -38,13 +45,13 @@ function buildTransports() {
 			})
 		]
 	}
-}
+};
 
-function buildFormatter() : any {
-	const { splat, combine, timestamp, printf } = winston.format;
+function buildFormatter(): any {
+	const { splat, combine, timestamp, printf, colorize } = winston.format;
 	if (process.env.NODE_ENV === 'development') {
 		const myFormat = printf(({ timestamp, level, message }) => {
-			return `${timestamp} | ${level.toUpperCase()} | ${message}`;
+			return colorizer.colorize(level, `${timestamp} | ${level.toUpperCase()} | ${message}`);
 		});
 		return combine(
 			timestamp(),

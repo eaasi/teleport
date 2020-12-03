@@ -211,7 +211,8 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		async createUserImportRelation(resourceType: ResourceType, resourceId: string) {
 			this.userImportRequest.resourceId = resourceId;
 			this.userImportRequest.resourceType = resourceType;
-			const { eaasiID } = await this.$store.dispatch('import/createUserImportRelation', this.userImportRequest);
+			const { eaasiID } = await this.$store.dispatch(
+				'import/createUserImportRelation', this.userImportRequest);
 			this.notifyUserOnImportedResource(eaasiID, resourceType);
 		}
 
