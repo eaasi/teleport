@@ -154,11 +154,11 @@ export default class ResourceController extends BaseController {
 	 */
 	async deleteContent(req: Request, res: Response) {
 		try {
-			const archiveName = req.query.archiveId as string;
-			const contentId = req.query.objectId as string;
+			const archiveName = req.query.archiveName as string;
+			const contentId = req.query.contentId as string;
 			const contentRequest: IContentRequest = { archiveName, contentId };
-			await this._contentService.deleteContent(contentRequest);
-			res.send(true);
+			let deleteResult = await this._contentService.deleteContent(contentRequest);
+			res.send(deleteResult);
 		} catch(e) {
 			this.sendError(e, res);
 		}
@@ -355,7 +355,7 @@ export default class ResourceController extends BaseController {
 	}
 
 	async createAndAddToTempArchive(req: IAuthorizedRequest, res: Response) {
-		try { 
+		try {
 			let userId = Number(req.user.id);
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;
 			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
@@ -376,8 +376,8 @@ export default class ResourceController extends BaseController {
 			let userId = req.user.id;
 			let tempEnvResponse = await this._environmentService.getAllTemp();
 			if (tempEnvResponse.result != null && tempEnvResponse.result.length) {
-				let tempEnvrecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
-				let curTempRecord = tempEnvrecords.find(temp => temp.envId === id);
+				let tempEnvRecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
+				let curTempRecord = tempEnvRecords.find(temp => temp.envId === id);
 				if (!curTempRecord) return res.send(false);
 				await this._environmentService.deleteEnvironment(id);
 				this._logger.log.info(`Temporary Environment with id ${id} has been deleted for user ${userId}`);

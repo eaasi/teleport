@@ -1,6 +1,8 @@
 import { Response } from 'node-fetch';
 import IHttpService from '../interfaces/IHttpService';
 import HttpJSONService from './HttpJSONService';
+import {IAppLogger} from '@/types/general/log';
+import AppLogger from '@/logging/appLogger';
 
 const EMIL_SERVICE_ENDPOINT = process.env.EMIL_SERVICE_ENDPOINT;
 
@@ -8,6 +10,7 @@ export default class EmilBaseService implements IHttpService {
 
 	protected readonly _path: string;
 	private readonly _svc: IHttpService;
+	private _logger: IAppLogger;
 
 	constructor(
 		servicePath: string,
@@ -15,6 +18,7 @@ export default class EmilBaseService implements IHttpService {
 	) {
 		this._path = servicePath;
 		this._svc = service;
+		this._logger = AppLogger;
 	}
 
 	public async get(methodName: string): Promise<Response> {

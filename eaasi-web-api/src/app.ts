@@ -28,7 +28,7 @@ app.set('view engine', 'jade');
  */
 app.use(cors());
 app.use(passport.initialize());
-app.use(morgan('combined', { stream: logger.stream }));
+app.use(morgan('tiny', { stream: logger.stream }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
