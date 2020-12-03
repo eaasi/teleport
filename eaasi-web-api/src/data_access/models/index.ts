@@ -32,6 +32,7 @@ export const sequelize = new Sequelize({
 	username: config.username,
 	password: config.password,
 	dialect: config.dialect,
+	logging: false,
 	models: [
 		// App
 		ApplicationLog,

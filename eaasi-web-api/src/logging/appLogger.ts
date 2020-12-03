@@ -5,6 +5,7 @@ import moment from 'moment';
 import winston from 'winston';
 import OrmTransport from './ormTransport';
 
+
 const options = {
 	file: {
 		level: 'info',
@@ -31,11 +32,25 @@ function buildTransports() {
 			stream: fs.createWriteStream('/dev/null')
 		})];
 	} else {
-		return null;
-		// return [
-		// 	new OrmTransport(),
-		// 	new winston.transports.Console()
-		// ]
+		return [
+			new winston.transports.Console({
+				level: 'debug',
+			})
+		]
+	}
+}
+
+function buildFormatter() : any {
+	const { splat, combine, timestamp, printf } = winston.format;
+	if (process.env.NODE_ENV === 'development') {
+		const myFormat = printf(({ timestamp, level, message }) => {
+			return `${timestamp} | ${level.toUpperCase()} | ${message}`;
+		});
+		return combine(
+			timestamp(),
+			splat(),
+			myFormat
+		);
 	}
 }
 
@@ -43,6 +58,7 @@ function buildTransports() {
  * Custom application logger with specified transports
  */
 export const logger = () => winston.createLogger({
+	format: buildFormatter(),
 	transports: buildTransports(),
 	exitOnError: false,
 	exceptionHandlers: buildTransports()

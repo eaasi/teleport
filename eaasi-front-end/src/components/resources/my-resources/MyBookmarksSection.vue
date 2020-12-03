@@ -206,7 +206,10 @@ export default class MyBookmarksSection extends Vue {
 				archives: []
 			};
 			await this.$store.dispatch('resource/searchResources');
-			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+
+			if (this.bentoResult) {
+				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+			}
 		});
 	}
 
