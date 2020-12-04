@@ -4,6 +4,14 @@ import fs from 'fs';
 import moment from 'moment';
 import winston from 'winston';
 import OrmTransport from './ormTransport';
+const colorizer = winston.format.colorize();
+
+winston.addColors({
+	error: 'red',
+	warn: 'yellow',
+	info: 'cyan',
+	debug: 'green'
+});
 
 const options = {
 	file: {
@@ -31,11 +39,25 @@ function buildTransports() {
 			stream: fs.createWriteStream('/dev/null')
 		})];
 	} else {
-		return null;
-		// return [
-		// 	new OrmTransport(),
-		// 	new winston.transports.Console()
-		// ]
+		return [
+			new winston.transports.Console({
+				level: 'debug',
+			})
+		]
+	}
+};
+
+function buildFormatter(): any {
+	const { splat, combine, timestamp, printf, colorize } = winston.format;
+	if (process.env.NODE_ENV === 'development') {
+		const myFormat = printf(({ timestamp, level, message }) => {
+			return colorizer.colorize(level, `${timestamp} | ${level.toUpperCase()} | ${message}`);
+		});
+		return combine(
+			timestamp(),
+			splat(),
+			myFormat
+		);
 	}
 }
 
@@ -43,6 +65,7 @@ function buildTransports() {
  * Custom application logger with specified transports
  */
 export const logger = () => winston.createLogger({
+	format: buildFormatter(),
 	transports: buildTransports(),
 	exitOnError: false,
 	exceptionHandlers: buildTransports()

@@ -12,7 +12,7 @@ export default class ContentService extends BaseService {
 	private readonly CACHE_KEYS = {
 		ALL_CONTENT: 'all-content-items',
 		ARCHIVES: 'content-archives'
-	}
+	};
 
 	constructor(
 		contentRepository: EmilBaseService = new EmilBaseService('object-repository')
@@ -60,8 +60,17 @@ export default class ContentService extends BaseService {
 	async deleteContent(contentRequest: IContentRequest) {
 		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
 		if (!res) return null;
-		if(res.ok) this.clearCache();
-		return await res.json();
+		if (res.ok) this.clearCache();
+		let reusableResponse = res.clone();
+		try {
+			return await res.json();
+		} catch (e) {
+			this._logger.log.warn(
+				`Received malformed JSON from server: ${e.message}. Parsing response explicitly.`);
+			return reusableResponse.text().then((text: string) => {
+				return text ? JSON.parse(text) : {}
+			});
+		}
 	}
 
 	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL): Promise<IEmilTask> {

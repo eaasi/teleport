@@ -13,13 +13,13 @@ export default class ImportedEnvironmentService extends CrudService<UserImported
 
 	/**
 	 * Gets all Imported Environment for a User
-	 * @param userID: number PK for the User
+	 * @param userId: number PK for the User
 	 */
-	async getByUserID(userID: number): Promise<ICrudServiceResult<UserImportedEnvironment[]>> {
+	async getByUserID(userId: number): Promise<ICrudServiceResult<UserImportedEnvironment[]>> {
 		return this.model
     		.findAll({
 				where: {
-					userID: userID
+					userId: userId
 				},
 				raw: true
 			})
