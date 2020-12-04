@@ -24,11 +24,6 @@ module.exports = {
 				allowNull: false,
 				columnName: 'level'
 			},
-			source: {
-				type: Sq.STRING(64),
-				allowNull: true,
-				columnName: 'source'
-			},
 			message: {
 				type: Sq.JSONB,
 				allowNull: true,

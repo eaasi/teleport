@@ -93,7 +93,7 @@ export default class EaasiTaskController extends BaseController {
 			const taskId = crudResult.result.getDataValue('taskId');
 			let deleteApiResponse = await this.taskService.destroy(id);
 			if (deleteApiResponse.hasError) {
-				this._handleDeleteError(req, res, deleteApiResponse);
+				await this._handleDeleteError(req, res, deleteApiResponse);
 			}
 
 			let deleteResponse = await this.emilTaskService.deleteTask(taskId);

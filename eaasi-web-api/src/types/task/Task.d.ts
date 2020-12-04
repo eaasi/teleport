@@ -1,10 +1,8 @@
-import { ResourceType } from '../resource/Resource';
-
 export interface IEmilTask {
 	taskId: string;
 	isDone: boolean;
-	userData?: JSON | string;
-	object?: JSON | string;
+	userData?: string;
+	object?: string;
 	message?: string;
 	status?: string;
 }
@@ -16,11 +14,19 @@ export interface IEaasiTask extends IEmilTask {
 
 export interface IEaasiTaskState {
 	taskType: string;
-	successor?: JSON | string;
+	successor?: string;
 }
 
-export interface IEaasiTaskSuccessor {
-	userId?: number;
-	resourceId?: string;
-	resourceType?: ResourceType;
+export interface IEaasiTaskSuccessorRequest {
+	taskId: number;
+	emulationProjectId: number;
+	type: SuccessorType;
+	userId: number;
+	envId: string;
 }
+
+export interface IEaasiTaskSuccessor extends IEaasiTaskSuccessorRequest {
+	task: IEaasiTask;
+}
+
+export type SuccessorType = 'add-after-replication';

@@ -1,6 +1,7 @@
-import BaseHttpService from './BaseHttpService';
 import { IEmulationProject, IEmulationProjectResource } from '@/types/Emulation';
 import { ResourceType } from '@/types/Resource';
+import { IEaasiTaskSuccessor } from '@/types/Task';
+import BaseHttpService from './BaseHttpService';
 
 class EmulationProjectService extends BaseHttpService {
 
@@ -50,6 +51,13 @@ class EmulationProjectService extends BaseHttpService {
 	async removeResourcesOfType(projectId: number, resourceTypes: ResourceType[]) {
 		let url = `/emulation-project/${projectId}/delete-resources`;
 		let res = await this.post<IEmulationProjectResource[]>(url, resourceTypes);
+		return res.ok ? res.result : null;
+	}
+
+	/* Task Successors
+	============================================*/
+	async addTaskSuccessor(payload: IEaasiTaskSuccessor) {
+		let res = await this.post<IEaasiTaskSuccessor>('/emulation-project/add-task-successor', payload);
 		return res.ok ? res.result : null;
 	}
 

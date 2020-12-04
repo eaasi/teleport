@@ -5,6 +5,7 @@ import { IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth
 import { ResourceType } from '@/types/resource/Resource';
 import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
+import {IEaasiTaskSuccessor} from "@/types/task/Task";
 
 const router = express.Router();
 const controller = new EmulationProjectController();
@@ -51,6 +52,10 @@ router.delete('/:projectId/resources/:resourceId',
 			? resourcesController.sendMalformedRequestResponse(req, res, errors)
 			: resourcesController.delete(req, res);
 	});
+
+router.post('/add-task-successor', (req: IAuthorizedPostRequest<IEaasiTaskSuccessor>, res: Response) =>
+	controller.addSuccessor(req, res)
+);
 
 
 module.exports = router;
