@@ -95,7 +95,7 @@ $checkboxSize: 18px;
 	.checkmark {
 		background-color: #ffffff;
 		border: 2px solid $light-blue;
-		border-radius: 0.6em;
+		border-radius: 0.5em;
 		height: $checkboxSize;
 		left: 0;
 		position: absolute;
