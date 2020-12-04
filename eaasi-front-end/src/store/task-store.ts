@@ -62,7 +62,7 @@ const actions = {
 		return res;
     },
 
-    async addTaskToQueue({ commit, dispatch }: Store<TaskState>, task: EaasiTask) {
+    async addTaskToQueue({ commit, dispatch }: Store<TaskState>, task: EaasiTask): Promise<ITaskState> {
         let taskState: ITaskState = await dispatch('getTaskState', task.taskId);
         if (taskState.status != '0') return null;
         let eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
@@ -86,11 +86,11 @@ const actions = {
     async updateTask(_, task: ITaskState) {
         return await _taskService.updateTask(task);
 	},
-	
+
 	onTaskComplete(_: Store<TaskState>, task: EaasiTask) {
 		eventBus.$emit('notification:show', generateCompletedTaskNotification(task));
 	}
-    
+
 };
 
 /*============================================================
@@ -118,7 +118,7 @@ const getters = {
 		if (completedTasks.length < 1) return [];
 		return completedTasks.sort((a, b) => Number(a.taskId) - Number(b.taskId));
 	}
-    
+
 };
 
 export default {

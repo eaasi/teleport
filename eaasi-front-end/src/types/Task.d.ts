@@ -1,4 +1,13 @@
 
+export interface IEaasiTaskSuccessor {
+	taskId: number;
+	emulationProjectId: number;
+	envId: string;
+	type: SuccessorType;
+}
+
+export type SuccessorType = 'add-after-replication';
+
 export interface ITaskState {
 	isDone: boolean;
 	status?: string;

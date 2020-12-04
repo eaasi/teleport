@@ -116,6 +116,19 @@
 			@cancel="addingSoftware = false"
 			@run-in-emulator="runInEmulator"
 		/>
+		<confirm-modal
+			v-if="showRemoteEnvironmentWarningModal"
+			title="Remote environments can not be added to emulation project"
+			confirm-label="Save to Node"
+			@close="closeRemoteEnvironmentWarningModal"
+			@click:cancel="closeRemoteEnvironmentWarningModal"
+			@click:confirm="replicateRemoteEnvironments"
+		>
+			<p>
+				Emulation Project does not support remote environments.
+				Please save selected remote environments to your node before adding to the Emulation Project.
+			</p>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -125,23 +138,25 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 import ResourceService from '@/services/ResourceService';
 import ResourceSlideMenuService from '@/services/ResourceSlideMenuService';
-import {resourceTypes} from '@/utils/constants';
+import {archiveTypes, resourceTypes} from '@/utils/constants';
 import {IEaasiUser} from 'eaasi-admin';
 import {IAction, IEaasiTab} from 'eaasi-nav';
 import {MultiBookmarkRequest} from '@/types/Bookmark';
 import {ILabeledItem} from '@/types/ILabeledItem';
-import {IEaasiResource, IEnvironment, ISoftwareObject, IContent, ISoftwarePackage} from '@/types/Resource';
+import { IEaasiResource, IEnvironment } from '@/types/Resource';
 import ResourceAction from './ResourceAction.vue';
 import stringCleaner from '@/utils/string-cleaner';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import TaskList from '@/components/admin/running-tasks/TaskList.vue';
-import { ITaskState } from '../../types/Task';
-import { IEaasiTaskListStatus } from '../../types/IEaasiTaskListStatus';
-import EaasiTask from '../../models/task/EaasiTask';
+import {IEaasiTaskSuccessor, ITaskState, SuccessorType} from '@/types/Task';
+import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
+import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
+import EaasiTask from '@/models/task/EaasiTask';
 import AddSoftware from '@/components/resources/view-details/environment/AddSoftwareModal.vue';
-import { ROUTES } from '../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import { jsonEquals } from '@/utils/functions';
+import {IEmulationProject} from '@/types/Emulation';
 
 let menuService = new ResourceSlideMenuService();
 let resourceService = ResourceService;
@@ -153,7 +168,8 @@ let resourceService = ResourceService;
 		ResourceAction,
 		TaskList,
 		AddSoftware,
-		SlideMenu
+		SlideMenu,
+		ConfirmModal
 	}
 })
 export default class ResourceSlideMenu extends Vue {
@@ -194,6 +210,9 @@ export default class ResourceSlideMenu extends Vue {
 	@Get('resource/onlySelectedResource')
 	onlySelectedResource: IEaasiResource;
 
+	@Get('emulationProject/project')
+	readonly emulationProject: IEmulationProject;
+
 	/**
 	 * Populates the list of Local Actions in the Sidebar
 	 */
@@ -233,6 +252,7 @@ export default class ResourceSlideMenu extends Vue {
 	confirmAction : string = null;
 	showTasks: boolean = true;
 	addingSoftware: boolean = false;
+	showRemoteEnvironmentWarningModal: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -253,6 +273,43 @@ export default class ResourceSlideMenu extends Vue {
 			await this.setSoftwareDetailsItems();
 		}
 	};
+
+	async addToEmulationProject() {
+		const hasRemoteEnvironmentsSelected = this.resources.some(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
+		const allowedResources = this.resources.filter(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive !== archiveTypes.REMOTE);
+		if (hasRemoteEnvironmentsSelected) {
+			this.showRemoteEnvironmentWarningModal = true;
+		}
+
+		await this.$store.dispatch('emulationProject/addResources', allowedResources);
+
+		if (!hasRemoteEnvironmentsSelected) {
+			await this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+		}
+	}
+
+	async replicateRemoteEnvironments() {
+		const remoteEnvironments = this.resources.filter(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
+
+		for (const environment of remoteEnvironments) {
+			const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateEnvironment', environment);
+			let task = new EaasiTask(result.taskList[0], `Save To My Node: ${environment.title}`);
+			const taskState: EaasiTask = await this.$store.dispatch('task/addTaskToQueue', task);
+			const taskSuccessor: IEaasiTaskSuccessor = {
+				taskId: taskState.id,
+				emulationProjectId: this.emulationProject.id,
+				envId: environment.envId,
+				type: 'add-after-replication'
+			};
+			await this.$store.dispatch('emulationProject/addTaskSuccessor', taskSuccessor);
+		}
+
+		this.closeRemoteEnvironmentWarningModal();
+	}
+
+	closeRemoteEnvironmentWarningModal() {
+		this.showRemoteEnvironmentWarningModal = false;
+	}
 
 	async setSoftwareDetailsItems() {
 		const { archiveId } = this.onlySelectedResource;
@@ -405,10 +462,6 @@ export default class ResourceSlideMenu extends Vue {
 		}
 	}
 
-	async addToEmulationProject() {
-		await this.$store.dispatch('emulationProject/addResources', this.resources);
-		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
-	}
 
 	bookmark() {
 		let resourceIds = this.resources.map(resource =>

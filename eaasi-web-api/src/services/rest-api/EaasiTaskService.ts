@@ -19,8 +19,8 @@ export default class EaasiTaskService extends CrudService<EaasiTask> {
 		return await this.model
     		.findAll({
 				where: {
-					taskId: taskId
-				}
+					taskId
+				},
 			})
 			.then((result: object) => {
     			return new CrudServiceResult(null, result[0]);

@@ -115,7 +115,7 @@ export default class EmulationProjectScreen extends Vue {
 		} else if (env.archive === 'default') {
 			return await this.preparePrivateEnvironment(env);
 		}
-		throw new Error('Emulationg project does not support remote environments.');
+		throw new Error('Emulation project does not support remote environments.');
 	}
 
 	private buildQuery(envId: string) {

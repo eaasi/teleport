@@ -11,7 +11,7 @@ export interface TaskState {
 	status: string;
 	taskId: string;
 	userData?: object;
-	object?: JSON;
+	object?: string;
 }
 
 /**

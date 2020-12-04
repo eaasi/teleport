@@ -7,6 +7,7 @@ import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+import {IEaasiTaskSuccessor} from '@/types/Task';
 
 /*============================================================
  == State
@@ -122,7 +123,12 @@ const actions = {
 			commit('RESET');
 		}
 		return await dispatch('loadProjectResources', state.project.id);
+	},
+
+	async addTaskSuccessor(_, payload): Promise<IEaasiTaskSuccessor> {
+		return await _projectService.addTaskSuccessor(payload);
 	}
+
 };
 
 /*============================================================

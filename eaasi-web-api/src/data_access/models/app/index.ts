@@ -10,3 +10,4 @@ export * from './UserImportedContent';
 export * from './UserImportedEnvironment';
 export * from './UserImportedImage';
 export * from './UserImportedSoftware';
+export * from './EmulationProjectTaskSuccessor';
