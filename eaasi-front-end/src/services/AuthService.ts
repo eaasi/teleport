@@ -10,9 +10,11 @@ class AuthService extends BaseHttpService {
 		let res = await this.post<Boolean>('/auth/change-password', req);
 
 		if (!res) return null;
+
 		if (res.status === 400) {
 			return false;
 		}
+
 		return res.result;
 	}
 
