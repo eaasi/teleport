@@ -10,7 +10,7 @@ import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { jsonCopy, removeDuplicatesFromFlatArray } from '@/utils/functions';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
-import {IEaasiTab} from "eaasi-nav";
+import {IEaasiTab} from 'eaasi-nav';
 
 /*============================================================
  == State
