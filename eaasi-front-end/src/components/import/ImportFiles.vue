@@ -23,10 +23,10 @@
 
 		<div v-if="filesAreAdded" class="if-attached">
 			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length && !isImageImport">
-				<ui-button 
-					icon="check" 
-					color-preset="light-blue" 
-					@click="selectAllFiles" 
+				<ui-button
+					icon="check"
+					color-preset="light-blue"
+					@click="selectAllFiles"
 				>
 					Select All
 				</ui-button>
@@ -92,6 +92,7 @@
 								v-for="file in files"
 								:key="file.name"
 								:file="file"
+								@sort="sortOnInput"
 							/>
 						</draggable>
 					</div>
@@ -103,7 +104,6 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { importTypes } from '@/utils/constants';
 	import {isValidUrl} from '@/helpers/UrlHelper';
 	import BaseHttpService from '@/services/BaseHttpService';
 	import { Component, Watch } from 'vue-property-decorator';
@@ -111,7 +111,6 @@
 	// noinspection TypeScriptCheckImport
 	import Draggable from 'vuedraggable';
 	import ResourceFileListItem from './ResourceFileListItem.vue';
-	import EnvironmentFileItem from './EnvironmentFileItem.vue';
 	import ResourceImportFile from '@/models/import/ResourceImportFile';
 	import { ImportType, IResourceImportFile } from '@/types/Import';
 	import {operatingSystems} from '@/models/admin/OperatingSystems';
@@ -181,7 +180,7 @@
 
 		/* Methods
 		============================================*/
-		
+
 		checkUrl() {
 			// noinspection TypeScriptUnresolvedVariable
 			this.$refs.urlField['canValidate'] = true;
@@ -201,6 +200,43 @@
 				this.files.push(newFile);
 			}
 			this.step = 3;
+		}
+
+		async sortOnInput(updatedFile: any) {
+			let minIndex = Number.POSITIVE_INFINITY;
+			let maxIndex = Number.NEGATIVE_INFINITY;
+
+			this.files.forEach(f => {
+				if (f.sortIndex < minIndex) {
+					minIndex = f.sortIndex;
+				}
+				if (f.sortIndex > maxIndex) {
+					maxIndex = f.sortIndex;
+				}
+			});
+
+			let file = await this.files.find(f => f.name == updatedFile.file.name);
+
+			// If sort index matches current limit on either side, extend past in
+			// that direction so that the updated index is the first or last index
+			if (file.sortIndex === minIndex) {
+				file.sortIndex--;
+			}
+
+			if (file.sortIndex === maxIndex) {
+				file.sortIndex += 2;
+			}
+
+			let index = this.files.indexOf(file);
+
+			if (index !== -1) {
+				this.files[index] = updatedFile.file;
+				let files = [...this.files].sort((f1, f2) => f1.sortIndex - f2.sortIndex);
+				for (let i=0; i < files.length; i++) {
+					files[i].sortIndex = i + 1;
+				}
+				this.files = files;
+			}
 		}
 
 		sorted() {
