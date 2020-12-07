@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+import { make } from 'vuex-pathify';
 import config from '@/config';
 import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
@@ -5,8 +7,7 @@ import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
 import { ILoginRequest } from '@/types/Auth';
 import { IEaasiUser } from 'eaasi-admin';
-import Cookies from 'js-cookie';
-import { make } from 'vuex-pathify';
+import { IEaasiTab } from 'eaasi-nav';
 
 /*============================================================
  == State
