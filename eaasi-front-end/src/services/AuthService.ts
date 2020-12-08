@@ -1,14 +1,20 @@
+import Cookies from 'js-cookie';
 import config from '@/config';
+import BaseHttpService from './BaseHttpService';
 import { ILoginRequest, ILoginResponse, IChangePasswordRequest } from '@/types/Auth';
 import { IEaasiUser } from 'eaasi-admin';
-import Cookies from 'js-cookie';
-import BaseHttpService from './BaseHttpService';
 
 class AuthService extends BaseHttpService {
 
 	async changePassword(req: IChangePasswordRequest) {
 		let res = await this.post<Boolean>('/auth/change-password', req);
-		if(!res) return null;
+
+		if (!res) return false;
+
+		if (res.status === 400) {
+			return false;
+		}
+
 		return res.result;
 	}
 
