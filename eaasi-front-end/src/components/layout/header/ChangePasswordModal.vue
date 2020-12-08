@@ -26,16 +26,17 @@
 			type="password"
 			:rules="(val) => confirmRules(val)"
 		/>
-		<alert-card type="error" v-if="error">
+		<alert type="error" v-if="error">
 			{{ error }}
-		</alert-card>
+		</alert>
 	</form-modal>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import { IChangePasswordRequest } from '@/types/Auth';
+import Alert from '@/components/global/Alert/Alert.vue';
 import { EaasiForm } from '@/components/global';
 import AuthService from '@/services/AuthService';
 import { generateNotificationSuccess } from '@/helpers/NotificationHelper';
@@ -43,6 +44,9 @@ import eventBus from '@/utils/event-bus';
 
 @Component({
 	name: 'ChangePasswordModal',
+	components: {
+		Alert
+	}
 })
 export default class ChangePasswordModal extends Vue {
 
@@ -79,7 +83,7 @@ export default class ChangePasswordModal extends Vue {
 	async changePassword() {
 		this.error = null;
 		let res = await AuthService.changePassword(this.request);
-		if(!res) {
+		if (!res) {
 			this.error = 'An error occurred. Please double-check your current password and try again.';
 			return;
 		}
