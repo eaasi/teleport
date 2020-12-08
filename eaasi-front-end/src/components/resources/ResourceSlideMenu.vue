@@ -276,7 +276,7 @@ export default class ResourceSlideMenu extends Vue {
 
 	async addToEmulationProject() {
 		const hasRemoteEnvironmentsSelected = this.resources.some(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
-		const allowedResources = this.resources.filter(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive !== archiveTypes.REMOTE);
+		const allowedResources = this.resources.filter(resource => resource.archive !== archiveTypes.REMOTE);
 		if (hasRemoteEnvironmentsSelected) {
 			this.showRemoteEnvironmentWarningModal = true;
 		}
