@@ -19,27 +19,23 @@
 						</span>
 					</a>
 				</div>
-
-				<div class="inline-block social-link">
-					<span class="fab fa-instagram eb-icon"></span>
-				</div>
-
-				<div class="inline-block social-link">
+				<a 
+					class="inline-block social-link" 
+					href="https://twitter.com/SoftPresNetwork" 
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					<span class="fab fa-twitter eb-icon"></span>
-				</div>
-
-				<div class="inline-block social-link">
-					<span class="fab fa-facebook-f eb-icon"></span>
-				</div>
+				</a>
 			</div>
 
 			<div class="footer-website">
 				<a
-					href="http://www.softwarepreservationnetwork.org/eaasi"
+					href="http://www.eaasi.cloud"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					www.softwarepreservationnetwork.org/eaasi
+					www.eaasi.cloud
 				</a>
 			</div>
 		</div>
@@ -47,7 +43,7 @@
 		<div id="footerSponsors">
 			<div class="footer-principal-container">
 				<div class="footer-principal-label">
-					Principal Partner:
+					Principal Partner
 				</div>
 				<img src="@/assets/yale-white.png" alt="Yale University Logo" />
 			</div>
