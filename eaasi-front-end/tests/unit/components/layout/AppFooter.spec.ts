@@ -1,5 +1,5 @@
-import {shallowMount} from '@vue/test-utils';
 import AppFooter from '@/components/layout/AppFooter.vue';
+import { shallowMount } from '@vue/test-utils';
 
 describe('AppFooter.vue', () => {
 
@@ -16,6 +16,6 @@ describe('AppFooter.vue', () => {
 
 	it('Contains a link to the Software Preservation Network', () => {
 		let link = footer.find('.footer-website a').attributes('href');
-		expect(link).toBe('http://www.softwarepreservationnetwork.org/eaasi');
+		expect(link).toBe('http://www.eaasi.cloud');
 	});
 });
