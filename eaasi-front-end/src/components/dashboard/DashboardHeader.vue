@@ -41,7 +41,7 @@
 				/>
 			</a>
 
-			<a href="https://groups.google.com/forum/#!forum/eaasi-tech-talk" target="_blank" rel="noopener noreferrer">
+			<a href="https://forum.eaasi.cloud" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Connect to other EaaSI users for support and collaboration."
 					icon="comments"
