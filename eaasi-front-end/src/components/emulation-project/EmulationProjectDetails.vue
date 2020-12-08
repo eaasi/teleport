@@ -23,54 +23,57 @@
 					v-model="enableRelativeMouse"
 				/>
 				<checkbox-info
-					label="WebRTC Audio (Beta)"
-					v-model="useWebRTC"
-				/>
-				<checkbox-info
-					label="XPRA Video (Experimental)"
-					v-model="useXpra"
-				/>
-				<div v-show="useXpra">
-					<select-list
-						v-model="xpraEncoding"
-						placeholder="Please select encoding for XPRA Video"
-						label="XPRA Video Encoding"
-					>
-						<option selected disabled value="">Please select encoding for XPRA Video</option>
-						<option value="auto">auto</option>
-						<option value="jpeg">jpeg</option>
-						<option value="png">png</option>
-						<option value="rgb24">rgb24</option>
-						<option value="rgb32">rgb32</option>
-						<option value="h264">h264</option>
-					</select-list>
-				</div>
-				<checkbox-info
 					label="Requires clean shutdown"
 					v-model="shutdownByOs"
 				/>
 				<div>
 					<ui-button @click="showAdvancedOptions = !showAdvancedOptions" color-preset="white">
-						advanced options ...
+						Advanced Options
 					</ui-button>
-					<div v-show="showAdvancedOptions">
-						<text-input
-							label="Config"
-							v-model="nativeConfig"
+					<div v-show="showAdvancedOptions" class="advanced-options-wrapper">
+						<checkbox-info
+							style="margin-bottom: 2rem;"
+							label="Virtualize CPU"
+							v-model="isKvmEnabled"
 						/>
+						<checkbox-info
+							label="WebRTC Audio (Beta)"
+							v-model="useWebRTC"
+						/>
+						<checkbox-info
+							label="XPRA Video (Experimental)"
+							v-model="useXpra"
+						/>
+						<div v-show="useXpra">
+							<select-list
+								v-model="xpraEncoding"
+								placeholder="Please select encoding for XPRA Video"
+								label="XPRA Video Encoding"
+							>
+								<option selected disabled value="">Please select encoding for XPRA Video</option>
+								<option value="auto">auto</option>
+								<option value="jpeg">jpeg</option>
+								<option value="png">png</option>
+								<option value="rgb24">rgb24</option>
+								<option value="rgb32">rgb32</option>
+								<option value="h264">h264</option>
+							</select-list>
+						</div>
 						<text-input
+							style="margin-bottom: 2rem;"
 							label="cpu"
 							rules="required|numeric|min:1|max:9"
 							v-model.number="environmentCpu"
 						/>
 						<text-input
+							style="margin-bottom: 2rem;"
 							label="Disk Size (MB)"
 							rules="required|numeric|minlength:0|maxlength:10000"
 							v-model.number="environmentMemory"
 						/>
-						<checkbox-info
-							label="Virtualize CPU"
-							v-model="isKvmEnabled"
+						<text-input
+							label="Config"
+							v-model="nativeConfig"
 						/>
 					</div>
 				</div>
@@ -298,6 +301,10 @@ export default class EmulationProjectDetails extends Vue {
 			font-weight: 400;
 			margin-left: 1rem;
 		}
+	}
+
+	.advanced-options-wrapper {
+		margin-top: 2rem;
 	}
 }
 </style>

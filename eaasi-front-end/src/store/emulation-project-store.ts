@@ -3,11 +3,11 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 import _projectService from '@/services/EmulationProjectService';
 import { IEmulationProject } from '@/types/Emulation';
 import { ICreateEnvironmentPayload } from '@/types/Import';
-import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
+import { IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
+import { IEaasiTaskSuccessor } from '@/types/Task';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
-import { make } from 'vuex-pathify';
-import {IEaasiTaskSuccessor} from '@/types/Task';
+import { dispatch, make } from 'vuex-pathify';
 
 /*============================================================
  == State
@@ -36,6 +36,7 @@ mutations.RESET = (state) => {
 	state.selectedSoftwareId = '';
 	state.environment = null;
 	state.selectedResources = [];
+	state.projectResources = [];
 };
 
 mutations.REMOVE_RESOURCE_FROM_ENVIRONMENT = (state: EmulationProjectStore, resourceId: string) => {
@@ -123,6 +124,15 @@ const actions = {
 			commit('RESET');
 		}
 		return await dispatch('loadProjectResources', state.project.id);
+	},
+
+	async clearAll({ commit, state }): Promise<boolean> {
+		let result = await _projectService.clearAll(state.project.id);
+		if (!result) return false;
+		commit('RESET');
+		await dispatch('loadProject');
+		await dispatch('loadProjectResources', state.project.id);
+		return true;
 	},
 
 	async addTaskSuccessor(_, payload): Promise<IEaasiTaskSuccessor> {

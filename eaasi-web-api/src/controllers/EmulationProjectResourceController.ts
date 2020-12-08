@@ -67,7 +67,7 @@ export default class EmulationProjectResourceController extends BaseController {
 	 */
 	async delete(req: IDeleteEmulationProjectResourceRequest, res: Response) {
 		const resourceId = req.params.resourceId;
-		const emulationProjectId = Number(req.params.projectId);
+		const emulationProjectId = req.params.projectId;
 		const result = await this._svc.getOneWhere({ resourceId, emulationProjectId });
 		if(!result || !result.result) {
 			return res
@@ -95,5 +95,11 @@ export interface IDeleteEmulationProjectResourceRequest extends IAuthorizedReque
 	params: {
 		projectId: string;
 		resourceId: string;
+	};
+}
+
+export interface IClearProjectResourceRequest extends IAuthorizedRequest {
+	params: {
+		projectId: string;
 	};
 }
