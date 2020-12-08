@@ -8,7 +8,11 @@
 			<template v-slot:actions>
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
-						<ui-button color-preset="light-blue" @click="clear">
+						<ui-button 
+							color-preset="light-blue" 
+							@click="clearAllAlertModal=true"
+							:disabled="clearAllDisabled"
+						>
 							Clear Project
 						</ui-button>
 					</div>
@@ -26,6 +30,18 @@
 				<resource-side-bar />
 			</div>
 		</div>
+		<confirm-modal
+			v-if="clearAllAlertModal"
+			title="Clear All Resources"
+			confirm-label="Clear Project"
+			@close="clearAllAlertModal=false"
+			@click:cancel="clearAllAlertModal=false"
+			@click:confirm="clear"
+		>
+			<p>
+				Are you sure you want to clear all your resources that are attached to emulation project?
+			</p>
+		</confirm-modal>
 	</div>
 </template>
 
@@ -38,6 +54,7 @@ import { ICreateEnvironmentPayload } from '@/types/Import';
 import { ROUTES } from '@/router/routes.const';
 import { IEnvironment, IEaasiResource } from '@/types/Resource';
 import ResourceSideBar from './ResourceSideBar.vue';
+import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import { IEmulatorComponentRequest } from '@/types/Emulation';
 import { IKeyboardSettings } from 'eaasi-admin';
 import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
@@ -53,6 +70,7 @@ import { jsonCopy } from '@/utils/functions';
 	components : {
 		EmulationProjectOptions,
 		CreateBaseEnvModal,
+		ConfirmModal,
 		ResourceSideBar
 	}
 })
@@ -89,6 +107,14 @@ export default class EmulationProjectScreen extends Vue {
 
 	@Get('emulationProject/selectedObjects')
 	selectedObjects: IEaasiResource[];
+
+	get clearAllDisabled(): boolean {
+		return this.environments.length === 0 && this.objects.length === 0;
+	}
+
+	/* Methods
+	============================================*/
+	clearAllAlertModal: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -217,8 +243,12 @@ export default class EmulationProjectScreen extends Vue {
 		this.init();
 	}
 
-	clear() {
-		this.$store.commit('emulationProject/RESET');
+	async clear() {
+		this.clearAllAlertModal = false;
+		const result = await this.$store.dispatch('emulationProject/clearAll');
+		if (!result) {
+			eventBus.$emit('notification:show', generateNotificationError('Having troubles clearing emulation project, please try again.'));
+		}
 		this.createEnvironmentPayload = null;
 		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}

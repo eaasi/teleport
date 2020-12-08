@@ -1,6 +1,7 @@
 import HttpResponseCode from '@/classes/HttpResponseCode';
 import { EmulationProject } from '@/data_access/models/app';
 import EmulationProjectRoutine from '@/routines/EmulationProjectRoutine';
+import EmulationProjectResourceService from '@/services/rest-api/EmulationProjectResourceService';
 import EmulationProjectService from '@/services/rest-api/EmulationProjectService';
 import EmulationProjectTaskSuccessorService from "@/services/rest-api/EmulationProjectTaskSuccessorService";
 import { IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
@@ -8,19 +9,23 @@ import { IEaasiTaskSuccessorRequest } from "@/types/task/Task";
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Response } from 'express';
 import UserOwnedCrudController from './base/UserOwnedCrudController';
+import { IClearProjectResourceRequest } from './EmulationProjectResourceController';
 
 export default class EmulationProjectController extends UserOwnedCrudController<EmulationProject> {
 	
 	private readonly routine: EmulationProjectRoutine;
 	private readonly _successorService: EmulationProjectTaskSuccessorService;
+	private readonly _resourceService: EmulationProjectResourceService;
 
 	constructor(
 		service: EmulationProjectService = new EmulationProjectService(),
 		successorService = new EmulationProjectTaskSuccessorService(),
+		resourceService = new EmulationProjectResourceService()
 	) {
 		super(service);
 		this.routine = new EmulationProjectRoutine();
 		this._successorService = successorService;
+		this._resourceService = resourceService;
 		this.routine.startAll();
 	}
 
@@ -74,6 +79,26 @@ export default class EmulationProjectController extends UserOwnedCrudController<
 			}
 
 			return res.send(response.result);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	async clearAllResources(req: IClearProjectResourceRequest, res: Response) {
+		try {
+			const emulationProjectId = req.params.projectId;
+			const response = await this._resourceService.destroyAllWhere({ emulationProjectId });
+			if (response.hasError) {
+				return res
+					.status(HttpResponseCode.SERVER_ERROR)
+					.send(build_500_response(response.error));
+			}
+			if (response.result == null) {
+				return res
+					.status(HttpResponseCode.NOT_FOUND)
+					.send(build_404_response(req.originalUrl));
+			}
+			return res.send(response);
 		} catch(e) {
 			return this.sendError(e, res);
 		}

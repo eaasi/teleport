@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, BelongsTo, Model, Table, UpdatedAt } from 'sequelize-typescript';
-import { EaasiRole } from './EaasiRole';
 import { EaasiRoles } from '@/types/auth/User';
+import { DataTypes } from 'sequelize';
+import { BelongsTo, Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { EaasiRole } from './EaasiRole';
 
 @Table({
 	tableName: 'eaasi_user'
@@ -53,7 +53,7 @@ export class EaasiUser extends Model<EaasiUser> {
     roleId: EaasiRoles;
 
     @Column({
-    	type: DataTypes.TIME,
+    	type: DataTypes.DATE,
     	allowNull: true
     })
     lastLogin: Date;

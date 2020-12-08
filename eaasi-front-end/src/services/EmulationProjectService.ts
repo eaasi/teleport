@@ -54,6 +54,12 @@ class EmulationProjectService extends BaseHttpService {
 		return res.ok ? res.result : null;
 	}
 
+	async clearAll(projectId: number): Promise<boolean> {
+		let url = `/emulation-project/${projectId}/clear-all`;
+		let res = await this.delete<boolean>(url);
+		return res.ok ? res.result : null;
+	}
+
 	/* Task Successors
 	============================================*/
 	async addTaskSuccessor(payload: IEaasiTaskSuccessor) {
