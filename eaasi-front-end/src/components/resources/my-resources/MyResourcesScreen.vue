@@ -38,7 +38,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { Sync } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import MyBookmarksSection from '@/components/resources/my-resources/MyBookmarksSection.vue';
@@ -67,6 +67,9 @@ export default class MyResourcesScreen extends Vue {
 
 	@Sync('resource/selectedResources')
     selectedResources: IEaasiResource[];
+
+	@Get('resource/slideMenuTabs')
+	readonly actionMenuTabs: IEaasiTab[];
 
 	get hasActiveResources() {
 		return this.selectedResources.length > 0;
@@ -111,15 +114,6 @@ export default class MyResourcesScreen extends Vue {
 		}
 	];
 
-	// Slide menu
-	actionMenuTabs: IEaasiTab[] = [
-		{
-			label: 'Details'
-		},
-		{
-			label: 'Actions'
-		}
-	];
 	actionMenuActiveTab: IEaasiTab = null;
 
 	/* Methods
