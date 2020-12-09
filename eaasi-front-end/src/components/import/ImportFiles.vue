@@ -202,41 +202,19 @@
 			this.step = 3;
 		}
 
-		async sortOnInput(updatedFile: any) {
-			let minIndex = Number.POSITIVE_INFINITY;
-			let maxIndex = Number.NEGATIVE_INFINITY;
+		sortOnInput(updatedFile: any) {
+			updatedFile.file.sortIndex--;
 
-			this.files.forEach(f => {
-				if (f.sortIndex < minIndex) {
-					minIndex = f.sortIndex;
-				}
-				if (f.sortIndex > maxIndex) {
-					maxIndex = f.sortIndex;
-				}
-			});
-
-			let file = await this.files.find(f => f.name == updatedFile.file.name);
-
-			// If sort index matches current limit on either side, extend past in
-			// that direction so that the updated index is the first or last index
-			if (file.sortIndex === minIndex) {
-				file.sortIndex--;
+			if (updatedFile.file.sortIndex < 0) {
+				updatedFile.file.sortIndex = 0;
 			}
 
-			if (file.sortIndex === maxIndex) {
-				file.sortIndex += 2;
-			}
+			let file = this.files.find(f => f.name == updatedFile.file.name);
+			let currentIndex = this.files.indexOf(file);
 
-			let index = this.files.indexOf(file);
-
-			if (index !== -1) {
-				this.files[index] = updatedFile.file;
-				let files = [...this.files].sort((f1, f2) => f1.sortIndex - f2.sortIndex);
-				for (let i=0; i < files.length; i++) {
-					files[i].sortIndex = i + 1;
-				}
-				this.files = files;
-			}
+			this.files.splice(currentIndex, 1);
+			this.files.splice(updatedFile.file.sortIndex, 0, updatedFile.file);
+			this.sorted();
 		}
 
 		sorted() {

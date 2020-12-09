@@ -319,15 +319,10 @@ const getters = {
 	},
 
 	slideMenuTabs(state: ResourceState): IEaasiTab[] {
-		if (state.selectedResources.length > 1) {
-			return [
-				{ label: 'Actions' },
-				{ label: 'Details', disabled: true }
-			];
-		}
+		const isDetailsDisabled = state.selectedResources.length > 1;
 		return [
 			{ label: 'Actions' },
-			{ label: 'Details' }
+			{ label: 'Details', disabled: isDetailsDisabled }
 		];
 	}
 };
