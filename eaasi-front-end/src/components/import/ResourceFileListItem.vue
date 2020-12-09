@@ -11,7 +11,8 @@
 						label="Order"
 						:value="file.sortIndex"
 						rules="numeric|required"
-						@input="updateSortIndex"
+						@input="setSortIndex"
+						@focusout="updateSortIndex"
 					/>
 				</div>
 				<select-list
@@ -73,9 +74,12 @@ export default class ResourceFileListItem extends Vue {
 
 	/* Methods
 	============================================*/
-	updateSortIndex(sortIndex: string | number) {
-		let i = Number(sortIndex);
-		this.$emit('sort', i);
+	updateSortIndex() {
+		this.$emit('sort', { file: this.file });
+	}
+
+	setSortIndex(value: string | number) {
+		this.file.sortIndex = Number(value);
 	}
 
 	onToggle(isChecked: boolean) {

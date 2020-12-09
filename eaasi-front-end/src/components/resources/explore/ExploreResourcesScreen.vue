@@ -146,6 +146,9 @@ export default class ExploreResourcesScreen extends Vue {
 	@Get('resource/onlySelectedFacets')
 	onlySelectedFacets: IResourceSearchFacet[];
 
+	@Get('resource/slideMenuTabs')
+	readonly tabs: IEaasiTab[];
+
 	get totalResults() {
 		const totalResultsArr = this.onlySelectedFacets.flatMap(f => f.values.map(v => v.total));
 		return Math.min.apply(null, totalResultsArr);
@@ -191,14 +194,6 @@ export default class ExploreResourcesScreen extends Vue {
 	============================================*/
 	private queryService = new SearchQueryService(QuerySource.ExploreResources);
 
-	tabs: IEaasiTab[] = [
-		{
-			label: 'Details'
-		},
-		{
-			label: 'Actions'
-		}
-	]
 	activeTab: IEaasiTab = null;
 
     /* Methods
@@ -252,7 +247,7 @@ export default class ExploreResourcesScreen extends Vue {
 		await this.search();
 	}
 
-	openActionMenu(tab: IEaasiTab = this.tabs[1]) {
+	openActionMenu(tab: IEaasiTab = this.tabs[0]) {
 		this.activeTab = tab;
 	}
 
@@ -279,7 +274,7 @@ export default class ExploreResourcesScreen extends Vue {
 		if (!curVal && prevVal === undefined) {
 			return;
 		}
-		// if we unselecting the last facet, do a clear search
+		// if we're un-selecting the last facet, do a clear search
 		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
 			this.$store.dispatch('resource/clearSearch');
 		}
@@ -292,6 +287,12 @@ export default class ExploreResourcesScreen extends Vue {
 		}
 	}
 
+	@Watch('selectedResources')
+	onSelectedResourceChange(curVal) {
+    	if (curVal.length > 1) {
+    		this.activeTab = this.tabs[0];
+		}
+	}
 }
 
 </script>

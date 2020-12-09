@@ -147,7 +147,8 @@ export default class SoftwareDetailsScreen extends Vue {
 		{
 			label: 'Actions'
 		}
-	]
+	];
+
 	actionMenuActiveTab: IEaasiTab = null;
 
 	/* Computed

@@ -123,12 +123,14 @@ export default class ContentDetailsScreen extends Vue {
 	renderingEnvs: [] = [];
 	confirmModal: boolean = false;
 	errorMessage: string = null;
+
 	// Slide menu
 	actionMenuTabs: IEaasiTab[] = [
 		{
 			label: 'Actions'
 		}
-	]
+	];
+
 	actionMenuActiveTab: IEaasiTab = null;
 
 	/* Computed

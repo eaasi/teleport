@@ -10,6 +10,7 @@ import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { jsonCopy, removeDuplicatesFromFlatArray } from '@/utils/functions';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+import {IEaasiTab} from 'eaasi-nav';
 
 /*============================================================
  == State
@@ -317,6 +318,13 @@ const getters = {
 			.filter(i => i !== null);
 	},
 
+	slideMenuTabs(state: ResourceState): IEaasiTab[] {
+		const isDetailsDisabled = state.selectedResources.length > 1;
+		return [
+			{ label: 'Actions' },
+			{ label: 'Details', disabled: isDetailsDisabled }
+		];
+	}
 };
 
 export default {

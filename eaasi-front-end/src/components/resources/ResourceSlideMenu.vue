@@ -5,7 +5,7 @@
 				<div class="rsm-header">
 					<div class="rsm-resource-title flex-row">
 						<span v-if="resources.length > 1" class="flex-adapt">
-							({{ resources.length }}) Resources Selected
+							{{ resources.length }} Resources Selected
 						</span>
 						<span v-else-if="onlySelectedResource" class="flex-adapt">
 							{{ onlySelectedResource.title }}
@@ -149,7 +149,7 @@ import stringCleaner from '@/utils/string-cleaner';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 import TaskList from '@/components/admin/running-tasks/TaskList.vue';
-import {IEaasiTaskSuccessor, ITaskState, SuccessorType} from '@/types/Task';
+import { IEaasiTaskSuccessor, ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';

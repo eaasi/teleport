@@ -23,10 +23,10 @@
 
 		<div v-if="filesAreAdded" class="if-attached">
 			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length && !isImageImport">
-				<ui-button 
-					icon="check" 
-					color-preset="light-blue" 
-					@click="selectAllFiles" 
+				<ui-button
+					icon="check"
+					color-preset="light-blue"
+					@click="selectAllFiles"
 				>
 					Select All
 				</ui-button>
@@ -92,6 +92,7 @@
 								v-for="file in files"
 								:key="file.name"
 								:file="file"
+								@sort="sortOnInput"
 							/>
 						</draggable>
 					</div>
@@ -103,7 +104,6 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import { importTypes } from '@/utils/constants';
 	import {isValidUrl} from '@/helpers/UrlHelper';
 	import BaseHttpService from '@/services/BaseHttpService';
 	import { Component, Watch } from 'vue-property-decorator';
@@ -111,7 +111,6 @@
 	// noinspection TypeScriptCheckImport
 	import Draggable from 'vuedraggable';
 	import ResourceFileListItem from './ResourceFileListItem.vue';
-	import EnvironmentFileItem from './EnvironmentFileItem.vue';
 	import ResourceImportFile from '@/models/import/ResourceImportFile';
 	import { ImportType, IResourceImportFile } from '@/types/Import';
 	import {operatingSystems} from '@/models/admin/OperatingSystems';
@@ -181,7 +180,7 @@
 
 		/* Methods
 		============================================*/
-		
+
 		checkUrl() {
 			// noinspection TypeScriptUnresolvedVariable
 			this.$refs.urlField['canValidate'] = true;
@@ -201,6 +200,21 @@
 				this.files.push(newFile);
 			}
 			this.step = 3;
+		}
+
+		sortOnInput(updatedFile: any) {
+			updatedFile.file.sortIndex--;
+
+			if (updatedFile.file.sortIndex < 0) {
+				updatedFile.file.sortIndex = 0;
+			}
+
+			let file = this.files.find(f => f.name == updatedFile.file.name);
+			let currentIndex = this.files.indexOf(file);
+
+			this.files.splice(currentIndex, 1);
+			this.files.splice(updatedFile.file.sortIndex, 0, updatedFile.file);
+			this.sorted();
 		}
 
 		sorted() {

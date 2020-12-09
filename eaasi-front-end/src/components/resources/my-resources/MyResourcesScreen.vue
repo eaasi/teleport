@@ -8,14 +8,14 @@
 			</div>
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
-			<my-bookmarks-section 
-				v-if="activeTab === 'My Bookmarks'" 
+			<my-bookmarks-section
+				v-if="activeTab === 'My Bookmarks'"
 				:action-menu-tabs="actionMenuTabs"
 				@open-action-menu="openActionMenu"
 			/>
 
-			<imported-resources-section 
-				v-if="activeTab === 'Imported Resources'" 
+			<imported-resources-section
+				v-if="activeTab === 'Imported Resources'"
 				:action-menu-tabs="actionMenuTabs"
 				@open-action-menu="openActionMenu"
 			/>
@@ -119,7 +119,7 @@ export default class MyResourcesScreen extends Vue {
 		{
 			label: 'Actions'
 		}
-	]
+	];
 	actionMenuActiveTab: IEaasiTab = null;
 
 	/* Methods
