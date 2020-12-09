@@ -64,6 +64,7 @@ export default class EnvironmentResourceCard extends Vue {
 
 	hasNoDetails: boolean = false;
 	timer: number = null;
+	savedToNode: boolean = false;
 
 	/* Computed
 	============================================*/
@@ -79,6 +80,9 @@ export default class EnvironmentResourceCard extends Vue {
 
 	@Get('task/activePollingTask')
 	activePollingTask: EaasiTask;
+
+	@Get('task/completedTasks')
+	readonly completedTasks: EaasiTask[];
 
 	get resourceTypeTags(): ITag[] {
 		let tags = [{
@@ -116,12 +120,12 @@ export default class EnvironmentResourceCard extends Vue {
 			: false;
 	}
 
-	get savingEnvTask(): EaasiTask {
-		if (!this.isSaving || !this.activePollingTask) return null;
+	get completedSaveTask(): EaasiTask {
 		const savingEnvState = this.savingEnvironments.find(
 			saveState => saveState.envId === this.environment.envId
 		);
-		return this.activePollingTask.taskId === savingEnvState.taskId ? this.activePollingTask : null;
+		if (!savingEnvState) return null;
+		return this.completedTasks.find(task => task.taskId == savingEnvState.taskId);
 	}
 
 	get isSelected(): Boolean {
@@ -151,33 +155,30 @@ export default class EnvironmentResourceCard extends Vue {
 				text: this.environmentCardSummary.error
 			}];
 		}
-		if (this.savingEnvTask && this.savingEnvTask.isDone) {
+		if (this.savedToNode) {
 			tagGroup.push({
 				icon: 'fa-map-marker-alt',
 				color: 'green',
 				text: 'Saved'
 			});
-		}
-		if (this.environment.hasOwnProperty('archive')) {
-			if (this.environment.archive === archiveTypes.REMOTE) {
-				tagGroup.push({
-					icon: 'fa-map-marker-alt',
-					color: 'white',
-					text: 'Remote'
-				});
-			} else if (this.environment.archive === archiveTypes.PUBLIC) {
-				tagGroup.push({
-					icon: 'fa-map-marker-alt',
-					color: 'green',
-					text: 'Saved'
-				});
-			} else if (this.environment.archive === archiveTypes.DEFAULT) {
-				tagGroup.push({
-					icon: 'fa-cloud-download-alt',
-					color: 'green',
-					text: 'Private'
-				});
-			}
+		} else if (this.environment.archive === archiveTypes.REMOTE) {
+			tagGroup.push({
+				icon: 'fa-map-marker-alt',
+				color: 'white',
+				text: 'Remote'
+			});
+		} else if (this.environment.archive === archiveTypes.PUBLIC) {
+			tagGroup.push({
+				icon: 'fa-map-marker-alt',
+				color: 'green',
+				text: 'Saved'
+			});
+		} else if (this.environment.archive === archiveTypes.DEFAULT) {
+			tagGroup.push({
+				icon: 'fa-cloud-download-alt',
+				color: 'green',
+				text: 'Private'
+			});
 		}
 		return tagGroup;
 	}
@@ -222,11 +223,11 @@ export default class EnvironmentResourceCard extends Vue {
 		this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: this.environment.envId.toString()} });
 	}
 
-	@Watch('savingEnvTask')
-	onTaskCompletion(curTask: EaasiTask) {
-		if(!curTask || curTask.isDone) {
-			this.$store.dispatch('resource/onEnvironmentSaved');
-		}
+	@Watch('completedSaveTask')
+	onTaskCompletion(cur: null | EaasiTask, prev: null | EaasiTask) {
+		if (!cur) return;
+		this.savedToNode = true;
+		this.$store.dispatch('resource/onEnvironmentSaved', this.environment.envId);
 	}
 
 }
