@@ -1,13 +1,13 @@
 <template>
 	<div class="flex flex-row justify-between slide-menu-btn-wrapper">
-		<div 
-			v-for="(tab, index) in tabs" 
-			:key="index" 
+		<div
+			v-for="(tab, index) in filteredTabs"
+			:key="index"
 			:class="['btn-wrapper', { 'border-left': index > 0 }]"
 		>
-			<ui-button 
-				@click="$emit('open', tab)" 
-				color-preset="blue-transparent" 
+			<ui-button
+				@click="$emit('open', tab)"
+				color-preset="blue-transparent"
 				size="sm"
 			>
 				{{ tab.label }}
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 
 @Component({
@@ -30,6 +30,10 @@ export default class SlideMenuControlButtons extends Vue {
 	============================================*/
 	@Prop({ type: Array as () => IEaasiTab[], required: true })
 	readonly tabs: IEaasiTab[];
+
+	get filteredTabs() {
+		return this.tabs.filter(tab => !tab.disabled);
+	}
 
 }
 </script>
