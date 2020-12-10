@@ -90,22 +90,12 @@ export default class EnvironmentResourceCard extends Vue {
 			icon: 'fa-cube',
 			color: 'white'
 		}];
-		if (this.environment.hasOwnProperty('envType')) {
-			if (this.environment.envType === 'base') {
-				tags.push({
-					icon: 'fa-box',
-					color: 'white',
-					text: 'Base'
-				});
-			}
-
-			if (this.environment.envType === 'object') {
-				tags.push({
-					icon: 'fa-save',
-					color: 'white',
-					text: 'Object'
-				});
-			}
+		if (this.environment?.envType === 'object') {
+			tags.push({
+				icon: 'fa-save',
+				color: 'white',
+				text: 'Object'
+			});
 		}
 		return tags;
 	};

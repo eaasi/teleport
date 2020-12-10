@@ -1,7 +1,12 @@
 #!/bin/bash
 
+cd ../
+
+# Remove database bind mount
+rm -rf eaasi_db
+
 # Start the database
-cd ../ && docker-compose down -v \
+docker-compose down -v \
        && docker-compose up -d --build eaasi-database
 
 cd ./eaasi-web-api
