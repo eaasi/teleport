@@ -295,9 +295,9 @@ export default class EmulationProjectDetails extends Vue {
 }
 
 .emu-proj-details-wrapper {
-	margin-bottom: 2rem;
 	background: #ffffff;
-	padding: 2.0rem 2.4rem 0.3rem 2.4rem;
+	margin-bottom: 2rem;
+	padding: 2rem 2.4rem 0.3rem 2.4rem;
 
 	.row {
 		margin-bottom: 1rem;
@@ -326,8 +326,8 @@ export default class EmulationProjectDetails extends Vue {
 	}
 
 	.remove-resource {
-		padding: 1.1rem 0 1.1rem;
 		color: darken($light-blue, 30%);
+		padding: 1.1rem 0 1.1rem;
 	}
 }
 </style>
