@@ -8,8 +8,8 @@
 			<template v-slot:actions>
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
-						<ui-button 
-							color-preset="light-blue" 
+						<ui-button
+							color-preset="light-blue"
 							@click="clearAllAlertModal=true"
 							:disabled="clearAllDisabled"
 						>
