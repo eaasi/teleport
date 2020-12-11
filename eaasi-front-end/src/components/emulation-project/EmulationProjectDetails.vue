@@ -3,13 +3,15 @@
 		<div class="emu-proj-details-wrapper">
 			<div class="emulator-picker-wrapper">
 				<div class="flex flex-row justify-between">
-					<h4 style="margin-top: 0;">Base Environment</h4>
-					<ui-button color-preset="blue-transparent" @click="clear">
-						<div class="flex flex-row flex-cetner rm-btn">
+					<div style="margin-top: 0;">
+						Base Environment
+					</div>
+					<div class="remove-resource clickable" @click="clear">
+						<div class="flex flex-row flex-center rm-btn">
 							Remove Resource
 							<span class="fas fa-times"></span>
 						</div>
-					</ui-button>
+					</div>
 				</div>
 				<environment-card v-if="environment" />
 
@@ -96,7 +98,7 @@
 				<div class="flex flex-row justify-between">
 					<h4 style="margin-top: 0;">Objects</h4>
 					<ui-button color-preset="blue-transparent" @click="clear">
-						<div class="flex flex-row flex-cetner rm-btn">
+						<div class="flex flex-row flex-center rm-btn">
 							Remove Resource
 							<span class="fas fa-times"></span>
 						</div>
@@ -295,7 +297,7 @@ export default class EmulationProjectDetails extends Vue {
 .emu-proj-details-wrapper {
 	margin-bottom: 2rem;
 	background: #ffffff;
-	padding: 3rem 3rem 0.3rem 3rem;
+	padding: 2.0rem 2.4rem 0.3rem 2.4rem;
 
 	.row {
 		margin-bottom: 1rem;
@@ -321,6 +323,11 @@ export default class EmulationProjectDetails extends Vue {
 
 	.advanced-options-wrapper {
 		margin-top: 2rem;
+	}
+
+	.remove-resource {
+		padding: 1.1rem 0 1.1rem;
+		color: darken($light-blue, 30%);
 	}
 }
 </style>
