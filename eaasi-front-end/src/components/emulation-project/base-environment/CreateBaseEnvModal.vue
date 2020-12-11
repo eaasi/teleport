@@ -38,9 +38,9 @@
 				<div class="right col-md-5 flex flex-center">
 					<div class="alert-container">
 						<alert type="warning">
-							Operating system will be attached to your emulation project as
-							a software resource. It will need to be installed manually while
-							emulating.
+							Select the type of operating system that you intend to install.
+							You will need to attach an appropriate Software resource to your
+							emulation project and run the installation manually while emulating.
 						</alert>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 				<ui-button @click="$emit('close')" color-preset="light-blue">Cancel</ui-button>
 			</div>
 			<div class="justify-end buttons-right">
-				<ui-button :disabled="!canSave" @click="$emit('save')">Save</ui-button>
+				<ui-button :disabled="!canSave" @click="$emit('save')">Next</ui-button>
 			</div>
 		</template>
 	</info-modal>
