@@ -208,10 +208,12 @@ export default class ResourceSideBar extends Vue {
 
 	selectResource(resource: IEaasiResource, selected: boolean) {
 		let resourcesToSelect = [];
-		if(!selected || this.isSelected(resource)) {
-			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
-		} else {
+
+		if (!selected || this.isSelected(resource)) {
 			resourcesToSelect = [...this.selected, resource];
+		} else {
+			console.log('in else')
+			resourcesToSelect = [resource];
 		}
 		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
 	}
@@ -220,9 +222,6 @@ export default class ResourceSideBar extends Vue {
 		if (checked) {
 			this.environment = new EmulationProjectEnvironment(environment);
 			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
-		} else {
-			this.environment = null;
-			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
 	}
 
