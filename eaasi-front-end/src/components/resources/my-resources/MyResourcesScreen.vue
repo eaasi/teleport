@@ -51,7 +51,7 @@ import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButt
 	components: {
 		MyBookmarksScreen,
 		ResourceSlideMenu,
-		ImportedResourcesSection: ImportedResourcesScreen,
+		ImportedResourcesScreen,
 		SlideMenuControlButtons
 	}
 })
