@@ -93,7 +93,6 @@
 						@change="(e) => selectResource(obj, e)"
 						class="flex-grow no-mb"
 						style="width: 30rem;"
-						:disabled="isDisabled(obj)"
 					>
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(obj)" />

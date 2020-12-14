@@ -1,9 +1,9 @@
 <template>
-	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
+	<div :class="['resource-object-container flex', selectStyle ]">
 		<div class="panel-left">
 			<div
-				:class="['ds-checkbox', { checked: !disabled }]"
-				@click="$emit('input', value)"
+				:class="['ds-checkbox', { checked: selectStyle }]"
+				@click="toggleSelected"
 			>
 			</div>
 		</div>
@@ -97,8 +97,8 @@ export default class SelectableRadioCard extends Vue {
 		border-radius: 50%;
 		display: inline-block;
 		height: 1rem;
-		margin: 0.5rem;
-		padding: 1.8px;
+		margin: 0.3rem;
+		padding: 1.4px;
 		width: 1rem;
 
 		&.checked {
@@ -123,11 +123,6 @@ export default class SelectableRadioCard extends Vue {
 		&.selected {
 			background-color: lighten($light-blue, 90%);
 			border: 2px solid $light-blue;
-		}
-
-		&.disabled {
-			opacity: 0.4;
-			pointer-events: none;
 		}
 	}
 
