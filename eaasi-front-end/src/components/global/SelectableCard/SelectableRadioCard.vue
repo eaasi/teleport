@@ -8,8 +8,8 @@
 			</div>
 		</div>
 
-		<div :class="['panel-right', selectStyle]">
-			<div :class="['header', { clickable: isClickable, mb: !data.content }]">
+		<div :class="['panel-right', selectStyle, { clickable: isClickable }]" @click="toggleSelected">
+			<div :class="['header', { mb: !data.content }]">
 				{{ data.title }}
 			</div>
 

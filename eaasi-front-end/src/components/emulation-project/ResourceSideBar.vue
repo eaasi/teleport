@@ -212,7 +212,6 @@ export default class ResourceSideBar extends Vue {
 		if (!selected || this.isSelected(resource)) {
 			resourcesToSelect = [...this.selected, resource];
 		} else {
-			console.log('in else')
 			resourcesToSelect = [resource];
 		}
 		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
