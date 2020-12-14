@@ -1,19 +1,15 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
-		<div v-if="bookmark && !isLoading">
-			<bookmark
-				class="bookmark"
-				:init-state="isBookmarkSelected"
-				@bookmarked="isActive => $emit('bookmarked', isActive)"
-			/>
-		</div>
-
-		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
-			<checkbox :value="value" @input="toggleSelected" />
+		<div class="panel-left">
+			<div
+				:class="['ds-checkbox', { checked: !disabled }]"
+				@click="$emit('input', value)"
+			>
+			</div>
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
-			<div :class="['header', { clickable: isClickable, mb: !data.content }]" @click="handleClick">
+			<div :class="['header', { clickable: isClickable, mb: !data.content }]">
 				{{ data.title }}
 			</div>
 
@@ -26,11 +22,7 @@
 				<selectable-card-content :content-data="data.subContent" />
 			</div>
 
-			<div v-if="isLoading" class="panel-footer loading-tag">
-				<tag text="Saving to Node" icon="fa-spinner fa-spin" color="yellow" />
-			</div>
-
-			<div v-if="footer && !isLoading" class="panel-footer">
+			<div v-if="footer" class="panel-footer">
 				<slot name="tagsLeft"></slot>
 				<slot name="tagsRight"></slot>
 			</div>
@@ -48,11 +40,11 @@ import SelectableCardContent from './SelectableCardContent.vue';
 import Checkbox from '@/components/global/forms/Checkbox.vue';
 
 /**
- * A Card for displaying information that can be selected and bookmarked
+ * A Card for displaying information that can be selected as a radio option
  * @example ../../docs/SelectableCard.Example.md
  */
 @Component({
-	name: 'SelectableCard',
+	name: 'SelectableRadioCard',
 	components: {
 		SelectableCardContent,
 		Bookmark,
@@ -60,7 +52,7 @@ import Checkbox from '@/components/global/forms/Checkbox.vue';
 		Checkbox
 	}
 })
-export default class SelectableCard extends Vue {
+export default class SelectableRadioCard extends Vue {
 
 	/* Props
 	============================================*/
@@ -68,19 +60,7 @@ export default class SelectableCard extends Vue {
 	readonly data: IEaasiResourceSummary;
 
 	@Prop({type: Boolean, required: false, default: false})
-	readonly bookmark: boolean;
-
-	@Prop({type: Boolean, required: false, default: false})
 	readonly footer: boolean;
-
-	@Prop({type: Boolean, required: false, default: false})
-	readonly isLoading: boolean;
-
-	@Prop({ type: Boolean, default: false })
-	readonly isBookmarkSelected: boolean;
-
-	@Prop({type: Boolean, required: false, default: false})
-	readonly disableSelect: boolean;
 
 	@Prop({type: Boolean, required: false, default: true})
 	readonly isClickable: boolean;
@@ -99,22 +79,35 @@ export default class SelectableCard extends Vue {
 
 	/* Methods
 	============================================*/
+	isChecked(val) {
+		return val === this.value;
+	}
 
 	toggleSelected() : void {
 		this.$emit('input', !this.value);
 		this.$emit('change', !this.value);
 	}
-
-	handleClick() {
-		if (this.isClickable) {
-			this.$emit('click:header');
-		}
-	}
-
 }
 </script>
 
 <style lang="scss">
+
+	.ds-checkbox {
+		border: solid 2px $light-blue;
+		border-radius: 50%;
+		display: inline-block;
+		height: 1.0rem;
+		padding: 1.8px;
+		width: 1.0rem;
+		margin: 0.5rem;
+
+		&.checked {
+			background-color: $dark-blue;
+			border: solid 2px $dark-blue;
+			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
+		}
+	}
+
 	hr {
 		border: 0.5px solid #DDDDDD;
 		margin-bottom: 1px;
@@ -135,12 +128,6 @@ export default class SelectableCard extends Vue {
 		&.disabled {
 			opacity: 0.4;
 			pointer-events: none;
-		}
-
-		.bookmark {
-			position: absolute;
-			right: 0;
-			top: 2px;
 		}
 	}
 

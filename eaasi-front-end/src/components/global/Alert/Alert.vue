@@ -43,19 +43,19 @@ export default class Alert extends Vue {
 	 * Apply card styles (padding and background-color)
 	 */
 	@Prop({type: Boolean, required: false})
-	readonly card: boolean
+	readonly card: boolean;
 
 	/**
-	 * Makes details slot collapseable
+	 * Makes details slot collapsible
 	 */
 	@Prop({type: Boolean, required: false})
-	readonly collapsable: boolean
+	readonly collapsable: boolean;
 
 	/**
 	 * Determines the icon and font color
 	 */
 	@Prop({ validator: isValidAlert, required: false })
-	type: AlertType
+	type: AlertType;
 
 	/**
 	 * Hides icon when true

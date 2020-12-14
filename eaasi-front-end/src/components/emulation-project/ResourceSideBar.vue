@@ -37,7 +37,7 @@
 					:key="env.envId"
 					class="flex-row mb"
 				>
-					<selectable-card
+					<selectable-radio-card
 						footer
 						:data="env"
 						is-clickable
@@ -49,7 +49,7 @@
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(env)" />
 						</template>
-					</selectable-card>
+					</selectable-radio-card>
 					<div>
 						<circle-button
 							color-preset="light-blue"
@@ -85,7 +85,7 @@
 					:key="obj.id"
 					class="flex-row mb"
 				>
-					<selectable-card
+					<selectable-radio-card
 						footer
 						:data="{ title: obj.title || obj.label }"
 						:value="isSelected(obj)"
@@ -97,7 +97,7 @@
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(obj)" />
 						</template>
-					</selectable-card>
+					</selectable-radio-card>
 					<div>
 						<circle-button
 							color-preset="light-blue"
@@ -126,10 +126,12 @@ import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vu
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import { ROUTES } from '@/router/routes.const';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
 
 @Component({
 	name: 'ResourceSideBar',
 	components: {
+		SelectableRadioCard,
 		EnvironmentResourceCard,
 		SoftwareResourceCard,
 		ContentResourceCard,
@@ -179,7 +181,8 @@ export default class ResourceSideBar extends Vue {
 		{
 			label: 'Project Resources'
 		},
-	]
+	];
+
 	defaultDriveLimit: number = 3;
 	activeTab: IEaasiTab = this.tabs[0];
 	resourceTypes: IResourceTypes = resourceTypes;
