@@ -4,7 +4,7 @@
 			<no-search-result v-if="noResult" />
 			<div v-else class="resource-results-wrapper">
 				<div class="resource-results">
-					<div>
+					<div class="resource-facets-wrapper">
 						<resource-facets @change="search" />
 					</div>
 					<div>
@@ -334,6 +334,9 @@ export default class ExploreResourcesScreen extends Vue {
 		display: flex;
 		flex-direction: column;
 		width: 100vw;
+		.resource-facets-wrapper {
+			background-color: lighten($light-neutral, 80%);
+		}
 
 		.resource-results {
 			min-height: 80vh;
