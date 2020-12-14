@@ -127,7 +127,7 @@ import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 		ConfirmModal
 	}
 })
-export default class ImportedResourcesSection extends Vue {
+export default class ImportedResourcesScreen extends Vue {
 
     /* Props
 	============================================*/

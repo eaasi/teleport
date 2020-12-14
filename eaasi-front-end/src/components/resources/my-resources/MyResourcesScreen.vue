@@ -8,13 +8,13 @@
 			</div>
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
-			<my-bookmarks-section
+			<my-bookmarks-screen
 				v-if="activeTab === 'My Bookmarks'"
 				:action-menu-tabs="actionMenuTabs"
 				@open-action-menu="openActionMenu"
 			/>
 
-			<imported-resources-section
+			<imported-resources-screen
 				v-if="activeTab === 'Imported Resources'"
 				:action-menu-tabs="actionMenuTabs"
 				@open-action-menu="openActionMenu"
@@ -42,7 +42,7 @@ import {Get, Sync} from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
 import MyBookmarksScreen from '@/components/resources/my-resources/MyBookmarksScreen.vue';
-import ImportedResourcesSection from '@/components/resources/my-resources/ImportedResourcesScreen.vue';
+import ImportedResourcesScreen from '@/components/resources/my-resources/ImportedResourcesScreen.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 
@@ -51,7 +51,7 @@ import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButt
 	components: {
 		MyBookmarksScreen,
 		ResourceSlideMenu,
-		ImportedResourcesSection,
+		ImportedResourcesSection: ImportedResourcesScreen,
 		SlideMenuControlButtons
 	}
 })
