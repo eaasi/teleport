@@ -166,7 +166,7 @@ export default class EnvironmentResourceCard extends Vue {
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push({
 				icon: 'fa-cloud-download-alt',
-				color: 'green',
+				color: 'yellow',
 				text: 'Private'
 			});
 		}
