@@ -258,9 +258,9 @@ export default class ImportedResourcesSection extends Vue {
 	}
 
 	.resource-results {
+		display: flex;
 		min-height: 80vh;
 		position: relative;
-		display: flex;
 
 		.resource-facets {
 			flex: 0 0 250px;

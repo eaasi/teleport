@@ -298,9 +298,6 @@ export default class MyBookmarksScreen extends Vue {
 .resource-results {
 	min-height: 80vh;
 	position: relative;
-
-	.resource-facets {
-	}
 }
 
 #myBookmarks {
