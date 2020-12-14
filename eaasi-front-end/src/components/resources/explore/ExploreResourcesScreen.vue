@@ -385,7 +385,7 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.resource-results-pagination {
-		padding: 0 1.5rem;
 		display: block;
+		padding: 0 1.5rem;
 	}
 </style>

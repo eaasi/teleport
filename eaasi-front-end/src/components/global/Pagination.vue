@@ -196,14 +196,13 @@ export default class Pagination extends Vue {
 
 	li {
 		&:first-child {
-			border-top-left-radius: 0.8rem;
 			border-bottom-left-radius: 0.8rem;
+			border-top-left-radius: 0.8rem;
 		}
 		&:last-child {
-			border-top-right-radius: 0.8rem;
 			border-bottom-right-radius: 0.8rem;
+			border-top-right-radius: 0.8rem;
 		}
-
 		background-color: lighten($light-blue, 90%);
 		cursor: pointer;
 		display: inline-block;
@@ -216,12 +215,12 @@ export default class Pagination extends Vue {
 		}
 
 		a {
-			padding: 0.4rem 1.5rem;
 			border-radius: 0.6rem;
+			padding: 0.4rem 1.5rem;
 			&.active {
-				transition: background-color 0.2s;
 				background-color: #FFFFFF;
 				cursor: default;
+				transition: background-color 0.2s;
 
 				&:hover {
 					background-color: #FFFFFF;

@@ -19,76 +19,84 @@
 			</div>
 		</div>
 
-		<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
-			<resource-facets @change="search" />
-			<applied-search-facets v-if="hasSelectedFacets" />
-			<div class="deselect-all-wrapper flex flex-row justify-between" v-if="selectedResources.length > 0">
-				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
-					<span class="icon-deselect"></span>
-					<span>Deselect All ({{ selectedResources.length }})</span>
+		<div class="resource-results-wrapper">
+			<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
+				<div class="resource-facets-wrapper">
+					<resource-facets @change="search" />
 				</div>
-				<div class="slide-menu-control-btns pull-right">
-					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+				<div>
+					<div class="applied-facets-wrapper">
+						<applied-search-facets v-if="hasSelectedFacets" />
+					</div>
+					<div class="deselect-all-wrapper flex flex-row justify-between" v-if="selectedResources.length > 0">
+						<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+							<span class="icon-deselect"></span>
+							<span>Deselect All ({{ selectedResources.length }})</span>
+						</div>
+						<div class="slide-menu-control-btns pull-right">
+							<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+						</div>
+					</div>
+					<div class="resource-bento width-md">
+						<div class="bento-row">
+							<div
+								v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
+								class="bento-col"
+							>
+								<resource-list
+									v-if="bentoResult.environments.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.environments"
+									type="Environment"
+									@click:all="getAll(['Environment'])"
+									@bookmarked="search"
+								/>
+								<resource-list
+									v-if="bentoResult.images.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.images"
+									type="Image"
+									@click:all="getAll(['Images'])"
+									@bookmarked="search"
+								/>
+							</div>
+							<div
+								v-if="bentoResult.software.result.length || bentoResult.content.result.length"
+								class="bento-col"
+							>
+								<resource-list
+									v-if="bentoResult.software.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.software"
+									type="Software"
+									@click:all="getAll(['Software'])"
+									@bookmarked="search"
+								/>
+								<resource-list
+									v-if="bentoResult.content.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.content"
+									type="Content"
+									@click:all="getAll(['Content'])"
+									@bookmarked="search"
+								/>
+							</div>
+						</div>
+					</div>
+					<pagination
+						v-if="facetsOfSingleTypeSelected"
+						:results-per-page="query.limit"
+						:total-results="totalResults"
+						:page-num="query.page"
+						@paginate="paginate"
+						style="margin-top: 2.5rem;"
+					/>
 				</div>
 			</div>
-			<div class="resource-bento width-md">
-				<div class="bento-row">
-					<div
-						v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
-						class="bento-col"
-					>
-						<resource-list
-							v-if="bentoResult.environments.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.environments"
-							type="Environment"
-							@click:all="getAll(['Environment'])"
-							@bookmarked="search"
-						/>
-						<resource-list
-							v-if="bentoResult.images.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.images"
-							type="Image"
-							@click:all="getAll(['Images'])"
-							@bookmarked="search"
-						/>
-					</div>
-					<div
-						v-if="bentoResult.software.result.length || bentoResult.content.result.length"
-						class="bento-col"
-					>
-						<resource-list
-							v-if="bentoResult.software.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.software"
-							type="Software"
-							@click:all="getAll(['Software'])"
-							@bookmarked="search"
-						/>
-						<resource-list
-							v-if="bentoResult.content.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.content"
-							type="Content"
-							@click:all="getAll(['Content'])"
-							@bookmarked="search"
-						/>
-					</div>
-				</div>
-			</div>
-			<pagination
-				v-if="facetsOfSingleTypeSelected"
-				:results-per-page="query.limit"
-				:total-results="totalResults"
-				:page-num="query.page"
-				@paginate="paginate"
-				style="margin-top: 2.5rem;"
-			/>
 		</div>
 
 		<confirm-modal
@@ -117,6 +125,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
+
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
@@ -272,7 +281,7 @@ export default class MyBookmarksScreen extends Vue {
 		if (!curVal && prevVal === undefined) {
 			return;
 		}
-		// if we unselecting the last facet, do a clear search
+		// if we're unselecting the last facet, do a clear search
 		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
 			this.$store.dispatch('resource/clearSearch');
 		}
@@ -294,9 +303,22 @@ export default class MyBookmarksScreen extends Vue {
 	}
 }
 
-.resource-results {
-	min-height: 80vh;
-	position: relative;
+.resource-results-wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	.resource-facets-wrapper {
+		background-color: lighten($light-neutral, 80%);
+	}
+
+	.resource-results {
+		min-height: 80vh;
+		position: relative;
+	}
+
+	.applied-facets-wrapper {
+		display: flex;
+	}
 }
 
 #myBookmarks {

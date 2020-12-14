@@ -41,8 +41,8 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import MyBookmarksScreen from '@/components/resources/my-resources/MyBookmarksSection.vue';
-import ImportedResourcesSection from '@/components/resources/my-resources/ImportedResourcesSection.vue';
+import MyBookmarksScreen from '@components/resources/my-resources/MyBookmarksScreen.vue';
+import ImportedResourcesSection from '@components/resources/my-resources/ImportedResourcesScreen.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 
@@ -153,7 +153,6 @@ export default class MyResourcesScreen extends Vue {
 
 <style lang="scss">
 #myResources {
-	margin-bottom: 10rem;
 
 	.page-title {
 		background-color: lighten($light-neutral, 70%);
