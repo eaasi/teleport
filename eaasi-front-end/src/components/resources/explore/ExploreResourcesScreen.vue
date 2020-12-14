@@ -65,15 +65,17 @@
 								</div>
 							</div>
 						</div>
+						<div class="resource-results-pagination width-md">
+							<pagination
+								v-if="facetsOfSingleTypeSelected && !noResult"
+								:results-per-page="query.limit"
+								:total-results="totalResults"
+								:page-num="query.page"
+								@paginate="paginate"
+							/>
+						</div>
 					</div>
 				</div>
-				<pagination
-					v-if="facetsOfSingleTypeSelected && !noResult"
-					:results-per-page="query.limit"
-					:total-results="totalResults"
-					:page-num="query.page"
-					@paginate="paginate"
-				/>
 			</div>
 		</div>
 
@@ -329,6 +331,10 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.resource-results-wrapper {
+		display: flex;
+		flex-direction: column;
+		width: 100vw;
+
 		.resource-results {
 			min-height: 80vh;
 			position: relative;
@@ -336,7 +342,6 @@ export default class ExploreResourcesScreen extends Vue {
 
 		.applied-facets-wrapper {
 			display: flex;
-			flex-grow: 1;
 		}
 	}
 
@@ -374,5 +379,10 @@ export default class ExploreResourcesScreen extends Vue {
 	.ers-rep-msg {
 		display: block;
 		margin: 1.4rem 0;
+	}
+
+	.resource-results-pagination {
+		padding: 0 1.5rem;
+		display: block;
 	}
 </style>

@@ -81,16 +81,15 @@
 					</div>
 				</div>
 			</div>
+			<pagination
+				v-if="facetsOfSingleTypeSelected"
+				:results-per-page="query.limit"
+				:total-results="totalResults"
+				:page-num="query.page"
+				@paginate="paginate"
+				style="margin-top: 2.5rem;"
+			/>
 		</div>
-
-		<pagination
-			v-if="facetsOfSingleTypeSelected"
-			:results-per-page="query.limit"
-			:total-results="totalResults"
-			:page-num="query.page"
-			@paginate="paginate"
-			style="margin-top: 2.5rem;"
-		/>
 
 		<confirm-modal
 			cancel-label="Cancel"

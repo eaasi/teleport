@@ -18,11 +18,11 @@
 				</li>
 				<li
 					v-for="p in pages"
-					:class="{'active': p == currentPage}"
 					@click="paginate(p)"
+					:class="{'active': p == currentPage}"
 					:key="p"
 				>
-					<a href="javascript:void(0);">{{ p }}</a>
+					<a href="javascript:void(0);" :class="{'active': p == currentPage}">{{ p }}</a>
 				</li>
 				<li
 					@click="paginate(currentPage + 1)"
@@ -175,9 +175,8 @@ export default class Pagination extends Vue {
 
 <style lang="scss">
 .pagination-wrapper {
-	border-bottom: 4px solid darken($light-neutral, 10%);
 	margin-bottom: 2rem;
-	padding: 0 2rem;
+	padding: 0 1rem;
 
 	label {
 		color: lighten($dark-neutral, 30%);
@@ -196,25 +195,47 @@ export default class Pagination extends Vue {
 	}
 
 	li {
+		&:first-child {
+			border-top-left-radius: 0.8rem;
+			border-bottom-left-radius: 0.8rem;
+		}
+		&:last-child {
+			border-top-right-radius: 0.8rem;
+			border-bottom-right-radius: 0.8rem;
+		}
+
 		background-color: lighten($light-blue, 90%);
 		cursor: pointer;
 		display: inline-block;
-		padding: 10px 15px;
+		padding: 1rem 0.2rem;
 		transition: background-color 0.2s;
 
 		&.active {
-			background-color: #FFFFFF;
 			border-bottom: solid 2px $dark-blue;
 			cursor: default;
+		}
 
-			&:hover {
+		a {
+			padding: 0.4rem 1.5rem;
+			border-radius: 0.6rem;
+			&.active {
+				transition: background-color 0.2s;
 				background-color: #FFFFFF;
+				cursor: default;
+
+				&:hover {
+					background-color: #FFFFFF;
+				}
 			}
 		}
 
 		&:hover {
 			background-color: lighten($light-blue, 50%);
 		}
+	}
+
+	.page-arrow {
+		font-weight: bold;
 	}
 }
 </style>
