@@ -2,71 +2,79 @@
 	<div id="exploreResources" v-if="bentoResult" :style="actionMenuStyles">
 		<div :style="innerStyles">
 			<no-search-result v-if="noResult" />
-			<div v-else class="resource-results">
-				<resource-facets @change="search" />
-				<applied-search-facets v-if="hasSelectedFacets" />
-				<div class="deselect-all-wrapper flex-row justify-between" v-if="selectedResources.length > 0">
-					<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
-						<span class="icon-deselect"></span>
-						<span>Deselect All ({{ selectedResources.length }})</span>
+			<div v-else class="resource-results-wrapper">
+				<div class="resource-results">
+					<div>
+						<resource-facets @change="search" />
 					</div>
-					<slide-menu-control-buttons @open="openActionMenu" :tabs="tabs" />
-				</div>
-				<div class="resource-bento width-md">
-					<resource-sort-section v-if="facetsOfSingleTypeSelected" />
-					<div class="bento-row">
-						<div
-							v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
-							class="bento-col"
-						>
-							<resource-list
-								v-if="bentoResult.environments.result.length"
-								:hide-header="facetsOfSingleTypeSelected"
-								:query="query"
-								:result="bentoResult.environments"
-								type="Environment"
-								@click:all="getAll(['Environment'])"
-							/>
-							<resource-list
-								v-if="bentoResult.images.result.length"
-								:hide-header="facetsOfSingleTypeSelected"
-								:query="query"
-								:result="bentoResult.images"
-								type="Image"
-								@click:all="getAll(['Images'])"
-							/>
+					<div>
+						<div class="applied-facets-wrapper">
+							<applied-search-facets v-if="hasSelectedFacets" />
 						</div>
-						<div
-							v-if="bentoResult.software.result.length || bentoResult.content.result.length"
-							class="bento-col"
-						>
-							<resource-list
-								:hide-header="facetsOfSingleTypeSelected"
-								v-if="bentoResult.software.result.length"
-								:query="query"
-								:result="bentoResult.software"
-								type="Software"
-								@click:all="getAll(['Software'])"
-							/>
-							<resource-list
-								:hide-header="facetsOfSingleTypeSelected"
-								v-if="bentoResult.content.result.length"
-								:query="query"
-								:result="bentoResult.content"
-								type="Content"
-								@click:all="getAll(['Content'])"
-							/>
+						<div class="deselect-all-wrapper flex-row justify-between" v-if="selectedResources.length > 0">
+							<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+								<span class="icon-deselect"></span>
+								<span>Deselect All ({{ selectedResources.length }})</span>
+							</div>
+							<slide-menu-control-buttons @open="openActionMenu" :tabs="tabs" />
+						</div>
+						<div class="resource-bento width-md">
+							<resource-sort-section v-if="facetsOfSingleTypeSelected" />
+							<div class="bento-row">
+								<div
+									v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
+									class="bento-col"
+								>
+									<resource-list
+										v-if="bentoResult.environments.result.length"
+										:hide-header="facetsOfSingleTypeSelected"
+										:query="query"
+										:result="bentoResult.environments"
+										type="Environment"
+										@click:all="getAll(['Environment'])"
+									/>
+									<resource-list
+										v-if="bentoResult.images.result.length"
+										:hide-header="facetsOfSingleTypeSelected"
+										:query="query"
+										:result="bentoResult.images"
+										type="Image"
+										@click:all="getAll(['Images'])"
+									/>
+								</div>
+								<div
+									v-if="bentoResult.software.result.length || bentoResult.content.result.length"
+									class="bento-col"
+								>
+									<resource-list
+										:hide-header="facetsOfSingleTypeSelected"
+										v-if="bentoResult.software.result.length"
+										:query="query"
+										:result="bentoResult.software"
+										type="Software"
+										@click:all="getAll(['Software'])"
+									/>
+									<resource-list
+										:hide-header="facetsOfSingleTypeSelected"
+										v-if="bentoResult.content.result.length"
+										:query="query"
+										:result="bentoResult.content"
+										type="Content"
+										@click:all="getAll(['Content'])"
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+				<pagination
+					v-if="facetsOfSingleTypeSelected && !noResult"
+					:results-per-page="query.limit"
+					:total-results="totalResults"
+					:page-num="query.page"
+					@paginate="paginate"
+				/>
 			</div>
-			<pagination
-				v-if="facetsOfSingleTypeSelected && !noResult"
-				:results-per-page="query.limit"
-				:total-results="totalResults"
-				:page-num="query.page"
-				@paginate="paginate"
-			/>
 		</div>
 
 		<!-- Resources Slide Menu -->
@@ -320,14 +328,15 @@ export default class ExploreResourcesScreen extends Vue {
 		}
 	}
 
-	.resource-results {
-		min-height: 80vh;
-		position: relative;
+	.resource-results-wrapper {
+		.resource-results {
+			min-height: 80vh;
+			position: relative;
+		}
 
-		.resource-facets {
-			bottom: 0;
-			position: absolute;
-			top: 0;
+		.applied-facets-wrapper {
+			display: flex;
+			flex-grow: 1;
 		}
 	}
 

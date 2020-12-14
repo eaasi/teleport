@@ -300,9 +300,6 @@ export default class MyBookmarksScreen extends Vue {
 	position: relative;
 
 	.resource-facets {
-		bottom: 0;
-		position: absolute;
-		top: 0;
 	}
 }
 

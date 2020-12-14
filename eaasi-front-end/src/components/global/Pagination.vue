@@ -102,7 +102,7 @@ export default class Pagination extends Vue {
 
 	updateResult(): void {
 
-		// Get pagingation data
+		// Get pagination data
 		let numPages = Math.ceil(this.totalResults / this.resultsPerPage);
 		let start = 1, end = numPages;
 		let pages = [];

@@ -62,10 +62,10 @@ export default class AppliedSearchFacets extends Vue {
 <style lang='scss' scoped>
 .applied-facets-wrapper {
 	align-items: stretch;
+	width: 100vw;
 	background-color: lighten($light-neutral, 40%);
 	border-bottom: 2px solid darken($light-neutral, 10%);
 	justify-content: space-between;
-	margin-left: 28rem;
 	padding: 1rem;
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);

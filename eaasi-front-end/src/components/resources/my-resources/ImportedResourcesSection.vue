@@ -260,11 +260,10 @@ export default class ImportedResourcesSection extends Vue {
 	.resource-results {
 		min-height: 80vh;
 		position: relative;
+		display: flex;
 
 		.resource-facets {
-			bottom: 0;
-			position: absolute;
-			top: 0;
+			flex: 0 0 250px;
 		}
 	}
 

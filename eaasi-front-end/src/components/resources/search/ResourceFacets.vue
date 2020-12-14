@@ -87,7 +87,6 @@ export default class ResourceFacets extends Vue {
 <style lang="scss">
 .resource-facets {
 	background-color: lighten($light-neutral, 80%);
-	overflow: scroll;
 	padding: 1.5rem;
 	width: 25rem;
 
