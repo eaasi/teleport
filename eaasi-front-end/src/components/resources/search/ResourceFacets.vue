@@ -90,6 +90,8 @@ export default class ResourceFacets extends Vue {
 	padding: 1.5rem;
 	width: 25rem;
 
+	overflow: scroll;
+
 	h2 {
 		font-weight: 300;
 		margin-bottom: 2rem;
