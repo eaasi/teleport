@@ -44,6 +44,7 @@
 							:result="bentoResult.environments"
 							type="Environment"
 							@click:all="getAll(['Environment'])"
+							@bookmarked="search"
 						/>
 						<resource-list
 							v-if="bentoResult.images.result.length"
@@ -52,6 +53,7 @@
 							:result="bentoResult.images"
 							type="Image"
 							@click:all="getAll(['Images'])"
+							@bookmarked="search"
 						/>
 					</div>
 					<div
@@ -134,7 +136,7 @@ import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 		SlideMenuControlButtons
 	}
 })
-export default class MyBookmarksSection extends Vue {
+export default class MyBookmarksScreen extends Vue {
 
     /* Props
 	============================================*/
