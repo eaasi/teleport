@@ -41,15 +41,15 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEaasiResource } from '@/types/Resource.d.ts';
-import MyBookmarksScreen from '@components/resources/my-resources/MyBookmarksScreen.vue';
-import ImportedResourcesSection from '@components/resources/my-resources/ImportedResourcesScreen.vue';
+import MyBookmarksScreen from '@/components/resources/my-resources/MyBookmarksScreen.vue';
+import ImportedResourcesSection from '@/components/resources/my-resources/ImportedResourcesScreen.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
-		MyBookmarksSection: MyBookmarksScreen,
+		MyBookmarksScreen,
 		ResourceSlideMenu,
 		ImportedResourcesSection,
 		SlideMenuControlButtons
