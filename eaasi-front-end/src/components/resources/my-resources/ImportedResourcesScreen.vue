@@ -279,7 +279,6 @@ export default class ImportedResourcesSection extends Vue {
 		}
 	}
 
-
 	.mbs-wrapper {
 		.resource-list {
 			display: flex;
