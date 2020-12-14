@@ -70,16 +70,17 @@
 						Clear All
 					</a>
 				</div>
-				<alert
-					no-icon
-					type="warning"
-					style-preset="border-right"
-					style="margin-bottom: 1rem;"
-					v-if="resourceLimit === 1"
-				>
-					Only one object type can be emulated <br />
-					at a time - content OR software
-				</alert>
+				<div class="rsb-alert-container">
+					<alert
+						no-icon
+						type="info"
+						style="margin-bottom: 1rem;"
+						v-if="resourceLimit === 1"
+					>
+						Only one object type can be emulated <br />
+						at a time - content OR software
+					</alert>
+				</div>
 				<div
 					v-for="obj in objects"
 					:key="obj.id"
@@ -242,6 +243,10 @@ export default class ResourceSideBar extends Vue {
 
 	.resource-object-container {
 		width: 308px;
+	}
+
+	.rsb-alert-container {
+		padding: 1rem 0;
 	}
 }
 

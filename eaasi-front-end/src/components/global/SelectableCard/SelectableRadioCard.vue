@@ -96,10 +96,10 @@ export default class SelectableRadioCard extends Vue {
 		border: solid 2px $light-blue;
 		border-radius: 50%;
 		display: inline-block;
-		height: 1.0rem;
-		padding: 1.8px;
-		width: 1.0rem;
+		height: 1rem;
 		margin: 0.5rem;
+		padding: 1.8px;
+		width: 1rem;
 
 		&.checked {
 			background-color: $dark-blue;
