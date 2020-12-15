@@ -7,7 +7,7 @@
 					<div class="resource-facets-wrapper">
 						<resource-facets @change="search" />
 					</div>
-					<div>
+					<div class="ers-main-content">
 						<div class="applied-facets-wrapper">
 							<applied-search-facets v-if="hasSelectedFacets" />
 						</div>
@@ -65,15 +65,19 @@
 								</div>
 							</div>
 						</div>
-						<div class="resource-results-pagination width-md">
-							<pagination
-								v-if="facetsOfSingleTypeSelected && !noResult"
-								:results-per-page="query.limit"
-								:total-results="totalResults"
-								:page-num="query.page"
-								@paginate="paginate"
-							/>
-						</div>
+					</div>
+				</div>
+				<div class="resource-results-pagination">
+					<div class="pagination-left">
+					</div>
+					<div class="pagination-right">
+						<pagination
+							v-if="facetsOfSingleTypeSelected && !noResult"
+							:results-per-page="query.limit"
+							:total-results="totalResults"
+							:page-num="query.page"
+							@paginate="paginate"
+						/>
 					</div>
 				</div>
 			</div>
@@ -308,6 +312,7 @@ export default class ExploreResourcesScreen extends Vue {
 </script>
 
 <style lang="scss">
+
 	#exploreResources {
 		h1 {
 			background-color: lighten($light-neutral, 70%);
@@ -334,17 +339,41 @@ export default class ExploreResourcesScreen extends Vue {
 		display: flex;
 		flex-direction: column;
 		width: 100vw;
+
 		.resource-facets-wrapper {
 			background-color: lighten($light-neutral, 80%);
 		}
 
 		.resource-results {
 			min-height: 80vh;
-			position: relative;
+			margin-right: 1.5rem;
+
+			.ers-main-content {
+				margin-right: 8rem;
+
+				.applied-facets-wrapper {
+					display: flex;
+				}
+
+			}
 		}
 
-		.applied-facets-wrapper {
+		.resource-results-pagination {
+			margin-right: 8.5rem;
 			display: flex;
+			justify-items: center;
+			min-width: 850px;
+
+			.pagination-left {
+				flex: 0 0 250px;
+				background-color: lighten($light-neutral, 80%);
+				padding: 1.5rem;
+			}
+
+			.pagination-right {
+				flex: 0 1 1100px;
+				padding: 1rem;
+			}
 		}
 	}
 
@@ -382,10 +411,5 @@ export default class ExploreResourcesScreen extends Vue {
 	.ers-rep-msg {
 		display: block;
 		margin: 1.4rem 0;
-	}
-
-	.resource-results-pagination {
-		display: block;
-		padding: 0 1.5rem;
 	}
 </style>

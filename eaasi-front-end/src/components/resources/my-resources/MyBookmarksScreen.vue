@@ -24,7 +24,7 @@
 				<div class="resource-facets-wrapper">
 					<resource-facets @change="search" />
 				</div>
-				<div>
+				<div class="mbs-main-content">
 					<div class="applied-facets-wrapper">
 						<applied-search-facets v-if="hasSelectedFacets" />
 					</div>
@@ -296,7 +296,8 @@ export default class MyBookmarksScreen extends Vue {
 	border-bottom: 2px solid darken($light-neutral, 10%);
 	justify-content: space-between;
 	min-height: 5rem;
-	padding: 2rem 3rem;
+	padding: 2rem 8rem 2rem 2rem;
+
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);
 		padding: 0.5rem 3rem;
@@ -318,6 +319,10 @@ export default class MyBookmarksScreen extends Vue {
 
 	.applied-facets-wrapper {
 		display: flex;
+	}
+
+	.mbs-main-content {
+		margin-right: 8rem;
 	}
 }
 
