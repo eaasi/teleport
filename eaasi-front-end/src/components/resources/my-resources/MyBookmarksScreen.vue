@@ -317,10 +317,6 @@ export default class MyBookmarksScreen extends Vue {
 		position: relative;
 	}
 
-	.applied-facets-wrapper {
-		display: flex;
-	}
-
 	.mbs-main-content {
 		margin-right: 8rem;
 	}

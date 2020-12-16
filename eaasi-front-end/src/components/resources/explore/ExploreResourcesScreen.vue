@@ -7,7 +7,7 @@
 					<div class="resource-facets-wrapper">
 						<resource-facets @change="search" />
 					</div>
-					<div class="ers-main-content">
+					<div class="ers-main-content flex-column">
 						<div class="applied-facets-wrapper">
 							<applied-search-facets v-if="hasSelectedFacets" />
 						</div>
@@ -338,7 +338,8 @@ export default class ExploreResourcesScreen extends Vue {
 	.resource-results-wrapper {
 		display: flex;
 		flex-direction: column;
-		width: 100vw;
+		min-width: 0;
+		max-width: 100vw;
 
 		.resource-facets-wrapper {
 			background-color: lighten($light-neutral, 80%);
@@ -349,12 +350,10 @@ export default class ExploreResourcesScreen extends Vue {
 			margin-right: 1.5rem;
 
 			.ers-main-content {
-				margin-right: 8rem;
-
-				.applied-facets-wrapper {
-					display: flex;
-				}
-
+				display: flex;
+				flex-direction: column;
+				margin-right: 6rem;
+				min-width: 0;
 			}
 		}
 
@@ -411,5 +410,11 @@ export default class ExploreResourcesScreen extends Vue {
 	.ers-rep-msg {
 		display: block;
 		margin: 1.4rem 0;
+	}
+
+	.applied-facets-wrapper {
+		display: flex;
+		min-width: 24px;
+		width: 100%;
 	}
 </style>

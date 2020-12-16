@@ -1,14 +1,14 @@
 <template>
 	<div class="sort-section flex flex-row">
 		<div class="flex flex-row justify-between" style="width: 40rem;">
-			<select-list 
-				:value="query.limit" 
-				style="width: 12rem;" 
+			<select-list
+				:value="query.limit"
+				style="width: 12rem;"
 				@change="changeLimit"
 			>
-				<option 
-					v-for="limit in limitOptions" 
-					:key="limit" 
+				<option
+					v-for="limit in limitOptions"
+					:key="limit"
 					:value="limit"
 				>
 					{{ limit }} per page
@@ -16,17 +16,17 @@
 			</select-list>
 			<div class="flex flex-row">
 				<span class="sort-label">Sort By</span>
-				<select-list 
-					:value="sortValue" 
-					style="width: 18rem;" 
+				<select-list
+					:value="sortValue"
+					style="width: 18rem;"
 					@change="changeSort"
 				>
 					<option value="" selected disabled>
 						Select Sort Rule
 					</option>
-					<option 
-						v-for="column in sortColumns" 
-						:key="column" 
+					<option
+						v-for="column in sortColumns"
+						:key="column"
 						:value="column"
 					>
 						{{ column }}
@@ -85,7 +85,7 @@ export default class ResourceSortSeciton extends Vue {
 		this.$store.commit('resource/SET_QUERY', {...this.query, sortCol, descending});
 		await this.search();
     }
-    
+
     async search() {
 		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
     	await this.$store.dispatch('resource/searchResources');
