@@ -5,34 +5,58 @@
 			<ul class="pagination" v-if="numPages > 1">
 				<li
 					@click="paginate(1)"
-					:class="['page-arrow', {'hide-page': !showGoToStart }]"
+					:class="[
+						'page-arrow',
+						{
+							'hide-page': !showGoToStart,
+							'disabled-arrow': isFirstPage
+						}
+					]"
 					v-if="numPages > maxPages"
 				>
 					<a href="javascript:void(0);">&#10094;&#10094;</a>
 				</li>
 				<li
 					@click="paginate(currentPage - 1)"
-					:class="['page-arrow', {'hide-page': currentPage <= 1}]"
+					:class="[
+						'page-arrow',
+						{
+							'hide-page': currentPage <= 1,
+							'disabled-arrow': isFirstPage
+						}
+					]"
 				>
 					<a href="javascript:void(0);">&#10094;</a>
 				</li>
 				<li
 					v-for="p in pages"
 					@click="paginate(p)"
-					:class="{'active': p == currentPage}"
+					:class="{'active': p === currentPage}"
 					:key="p"
 				>
-					<a href="javascript:void(0);" :class="{'active': p == currentPage}">{{ p }}</a>
+					<a href="javascript:void(0);" :class="{'active': p === currentPage}">{{ p }}</a>
 				</li>
 				<li
 					@click="paginate(currentPage + 1)"
-					:class="['page-arrow', {'hide-page': currentPage >= numPages}]"
+					:class="[
+						'page-arrow',
+						{
+							'hide-page': currentPage >= numPages,
+							'disabled-arrow': isLastPage
+						}
+					]"
 				>
 					<a href="javascript:void(0);">&#10095;</a>
 				</li>
 				<li
 					@click="paginate(numPages)"
-					:class="['page-arrow', {'hide-page': !showGoToEnd }]"
+					:class="[
+						'page-arrow',
+						{
+							'hide-page': !showGoToEnd,
+							'disabled-arrow': isLastPage
+						}
+					]"
 					v-if="numPages > maxPages"
 				>
 					<a href="javascript:void(0);">&#10095;&#10095;</a>
@@ -85,6 +109,14 @@ export default class Pagination extends Vue {
 
 	/* Computed
 	============================================*/
+
+	get isFirstPage(): boolean {
+		return this.currentPage === 1;
+	}
+
+	get isLastPage(): boolean {
+		return this.currentPage === Math.ceil(this.totalResults / this.resultsPerPage);
+	}
 
 	get totalText(): string {
 		let total = this.totalResults;
@@ -217,6 +249,7 @@ export default class Pagination extends Vue {
 		a {
 			border-radius: 0.6rem;
 			padding: 0.4rem 1.5rem;
+
 			&.active {
 				background-color: #FFFFFF;
 				cursor: default;
@@ -230,6 +263,21 @@ export default class Pagination extends Vue {
 
 		&:hover {
 			background-color: lighten($light-blue, 50%);
+		}
+
+		&.disabled-arrow {
+			cursor: default;
+			transition: background-color 0.2s;
+
+			a {
+				color: lighten($light-blue, 70%);
+				cursor: default;
+			}
+
+			&:hover {
+				background-color: lighten($light-blue, 90%);
+				color: lighten($light-blue, 70%);
+			}
 		}
 	}
 
