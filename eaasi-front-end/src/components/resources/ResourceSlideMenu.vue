@@ -46,13 +46,6 @@
 					</div>
 				</div>
 			</div>
-			<task-list
-				v-if="showTasks"
-				collapsible
-				closable
-				style="padding: 4rem 2rem;"
-				@close="showTasks = false"
-			/>
 		</slide-menu>
 
 		<!-- Modals -->
@@ -148,7 +141,6 @@ import ResourceAction from './ResourceAction.vue';
 import stringCleaner from '@/utils/string-cleaner';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
-import TaskList from '@/components/admin/running-tasks/TaskList.vue';
 import { IEaasiTaskSuccessor, ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
@@ -166,7 +158,6 @@ let resourceService = ResourceService;
 	components: {
 		LabeledItemList,
 		ResourceAction,
-		TaskList,
 		AddSoftware,
 		SlideMenu,
 		ConfirmModal
@@ -250,7 +241,6 @@ export default class ResourceSlideMenu extends Vue {
 	============================================*/
 	detailsItems: ILabeledItem[] = [];
 	confirmAction : string = null;
-	showTasks: boolean = true;
 	addingSoftware: boolean = false;
 	showRemoteEnvironmentWarningModal: boolean = false;
 
@@ -534,13 +524,6 @@ export default class ResourceSlideMenu extends Vue {
 
 		.fa-times {
 			cursor: pointer;
-		}
-
-		.task-list-container {
-
-			.task-list-content {
-				max-height: 30rem;
-			}
 		}
 	}
 

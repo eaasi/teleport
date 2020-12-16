@@ -39,4 +39,10 @@ export default class RunningTaskManagement extends AdminScreen {}
 			font-size: 1.8rem;
 		}
 	}
+
+	.running-task-list {
+		.task-list-wrapper .task-list {
+			max-height: 50rem;
+		}
+	}
 </style>
