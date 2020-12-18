@@ -90,11 +90,19 @@ export default class EnvironmentResourceCard extends Vue {
 			icon: 'fa-cube',
 			color: 'white'
 		}];
-		if (this.environment?.envType === 'object') {
+		const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'zero conf');
+		const isBaseEnvironment = (this.environment.objectArchive === 'Remote Objects' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'Remote Objects');
+		if (isContentEnvironment) {
 			tags.push({
-				icon: 'fa-save',
+				icon: 'fa-file',
 				color: 'white',
-				text: 'Object'
+				text: 'Content Environment'
+			});
+		} else if (isBaseEnvironment) {
+			tags.push({
+				icon: 'fa-file',
+				color: 'white',
+				text: 'Base Environment'
 			});
 		}
 		return tags;
@@ -145,29 +153,22 @@ export default class EnvironmentResourceCard extends Vue {
 				text: this.environmentCardSummary.error
 			}];
 		}
-		if (this.savedToNode) {
+		if (this.savedToNode || this.environment.archive === archiveTypes.PUBLIC) {
 			tagGroup.push({
-				icon: 'fa-map-marker-alt',
+				icon: 'fa-cloud-download', // TODO: Needs a custom icon - cloud with scheckmark
 				color: 'green',
-				text: 'Saved'
+				text: 'Saved from network'
 			});
 		} else if (this.environment.archive === archiveTypes.REMOTE) {
 			tagGroup.push({
-				icon: 'fa-map-marker-alt',
+				icon: 'fa-cloud',
 				color: 'white',
 				text: 'Remote'
 			});
-		} else if (this.environment.archive === archiveTypes.PUBLIC) {
-			tagGroup.push({
-				icon: 'fa-map-marker-alt',
-				color: 'green',
-				text: 'Saved'
-			});
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push({
-				icon: 'fa-cloud-download-alt',
 				color: 'yellow',
-				text: 'Private'
+				text: 'Local - ' + this.environment.envId
 			});
 		}
 		return tagGroup;

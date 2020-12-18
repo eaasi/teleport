@@ -9,6 +9,7 @@
 					name="q"
 					role="search"
 					@search="search"
+					@clear="clearSearchQuery"
 				/>
 			</form>
 		</div>
@@ -65,6 +66,11 @@ export default class AppHeader extends Vue {
 
 	/* Methods
 	============================================*/
+
+	clearSearchQuery() {
+		this.searchKeyword = '';
+		this.search();
+	}
 
 	async search() {
 		const keyword = this.searchKeyword;

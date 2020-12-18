@@ -7,7 +7,7 @@ import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwar
 import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import IResourceImportResult from '@/types/resource/ResourceImportResult';
-import { resourceTypes } from '@/utils/constants';
+import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
@@ -226,8 +226,8 @@ export default class ResourceAdminService extends BaseService {
 
 		if (results.length && query.sortCol) {
 			results = results.sort((a, b) => {
-				const nameA = a.title ? a.title.toLowerCase() : a.label.toLowerCase();
-				const nameB = b.title ? a.title.toLowerCase() : b.label.toLowerCase();
+				const nameA = a.title ? a.title.toLowerCase() : a.label ? a.label.toLowerCase() : '';
+				const nameB = b.title ? a.title.toLowerCase() : b.label ? b.label.toLowerCase() : '';
 				let comparison = 0;
 				if (nameA > nameB) comparison = 1;
 				else if (nameA < nameB) comparison = -1;
@@ -261,9 +261,8 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
 			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
 
-			{ displayLabel: 'Container Name', name: 'containerName', values: [] },
-			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 			{ displayLabel: 'Operating System', name: 'os', values: [] },
+			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 		];
 		return facets.map(facet => this.populateFacetValues(resources, facet));
 	};
@@ -277,6 +276,7 @@ export default class ResourceAdminService extends BaseService {
 					label: resource[facet.name],
 					total: 1,
 					isSelected: false,
+					displayLabel: this.getDisplayLabelForFacet(facet.name, resource[facet.name]),
 					resourceType: resource.resourceType
 				});
 			} else {
@@ -297,6 +297,31 @@ export default class ResourceAdminService extends BaseService {
 		});
 
 		return resources;
+	}
+
+	private getDisplayLabelForFacet(facetName: string, facetValue: string): string {
+		switch (facetName) {
+			case 'archive':
+				if (facetValue === archiveTypes.DEFAULT) {
+					return 'Private';
+				} else if (facetValue === archiveTypes.PUBLIC) {
+					return 'Public';
+				} else if (facetValue === archiveTypes.REMOTE) {
+					return 'Remote';
+				}
+				break;
+			case 'os':
+				if (facetValue.toLowerCase().indexOf('os:') >= 0) {
+					const facetArr = facetValue.split(':');
+					let osLabel = `${facetArr[1]} ${facetArr[2]}`;
+					if (facetArr[3]) {
+						osLabel += ` ${facetArr[3]}`;
+					}
+					return osLabel;
+				}
+				break;
+		}
+		return null;
 	}
 
 	private filterByKeyword<T extends IEaasiResource>(resources: T[], keyword: string): T[] {
