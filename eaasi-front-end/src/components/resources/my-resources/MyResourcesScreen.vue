@@ -165,7 +165,6 @@ export default class MyResourcesScreen extends Vue {
 
 	.deselect-all-wrapper {
 		background-color: lighten($light-blue, 90%);
-		margin-left: 28rem;
 		padding: 1.5rem;
 
 		.deselect-link {

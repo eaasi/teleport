@@ -338,16 +338,16 @@ export default class ExploreResourcesScreen extends Vue {
 	.resource-results-wrapper {
 		display: flex;
 		flex-direction: column;
-		min-width: 0;
 		max-width: 100vw;
+		min-width: 0;
 
 		.resource-facets-wrapper {
 			background-color: lighten($light-neutral, 80%);
 		}
 
 		.resource-results {
-			min-height: 80vh;
 			margin-right: 1.5rem;
+			min-height: 80vh;
 
 			.ers-main-content {
 				display: flex;
@@ -358,14 +358,14 @@ export default class ExploreResourcesScreen extends Vue {
 		}
 
 		.resource-results-pagination {
-			margin-right: 8.5rem;
 			display: flex;
 			justify-items: center;
+			margin-right: 8.5rem;
 			min-width: 850px;
 
 			.pagination-left {
-				flex: 0 0 250px;
 				background-color: lighten($light-neutral, 80%);
+				flex: 0 0 250px;
 				padding: 1.5rem;
 			}
 
@@ -378,8 +378,8 @@ export default class ExploreResourcesScreen extends Vue {
 
 	.deselect-all-wrapper {
 		background-color: lighten($light-blue, 90%);
-		margin-left: 28rem;
 		padding: 1.5rem;
+
 		.deselect-link {
 			color: $dark-blue;
 			cursor: pointer;

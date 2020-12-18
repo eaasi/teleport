@@ -13,8 +13,11 @@
 					:value="value"
 					:id="id"
 				/>
+				<span class="cursor-pointer" v-show="value" @click="$emit('clear')" style="margin-right: 0.5rem;">
+					<span class="fas fa-times"></span>
+				</span>
 				<span class="eaasi-field-icon" @click="$emit('search')">
-					<span :class="`fas fa-chevron-circle-right`"></span>
+					<span class="fas fa-chevron-circle-right"></span>
 				</span>
 			</div>
 		</div>

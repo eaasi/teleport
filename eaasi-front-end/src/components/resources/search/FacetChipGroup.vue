@@ -8,7 +8,7 @@
 				close
 				@close="$emit('deselect', facetValue)"
 			>
-				<div>{{ facetValue.label }}</div>
+				<div>{{ facetValue.displayLabel ? facetValue.displayLabel : facetValue.label }}</div>
 			</ui-chip>
 		</div>
 	</div>

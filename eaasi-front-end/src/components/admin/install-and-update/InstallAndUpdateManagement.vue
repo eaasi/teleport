@@ -9,9 +9,6 @@
 		</div>
 		<div class="padded-xl container-xs">
 			<h4 class="uppercase medium">Synchronize Backend</h4>
-			<p>
-				Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-			</p>
 			<ui-button @click="syncBackend">
 				Synchronize Backend
 			</ui-button>
@@ -19,9 +16,6 @@
 		</div>
 		<div class="padded-xl container-xs">
 			<h4 class="uppercase medium">Migrate old DB data</h4>
-			<p>
-				Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,
-			</p>
 			<ui-button @click="migrateDatabase">
 				Migrate Old Data
 			</ui-button>

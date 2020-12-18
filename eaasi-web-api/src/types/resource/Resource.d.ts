@@ -161,6 +161,7 @@ export interface IResourceSearchFacet {
 
 export interface IResourceSearchFacetValue {
 	resourceType: ResourceType;
+	displayLabel?: string;
 	label: string;
 	total: number;
 	isSelected: boolean;
