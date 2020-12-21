@@ -19,76 +19,85 @@
 			</div>
 		</div>
 
-		<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
-			<resource-facets @change="search" />
-			<applied-search-facets v-if="hasSelectedFacets" />
-			<div class="deselect-all-wrapper flex flex-row justify-between" v-if="selectedResources.length > 0">
-				<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
-					<span class="icon-deselect"></span>
-					<span>Deselect All ({{ selectedResources.length }})</span>
+		<div class="resource-results-wrapper">
+			<div class="resource-results" v-if="bentoResult && bookmarks && bookmarks.length" id="myBookmarks">
+				<div class="resource-facets-wrapper">
+					<resource-facets @change="search" />
 				</div>
-				<div class="slide-menu-control-btns pull-right">
-					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
-				</div>
-			</div>
-			<div class="resource-bento width-md">
-				<div class="bento-row">
-					<div
-						v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
-						class="bento-col"
-					>
-						<resource-list
-							v-if="bentoResult.environments.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.environments"
-							type="Environment"
-							@click:all="getAll(['Environment'])"
-						/>
-						<resource-list
-							v-if="bentoResult.images.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.images"
-							type="Image"
-							@click:all="getAll(['Images'])"
-						/>
+				<div class="mbs-main-content">
+					<div class="applied-facets-wrapper">
+						<applied-search-facets v-if="hasSelectedFacets" />
 					</div>
-					<div
-						v-if="bentoResult.software.result.length || bentoResult.content.result.length"
-						class="bento-col"
-					>
-						<resource-list
-							v-if="bentoResult.software.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.software"
-							type="Software"
-							@click:all="getAll(['Software'])"
-							@bookmarked="search"
-						/>
-						<resource-list
-							v-if="bentoResult.content.result.length"
-							:hide-header="facetsOfSingleTypeSelected"
-							:query="query"
-							:result="bentoResult.content"
-							type="Content"
-							@click:all="getAll(['Content'])"
-							@bookmarked="search"
-						/>
+					<div class="deselect-all-wrapper flex flex-row justify-between" v-if="selectedResources.length > 0">
+						<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+							<span class="icon-deselect"></span>
+							<span>Deselect All ({{ selectedResources.length }})</span>
+						</div>
+						<div class="slide-menu-control-btns pull-right">
+							<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
+						</div>
 					</div>
+					<div class="resource-bento width-md">
+						<div class="bento-row">
+							<div
+								v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
+								class="bento-col"
+							>
+								<resource-list
+									v-if="bentoResult.environments.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.environments"
+									type="Environment"
+									@click:all="getAll(['Environment'])"
+									@bookmarked="search"
+								/>
+								<resource-list
+									v-if="bentoResult.images.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.images"
+									type="Image"
+									@click:all="getAll(['Images'])"
+									@bookmarked="search"
+								/>
+							</div>
+							<div
+								v-if="bentoResult.software.result.length || bentoResult.content.result.length"
+								class="bento-col"
+							>
+								<resource-list
+									v-if="bentoResult.software.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.software"
+									type="Software"
+									@click:all="getAll(['Software'])"
+									@bookmarked="search"
+								/>
+								<resource-list
+									v-if="bentoResult.content.result.length"
+									:hide-header="facetsOfSingleTypeSelected"
+									:query="query"
+									:result="bentoResult.content"
+									type="Content"
+									@click:all="getAll(['Content'])"
+									@bookmarked="search"
+								/>
+							</div>
+						</div>
+					</div>
+					<pagination
+						v-if="facetsOfSingleTypeSelected"
+						:results-per-page="query.limit"
+						:total-results="totalResults"
+						:page-num="query.page"
+						@paginate="paginate"
+						style="margin-top: 2.5rem;"
+					/>
 				</div>
 			</div>
 		</div>
-
-		<pagination
-			v-if="facetsOfSingleTypeSelected"
-			:results-per-page="query.limit"
-			:total-results="totalResults"
-			:page-num="query.page"
-			@paginate="paginate"
-			style="margin-top: 2.5rem;"
-		/>
 
 		<confirm-modal
 			cancel-label="Cancel"
@@ -116,6 +125,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
+
 import { IBookmark } from '@/types/Bookmark';
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
@@ -134,7 +144,7 @@ import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 		SlideMenuControlButtons
 	}
 })
-export default class MyBookmarksSection extends Vue {
+export default class MyBookmarksScreen extends Vue {
 
     /* Props
 	============================================*/
@@ -271,7 +281,7 @@ export default class MyBookmarksSection extends Vue {
 		if (!curVal && prevVal === undefined) {
 			return;
 		}
-		// if we unselecting the last facet, do a clear search
+		// if we're unselecting the last facet, do a clear search
 		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
 			this.$store.dispatch('resource/clearSearch');
 		}
@@ -286,21 +296,29 @@ export default class MyBookmarksSection extends Vue {
 	border-bottom: 2px solid darken($light-neutral, 10%);
 	justify-content: space-between;
 	min-height: 5rem;
-	padding: 2rem 3rem;
+	padding: 2rem 8rem 2rem 2rem;
+
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);
 		padding: 0.5rem 3rem;
 	}
 }
 
-.resource-results {
-	min-height: 80vh;
-	position: relative;
+.resource-results-wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	.resource-facets-wrapper {
+		background-color: lighten($light-neutral, 80%);
+	}
 
-	.resource-facets {
-		bottom: 0;
-		position: absolute;
-		top: 0;
+	.resource-results {
+		min-height: 80vh;
+		position: relative;
+	}
+
+	.mbs-main-content {
+		margin-right: 8rem;
 	}
 }
 

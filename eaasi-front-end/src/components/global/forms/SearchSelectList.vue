@@ -18,13 +18,14 @@
 				<span class="clear" v-show="query != null && query != ''">
 					<span class="fas fa-times" @click="clearQuery"></span>
 				</span>
+				<span class="fas fa-chevron-down cursor-pointer" @click="toggleList"></span>
 				<div v-if="!filteredData.length" class="select-list flex flex-center" v-show="showList">
 					No Result
 				</div>
 				<ul v-else class="select-list" v-show="showList">
 					<li 
 						v-for="item in filteredData" 
-						:key="item[anchor]" 
+						:key="generateKey(item[anchor])" 
 						class="select-item clickable" 
 						@click="selectItem(item)"
 					>
@@ -39,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import { uniqueId } from 'lodash';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
@@ -101,6 +103,10 @@ export default class SearchSelectList extends BaseFormField {
 		this.showList = true;
 	}
 
+	toggleList() {
+		this.showList ? this.closeList() : this.openList();
+	}
+
 	closeList() {
 		this.showList = false;
 	}
@@ -108,6 +114,10 @@ export default class SearchSelectList extends BaseFormField {
 	clearQuery() {
 		this.query = null;
 		this.$emit('input', null);
+	}
+
+	generateKey(prefix: string): string {
+		return uniqueId(prefix);
 	}
 
 	@Watch('value')

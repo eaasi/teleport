@@ -1,10 +1,13 @@
 import { generateCompletedTaskNotification, generateNotificationError, generateTaskNotification } from '@/helpers/NotificationHelper';
 import EaasiTask from '@/models/task/EaasiTask';
+import TaskPreferenceService from '@/services/TaskPreferenceService';
 import _taskService from '@/services/TaskService';
 import { ITaskState } from '@/types/Task';
 import eventBus from '@/utils/event-bus';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+
+const taskPreferenceSvc = new TaskPreferenceService();
 
 /*============================================================
  == State
@@ -66,8 +69,9 @@ const actions = {
         let taskState: ITaskState = await dispatch('getTaskState', task.taskId);
         if (taskState.status != '0') return null;
         let eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
-        if (!eaasiTask) return null;
+		if (!eaasiTask) return null;
 		commit('ADD_OR_UPDATE_TASK', eaasiTask);
+		eventBus.$emit('task-manager:show', true);
 		eventBus.$emit('notification:show', generateTaskNotification(task));
         return taskState;
     },
@@ -101,7 +105,7 @@ const getters = {
 
     orderedTasks(state): EaasiTask[] {
 		if (state.taskQueue && state.taskQueue.length > 0) {
-			const sortedTasks = state.taskQueue.sort((a, b) => Number(b.isDone) - Number(a.isDone));
+			const sortedTasks = state.taskQueue.sort((a, b) => Number(a.isDone) - Number(b.isDone));
 			return sortedTasks;
 		}
 		return [];
@@ -117,7 +121,13 @@ const getters = {
 		const completedTasks: EaasiTask[] = state.taskQueue.filter(t => t.isDone);
 		if (completedTasks.length < 1) return [];
 		return completedTasks.sort((a, b) => Number(a.taskId) - Number(b.taskId));
-	}
+	},
+
+	incompletedTasks(state): EaasiTask[] {
+		const completedTasks: EaasiTask[] = state.taskQueue.filter(t => !t.isDone);
+		if (completedTasks.length < 1) return [];
+		return completedTasks.sort((a, b) => Number(a.taskId) - Number(b.taskId));
+	},
 
 };
 

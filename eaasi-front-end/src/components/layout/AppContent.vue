@@ -10,6 +10,7 @@
 			<app-footer />
 		</div>
 		<notifications />
+		<task-list v-if="hasTasks && isAllowed" collapsible closable fixed />
 		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
 		</div>
@@ -26,15 +27,18 @@ import EaasiTask from '@/models/task/EaasiTask';
 import { Get, Sync } from 'vuex-pathify';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import Notifications from './Notifications.vue';
+import TaskList from '@/components/admin/running-tasks/TaskList.vue';
 import { mixins } from 'vue-class-component';
 import TaskManager from '../../mixins/TaskManager';
 import events from '../../config/events';
 import { generateNotificationError } from '../../helpers/NotificationHelper';
+import { ROUTES } from '@/router/routes.const';
 
 @Component({
 	name: 'AppContent',
 	components: {
 		Notifications,
+		TaskList,
 		AdminMenu,
 		SlideMenu,
 		AppFooter
@@ -56,6 +60,20 @@ export default class AppContent extends Mixins(TaskManager) {
 
 	@Sync('showLoader')
 	showLoader: boolean;
+
+	@Get('task/orderedTasks')
+    readonly tasks: EaasiTask[];
+
+    @Get('task/incompletedTasks')
+    readonly incompletedTasks: EaasiTask[];
+    
+    get hasTasks(): boolean {
+        return this.tasks.length > 0;
+	}
+	
+	get isAllowed(): boolean {
+		return this.$route.path !== ROUTES.MANAGE_NODE.RUNNING_TASKS;
+	}
 
 	/* Methods
 	============================================*/
