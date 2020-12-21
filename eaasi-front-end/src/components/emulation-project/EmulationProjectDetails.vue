@@ -107,6 +107,8 @@
 				<object-card
 					v-if="selectedObjects.length"
 					:title="selectedObjects[0].label"
+					:resourceTypeLabel="selectedObjects[0].resourceType"
+					:archiveLabel="selectedObjects[0].archiveId"
 				/>
 			</div>
 		</div>

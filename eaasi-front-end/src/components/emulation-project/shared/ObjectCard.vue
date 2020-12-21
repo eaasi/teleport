@@ -1,6 +1,9 @@
 <template>
 	<div class="object-card">
 		<h4>{{ title }}</h4>
+		<div class="flex flex-row">
+			<tag-group position="left" :tags="objectTags" />
+		</div>
 	</div>
 </template>
 
@@ -8,6 +11,8 @@
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
+import {ITag} from "@/types/Tag";
+import {archiveTypes} from "../../../../../eaasi-web-api/src/utils/constants";
 
 @Component({
 	name: 'ObjectCard',
@@ -21,8 +26,29 @@ export default class ObjectCard extends Vue {
 	@Prop({ type: String, required: true })
 	readonly title: string;
 
+	@Prop({ type: String, required: true })
+	readonly resourceTypeLabel: string;
+
+	@Prop({ type: String, required: true })
+	readonly archiveLabel: string;
+
 	/* Computed
 	============================================*/
+
+	get objectTags(): ITag[] {
+		let tagGroup = [];
+		tagGroup.push({
+			text: this.resourceTypeLabel,
+			icon: 'fa-file',
+			color: 'white'
+		});
+		tagGroup.push({
+			text: this.archiveLabel,
+			icon: 'fa-file',
+			color: 'white'
+		});
+		return tagGroup;
+	}
 
 	/* Data
 	============================================*/
