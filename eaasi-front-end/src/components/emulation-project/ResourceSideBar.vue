@@ -78,7 +78,7 @@
 						v-if="resourceLimit === 1"
 					>
 						Only one object type can be emulated <br />
-						at a time - content OR software
+						at a time - content or software
 					</alert>
 				</div>
 				<div
@@ -210,7 +210,7 @@ export default class ResourceSideBar extends Vue {
 		let resourcesToSelect = [];
 
 		if (!selected || this.isSelected(resource)) {
-			resourcesToSelect = [...this.selected, resource];
+			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
 		} else {
 			resourcesToSelect = [resource];
 		}
@@ -221,6 +221,9 @@ export default class ResourceSideBar extends Vue {
 		if (checked) {
 			this.environment = new EmulationProjectEnvironment(environment);
 			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		} else {
+			this.environment = null;
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
 	}
 
