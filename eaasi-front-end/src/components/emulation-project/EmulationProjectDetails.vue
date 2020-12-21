@@ -104,6 +104,10 @@
 						</div>
 					</ui-button>
 				</div>
+				<object-card
+					v-if="selectedObjects.length"
+					:title="selectedObjects[0].label"
+				/>
 			</div>
 		</div>
 	</div>
@@ -125,6 +129,7 @@ import { updateNativeConfigForCpu, updateNativeConfigForMemory } from '@/helpers
 import DriveSettings from './shared/DriveSettings.vue';
 import EnvironmentCard from './shared/EnvironmentCard.vue';
 import DriveResourceCard from './shared/DriveResourceCard.vue';
+import ObjectCard from './shared/ObjectCard.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
@@ -132,6 +137,7 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 	components: {
 		SystemTemplateDetails,
         EnvironmentCard,
+		ObjectCard,
         DriveResourceCard,
 		CheckboxInfo,
 		DriveSettings,
