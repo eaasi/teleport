@@ -10,7 +10,7 @@
 			class="flex-row checkbox-facet"
 		>
 			<checkbox
-				:label="v.label"
+				:label="v.displayLabel ? v.displayLabel : v.label"
 				v-model="v.isSelected"
 				@change="$emit('change');"
 				style="margin-bottom: 1rem;"

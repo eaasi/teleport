@@ -1,34 +1,40 @@
 <template>
-	<div v-if="taskQueue && taskQueue.length" class="task-list-container">
-		<div class="task-header flex flex-row justify-between">
-			<span class="left-header">
-				{{ tasksInProgress }} Process<span v-if="tasksInProgress > 1 || tasksInProgress === 0">es</span> Running
-			</span>
-			<div class="right-header flex flex-row justify-between">
-				<span 
-					v-if="collapsible"
-					:class="`icon fas fa-chevron-${toggleIcon}`"
-					@click="collapsed = !collapsed"
-					style="margin-right: 2rem;"
-				></span>
-				<span 
-					v-if="closable" 
-					class="icon fas fa-times" 
-					@click="$emit('close')"
-				></span>
+	<div v-if="!closed" :class="['task-list-wrapper', { fixed }]">
+		<div v-if="taskQueue && taskQueue.length" class="task-list-container">
+			<div class="task-header flex flex-row justify-between">
+				<span class="left-header">
+					{{ tasksInProgress }} Process<span v-if="tasksInProgress > 1 || tasksInProgress === 0">es</span> Running
+				</span>
+				<div class="right-header flex flex-row justify-between">
+					<span 
+						v-if="collapsible"
+						:class="`icon fas fa-chevron-${toggleIcon}`"
+						@click="collapseToggle"
+						style="margin-right: 2rem;"
+					></span>
+					<span 
+						v-if="closable" 
+						class="icon fas fa-times" 
+						@click="closeToggle"
+					></span>
+				</div>
 			</div>
+			<ul class="task-list task-list-wrapper" v-show="!collapsed">
+				<li 
+					class="task-list-content" 
+					v-for="task in tasks" 
+					:key="task.id"
+				>
+					<task-card
+						:task="task"
+						@remove-task="removeTask"
+					/>
+				</li>
+			</ul>
 		</div>
-		<div class="task-list-content" v-show="!collapsed">
-			<task-card
-				v-for="task in tasks"
-				:key="task.id"
-				:task="task"
-				@remove-task="removeTask"
-			/>
+		<div v-else>
+			There are currently no running tasks.
 		</div>
-	</div>
-	<div v-else>
-		There are currently no running tasks.
 	</div>
 </template>
 
@@ -38,6 +44,9 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import TaskCard from './TaskCard.vue';
 import EaasiTask from '@/models/task/EaasiTask';
+import UserPreferenceService from '@/services/UserPreferenceService';
+import TaskPreferenceService from '@/services/TaskPreferenceService';
+import eventBus from '@/utils/event-bus';
 
 @Component({
 	name: 'TaskList',
@@ -50,16 +59,18 @@ export default class TaskList extends Vue {
 	/* Props
 	============================================*/
 	@Prop({ type: Boolean, default: false })
-	readonly collapsible: Boolean;
+	readonly collapsible: boolean;
 
 	@Prop({ type: Boolean, default: false })
-	readonly closable: Boolean;
+	readonly closable: boolean;
 
 	@Prop({ type: Boolean, default: false })
-	readonly initState: Boolean;
+	readonly fixed: boolean;
 
 	/* Computed
 	============================================*/
+	isShow: boolean = false;
+
 	@Sync('task/taskQueue')
 	taskQueue: EaasiTask[];
 
@@ -70,7 +81,7 @@ export default class TaskList extends Vue {
 	completedTasks: EaasiTask[];
 
 	get toggleIcon(): String {
-		return this.collapsible && this.collapsed ? 'down' : 'up';
+		return this.collapsible && this.collapsed ? 'up' : 'down';
 	}
 
 	get tasksInProgress(): Number {
@@ -80,7 +91,10 @@ export default class TaskList extends Vue {
 
 	/* Data
 	============================================*/
-	collapsed: Boolean = this.initState;
+	private taskPreferenceSvc = new TaskPreferenceService();
+	
+	collapsed: boolean = false;
+	closed: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -88,15 +102,87 @@ export default class TaskList extends Vue {
 		await this.$store.dispatch('task/deleteTask', task.id);
 	}
 
+	retrieveUserSetting() {
+		const userPreference = this.taskPreferenceSvc.retrieveTaskPreferences();
+		if (this.closable) {
+			this.closed = userPreference?.closed ?? false;
+		}
+		if (this.collapsible) {
+			this.collapsed = userPreference?.collapsed ?? false;
+		}
+	}
+
+	closeToggle() {
+		const closed = !this.closed;
+		this.taskPreferenceSvc.persistTaskClosePreference(closed);
+		this.closed = closed;
+	}
+
+	collapseToggle() {
+		const collapsed = !this.collapsed;
+		this.taskPreferenceSvc.persistTaskCollapsePreference(collapsed);
+		this.collapsed = collapsed;
+	}
+
+	showTaskManager() {
+		console.log('show task manager');
+		this.taskPreferenceSvc.persistTaskClosePreference(false);
+		this.taskPreferenceSvc.persistTaskCollapsePreference(false);
+		this.closed = false;
+		this.collapsed = false;
+	}
+
+	hideTaskManager() {
+		this.taskPreferenceSvc.persistTaskClosePreference(true);
+		this.taskPreferenceSvc.persistTaskCollapsePreference(true);
+		this.closed = true;
+		this.collapsed = true;
+	}
+
+	beforeMount() {
+		this.retrieveUserSetting();
+		eventBus.$on('task-manager:show', () => this.showTaskManager());
+		eventBus.$on('task-manager:hide', () => this.hideTaskManager());
+	}
+
+	beforeDestroy() {
+		eventBus.$off('task-manager:show');
+		eventBus.$off('task-manager:hide');
+	}
+
 }
 </script>
 
 <style lang='scss'>
+.task-list-wrapper {
+
+	&.fixed {
+		z-index: 200;
+
+		.task-list-container {
+			bottom: 0;
+			max-height: 30rem;
+			position: fixed;
+			right: 0;
+			width: 400px;
+		}
+	}
+
+	.task-list {
+		background: #ffffff;
+		max-height: 26rem;
+		overflow-y: scroll;
+		padding: 0;
+	}
+}
+
 .task-list-container {
+
 	.task-header {
 		background-color: darken($teal, 60%);
 		color: #ffffff;
 		padding: 1.8rem 2rem;
+
 		.icon {
 			color: lighten($teal, 20%);
 			cursor: pointer;

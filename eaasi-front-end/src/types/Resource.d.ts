@@ -119,6 +119,8 @@ export interface IEnvironment extends IEaasiResource {
 	processAdditionalFiles?: boolean;
 	time?: number;
 	temp?: boolean;
+	objectArchive?: ResourceArchive;
+	objectId?: string;
 }
 
 export interface IInstalledSoftware {
