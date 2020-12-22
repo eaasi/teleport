@@ -168,7 +168,7 @@ export default class EnvironmentResourceCard extends Vue {
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push({
 				color: 'yellow',
-				text: 'Local - ' + this.environment.envId
+				text: 'Local'
 			});
 		}
 		return tagGroup;

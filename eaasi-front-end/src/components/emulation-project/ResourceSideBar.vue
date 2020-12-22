@@ -130,7 +130,7 @@ import ContentResourceCard from '@/components/resources/ContentResourceCard.vue'
 import { ROUTES } from '@/router/routes.const';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
-import {archiveTypes} from "../../../../eaasi-web-api/src/utils/constants";
+import {archiveTypes} from '../../../../eaasi-web-api/src/utils/constants';
 
 @Component({
 	name: 'ResourceSideBar',

@@ -1,11 +1,20 @@
 <template>
 	<div class="environment-card">
-		<h4>{{ environment.title }}</h4>
+		<div class="environment-title">
+			{{ environment.title }}
+		</div>
 		<div class="flex flex-row">
-			<tag-group position="left" :tags="environmentTags" />
+			<tag-group
+				position="left"
+				:tags="environmentTags"
+			/>
 		</div>
 		<div class="flex flex-row flex-wrap content">
-			<labeled-item v-for="item in labeledItems" :key="item.label" :labeled-item="item" />
+			<labeled-item
+				v-for="item in labeledItems"
+				:key="item.label"
+				:labeled-item="item"
+			/>
 		</div>
 	</div>
 </template>
@@ -106,11 +115,13 @@ export default class EnvironmentCard extends Vue {
 <style lang='scss'>
 .environment-card {
 	background: #ffffff;
-	border: 1px solid lighten($light-blue, 60%);
-	padding: 1rem 1.4rem;
+	border-radius: 0.4rem;
+	border: 1px solid lighten($dark-neutral, 20%);
+	padding: 0.5rem 1rem;
 
-	h4 {
-		color: $dark-blue;
+	.environment-title {
+		padding: 1rem 0;
+		color: lighten($dark-blue, 30%);
 		font-weight: 500;
 	}
 

@@ -93,7 +93,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="emu-proj-details-wrapper">
+		<div class="emu-proj-details-wrapper" v-if="selectedObjects.length">
 			<div class="emulator-picker-wrapper">
 				<div class="flex flex-row justify-between">
 					<h4 style="margin-top: 0;">Objects</h4>
