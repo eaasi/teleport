@@ -9,10 +9,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
-import {ITag} from "@/types/Tag";
-import {archiveTypes} from "../../../../../eaasi-web-api/src/utils/constants";
+import { ITag } from '@/types/Tag';
 
 @Component({
 	name: 'ObjectCard',

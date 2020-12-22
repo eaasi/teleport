@@ -155,7 +155,7 @@ export default class EnvironmentResourceCard extends Vue {
 		}
 		if (this.savedToNode || this.environment.archive === archiveTypes.PUBLIC) {
 			tagGroup.push({
-				icon: 'fa-cloud-download', // TODO: Needs a custom icon - cloud with scheckmark
+				icon: 'fa-cloud-download', // TODO: Needs a custom icon - cloud with check mark
 				color: 'green',
 				text: 'Saved from network'
 			});

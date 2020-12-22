@@ -1,6 +1,6 @@
 import { IDrive, IDriveSetting, IEaasiResource, IEnvironment, ISoftwarePackage, ResourceType } from '@/types/Resource';
 import { ITag } from '@/types/Tag';
-import { archiveTypes, resourceTypes } from '@/utils/constants';
+import { resourceTypes } from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
@@ -41,7 +41,7 @@ export function getResourceId(resource: IEaasiResource): string {
 	return resource.id;
 }
 
-export function getResourceTypeTags(resource: IEaasiResource): ITag[] {
+export function getResourceTypeTags(resource: IEaasiResource) {
 	if(resource.resourceType === resourceTypes.SOFTWARE) {
 		return [{
 			text:'Software',
@@ -57,30 +57,33 @@ export function getResourceTypeTags(resource: IEaasiResource): ITag[] {
 		}];
 	}
 	if(resource.resourceType === resourceTypes.ENVIRONMENT) {
-		let tags = [{
+		return [{
 			text: resourceTypes.ENVIRONMENT as string,
 			icon: 'fa-cube',
 			color: 'white'
 		}];
-		if (resource.hasOwnProperty('envType')) {
-			if (resource['envType'] === 'base') {
-				tags.push({
-					icon: 'fa-box',
-					color: 'white',
-					text: 'Base'
-				});
-			}
-			if (resource['envType'] === 'object') {
-				tags.push({
-					icon: 'fa-save',
-					color: 'white',
-					text: 'Object'
-				});
-			}
-		}
-		return tags;
 	}
-	return [];
+}
+
+export function getEnvironmentResourceTypeTags(environmentResource: IEaasiResource) {
+	let tags = [];
+	if (environmentResource.hasOwnProperty('envType')) {
+		if (environmentResource['envType'] === 'base') {
+			tags.push({
+				icon: 'fa-box',
+				color: 'white',
+				text: 'Base'
+			});
+		}
+		if (environmentResource['envType'] === 'object') {
+			tags.push({
+				icon: 'fa-save',
+				color: 'white',
+				text: 'Object'
+			});
+		}
+	}
+	return tags;
 }
 
 export function filterResourcesByType(resources: IEaasiResource[], type: ResourceType) {

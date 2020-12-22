@@ -49,6 +49,9 @@
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(env)" />
 						</template>
+						<template v-slot:tagsRight>
+							<tag-group position="right" :tags="getArchiveTags(env)" />
+						</template>
 					</selectable-radio-card>
 					<div>
 						<circle-button
@@ -120,13 +123,14 @@ import InfoMessage from './shared/InfoMessage.vue';
 import { Get, Sync } from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
 import { resourceTypes, IResourceTypes } from '@/utils/constants';
-import { getResourceTypeTags } from '@/helpers/ResourceHelper';
+import {getEnvironmentResourceTypeTags, getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import { ROUTES } from '@/router/routes.const';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
+import {archiveTypes} from "../../../../eaasi-web-api/src/utils/constants";
 
 @Component({
 	name: 'ResourceSideBar',
@@ -192,6 +196,29 @@ export default class ResourceSideBar extends Vue {
 
 	getTypeTags(resource: IEaasiResource) {
 		return getResourceTypeTags(resource);
+	}
+
+	getArchiveTags(resource: IEaasiResource) {
+		let tagGroup = [];
+		if (resource.archive === archiveTypes.PUBLIC) {
+			tagGroup.push({
+				icon: 'fa-cloud-download', // TODO: Needs a custom icon - cloud with check mark
+				color: 'green',
+				text: 'Saved from network'
+			});
+		} else if (resource.archive === archiveTypes.REMOTE) {
+			tagGroup.push({
+				icon: 'fa-cloud',
+				color: 'white',
+				text: 'Remote'
+			});
+		} else if (resource.archive === archiveTypes.DEFAULT) {
+			tagGroup.push({
+				color: 'yellow',
+				text: 'Local'
+			});
+		}
+		return tagGroup;
 	}
 
 	isSelected(resource: IEaasiResource) {
