@@ -30,7 +30,7 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import StringCleaner from '@/utils/string-cleaner';
-import { resourceTypes, archiveTypes } from '@/utils/constants';
+import {resourceTypes, archiveTypes, translatedIcon} from '@/utils/constants';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
 import EaasiTask from '@/models/task/EaasiTask';
@@ -87,24 +87,24 @@ export default class EnvironmentResourceCard extends Vue {
 	get resourceTypeTags(): ITag[] {
 		let tags = [{
 			text: resourceTypes.ENVIRONMENT as string,
-			icon: 'fa-cube',
+			icon: translatedIcon('config-environment'),
 			color: 'white'
 		}];
-		const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'zero conf');
-		const isBaseEnvironment = (this.environment.objectArchive === 'Remote Objects' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'Remote Objects');
-		if (isContentEnvironment) {
-			tags.push({
-				icon: 'fa-file',
-				color: 'white',
-				text: 'Content Environment'
-			});
-		} else if (isBaseEnvironment) {
-			tags.push({
-				icon: 'fa-file',
-				color: 'white',
-				text: 'Base Environment'
-			});
-		}
+		// const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'zero conf');
+		// const isBaseEnvironment = (this.environment.objectArchive === 'Remote Objects' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'Remote Objects');
+		// if (isContentEnvironment) {
+		// 	tags.push({
+		// 		icon: translatedIcon('file'),
+		// 		color: 'white',
+		// 		text: 'Content Environment'
+		// 	});
+		// } else if (isBaseEnvironment) {
+		// 	tags.push({
+		// 		icon: translatedIcon('file'),
+		// 		color: 'white',
+		// 		text: 'Base Environment'
+		// 	});
+		// }
 		return tags;
 	};
 
@@ -148,28 +148,36 @@ export default class EnvironmentResourceCard extends Vue {
 		let tagGroup = [];
 		if (!!this.environmentCardSummary.error) {
 			tagGroup = [{
-				icon: 'fa-exclamation-triangle',
 				color: 'red',
 				text: this.environmentCardSummary.error
 			}];
 		}
 		if (this.savedToNode || this.environment.archive === archiveTypes.PUBLIC) {
-			tagGroup.push({
-				icon: 'fa-cloud-download', // TODO: Needs a custom icon - cloud with check mark
-				color: 'green',
-				text: 'Saved from network'
-			});
+			tagGroup.push(
+				{
+					icon: translatedIcon('public-network'),
+					color: 'green',
+					text: 'Public'
+				},
+				{
+					icon: translatedIcon('map-marker'),
+					color: 'green',
+					text: 'Saved Locally'
+				}
+			);
 		} else if (this.environment.archive === archiveTypes.REMOTE) {
 			tagGroup.push({
-				icon: 'fa-cloud',
-				color: 'white',
-				text: 'Remote'
+				icon: translatedIcon('public-network'),
+				color: 'green',
+				text: 'Public'
 			});
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
-			tagGroup.push({
-				color: 'yellow',
-				text: 'Local'
-			});
+			tagGroup.push(
+				{
+					color: 'green',
+					text: 'Saved Locally'
+				}
+			);
 		}
 		return tagGroup;
 	}

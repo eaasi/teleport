@@ -61,3 +61,50 @@ export const defaultOsList: IUIOsItem[] = [
 	{ icon: appleMachineIcon, title: 'Apple', value: 'mac' },
 	{ icon: genericMachineIcon, title: 'Other', value: 'other' }
 ];
+
+export function translatedIcon(name: string): string {
+	switch (name) {
+		case 'paperclip':
+			return '';
+		case 'bookmark':
+			return '';
+		case 'file-container':
+			return '';
+		case 'home':
+			return '';
+		case 'trash':
+			return '';
+		case 'file':
+			return '';
+		case 'atom':
+			return '';
+		case 'config-environment':
+			return '';
+		case 'file-search':
+			return '';
+		case 'upload':
+			return '';
+		case 'lock':
+			return '';
+		case 'clipboard-list':
+			return '';
+		case 'manage':
+			return '';
+		case 'upload-cloud':
+			return '';
+		case 'public-network':
+			return '';
+		case 'power':
+			return '';
+		case 'map-marker':
+			return '';
+		case 'cloud-download':
+			return '';
+		case 'disk':
+			return '';
+		case 'unlock':
+			return '';
+		default:
+			return 'X';
+	}
+}

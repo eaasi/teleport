@@ -22,7 +22,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { archiveTypes } from '@/utils/constants';
+import {archiveTypes, translatedIcon} from '@/utils/constants';
 import { ITag } from '@/types/Tag';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
 import { ILabeledItem } from '@/types/ILabeledItem';
@@ -60,7 +60,7 @@ export default class EnvironmentCard extends Vue {
 			});
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push({
-				icon: 'fa-cloud-download-alt',
+				icon:  translatedIcon('cloud-download'),
 				color: 'green',
 				text: 'PRIVATE'
 			});
@@ -115,14 +115,14 @@ export default class EnvironmentCard extends Vue {
 <style lang='scss'>
 .environment-card {
 	background: #ffffff;
-	border-radius: 0.4rem;
 	border: 1px solid lighten($dark-neutral, 20%);
+	border-radius: 0.4rem;
 	padding: 0.5rem 1rem;
 
 	.environment-title {
-		padding: 1rem 0;
 		color: lighten($dark-blue, 30%);
 		font-weight: 500;
+		padding: 1rem 0;
 	}
 
 	.footer {
