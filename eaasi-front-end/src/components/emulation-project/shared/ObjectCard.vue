@@ -19,7 +19,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
 import { ITag } from '@/types/Tag';
-import {translatedIcon} from "@/utils/constants";
+import {translatedIcon} from '@/utils/constants';
 
 @Component({
 	name: 'ObjectCard',

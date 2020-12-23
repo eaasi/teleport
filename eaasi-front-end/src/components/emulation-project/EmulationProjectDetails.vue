@@ -81,16 +81,6 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
-					<h4 class="border-after">Environment Drives</h4>
-					<drive-resource-card
-						v-for="driveSetting in drives"
-						:key="driveSetting.drive.uid"
-						:drive-setting="driveSetting"
-						:resources="selectedObjects"
-					/>
-				</div>
 			</div>
 		</div>
 		<div class="emu-proj-details-wrapper" v-if="selectedObjects.length">

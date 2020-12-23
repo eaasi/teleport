@@ -47,7 +47,7 @@ export default class Tag extends Vue {
 		align-items: center;
 		background-color: #FFFFFF;
 		border: solid 1px #E5E1DF;
-		border-radius: 0.8rem;
+		border-radius: 0.5rem;
 		display: flex;
 		height: 18px;
 		justify-content: center;
