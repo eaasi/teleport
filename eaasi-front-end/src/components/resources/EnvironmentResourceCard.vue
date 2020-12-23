@@ -174,8 +174,9 @@ export default class EnvironmentResourceCard extends Vue {
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push(
 				{
-					color: 'green',
-					text: 'Saved Locally'
+					icon: translatedIcon('unlock'),
+					color: 'yellow',
+					text: 'Shared to Node'
 				}
 			);
 		}

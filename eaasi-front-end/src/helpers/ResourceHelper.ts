@@ -1,6 +1,6 @@
 import { IDrive, IDriveSetting, IEaasiResource, IEnvironment, ISoftwarePackage, ResourceType } from '@/types/Resource';
 import { ITag } from '@/types/Tag';
-import { resourceTypes } from '@/utils/constants';
+import {resourceTypes, translatedIcon} from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
     containerEmulatorName: string;
@@ -45,21 +45,21 @@ export function getResourceTypeTags(resource: IEaasiResource) {
 	if(resource.resourceType === resourceTypes.SOFTWARE) {
 		return [{
 			text:'Software',
-			icon:'fa-browser',
+			icon: translatedIcon('disk'),
 			color:'white'
 		}];
 	}
 	if(resource.resourceType === resourceTypes.CONTENT) {
 		return [{
 			text: 'Content',
-			icon:'fa-file',
+			icon: translatedIcon('file'),
 			color:'white'
 		}];
 	}
 	if(resource.resourceType === resourceTypes.ENVIRONMENT) {
 		return [{
 			text: resourceTypes.ENVIRONMENT as string,
-			icon: 'fa-cube',
+			icon: translatedIcon('config-environment'),
 			color: 'white'
 		}];
 	}
@@ -70,14 +70,14 @@ export function getEnvironmentResourceTypeTags(environmentResource: IEaasiResour
 	if (environmentResource.hasOwnProperty('envType')) {
 		if (environmentResource['envType'] === 'base') {
 			tags.push({
-				icon: 'fa-box',
+				icon: translatedIcon('config-environment'),
 				color: 'white',
 				text: 'Base'
 			});
 		}
 		if (environmentResource['envType'] === 'object') {
 			tags.push({
-				icon: 'fa-save',
+				icon: translatedIcon('file-container'),
 				color: 'white',
 				text: 'Object'
 			});

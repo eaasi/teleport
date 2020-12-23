@@ -2,7 +2,7 @@
 	<div class="arc-container">
 		<div class="arc-title">
 			<div>
-				<span :class="`fas fa-paperclip`"></span>
+				<span>{{ paperclipIcon }}</span>
 				Attach <span class="uppercase">{{ title }}</span> Resource from...
 			</div>
 		</div>
@@ -34,6 +34,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import {translatedIcon} from "@/utils/constants";
 
 /**
  * A Card providing user interface to Attach a Resource
@@ -53,6 +54,10 @@ export default class AttachResourceCard extends Vue {
 		}
 
 		openMyResources() {
+		}
+
+		get paperclipIcon() {
+			return translatedIcon('paperclip');
 		}
 }
 </script>

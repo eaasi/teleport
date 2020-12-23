@@ -44,12 +44,12 @@ export default class Tag extends Vue {
 
 <style lang="scss">
 	.eaasi-tag {
+		align-items: center;
 		background-color: #FFFFFF;
 		border: solid 1px #E5E1DF;
 		border-radius: 0.8rem;
 		display: flex;
 		height: 18px;
-		align-items: center;
 		justify-content: center;
 		margin: 0 1px;
 		padding: 0 5px;
@@ -67,12 +67,12 @@ export default class Tag extends Vue {
 
 		.icon {
 			color: rgba(0, 0, 0, 0.7);
-			font-size: 1.6rem;
 			font-family: EaasiIcon, fantasy;
+			font-size: 1.6rem;
 		}
 
 		&.yellow {
-			background-color: #F8F7DF;
+			background-color: #F1EDBF;
 		}
 
 		&.blue {

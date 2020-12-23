@@ -28,7 +28,7 @@ import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 import { ROUTES } from '../../router/routes.const';
-import {translatedIcon} from "@/utils/constants";
+import {translatedIcon} from '@/utils/constants';
 
 @Component({
 	name: 'SoftwareResourceCard',

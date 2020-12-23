@@ -6,7 +6,7 @@
 		@dragleave="dragover = false"
 	>
 		<div class="dfu-label flex flex-column flex-center relative" @dragenter="dragover = true">
-			<span class="fas fa-upload"></span>
+			<span>{{ uploadIcon }}</span>
 			<div class="dfu-content text-center">
 				{{ label }}
 			</div>
@@ -20,6 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import {translatedIcon} from "@/utils/constants";
 
 /**
  * A drag-and-drop file upload area
@@ -44,6 +45,10 @@ export default class FileDropzone extends Vue {
 
 	get label() {
 		return 'Drag File Here To Upload';
+	}
+
+	get uploadIcon() {
+		return translatedIcon('upload');
 	}
 
 	/* Data
