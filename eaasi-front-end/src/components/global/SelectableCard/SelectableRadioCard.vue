@@ -129,9 +129,9 @@ export default class SelectableRadioCard extends Vue {
 
 	.panel-left {
 		background-color: lighten($light-blue, 70%);
-		padding: 0.5rem;
-		border-top-left-radius: 0.5rem;
 		border-bottom-left-radius: 0.5rem;
+		border-top-left-radius: 0.5rem;
+		padding: 0.5rem;
 
 		&.selected {
 			background-color: lighten($light-blue, 50%);
@@ -139,9 +139,9 @@ export default class SelectableRadioCard extends Vue {
 	}
 
 	.panel-right {
+		border-bottom-right-radius: 0.5rem;
 		border-left: none;
 		border-top-right-radius: 0.5rem;
-		border-bottom-right-radius: 0.5rem;
 		padding: 10px;
 		width: 100%;
 

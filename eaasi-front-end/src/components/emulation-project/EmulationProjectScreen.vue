@@ -75,6 +75,12 @@ import { jsonCopy } from '@/utils/functions';
 	}
 })
 export default class EmulationProjectScreen extends Vue {
+	private clearProjectErrorMessage = 'There was a problem clearing emulation project, please try again.';
+	private retrieveEmulationProjectErrorMessage = 'There was a problem retrieving emulation project environment.';
+	private temporaryEnvironmentCreateErrorMessage = 'There was a problem creating temporary environment resource.';
+	private temporaryRecordErrorMessage = 'There was a problem creating temporary environment resource.';
+	private noRemoteEnvironmentsErrorMessage = 'Emulation project does not support remote environments.';
+	private troubleRetrievingErrorMessage = 'There was a problem retrieving emulation project environment.';
 
 	/* Computed
 	============================================*/
@@ -141,7 +147,7 @@ export default class EmulationProjectScreen extends Vue {
 		} else if (env.archive === 'default') {
 			return await this.preparePrivateEnvironment(env);
 		}
-		throw new Error('Emulation project does not support remote environments.');
+		throw new Error(this.noRemoteEnvironmentsErrorMessage);
 	}
 
 	private buildQuery(envId: string) {
@@ -162,20 +168,28 @@ export default class EmulationProjectScreen extends Vue {
 		if (response.error) {
 			throw new Error(response.error);
 		}
-		let emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
+		let emulationProjectEnv: IEnvironment =
+			await this.$store.dispatch('resource/getEnvironment', response.id);
 		if (!emulationProjectEnv) {
-			throw new Error('Having troubles retrieving emulation project environment.');
+			throw new Error(this.troubleRetrievingErrorMessage);
 		}
-		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/addEnvironmentToTempArchive', { environment: emulationProjectEnv.envId });
+		const tempEnvRecord: ITempEnvironmentRecord =
+			await this.$store.dispatch(
+				'resource/addEnvironmentToTempArchive',
+				{ environment: emulationProjectEnv.envId }
+			);
 		if (!tempEnvRecord) {
-			throw new Error('Having troubles creating temporary environment record.');
+			throw new Error(this.temporaryEnvironmentCreateErrorMessage);
 		}
 		return emulationProjectEnv;
 	}
 
 	async preparePrivateEnvironment(environment: EmulationProjectEnvironment): Promise<IEnvironment> {
-		const keyboardSettings: IKeyboardSettings = await this.$store.dispatch('admin/getKeyboardSettings');
+
+		const keyboardSettings: IKeyboardSettings =
+			await this.$store.dispatch('admin/getKeyboardSettings');
 		// add selected resources to the payload
+
 		const payload: IEmulatorComponentRequest = {
 			archive: environment.archive,
 			emulatorVersion: 'latest',
@@ -184,25 +198,36 @@ export default class EmulationProjectScreen extends Vue {
 			keyboardModel: keyboardSettings.layout.name,
 			type: 'machine' // TODO: Only have seen machine being type here, could there be another option?
 		};
+
 		// create a copy of active environment
-		const tempEnvRecord: ITempEnvironmentRecord = await this.$store.dispatch('resource/createAndAddEnvironmenttoTempArchive', payload);
+		const tempEnvRecord: ITempEnvironmentRecord =
+			await this.$store.dispatch('resource/createAndAddEnvironmenttoTempArchive', payload);
 		if (!tempEnvRecord) {
-			throw new Error('Having troubles creating temporary environment record.');
+			throw new Error(this.temporaryRecordErrorMessage);
 		}
-		let tempEnvironment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
+
+		let tempEnvironment: IEnvironment =
+			await this.$store.dispatch('resource/getEnvironment', tempEnvRecord.envId);
 		if (!tempEnvironment) {
-			throw new Error('Having troubles creating temporary environment resource.');
+			throw new Error(this.temporaryEnvironmentCreateErrorMessage);
 		}
+
 		// update the copy with emulation project properties
 		let emuProjEnv: IEnvironment = this.prepareEnvironment(tempEnvironment);
-		const { id, error } = await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
+		const { id, error } =
+			await this.$store.dispatch('resource/updateEnvironmentDetails', emuProjEnv);
+
 		if (error) {
 			throw new Error(error);
 		}
-		let emulationProjectEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', id);
+
+		let emulationProjectEnv: IEnvironment =
+			await this.$store.dispatch('resource/getEnvironment', id);
+
 		if (!emulationProjectEnv) {
-			throw new Error('Having troubles retrieving emulation project environment.');
+			throw new Error(this.retrieveEmulationProjectErrorMessage);
 		}
+
 		return emulationProjectEnv;
 	}
 
@@ -220,19 +245,18 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	prepareEnvironment(env: IEnvironment): IEnvironment {
-		let emuProjEnv: IEnvironment = {
+		let emulationProjectEnvironment: IEnvironment = {
 			...env,
 			drives: this.environment.drives.map(d => d.drive),
 			driveSettings: this.environment.drives
 		};
-		// update emu proj properties
 		if (this.constructedFromBaseEnvironment) {
-			emuProjEnv.driveSettings.forEach(d => {
+			emulationProjectEnvironment.driveSettings.forEach(d => {
 				let selectedObject = this.objects.find(o => o.id === d.objectId);
 				if (selectedObject) d.objectArchive = selectedObject.archiveId;
 			});
 		}
-		return emuProjEnv;
+		return emulationProjectEnvironment;
 	}
 
 	handleError(err: string) {
@@ -247,7 +271,7 @@ export default class EmulationProjectScreen extends Vue {
 		this.clearAllAlertModal = false;
 		const result = await this.$store.dispatch('emulationProject/clearAll');
 		if (!result) {
-			eventBus.$emit('notification:show', generateNotificationError('Having troubles clearing emulation project, please try again.'));
+			eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));
 		}
 		this.createEnvironmentPayload = null;
 		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);

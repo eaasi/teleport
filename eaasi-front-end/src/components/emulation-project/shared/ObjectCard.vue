@@ -1,8 +1,15 @@
 <template>
 	<div class="object-card">
-		<h4>{{ title }}</h4>
+		<div class="object-title">
+			{{ title }}
+		</div>
 		<div class="flex flex-row">
-			<tag-group position="left" :tags="objectTags" />
+			<tag-group
+				position="left"
+				:tags="objectTags"
+			/>
+		</div>
+		<div class="flex flex-row flex-wrap content">
 		</div>
 	</div>
 </template>
@@ -12,6 +19,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
 import { ITag } from '@/types/Tag';
+import {translatedIcon} from "@/utils/constants";
 
 @Component({
 	name: 'ObjectCard',
@@ -38,37 +46,30 @@ export default class ObjectCard extends Vue {
 		let tagGroup = [];
 		tagGroup.push({
 			text: this.resourceTypeLabel,
-			icon: 'fa-file',
+			icon: translatedIcon('file'),
 			color: 'white'
 		});
 		tagGroup.push({
 			text: this.archiveLabel,
-			icon: 'fa-file',
+			icon: translatedIcon('file'),
 			color: 'white'
 		});
 		return tagGroup;
 	}
-
-	/* Data
-	============================================*/
-
-	/* Methods
-	============================================*/
-
-	/* Lifecycle Hooks
-	============================================*/
 }
 </script>
 
 <style lang='scss'>
 .object-card {
 	background: #ffffff;
-	border: 1px solid lighten($light-blue, 60%);
-	padding: 1rem 1.4rem;
+	border: 1px solid lighten($dark-neutral, 50%);
+	border-radius: 0.2rem;
+	padding: 0.5rem 1rem;
 
-	h4 {
-		color: $dark-blue;
+	.object-title {
+		color: lighten($dark-blue, 30%);
 		font-weight: 500;
+		padding: 0.5rem 0 1rem 0;
 	}
 
 	.footer {
