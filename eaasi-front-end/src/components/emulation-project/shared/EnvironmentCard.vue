@@ -21,13 +21,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Get } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
 import {archiveTypes, translatedIcon} from '@/utils/constants';
-import { ITag } from '@/types/Tag';
-import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
 import { ILabeledItem } from '@/types/ILabeledItem';
+import { ITag } from '@/types/Tag';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
-import { Get } from 'vuex-pathify';
+import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
 
 @Component({
 	name: 'EnvironmentCard',
@@ -48,21 +48,21 @@ export default class EnvironmentCard extends Vue {
 	get environmentTags(): ITag[] {
 		let tagGroup = [];
 		tagGroup.push({
-			text: 'CONTENT ENVIRONMENT',
-			icon: 'fa-file',
+			text: 'Content Environment',
+			icon: translatedIcon('file'),
 			color: 'white'
 		});
 		if (this.environment.archive === archiveTypes.PUBLIC) {
 			tagGroup.push({
-				icon: 'fa-map-marker-alt',
-				color: 'green',
-				text: 'SAVED'
+				icon:  translatedIcon('map-marker'),
+				color: 'white',
+				text: 'Saved'
 			});
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push({
 				icon:  translatedIcon('cloud-download'),
-				color: 'green',
-				text: 'PRIVATE'
+				color: 'white',
+				text: 'Private'
 			});
 		}
 		return tagGroup;
@@ -115,14 +115,14 @@ export default class EnvironmentCard extends Vue {
 <style lang='scss'>
 .environment-card {
 	background: #ffffff;
-	border: 1px solid lighten($dark-neutral, 20%);
-	border-radius: 0.4rem;
+	border: 1px solid lighten($dark-neutral, 50%);
+	border-radius: 0.2rem;
 	padding: 0.5rem 1rem;
 
 	.environment-title {
 		color: lighten($dark-blue, 30%);
 		font-weight: 500;
-		padding: 1rem 0;
+		padding: 0.5rem 0 1rem 0;
 	}
 
 	.footer {

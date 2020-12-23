@@ -1,6 +1,6 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import {IEaasiResource} from '@/types/Resource';
-import {translatedIcon} from "@/utils/constants";
+import {translatedIcon} from '@/utils/constants';
 
 export default class PublishToNetworkActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];

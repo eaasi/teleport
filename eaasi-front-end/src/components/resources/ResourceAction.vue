@@ -74,8 +74,8 @@ export default class ResourceAction extends Vue {
 }
 
 .ra-icon {
-	font-family: EaasiIcon, fantasy;
 	color: $dark-neutral;
+	font-family: EaasiIcon, fantasy;
 	font-size: 3rem;
 	padding-left: 0.4rem;
 	width: 4rem;

@@ -93,7 +93,7 @@ export default class SelectableRadioCard extends Vue {
 <style lang="scss">
 
 	.ds-checkbox {
-		border: solid 2px $light-blue;
+		border: solid 1px $light-blue;
 		border-radius: 50%;
 		display: inline-block;
 		height: 1rem;
@@ -103,7 +103,7 @@ export default class SelectableRadioCard extends Vue {
 
 		&.checked {
 			background-color: $dark-blue;
-			border: solid 2px $dark-blue;
+			border: solid 1px $dark-blue;
 			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
 		}
 	}
@@ -115,20 +115,23 @@ export default class SelectableRadioCard extends Vue {
 
 	.resource-object-container {
 		background-color: #FFFFFF;
-		border: 2px solid lighten($light-blue, 70%);
+		border: 1px solid lighten($light-blue, 70%);
+		border-radius: 0.5rem;
 		margin-bottom: 1.5rem;
 		min-height: 7rem;
 		position: relative;
 
 		&.selected {
 			background-color: lighten($light-blue, 90%);
-			border: 2px solid $light-blue;
+			border: 1px solid darken($light-blue, 20%);
 		}
 	}
 
 	.panel-left {
 		background-color: lighten($light-blue, 70%);
 		padding: 0.5rem;
+		border-top-left-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
 
 		&.selected {
 			background-color: lighten($light-blue, 50%);
@@ -137,6 +140,8 @@ export default class SelectableRadioCard extends Vue {
 
 	.panel-right {
 		border-left: none;
+		border-top-right-radius: 0.5rem;
+		border-bottom-right-radius: 0.5rem;
 		padding: 10px;
 		width: 100%;
 
