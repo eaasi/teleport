@@ -1,6 +1,7 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import {IEaasiResource} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
+import {translatedIcon} from '@/utils/constants';
 
 export default class AddToEmulationProjectActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -18,7 +19,7 @@ export default class AddToEmulationProjectActionResolver extends SlideMenuAction
 			shortName: 'addToEmuProject',
 			label: 'Add to Emulation Project',
 			description: 'Add this resource to my emulation project',
-			icon: 'paperclip',
+			icon: translatedIcon('paperclip'),
 			isEnabled: true,
 			// isEnabled: self.selectedResources.some(resource => {
 			// 	return self.projectResources.some(x => {

@@ -1,6 +1,7 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import {IEaasiResource} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
+import {translatedIcon} from '@/utils/constants';
 
 export default class BookmarkResourceActionResolver extends  SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -18,7 +19,7 @@ export default class BookmarkResourceActionResolver extends  SlideMenuActionReso
 			shortName: 'bookmark',
 			label: 'Bookmark This Resource',
 			description: 'Add resource to my bookmarks in my resources',
-			icon: 'bookmark',
+			icon: translatedIcon('bookmark'),
 			isEnabled: true
 		};
 	}

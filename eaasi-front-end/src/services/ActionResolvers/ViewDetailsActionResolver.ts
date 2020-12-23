@@ -1,6 +1,7 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
+import {translatedIcon} from '@/utils/constants';
 
 export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -19,7 +20,7 @@ export default class ViewDetailsActionResolver extends SlideMenuActionResolver {
 			shortName: 'viewDetails',
 			label: 'View Details',
 			description: 'Review full resource details',
-			icon: 'file-alt',
+			icon: translatedIcon('file'),
 			isEnabled: super.isSingleSelected() && !super.isResourceDetailPage() && super.hasDetailsPage()
 		};
 	}

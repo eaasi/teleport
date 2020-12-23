@@ -2,6 +2,7 @@ import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionR
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
+import {translatedIcon} from '@/utils/constants';
 
 export default class DeleteResourceActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -22,7 +23,7 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 			shortName: 'delete',
 			label: 'Delete',
 			description: 'Delete this resource',
-			icon: 'trash-alt',
+			icon: translatedIcon('trash'),
 			isEnabled: permit.allowsDeleteLocalResourcesFromNode()
 				&& super.isDeletableArchive()
 				&& !super.isAnySoftwareSelected()

@@ -1,5 +1,6 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import {IEaasiResource} from '@/types/Resource';
+import {translatedIcon} from "@/utils/constants";
 
 export default class PublishToNetworkActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -17,7 +18,7 @@ export default class PublishToNetworkActionResolver extends SlideMenuActionResol
 			shortName: 'publish',
 			label: 'Publish to Network',
 			description: 'Make this resource available to all users of my node.',
-			icon: 'cloud-upload',
+			icon: translatedIcon('cloud-upload'),
 			isEnabled: super.areOnlyPublishableResources()
 		};
 	}

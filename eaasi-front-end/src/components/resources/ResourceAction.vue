@@ -4,7 +4,7 @@
 		@click="emitClickEvent"
 	>
 		<div class="ra-icon">
-			<span :class="`fas fa-fw fa-${action.icon}`"></span>
+			<span class="eaasi-icon">{{ action.icon }}</span>
 		</div>
 		<div class="ra-info flex-adapt">
 			<strong>{{ action.label }}</strong>
@@ -68,9 +68,15 @@ export default class ResourceAction extends Vue {
 	}
 }
 
+@font-face {
+	font-family: EaasiIcon;
+	src: url('../../assets/iconsEaaSI.ttf') format('truetype');
+}
+
 .ra-icon {
+	font-family: EaasiIcon, fantasy;
 	color: $dark-neutral;
-	font-size: 2rem;
+	font-size: 3rem;
 	padding-left: 0.4rem;
 	width: 4rem;
 }

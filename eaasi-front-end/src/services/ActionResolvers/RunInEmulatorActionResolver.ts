@@ -1,6 +1,7 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
+import {translatedIcon} from '@/utils/constants';
 
 export default class RunInEmulatorActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -19,7 +20,7 @@ export default class RunInEmulatorActionResolver extends SlideMenuActionResolver
 			shortName: 'run',
 			label: 'Run in Emulator',
 			description: 'Emulate this resource without changes',
-			icon: 'power-off',
+			icon: translatedIcon('power'),
 			isEnabled: super.isSinglePublicResource() || super.isSingleDefaultResource()
 		};
 	}

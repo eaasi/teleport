@@ -90,7 +90,7 @@ export function translatedIcon(name: string): string {
 			return '';
 		case 'manage':
 			return '';
-		case 'upload-cloud':
+		case 'cloud-upload':
 			return '';
 		case 'public-network':
 			return '';
