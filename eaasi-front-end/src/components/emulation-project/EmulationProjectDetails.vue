@@ -87,12 +87,12 @@
 			<div class="emulator-picker-wrapper">
 				<div class="flex flex-row justify-between">
 					<h4 style="margin-top: 0;">Objects</h4>
-					<ui-button color-preset="blue-transparent" @click="clear">
+					<div class="remove-resource clickable" @click="clear">
 						<div class="flex flex-row flex-center rm-btn">
 							Remove Resource
 							<span class="fas fa-times"></span>
 						</div>
-					</ui-button>
+					</div>
 				</div>
 				<object-card
 					v-if="selectedObjects.length"
