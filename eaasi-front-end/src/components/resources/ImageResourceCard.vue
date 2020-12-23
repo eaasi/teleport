@@ -76,7 +76,7 @@ export default class ImageResourceCard extends Vue {
 		} else {
 			return [{
 				text: 'Private',
-				icon:  translatedIcon('cloud-download'),
+				icon:  translatedIcon('lock'),
 				color: 'red'
 			}];
         }

@@ -20,7 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {translatedIcon} from "@/utils/constants";
+import {translatedIcon} from '@/utils/constants';
 
 /**
  * A drag-and-drop file upload area
