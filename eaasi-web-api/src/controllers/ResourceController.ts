@@ -5,7 +5,8 @@ import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
-import { IAuthorizedDeleteRequest, IAuthorizedRequest } from '@/types/auth/Auth';
+import ImportedContentService from '@/services/rest-api/ImportedContentService';
+import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
@@ -24,13 +25,15 @@ export default class ResourceController extends BaseController {
 	private readonly _softwareService: SoftwareService;
 	private readonly _contentService: ContentService;
 	private readonly _bookmarkService: EaasiBookmarkService;
+	private readonly _userImportedContent: ImportedContentService;
 
 	constructor(
 		resourceService: ResourceAdminService = new ResourceAdminService(),
 		environmentService: EnvironmentService = new EnvironmentService(),
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
-		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService()
+		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
+		userImportedContent: ImportedContentService = new ImportedContentService()
 	) {
 		super();
 		this._svc = resourceService;
@@ -38,6 +41,7 @@ export default class ResourceController extends BaseController {
 		this._softwareService = softwareService;
 		this._contentService = contentService;
 		this._bookmarkService = bookmarkService;
+		this._userImportedContent = userImportedContent;
 	}
 
 	/**
@@ -124,12 +128,17 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Gets Content by content request
 	 */
-	async getContent(req: Request, res: Response) {
+	async getContent(req: IAuthorizedGetContentRequest, res: Response) {
 		try {
-			const archiveName = req.query.archiveId as string;
-			const contentId = req.query.objectId as string;
+			const { archiveName, contentId} = req.query;
 			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest);
+			// check if user has permissions to access requested resource
+			const userImportedRef = await this._userImportedContent.getByUserID(req.user.id);
+			const userHasAccessPermissions = userImportedRef.result.some(res => res.eaasiId === contentId);
+			if (!userHasAccessPermissions) {
+				res.status(401).send(null);
+			}
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -413,4 +422,12 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+}
+
+
+export interface IAuthorizedGetContentRequest extends IAuthorizedGetRequest {
+	query: {
+		archiveName: string;
+		contentId: string;
+	};
 }

@@ -74,12 +74,11 @@ export default class AppHeader extends Vue {
 
 	async search() {
 		const keyword = this.searchKeyword;
-		this.$store.dispatch('resource/clearSearchQuery');
-		if (this.$route.name === 'Explore Resources') {
-			const query = new ResourceSearchQuery();
-			this.$store.commit('resource/SET_QUERY', {...query, keyword});
+		if (this.$route.path === ROUTES.RESOURCES.EXPLORE) {
 			await this.$store.dispatch('resource/searchResources');
 		} else {
+			const query = new ResourceSearchQuery();
+			this.$store.commit('resource/SET_QUERY', {...query, keyword});
 			this.$router.push({ name: 'Explore Resources', params: { keyword } });
 		}
 	}
