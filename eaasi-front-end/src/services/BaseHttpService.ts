@@ -147,6 +147,8 @@ export default class BaseHttpService {
 
 			if (response.status === 429) eventBus.$emit(events.REQUEST_LIMIT_REACHED);
 
+			if (response.status === 401) eventBus.$emit(events.ACCESS_DENIED);
+
 			return response;
 		} catch (e) {
 			eventBus.$emit('ajaxEnd');

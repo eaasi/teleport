@@ -27,6 +27,7 @@ export const ROUTES: IRoutes = {
         CONTENT: '/resources/content',
     },
     ACCESS_INTERFACE: '/access-interface',
+    ACCESS_DENIED: '/access-denied',
     WILD_CARD: '*',
 };
 
@@ -40,6 +41,7 @@ interface IRoutes {
     RESOURCES: IResourcesRoutes;
     ACCESS_INTERFACE: string;
     WILD_CARD: string;
+    ACCESS_DENIED: string;
 }
 
 interface IManageNodeRoutes {
