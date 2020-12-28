@@ -44,7 +44,7 @@ app.use('/eaasi_app', require('./routes/eaasi'));
 app.use('/resource_metadata', require('./routes/rest-api'));
 
 // API docs
-app.use('/', express.static(path.join(__dirname, '../apidoc')));
+app.use('/docs', express.static('./apidoc'));
 
 app.use(clientErrorHandler);
 app.use(errorHandler);

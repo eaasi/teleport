@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"generate-docs": "apidoc -i src/ -o apidoc",
+		"generate-docs": "apidoc -i src/ -o src/apidoc",
 		"check-types": "tsc",
 		"clean": "rimraf dist",
 		"build": "npm run generate-docs && npm run clean && babel src --out-dir dist --copy-files --source-maps --extensions \".ts,.js\"",
