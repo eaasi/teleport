@@ -27,8 +27,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, IEaasiResource, IImageListItem } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
-import { resourceTypes } from '@/utils/constants';
-import { ROUTES } from '../../router/routes.const';
+import {resourceTypes, translatedIcon} from '@/utils/constants';
 
 @Component({
 	name: 'ImageResourceCard',
@@ -54,7 +53,7 @@ export default class ImageResourceCard extends Vue {
 	imageTypeTags: ITag[] =  [
 		{
 			text: 'Image',
-			icon:' fa-hdd',
+			icon:  translatedIcon('disk'),
 			color: 'white'
 		}
 	];
@@ -68,16 +67,17 @@ export default class ImageResourceCard extends Vue {
 	bookmarks: IBookmark[];
 
 	get imageTagGroup(): ITag[] {
+		// Currently, images are not public
 		if (this.image.isPublic) {
             return [{
                 text: 'Public',
-                icon: 'fa-map-marker-alt',
+				icon:  translatedIcon('public-network'),
                 color: 'green'
             }];
 		} else {
 			return [{
-				text: 'Private',
-				icon: 'fa-cloud-download-alt',
+				text: 'Shared to Node',
+				icon:  translatedIcon('unlock'),
 				color: 'yellow'
 			}];
         }

@@ -1,19 +1,15 @@
 <template>
-	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
-		<div v-if="bookmark && !isLoading">
-			<bookmark
-				class="bookmark"
-				:init-state="isBookmarkSelected"
-				@bookmarked="isActive => $emit('bookmarked', isActive)"
-			/>
+	<div :class="['resource-object-container flex', selectStyle ]">
+		<div class="panel-left">
+			<div
+				:class="['ds-checkbox', { checked: selectStyle }]"
+				@click="toggleSelected"
+			>
+			</div>
 		</div>
 
-		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
-			<checkbox :value="value" @input="toggleSelected" />
-		</div>
-
-		<div :class="['panel-right', selectStyle]">
-			<div :class="['header', { clickable: isClickable, mb: !data.content }]" @click="handleClick">
+		<div :class="['panel-right', selectStyle, { clickable: isClickable }]" @click="toggleSelected">
+			<div :class="['header', { mb: !data.content }]">
 				{{ data.title }}
 			</div>
 
@@ -26,11 +22,7 @@
 				<selectable-card-content :content-data="data.subContent" />
 			</div>
 
-			<div v-if="isLoading" class="panel-footer loading-tag">
-				<tag text="Saving to Node" icon="fa-spinner fa-spin" color="yellow" />
-			</div>
-
-			<div v-if="footer && !isLoading" class="panel-footer">
+			<div v-if="footer" class="panel-footer">
 				<slot name="tagsLeft"></slot>
 				<slot name="tagsRight"></slot>
 			</div>
@@ -48,11 +40,11 @@ import SelectableCardContent from './SelectableCardContent.vue';
 import Checkbox from '@/components/global/forms/Checkbox.vue';
 
 /**
- * A Card for displaying information that can be selected and bookmarked
+ * A Card for displaying information that can be selected as a radio option
  * @example ../../docs/SelectableCard.Example.md
  */
 @Component({
-	name: 'SelectableCard',
+	name: 'SelectableRadioCard',
 	components: {
 		SelectableCardContent,
 		Bookmark,
@@ -60,7 +52,7 @@ import Checkbox from '@/components/global/forms/Checkbox.vue';
 		Checkbox
 	}
 })
-export default class SelectableCard extends Vue {
+export default class SelectableRadioCard extends Vue {
 
 	/* Props
 	============================================*/
@@ -68,19 +60,7 @@ export default class SelectableCard extends Vue {
 	readonly data: IEaasiResourceSummary;
 
 	@Prop({type: Boolean, required: false, default: false})
-	readonly bookmark: boolean;
-
-	@Prop({type: Boolean, required: false, default: false})
 	readonly footer: boolean;
-
-	@Prop({type: Boolean, required: false, default: false})
-	readonly isLoading: boolean;
-
-	@Prop({ type: Boolean, default: false })
-	readonly isBookmarkSelected: boolean;
-
-	@Prop({type: Boolean, required: false, default: false})
-	readonly disableSelect: boolean;
 
 	@Prop({type: Boolean, required: false, default: true})
 	readonly isClickable: boolean;
@@ -99,22 +79,35 @@ export default class SelectableCard extends Vue {
 
 	/* Methods
 	============================================*/
+	isChecked(val) {
+		return val === this.value;
+	}
 
 	toggleSelected() : void {
 		this.$emit('input', !this.value);
 		this.$emit('change', !this.value);
 	}
-
-	handleClick() {
-		if (this.isClickable) {
-			this.$emit('click:header');
-		}
-	}
-
 }
 </script>
 
 <style lang="scss">
+
+	.ds-checkbox {
+		border: solid 1px $light-blue;
+		border-radius: 50%;
+		display: inline-block;
+		height: 1rem;
+		margin: 0.3rem;
+		padding: 1.4px;
+		width: 1rem;
+
+		&.checked {
+			background-color: $dark-blue;
+			border: solid 1px $dark-blue;
+			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
+		}
+	}
+
 	hr {
 		border: 0.5px solid #DDDDDD;
 		margin-bottom: 1px;
@@ -122,39 +115,27 @@ export default class SelectableCard extends Vue {
 
 	.resource-object-container {
 		background-color: #FFFFFF;
-		border: 2px solid lighten($light-blue, 70%);
+		border: 1px solid lighten($light-blue, 70%);
+		border-radius: 0.5rem;
 		margin-bottom: 1.5rem;
 		min-height: 7rem;
 		position: relative;
 
 		&.selected {
-			background-color: lighten($light-blue, 90%);
-			border: 2px solid $light-blue;
-		}
-
-		&.disabled {
-			opacity: 0.4;
-			pointer-events: none;
-		}
-
-		.bookmark {
-			position: absolute;
-			right: 0;
-			top: 2px;
+			border: 1px solid darken($light-blue, 20%);
 		}
 	}
 
 	.panel-left {
-		background-color: lighten($light-blue, 70%);
+		border-bottom-left-radius: 0.5rem;
+		border-top-left-radius: 0.5rem;
 		padding: 0.5rem;
-
-		&.selected {
-			background-color: lighten($light-blue, 50%);
-		}
 	}
 
 	.panel-right {
+		border-bottom-right-radius: 0.5rem;
 		border-left: none;
+		border-top-right-radius: 0.5rem;
 		padding: 10px;
 		width: 100%;
 

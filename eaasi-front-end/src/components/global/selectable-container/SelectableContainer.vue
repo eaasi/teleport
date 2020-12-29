@@ -30,7 +30,7 @@ import Checkbox from '@/components/global/forms/Checkbox.vue';
 export default class SelectableContainer extends Vue {
 
 	/* Props
-	============================================*/        
+	============================================*/
 	@Prop({ type: String, required: true })
 	readonly title: string;
 
@@ -42,7 +42,7 @@ export default class SelectableContainer extends Vue {
 
 	@Prop({ type: Boolean, default: false })
 	readonly isSelected: boolean;
-	
+
 	@Prop({ type: String, default: 'lg' })
 	readonly iconSize: string;
 
@@ -59,7 +59,7 @@ export default class SelectableContainer extends Vue {
 		this.$emit('input', isSelected);
 		this.$emit('change', isSelected);
 	}
-	
+
 }
 </script>
 
@@ -106,10 +106,6 @@ export default class SelectableContainer extends Vue {
 		border-left: none;
 		padding: 10px;
 		width: 100%;
-
-		&.selected {
-			background-color: lighten($light-blue, 90%);
-		}
 
 		.header {
 			color: $dark-blue;

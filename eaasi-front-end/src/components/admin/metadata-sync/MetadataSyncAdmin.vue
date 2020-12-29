@@ -10,7 +10,7 @@
 				</div>
 				<search-bar
 					:border-color="$colors.lightNeutral"
-					placeholder="Enter an harvester name..."
+					placeholder="Enter a Harvester name"
 					:value="keyword"
 					@input="search"
 				/>

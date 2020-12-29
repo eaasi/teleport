@@ -1,6 +1,6 @@
 <template>
 	<div class="resource-list" v-if="result">
-		<div v-for="(resource, index) in result.result" :key="resource.title + index">
+		<div v-for="(resource, index) in result.result" :key="resource.title + index.toString()">
 			<environment-resource-card
 				v-if="isEnvironment(resource)"
 				:disable-select="true"

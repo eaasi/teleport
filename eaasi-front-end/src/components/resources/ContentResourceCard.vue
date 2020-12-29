@@ -27,7 +27,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
-import { resourceTypes } from '@/utils/constants';
+import {resourceTypes, translatedIcon} from '@/utils/constants';
 import { ROUTES } from '../../router/routes.const';
 
 @Component({
@@ -55,7 +55,7 @@ export default class ContentResourceCard extends Vue {
 	resourceTypeTags: ITag[] =  [
 		{
 			text: 'Content',
-			icon:'fa-file',
+			icon:  translatedIcon('file'),
 			color:'white'
 		}
 	];
@@ -69,11 +69,14 @@ export default class ContentResourceCard extends Vue {
 	bookmarks: IBookmark[];
 
 	get contentTagGroup(): ITag[] {
+		// As far as we know, Content on its own is never public.
+		// Once content is associated with an environment, a
+		// Content environment is created.
 		if (this.content.archiveId === 'zero conf') {
 			return [{
 				text: 'Private',
-				icon: 'fa-cloud-download-alt',
-				color: 'yellow'
+				icon:  translatedIcon('lock'),
+				color: 'red'
 			}];
 		}
 	}

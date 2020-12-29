@@ -81,29 +81,25 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
-					<h4 class="border-after">Environment Drives</h4>
-					<drive-resource-card
-						v-for="driveSetting in drives"
-						:key="driveSetting.drive.uid"
-						:drive-setting="driveSetting"
-						:resources="selectedObjects"
-					/>
-				</div>
 			</div>
 		</div>
-		<div class="emu-proj-details-wrapper">
+		<div class="emu-proj-details-wrapper" v-if="selectedObjects.length">
 			<div class="emulator-picker-wrapper">
 				<div class="flex flex-row justify-between">
 					<h4 style="margin-top: 0;">Objects</h4>
-					<ui-button color-preset="blue-transparent" @click="clear">
+					<div class="remove-resource clickable" @click="clear">
 						<div class="flex flex-row flex-center rm-btn">
 							Remove Resource
 							<span class="fas fa-times"></span>
 						</div>
-					</ui-button>
+					</div>
 				</div>
+				<object-card
+					v-if="selectedObjects.length"
+					:title="selectedObjects[0].label"
+					:resource-type-label="selectedObjects[0].resourceType"
+					:archive-label="selectedObjects[0].archiveId"
+				/>
 			</div>
 		</div>
 	</div>
@@ -125,6 +121,7 @@ import { updateNativeConfigForCpu, updateNativeConfigForMemory } from '@/helpers
 import DriveSettings from './shared/DriveSettings.vue';
 import EnvironmentCard from './shared/EnvironmentCard.vue';
 import DriveResourceCard from './shared/DriveResourceCard.vue';
+import ObjectCard from './shared/ObjectCard.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
@@ -132,6 +129,7 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 	components: {
 		SystemTemplateDetails,
         EnvironmentCard,
+		ObjectCard,
         DriveResourceCard,
 		CheckboxInfo,
 		DriveSettings,

@@ -38,15 +38,15 @@
 				case 'upload':
 					return '';
 				case 'lock':
-					return '';
-				case 'clipboard-list':
-					return '';
-				case 'manage':
 					return '';
-				case 'upload-cloud':
-					return '';
-				case 'cloud-check':
+				case 'clipboard-list':
+					return '';
+				case 'manage':
+					return '';
+				case 'cloud-upload':
 					return '';
+				case 'public-network':
+					return '';
 				case 'power':
 					return '';
 				case 'map-marker':
@@ -54,10 +54,9 @@
 				case 'cloud-download':
 				    return '';
 				case 'disk':
-                    return '';
+                    return '';
 				case 'unlock':
-					return '';
-
+					return '';
 				default:
 					return 'X';
 			}
@@ -68,7 +67,7 @@
 <style lang="scss">
 	@font-face {
 		font-family: EaasiIcon;
-		src: url('../../../assets/icomoon.ttf') format('truetype');
+		src: url('../../../assets/iconsEaaSI.ttf') format('truetype');
 	}
 
 	.eaasi-icon-container {
