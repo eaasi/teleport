@@ -158,10 +158,6 @@ export default class SelectableCard extends Vue {
 		padding: 10px;
 		width: 100%;
 
-		&.selected {
-			background-color: lighten($light-blue, 90%);
-		}
-
 		.header {
 			color: $dark-blue;
 			font-size: 1.6rem;

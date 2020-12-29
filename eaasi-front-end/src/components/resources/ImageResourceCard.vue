@@ -67,6 +67,7 @@ export default class ImageResourceCard extends Vue {
 	bookmarks: IBookmark[];
 
 	get imageTagGroup(): ITag[] {
+		// Currently, images are not public
 		if (this.image.isPublic) {
             return [{
                 text: 'Public',
@@ -75,9 +76,9 @@ export default class ImageResourceCard extends Vue {
             }];
 		} else {
 			return [{
-				text: 'Private',
-				icon:  translatedIcon('lock'),
-				color: 'red'
+				text: 'Shared to Node',
+				icon:  translatedIcon('unlock'),
+				color: 'yellow'
 			}];
         }
 	}

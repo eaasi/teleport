@@ -90,6 +90,10 @@ export default class EnvironmentResourceCard extends Vue {
 			icon: translatedIcon('config-environment'),
 			color: 'white'
 		}];
+
+		// TODO: Do we need to reactivate logic for isContent / isBase environment?
+		// Currently removed because almost all environments are Base environments.
+
 		// const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'zero conf');
 		// const isBaseEnvironment = (this.environment.objectArchive === 'Remote Objects' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'Remote Objects');
 		// if (isContentEnvironment) {
@@ -174,9 +178,9 @@ export default class EnvironmentResourceCard extends Vue {
 		} else if (this.environment.archive === archiveTypes.DEFAULT) {
 			tagGroup.push(
 				{
-					icon: translatedIcon('unlock'),
-					color: 'yellow',
-					text: 'Shared to Node'
+					icon: translatedIcon('lock'),
+					color: 'red',
+					text: 'Private'
 				}
 			);
 		}

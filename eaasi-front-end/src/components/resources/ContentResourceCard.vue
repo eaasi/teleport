@@ -69,6 +69,9 @@ export default class ContentResourceCard extends Vue {
 	bookmarks: IBookmark[];
 
 	get contentTagGroup(): ITag[] {
+		// As far as we know, Content on its own is never public.
+		// Once content is associated with an environment, a
+		// Content environment is created.
 		if (this.content.archiveId === 'zero conf') {
 			return [{
 				text: 'Private',

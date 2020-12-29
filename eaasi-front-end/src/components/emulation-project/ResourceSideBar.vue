@@ -91,11 +91,11 @@
 				>
 					<selectable-radio-card
 						footer
+						hide-details
 						:data="{ title: obj.title || obj.label }"
 						:value="isSelected(obj)"
 						@change="(e) => selectResource(obj, e)"
 						class="flex-grow no-mb"
-						style="width: 30rem;"
 					>
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(obj)" />
@@ -122,7 +122,7 @@ import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get, Sync } from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
-import { resourceTypes, IResourceTypes } from '@/utils/constants';
+import {resourceTypes, IResourceTypes, translatedIcon} from '@/utils/constants';
 import {getEnvironmentResourceTypeTags, getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
@@ -202,9 +202,9 @@ export default class ResourceSideBar extends Vue {
 		let tagGroup = [];
 		if (resource.archive === archiveTypes.PUBLIC) {
 			tagGroup.push({
-				icon: 'fa-cloud-download', // TODO: Needs a custom icon - cloud with check mark
+				icon: translatedIcon('map-marker'),
 				color: 'green',
-				text: 'Saved from network'
+				text: 'Saved Locally'
 			});
 		} else if (resource.archive === archiveTypes.REMOTE) {
 			tagGroup.push({
