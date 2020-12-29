@@ -11,4 +11,5 @@ RUN apk upgrade
 RUN apk add bash
 RUN ["chmod", "+x", "./wait-for-it.sh"]
 RUN npm install
+RUN ["npm", "run", "generate-docs"]
 EXPOSE 8081
