@@ -1,6 +1,6 @@
 <template>
 	<div id="accessDenied">
-		<h1>Not allowed</h1>
+		<h1>Unathorized</h1>
 	</div>
 </template>
 

@@ -136,10 +136,7 @@ export default class ResourceController extends BaseController {
 			// check if user has permissions to access requested resource
 			const userImportedRef = await this._userImportedContent.getByUserID(req.user.id);
 			const userHasAccessPermissions = userImportedRef.result.some(res => res.eaasiId === contentId);
-			if (!userHasAccessPermissions) {
-				res.status(401).send(null);
-			}
-			res.send(result);
+			userHasAccessPermissions ? res.send(result) : res.status(401).send(null);
 		} catch(e) {
 			this.sendError(e, res);
 		}
