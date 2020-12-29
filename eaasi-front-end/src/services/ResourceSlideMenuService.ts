@@ -5,10 +5,10 @@ import PublishToNetworkActionResolver from '@/services/ActionResolvers/PublishTo
 import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulatorActionResolver';
 import SaveToMyNodeActionResolver from '@/services/ActionResolvers/SaveToMyNodeActionResolver';
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
-import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
-import TreatAsSoftwareActionResolver from './ActionResolvers/TreatAsSoftwareActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
+import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
+import TreatAsSoftwareActionResolver from './ActionResolvers/TreatAsSoftwareActionResolver';
 
 
 /**

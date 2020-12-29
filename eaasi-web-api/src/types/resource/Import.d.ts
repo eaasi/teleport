@@ -5,7 +5,7 @@ export interface ISortable {
 	sortIndex: number;
 }
 
-export type ImportType = 'content' | 'software' | 'environment' | 'bulk' | 'image';
+export type ImportType = 'content' | 'software' | 'environment' | 'bulk';
 
 export type ResourceImportPath = 'Fast'; // | 'Detailed' | 'Unselected';
 

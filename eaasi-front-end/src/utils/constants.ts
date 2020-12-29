@@ -1,5 +1,5 @@
-import { IUIOsItem, ResourceType } from '@/types/Resource';
 import { ImportType } from '@/types/Import';
+import { IUIOsItem, ResourceType } from '@/types/Resource';
 
 const genericMachineIcon = require('../../assets/img/other.png');
 const linuxMachineIcon = require('../../assets/img/linux.png');

@@ -122,15 +122,14 @@ import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get, Sync } from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
-import {resourceTypes, IResourceTypes, translatedIcon} from '@/utils/constants';
-import {getEnvironmentResourceTypeTags, getResourceTypeTags} from '@/helpers/ResourceHelper';
+import {resourceTypes, IResourceTypes, translatedIcon, archiveTypes} from '@/utils/constants';
+import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import { ROUTES } from '@/router/routes.const';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
-import {archiveTypes} from '../../../../eaasi-web-api/src/utils/constants';
 
 @Component({
 	name: 'ResourceSideBar',

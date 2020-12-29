@@ -1,4 +1,4 @@
-import { ArchiveType, ResourceType } from '../types/resource/Resource';
+import { ArchiveType, ResourceType } from '@/types/resource/Resource';
 
 export const resourceTypes: IResourceTypes = {
 	ENVIRONMENT: 'Environment',
