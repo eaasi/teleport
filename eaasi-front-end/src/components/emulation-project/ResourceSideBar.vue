@@ -26,7 +26,7 @@
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Environments</h4>
 					<a
-						class="clickable txt-sm bold"
+						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.ENVIRONMENT])"
 					>
 						Clear All
@@ -67,7 +67,7 @@
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Objects</h4>
 					<a
-						class="clickable txt-sm bold"
+						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.CONTENT, resourceTypes.SOFTWARE])"
 					>
 						Clear All
