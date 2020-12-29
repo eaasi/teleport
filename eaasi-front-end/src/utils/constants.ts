@@ -1,5 +1,5 @@
 import { IUIOsItem, ResourceType } from '@/types/Resource';
-import {ImportType} from '../../../eaasi-web-api/src/types/resource/Import';
+import { ImportType } from '@/types/Import';
 
 const genericMachineIcon = require('../../assets/img/other.png');
 const linuxMachineIcon = require('../../assets/img/linux.png');
