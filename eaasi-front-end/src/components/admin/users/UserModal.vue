@@ -53,10 +53,15 @@
 			<div class="bottom-btn-wrapper" v-if="!isNew">
 				<hr class="btn-wrapper-hr" />
 				<div class="btn-wrapper">
-					<ui-button @click="showDeleteModal" color-preset="light-blue">Delete User</ui-button>
+					<ui-button 
+						@click.prevent="showDeleteModal" 
+						color-preset="light-blue"
+					>
+						Delete User
+					</ui-button>
 					<ui-button
 						v-if="showResetPassword"
-						@click="isResetPasswordModalVisible = true"
+						@click.prevent="isResetPasswordModalVisible = true"
 						color-preset="light-blue"
 						style="margin-left: 2rem;"
 					>
@@ -120,6 +125,7 @@ import { userRoles } from '../../../utils/constants';
 import config from '../../../config';
 import { generateNotificationError, generateCompletedTaskNotification, generateNotificationSuccess } from '../../../helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
+import User from '@/models/admin/User';
 
 @Component({
 	name: 'UserModal',
@@ -146,7 +152,10 @@ export default class UserModal extends Vue {
 	============================================*/
 
 	@Get('admin/roles')
-	roles: IEaasiRole[];
+	readonly roles: IEaasiRole[];
+
+	@Get('loggedInUser')
+	readonly loggedInUser: IEaasiUser;
 
 	get isNew() {
 		return !this.user.id;
@@ -161,7 +170,7 @@ export default class UserModal extends Vue {
 	}
 
 	get isAdmin(): boolean {
-		return this.user.roleId === userRoles.ADMIN;
+		return this.loggedInUser?.roleId === userRoles.ADMIN;
 	}
 
 	get radioOptions(): IRadioOption[] {

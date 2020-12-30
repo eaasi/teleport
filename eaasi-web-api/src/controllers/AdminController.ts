@@ -93,7 +93,7 @@ export default class AdminController extends BaseController {
 					const mailPayload: IMailPayload = { password, receiver: plainUser.email };
 					const mailResponse =  await this._mailerService.sendMail(MailerAction.NewAccountRegister, mailPayload);
 					if (mailResponse.accepted.length > 0) {
-						res.send(true);
+						return res.send(true);
 					}
 					res.status(500);
 					res.send(false);
@@ -119,8 +119,8 @@ export default class AdminController extends BaseController {
 			if (!SAML_ENABLED) {
 				await this._userHashService.deleteUserHash(id);
 			}
-			let roles = await this._userSvc.deleteUser(id);
-			res.send(roles);
+			await this._userSvc.deleteUser(id);
+			res.send(true);
 		} catch(e) {
 			return this.sendError(e, res);
 		}

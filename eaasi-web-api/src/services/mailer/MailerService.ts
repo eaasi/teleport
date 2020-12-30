@@ -43,10 +43,11 @@ export default class MailerService extends BaseService {
 	}
 
 	async sendMail(action: MailerAction, payload: IMailPayload) {
-		if (action === MailerAction.NewAccountRegister) {
-			return await this.sendNewAccountPassword(payload);
-		} else if (action === MailerAction.PasswordReset) {
-			return await this.sendResetPassword(payload);
+		switch (action) {
+			case MailerAction.NewAccountRegister:
+				return await this.sendNewAccountPassword(payload);
+			case MailerAction.PasswordReset:
+				return await this.sendResetPassword(payload);
 		}
 	}
 
