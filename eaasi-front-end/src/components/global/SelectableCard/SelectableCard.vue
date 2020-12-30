@@ -33,7 +33,7 @@
 			<div v-if="isLoading" class="panel-footer loading-tag">
 				<tag
 					text="Saving to Node"
-					externalIcon="fa-spinner fa-spin"
+					external-icon="fa-spinner fa-spin"
 					color="yellow"
 				/>
 			</div>
