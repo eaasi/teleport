@@ -1,6 +1,7 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
+import {translatedIcon} from '@/utils/constants';
 
 export default class AddSoftwareActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -19,7 +20,7 @@ export default class AddSoftwareActionResolver extends SlideMenuActionResolver {
 			shortName: 'add-software',
 			label: 'Add Software',
 			description: 'Combine software with this environment',
-			icon: 'plus',
+			icon: translatedIcon('disk'),
 			isEnabled: super.isSinglePublicResource() || super.isSingleDefaultResource()
 		};
 	}

@@ -26,7 +26,7 @@
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Environments</h4>
 					<a
-						class="clickable txt-sm bold"
+						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.ENVIRONMENT])"
 					>
 						Clear All
@@ -37,7 +37,7 @@
 					:key="env.envId"
 					class="flex-row mb"
 				>
-					<selectable-card
+					<selectable-radio-card
 						footer
 						:data="env"
 						is-clickable
@@ -49,7 +49,10 @@
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(env)" />
 						</template>
-					</selectable-card>
+						<template v-slot:tagsRight>
+							<tag-group position="right" :tags="getArchiveTags(env)" />
+						</template>
+					</selectable-radio-card>
 					<div>
 						<circle-button
 							color-preset="light-blue"
@@ -64,40 +67,40 @@
 				<div class="flex-row justify-between rsb-header">
 					<h4 class="no-mb">Objects</h4>
 					<a
-						class="clickable txt-sm bold"
+						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.CONTENT, resourceTypes.SOFTWARE])"
 					>
 						Clear All
 					</a>
 				</div>
-				<alert
-					no-icon
-					type="warning"
-					style-preset="border-right"
-					style="margin-bottom: 1rem;"
-					v-if="resourceLimit === 1"
-				>
-					Only one object type can be emulated <br />
-					at a time - content OR software
-				</alert>
+				<div class="rsb-alert-container">
+					<alert
+						no-icon
+						type="info"
+						style="margin-bottom: 1rem;"
+						v-if="resourceLimit === 1"
+					>
+						Only one object type can be emulated <br />
+						at a time - content or software
+					</alert>
+				</div>
 				<div
 					v-for="obj in objects"
 					:key="obj.id"
 					class="flex-row mb"
 				>
-					<selectable-card
+					<selectable-radio-card
 						footer
+						hide-details
 						:data="{ title: obj.title || obj.label }"
 						:value="isSelected(obj)"
 						@change="(e) => selectResource(obj, e)"
 						class="flex-grow no-mb"
-						style="width: 30rem;"
-						:disabled="isDisabled(obj)"
 					>
 						<template v-slot:tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(obj)" />
 						</template>
-					</selectable-card>
+					</selectable-radio-card>
 					<div>
 						<circle-button
 							color-preset="light-blue"
@@ -119,17 +122,19 @@ import { IEaasiTab } from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import { Get, Sync } from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
-import { resourceTypes, IResourceTypes } from '@/utils/constants';
-import { getResourceTypeTags } from '@/helpers/ResourceHelper';
+import {resourceTypes, IResourceTypes, translatedIcon, archiveTypes} from '@/utils/constants';
+import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
 import { ROUTES } from '@/router/routes.const';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
 
 @Component({
 	name: 'ResourceSideBar',
 	components: {
+		SelectableRadioCard,
 		EnvironmentResourceCard,
 		SoftwareResourceCard,
 		ContentResourceCard,
@@ -179,7 +184,8 @@ export default class ResourceSideBar extends Vue {
 		{
 			label: 'Project Resources'
 		},
-	]
+	];
+
 	defaultDriveLimit: number = 3;
 	activeTab: IEaasiTab = this.tabs[0];
 	resourceTypes: IResourceTypes = resourceTypes;
@@ -189,6 +195,29 @@ export default class ResourceSideBar extends Vue {
 
 	getTypeTags(resource: IEaasiResource) {
 		return getResourceTypeTags(resource);
+	}
+
+	getArchiveTags(resource: IEaasiResource) {
+		let tagGroup = [];
+		if (resource.archive === archiveTypes.PUBLIC) {
+			tagGroup.push({
+				icon: translatedIcon('map-marker'),
+				color: 'green',
+				text: 'Saved Locally'
+			});
+		} else if (resource.archive === archiveTypes.REMOTE) {
+			tagGroup.push({
+				icon: 'fa-cloud',
+				color: 'white',
+				text: 'Remote'
+			});
+		} else if (resource.archive === archiveTypes.DEFAULT) {
+			tagGroup.push({
+				color: 'yellow',
+				text: 'Local'
+			});
+		}
+		return tagGroup;
 	}
 
 	isSelected(resource: IEaasiResource) {
@@ -205,10 +234,11 @@ export default class ResourceSideBar extends Vue {
 
 	selectResource(resource: IEaasiResource, selected: boolean) {
 		let resourcesToSelect = [];
-		if(!selected || this.isSelected(resource)) {
+
+		if (!selected || this.isSelected(resource)) {
 			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);
 		} else {
-			resourcesToSelect = [...this.selected, resource];
+			resourcesToSelect = [resource];
 		}
 		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
 	}
@@ -239,6 +269,10 @@ export default class ResourceSideBar extends Vue {
 
 	.resource-object-container {
 		width: 308px;
+	}
+
+	.rsb-alert-container {
+		padding: 1rem 0;
 	}
 }
 

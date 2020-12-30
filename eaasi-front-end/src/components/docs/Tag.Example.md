@@ -20,10 +20,10 @@ Icons can be added to Tags by passing the name of a FontAwesome icon via the `ic
 <div>
     <div style="padding: 10px 0;">
         <tag icon="fa-star" text="Star" />
-        <tag icon="fa-chess" color="yellow" text="Chess" />
-        <tag icon="fa-feather" color="blue" text="Feather" />
-        <tag icon="fa-moon" color="red" text="Moon" />
-        <tag icon="fa-om" color="green" text="Om" />
+        <tag externalIcon="fa-chess" color="yellow" text="Chess" />
+        <tag externalIcon="fa-feather" color="blue" text="Feather" />
+        <tag externalIcon="fa-moon" color="red" text="Moon" />
+        <tag externalIcon="fa-om" color="green" text="Om" />
     </div>
 </div>
 ```

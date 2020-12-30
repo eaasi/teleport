@@ -1,91 +1,104 @@
 <template>
-	<div class="emu-proj-details-wrapper">
-		<div class="emulator-picker-wrapper">
-			<div class="flex flex-row justify-between">
-				<h4 style="margin-top: 0;">Base Environment</h4>
-				<ui-button color-preset="blue-transparent" @click="clear">
-					<div class="flex flex-row flex-cetner rm-btn">
-						Remove Resource
-						<span class="fas fa-times"></span>
+	<div>
+		<div class="emu-proj-details-wrapper">
+			<div class="emulator-picker-wrapper">
+				<div class="flex flex-row justify-between">
+					<div style="margin-top: 0;">
+						Base Environment
 					</div>
-				</ui-button>
-			</div>
-			<environment-card v-if="environment" />
-
-			<div v-if="environment">
-				<h4>Environment Options</h4>
-				<checkbox-info
-					label="Environment can print"
-					v-model="enablePrinting"
-				/>
-				<checkbox-info
-					label="Relative Mouse (Pointerlock)"
-					v-model="enableRelativeMouse"
-				/>
-				<checkbox-info
-					label="Requires clean shutdown"
-					v-model="shutdownByOs"
-				/>
-				<div>
-					<ui-button @click="showAdvancedOptions = !showAdvancedOptions" color-preset="white">
-						Advanced Options
-					</ui-button>
-					<div v-show="showAdvancedOptions" class="advanced-options-wrapper">
-						<checkbox-info
-							style="margin-bottom: 2rem;"
-							label="Virtualize CPU"
-							v-model="isKvmEnabled"
-						/>
-						<checkbox-info
-							label="WebRTC Audio (Beta)"
-							v-model="useWebRTC"
-						/>
-						<checkbox-info
-							label="XPRA Video (Experimental)"
-							v-model="useXpra"
-						/>
-						<div v-show="useXpra">
-							<select-list
-								v-model="xpraEncoding"
-								placeholder="Please select encoding for XPRA Video"
-								label="XPRA Video Encoding"
-							>
-								<option selected disabled value="">Please select encoding for XPRA Video</option>
-								<option value="auto">auto</option>
-								<option value="jpeg">jpeg</option>
-								<option value="png">png</option>
-								<option value="rgb24">rgb24</option>
-								<option value="rgb32">rgb32</option>
-								<option value="h264">h264</option>
-							</select-list>
+					<div class="remove-resource clickable" @click="clear">
+						<div class="flex flex-row flex-center rm-btn">
+							Remove Resource
+							<span class="fas fa-times"></span>
 						</div>
-						<text-input
-							style="margin-bottom: 2rem;"
-							label="cpu"
-							rules="required|numeric|min:1|max:9"
-							v-model.number="environmentCpu"
-						/>
-						<text-input
-							style="margin-bottom: 2rem;"
-							label="Disk Size (MB)"
-							rules="required|numeric|minlength:0|maxlength:10000"
-							v-model.number="environmentMemory"
-						/>
-						<text-input
-							label="Config"
-							v-model="nativeConfig"
-						/>
+					</div>
+				</div>
+				<environment-card v-if="environment" />
+
+				<div v-if="environment">
+					<h4>Environment Options</h4>
+					<checkbox-info
+						label="Environment can print"
+						v-model="enablePrinting"
+					/>
+					<checkbox-info
+						label="Relative Mouse (Pointerlock)"
+						v-model="enableRelativeMouse"
+					/>
+					<checkbox-info
+						label="Requires clean shutdown"
+						v-model="shutdownByOs"
+					/>
+					<div>
+						<ui-button @click="showAdvancedOptions = !showAdvancedOptions" color-preset="white">
+							Advanced Options
+						</ui-button>
+						<div v-show="showAdvancedOptions" class="advanced-options-wrapper">
+							<checkbox-info
+								style="margin-bottom: 2rem;"
+								label="Virtualize CPU"
+								v-model="isKvmEnabled"
+							/>
+							<checkbox-info
+								label="WebRTC Audio (Beta)"
+								v-model="useWebRTC"
+							/>
+							<checkbox-info
+								label="XPRA Video (Experimental)"
+								v-model="useXpra"
+							/>
+							<div v-show="useXpra">
+								<select-list
+									v-model="xpraEncoding"
+									placeholder="Please select encoding for XPRA Video"
+									label="XPRA Video Encoding"
+								>
+									<option selected disabled value="">Please select encoding for XPRA Video</option>
+									<option value="auto">auto</option>
+									<option value="jpeg">jpeg</option>
+									<option value="png">png</option>
+									<option value="rgb24">rgb24</option>
+									<option value="rgb32">rgb32</option>
+									<option value="h264">h264</option>
+								</select-list>
+							</div>
+							<text-input
+								style="margin-bottom: 2rem;"
+								label="cpu"
+								rules="required|numeric|min:1|max:9"
+								v-model.number="environmentCpu"
+							/>
+							<text-input
+								style="margin-bottom: 2rem;"
+								label="Disk Size (MB)"
+								rules="required|numeric|minlength:0|maxlength:10000"
+								v-model.number="environmentMemory"
+							/>
+							<text-input
+								label="Config"
+								v-model="nativeConfig"
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="disk-cards-wrapper" v-if="constructedFromBaseEnvironment">
-				<h4 class="border-after">Environment Drives</h4>
-				<drive-resource-card
-					v-for="driveSetting in drives"
-					:key="driveSetting.drive.uid"
-					:drive-setting="driveSetting"
-					:resources="selectedObjects"
+		</div>
+		<div class="emu-proj-details-wrapper" v-if="selectedObjects.length">
+			<div class="emulator-picker-wrapper">
+				<div class="flex flex-row justify-between">
+					<h4 style="margin-top: 0;">Objects</h4>
+					<div class="remove-resource clickable" @click="clear">
+						<div class="flex flex-row flex-center rm-btn">
+							Remove Resource
+							<span class="fas fa-times"></span>
+						</div>
+					</div>
+				</div>
+				<object-card
+					v-if="selectedObjects.length"
+					:title="selectedObjects[0].label"
+					:resource-type-label="selectedObjects[0].resourceType"
+					:archive-label="selectedObjects[0].archiveId"
 				/>
 			</div>
 		</div>
@@ -108,6 +121,7 @@ import { updateNativeConfigForCpu, updateNativeConfigForMemory } from '@/helpers
 import DriveSettings from './shared/DriveSettings.vue';
 import EnvironmentCard from './shared/EnvironmentCard.vue';
 import DriveResourceCard from './shared/DriveResourceCard.vue';
+import ObjectCard from './shared/ObjectCard.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 
 @Component({
@@ -115,6 +129,7 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 	components: {
 		SystemTemplateDetails,
         EnvironmentCard,
+		ObjectCard,
         DriveResourceCard,
 		CheckboxInfo,
 		DriveSettings,
@@ -279,7 +294,8 @@ export default class EmulationProjectDetails extends Vue {
 
 .emu-proj-details-wrapper {
 	background: #ffffff;
-	padding: 3rem;
+	margin-bottom: 2rem;
+	padding: 2rem 2.4rem 0.3rem 2.4rem;
 
 	.row {
 		margin-bottom: 1rem;
@@ -305,6 +321,11 @@ export default class EmulationProjectDetails extends Vue {
 
 	.advanced-options-wrapper {
 		margin-top: 2rem;
+	}
+
+	.remove-resource {
+		color: darken($light-blue, 30%);
+		padding: 1.1rem 0 1.1rem;
 	}
 }
 </style>

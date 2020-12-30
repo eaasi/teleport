@@ -28,6 +28,7 @@ import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 import { ROUTES } from '../../router/routes.const';
+import {translatedIcon} from '@/utils/constants';
 
 @Component({
 	name: 'SoftwareResourceCard',
@@ -57,7 +58,7 @@ export default class SoftwareResourceCard extends Vue {
 	resourceTypeTags: ITag[] =  [
 		{
 			text:'Software',
-			icon:'fa-browser',
+			icon: translatedIcon('disk'),
 			color:'white'
 		}
 	];
@@ -71,13 +72,13 @@ export default class SoftwareResourceCard extends Vue {
 	bookmarks: IBookmark[];
 
 	get summary(): IEaasiResourceSummary | null {
-		if(!this.software) return null;
+		if (!this.software) return null;
 		let summary = {
 			id: this.software.id,
 			title: this.software.label,
 			tagGroup: []
 		} as IEaasiResourceSummary;
-		if(this.hideDetails) return summary;
+		if (this.hideDetails) return summary;
 		summary.content = {
 			'id': this.software.id,
 			'Is Operating System': this.software.isOperatingSystem
@@ -94,11 +95,12 @@ export default class SoftwareResourceCard extends Vue {
 	}
 
 	get tagGroup(): ITag[] {
-		if(this.software.isPublic) return [];
+		if (this.software.isPublic) return [];
+		let lock = translatedIcon('lock');
 		return [{
 			text: 'Private',
-			icon: 'fa-cloud-download-alt',
-			color: 'yellow'
+			icon: lock,
+			color: 'red'
 		}];
 	}
 

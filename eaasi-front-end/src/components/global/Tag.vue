@@ -1,7 +1,12 @@
 <template functional>
 	<div :class="['eaasi-tag', props.color]">
-		<span v-if="props.icon" class="tag-icon">
-			<span :class="['icon', 'fas', props.icon]"></span>
+		<span>
+			<span v-if="props.externalIcon" class="tag-icon">
+				<span :class="['icon', 'fas', ...props.externalIcon.split(' ')]"></span>
+			</span>
+			<span class="eaasi-icon">
+				{{ props.icon }}
+			</span>
 		</span>
 		<span class="tag-text">
 			{{ props.text }}
@@ -31,12 +36,18 @@ export default class Tag extends Vue {
     readonly text: string;
 
     /**
-	 * The FontAwesome icon name displayed in the Tag
+	 * The custom EaaSI UI icon name displayed in the Tag
 	 */
     @Prop({type: String, required: false})
     readonly icon: string;
 
-    /**
+	/**
+	 * The FontAwesome icon name displayed in the Tag
+	 */
+	@Prop({type: String, required: false})
+	readonly externalIcon: string;
+
+	/**
 	 * The color of the Tag
 	 */
     @Prop({type: String, required: false})
@@ -46,24 +57,41 @@ export default class Tag extends Vue {
 
 <style lang="scss">
 	.eaasi-tag {
-		background-color: #ffffff;
-		border: solid 1px #DDDDDD;
-		border-radius: 0.6rem;
-		color: #000000;
-		display: inline-block;
-		font-size: 1.1rem;
-		height: 20px;
-		line-height: 20px;
+		align-items: center;
+		background-color: #FFFFFF;
+		border: solid 1px #E5E1DF;
+		border-radius: 0.5rem;
+		display: flex;
+		height: 18px;
+		justify-content: center;
 		margin: 0 1px;
-		padding: 0 8px;
+		padding: 0 5px;
+
+		.tag-text {
+			font-size: 1.2rem;
+			font-weight: 200;
+			padding: 0 4px 0 2px;
+		}
+
+		@font-face {
+			font-family: EaasiIcon;
+			src: url('../../assets/iconsEaaSI.ttf') format('truetype');
+		}
 
 		.icon {
-			color: rgba(0, 0, 0, 0.5);
-			margin-right: 0.4em;
+			color: rgba(0, 0, 0, 0.7);
+			font-size: 1.3rem;
+			margin-right: 0.3rem;
+		}
+
+		.eaasi-icon {
+			color: rgba(0, 0, 0, 0.7);
+			font-family: EaasiIcon, fantasy;
+			font-size: 1.6rem;
 		}
 
 		&.yellow {
-			background-color: #F8F7DF;
+			background-color: #F1EDBF;
 		}
 
 		&.blue {
@@ -78,4 +106,5 @@ export default class Tag extends Vue {
 			background-color: lighten($green, 85%);
 		}
 	}
+
 </style>

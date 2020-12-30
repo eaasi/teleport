@@ -8,7 +8,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import {ILabeledItem} from '@/types/ILabeledItem';
+import { ILabeledItem } from '@/types/ILabeledItem';
 
 /**
  * A labeled item

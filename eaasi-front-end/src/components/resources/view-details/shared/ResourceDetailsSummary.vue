@@ -2,22 +2,46 @@
 	<div class="vds-container">
 		<div class="rds-tags">
 			<span v-if="isEnvironment">
-				<tag :text="'Environment'" :icon="'fa-box'" :color="'blue'" />
+				<tag
+					:text="'Environment'"
+					:icon="environmentIcon"
+					color="blue"
+				/>
 			</span>
 			<span v-if="isSoftware">
-				<tag :text="'Software'" :icon="'fa-circle'" :color="'blue'" />
+				<tag
+					:text="'Software'"
+					:icon="softwareIcon"
+					color="blue"
+				/>
 			</span>
 			<span v-if="isContent">
-				<tag :text="'Content'" :icon="'fa-save'" :color="'blue'" />
+				<tag
+					:text="'Content'"
+					:icon="contentIcon"
+					color="blue"
+				/>
 			</span>
 			<span v-if="isPublicArchive">
-				<tag :text="'Saved'" :icon="'fa-map-marker-alt'" :color="'green'" />
+				<tag
+					:text="'Saved'"
+					:icon="publicNetworkIcon"
+					color="green"
+				/>
 			</span>
 			<span v-if="isPrivateArchive">
-				<tag :text="'Private'" :icon="'fa-cloud-download-alt'" :color="'green'" />
+				<tag
+					:text="'Private'"
+					:icon="privateIcon"
+					color="green"
+				/>
 			</span>
 			<span v-if="isRemoteArchive">
-				<tag :text="'Remote'" :icon="'fa-map-marker-alt'" :color="'blue'" />
+				<tag
+					:text="'Remote'"
+					:icon="publicNetworkIcon"
+					color="green"
+				/>
 			</span>
 		</div>
 		<div v-if="readonly" :class="{ 'changed': titleChanged }">
@@ -52,7 +76,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import {archiveTypes, resourceTypes} from '@/utils/constants';
+	import {archiveTypes, resourceTypes, translatedIcon} from '@/utils/constants';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IEaasiResourceSummary } from '@/types/Resource';
 	import { jsonCopy } from '@/utils/functions';
@@ -70,7 +94,7 @@
 		@Prop({ type: Boolean})
 		readonly: Boolean;
 
-		/* Props
+		/* Computed
         ============================================*/
 		get titleChanged() {
 			return this.localTitle !== this.summaryData.title;
@@ -105,8 +129,28 @@
 			return this.summaryData.resourceType === resourceTypes.CONTENT;
 		}
 
-		/* Data
-        ============================================*/
+		get contentIcon() {
+			return translatedIcon('file');
+		}
+
+		get softwareIcon() {
+			return translatedIcon('disk');
+		}
+
+		get environmentIcon() {
+			return translatedIcon('config-environment');
+		}
+
+		get publicNetworkIcon() {
+			return translatedIcon('public-network');
+		}
+
+		get privateIcon() {
+			return translatedIcon('lock');
+		}
+
+	/* Data
+	============================================*/
 		localTitle = jsonCopy(this.summaryData.title);
 		localDescription = this.summaryData.description ? jsonCopy(this.summaryData.description) : null;
 
@@ -116,6 +160,7 @@
 
 <style lang="scss">
 	.rds-tags {
+		display: flex;
 		margin: 1rem 0;
 	}
 
