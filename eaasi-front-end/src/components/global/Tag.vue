@@ -1,6 +1,13 @@
 <template functional>
 	<div :class="['eaasi-tag', props.color]">
-		<span class="icon">{{ props.icon }}</span>
+		<span>
+			<span v-if="props.externalIcon" class="tag-icon">
+				<span :class="['icon', 'fas', ...props.externalIcon.split(' ')]"></span>
+			</span>
+			<span class="eaasi-icon">
+				{{ props.icon }}
+			</span>
+		</span>
 		<span class="tag-text">
 			{{ props.text }}
 		</span>
@@ -29,12 +36,18 @@ export default class Tag extends Vue {
     readonly text: string;
 
     /**
-	 * The FontAwesome icon name displayed in the Tag
+	 * The custom EaaSI UI icon name displayed in the Tag
 	 */
     @Prop({type: String, required: false})
     readonly icon: string;
 
-    /**
+	/**
+	 * The FontAwesome icon name displayed in the Tag
+	 */
+	@Prop({type: String, required: false})
+	readonly externalIcon: string;
+
+	/**
 	 * The color of the Tag
 	 */
     @Prop({type: String, required: false})
@@ -66,6 +79,12 @@ export default class Tag extends Vue {
 		}
 
 		.icon {
+			color: rgba(0, 0, 0, 0.7);
+			font-size: 1.3rem;
+			margin-right: 0.3rem;
+		}
+
+		.eaasi-icon {
 			color: rgba(0, 0, 0, 0.7);
 			font-family: EaasiIcon, fantasy;
 			font-size: 1.6rem;

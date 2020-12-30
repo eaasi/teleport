@@ -3,7 +3,7 @@ import { Tag } from '@/components/global';
 import {translatedIcon} from '@/utils/constants';
 
 describe('Tag.vue', () => {
-	it('Renders text passed as prop', () => {
+	it ('Renders text passed as prop', () => {
 		const wrapper = shallowMount(Tag, {
 			propsData: {
 				text: 'hello',
@@ -14,7 +14,7 @@ describe('Tag.vue', () => {
 		expect(wrapper.find('.tag-text').text()).toBe('hello');
 	});
 
-	it('Does not render icon when no icon prop is passed', () => {
+	it ('Does not render icon when no icon prop is passed', () => {
 		const wrapper = shallowMount(Tag, {
 			propsData: {
 				text: 'hello',

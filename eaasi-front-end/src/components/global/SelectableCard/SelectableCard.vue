@@ -18,16 +18,24 @@
 			</div>
 
 			<div class="content" v-if="data.content">
-				<selectable-card-content :content-data="data.content" />
+				<selectable-card-content
+					:content-data="data.content"
+				/>
 			</div>
 
 			<div v-if="data.subContent">
 				<hr class="subcontent-divider" />
-				<selectable-card-content :content-data="data.subContent" />
+				<selectable-card-content
+					:content-data="data.subContent"
+				/>
 			</div>
 
 			<div v-if="isLoading" class="panel-footer loading-tag">
-				<tag text="Saving to Node" icon="fa-spinner fa-spin" color="yellow" />
+				<tag
+					text="Saving to Node"
+					externalIcon="fa-spinner fa-spin"
+					color="yellow"
+				/>
 			</div>
 
 			<div v-if="footer && !isLoading" class="panel-footer">
