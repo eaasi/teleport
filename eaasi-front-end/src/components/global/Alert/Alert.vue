@@ -134,6 +134,7 @@ export default class Alert extends Vue {
 	font-size: 1.6rem;
 	text-align: left;
 	user-select: none;
+	line-height: 2.2rem;
 
 	.collapse {
 		font-size: 1.8rem;

@@ -12,27 +12,36 @@
 
 			<div class="section-os row">
 				<div class="left col-md-7">
-					<text-input
-						v-model="environmentTitle"
-						label="Environment Name"
-						placeholder="Environment name"
-						rules="required"
-					/>
-					<os-picker
-						list
-						:selected-os="selectedOs"
-						@input="selectOs"
-						:readonly="!!operatingSystemId"
-					/>
-					<search-select-list
-						v-model="operatingSystemId"
-						label="Choose a System"
-						option-label="label"
-						anchor="id"
-						placeholder="Please select a System Template"
-						:data="osTemplates"
-						rules="required"
-					/>
+					<div class="modal-input-wrapper">
+						<text-input
+							v-model="environmentTitle"
+							label="Environment Name"
+							placeholder="Environment Name"
+							rules="required"
+						/>
+					</div>
+
+					<div class="modal-input-wrapper">
+						<os-picker
+							list
+							:selected-os="selectedOs"
+							@input="selectOs"
+							placeholder="Selected Operating System Version"
+							:readonly="!!operatingSystemId"
+						/>
+					</div>
+
+					<div class="modal-input-wrapper">
+						<search-select-list
+							v-model="operatingSystemId"
+							label="Choose a System"
+							option-label="label"
+							anchor="id"
+							placeholder="Please select a System Template"
+							:data="osTemplates"
+							rules="required"
+						/>
+					</div>
 				</div>
 
 				<div class="right col-md-5 flex flex-center">
@@ -166,10 +175,12 @@ export default class CreateBaseEnvModal extends Vue {
 
 <style lang="scss">
 	.base-env-container {
-		padding: 1.2rem 3.4rem;
+		padding: 1.2rem 1.4rem;
+		.modal-input-wrapper {
+			padding-bottom: 2.4rem;
+		}
 	}
 	.create-env-modal {
-
 		.eaasi-modal-content {
 			min-height: 50vh;
 		}
