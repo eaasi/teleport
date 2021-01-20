@@ -48,9 +48,9 @@ export default class ViewHeader extends Vue {
 		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.1);
 		font-size: 1.6rem;
 		font-weight: bold;
-		padding-top: 2rem;
 		padding-bottom: 2rem;
 		padding-left: 4rem;
+		padding-top: 2rem;
 		position: relative;
 		z-index: 2;
 	}

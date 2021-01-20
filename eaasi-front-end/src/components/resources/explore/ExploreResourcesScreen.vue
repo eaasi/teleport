@@ -164,6 +164,9 @@ export default class ExploreResourcesScreen extends Vue {
 	readonly tabs: IEaasiTab[];
 
 	get totalResults() {
+		if (!this.onlySelectedFacets)  {
+			return;
+		}
 		const totalResultsArr = this.onlySelectedFacets.flatMap(f => f.values.map(v => v.total));
 		return Math.min.apply(null, totalResultsArr);
 	}

@@ -293,6 +293,9 @@ const getters = {
 	},
 
 	facetsOfResourceTypesSelected(_, getters): ResourceType[] {
+		if (!getters.onlySelectedFacets) {
+			return null;
+		}
 		const resourceTypes = getters.onlySelectedFacets.flatMap(
 			f => f.values.map(v => v.resourceType)
 		);
