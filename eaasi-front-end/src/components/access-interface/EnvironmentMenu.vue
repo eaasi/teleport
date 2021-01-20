@@ -5,21 +5,21 @@
 				<tag
 					v-if="environment.isImport"
 					text="New Import"
-					icon="fa-upload"
+					:icon="uploadIcon"
 					color="yellow"
 				/>
 
 				<tag
 					v-else-if="isConstructed"
 					text="Content Environment"
-					icon="fa-save"
+					:icon="saveIcon"
 					color="blue"
 				/>
 
 				<tag
 					v-else
 					text="Base Environment"
-					icon="fa-box"
+					:icon="configEnvironmentIcon"
 				/>
 			</div>
 			<h2 v-if="environment.isImport">{{ importTitle }}</h2>
@@ -107,6 +107,7 @@ import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
 import { Get } from 'vuex-pathify';
+import {resourceTypes, archiveTypes, translatedIcon} from '@/utils/constants';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -139,6 +140,18 @@ export default class EnvironmentMenu extends Vue {
 		];
 	}
 
+	get configEnvironmentIcon(): string {
+		return translatedIcon('config-environment');
+	}
+
+	get saveIcon(): string {
+		return translatedIcon('fa-save');
+	}
+
+	get uploadIcon(): string {
+		return translatedIcon('upload');
+	}
+
 	tab: string = 'Configure New';
 
 	/**
@@ -155,9 +168,9 @@ export default class EnvironmentMenu extends Vue {
 	 * Emits an event to save an imported environment
 	 */
 	saveImport() {
-		eventBus.$emit('emulator:saveEnvironmentImport', { 
-			description: this.newImportDescription, 
-			title: this.environment.title 
+		eventBus.$emit('emulator:saveEnvironmentImport', {
+			description: this.newImportDescription,
+			title: this.environment.title
 		});
 	}
 
