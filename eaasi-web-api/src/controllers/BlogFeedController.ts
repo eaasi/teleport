@@ -2,7 +2,10 @@ import BlogFeedService from '@/services/blog/BlogFeedService';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
-const RSS_FEED_URL = 'https://www.softwarepreservationnetwork.org/blog/feed/';
+/**
+ * As of Jan 2021 this feed contains no usable data
+ */
+const RSS_FEED_URL = 'https://www.softwarepreservationnetwork.org/spn-news/feed/';
 
 export default class BlogFeedController extends BaseController {
 

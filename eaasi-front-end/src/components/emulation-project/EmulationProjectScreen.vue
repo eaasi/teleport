@@ -1,27 +1,29 @@
 <template>
 	<div class="emulation-project-screen width-lg">
-		<view-header title="Emulation Project">
-			<div class="head-text">
-				Choose hardware and/or emulator settings, add imported or discovered resources, and run
-				your emulation. Save a new resource from this project by using the RUN emulation interface.
-			</div>
-			<template v-slot:actions>
-				<div class="emu-project-actions">
-					<div class="emu-project-action">
-						<ui-button
-							color-preset="light-blue"
-							@click="clearAllAlertModal=true"
-							:disabled="clearAllDisabled"
-						>
-							Clear Project
-						</ui-button>
-					</div>
-					<div class="emu-project-action">
-						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
-					</div>
+		<div class="view-header-container">
+			<view-header title="Emulation Project">
+				<div class="header-text">
+					Choose hardware and/or emulator settings, add imported or discovered resources, and run
+					your emulation. Save a new resource from this project by using the RUN emulation interface.
 				</div>
-			</template>
-		</view-header>
+				<template v-slot:actions>
+					<div class="emu-project-actions">
+						<div class="emu-project-action">
+							<ui-button
+								color-preset="light-blue"
+								@click="clearAllAlertModal=true"
+								:disabled="clearAllDisabled"
+							>
+								Clear Project
+							</ui-button>
+						</div>
+						<div class="emu-project-action">
+							<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
+						</div>
+					</div>
+				</template>
+			</view-header>
+		</div>
 		<div class="flex main-content">
 			<div class="emulation-content flex-adapt">
 				<router-view />
@@ -310,9 +312,12 @@ export default class EmulationProjectScreen extends Vue {
 		margin: 0 1.2rem;
 	}
 
-	.header-text {
-		font-size: 1.6rem;
-		height: 100%;
+	.view-header-container {
+		background: lighten($light-neutral, 80%);
+		.header-text {
+			font-size: 1.6rem;
+			height: 100%;
+		}
 	}
 
 	.main-content {
