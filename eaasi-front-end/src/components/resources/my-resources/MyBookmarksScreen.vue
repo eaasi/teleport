@@ -183,6 +183,9 @@ export default class MyBookmarksScreen extends Vue {
 	}
 
 	get totalResults() {
+		if (!this.onlySelectedFacets)  {
+			return;
+		}
 		const totalResultsArr = this.onlySelectedFacets.flatMap(f => f.values.map(v => v.total));
 		return Math.min.apply(null, totalResultsArr);
 	}

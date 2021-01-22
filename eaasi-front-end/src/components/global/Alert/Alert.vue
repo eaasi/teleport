@@ -132,6 +132,7 @@ export default class Alert extends Vue {
 <style lang="scss">
 .eaasi-alert {
 	font-size: 1.6rem;
+	line-height: 2.2rem;
 	text-align: left;
 	user-select: none;
 
