@@ -50,6 +50,8 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
+console.log("Mode:" + process.env.NODE_ENV)
+
 sequelize.sync().then(() => {
 	/**
 	 * Create HTTP server.
