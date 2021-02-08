@@ -18,45 +18,45 @@
 		get translatedIcon() {
 			switch (this.icon) {
 				case 'paperclip':
-					return '';
-				case 'bookmark':
-					return '';
-				case 'file-container':
-					return '';
-				case 'home':
-					return '';
-				case 'trash':
-					return '';
-				case 'file':
-					return '';
-				case 'atom':
-					return '';
-				case 'config-environment':
-					return '';
-				case 'file-search':
-					return '';
-				case 'upload':
 					return '';
-				case 'lock':
+				case 'bookmark':
+					return '';
+				case 'file-container':
+					return '';
+				case 'home':
+					return '';
+				case 'trash':
 					return '';
-				case 'clipboard-list':
-					return '';
-				case 'manage':
-					return '';
-				case 'cloud-upload':
+				case 'file':
+					return '';
+				case 'atom':
+					return '';
+				case 'config-environment':
+					return '';
+				case 'file-search':
+					return '';
+				case 'upload':
+					return '';
+				case 'lock':
 					return '';
+				case 'clipboard-list':
+					return '';
+				case 'manage':
+					return '';
+				case 'cloud-upload':
+					return '';
 				case 'public-network':
 					return '';
 				case 'power':
-					return '';
+					return '';
 				case 'map-marker':
                     return '';
 				case 'cloud-download':
-				    return '';
+				    return '';
 				case 'disk':
-                    return '';
+                    return '';
 				case 'unlock':
-					return '';
+					return '';
 				default:
 					return 'X';
 			}
@@ -67,7 +67,7 @@
 <style lang="scss">
 	@font-face {
 		font-family: EaasiIcon;
-		src: url('../../../assets/iconsEaaSI.ttf') format('truetype');
+		src: url('../../../assets/EaaSI_icons.ttf') format('truetype');
 	}
 
 	.eaasi-icon-container {

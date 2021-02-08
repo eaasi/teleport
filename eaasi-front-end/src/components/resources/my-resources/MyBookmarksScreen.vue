@@ -9,11 +9,20 @@
 					<span v-else>No Bookmarks Found</span>
 				</p>
 			</div>
+
 			<div class="btn-section">
-				<ui-button color-preset="light-blue" @click="raiseClearBookmarksModal" v-if="bookmarks && bookmarks.length">
+				<ui-button
+					color-preset="light-blue"
+					@click="raiseClearBookmarksModal"
+					v-if="bookmarks && bookmarks.length"
+				>
 					Clear All Bookmarks
 				</ui-button>
-				<ui-button color-preset="light-blue" @click="$router.push(exploreResourcesPath)" v-else>
+				<ui-button
+					color-preset="light-blue"
+					@click="$router.push(exploreResourcesPath)"
+					v-else
+				>
 					Add Bookmarks
 				</ui-button>
 			</div>
@@ -297,6 +306,7 @@ export default class MyBookmarksScreen extends Vue {
 .bg-top-message {
 	background-color: lighten($light-neutral, 40%);
 	border-bottom: 2px solid darken($light-neutral, 10%);
+	display: flex;
 	justify-content: space-between;
 	min-height: 5rem;
 	padding: 2rem 8rem 2rem 2rem;

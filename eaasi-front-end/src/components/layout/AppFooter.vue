@@ -1,11 +1,11 @@
-<template functional>
+<template>
 	<footer id="footer" class="flex-row">
 		<div id="footerLogo">
 			<div class="footer-logo">
 				<img src="@/assets/header-logo.png" alt="Eaasi Logo" />
 			</div>
 			<div class="footer-logo-label">
-				&copy; EaaSI 2020
+				{{ copyrightMessage }}
 			</div>
 		</div>
 
@@ -19,9 +19,9 @@
 						</span>
 					</a>
 				</div>
-				<a 
-					class="inline-block social-link" 
-					href="https://twitter.com/SoftPresNetwork" 
+				<a
+					class="inline-block social-link"
+					href="https://twitter.com/SoftPresNetwork"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
@@ -71,6 +71,11 @@ import Component from 'vue-class-component';
 	name: 'AppFooter',
 })
 export default class AppFooter extends Vue {
+	get copyrightMessage() {
+		var now = new Date();
+		const thisYear = now.getFullYear();
+		return `© EaaSI ${thisYear}`;
+	}
 };
 </script>
 

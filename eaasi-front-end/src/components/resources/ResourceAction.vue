@@ -70,7 +70,7 @@ export default class ResourceAction extends Vue {
 
 @font-face {
 	font-family: EaasiIcon;
-	src: url('../../assets/iconsEaaSI.ttf') format('truetype');
+	src: url('../../assets/EaaSI_icons.ttf') format('truetype');
 }
 
 .ra-icon {
