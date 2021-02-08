@@ -63,7 +63,7 @@ export const defaultOsList: IUIOsItem[] = [
 ];
 
 export function translatedIcon(name: string): string {
-	switch (this.icon) {
+	switch (name) {
 		case 'paperclip':
 			return '';
 		case 'bookmark':
