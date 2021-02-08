@@ -3,42 +3,63 @@
 		<div class="rds-tags">
 			<span v-if="isEnvironment">
 				<tag
-					:text="'Environment'"
+					text="Environment"
 					:icon="environmentIcon"
-					color="blue"
+					color="white"
 				/>
 			</span>
 			<span v-if="isSoftware">
 				<tag
-					:text="'Software'"
+					text="Software"
 					:icon="softwareIcon"
-					color="blue"
+					color="white"
+				/>
+			</span>
+			<span v-if="isSoftware && !isPublicArchive">
+				<tag
+					text="Private"
+					:icon="privateIcon"
+					color="red"
 				/>
 			</span>
 			<span v-if="isContent">
 				<tag
-					:text="'Content'"
+					text="Content"
 					:icon="contentIcon"
-					color="blue"
+					color="white"
+				/>
+			</span>
+			<span v-if="isContent">
+				<tag
+					text="Private"
+					:icon="privateIcon"
+					color="red"
 				/>
 			</span>
 			<span v-if="isPublicArchive">
 				<tag
-					:text="'Saved'"
+					text="Public"
 					:icon="publicNetworkIcon"
+					color="green"
+				/>
+			</span>
+			<span v-if="isPublicArchive">
+				<tag
+					text="Saved Locally"
+					:icon="savedLocallyIcon"
 					color="green"
 				/>
 			</span>
 			<span v-if="isPrivateArchive">
 				<tag
-					:text="'Private'"
+					text="Private"
 					:icon="privateIcon"
-					color="green"
+					color="red"
 				/>
 			</span>
 			<span v-if="isRemoteArchive">
 				<tag
-					:text="'Remote'"
+					text="Remote"
 					:icon="publicNetworkIcon"
 					color="green"
 				/>
@@ -143,6 +164,10 @@
 
 		get publicNetworkIcon() {
 			return translatedIcon('public-network');
+		}
+
+		get savedLocallyIcon() {
+			return translatedIcon('map-marker');
 		}
 
 		get privateIcon() {
