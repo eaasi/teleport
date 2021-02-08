@@ -5,6 +5,15 @@
 ## Summary
 This repository contains the Vue + Express + PostgreSQL + nginx EaaSI application.
 
+### Development Requirements:
+
+- node v10.15.3
+- Docker
+  - Docker Desktop recommended for local development
+- Vue cli v3.6.3
+
+This project has been developed and tested using unix-like environments (macOS, debian)
+
 ---
 ## Architecture Diagram
 

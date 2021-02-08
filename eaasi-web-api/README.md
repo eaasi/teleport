@@ -2,6 +2,8 @@
 
 # eaasi-web-api
 
+> __Note:__ Use node v.10.15.3
+
 This directory contains the Express.js web server application for the EaaSI Front End.
 This app is "the back end of the front end," and has the following responsibilities:
 
@@ -9,7 +11,6 @@ This app is "the back end of the front end," and has the following responsibilit
 - Exposes an interface to the EaaSI metadata model
 - Reads and writes data to a SQL database for client-specific business logic
 - Provides client-specific business logic, including user management, interaction with SAML identity providers, bookmarking, background task management, blog syndication, and metadata serialization.
-
 
 ---
 
