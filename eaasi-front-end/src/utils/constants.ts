@@ -63,47 +63,47 @@ export const defaultOsList: IUIOsItem[] = [
 ];
 
 export function translatedIcon(name: string): string {
-	switch (name) {
+	switch (this.icon) {
 		case 'paperclip':
-			return '';
-		case 'bookmark':
-			return '';
-		case 'file-container':
-			return '';
-		case 'home':
-			return '';
-		case 'trash':
-			return '';
-		case 'file':
-			return '';
-		case 'atom':
-			return '';
-		case 'config-environment':
-			return '';
-		case 'file-search':
-			return '';
-		case 'upload':
 			return '';
-		case 'lock':
+		case 'bookmark':
+			return '';
+		case 'file-container':
+			return '';
+		case 'home':
+			return '';
+		case 'trash':
 			return '';
-		case 'clipboard-list':
-			return '';
-		case 'manage':
-			return '';
-		case 'cloud-upload':
+		case 'file':
+			return '';
+		case 'atom':
+			return '';
+		case 'config-environment':
+			return '';
+		case 'file-search':
+			return '';
+		case 'upload':
+			return '';
+		case 'lock':
 			return '';
+		case 'clipboard-list':
+			return '';
+		case 'manage':
+			return '';
+		case 'cloud-upload':
+			return '';
 		case 'public-network':
 			return '';
 		case 'power':
-			return '';
+			return '';
 		case 'map-marker':
 			return '';
 		case 'cloud-download':
-			return '';
+			return '';
 		case 'disk':
-			return '';
-		case 'unlock':
 			return '';
+		case 'unlock':
+			return '';
 		default:
 			return 'X';
 	}
