@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<div class="mtb-container">
-			<dual-toggle 
+			<dual-toggle
 				v-if="userCanEdit"
-				:options="toggleOptions" 
+				:options="toggleOptions"
 				:value="toggleValue"
-				@input="onToggleValueChange" 
+				@input="onToggleValueChange"
 			/>
 			<div class="flex-center flex-row" style="flex: 1; justify-content: flex-start; margin-left: 2rem;">
 				<div v-if="!userCanEdit" class="read-only-message no-select" style="margin-right: 2rem;">
@@ -16,10 +16,10 @@
 						Edit resource metadata and save changes.
 					</span>
 					<div>
-						<ui-button 
+						<ui-button
 							color-preset="light-blue"
-							size="md" 
-							style="margin-right: 1rem;" 
+							size="md"
+							style="margin-right: 1rem;"
 							@click="$emit('refresh')"
 						>
 							Cancel Changes
@@ -30,11 +30,6 @@
 					</div>
 				</div>
 				<slot name="meta-description">
-					<div v-if="isPublic && (!isEditMode || !userCanEdit)">
-						Visit this published resource on 
-						<a href="">Wikidata for Digital Preservation</a>
-						to initiate metadata changes.
-					</div>
 				</slot>
 			</div>
 		</div>
@@ -67,7 +62,7 @@ export default class ModeToggle extends Vue {
 	============================================*/
 	@Prop({ type: String })
 	toggleValue: string;
-	
+
 	@Prop({ type: Array as () => String[], required: true })
 	toggleOptions: String[]
 
@@ -81,11 +76,11 @@ export default class ModeToggle extends Vue {
     ============================================*/
 	@Get('loggedInUser')
     loggedInUser: User;
-    
+
     get userCanEdit() {
 		return this.loggedInUser.userHasEditPermissions && this.toggleOptions.length > 1;
 	}
-	
+
 	get isEditMode(): boolean {
 		return this.toggleValue === 'Edit Mode';
 	}

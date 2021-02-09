@@ -107,8 +107,7 @@ export default class SoftwareResourceCard extends Vue {
 	/* Methods
 	============================================*/
 	goToDetailsPage() {
-		this.$router.push(
-			{
+		this.$router.push({
 				path: ROUTES.RESOURCES.SOFTWARE,
 				query: {
 					resourceId: this.software.id.toString(),
@@ -116,7 +115,6 @@ export default class SoftwareResourceCard extends Vue {
 				}
 			});
 	}
-
 }
 
 </script>

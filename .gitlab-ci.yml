@@ -15,8 +15,8 @@ before_script:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
     # Add git user
-    - git config --global user.email "andrii@portalmedia.com"
-    - git config --global user.name "Andrii"
+    - git config --global user.email "wes@portalmedia.com"
+    - git config --global user.name "Wes"
 
 
 stages:
