@@ -208,7 +208,6 @@
 
 		.vds-footer {
 			font-size: 0.8rem;
-
 			.vds-label {
 				text-transform: uppercase;
 			}
