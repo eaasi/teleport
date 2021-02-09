@@ -263,10 +263,10 @@ export default class ImportedResourcesScreen extends Vue {
 		border-bottom: 2px solid darken($light-neutral, 10%);
 		justify-content: space-between;
 		min-height: 5rem;
-		padding: 2rem 3rem;
 		.btn-section {
 			border-left: 2px solid darken($light-neutral, 10%);
 			padding: 0.5rem 3rem;
+			display: flex;
 		}
 	}
 
