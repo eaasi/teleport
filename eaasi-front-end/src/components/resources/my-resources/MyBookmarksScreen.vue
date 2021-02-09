@@ -314,6 +314,7 @@ export default class MyBookmarksScreen extends Vue {
 	.btn-section {
 		border-left: 2px solid darken($light-neutral, 10%);
 		padding: 0.5rem 3rem;
+		display: flex;
 	}
 }
 
