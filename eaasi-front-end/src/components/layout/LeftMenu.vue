@@ -56,12 +56,6 @@ export default class LeftMenu extends Vue {
 				route: ROUTES.RESOURCES.MY_RESOURCES,
 			},
 			{
-				icon: '',
-				label: '',
-				route: '',
-				isDivider: true,
-			},
-			{
 				icon: 'atom',
 				label: 'Emulation Project',
 				route: ROUTES.EMULATION_PROJECT.ROOT,
@@ -70,12 +64,6 @@ export default class LeftMenu extends Vue {
 				icon: 'upload',
 				label: 'Import Resource',
 				route: ROUTES.IMPORT_RESOURCE,
-			},
-			{
-				icon: '',
-				label: '',
-				route: '',
-				isDivider: true,
 			}];
 
 		if (this.userCanManageNode()) {
@@ -92,7 +80,7 @@ export default class LeftMenu extends Vue {
 	navigateToDashboard() {
 		this.$router.push(ROUTES.DASHBOARD);
 	}
-	
+
 }
 
 </script>

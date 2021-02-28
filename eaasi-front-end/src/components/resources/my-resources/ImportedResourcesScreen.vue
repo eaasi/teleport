@@ -265,8 +265,8 @@ export default class ImportedResourcesScreen extends Vue {
 		min-height: 5rem;
 		.btn-section {
 			border-left: 2px solid darken($light-neutral, 10%);
-			padding: 0.5rem 3rem;
 			display: flex;
+			padding: 0.5rem 3rem;
 		}
 	}
 
