@@ -3,6 +3,7 @@ import { authRequestLimit } from '@/middleware/request-limit';
 import { IAuthorizedRequest, IChangePasswordRequest } from '@/types/auth/Auth';
 import express from 'express';
 import passport from 'passport';
+import {verifyToken} from '@/middleware/auth-middleware';
 
 const router = express.Router();
 const controller = new AuthController();
@@ -74,7 +75,7 @@ router.post('/change-password', jwtAuth, (req: IAuthorizedRequest, res) => contr
  *    "exp":1571496422
  *    }
  */
-router.get('/user', jwtAuth, (req: IAuthorizedRequest, res) => controller.user(req, res));
+router.get('/user', verifyToken, (req: IAuthorizedRequest, res) => controller.user(req, res));
 
 /**
  * @api {delete} auth/logout Log a User out
