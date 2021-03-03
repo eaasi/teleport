@@ -5,9 +5,7 @@ import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
-import { ILoginRequest } from '@/types/Auth';
 import { IEaasiUser } from 'eaasi-admin';
-import { IEaasiTab } from 'eaasi-nav';
 
 /*============================================================
  == State
@@ -62,15 +60,8 @@ const actions = {
 	============================================*/
 
 	async logout(): Promise<void> {
-		if (config.SAML_ENABLED) {
-			const { redirectTo } = await _authService.logout();
-			Cookies.remove(config.JWT_NAME, { path: '/'});
-			window.location.assign(redirectTo);
-		} else {
-			await _authService.logout();
-			Cookies.remove(config.JWT_NAME, { path: '/'});
-			window.location.reload();
-		}
+		(window as any).keycloak.logout();
+		Cookies.remove(config.JWT_NAME, { path: '/' });
   	},
 
 	async initSession({ commit, state }): Promise<boolean> {
@@ -83,10 +74,9 @@ const actions = {
 		return true;
 	},
 
-	async login({ dispatch }, loginRequest: ILoginRequest): Promise<boolean> {
-		const success = await _authService.login(loginRequest);
-		if (success) dispatch('initSession');
-		return success;
+	login({ dispatch }, jwt: string): void {
+		Cookies.set(config.JWT_NAME, jwt, { path: '/' });
+		dispatch('initSession');
 	},
 
 };

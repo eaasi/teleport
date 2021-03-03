@@ -14,7 +14,6 @@ import EmulationProjectDetails from '@/components/emulation-project/EmulationPro
 import EmulationProjectOptions from '@/components/emulation-project/EmulationProjectOptions.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 import ImportScreen from '@/components/import/ImportResourceScreen.vue';
-import LoginScreen from '@/components/login/LoginScreen.vue';
 import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesScreen.vue';
 import ContentDetailsScreen from '@/components/resources/view-details/content/ContentDetailsScreen.vue';
@@ -31,14 +30,14 @@ export default [
 		},
 	},
 
-	{
+	/*{
 		path: ROUTES.LOGIN,
 		name: 'Login',
 		component: LoginScreen,
 		meta: {
 			allowGuest: true
 		}
-	},
+	},*/
 
 	{
 		path: ROUTES.DASHBOARD,
