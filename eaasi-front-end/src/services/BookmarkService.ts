@@ -16,13 +16,13 @@ class BookmarkService extends BaseHttpService {
         return res.result;
     }
 
-    async getBookmarks(userId: number): Promise<IBookmark> {
+    async getBookmarks(userId: string): Promise<IBookmark> {
         const res = await this.get<IBookmark>(`${config.REST_API_URL}/bookmark?userId=${userId}`);
         if (!res.ok) return null;
         return res.result;
     }
 
-    async clearBookmarks(userId: number) {
+    async clearBookmarks(userId: string) {
         const res = await this.delete<IBookmark>(`${config.REST_API_URL}/bookmark/all?userId=${userId}`);
         if (!res.ok) return null;
         return res.result;

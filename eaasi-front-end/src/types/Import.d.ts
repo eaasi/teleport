@@ -36,7 +36,7 @@ export interface IEnvironmentImportSnapshot {
 export interface IImportObjectRequest {
 	files: IFileImport[];
 	label: string;
-	userId?: number;
+	userId?: string;
 }
 
 /**

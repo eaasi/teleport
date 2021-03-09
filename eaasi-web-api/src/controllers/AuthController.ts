@@ -11,8 +11,9 @@ import fs from 'fs';
 import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
 import { Strategy as SamlStrategy } from 'passport-saml';
 import path from 'path';
-import { SECRET } from '../config/jwt-config';
+import { SECRET } from '@/config/jwt-config';
 import BaseController from './base/BaseController';
+import KeycloakService from '@/services/keycloak/KeycloakService';
 
 const SP_CERT_RELPATH = process.env.SP_CERT_RELPATH;
 const IDP_CERT_RELPATH = process.env.IDP_CERT_RELPATH;
@@ -26,10 +27,12 @@ export default class EaasiAuthController extends BaseController {
 	private readonly _userService: UserService;
 	private readonly _authService: AuthService;
 	private readonly _userHashService: UserHashService;
+	private readonly _keycloakService: KeycloakService;
 
 	constructor() {
 		super();
 		this._userService = new UserService();
+		this._keycloakService = new KeycloakService();
 		if (!SAML_ENABLED) {
 			this._authService = new AuthService();
 			this._userHashService = new UserHashService();
@@ -135,10 +138,9 @@ export default class EaasiAuthController extends BaseController {
      */
 	async user(req: IAuthorizedRequest, res: Response) {
 		try {
-			const userId: number = req.user.id;
-			const userFromDb = await this._userService.getUser(userId);
-			if (userFromDb != null) {
-				res.json(req.user);
+			const response = await this._keycloakService.getUserInfo(req.headers.authorization);
+			if (response != null) {
+				res.json(await response.json());
 			} else {
 				res.status(401);
 				res.send(null);

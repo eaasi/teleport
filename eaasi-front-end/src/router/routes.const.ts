@@ -1,6 +1,5 @@
 export const ROUTES: IRoutes = {
     INDEX: '/',
-    LOGIN: '/login',
     DASHBOARD: '/dashboard',
     MANAGE_NODE: {
         ROOT: '/manage-node',
@@ -33,7 +32,6 @@ export const ROUTES: IRoutes = {
 
 interface IRoutes {
     INDEX: string;
-    LOGIN: string;
     DASHBOARD: string;
     MANAGE_NODE: IManageNodeRoutes;
     EMULATION_PROJECT: IEmulationProjectRoutes;

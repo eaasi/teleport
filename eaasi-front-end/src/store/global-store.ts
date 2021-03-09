@@ -5,7 +5,6 @@ import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
-import { IEaasiUser } from 'eaasi-admin';
 
 /*============================================================
  == State
@@ -44,8 +43,8 @@ mutations['SET_PERMISSIONS'] = function(state: GlobalState, roleId: number) {
 	state.permissions = new PermissionResolver(roleId);
 };
 
-mutations['SET_LOGGED_IN_USER'] = function(state: GlobalState, user: IEaasiUser) {
-	const loggedInUser = new User(user);
+mutations['SET_LOGGED_IN_USER'] = function(state: GlobalState, user: User) {
+	const loggedInUser = user;
 	state.loggedInUser = loggedInUser;
 	state.permissions = new PermissionResolver(loggedInUser.roleId);
 };

@@ -35,7 +35,7 @@ declare module 'eaasi-admin' {
 	============================================*/
 
 	export interface IEaasiUser {
-		id: number;
+		id: string;
 		email: string;
 		firstName: string;
 		lastName: string;

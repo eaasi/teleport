@@ -2,7 +2,7 @@ import { IEaasiUser } from 'eaasi-admin';
 import { userRoles } from '@/utils/constants';
 
 export default class User implements IEaasiUser {
-	id: number;
+	id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
@@ -12,22 +12,20 @@ export default class User implements IEaasiUser {
 	updatedAt: Date;
 	lastLogin: Date;
 
-	constructor(user: IEaasiUser = null) {
+	constructor(user: any = null) {
 		if (user) {
-			this.id = user.id;
+			this.id = user.sub;
 			this.email = user.email;
-			this.firstName = user.firstName;
-			this.lastName = user.lastName;
-			this.username = user.username;
-			this.roleId = user.roleId;
-			this.createdAt = user.createdAt;
-			this.updatedAt = user.updatedAt;
-			this.lastLogin = user.lastLogin;
+			this.firstName = user.given_name;
+			this.lastName = user.family_name;
+			this.username = user.preferred_username;
+			//TODO: get role from keycloak
+			this.roleId = userRoles.ADMIN;
 		}
 	}
 
 	get userHasEditPermissions() {
-		return this.roleId === userRoles.ADMIN 
+		return this.roleId === userRoles.ADMIN
 			|| this.roleId === userRoles.MANAGER;
 	}
 }

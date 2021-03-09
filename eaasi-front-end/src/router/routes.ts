@@ -25,9 +25,7 @@ import { ROUTES } from './routes.const';
 export default [
 	{
 		path: ROUTES.INDEX,
-		redirect: {
-			path: ROUTES.DASHBOARD
-		},
+		redirect: ROUTES.DASHBOARD,
 	},
 
 	/*{

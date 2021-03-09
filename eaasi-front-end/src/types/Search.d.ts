@@ -27,7 +27,7 @@ export interface IResourceSearchQuery {
 	archives: ResourceArchive[];
 	limit: number;
 	page: number;
-	userId?: number;
+	userId?: string;
 	onlyBookmarks?: boolean;
 	onlyImportedResources?: boolean;
 }
