@@ -10,7 +10,7 @@ LANGUAGE SQL
 AS $BODY$
 UPDATE public.eaasi_user_hash
 SET hash = '$2b$10$e5SsSSnBl2RNSiiQOolAeemdCq.d4TpfaCuvJi.uQ5LbPBgZAvrLy'
-WHERE "userId" = 1
+WHERE "userId" = '1'
 $BODY$;
         `);
 	},

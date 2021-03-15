@@ -6,7 +6,7 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('eaasi_user_hash', {
 			userId: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(50),
 				allowNull: false,
 				primaryKey: true,
 				columnName: 'user_id',

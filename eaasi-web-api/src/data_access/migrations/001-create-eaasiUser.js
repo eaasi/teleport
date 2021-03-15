@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 const Sq = require('sequelize');
@@ -6,10 +7,9 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('eaasi_user', {
 			id: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(50),
 				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
+				primaryKey: true
 			},
 			createdAt: {
 				type: Sq.DATE,
@@ -58,3 +58,4 @@ module.exports = {
 		return queryInterface.dropTable('eaasi_user');
 	}
 };
+*/

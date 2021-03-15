@@ -40,7 +40,7 @@ export default class UserService extends BaseService {
 	 * Gets a User by Id
 	 * @param id: number User PK
 	 */
-	async getUser(id: number) {
+	async getUser(id: string) {
 		let result = await this._userCrudService.getByPk(id);
 
 		if (result.hasError) {
@@ -54,7 +54,7 @@ export default class UserService extends BaseService {
 		return result.result;
 	}
 
-	async recordLastLogin(userId: number) {
+	async recordLastLogin(userId: string) {
 		let result = await this._userCrudService.update(userId, { lastLogin: new Date() });
 
 		if (result.hasError) {

@@ -14,12 +14,11 @@ export class EaasiUser extends Model<EaasiUser> {
     updatedAt: Date = new Date();
 
     @Column({
-    	type: DataTypes.INTEGER,
+    	type: DataTypes.STRING(50),
     	allowNull: false,
     	primaryKey: true,
-    	autoIncrement: true,
     })
-    id: number;
+    id: string;
 
     @Column({
     	allowNull: false,

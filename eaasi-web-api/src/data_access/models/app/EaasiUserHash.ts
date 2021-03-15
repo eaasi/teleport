@@ -15,11 +15,11 @@ export class EaasiUserHash extends Model<EaasiUserHash> {
 
 	@ForeignKey(() => EaasiUser)
     @Column({
-    	type: DataTypes.INTEGER,
+    	type: DataTypes.STRING(50),
     	allowNull: false,
     	primaryKey: true
     })
-    userId: number;
+    userId: string;
 
     @Column({
     	allowNull: false,

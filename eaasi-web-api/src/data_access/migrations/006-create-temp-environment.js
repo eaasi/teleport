@@ -23,7 +23,7 @@ module.exports = {
 				allowNull: false,
 			},
 			userId: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(50),
 				allowNull: false,
 				references: {
 					model: 'eaasi_user',

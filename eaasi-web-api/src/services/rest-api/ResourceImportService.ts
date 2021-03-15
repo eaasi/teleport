@@ -30,9 +30,9 @@ export default class ResourceImportService extends BaseService {
 
 	/**
      * Gets all Imported Content for a User
-     * @param userID: number PK for the User
+     * @param userId: number PK for the User
      */
-	async getByUserID(userId: number): Promise<IResourceImportResult> {
+	async getByUserID(userId: string): Promise<IResourceImportResult> {
 		let userImportedEnvironments = await this._importedEnvironmentService.getByUserID(userId);
 		let userImportedSoftware = await this._importedSoftwareService.getByUserID(userId);
 		let userImportedContent = await this._importedContentService.getByUserID(userId);

@@ -21,8 +21,8 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to search all available resources
 	 * @param { IResourceSearchQuery } query
 	 */
-	async searchResources(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
-		let res = await this.post<IResourceSearchResponse>('/resource/search', query);
+	async searchResources(query: IResourceSearchQuery, userId: string): Promise<IResourceSearchResponse> {
+		let res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
 		if (!res.ok) return null;
 		return res.result;
 	}
@@ -179,7 +179,7 @@ class ResourceService extends BaseHttpService {
 		let res = await this.get<ITempEnvironmentRecord[]>('/resource/temp');
 		return res.result;
 	}
-	
+
 	/**
 	 * Makes a POST request to delete an image
 	 * @param payload: IImageDeletePayload

@@ -8,10 +8,10 @@ import { EaasiUser } from '../EaasiUser';
 export class EaasiUserOwnedModel extends Model<EaasiUserOwnedModel> {
 	@ForeignKey(() => EaasiUser)
 	@Column({
-    	type: DataTypes.INTEGER,
+    	type: DataTypes.STRING(50),
     	allowNull: false,
 	})
-	userId: number;
+	userId: string;
 
 	@BelongsTo(() => EaasiUser, {
 		foreignKey: 'userId',

@@ -13,9 +13,9 @@ export default class ImportedEnvironmentService extends CrudService<UserImported
 
 	/**
 	 * Gets all Imported Environment for a User
-	 * @param userId: number PK for the User
+	 * @param userId: string PK for the User
 	 */
-	async getByUserID(userId: number): Promise<ICrudServiceResult<UserImportedEnvironment[]>> {
+	async getByUserID(userId: string): Promise<ICrudServiceResult<UserImportedEnvironment[]>> {
 		return this.model
     		.findAll({
 				where: {

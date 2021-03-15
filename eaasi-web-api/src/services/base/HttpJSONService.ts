@@ -21,10 +21,12 @@ export default class HttpJSONService implements IHttpService {
 	 *
 	 * @param {string} url - The request URL
 	 * @param {RequestInit} [options] - Request options
+	 * @param token - optional user JWT token
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async get(url: string, options?: RequestInit): Promise<Response> {
-		let requestInit = this._createRequestInit('GET', null, options);
+	public async get(url: string, options?: RequestInit, token?: string): Promise<Response> {
+		let requestInit = this._createRequestInit('GET', null, options, token);
+		console.log(requestInit);
 		return await fetch(url, requestInit);
 	}
 
@@ -34,10 +36,11 @@ export default class HttpJSONService implements IHttpService {
 	 * @param {string} url - The request URL
 	 * @param {any} data - request data
 	 * @param {RequestInit} [options] - Request options
+	 * @param token - optional user JWT token
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async post(url: string, data: any, options?: RequestInit): Promise<Response> {
-		let requestInit = this._createRequestInit('POST', data, options);
+	public async post(url: string, data: any, options?: RequestInit, token?: string): Promise<Response> {
+		let requestInit = this._createRequestInit('POST', data, options, token);
 		return await fetch(url, requestInit);
 	}
 
@@ -47,10 +50,11 @@ export default class HttpJSONService implements IHttpService {
 	 * @param {string} url - The request URL
 	 * @param {any} data - request data
 	 * @param {RequestInit} [options] - Request options
+	 * @param token - optional user JWT token
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async patch(url: string, data: any, options?: RequestInit): Promise<Response> {
-		let requestInit = this._createRequestInit('PATCH', data, options);
+	public async patch(url: string, data: any, options?: RequestInit, token?: string): Promise<Response> {
+		let requestInit = this._createRequestInit('PATCH', data, options, token);
 		return await fetch(url, requestInit);
 	}
 
@@ -70,11 +74,13 @@ export default class HttpJSONService implements IHttpService {
 	 * Makes a DELETE request with a using Fetch
 	 *
 	 * @param {string} url - The request URL
+	 * @param data
 	 * @param {RequestInit} [options] - Request options
+	 * @param token - optional user JWT token
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async delete(url: string, data?: any, options?: RequestInit): Promise<Response> {
-		let requestInit = this._createRequestInit('DELETE', data, options);
+	public async delete(url: string, data?: any, options?: RequestInit, token?: string): Promise<Response> {
+		let requestInit = this._createRequestInit('DELETE', data, options, token);
 		return await fetch(url, requestInit);
 	}
 
@@ -84,12 +90,19 @@ export default class HttpJSONService implements IHttpService {
 	 * @param {string} method - The Request method
 	 * @param data - Optional JSON data ti send as post body
 	 * @param {RequestInit} options = Request options
+	 * @param token - optional user JWT token
 	 * @return {RequestInit} - Merged request options
 	 */
-	private _createRequestInit(method: string, data?: any, options?: RequestInit): RequestInit {
+	private _createRequestInit(method: string, data?: any, options?: RequestInit, token?: string): RequestInit {
 		if (typeof options !== 'object' || options === null) options = {};
+		let defaultOptions = {
+			...this._defaultOptions
+		};
+		if (token) {
+			defaultOptions.headers['Authorization'] = token;
+		}
 		return {
-			...this._defaultOptions,
+			...defaultOptions,
 			method,
 			body: data ? JSON.stringify(data) : undefined,
 			...options

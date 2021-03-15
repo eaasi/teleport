@@ -60,6 +60,7 @@ const initOptions = {
 	if (!auth) {
 		window.location.reload();
 	} else {
+		console.log((window as any).keycloak);
 		store.dispatch('login', (window as any).keycloak.token);
 
 		await router.push('/');

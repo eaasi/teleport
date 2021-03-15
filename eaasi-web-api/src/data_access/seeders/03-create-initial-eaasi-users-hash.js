@@ -1,3 +1,4 @@
+/*
 module.exports = {
 	up: (queryInterface) => {
 		return queryInterface.bulkInsert('eaasi_user_hash', [
@@ -26,4 +27,5 @@ module.exports = {
 		return queryInterface.bulkDelete('eaasi_user_hash', {}, {});
 	}
 };
+*/
 

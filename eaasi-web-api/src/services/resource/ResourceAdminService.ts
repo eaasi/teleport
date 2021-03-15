@@ -72,8 +72,9 @@ export default class ResourceAdminService extends BaseService {
 	/**
 	 * Searches Environment, Software, and Content Resources using the  provided IResourceSearchQuery
 	 * @param query
+	 * @param userId
 	 */
-	async searchResources(query: IResourceSearchQuery, userId: number): Promise<IResourceSearchResponse> {
+	async searchResources(query: IResourceSearchQuery, userId: string, token: string): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
 		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
 		let userImportedResources: IResourceImportResult;
@@ -86,10 +87,10 @@ export default class ResourceAdminService extends BaseService {
 		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
 		[result.environments, result.software, result.content, result.images] = await Promise.all([
-			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result),
-			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result),
-			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result),
-			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result)
+			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result, token),
+			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result, token),
+			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result, token),
+			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result, token)
 		])
 
 		result.facets = this.populateFacets([
@@ -113,9 +114,10 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchEnvironments (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[]
+		userResources: UserImportedContent[],
+		token: string
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let allEnvironments = await this._environmentService.getAll();
+		let allEnvironments = await this._environmentService.getAll(token);
 		let filtered = this._filterResults(allEnvironments, query, bookmarks, userResources);
 		return {
 			result: filtered.result,
@@ -126,9 +128,10 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchSoftware (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[]
+		userResources: UserImportedContent[],
+		token: string
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
-		let softwareRes = await this._softwareService.getAll();
+		let softwareRes = await this._softwareService.getAll(token);
 		let result = this._filterResults(softwareRes, query, bookmarks, userResources);
 		return result;
 	}
@@ -136,18 +139,20 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchContent (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[]
+		userResources: UserImportedContent[],
+		token: string
 	): Promise<IEaasiSearchResponse<IContentItem>> {
-		let content = await this._contentService.getAll('zero conf');
+		let content = await this._contentService.getAll('default', token);
 		return this._filterResults(content, query, bookmarks, userResources);
 	}
 
 	private async _searchImages (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedImage[]
+		userResources: UserImportedImage[],
+		token: string
 	): Promise<IEaasiSearchResponse<IImageListItem>> {
-		let images = await this._environmentService.getImages();
+		let images = await this._environmentService.getImages(token);
 		return this._filterResults(images, query, bookmarks, userResources);
 	}
 

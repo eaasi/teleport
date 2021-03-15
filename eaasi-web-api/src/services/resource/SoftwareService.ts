@@ -18,11 +18,11 @@ export default class SoftwareService extends BaseService {
 		this._softwareRepoService = softwareRepoService;
 	}
 
-	async getAll(): Promise<ISoftwarePackage[]> {
+	async getAll(token?: string): Promise<ISoftwarePackage[]> {
 		let results = this._cache.get<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
-		if (results) return results;
-		const descriptionList = await this.getSoftwareDescriptionList();
-		const packageList = await this.getSoftwarePackageList();
+		if(results) return results;
+		const descriptionList = await this.getSoftwareDescriptionList(token);
+		const packageList = await this.getSoftwarePackageList(token);
 		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
 		if (packageList.packages.length) this._cache.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
 		return packages;
@@ -57,13 +57,13 @@ export default class SoftwareService extends BaseService {
 		})
 	}
 
-	private async getSoftwareDescriptionList(): Promise<ISoftwareDescriptionList> {
-		let res = await this._softwareRepoService.get('descriptions');
+	private async getSoftwareDescriptionList(token: string): Promise<ISoftwareDescriptionList> {
+		let res = await this._softwareRepoService.get('descriptions', token);
 		return await res.json() as ISoftwareDescriptionList;
 	}
 
-	private async getSoftwarePackageList(): Promise<ISoftwarePackageList> {
-		let res = await this._softwareRepoService.get('packages');
+	private async getSoftwarePackageList(token: string): Promise<ISoftwarePackageList> {
+		let res = await this._softwareRepoService.get('packages', token);
 		return await res.json() as ISoftwarePackageList;
 	}
 

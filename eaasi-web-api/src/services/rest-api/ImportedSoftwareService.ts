@@ -15,7 +15,7 @@ export default class ImportedSoftwareService extends CrudService<UserImportedSof
 	 * Gets all Imported Software for a User
 	 * @param userId: number PK for the User
 	 */
-	async getByUserID(userId: number): Promise<ICrudServiceResult<UserImportedSoftware[]>> {
+	async getByUserID(userId: string): Promise<ICrudServiceResult<UserImportedSoftware[]>> {
 		return await this.model
     		.findAll({
 				where: {

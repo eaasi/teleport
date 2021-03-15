@@ -23,7 +23,7 @@ export default class UserHashService extends BaseService {
 	 * Gets a User Hash by User Id
 	 * @param userId: number User PK
 	 */
-	async getUserHash(userId: number) {
+	async getUserHash(userId: string) {
 		let result = await this._userHashCrudService.getByPk(userId);
 
 		if (result.hasError) {

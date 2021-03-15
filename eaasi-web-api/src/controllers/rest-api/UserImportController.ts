@@ -39,7 +39,7 @@ export default class UserImportController extends BaseController {
 	 */
 	async getByUserID(req: Request, res: Response) {
 
-		const userId = Number(req.query.userId);
+		const userId = String(req.query.userId);
 
 		if (userId == null) {
 			return res

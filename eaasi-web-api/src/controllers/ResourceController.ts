@@ -228,7 +228,7 @@ export default class ResourceController extends BaseController {
 	async search(req: IAuthorizedRequest, res: Response) {
 		try {
 			let query = req.body as IResourceSearchQuery;
-			let result = await this._svc.searchResources(query, req.user.id);
+			let result = await this._svc.searchResources(query, String(req.query.userId), req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -362,7 +362,7 @@ export default class ResourceController extends BaseController {
 
 	async createAndAddToTempArchive(req: IAuthorizedRequest, res: Response) {
 		try {
-			let userId = Number(req.user.id);
+			let userId = req.user.id;
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;
 			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
 			this._logger.log.info(`Temporary Environment with id ${derivative.envId} has been created for user ${userId}`);

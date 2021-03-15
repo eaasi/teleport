@@ -23,10 +23,10 @@ export class UserImportedContent extends EaasiUserOwnedModel {
 
     @ForeignKey(() => EaasiUser)
     @Column({
-    	type: DataTypes.INTEGER,
+    	type: DataTypes.STRING(50),
     	allowNull: false,
     })
-    userId: number;
+    userId: string;
 
     @Column({
     	type: DataTypes.STRING(64),

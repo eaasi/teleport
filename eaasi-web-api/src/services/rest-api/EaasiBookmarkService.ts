@@ -13,9 +13,9 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 
 	/**
 	 * Gets all Bookmarks for a User
-	 * @param userID: number PK for the User
+	 * @param userId: string PK for the User
 	 */
-	async getByUserID(userId: number): Promise<ICrudServiceResult<Bookmark[]>> {
+	async getByUserID(userId: string): Promise<ICrudServiceResult<Bookmark[]>> {
 		return await this.model
     		.findAll({
 				where: {

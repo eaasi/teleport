@@ -66,9 +66,9 @@ const actions = {
 		return await _svc.getEnvironment(environmentId);
 	},
 
-	async searchResources({ state, commit }: Store<ResourceState>): Promise<IResourceSearchResponse> {
+	async searchResources({ state, commit, rootState }): Promise<IResourceSearchResponse> {
 		commit('SET_LAST_SEARCH_KEYWORD', state.query.keyword);
-		let result = await _svc.searchResources(state.query);
+		let result = await _svc.searchResources(state.query, rootState.loggedInUser.id);
 		if (!result) return null;
 		commit('SET_RESULT', result);
 		const selectedFacets = jsonCopy(result.facets);
@@ -135,11 +135,11 @@ const actions = {
 		return await _svc.deleteImage(payload);
 	},
 
-	async clearSearch({ commit, dispatch }) {
+	async clearSearch({ commit, dispatch, rootState }) {
 		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
 		commit('SET_QUERY', clearSearchQuery);
 		dispatch('searchResources');
-		let result = await _svc.searchResources(clearSearchQuery);
+		let result = await _svc.searchResources(clearSearchQuery, rootState.loggedInUser.id);
 		if (!result) return;
 		commit('SET_RESULT', result);
 		return result;
@@ -176,7 +176,7 @@ const actions = {
 		return await _svc.forkRevision(revisionId);
 	},
 
-	async getImports({ commit, state }) {
+	async getImports({ commit, state, rootState }) {
 		const importQuery: IResourceSearchQuery = {
 			keyword: null,
 			selectedFacets: state.query.selectedFacets,
@@ -186,7 +186,7 @@ const actions = {
 			archives: ['zero conf', 'default']  // TODO: What is zero conf?
 		};
 
-		const result = await _svc.searchResources(importQuery);
+		const result = await _svc.searchResources(importQuery, rootState.loggedInUser.id);
 		if (!result) return;
 
 		commit('SET_QUERY', {...state.query, selectedFacets: result.facets});
