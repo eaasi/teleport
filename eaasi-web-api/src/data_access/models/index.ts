@@ -1,9 +1,8 @@
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 
-import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EaasiUser, EmulationProject, EmulationProjectResource, Emulator, EmulationProjectTaskSuccessor, UserImportedContent, UserImportedEnvironment, UserImportedImage, UserImportedSoftware } from '@/data_access/models/app';
+import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EmulationProject, EmulationProjectResource, Emulator, EmulationProjectTaskSuccessor, UserImportedContent, UserImportedEnvironment, UserImportedImage, UserImportedSoftware } from '@/data_access/models/app';
 import { Sequelize } from 'sequelize-typescript';
-import { EaasiUserHash } from './app/EaasiUserHash';
 import { TempEnvironment } from './app/TempEnvironment';
 
 export const sequelize = new Sequelize({
@@ -19,8 +18,8 @@ export const sequelize = new Sequelize({
 		Bookmark,
 		EaasiRole,
 		EaasiTask,
-		EaasiUser,
-		EaasiUserHash,
+		//EaasiUser,
+		//EaasiUserHash,
 		EmulationProject,
 		EmulationProjectResource,
 		EmulationProjectTaskSuccessor,

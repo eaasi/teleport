@@ -13,18 +13,18 @@ const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENAB
  == JWT
 /============================================================*/
 
-passport.use(new passportJWT.Strategy({
+/*passport.use(new passportJWT.Strategy({
 	jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: SECRET
 }, (jwtPayload: any, done: any) => {
 	done(null, jwtPayload);
-}));
+}));*/
 
 /*============================================================
  == SAML
 /============================================================*/
 
-const USER_EMAIL_CLAIM = process.env.USER_EMAIL_CLAIM_PROPERTY;
+/*const USER_EMAIL_CLAIM = process.env.USER_EMAIL_CLAIM_PROPERTY;
 
 if (SAML_ENABLED) {
 	
@@ -46,4 +46,4 @@ if (SAML_ENABLED) {
 				done(err.stack)
 			});
 	}));
-}
+}*/

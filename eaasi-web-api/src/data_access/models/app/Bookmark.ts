@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, Table, UpdatedAt } from 'sequelize-typescript';
-import { EaasiUser } from '.';
+import { Column, CreatedAt, Table, UpdatedAt } from 'sequelize-typescript';
+//import { EaasiUser } from '.';
 import { EaasiUserOwnedModel } from './base-models/EaasiIUserOwnedModel';
 
 @Table({
@@ -21,7 +21,6 @@ export class Bookmark extends EaasiUserOwnedModel {
 	})
 	id: number;
 
-	@ForeignKey(() => EaasiUser)
 	@Column({
 		type: DataTypes.STRING(50),
 		allowNull: false,

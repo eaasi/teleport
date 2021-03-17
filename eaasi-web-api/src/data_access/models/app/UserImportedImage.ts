@@ -1,6 +1,5 @@
-import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import { DataTypes } from 'sequelize';
-import { Column, CreatedAt, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { Column, CreatedAt, Model, Table, UpdatedAt } from 'sequelize-typescript';
 
 @Table({
 	tableName: 'user_imported_image'
@@ -20,7 +19,6 @@ export class UserImportedImage extends Model<UserImportedImage> {
     })
     readonly id: number;
 
-    @ForeignKey(() => EaasiUser)
     @Column({
     	type: DataTypes.STRING(50),
     	allowNull: false,

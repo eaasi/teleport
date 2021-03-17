@@ -4,7 +4,7 @@ import EmilAdminService from '@/services/admin/EmilAdminService';
 import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
 import AuthService from '@/services/auth/AuthService';
-import UserHashService from '@/services/auth/UserHashService';
+//import UserHashService from '@/services/auth/UserHashService';
 import MailerService, { IMailPayload, MailerAction } from '@/services/mailer/MailerService';
 import HarvesterService from '@/services/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
@@ -20,19 +20,19 @@ export default class AdminController extends BaseController {
 	readonly _userSvc: UserAdminService;
 	readonly _emulatorAdminSvc: EmulatorAdminService;
 	readonly _harvesterSvc: HarvesterService;
-	readonly _userHashService: UserHashService;
+	//readonly _userHashService: UserHashService;
 	readonly _authService: AuthService;
 	readonly _mailerService: MailerService;
 	readonly _adminService: EmilAdminService;
 
 	constructor() {
 		super();
-		this._userSvc = new UserAdminService();
+		//this._userSvc = new UserAdminService();
 		this._emulatorAdminSvc = new EmulatorAdminService();
 		this._adminService = new EmilAdminService();
 		this._harvesterSvc = new HarvesterService();
 		if (!SAML_ENABLED) {
-			this._userHashService = new UserHashService();
+			//this._userHashService = new UserHashService();
 			this._authService = new AuthService();
 			this._mailerService = new MailerService();
 		}
@@ -53,7 +53,7 @@ export default class AdminController extends BaseController {
 		let query = this._getQueryFromParams(req);
 
 		try {
-			let users = await this._userSvc.getUsers(query);
+			let users = []; //await this._userSvc.getUsers(query);
 			res.send(users);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -80,7 +80,7 @@ export default class AdminController extends BaseController {
 	 * @param res - Express response
 	 */
 	async saveUser(req: Request, res: Response) {
-		try {
+		/*try {
 			let user = req.body.user;
 			let isNewPasswordRequired = req.body.isNewPasswordRequired;
 			let savedUser = await this._userSvc.saveUser(user.id, user);
@@ -104,7 +104,7 @@ export default class AdminController extends BaseController {
 			return res.send(plainUser);
 		} catch(e) {
 			return this.sendError(e, res);
-		}
+		}*/
 	}
 
 
@@ -114,7 +114,7 @@ export default class AdminController extends BaseController {
 	 * @param res - Express response
 	 */
 	async deleteUser(req: Request, res: Response) {
-		try {
+		/*try {
 			let id = Number(req.query.id);
 			if (!SAML_ENABLED) {
 				await this._userHashService.deleteUserHash(id);
@@ -123,7 +123,7 @@ export default class AdminController extends BaseController {
 			res.send(true);
 		} catch(e) {
 			return this.sendError(e, res);
-		}
+		}*/
 	}
 
 	/**
@@ -132,7 +132,7 @@ export default class AdminController extends BaseController {
 	 * @param res - Express response
 	 */
 	async resetUserPassword(req: Request, res: Response) {
-		if (SAML_ENABLED) {
+		/*if (SAML_ENABLED) {
 			res.status(500);
 			return res.send('Invalid endpoint');
 		}
@@ -156,7 +156,7 @@ export default class AdminController extends BaseController {
 			res.send(false);
 		} catch(e) {
 			return this.sendError(e, res);
-		}
+		}*/
 	}
 
 	private generatePassword(length: number = 8) {

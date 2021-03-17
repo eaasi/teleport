@@ -25,10 +25,6 @@ module.exports = {
 			userId: {
 				type: Sq.STRING(50),
 				allowNull: false,
-				references: {
-					model: 'eaasi_user',
-					key: 'id'
-				}
 			},
 		});
 	},
