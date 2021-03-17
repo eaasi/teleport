@@ -1,8 +1,8 @@
 <template functional>
-	<div>
-		<span v-for="(value, property) in props.contentData" class="content-container" :key="property">
+	<div class="content-container">
+		<span v-for="(value, property) in props.contentData" class="content-sub-container" :key="property">
 			<span class="label">
-				{{ property }}:
+				{{ property }}:&nbsp;
 			</span>
 			<span class="value">
 				{{ value }}
@@ -32,25 +32,33 @@ export default class SelectableCardContent extends Vue {
 
 <style lang="scss">
 	$defaultFontSize: 0.75em;
-	$defaultLineHeight: 1.4em;
+	$defaultLineHeight: 1.8em;
 
 	.content-container {
 		display: inline-block;
+		flex-wrap: wrap;
 		font-size: $defaultFontSize;
+		width: 100%;
+
+		.content-sub-container {
+			display: inline-block;
+			max-width: 50%;
+
+			.label {
+				color: #6F6A67;
+				line-height: $defaultLineHeight;
+				min-width: 25%;
+				padding: 3px;
+				text-transform: uppercase;
+			}
+
+			.value {
+				color: #6F6A67;
+				line-height: $defaultLineHeight;
+				min-width: 25%;
+				padding-right: 24px;
+			}
+		}
 	}
 
-	.label {
-		color: #6F6A67;
-		display: inline-block;
-		line-height: $defaultLineHeight;
-		margin: 0 0.5rem 0.5rem 0;
-		text-transform: uppercase;
-	}
-
-	.value {
-		color: #6F6A67;
-		display: inline-block;
-		line-height: $defaultLineHeight;
-		padding-right: 24px;
-	}
 </style>

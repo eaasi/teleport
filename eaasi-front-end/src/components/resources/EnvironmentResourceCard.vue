@@ -29,7 +29,6 @@ import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import StringCleaner from '@/utils/string-cleaner';
 import {resourceTypes, archiveTypes, translatedIcon} from '@/utils/constants';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
@@ -193,21 +192,17 @@ export default class EnvironmentResourceCard extends Vue {
 			title: this.environment.title
 		} as IEaasiResourceSummary;
 
-		if(this.hideDetails) return summary;
+		if (this.hideDetails) return summary;
 
 		if (this.environment.hasOwnProperty('owner')) {
 			summary.subContent = {};
-			summary.subContent['owner'] = this.environment.owner;
 		}
 
 		summary.content = {};
 		summary.content['# Drives'] = this.environmentCardSummary.drives.length;
-		summary.content['Internet Enabled'] = !!this.environmentCardSummary.isInternetEnabled;
-		summary.content['Printing Enabled'] = !!this.environmentCardSummary.isPrintingEnabled;
-		summary.content['description'] = StringCleaner.stripHTML(this.environmentCardSummary.description);
-		summary.content['Installed Software'] = this.environmentCardSummary.installedSoftware.length;
-		summary.content['archive'] = this.environmentCardSummary.archive;
 		summary.content['emulator'] = this.environmentCardSummary.emulator;
+		summary.content['Printing Enabled'] = !!this.environmentCardSummary.isPrintingEnabled;
+		summary.content['Internet Enabled'] = !!this.environmentCardSummary.isInternetEnabled;
 
 		return summary;
 	}
