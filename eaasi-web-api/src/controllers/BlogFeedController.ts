@@ -5,7 +5,7 @@ import BaseController from './base/BaseController';
 /**
  * As of Jan 2021 this feed contains no usable data
  */
-const RSS_FEED_URL = 'https://www.softwarepreservationnetwork.org/spn-news/feed/';
+const RSS_FEED_URL = 'https://forum.eaasi.cloud/c/project-announcements/5.rss';
 
 export default class BlogFeedController extends BaseController {
 
