@@ -74,13 +74,11 @@ export default class SoftwareResourceCard extends Vue {
 	get summary(): IEaasiResourceSummary | null {
 		if (!this.software) return null;
 		let summary = {
-			id: this.software.id,
 			title: this.software.label,
 			tagGroup: []
 		} as IEaasiResourceSummary;
 		if (this.hideDetails) return summary;
 		summary.content = {
-			'id': this.software.id,
 			'Is Operating System': this.software.isOperatingSystem
 		};
 		return summary;

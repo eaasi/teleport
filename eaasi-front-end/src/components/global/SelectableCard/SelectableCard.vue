@@ -18,9 +18,7 @@
 			</div>
 
 			<div class="content" v-if="data.content">
-				<selectable-card-content
-					:content-data="data.content"
-				/>
+				<selectable-card-content :content-data="data.content" />
 			</div>
 
 			<div v-if="data.subContent">

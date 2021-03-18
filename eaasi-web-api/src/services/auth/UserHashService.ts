@@ -50,12 +50,12 @@ export default class UserHashService extends BaseService {
 		} else {
 			result = await this._userHashCrudService.create(userHash);
 		}
-		
+
 		if (result.hasError) {
 			throw result.error;
 		}
 
-		return result.result;	
+		return result.result;
 	}
 
 	/**
@@ -71,6 +71,6 @@ export default class UserHashService extends BaseService {
 
 		return result.result;
 	}
-	
+
 
 }
