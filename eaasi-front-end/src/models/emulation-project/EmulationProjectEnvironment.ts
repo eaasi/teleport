@@ -32,7 +32,7 @@ export default class EmulationProjectEnvironment implements IEaasiResource {
         if (environment) {
             this.setEnvironmentProperties(environment);
         }
-        this.drives = environment != null ? this.generateDefaultDrives() : this.mapDrives(environment.drives);
+        this.drives = environment == null ? this.generateDefaultDrives() : this.mapDrives(environment.drives);
     }
 
     private setEnvironmentProperties(env: IEnvironment) {
