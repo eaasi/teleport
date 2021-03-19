@@ -1,5 +1,6 @@
 import { IEaasiUser } from 'eaasi-admin';
-import { userRoles } from '@/utils/constants';
+import { ROLES_MAPPER, userRoles } from '@/utils/constants';
+import { IKeycloakUser } from '@/types/Keycloak';
 
 export default class User implements IEaasiUser {
 	id: string;
@@ -12,15 +13,14 @@ export default class User implements IEaasiUser {
 	updatedAt: Date;
 	lastLogin: Date;
 
-	constructor(user: any = null) {
+	constructor(user: IKeycloakUser = null) {
 		if (user) {
 			this.id = user.sub;
 			this.email = user.email;
 			this.firstName = user.given_name;
 			this.lastName = user.family_name;
 			this.username = user.preferred_username;
-			//TODO: get role from keycloak
-			this.roleId = userRoles.ADMIN;
+			this.roleId = user.roles.length > 0 ? ROLES_MAPPER[user.roles[0]] : userRoles.CONTRIBUTOR;
 		}
 	}
 
