@@ -1,13 +1,17 @@
-export interface IEaasClient {
-	guac: any, // Guacamole.Client
+export interface IEaasClient extends IEventTarget {
+	guac: any; // Guacamole.Client
 	params?: IEaasClientParamaters;
 	componentId: string;
 	eventSource: EventSource;
 	driveId: string;
-	connect(): Promise<void>;
+	connect(container: HTMLElement, view?: any): Promise<void>;
 	changeMedia(postObj: any, onChangeDone: Function): void;
 	checkpoint(requestData: any): Promise<void>;
-	detach(name: string, detachTime_minutes: number, customComponentName: string): Promise<void>;
+	detach(
+		name: string,
+		detachTime_minutes: number,
+		customComponentName: string
+	): Promise<void>;
 	disconnect(): Promise<void>;
 	downloadPrint(label: string): string;
 	establishGuacamoleTunnel(controlUrl: string): any;
@@ -26,16 +30,33 @@ export interface IEaasClient {
 	sendCtrlAltDel(): Promise<void>;
 	sendEsc(): void;
 	snapshot(postObj: any, onChangeDone: Function, errorFn: Function);
-	start(componentw: IEaasStartObject[], args?: IStartEnvironmentParams, attachId?: string): Promise<void>;
-	startAndAttach(components: IEaasStartObject[], args?: IStartEnvironmentParams, attachId?: string): Promise<void>;
+	start(
+		componentw: IEaasStartObject[],
+		args?: IStartEnvironmentParams,
+		attachId?: string
+	): Promise<void>;
+	startAndAttach(
+		components: IEaasStartObject[],
+		args?: IStartEnvironmentParams,
+		attachId?: string
+	): Promise<void>;
 	startContainer(containerId: string, args?: any): Promise<void>;
 	startDockerEnvironment(environmentID: string, args?: any);
-	startEnvironment(environmentID: string, args?: IStartEnvironmentParams) : Promise<void>;
+	startEnvironment(
+		environmentID: string,
+		args?: IStartEnvironmentParams
+	): Promise<void>;
 	wsConnection(): Promise<any>;
+	getActiveSession(): any;
 }
 
-export interface IEaasStartObject {
-	data: IContainerComponentRequest;
+export interface IEventTarget {
+	addEventListener(type: string, listener: any, options?: any): void;
+	dispatchEvent(event: string): boolean;
+	removeEventListener(type: string, listener: any): void;
+}
+
+export interface IEaasStartObject extends IContainerComponentRequest{
 	visualize?: boolean;
 }
 
@@ -51,7 +72,7 @@ export interface IComponentInputMedium {
 export type FileSystemType = 'fat16' | 'fat32' | 'vfat' | 'ntfs' | 'ext2' | 'ext3' | 'ext4' | 'iso9660';
 
 export interface IComponentRequest {
-	type: 'machine' | 'container' | 'slirp' | 'socks';
+	type: string;
 	userId?: string;
 	input_data?: IComponentInputMedium[];
 }
@@ -59,6 +80,33 @@ export interface IComponentRequest {
 export interface IContainerComponentRequest extends IComponentRequest {
 	environment: string;
 	archive: string;
+}
+
+export interface ITcpGatewayConfig {
+	socks?: boolean;
+	serverPort: string;
+	serverIp: string;
+	localMode: boolean;
+}
+
+export interface INetworkComponentConfig {
+	componentId?: string;
+	networkLabel?: string;
+	hwAddress: string;
+	fqdn?: any;
+	serverIp?: any;
+	serverPorts?: any;
+}
+
+export interface INetworkConfig {
+	_enableInternet: boolean;
+	dhcpEnabled: boolean;
+	gateway?: any;
+	network?: any;
+	dhcpNetworkAddress?: string;
+	dhcpNetworkMask?: string;
+	tcpGatewayConfig?: ITcpGatewayConfig;
+	components: INetworkComponentConfig[];
 }
 
 export interface IMachineComponentRequest extends IComponentRequest {
@@ -76,17 +124,9 @@ export interface IMachineComponentRequest extends IComponentRequest {
 
 // This maps to the second argument of IEaasClient.start()
 export interface IStartEnvironmentParams {
-	enableNetwork: boolean;
-	hasTcpGateway: boolean;
-	hasInternet: boolean;
-	tcpGatewayConfig: ITCPGatewayConfig
-	xpraEncoding: string;
-}
-
-export interface ITCPGatewayConfig {
-	socks: any;
-	serverPort: string | number;
-	serverIp: string;
+	_networkEnabled?: boolean;
+	networkConfig?: INetworkConfig;
+	xpraEncoding?: string;
 }
 
 export interface IisLinuxRuntimeData {

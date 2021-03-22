@@ -17,14 +17,15 @@
 	import cookies from 'js-cookie';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
-	import { IEaasClient, IbwflaController } from '@/types/Eaas';
+	import { IEaasClient } from '@/types/Eaas';
 	import { IEnvironment } from '@/types/Resource';
 	import { Sync } from 'vuex-pathify';
 	import { slugify } from '@/utils/functions';
-	import MachineComponentRequest from '@/models/eaas/emil/MachineComponentRequest';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
-import { INotification } from '../../types/Notification';
-import { generateId } from '@/utils/functions';
+	import { INotification } from '../../types/Notification';
+	import { generateId } from '@/utils/functions';
+
+	import { MachineComponentBuilder } from '../../../../eaas-client/lib/componentBuilder';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.
@@ -66,7 +67,8 @@ import { generateId } from '@/utils/functions';
 		/* Data
         ============================================*/
 
-		bwfla: IbwflaController = null;
+		//TODO: commented until BWFLA is imported
+		//bwfla: IbwflaController = null;
 		client: IEaasClient = null;
 		timeOutTimer = null
 		isStopping: boolean = false;
@@ -75,11 +77,12 @@ import { generateId } from '@/utils/functions';
         ============================================*/
 
 		attachUserControls() {
-			let vm = this;
+			//TODO: commented until BWFLA is imported
+			/*let vm = this;
 			if (!vm.bwfla) return;
 			if (vm.client.params.pointerLock === 'true') {
 				vm.bwfla.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
-			}
+			}*/
 		}
 
 		handleError(error: string | Error) {
@@ -127,11 +130,12 @@ import { generateId } from '@/utils/functions';
 				if (!EaasClient) return;
 				if (!vm.client) {
 					await fetch(config.EMIL_SERVICE_ENDPOINT + '/EmilEnvironmentData/init');
-					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, container);
+					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, cookies.get(config.JWT_NAME));
 				}
-				if (!vm.bwfla) {
-					vm.bwfla = (window as any).BWFLA as IbwflaController;
-				}
+				//TODO: commented until BWFLA is imported
+				/*if (!vm.bwfla) {
+				  vm.bwfla = (window as any).BWFLA;
+				}*/
 				vm.setupListeners();
 				vm.startEnvironment();
 
@@ -144,25 +148,25 @@ import { generateId } from '@/utils/functions';
 			let vm = this;
 			this.showLoaderWithTimeout();
 			try {
-				let data = new MachineComponentRequest(vm.environment);
+				let data = new MachineComponentBuilder(
+					vm.environment.envId,
+					vm.environment.archive
+				);
 				let params = new StartEnvironmentParams(vm.environment);
+
 				const { softwareId, archiveId, objectId, driveId } = vm.$route.query;
 				if (objectId && archiveId) {
-					data.objectArchive = archiveId as string;
-					data.object = objectId as string;
-
-					// TODO: Uncertain:
-					data.driveId = driveId as string;
-
-				} else if (softwareId && archiveId) {
-					data.objectArchive = archiveId as string;
-					data.software = softwareId as string;
+					data.setObject(objectId, archiveId);
 				}
-				let keyboardPrefs = vm.getKeyboardPreferences();
-				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
-				await vm.client.start([{data, visualize: true}], params);
+				const keyboardPrefs = vm.getKeyboardPreferences();
+				if (keyboardPrefs) {
+					data.keyboardLayout = keyboardPrefs.keyboardLayout;
+					data.keyboardModel = keyboardPrefs.keyboardModel;
+				}
+				await vm.client.start([data], params);
 				vm.isStarted = true;
-				await vm.client.connect();
+				const container = vm.$refs._container;
+				await vm.client.connect(container);
 				vm.attachUserControls();
 				this.clientComponentId = vm.client['componentId'];
 
@@ -201,13 +205,13 @@ import { generateId } from '@/utils/functions';
 		}
 
 		async sendCtrlAltDelete() {
-			if (!this.client) return;
-			await this.client.sendCtrlAltDel();
+			if (!(window as any).EaasClient) return;
+			await (window as any).EaasClient.sendCtrlAltDel();
 		}
 
-		sendEscape() {
-			if (!this.client) return;
-			this.client.sendEsc();
+		async sendEscape() {
+			if (!(window as any).EaasClient) return;
+			await (window as any).EaasClient.sendEsc();
 		}
 
 		setupListeners() {
@@ -249,7 +253,7 @@ import { generateId } from '@/utils/functions';
 
 			// TODO: Handle saveResult failure modes
 			let saveResult = await this.$store.dispatch('import/saveEnvironmentImport', importData);
-			
+
 			if (saveResult) {
 				await this.stopEnvironment();
 			}
@@ -268,7 +272,7 @@ import { generateId } from '@/utils/functions';
 		}
 
 		initPrintListeners() {
-			this.client.eventSource.addEventListener('print-job', e => {
+			this.client.addEventListener('print-job', e => {
 				//@ts-ignore
 				var res = JSON.parse(e.data);
 				let notification: INotification = {
