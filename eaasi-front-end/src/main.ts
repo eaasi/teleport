@@ -50,6 +50,7 @@ Vue.directive('click-outside', clickOutside);
 const initOptions = {
 	url: config.KEYCLOAK_URL,
 	realm: config.KEYCLOAK_REALM,
+	scope: config.KEYCLOAK_CLIENT_SCOPE,
 	clientId: config.KEYCLOAK_CLIENT_ID,
 	onLoad: config.KEYCLOAK_ON_LOGIN as Keycloak.KeycloakOnLoad,
 	flow: config.KEYCLOAK_FLOW as Keycloak.KeycloakFlow
