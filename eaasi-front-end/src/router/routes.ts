@@ -1,4 +1,5 @@
 // TODO: Should routes be split into their own files?
+import AccessDeniedScreen from '@/components/access-denied/AccessDeniedScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import InstallAndUpdateManagement from '@/components/admin/install-and-update/InstallAndUpdateManagement.vue';
@@ -156,6 +157,12 @@ export default [
 		path: ROUTES.ACCESS_INTERFACE + '/:envId',
 		name: 'Access Interface',
 		component: AccessInterfaceScreen
+	},
+
+	{
+		path: ROUTES.ACCESS_DENIED,
+		name: 'Access Denied',
+		component: AccessDeniedScreen,
 	},
 
 	{

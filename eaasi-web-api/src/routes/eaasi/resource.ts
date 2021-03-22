@@ -1,4 +1,4 @@
-import ResourceController from '@/controllers/ResourceController';
+import ResourceController, { IAuthorizedGetContentRequest } from '@/controllers/ResourceController';
 import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IEmulatorComponentRequest } from '@/types/resource/Resource';
 import express, { Response } from 'express';
@@ -199,7 +199,7 @@ router.get('/objectArchive', (req, res) => controller.getObjectArchives(req, res
  * @apiPermission System Administrator only
  * @apiDescription Gets Content Object Metadata from the eaas java api
  */
-router.get('/content', (req, res) => controller.getContent(req, res));
+router.get('/content', (req: IAuthorizedGetContentRequest, res) => controller.getContent(req, res));
 
 /**
  * @api {post} Saves content object metadata

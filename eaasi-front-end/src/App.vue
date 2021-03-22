@@ -24,6 +24,7 @@ import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 import eventBus from '@/utils/event-bus';
 import events from '@/config/events';
 import { generateNotificationError, generateNotificationWarning } from './helpers/NotificationHelper';
+import { ROUTES } from './router/routes.const';
 
 @Component({
 	name: 'App',
@@ -73,6 +74,8 @@ export default class App extends Vue {
 				generateNotificationWarning('You\'ve reached the request limit, please try again later.')
 			)
 		);
+
+		eventBus.$on(events.ACCESS_DENIED, () => this.$router.push(ROUTES.ACCESS_DENIED));
 
 	}
 
