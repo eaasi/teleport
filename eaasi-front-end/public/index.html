@@ -12,22 +12,12 @@
 	<!-- Font Awesome :: TEMPORARY -->
 	<script src="https://kit.fontawesome.com/898d40dff5.js"></script>
 
-	<!-- jQuery :: TEMPORARY -->
-	<script
-  		src="https://code.jquery.com/jquery-2.2.4.min.js"
-  		integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-		crossorigin="anonymous"
-	>
-	</script>
-
-    <script src="./eaas-client/guacamole/guacamole.js"></script>
-    <script type="module">
-	    import * as EaasClient from "./eaas-client/eaas-client.js";
-	    console.log(EaasClient);
-		window.EaasClient = EaasClient;
-    </script>
-  </head>
-  <body>
+			<script type="module">
+	   import * as EaasClient from './eaas-client/eaas-client.js';
+	   window.EaasClient = EaasClient;
+			</script>
+		</head>
+		<body>
     <noscript>
       <strong>We're sorry but Eaasi doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
