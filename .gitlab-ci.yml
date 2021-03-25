@@ -1,6 +1,9 @@
 # image: cypress/base:10
 image: node:latest
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 before_script:
     # Install ssh-agent
     - echo '========= Starting Deploy Stage ========='
