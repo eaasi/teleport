@@ -24,6 +24,7 @@
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
 	import { INotification } from '@/types/Notification';
 	import { generateId } from '@/utils/functions';
+	import { getUserToken } from '@/utils/auth';
 
 	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
 
@@ -130,7 +131,7 @@
 				if (!EaasClient) return;
 				if (!vm.client) {
 					await fetch(config.EMIL_SERVICE_ENDPOINT + '/EmilEnvironmentData/init');
-					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, cookies.get(config.JWT_NAME));
+					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, getUserToken);
 				}
 				//TODO: commented until BWFLA is imported
 				/*if (!vm.bwfla) {
