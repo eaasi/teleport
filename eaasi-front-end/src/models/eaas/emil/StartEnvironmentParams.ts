@@ -1,5 +1,5 @@
 import { IEnvironment } from '@/types/Resource';
-import { ClientOptions, TcpGatewayConfig } from '../../../../../eaas-client/lib/clientOptions.js';
+import { ClientOptions, TcpGatewayConfig } from 'EaasClient/lib/clientOptions.js';
 
 export default class StartEnvironmentParams extends ClientOptions {
 	constructor(env: IEnvironment) {

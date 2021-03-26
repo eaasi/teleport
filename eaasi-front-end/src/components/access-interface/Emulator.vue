@@ -22,10 +22,10 @@
 	import { Sync } from 'vuex-pathify';
 	import { slugify } from '@/utils/functions';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
-	import { INotification } from '../../types/Notification';
+	import { INotification } from '@/types/Notification';
 	import { generateId } from '@/utils/functions';
 
-	import { MachineComponentBuilder } from '../../../../eaas-client/lib/componentBuilder';
+	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.

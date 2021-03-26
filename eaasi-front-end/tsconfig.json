@@ -27,6 +27,9 @@
 			],
 			"@components/*": [
 				"src/components/*"
+			],
+			"EaasClient/*": [
+				"../eaas-client/*"
 			]
 		},
 		"lib": [
