@@ -27,7 +27,8 @@ services:
     image: eaasi-front-end
     container_name: eaasi-front-end
     build:
-      context: ./eaasi-front-end
+      context: .
+      dockerfile: ./eaasi-front-end/Dockerfile
     networks:
     - eaasi
     ports:
