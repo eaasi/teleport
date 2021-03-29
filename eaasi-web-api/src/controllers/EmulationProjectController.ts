@@ -3,9 +3,9 @@ import { EmulationProject } from '@/data_access/models/app';
 import EmulationProjectRoutine from '@/routines/EmulationProjectRoutine';
 import EmulationProjectResourceService from '@/services/rest-api/EmulationProjectResourceService';
 import EmulationProjectService from '@/services/rest-api/EmulationProjectService';
-import EmulationProjectTaskSuccessorService from "@/services/rest-api/EmulationProjectTaskSuccessorService";
+import EmulationProjectTaskSuccessorService from '@/services/rest-api/EmulationProjectTaskSuccessorService';
 import { IAuthorizedGetRequest, IAuthorizedPostRequest } from '@/types/auth/Auth';
-import { IEaasiTaskSuccessorRequest } from "@/types/task/Task";
+import { IEaasiTaskSuccessorRequest } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Response } from 'express';
 import UserOwnedCrudController from './base/UserOwnedCrudController';
@@ -34,7 +34,7 @@ export default class EmulationProjectController extends UserOwnedCrudController<
 	 */
 	async getForUser(req: IAuthorizedGetRequest, res: Response) {
 		try {
-			let userId = req.user.id;
+			let userId = req.query.userId;
 			let response = await this.service.getOneWhere({userId})
 			if(!response.hasError && !response.result) {
 				response = await this.service.create({userId})
@@ -59,12 +59,12 @@ export default class EmulationProjectController extends UserOwnedCrudController<
 
 	async addSuccessor(req: IAuthorizedPostRequest<IEaasiTaskSuccessorRequest>, res: Response) {
 		try {
-			if (!req.body.envId || !req.body.emulationProjectId || !req.body.taskId || !req.user.id) {
+			if (!req.body.envId || !req.body.emulationProjectId || !req.body.taskId || !req.body.userId) {
 				return this.sendClientError('Environment id, emulation project id and task id are required to create a successor', res);
 			}
 			const payload: IEaasiTaskSuccessorRequest = {
 				...req.body,
-				userId: req.user.id
+				userId: req.body.userId
 			};
 			let response = await this._successorService.create(payload);
 			if (response.hasError) {

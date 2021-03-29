@@ -60,10 +60,11 @@ export default class EnvironmentService extends BaseService {
 	/**
 	 * Gets environment data for an array of environment list items
 	 * @param {IEnvironmentListItem[]} envs A list of EnvironmentListItems
+	 * @param token - user JWT token
 	 */
-	async getEnvironmentsMetadata(envs: IEnvironmentListItem[]): Promise<IEnvironment[]> {
+	async getEnvironmentsMetadata(envs: IEnvironmentListItem[], token: string): Promise<IEnvironment[]> {
 		let environments = await Promise.all(envs.map(env => {
-			return this.getEnvironmentMetadata(env);
+			return this.getEnvironmentMetadata(env, token);
 		}));
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
 		return environments;
@@ -72,9 +73,10 @@ export default class EnvironmentService extends BaseService {
 	/**
 	 * Gets the respective environment object for a given environment list item
 	 * @param {IEnvironmentListItem} env The environment list item
+	 * @param token - user JWT token
 	 */
-	async getEnvironmentMetadata(env: IEnvironmentListItem): Promise<IEnvironment> {
-		let envMetadata = await this.getEnvironment(env.envId);
+	async getEnvironmentMetadata(env: IEnvironmentListItem, token: string): Promise<IEnvironment> {
+		let envMetadata = await this.getEnvironment(env.envId, token);
 		if(envMetadata.hasOwnProperty('error') === false) return envMetadata;
 		return {...env, error: envMetadata['error']} as unknown as IEnvironment;
 	}
@@ -82,9 +84,10 @@ export default class EnvironmentService extends BaseService {
 	/**
 	 * Gets an Environment by ID
 	 * @param id: string environmentId
+	 * @param token - optional user JWT token
 	 */
-	async getEnvironment(id: string): Promise<IEnvironment> {
-		let res = await this._environmentRepoService.get(`environments/${id}`);
+	async getEnvironment(id: string, token?: string): Promise<IEnvironment> {
+		let res = await this._environmentRepoService.get(`environments/${id}`, token);
 		let environment = await res.json() as IEnvironment;
 		environment.resourceType = resourceTypes.ENVIRONMENT;
 		return environment;
@@ -107,7 +110,7 @@ export default class EnvironmentService extends BaseService {
 	 * Delete an Environment from local storage
 	 * @param id: environmentId
 	 */
-	async deleteEnvironment(id: string) {
+	async deleteEnvironment(id: string, token?: string) {
 		let environmentToDelete = {
 			'envId': id,
 			'deleteMetaData': true,
@@ -115,12 +118,12 @@ export default class EnvironmentService extends BaseService {
 			'force': true
 		};
 
-		let res = await this._environmentRepoService.delete(`environments/${id}`, environmentToDelete);
+		let res = await this._environmentRepoService.delete(`environments/${id}`, environmentToDelete, token);
 		this.clearCache();
 		return await res.json();
 	}
 
-	async saveNewObjectEnvironment(newEnvRequest: IClientEnvironmentRequest): Promise<ISnapshotResponse> {
+	async saveNewObjectEnvironment(newEnvRequest: IClientEnvironmentRequest, token: string): Promise<ISnapshotResponse> {
 		this.clearCache();
 		let snapshotRequest: ISnapshotRequest = {
 			archive: archiveTypes.DEFAULT,
@@ -135,10 +138,10 @@ export default class EnvironmentService extends BaseService {
 			userId: null
 		};
 
-		return await this._componentService.saveSnapshot(newEnvRequest.componentId, snapshotRequest);
+		return await this._componentService.saveSnapshot(newEnvRequest.componentId, snapshotRequest, token);
 	}
 
-	async saveNewEnvironment(newEnvRequest: IClientEnvironmentRequest) {
+	async saveNewEnvironment(newEnvRequest: IClientEnvironmentRequest, token: string) {
 		this.clearCache();
 		let snapshotRequest: ISnapshotRequest = {
 			type: 'newEnvironment',
@@ -153,18 +156,18 @@ export default class EnvironmentService extends BaseService {
 			networking: {}
 		};
 
-		return await this._componentService.saveSnapshot(newEnvRequest.componentId, snapshotRequest);
+		return await this._componentService.saveSnapshot(newEnvRequest.componentId, snapshotRequest, token);
 	}
 
-	async updateEnvironmentDescription(env: IEnvironment): Promise<IEnvironment> {
-		const res = await this._environmentRepoService.patch(`environments/${env.envId}`, env);
+	async updateEnvironmentDescription(env: IEnvironment, token: string): Promise<IEnvironment> {
+		const res = await this._environmentRepoService.patch(`environments/${env.envId}`, env, token);
 		if(res.ok) this.clearCache();
 		return await res.json();
 	}
 
-	async createEnvironment(payload: ICreateEnvironmentPayload) {
-		const res = await this._environmentRepoService.post('environments', payload);
-		if(res.ok) this.clearCache();
+	async createEnvironment(payload: ICreateEnvironmentPayload, token: string) {
+		const res = await this._environmentRepoService.post('environments', payload, token);
+		if (res.ok) this.clearCache();
 		return await res.json();
 	}
 
@@ -174,28 +177,28 @@ export default class EnvironmentService extends BaseService {
 		return await res.json() as IEmilTask;
 	}
 
-	async createDerivative(payload: IEmulatorComponentRequest): Promise<IEnvironment> {
-		const environment = await this.getEnvironment(payload.environment);
+	async createDerivative(payload: IEmulatorComponentRequest, token: string): Promise<IEnvironment> {
+		const environment = await this.getEnvironment(payload.environment, token);
 		const httpSvc = new EmilBaseService('EmilEnvironmentData');
 		await httpSvc.get('init');
-		const { error, id } = await this._componentService.postEmulatorComponent(payload);
+		const { error, id } = await this._componentService.postEmulatorComponent(payload, token);
 		if (error) throw new Error(error);
 		// add error handling for emil calls
-		await this._componentService.controlurls(id);
-		await this._componentService.keepAlive(id);
+		await this._componentService.controlurls(id, token);
+		await this._componentService.keepAlive(id, token);
 		const newEnvRequest: IClientEnvironmentRequest = {
 			componentId: id,
 			description: environment.description,
 			envId: payload.environment,
 			title: environment.title,
 		}
-		const response: ISnapshotResponse = await this.saveNewEnvironment(newEnvRequest);
+		const response: ISnapshotResponse = await this.saveNewEnvironment(newEnvRequest, token);
 		if (response.status == '1') {
 			throw new Error(response.error ? response.error : response.message);
 		}
-		await this._componentService.stopComponent(id);
+		await this._componentService.stopComponent(id, token);
 		this.clearCache();
-		return await this.getEnvironment(response.envId);
+		return await this.getEnvironment(response.envId, token);
 	}
 
 	/*============================================================
@@ -224,8 +227,9 @@ export default class EnvironmentService extends BaseService {
 	 *  networking?: INetworking;
 	 *  objectId?: string;
 	 * }
+	 * @param token - user JWT token
 	 */
-	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest) {
+	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest, token: string) {
 		this.clearCache();
 		let envId = revisionEnvRequest.envId;
 		let isTempEnv = await this._isTempEnvironment(envId);
@@ -244,13 +248,13 @@ export default class EnvironmentService extends BaseService {
 			relativeMouse: false,
 			userId: null
 		};
-		let snapshotResult = await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest);
+		let snapshotResult = await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest, token);
 		if (isTempEnv) {
 			// snapshotResult.
-			let revisionEnv = await this.getEnvironment(snapshotResult.envId);
+			let revisionEnv = await this.getEnvironment(snapshotResult.envId, token);
 			// update result environment
 			let updatedRevisionEnv: IEnvironment = {...revisionEnvRequest.environment, envId: revisionEnv.envId};
-			let res = await this.updateEnvironmentDescription(updatedRevisionEnv);
+			let res = await this.updateEnvironmentDescription(updatedRevisionEnv, token);
 			// delete temp environment
 			await this.deleteFromTempArchive(envId);
 		}
@@ -260,7 +264,7 @@ export default class EnvironmentService extends BaseService {
 	/**
 	 * Posts Snapshot data to trigger saving an imported resource
 	 */
-	async snapshotImage(snapshotRequest: IEnvironmentImportSnapshot) {
+	async snapshotImage(snapshotRequest: IEnvironmentImportSnapshot, token: string) {
 		const snapshot: ISnapshotRequest = {
 			envId: snapshotRequest.environmentId,
 			isRelativeMouse: snapshotRequest.isRelativeMouse,
@@ -272,7 +276,7 @@ export default class EnvironmentService extends BaseService {
 			userId: null
 		};
 
-		return await this._componentService.saveSnapshot(snapshotRequest.componentId, snapshot)
+		return await this._componentService.saveSnapshot(snapshotRequest.componentId, snapshot, token)
 	}
 
 	/*============================================================

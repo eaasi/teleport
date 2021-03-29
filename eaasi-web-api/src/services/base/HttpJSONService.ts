@@ -26,7 +26,6 @@ export default class HttpJSONService implements IHttpService {
 	 */
 	public async get(url: string, options?: RequestInit, token?: string): Promise<Response> {
 		let requestInit = this._createRequestInit('GET', null, options, token);
-		console.log(requestInit);
 		return await fetch(url, requestInit);
 	}
 
@@ -65,7 +64,7 @@ export default class HttpJSONService implements IHttpService {
 	 * @param {any} data - request data
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async postUpload(url: string, data: any): Promise<Response> {
+	public async postUpload(url: string, data: any, token?: string): Promise<Response> {
 		let requestInit = this._createUploadRequestInit('POST', data);
 		return await fetch(url, requestInit);
 	}

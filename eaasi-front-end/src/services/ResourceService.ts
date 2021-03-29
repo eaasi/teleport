@@ -160,18 +160,18 @@ class ResourceService extends BaseHttpService {
 		return res.result;
 	}
 
-	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
-		let res = await this.post<ITempEnvironmentRecord>('/resource/temp/add', payload);
+	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest, userId: string): Promise<ITempEnvironmentRecord> {
+		let res = await this.post<ITempEnvironmentRecord>('/resource/temp/add?userId=' + userId, payload);
 		return res.result;
 	}
 
-	async createAndAddEnvironmenttoTempArchive(payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
-		let res = await this.post<ITempEnvironmentRecord>('/resource/temp/create', payload);
+	async createAndAddEnvironmenttoTempArchive(payload: IEmulatorComponentRequest, userId: string): Promise<ITempEnvironmentRecord> {
+		let res = await this.post<ITempEnvironmentRecord>('/resource/temp/create?userId=' + userId, payload);
 		return res.result;
 	}
 
-	async deleteEnvironmentFromTempArchive(envId: string): Promise<ITempEnvironmentRecord> {
-		let res = await this.delete(`/resource/temp/${envId}`);
+	async deleteEnvironmentFromTempArchive(envId: string, userId: string): Promise<ITempEnvironmentRecord> {
+		let res = await this.delete(`/resource/temp/${envId}?userId=${userId}`);
 		return res.result as ITempEnvironmentRecord;
 	}
 

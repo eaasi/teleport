@@ -225,16 +225,16 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
-	async addEnvironmentToTempArchive(_, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
-		return await _svc.addEnvironmentToTempArchive(payload);
+	async addEnvironmentToTempArchive({ rootState }, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
+		return await _svc.addEnvironmentToTempArchive(payload, rootState.loggedInUser.id);
 	},
 
-	async createAndAddEnvironmenttoTempArchive(_, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
-		return await _svc.createAndAddEnvironmenttoTempArchive(payload);
+	async createAndAddEnvironmenttoTempArchive({ rootState }, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
+		return await _svc.createAndAddEnvironmenttoTempArchive(payload, rootState.loggedInUser.id);
 	},
 
-	async deleteEnvironmentFromTempArchive(_, envId: string): Promise<ITempEnvironmentRecord> {
-		return await _svc.deleteEnvironmentFromTempArchive(envId);
+	async deleteEnvironmentFromTempArchive({ rootState }, envId: string): Promise<ITempEnvironmentRecord> {
+		return await _svc.deleteEnvironmentFromTempArchive(envId, rootState.loggedInUser.id);
 	},
 
 	async getAllTemp(_): Promise<ITempEnvironmentRecord[]> {

@@ -45,7 +45,7 @@ export default abstract class UserOwnedCrudController<T extends EaasiUserOwnedMo
 				.send(build_404_response(req.originalUrl));
 		}
 
-		if (response.result.userId !== req.user.id) {
+		if (response.result.userId !== req.query.userId) {
 			return res.status(HttpResponseCode.UNAUTHORIZED).send();
 		}
 
@@ -89,7 +89,7 @@ export default abstract class UserOwnedCrudController<T extends EaasiUserOwnedMo
 		if(!existing.result) {
 			res.status(HttpResponseCode.BAD_REQUEST).send({error: 'Invalid id'});
 		}
-		if (req.user.roleId !== EaasiRoles.ADMIN && existing.result.userId !== req.user.id) {
+		if (req.user.roleId !== EaasiRoles.ADMIN && existing.result.userId !== req.query.id) {
 			return res.status(HttpResponseCode.UNAUTHORIZED).send();
 		}
 		let updateResponse = await this.service.update(id, updateData);
@@ -112,7 +112,7 @@ export default abstract class UserOwnedCrudController<T extends EaasiUserOwnedMo
 		if(!existing.result) {
 			res.status(HttpResponseCode.BAD_REQUEST).send({error: 'Invalid id'});
 		}
-		if (req.user.roleId !== EaasiRoles.ADMIN && existing.result.userId !== req.user.id) {
+		if (req.user.roleId !== EaasiRoles.ADMIN && existing.result.userId !== req.query.id) {
 			return res.status(HttpResponseCode.UNAUTHORIZED).send();
 		}
 		let deleteResponse = await this.service.destroy(id);

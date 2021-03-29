@@ -62,6 +62,8 @@ const initOptions = {
 		window.location.reload();
 	} else {
 		store.dispatch('login', (window as any).keycloak.token);
+		// TODO: remove temporary entry for local eaas-client
+		localStorage.setItem('id_token', (window as any).keycloak.token);
 
 		await router.push('/');
 		new Vue({

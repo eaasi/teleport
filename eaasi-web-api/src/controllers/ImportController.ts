@@ -56,7 +56,7 @@ export default class ImportController extends BaseController {
 	async saveImportEnvironment(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to snapshot environment import requires request body'), res);
-			let result = await this._emilImportService.snapshotImage(req.body);
+			let result = await this._emilImportService.snapshotImage(req.body, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -69,7 +69,7 @@ export default class ImportController extends BaseController {
 	async postComponents(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to snapshot environment import requires request body'), res);
-			let result = await this._emilImportService.postComponents(req.body);
+			let result = await this._emilImportService.postComponents(req.body, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -99,7 +99,7 @@ export default class ImportController extends BaseController {
 			if (!req.body) {
 				return this.sendClientError('Request to create image from ISO file upload requires request body', res)
 			}
-			let result = await this._emilImportService.createEnvironment(req.body);
+			let result = await this._emilImportService.createEnvironment(req.body, req.headers.authorization);
 			res.send(result);
 		} catch(err) {
 			this.sendError(err, res);

@@ -8,8 +8,8 @@ class EmulationProjectService extends BaseHttpService {
 	/* Project
 	============================================*/
 
-    async getProject() {
-		let res = await this.get<IEmulationProject>('/emulation-project/get-for-user');
+    async getProject(userId: string) {
+		let res = await this.get<IEmulationProject>('/emulation-project/get-for-user?userId=' + userId);
 		if(!res.ok) return null;
 		return res.result;
 	}

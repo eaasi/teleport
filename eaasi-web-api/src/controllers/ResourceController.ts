@@ -50,7 +50,7 @@ export default class ResourceController extends BaseController {
 	async getEnvironment(req: Request, res: Response) {
 		try {
 			let id = req.query.id as string;
-			let result = await this._environmentService.getEnvironment(id);
+			let result = await this._environmentService.getEnvironment(id, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -177,7 +177,7 @@ export default class ResourceController extends BaseController {
 		try {
 			const { environment } = req.body;
 			if (!environment) return this.sendError(new Error('no environment'), res);
-			const result = await this._environmentService.updateEnvironmentDescription(environment);
+			const result = await this._environmentService.updateEnvironmentDescription(environment, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -241,7 +241,7 @@ export default class ResourceController extends BaseController {
 	async deleteEnvironment(req: Request, res: Response) {
 		try {
 			let id = req.query.id as string;
-			let result = await this._environmentService.deleteEnvironment(id);
+			let result = await this._environmentService.deleteEnvironment(id, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -315,7 +315,7 @@ export default class ResourceController extends BaseController {
 	async saveNewEnvironment(req: Request, res: Response) {
 		try {
 			let newEnvRequest = req.body;
-			let result = await this._environmentService.saveNewEnvironment(newEnvRequest);
+			let result = await this._environmentService.saveNewEnvironment(newEnvRequest, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -325,7 +325,7 @@ export default class ResourceController extends BaseController {
 	async saveNewObjectEnvironment(req: Request, res: Response) {
 		try {
 			let newEnvRequest = req.body;
-			let result = await this._environmentService.saveNewObjectEnvironment(newEnvRequest);
+			let result = await this._environmentService.saveNewObjectEnvironment(newEnvRequest, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -335,7 +335,7 @@ export default class ResourceController extends BaseController {
 	async saveEnvironmentRevision(req: Request, res: Response) {
 		try {
 			let revisionEnvRequest = req.body as IClientEnvironmentRequest;
-			let result = await this._environmentService.saveEnvironmentRevision(revisionEnvRequest);
+			let result = await this._environmentService.saveEnvironmentRevision(revisionEnvRequest, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -349,9 +349,9 @@ export default class ResourceController extends BaseController {
 	/**
 	 * Adds an Environment to a temporary archive
 	 */
-	async addToTempArchive(req: IAuthorizedRequest, res: Response) {
+	async addToTempArchive(req: Request, res: Response) {
 		try {
-			let userId = req.user.id;
+			let userId = req.query.userId as string;
 			let payload: IEmulatorComponentRequest = req.body;
 			let tempEnvRecord = await this._environmentService.addToTempArchive(userId, payload.environment);
 			return res.send(tempEnvRecord);
@@ -360,11 +360,11 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
-	async createAndAddToTempArchive(req: IAuthorizedRequest, res: Response) {
+	async createAndAddToTempArchive(req: Request, res: Response) {
 		try {
-			let userId = req.user.id;
+			let userId = req.query.userId as string;
 			let emuComponentRequest: IEmulatorComponentRequest = req.body;
-			let derivative = await this._environmentService.createDerivative(emuComponentRequest);
+			let derivative = await this._environmentService.createDerivative(emuComponentRequest, req.headers.authorization);
 			this._logger.log.info(`Temporary Environment with id ${derivative.envId} has been created for user ${userId}`);
 			let savedEnvironment = await this._environmentService.addToTempArchive(userId, derivative.envId);
 			return res.send(savedEnvironment);
@@ -379,7 +379,7 @@ export default class ResourceController extends BaseController {
 	async deleteFromTempArchive(req: IAuthorizedDeleteRequest, res: Response) {
 		try {
 			let id = req.params.id;
-			let userId = req.user.id;
+			let userId = req.query.userId as string;
 			let tempEnvResponse = await this._environmentService.getAllTemp();
 			if (tempEnvResponse.result != null && tempEnvResponse.result.length) {
 				let tempEnvRecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);

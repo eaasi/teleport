@@ -116,8 +116,8 @@ class ImportService extends BaseHttpService {
 		return res.result;
 	}
 
-	async createUserImportRelation(userImportRelationRequest: IUserImportRelationRequest): Promise<IUserImportedResource> {
-		const res = await this.post<IUserImportedResource>('/import/user-import-relation', userImportRelationRequest);
+	async createUserImportRelation(userImportRelationRequest: IUserImportRelationRequest, userId: string): Promise<IUserImportedResource> {
+		const res = await this.post<IUserImportedResource>('/import/user-import-relation?userId=' + userId, userImportRelationRequest);
 		if (!res.ok) {
 			console.warn('Response returned error: ', res);
 			return null;
