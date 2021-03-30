@@ -149,22 +149,26 @@
 			let vm = this;
 			this.showLoaderWithTimeout();
 			try {
-				let data = new MachineComponentBuilder(
+				let machine = new MachineComponentBuilder(
 					vm.environment.envId,
 					vm.environment.archive
 				);
 				let params = new StartEnvironmentParams(vm.environment);
 
 				const { softwareId, archiveId, objectId, driveId } = vm.$route.query;
-				if (objectId && archiveId) {
-					data.setObject(objectId, archiveId);
+				if (objectId) {
+					machine.setObject(objectId, archiveId);
 				}
+				else if (softwareId) {
+					machine.setSoftware(softwareId, archiveId);
+				}
+
 				const keyboardPrefs = vm.getKeyboardPreferences();
 				if (keyboardPrefs) {
-					data.keyboardLayout = keyboardPrefs.keyboardLayout;
-					data.keyboardModel = keyboardPrefs.keyboardModel;
+					machine.setKeyboard(keyboardPrefs.keyboardLayout, keyboardPrefs.keyboardModel);
 				}
-				await vm.client.start([data], params);
+
+				await vm.client.start([machine], params);
 				vm.isStarted = true;
 				const container = vm.$refs._container;
 				await vm.client.connect(container);
