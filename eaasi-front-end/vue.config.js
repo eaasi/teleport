@@ -1,6 +1,14 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
+const EaasClientCopyPattern = (config, subpath) => {
+	const outdir = path.dirname(config.output.filename);
+	return {
+		from: path.join('../eaas-client', subpath),
+		to: path.join(outdir, subpath)
+	};
+};
+
 module.exports = {
 	css: {
 	  	loaderOptions: {
@@ -12,19 +20,18 @@ module.exports = {
 			}
 	  	}
 	},
-	configureWebpack: {
+	configureWebpack: (config) => ({
 		plugins: [
 			new CopyPlugin(
 				{
 					patterns: [
-						{from: '../eaas-client/xpra/xpra-html5/html5', to: 'xpra/xpra-html5/html5/' },
-						{from: '../eaas-client/xpra/eaas-xpra-worker.js', to: 'xpra' },
-						{from: '../eaas-client/xpra/xpraWrapper.js', to: 'xpra' },
-						{from: '../eaas-client/xpra/eaas-xpra.js', to: 'xpra' },
-						{from: '../eaas-client/lib', to: 'lib' },
-						{from: '../eaas-client/guacamole/guacamole-client-eaas/guacamole-common-js/src/main/webapp/modules/', to: 'guacamole/guacamole-client-eaas/guacamole-common-js/src/main/webapp/modules/' },
-						{from: '../eaas-client/guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/client/styles/keyboard.css', to: 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/client/styles/keyboard.css' },
-						{from: '../eaas-client/guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/osk/styles/osk.css', to: 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/osk/styles/osk.css' },
+						EaasClientCopyPattern(config, 'xpra/xpra-html5/html5'),
+						EaasClientCopyPattern(config, 'xpra/eaas-xpra-worker.js'),
+						EaasClientCopyPattern(config, 'xpra/xpraWrapper.js'),
+						EaasClientCopyPattern(config, 'xpra/eaas-xpra.js'),
+						EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole-common-js/src/main/webapp/modules'),
+						EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/client/styles/keyboard.css'),
+						EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/osk/styles/osk.css'),
 					]
 				},
 				{
@@ -37,5 +44,5 @@ module.exports = {
 				EaasClient: path.resolve(__dirname, '../eaas-client/')
 			}
 		}
-	}
+	})
 };
