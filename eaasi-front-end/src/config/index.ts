@@ -2,6 +2,8 @@
  == Constants
 /============================================================*/
 
+import { EDITION_TYPES } from '@/utils/constants';
+
 export default {
 	BASE_URL: process.env.VUE_APP_BASE_URL,
 	SERVICE_URL: process.env.VUE_APP_SERVICE_URL,
@@ -15,6 +17,7 @@ export default {
 	SAML_ENABLED: process.env.VUE_APP_SAML_ENABLED == 'true' || process.env.VUE_APP_SAML_ENABLED == 'True',
 	APP_VERSION: '1.10.0',
 	KEYBOARD_SETTINGS_NAME: 'kbLayoutPrefs',
+	EDITION_TYPE: process.env.VUE_APP_EDITION_TYPE || EDITION_TYPES.STANDALONE,
 	KEYCLOAK_URL: process.env.VUE_APP_KEYCLOAK_URL,
 	KEYCLOAK_REALM: process.env.VUE_APP_KEYCLOAK_REALM,
 	KEYCLOAK_CLIENT_ID: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,

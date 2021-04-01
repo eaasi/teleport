@@ -21,7 +21,7 @@ export default class RunInEmulatorActionResolver extends SlideMenuActionResolver
 			label: 'Run in Emulator',
 			description: 'Emulate this resource without changes',
 			icon: translatedIcon('power'),
-			isEnabled: super.isSinglePublicResource() || super.isSingleDefaultResource()
+			isEnabled: super.isEnvironment() && (super.isSinglePublicResource() || super.isSingleDefaultResource())
 		};
 	}
 }

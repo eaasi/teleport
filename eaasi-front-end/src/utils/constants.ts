@@ -114,3 +114,13 @@ export const ROLES_MAPPER = {
 	[KeycloakRole.EaasUser]: userRoles.CONTRIBUTOR,
 	[KeycloakRole.EaasAdmin]: userRoles.ADMIN
 };
+
+export const EDITION_TYPES = {
+	STANDALONE: 'standalone',
+	MULTI_TENANT: 'multi_tenant'
+};
+
+export const ENVIRONMENT_TYPES = {
+	BASE: 'base',
+	OBJECT: 'object'
+};

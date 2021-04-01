@@ -1,6 +1,6 @@
-import { IEaasiUser } from 'eaasi-admin';
-import { ROLES_MAPPER, userRoles } from '@/utils/constants';
-import { IKeycloakUser } from '@/types/Keycloak';
+import {IEaasiUser} from 'eaasi-admin';
+import {ROLES_MAPPER, userRoles} from '@/utils/constants';
+import {IKeycloakUser} from '@/types/Keycloak';
 
 export default class User implements IEaasiUser {
 	id: string;
@@ -25,7 +25,7 @@ export default class User implements IEaasiUser {
 	}
 
 	get userHasEditPermissions() {
-		return this.roleId === userRoles.ADMIN
-			|| this.roleId === userRoles.MANAGER;
+		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
+			.includes(this.roleId);
 	}
 }
