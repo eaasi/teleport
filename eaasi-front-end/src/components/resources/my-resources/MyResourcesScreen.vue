@@ -1,11 +1,13 @@
 <template>
 	<div id="myResources" :style="actionMenuStyles">
 		<div :style="innerStyles">
+
 			<div class="page-title">
 				<h1>
 					My Resources
 				</h1>
 			</div>
+
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
 			<my-bookmarks-screen

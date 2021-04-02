@@ -1,28 +1,31 @@
 <template>
 	<div class="emulation-project-screen width-lg">
-		<div class="view-header-container">
-			<view-header title="Emulation Project">
-				<div class="header-text">
+		<div class="emulation-project-page-heading">
+			<div class="emulation-project-page-title">
+				<h1>
+					Emulation Project
+				</h1>
+			</div>
+			<div class="emulation-project-heading-content">
+				<div class="emulation-project-heading-content-text">
 					Choose hardware and/or emulator settings, add imported or discovered resources, and run
 					your emulation. Save a new resource from this project by using the RUN emulation interface.
 				</div>
-				<template v-slot:actions>
-					<div class="emu-project-actions">
-						<div class="emu-project-action">
-							<ui-button
-								color-preset="light-blue"
-								@click="clearAllAlertModal=true"
-								:disabled="clearAllDisabled"
-							>
-								Clear Project
-							</ui-button>
-						</div>
-						<div class="emu-project-action">
-							<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
-						</div>
+				<div class="emu-project-actions">
+					<div class="emu-project-action">
+						<ui-button
+							color-preset="light-blue"
+							@click="clearAllAlertModal=true"
+							:disabled="clearAllDisabled"
+						>
+							Clear Project
+						</ui-button>
 					</div>
-				</template>
-			</view-header>
+					<div class="emu-project-action">
+						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="flex main-content">
 			<div class="emulation-content flex-adapt">
@@ -287,18 +290,26 @@ export default class EmulationProjectScreen extends Vue {
 .emulation-project-screen {
 	height: 100%;
 
+	.emulation-project-page-heading {
+		background: lighten($light-neutral, 80%);
+		padding: 3rem 3rem 1rem;
+		.emulation-project-page-title {
+			padding-bottom: 3px;
+		}
+
+		.emulation-project-heading-content {
+			display: flex;
+			line-height: 2rem;
+			.emulation-project-heading-content-text {
+				font-weight: 300;
+				height: 100%;
+			}
+		}
+		border-bottom: solid 3px lighten($light-neutral, 10%);
+	}
+
 	.vh-sub-section,
 	.vh-description {
-		background-color: lighten($light-neutral, 80%);
-	}
-
-	.vh-title {
-		box-shadow: none;
-	}
-
-	.vh-description {
-		padding: 0 20rem 1rem 1.4rem;
-		width: auto;
 	}
 
 	.emu-project-actions {
@@ -310,14 +321,6 @@ export default class EmulationProjectScreen extends Vue {
 
 	.emu-project-action {
 		margin: 0 1.2rem;
-	}
-
-	.view-header-container {
-		background: lighten($light-neutral, 80%);
-		.header-text {
-			font-size: 1.6rem;
-			height: 100%;
-		}
 	}
 
 	.main-content {

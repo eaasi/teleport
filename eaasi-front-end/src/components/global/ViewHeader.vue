@@ -1,8 +1,8 @@
 <template>
 	<div class="vh-container">
-		<div class="vh-title">
+		<h1 class="vh-title">
 			{{ title }}
-		</div>
+		</h1>
 		<div class="vh-sub-section">
 			<div class="vh-description">
 				<slot></slot>
@@ -46,30 +46,28 @@ export default class ViewHeader extends Vue {
 	.vh-title {
 		background: lighten($light-neutral, 80%);
 		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.1);
-		font-size: 1.6rem;
-		font-weight: bold;
-		padding-bottom: 2rem;
-		padding-left: 4rem;
+		font-weight: 300;
+		padding-bottom: 1rem;
 		padding-top: 2rem;
 		position: relative;
 		z-index: 2;
+		padding-left: 4rem;
 	}
 
 	.vh-sub-section {
-		background: lighten($light-neutral, 40%);
+		background-color: lighten($light-neutral, 80%);
 		border-bottom: 2px solid $light-neutral;
 		display: flex;
 		flex-direction: row;
 		font-size: 1.4rem;
 		max-width: 100%;
-		padding-left: 24px;
 		position: relative;
+		padding-left: 4rem;
 	}
 
 	.vh-description {
-		background: lighten($light-neutral, 40%);
+		background-color: lighten($light-neutral, 80%);
 		line-height: 2.1rem;
-		padding: 1.4rem 20rem 1.1rem 1.8rem;
 		width: 40vw;
 	}
 
