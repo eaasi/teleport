@@ -45,7 +45,7 @@
 				<div class="footer-principal-label">
 					Principal Partner
 				</div>
-				<img src="@/assets/yale-white.png" alt="Yale University Logo" />
+				<img src="@/assets/yale-white_2x.png" alt="Yale University Logo" />
 			</div>
 			<div class="footer-sponsor-container">
 				<div class="footer-sponsor-label block">
