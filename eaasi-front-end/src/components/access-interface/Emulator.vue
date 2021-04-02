@@ -78,12 +78,10 @@
         ============================================*/
 
 		attachUserControls() {
-			//TODO: commented until BWFLA is imported
-			/*let vm = this;
-			if (!vm.bwfla) return;
+			let vm = this;
 			if (vm.client.params.pointerLock === 'true') {
-				vm.bwfla.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
-			}*/
+				(window as any).EaasClient.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
+			}
 		}
 
 		handleError(error: string | Error) {
@@ -109,24 +107,29 @@
 		}
 
 		async getContainerOutput() {
-			let containerOutput = await fetch(this.client.getContainerResultUrl());
-			let containerOutputBlob = await containerOutput.blob();
-			let downloadLink = document.createElement('a');
-			downloadLink.href = URL.createObjectURL(containerOutputBlob);
-			downloadLink.download = 'output-data.zip';
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
+			const activeSession = this.client.getActiveSession();
+			if (activeSession) {
+				let containerOutput = await fetch(activeSession.getContainerResultUrl());
+				let containerOutputBlob = await containerOutput.blob();
+				let downloadLink = document.createElement('a');
+				downloadLink.href = URL.createObjectURL(containerOutputBlob);
+				downloadLink.download = 'output-data.zip';
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+			}
 		};
 
 		changeMedia(changeMediaRequest) {
-			this.client.changeMedia(changeMediaRequest, () => {});
+			const activeSession = this.client.getActiveSession();
+			if (activeSession) {
+				activeSession.changeMedia(changeMediaRequest);
+			}
 		}
 
 		async init() {
 			let vm = this;
 			try {
-				let container = vm.$refs._container;
 				let EaasClient = (window as any).EaasClient || null;
 				if (!EaasClient) return;
 				if (!vm.client) {
@@ -155,7 +158,7 @@
 				);
 				let params = new StartEnvironmentParams(vm.environment);
 
-				const { softwareId, archiveId, objectId, driveId } = vm.$route.query;
+				const { softwareId, archiveId, objectId } = vm.$route.query;
 				if (objectId) {
 					machine.setObject(objectId, archiveId);
 				}
@@ -173,11 +176,8 @@
 				const container = vm.$refs._container;
 				await vm.client.connect(container);
 				vm.attachUserControls();
-				this.clientComponentId = vm.client['componentId'];
-
-				if (vm.client.driveId) {
-					this.$store.commit('SET_DRIVE_ID', vm.client.driveId);
-				}
+				const activeSession = vm.client.getActiveSession();
+				this.clientComponentId = activeSession ? activeSession.getId() : null;
 
 				this.initPrintListeners();
 			} catch(e) {
@@ -221,7 +221,7 @@
 
 		setupListeners() {
 			let vm = this;
-			vm.client.onError = (err) => vm.handleError(err);
+			vm.client.addEventListener('error',(err) => vm.handleError(err));
 			window.onbeforeunload = () => ''; // Show generic browser warning
 			window.onunload = () => vm.stopEnvironment();
 			vm.client.onEmulatorStopped = () => {
@@ -242,10 +242,13 @@
 		}
 
 		async downloadPrintJob(label: string) {
-			// without getPrintJobs() call, downloadPrint() is not working as expected
-			this.client.getPrintJobs(() => {},() => {});
-			const pdfUrl = this.client.downloadPrint(label);
-			window.open(pdfUrl);
+			const activeSession = this.client.getActiveSession();
+			if (activeSession) {
+				// without getPrintJobs() call, downloadPrint() is not working as expected
+				activeSession.getPrintJobs();
+				const pdfUrl = activeSession.downloadPrint(label);
+				window.open(pdfUrl);
+			}
 		}
 
 		async saveEnvironmentImport({ description, title }) {  // TODO: arg will be object when metadata is ready

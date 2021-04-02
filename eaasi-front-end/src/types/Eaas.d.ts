@@ -1,53 +1,22 @@
 export interface IEaasClient extends IEventTarget {
 	guac: any; // Guacamole.Client
 	params?: IEaasClientParamaters;
-	componentId: string;
 	eventSource: EventSource;
-	driveId: string;
-	connect(container: HTMLElement, view?: any): Promise<void>;
-	changeMedia(postObj: any, onChangeDone: Function): void;
+	setXpraConf(width: number, height: number, dpi: number, xpraEncoding: string): void;
+	getActiveSession(): IComponentSession;
 	checkpoint(requestData: any): Promise<void>;
-	detach(
-		name: string,
-		detachTime_minutes: number,
-		customComponentName: string
-	): Promise<void>;
 	disconnect(): Promise<void>;
-	downloadPrint(label: string): string;
-	establishGuacamoleTunnel(controlUrl: string): any;
-	getContainerResultUrl(): string;
-	getEmulatorState(): Promise<void>;
-	getPrintJobs(successFn: Function, errorFn: Function): void;
-	getProxyURL(): Promise<string>;
-	getScreenshotUrl(): string;
-	keepAlive(): void;
+	attachNewEnv(sessionId: string, container: HTMLElement, environmentRequest: any): Promise<void>;
+	attach(sessionId: string, container: HTMLElement, componentId?: string): Promise<void>;
+	start(components: IEaasStartObject[], options?: IStartEnvironmentParams ): Promise<void>;
+	load(session: IComponentSession): void;
+	release(destroyNetworks?: boolean): Promise<any>;
+	getSession(id: string): IComponentSession;
+	getSessions(): IComponentSession[];
+	connect(container: HTMLElement, view?: any): Promise<void>;
+	detach(name: string, detachTime_minutes: number): Promise<void>;
+	stop(): any;
 	onEmulatorStopped(): void;
-	onError(error: string): void;
-	pollState(): void;
-	prepareAndLoadWebEmulator(url: string): void;
-	prepareAndLoadXpra(xpraUrl: string): void;
-	release(): Promise<any>;
-	sendCtrlAltDel(): Promise<void>;
-	sendEsc(): void;
-	snapshot(postObj: any, onChangeDone: Function, errorFn: Function);
-	start(
-		componentw: IEaasStartObject[],
-		args?: IStartEnvironmentParams,
-		attachId?: string
-	): Promise<void>;
-	startAndAttach(
-		components: IEaasStartObject[],
-		args?: IStartEnvironmentParams,
-		attachId?: string
-	): Promise<void>;
-	startContainer(containerId: string, args?: any): Promise<void>;
-	startDockerEnvironment(environmentID: string, args?: any);
-	startEnvironment(
-		environmentID: string,
-		args?: IStartEnvironmentParams
-	): Promise<void>;
-	wsConnection(): Promise<any>;
-	getActiveSession(): any;
 }
 
 export interface IEventTarget {
@@ -153,4 +122,29 @@ export interface IbwflaController {
 export interface IEmilUploadResponse {
 	status: string;
 	uploads: string[];
+}
+
+export interface IComponentSession {
+	createComponent(componentRequest: any, api: string, idToken: string): Promise<any>;
+	setNetwork(network: any): void;
+	getId(): string;
+	setSessionRequestInfo(req: any): void;
+	getNetwork(): any;
+	hasSharedNetworkPorts(): boolean;
+	getProxyURL(serverIp?: string, serverPort?: string, gatewayIP?: string, localPort?: string, localIP?: string): Promise<string>;
+	setRemovableMediaList(mediaList: any): void;
+	getRemovableMediaList(): any;
+	createSnapshot(snapshotBuilder: any): Promise<any>;
+	snapshot(postObj: any, networkEnvironmentId: string): Promise<any>;
+	changeMedia(postObj: any): Promise<any>;
+	getControlUrl(): Promise<any>;
+	keepalive(): Promise<void>;
+	getEmulatorState(): Promise<any>;
+	disconnect(): void;
+	stop(): Promise<any>;
+	release(): Promise<void>;
+	getContainerResultUrl(): Promise<any>;
+	checkpoint(): Promise<any>;
+	downloadPrint(label: string): Promise<any>;
+	getPrintJobs(): Promise<any>;
 }
