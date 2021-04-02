@@ -6,23 +6,23 @@
 					{{ tasksInProgress }} Process<span v-if="tasksInProgress > 1 || tasksInProgress === 0">es</span> Running
 				</span>
 				<div class="right-header flex flex-row justify-between">
-					<span 
+					<span
 						v-if="collapsible"
 						:class="`icon fas fa-chevron-${toggleIcon}`"
 						@click="collapseToggle"
 						style="margin-right: 2rem;"
 					></span>
-					<span 
-						v-if="closable" 
-						class="icon fas fa-times" 
+					<span
+						v-if="closable"
+						class="icon fas fa-times"
 						@click="closeToggle"
 					></span>
 				</div>
 			</div>
 			<ul class="task-list task-list-wrapper" v-show="!collapsed">
-				<li 
-					class="task-list-content" 
-					v-for="task in tasks" 
+				<li
+					class="task-list-content"
+					v-for="task in tasks"
 					:key="task.id"
 				>
 					<task-card
@@ -92,7 +92,7 @@ export default class TaskList extends Vue {
 	/* Data
 	============================================*/
 	private taskPreferenceSvc = new TaskPreferenceService();
-	
+
 	collapsed: boolean = false;
 	closed: boolean = false;
 
@@ -160,10 +160,10 @@ export default class TaskList extends Vue {
 		z-index: 200;
 
 		.task-list-container {
-			bottom: 0;
+			bottom: 20px;
 			max-height: 30rem;
 			position: fixed;
-			right: 0;
+			right: 20px;
 			width: 400px;
 		}
 	}
