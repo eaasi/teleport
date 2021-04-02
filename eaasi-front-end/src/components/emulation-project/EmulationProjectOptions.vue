@@ -13,7 +13,7 @@
 		<div class="emu-option-item flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Find a Base</h4>
-				<p>Find an exisating base environment.</p>
+				<p>Find an existing base environment.</p>
 			</div>
 			<div class="btn-wrapper flex-row">
 				<ui-button
