@@ -5,7 +5,7 @@
 			<span>{{ label }}</span>
 		</div>
 		<div class="bh-description">
-			<p>{{ description }}</p>
+			<div>{{ description }}</div>
 		</div>
 		<div class="bh-footer flex-row justify-between">
 			<span v-if="result.totalResults > 0">
@@ -106,7 +106,12 @@ export default class BentoHeader extends Vue {
 		}
 	}
 
-	.bh-description,
+	.bh-description {
+		background-color: lighten($light-neutral, 60%);
+		color: darken($dark-neutral, 40%);
+		padding: 1rem;
+	}
+
 	.bh-footer {
 		background-color: lighten($light-neutral, 60%);
 		color: darken($dark-neutral, 40%);
