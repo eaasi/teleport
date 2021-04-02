@@ -48,10 +48,10 @@ export default class ViewHeader extends Vue {
 		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.1);
 		font-weight: 300;
 		padding-bottom: 1rem;
+		padding-left: 4rem;
 		padding-top: 2rem;
 		position: relative;
 		z-index: 2;
-		padding-left: 4rem;
 	}
 
 	.vh-sub-section {
@@ -61,8 +61,8 @@ export default class ViewHeader extends Vue {
 		flex-direction: row;
 		font-size: 1.4rem;
 		max-width: 100%;
-		position: relative;
 		padding-left: 4rem;
+		position: relative;
 	}
 
 	.vh-description {

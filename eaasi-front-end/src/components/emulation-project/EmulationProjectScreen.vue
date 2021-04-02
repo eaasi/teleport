@@ -292,6 +292,7 @@ export default class EmulationProjectScreen extends Vue {
 
 	.emulation-project-page-heading {
 		background: lighten($light-neutral, 80%);
+		border-bottom: solid 3px lighten($light-neutral, 10%);
 		padding: 3rem 3rem 1rem;
 		.emulation-project-page-title {
 			padding-bottom: 3px;
@@ -305,11 +306,6 @@ export default class EmulationProjectScreen extends Vue {
 				height: 100%;
 			}
 		}
-		border-bottom: solid 3px lighten($light-neutral, 10%);
-	}
-
-	.vh-sub-section,
-	.vh-description {
 	}
 
 	.emu-project-actions {

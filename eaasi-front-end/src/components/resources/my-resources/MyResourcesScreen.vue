@@ -1,7 +1,6 @@
 <template>
 	<div id="myResources" :style="actionMenuStyles">
 		<div :style="innerStyles">
-
 			<div class="page-title">
 				<h1>
 					My Resources
