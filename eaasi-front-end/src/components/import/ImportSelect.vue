@@ -10,10 +10,10 @@
 					<option value="software">
 						Software Resource
 					</option>
-<!-- WD: Temporarily Removed due to https://gitlab.com/eaasi/program_docs/eaasi/-/issues/975 -->
-<!--					<option value="image" v-if="userCanImportEnvironment">-->
-<!--						Image Import-->
-<!--					</option>-->
+					<!-- WD: Temporarily Removed due to https://gitlab.com/eaasi/program_docs/eaasi/-/issues/975 -->
+					<!--					<option value="image" v-if="userCanImportEnvironment">-->
+					<!--						Image Import-->
+					<!--					</option>-->
 				</select-list>
 			</div>
 		</div>
@@ -50,26 +50,25 @@
 					</options-box>
 				</div>
 
-<!-- WD: Temporarily Removed due to https://gitlab.com/eaasi/program_docs/eaasi/-/issues/975 -->
-<!--				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">-->
-<!--					<options-box-->
-<!--						title="Image Import"-->
-<!--						icon="file"-->
-<!--						header="Less Common"-->
-<!--					>-->
-<!--						Image of a hard drive with an operating system, content files optional-->
-<!--						<template slot="footer">-->
-<!--							<ui-button-->
-<!--								block-->
-<!--								sub-label="Examples: .iso / .dd / .raw / .e01"-->
-<!--								@click="chooseImportType('image')"-->
-<!--							>-->
-<!--								Import Image-->
-<!--							</ui-button>-->
-<!--						</template>-->
-<!--					</options-box>-->
-<!--				</div>-->
-
+				<!-- WD: Temporarily Removed due to https://gitlab.com/eaasi/program_docs/eaasi/-/issues/975 -->
+				<!--				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">-->
+				<!--					<options-box-->
+				<!--						title="Image Import"-->
+				<!--						icon="file"-->
+				<!--						header="Less Common"-->
+				<!--					>-->
+				<!--						Image of a hard drive with an operating system, content files optional-->
+				<!--						<template slot="footer">-->
+				<!--							<ui-button-->
+				<!--								block-->
+				<!--								sub-label="Examples: .iso / .dd / .raw / .e01"-->
+				<!--								@click="chooseImportType('image')"-->
+				<!--							>-->
+				<!--								Import Image-->
+				<!--							</ui-button>-->
+				<!--						</template>-->
+				<!--					</options-box>-->
+				<!--				</div>-->
 			</div>
 		</div>
 	</div>
