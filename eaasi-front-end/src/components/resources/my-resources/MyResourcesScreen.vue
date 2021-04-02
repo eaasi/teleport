@@ -109,10 +109,11 @@ export default class MyResourcesScreen extends Vue {
 			label: 'Imported Resources',
 			disabled: false
 		},
-		{
-			label: 'My Contributions',
-			disabled: true
-		}
+		// hidden per https://gitlab.com/eaasi/eaasi-client-dev/-/issues/608
+		// {
+		// 	label: 'My Contributions',
+		// 	disabled: true
+		// }
 	];
 
 	actionMenuActiveTab: IEaasiTab = null;
