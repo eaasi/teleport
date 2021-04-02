@@ -325,7 +325,9 @@ const getters = {
 		const isDetailsDisabled = state.selectedResources.length > 1;
 		return [
 			{ label: 'Actions' },
-			{ label: 'Details', disabled: isDetailsDisabled }
+
+			// Hidden per https://gitlab.com/eaasi/eaasi-client-dev/-/issues/606
+			// { label: 'Details', disabled: isDetailsDisabled }
 		];
 	}
 };
