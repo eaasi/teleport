@@ -145,6 +145,6 @@ export interface IComponentSession {
 	release(): Promise<void>;
 	getContainerResultUrl(): Promise<any>;
 	checkpoint(): Promise<any>;
-	downloadPrint(label: string): Promise<any>;
+	downloadPrint(label: string): any;
 	getPrintJobs(): Promise<any>;
 }

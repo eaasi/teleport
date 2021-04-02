@@ -109,7 +109,7 @@
 		async getContainerOutput() {
 			const activeSession = this.client.getActiveSession();
 			if (activeSession) {
-				let containerOutput = await fetch(activeSession.getContainerResultUrl());
+				let containerOutput = await fetch(await activeSession.getContainerResultUrl());
 				let containerOutputBlob = await containerOutput.blob();
 				let downloadLink = document.createElement('a');
 				downloadLink.href = URL.createObjectURL(containerOutputBlob);
