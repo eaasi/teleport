@@ -7,7 +7,7 @@ export default class CacheHelper implements ICacheHelper {
 
 	public add(cacheKey: string, data: any, time: number = DEFAULT_CACHE_TIME) {
 		AppLogger.log.info('Adding to cache: ' + cacheKey);
-		if(typeof data !== 'string') data = JSON.stringify(data);
+		if (typeof data !== 'string') data = JSON.stringify(data);
 		cache.put(cacheKey, data, time)
 	}
 
@@ -19,7 +19,7 @@ export default class CacheHelper implements ICacheHelper {
 	public get<T>(cacheKey: string): T {
 		AppLogger.log.info('Searching cache for: ' + cacheKey);
 		const result = cache.get(cacheKey);
-		if(!result) return null;
+		if (!result) return null;
 		AppLogger.log.info('Found in cache: ' + cacheKey);
 		return JSON.parse(result);
 	}

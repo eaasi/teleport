@@ -1,11 +1,11 @@
 <template>
 	<div class="bento-header" v-if="result">
 		<div class="bh-label flex-row">
-			<span :class="`fal fa-${icon}`"></span>
+			<eaasi-icon :icon="icon" />
 			<span>{{ label }}</span>
 		</div>
 		<div class="bh-description">
-			<p>{{ description }}</p>
+			<div>{{ description }}</div>
 		</div>
 		<div class="bh-footer flex-row justify-between">
 			<span v-if="result.totalResults > 0">
@@ -38,6 +38,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
 import { ResourceType } from '@/types/Resource';
 import { IEaasiResource } from '@/types/Resource';
 import { IEaasiSearchResponse } from '@/types/Search';
@@ -45,6 +46,7 @@ import { MIN_SEARCH_RESULT_LIMIT } from '@/utils/constants';
 
 @Component({
 	name: 'BentoHeader',
+	components: { EaasiIcon },
 })
 export default class BentoHeader extends Vue {
 
@@ -63,19 +65,20 @@ export default class BentoHeader extends Vue {
 	}
 
 	get icon(): string {
-		if(this.type === 'Software') return 'browser';
-		if(this.type === 'Content') return 'file';
-		return 'cube';
+		if (this.type === 'Software') return 'disk';
+		if (this.type === 'Content') return 'disk';
+		if (this.type === 'Image') return 'disk';
+		return 'config-environment';
 	}
 
 	get description(): string {
-		if(this.type === 'Software') {
+		if (this.type === 'Software') {
 			return 'Results for software install media that can be attached to environments so you can install the software.';
 		}
-		if(this.type === 'Content') {
+		if (this.type === 'Content') {
 			return 'Content files, including ISOs, Disks, Floppy, and other.';
 		}
-		if(this.type === 'Environment') {
+		if (this.type === 'Environment') {
 			return 'Ready-to-emulate results that include an operating system and hardware settings.';
 		}
 		return '';
@@ -103,14 +106,16 @@ export default class BentoHeader extends Vue {
 		}
 	}
 
-	.bh-description,
-	.bh-footer {
+	.bh-description {
 		background-color: lighten($light-neutral, 60%);
 		color: darken($dark-neutral, 40%);
 		padding: 1rem;
 	}
 
 	.bh-footer {
+		background-color: lighten($light-neutral, 60%);
+		color: darken($dark-neutral, 40%);
+		padding: 1rem;
 		margin-top: 0.8rem;
 	}
 }

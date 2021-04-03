@@ -6,7 +6,6 @@
 		@dragleave="dragover = false"
 	>
 		<div class="dfu-label flex flex-column flex-center relative" @dragenter="dragover = true">
-			<span>{{ uploadIcon }}</span>
 			<div class="dfu-content text-center">
 				{{ label }}
 			</div>
@@ -48,7 +47,7 @@ export default class FileDropzone extends Vue {
 	}
 
 	get uploadIcon() {
-		return translatedIcon('upload');
+		return translatedIcon('cloud-upload');
 	}
 
 	/* Data
@@ -94,10 +93,13 @@ export default class FileDropzone extends Vue {
 	&.active {
 		background-color: lighten($light-blue, 90%);
 	}
+
+	.eaasi-upload-icon {
+		font-family: EaasiIcon, fantasy;
+	}
 }
 
 .dfu-label {
-	// 	position: relative;
 	min-width: 20rem;
 	.fas {
 		color: lighten($light-blue, 80%);
@@ -107,7 +109,6 @@ export default class FileDropzone extends Vue {
 		color: $dark-blue;
 		font-weight: bold;
 		left: 0;
-		position: absolute;
 		right: 0;
 	}
 }

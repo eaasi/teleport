@@ -1,7 +1,7 @@
 <template>
 	<div class="db-links-container padded">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="db-links-column">
 					<h2>My Node Activity</h2>
 					<div class="db-links-subheading">
@@ -24,7 +24,7 @@
 					/>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="db-links-column">
 					<h2>My Resources</h2>
 					<div class="db-links-subheading">
@@ -45,27 +45,6 @@
 					<dashboard-resource-list
 						:result="myResources"
 					/>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="db-links-column">
-					<h2>Network Activity</h2>
-					<div class="db-links-subheading">
-						Network Activity on your Node
-					</div>
-					<div class="db-links-btn">
-						<ui-button
-							@click="$emit('click:network')"
-							icon="chevron-right"
-							icon-right
-							color-preset="light-blue"
-							block
-							size="md"
-							disabled
-						>
-							See ALL Network Resources
-						</ui-button>
-					</div>
 				</div>
 			</div>
 		</div>

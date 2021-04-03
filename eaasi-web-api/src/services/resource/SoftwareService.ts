@@ -20,7 +20,7 @@ export default class SoftwareService extends BaseService {
 
 	async getAll(): Promise<ISoftwarePackage[]> {
 		let results = this._cache.get<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
-		if(results) return results;
+		if (results) return results;
 		const descriptionList = await this.getSoftwareDescriptionList();
 		const packageList = await this.getSoftwarePackageList();
 		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
