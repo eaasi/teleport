@@ -37,8 +37,14 @@
 					<div class="applied-facets-wrapper">
 						<applied-search-facets v-if="hasSelectedFacets" />
 					</div>
-					<div class="deselect-all-wrapper flex flex-row justify-between" v-if="selectedResources.length > 0">
-						<div class="deselect-link flex flex-row justify-between" @click="selectedResources = []">
+					<div
+						class="deselect-all-wrapper flex flex-row justify-between"
+						v-if="selectedResources.length > 0"
+					>
+						<div
+							class="deselect-link flex flex-row justify-between"
+							@click="selectedResources = []"
+						>
 							<span class="icon-deselect"></span>
 							<span>Deselect All ({{ selectedResources.length }})</span>
 						</div>
@@ -295,7 +301,12 @@ export default class MyBookmarksScreen extends Vue {
 		}
 		// if we're unselecting the last facet, do a clear search
 		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			this.$store.dispatch('resource/clearSearch');
+			await this.search();
+			// per https://gitlab.com/eaasi/program_docs/eaasi/-/issues/948
+			// if we clear the search here, we effectively get back all resources.
+			// since this component deals specifically with Bookmarks,
+			// we should simply re-run search when last facet is cleared.
+			// await this.$store.dispatch('resource/clearSearch');
 		}
 	}
 
