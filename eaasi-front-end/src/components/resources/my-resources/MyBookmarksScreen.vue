@@ -37,11 +37,14 @@
 					<div class="applied-facets-wrapper">
 						<applied-search-facets v-if="hasSelectedFacets" />
 					</div>
-					<div class="deselect-all-wrapper flex flex-row justify-between"
-						 v-if="selectedResources.length > 0"
+					<div
+						class="deselect-all-wrapper flex flex-row justify-between"
+						v-if="selectedResources.length > 0"
 					>
-						<div class="deselect-link flex flex-row justify-between"
-							 @click="selectedResources = []">
+						<div
+							class="deselect-link flex flex-row justify-between"
+							@click="selectedResources = []"
+						>
 							<span class="icon-deselect"></span>
 							<span>Deselect All ({{ selectedResources.length }})</span>
 						</div>
