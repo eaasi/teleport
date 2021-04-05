@@ -16,7 +16,10 @@
 								style="margin-right: 0.5rem;"
 								@click="edit(drive)"
 							></span>
-							<span class="fas fa-times red" @click="remove(drive)"></span>
+							<span
+								class="fas fa-times red"
+								@click="remove(drive)">
+							</span>
 						</span>
 					</p>
 				</div>
@@ -144,6 +147,12 @@ export default class ConfiguredDrives extends Vue {
 	}
 	.red {
 		color: $red;
+	}
+
+	.icon-wrapper {
+		> span {
+			margin-left: 2.4rem;
+		}
 	}
 }
 </style>
