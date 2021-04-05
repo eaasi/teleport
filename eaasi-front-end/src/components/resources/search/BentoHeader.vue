@@ -115,8 +115,8 @@ export default class BentoHeader extends Vue {
 	.bh-footer {
 		background-color: lighten($light-neutral, 60%);
 		color: darken($dark-neutral, 40%);
-		padding: 1rem;
 		margin-top: 0.8rem;
+		padding: 1rem;
 	}
 }
 </style>

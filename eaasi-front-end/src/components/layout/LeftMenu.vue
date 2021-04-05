@@ -1,7 +1,11 @@
 <template>
 	<nav class="left-menu" role="navigation" v-if="user">
 		<div id="headerLogo" class="flex flex-center" @click="navigateToDashboard">
-			<img src="@/assets/header-logo.png" alt="Eaasi Logo" class="left-menu-logo" />
+			<img
+				src="@/assets/eaasi_logos/logoEaaSI_160.png"
+				alt="Eaasi Logo"
+				class="left-menu-logo"
+			/>
 		</div>
 		<left-menu-item
 			v-for="(item, index) in menuItems"
@@ -102,12 +106,7 @@ export default class LeftMenu extends Vue {
 	width: $leftSidebarWidth;
 
 	img {
-		width: 6.3rem;
-	}
-
-	.left-menu-logo {
-		border: 4px solid darken($teal, 28%);
-		border-radius: 50%;
+		width: 6.8rem;
 	}
 }
 </style>

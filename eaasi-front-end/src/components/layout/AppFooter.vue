@@ -2,7 +2,7 @@
 	<footer id="footer" class="flex-row">
 		<div id="footerLogo">
 			<div class="footer-logo">
-				<img src="@/assets/header-logo.png" alt="Eaasi Logo" />
+				<img src="@/assets/eaasi_logos/logoEaaSI_160.png" alt="Eaasi Logo" />
 			</div>
 			<div class="footer-logo-label">
 				{{ copyrightMessage }}
@@ -94,7 +94,7 @@ export default class AppFooter extends Vue {
 		}
 
 		.footer-logo {
-			border: 2rem solid darken($teal, 40%);
+			border: 1rem solid darken($teal, 40%);
 			border-radius: 50%;
 			display: block;
 		}
@@ -151,6 +151,7 @@ export default class AppFooter extends Vue {
 
 			.footer-principal-label {
 				font-size: 1.1rem;
+				margin-bottom: 3px;
 			}
 
 			img {
@@ -163,6 +164,7 @@ export default class AppFooter extends Vue {
 
 			.footer-sponsor-label {
 				font-size: 1.1rem;
+				margin-bottom: 9px;
 			}
 
 			.footer-sponsor-img {
