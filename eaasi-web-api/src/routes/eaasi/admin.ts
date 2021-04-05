@@ -35,7 +35,7 @@ router.get('/users/roles', (req, res) => controller.getRoles(req, res));
  * @apiPermission System Administrator only
  * @apiDescription Saves a new User
  */
-router.post('/users/save', createAccountRequestLimit, (req, res) => controller.saveUser(req, res));
+router.post('/users/create', createAccountRequestLimit, (req, res) => controller.createUser(req, res));
 
 /**
  * @api {post} admin/users/delete  Delete an EaaSI User

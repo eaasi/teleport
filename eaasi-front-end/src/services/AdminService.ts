@@ -55,7 +55,7 @@ class AdminService extends BaseHttpService {
 	}
 
 	async saveUser(user: User): Promise<boolean> {
-		let res = await this.post('/admin/users/save', user.toKeycloakUserInfo());
+		let res = await this.post('/admin/users/create', user.toKeycloakUserInfo());
 		return res.ok;
 	}
 

@@ -23,5 +23,4 @@ export const createAccountRequestLimit = rateLimit({
 	max: 50,
 	windowMs: 60 * 60 * 1000, // 1 hour
 	message: ERROR_MESSAGE,
-	keyGenerator: (req: IAuthorizedRequest, res: Response) => `${req.user.id}-${req.ip}`,
 })

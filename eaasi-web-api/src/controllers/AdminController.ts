@@ -11,6 +11,7 @@ import { HarvesterReq } from '@/types/oaipmh/Harvester';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 import KeycloakService from '@/services/keycloak/KeycloakService';
+import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
 
 const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
@@ -89,36 +90,47 @@ export default class AdminController extends BaseController {
 	}
 
 	/**
-	 * Adds or updates user record
+	 * Adds user record
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async saveUser(req: Request, res: Response) {
-		/*try {
-			let user = req.body.user;
-			let isNewPasswordRequired = req.body.isNewPasswordRequired;
-			let savedUser = await this._userSvc.saveUser(user.id, user);
-			let plainUser = savedUser.get({ plain: true }) as IEaasiUser;
-			if (!SAML_ENABLED) {
-				if (isNewPasswordRequired) {
-					const password = this.generatePassword();
-					const hash = this._authService.createUserHash(password);
-					const userHash = await this._userHashService.saveUserHash({ userId: plainUser.id, hash });
-					const mailPayload: IMailPayload = { password, receiver: plainUser.email };
-					const mailResponse =  await this._mailerService.sendMail(MailerAction.NewAccountRegister, mailPayload);
-					if (mailResponse.accepted.length > 0) {
-						return res.send(true);
-					}
-					res.status(500);
-					res.send(false);
-				} else {
-					return res.send(true);
-				}
+	async createUser(req: Request, res: Response) {
+		try {
+			let creationResponse = await this._keycloakService.createUser(req.body, req.headers.authorization);
+			if (!creationResponse.ok) {
+				res.status(creationResponse.status);
+				return res.send(await creationResponse.json());
 			}
-			return res.send(plainUser);
-		} catch(e) {
+			let query = new KeycloakUserQuery();
+			query.username = req.body.username;
+			let userResponse = await this._keycloakService.findUsers(query, req.headers.authorization);
+			if (!userResponse.ok) {
+				res.status(userResponse.status);
+				return res.send(await userResponse.json());
+			}
+			let foundUsers = await userResponse.json();
+			if (!foundUsers || foundUsers.length === 0) {
+				res.status(404);
+				return res.send({error: 'Created user not found'});
+			}
+			let userId = foundUsers[0].id;
+			let rolesResponse = await this._keycloakService.getRoles(req.headers.authorization);
+			if (!rolesResponse.ok) {
+				res.status(rolesResponse.status);
+				return res.send(await rolesResponse.json());
+			}
+			let roles = await rolesResponse.json();
+			let role = roles.find(role => role.name === req.body.attributes.role[0]);
+
+			let assignRoleResponse = await this._keycloakService.assignRole(userId, [role], req.headers.authorization);
+			if (!assignRoleResponse.ok) {
+				res.status(assignRoleResponse.status);
+				return res.send(await assignRoleResponse.json());
+			}
+			return res.send(true);
+		} catch (e) {
 			return this.sendError(e, res);
-		}*/
+		}
 	}
 
 
