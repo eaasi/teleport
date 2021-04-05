@@ -55,7 +55,7 @@ class AdminService extends BaseHttpService {
 	}
 
 	async saveUser(user: User): Promise<boolean> {
-		let res = await this.post('/admin/users/save', { user, isNewPasswordRequired: true });
+		let res = await this.post('/admin/users/save', user.toKeycloakUserInfo());
 		return res.ok;
 	}
 

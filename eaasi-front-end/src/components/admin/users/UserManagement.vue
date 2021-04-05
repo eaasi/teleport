@@ -28,7 +28,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
 import { jsonCopy } from '@/utils/functions';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
-import { IEaasiUser } from 'eaasi-admin';
+import {IEaasiUser, IKeycloakUserInfo} from 'eaasi-admin';
 import AdminScreen from '@/components/admin/AdminScreen.vue';
 import Pagination from '@/components/global/Pagination.vue';
 import SearchBar from '@/components/global/forms/SearchBar.vue';
@@ -61,7 +61,7 @@ export default class UserManagement extends AdminScreen {
 	============================================*/
 
 	@Sync('admin/activeUser')
-	activeUser: User;
+	activeUser: IKeycloakUserInfo;
 
 	@Get('admin/usersQuery')
 	query: IEaasiSearchQuery;

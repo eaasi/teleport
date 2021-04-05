@@ -1,17 +1,16 @@
-import IEaasiUser from '@/data_access/interfaces/IEaasiUser';
-import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
 import EmilAdminService from '@/services/admin/EmilAdminService';
 import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
 import AuthService from '@/services/auth/AuthService';
 //import UserHashService from '@/services/auth/UserHashService';
-import MailerService, { IMailPayload, MailerAction } from '@/services/mailer/MailerService';
+import MailerService from '@/services/mailer/MailerService';
 import HarvesterService from '@/services/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 import { HarvesterReq } from '@/types/oaipmh/Harvester';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import KeycloakService from '@/services/keycloak/KeycloakService';
 
 const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
@@ -24,13 +23,15 @@ export default class AdminController extends BaseController {
 	readonly _authService: AuthService;
 	readonly _mailerService: MailerService;
 	readonly _adminService: EmilAdminService;
+	private readonly _keycloakService: KeycloakService;
 
 	constructor() {
 		super();
-		//this._userSvc = new UserAdminService();
+		this._userSvc = new UserAdminService();
 		this._emulatorAdminSvc = new EmulatorAdminService();
 		this._adminService = new EmilAdminService();
 		this._harvesterSvc = new HarvesterService();
+		this._keycloakService = new KeycloakService();
 		if (!SAML_ENABLED) {
 			//this._userHashService = new UserHashService();
 			this._authService = new AuthService();
@@ -53,8 +54,21 @@ export default class AdminController extends BaseController {
 		let query = this._getQueryFromParams(req);
 
 		try {
-			let users = []; //await this._userSvc.getUsers(query);
-			res.send(users);
+			let usersResponse = await this._keycloakService.getUsers(query, req.headers.authorization);
+			let usersCountResponse = await this._keycloakService.getUsersCount(req.headers.authorization);
+
+			if (!usersResponse.ok) {
+				res.status(usersResponse.status)
+			} else if (!usersCountResponse.ok) {
+				res.status(usersCountResponse.status);
+			} else {
+				let users = await usersResponse.json();
+				let count = await usersCountResponse.json();
+				res.send({
+					result: users,
+					totalResults: count
+				});
+			}
 		} catch(e) {
 			return this.sendError(e, res);
 		}

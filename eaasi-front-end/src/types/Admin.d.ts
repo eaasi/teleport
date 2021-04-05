@@ -75,4 +75,15 @@ declare module 'eaasi-admin' {
 		name: string;
 	}
 
+	export interface IKeycloakUserInfo {
+		id: string;
+		username: string;
+		firstName?: string;
+		lastName?: string;
+		email?: string;
+		attributes?: {
+			role: string[]
+		}
+	}
+
 }
