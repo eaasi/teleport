@@ -18,7 +18,8 @@
 							></span>
 							<span
 								class="fas fa-times red"
-								@click="remove(drive)">
+								@click="remove(drive)"
+							>
 							</span>
 						</span>
 					</p>
