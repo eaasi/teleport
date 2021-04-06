@@ -182,9 +182,6 @@ export default class AppFooter extends Vue {
 				.lg {
 					height: 8.4rem;
 				}
-
-			}
-			.sloan {
 			}
 		}
 	}
