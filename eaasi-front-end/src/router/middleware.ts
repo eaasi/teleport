@@ -12,24 +12,28 @@ export function loggedInGuard(to: Route, _from: Route, next: any) {
 	// Should be a separate guard; multiple guards not supported without workarounds
 	window.scrollTo(0, 0);
 
+	if (to.matched.some(x => x.meta.allowGuest)) {
+		return next();
+	}
+
 	store.dispatch('initSession').then((success) => {
 		// Redirect to login if no token and the route does not allow guests
-		if(!success && !to.matched.some(x => x.meta.allowGuest)) {
-			next({
+		if (!success && !to.matched.some(x => x.meta.allowGuest)) {
+			return next({
 				path: '/login',
 				params: { redirectTo: to.fullPath }
 			});
 		}
 
 		// Redirect to home if the user is trying to go to login but already has a token
-		else if(success && to.name === 'Login') {
+		else if (success && to.name === 'Login') {
 			let path = to.params.redirectTo || '/';
-			next({path});
+			return next({path});
 		}
 
 		// Go to requested route
 		else {
-			next();
+			return next();
 		}
 	});
 }
