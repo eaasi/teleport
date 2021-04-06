@@ -84,6 +84,20 @@ export default class HttpJSONService implements IHttpService {
 	}
 
 	/**
+	 * Makes a PUT request with a using Fetch
+	 *
+	 * @param {string} url - The request URL
+	 * @param data
+	 * @param {RequestInit} [options] - Request options
+	 * @param token - optional user JWT token
+	 * @return {Promise<Response>} - Response from fetch APY
+	 */
+	public async put(url: string, data?: any, options?: RequestInit, token?: string): Promise<Response> {
+		let requestInit = this._createRequestInit('PUT', data, options, token);
+		return await fetch(url, requestInit);
+	}
+
+	/**
 	 * Merges default options with other request properties
 	 *
 	 * @param {string} method - The Request method

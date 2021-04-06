@@ -147,6 +147,9 @@ export default class UserModal extends Vue {
 	@Prop({type: Object as () => IEaasiUser, required: true})
 	readonly user: IEaasiUser;
 
+	@Prop()
+  readonly oldRoleId: number;
+
 	/* Computed
 	============================================*/
 
@@ -194,7 +197,7 @@ export default class UserModal extends Vue {
 	}
 
 	async saveExistingUser() {
-		let success = await this.$store.dispatch('admin/saveExistingUser', this.user);
+		let success = await this.$store.dispatch('admin/saveExistingUser', {user: this.user, roleUpdated: this.oldRoleId !== this.user.roleId});
 		if(!success) return;
 		await this.$store.dispatch('admin/getUsers');
 		this.$emit('close');

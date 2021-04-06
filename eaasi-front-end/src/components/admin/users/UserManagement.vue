@@ -18,7 +18,7 @@
 			/>
 			<user-list :users="list.result" @rowClick="setActiveUser" />
 		</div>
-		<user-modal v-if="activeUser" :user="activeUser" @close="setActiveUser(null)" />
+		<user-modal v-if="activeUser" :user="activeUser" :old-role-id="activeUserRoleId" @close="setActiveUser(null)" />
 	</section>
 </template>
 
@@ -28,7 +28,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
 import { jsonCopy } from '@/utils/functions';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
-import {IEaasiUser, IKeycloakUserInfo} from 'eaasi-admin';
+import { IEaasiUser } from 'eaasi-admin';
 import AdminScreen from '@/components/admin/AdminScreen.vue';
 import Pagination from '@/components/global/Pagination.vue';
 import SearchBar from '@/components/global/forms/SearchBar.vue';
@@ -56,12 +56,13 @@ export default class UserManagement extends AdminScreen {
 	/* Data
 	============================================*/
 	searchBorderColor = '#C7E4F5';
+	activeUserRoleId: number = null;
 
 	/* Computed
 	============================================*/
 
 	@Sync('admin/activeUser')
-	activeUser: IKeycloakUserInfo;
+	activeUser: IEaasiUser;
 
 	@Get('admin/usersQuery')
 	query: IEaasiSearchQuery;
@@ -98,7 +99,10 @@ export default class UserManagement extends AdminScreen {
 	}
 
 	setActiveUser(user: IEaasiUser) {
-		this.activeUser = jsonCopy(user);
+		this.activeUser = user ? user.copy() : null;
+		if (user) {
+			this.activeUserRoleId = jsonCopy(user.roleId);
+		}
 	}
 
 	/* Lifecycle Hooks

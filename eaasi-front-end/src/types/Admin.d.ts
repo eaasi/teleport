@@ -44,6 +44,7 @@ declare module 'eaasi-admin' {
 		createdAt: Date;
 		updatedAt: Date;
 		lastLogin: Date;
+		copy(): IEaasiUser;
 	}
 
 	export interface IEaasiRole {

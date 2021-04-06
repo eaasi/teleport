@@ -29,13 +29,22 @@ router.get('/users/list', (req, res) => controller.getUsers(req, res));
 router.get('/users/roles', (req, res) => controller.getRoles(req, res));
 
 /**
- * @api {post} admin/users/save Save an EaaSI User
+ * @api {post} admin/users/create Create an EaaSI User
  * @apiVersion 1.0.0
  * @apiGroup Users
  * @apiPermission System Administrator only
- * @apiDescription Saves a new User
+ * @apiDescription Creates a new User
  */
 router.post('/users/create', createAccountRequestLimit, (req, res) => controller.createUser(req, res));
+
+/**
+ * @api {post} admin/users/update Updates an EaaSI User
+ * @apiVersion 1.0.0
+ * @apiGroup Users
+ * @apiPermission System Administrator only
+ * @apiDescription Updates an existing User
+ */
+router.post('/users/update', createAccountRequestLimit, (req, res) => controller.updateUser(req, res));
 
 /**
  * @api {post} admin/users/delete  Delete an EaaSI User

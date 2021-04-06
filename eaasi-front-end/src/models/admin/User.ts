@@ -39,6 +39,17 @@ export default class User implements IEaasiUser {
 			.includes(this.roleId);
 	}
 
+	copy() {
+		let newUser = new User();
+		newUser.id = this.id;
+		newUser.email = this.email;
+		newUser.firstName = this.firstName;
+		newUser.lastName = this.lastName;
+		newUser.username = this.username;
+		newUser.roleId = this.roleId;
+		return newUser;
+	}
+
 	toKeycloakUserInfo(): IKeycloakUserInfo  {
 		return {
 			id: this.id,

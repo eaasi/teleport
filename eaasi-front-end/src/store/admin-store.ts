@@ -74,8 +74,8 @@ const actions = {
 		return await _svc.saveUser(user);
 	},
 
-	async saveExistingUser(_store: Store<AdminState>, user: User): Promise<boolean> {
-		return await _svc.saveExistingUser(user);
+	async saveExistingUser(_store: Store<AdminState>, {user, roleUpdated}: {user: User, roleUpdated: boolean}): Promise<boolean> {
+		return await _svc.saveExistingUser(user, roleUpdated);
 	},
 
 	async deleteUser(_store: Store<AdminState>, userId: string): Promise<boolean> {

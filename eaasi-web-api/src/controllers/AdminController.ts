@@ -8,10 +8,11 @@ import HarvesterService from '@/services/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 import { HarvesterReq } from '@/types/oaipmh/Harvester';
-import { Request, Response } from 'express';
+import { Request as ExpressRequest, Response as ExpressResponse}  from 'express';
 import BaseController from './base/BaseController';
 import KeycloakService from '@/services/keycloak/KeycloakService';
 import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
+import { Response } from 'node-fetch';
 
 const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
@@ -49,27 +50,18 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getUsers(req: Request, res: Response) {
+	async getUsers(req: ExpressRequest, res: ExpressResponse) {
 
 		// Parse request object to unpack limit, page, etc.
 		let query = this._getQueryFromParams(req);
 
 		try {
-			let usersResponse = await this._keycloakService.getUsers(query, req.headers.authorization);
-			let usersCountResponse = await this._keycloakService.getUsersCount(req.headers.authorization);
-
-			if (!usersResponse.ok) {
-				res.status(usersResponse.status)
-			} else if (!usersCountResponse.ok) {
-				res.status(usersCountResponse.status);
-			} else {
-				let users = await usersResponse.json();
-				let count = await usersCountResponse.json();
-				res.send({
-					result: users,
-					totalResults: count
-				});
-			}
+			let users = await this._keycloakService.getUsers(query, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			let count = await this._keycloakService.getUsersCount(req.headers.authorization, this._handleApiResponse.bind(null, res));
+			res.send({
+				result: users,
+				totalResults: count
+			});
 		} catch(e) {
 			return this.sendError(e, res);
 		}
@@ -80,7 +72,7 @@ export default class AdminController extends BaseController {
 	 * @param _req - Express request
 	 * @param res - Express response
 	 */
-	async getRoles(_req: Request, res: Response) {
+	async getRoles(_req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let roles = await this._userSvc.getRoles();
 			res.send(roles);
@@ -94,52 +86,51 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async createUser(req: Request, res: Response) {
+	async createUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			let creationResponse = await this._keycloakService.createUser(req.body, req.headers.authorization);
-			if (!creationResponse.ok) {
-				res.status(creationResponse.status);
-				return res.send(await creationResponse.json());
-			}
+			await this._keycloakService.createUser(req.body, req.headers.authorization, this._handleApiResponse.bind(null, res));
+
 			let query = new KeycloakUserQuery();
 			query.username = req.body.username;
-			let userResponse = await this._keycloakService.findUsers(query, req.headers.authorization);
-			if (!userResponse.ok) {
-				res.status(userResponse.status);
-				return res.send(await userResponse.json());
-			}
-			let foundUsers = await userResponse.json();
-			if (!foundUsers || foundUsers.length === 0) {
+			let users = await this._keycloakService.findUsers(query, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			if (!users || users.length === 0) {
 				res.status(404);
 				return res.send({error: 'Created user not found'});
 			}
-			let userId = foundUsers[0].id;
-			let rolesResponse = await this._keycloakService.getRoles(req.headers.authorization);
-			if (!rolesResponse.ok) {
-				res.status(rolesResponse.status);
-				return res.send(await rolesResponse.json());
-			}
-			let roles = await rolesResponse.json();
+			let userId = users[0].id;
+
+			let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleApiResponse.bind(null, res));
 			let role = roles.find(role => role.name === req.body.attributes.role[0]);
 
-			let assignRoleResponse = await this._keycloakService.assignRole(userId, [role], req.headers.authorization);
-			if (!assignRoleResponse.ok) {
-				res.status(assignRoleResponse.status);
-				return res.send(await assignRoleResponse.json());
-			}
+			await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleApiResponse.bind(null, res));
 			return res.send(true);
 		} catch (e) {
 			return this.sendError(e, res);
 		}
 	}
 
+	async updateUser(req: ExpressRequest, res: ExpressResponse) {
+		const userId = req.query.userId as string;
+		await this._keycloakService.updateUser(userId, req.body, req.headers.authorization, this._handleApiResponse.bind(null, res));
+
+		const roleUpdated = req.query.roleUpdated;
+		if (roleUpdated) {
+			let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleApiResponse.bind(null, res));
+			let role = roles.find(role => role.name === req.body.attributes.role[0]);
+
+			await this._keycloakService.removeRolesFromUser(userId, roles, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleApiResponse.bind(null, res));
+		}
+
+		return res.send(true);
+	}
 
 	/**
 	 * Deletes User
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async deleteUser(req: Request, res: Response) {
+	async deleteUser(req: ExpressRequest, res: ExpressResponse) {
 		/*try {
 			let id = Number(req.query.id);
 			if (!SAML_ENABLED) {
@@ -157,7 +148,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async resetUserPassword(req: Request, res: Response) {
+	async resetUserPassword(req: ExpressRequest, res: ExpressResponse) {
 		/*if (SAML_ENABLED) {
 			res.status(500);
 			return res.send('Invalid endpoint');
@@ -203,7 +194,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getEmulators(req: Request, res: Response) {
+	async getEmulators(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let emulators = await this._emulatorAdminSvc.getEmulators();
 			res.send(emulators);
@@ -217,7 +208,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async importEmulator(req: Request, res: Response) {
+	async importEmulator(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let importRequest = req.body as IEmulatorImportRequest;
 			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
@@ -232,7 +223,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async setDefaultEmulatorVersion(req: Request, res: Response) {
+	async setDefaultEmulatorVersion(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let entry = req.body as EmulatorEntry;
 			let response = await this._emulatorAdminSvc.setDefaultVersion(entry);
@@ -251,7 +242,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async getHarvesters(req: Request, res: Response) {
+	async getHarvesters(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let list = await this._harvesterSvc.getHarvesters();
 			res.send(list);
@@ -265,7 +256,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async addHarvester(req: Request, res: Response) {
+	async addHarvester(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let data = req.body as HarvesterReq;
 			let success = await this._harvesterSvc.addHarvester(data);
@@ -281,7 +272,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async syncHarvester(req: Request, res: Response) {
+	async syncHarvester(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const name = req.query.name as string;
 			const full = req.query.full;
@@ -297,7 +288,7 @@ export default class AdminController extends BaseController {
 	 * @param req - Express request
 	 * @param res - Express response
 	 */
-	async deleteHarvester(req: Request, res: Response) {
+	async deleteHarvester(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const name = req.query.name as string;
 			let success = await this._harvesterSvc.deleteHarvester(name);
@@ -308,7 +299,7 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async dbDataMigration(req: Request, res: Response) {
+	async dbDataMigration(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/db-migration
 			res.send(true);
@@ -317,7 +308,7 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async syncEnvironments(req: Request, res: Response) {
+	async syncEnvironments(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let result = true;
 			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/actions/sync
@@ -327,12 +318,26 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async getApiKey(req: Request, res: Response) {
+	async getApiKey(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const result = await this._adminService.getApiKey();
 			return res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);
+		}
+	}
+
+	async _handleApiResponse(res: ExpressResponse, apiResponse: Response) {
+		if (!apiResponse.ok) {
+			let error = await apiResponse.text();
+			res.status(apiResponse.status);
+			res.send(error);
+			throw new Error(error);
+		}
+		if ([201, 204].includes(apiResponse.status)) {
+			return null;
+		} else {
+			return await apiResponse.json();
 		}
 	}
 
