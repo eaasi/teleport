@@ -55,7 +55,7 @@
 					<img src="@/assets/andrew-w-mellon-white.png" class="md" alt="The Andrew W. Mellon Foundation logo" />
 				</div>
 				<div class="footer-sponsor-img inline-block sloan">
-					<img src="@/assets/sloan-gold-blue.png" class="sm" alt="The Alfred P. Sloan Foundation logo" />
+					<img src="@/assets/footerLogoSloan.png" class="lg" alt="The Alfred P. Sloan Foundation logo" />
 				</div>
 			</div>
 		</div>
@@ -182,6 +182,9 @@ export default class AppFooter extends Vue {
 				.lg {
 					height: 8.4rem;
 				}
+
+			}
+			.sloan {
 			}
 		}
 	}
