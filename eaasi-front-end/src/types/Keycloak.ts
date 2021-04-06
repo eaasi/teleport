@@ -11,5 +11,6 @@ export interface IKeycloakUser {
 
 export enum KeycloakRole {
 	EaasUser = 'eaas-user',
-	EaasAdmin = 'eaas-admin'
+	EaasAdmin = 'eaas-admin',
+	EaasManager = 'eaas-manager'
 }

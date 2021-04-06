@@ -112,7 +112,8 @@ export function translatedIcon(name: string): string {
 
 export const ROLES_MAPPER = {
 	[KeycloakRole.EaasUser]: userRoles.CONTRIBUTOR,
-	[KeycloakRole.EaasAdmin]: userRoles.ADMIN
+	[KeycloakRole.EaasAdmin]: userRoles.ADMIN,
+	[KeycloakRole.EaasManager]: userRoles.MANAGER
 };
 
 export const EDITION_TYPES = {
