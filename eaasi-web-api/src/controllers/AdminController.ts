@@ -110,19 +110,23 @@ export default class AdminController extends BaseController {
 	}
 
 	async updateUser(req: ExpressRequest, res: ExpressResponse) {
-		const userId = req.query.userId as string;
-		await this._keycloakService.updateUser(userId, req.body, req.headers.authorization, this._handleApiResponse.bind(null, res));
+		try {
+			const userId = req.query.userId as string;
+			await this._keycloakService.updateUser(userId, req.body, req.headers.authorization, this._handleApiResponse.bind(null, res));
 
-		const roleUpdated = req.query.roleUpdated;
-		if (roleUpdated) {
-			let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleApiResponse.bind(null, res));
-			let role = roles.find(role => role.name === req.body.attributes.role[0]);
+			const roleUpdated = req.query.roleUpdated;
+			if (roleUpdated) {
+				let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleApiResponse.bind(null, res));
+				let role = roles.find(role => role.name === req.body.attributes.role[0]);
 
-			await this._keycloakService.removeRolesFromUser(userId, roles, req.headers.authorization, this._handleApiResponse.bind(null, res));
-			await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleApiResponse.bind(null, res));
+				await this._keycloakService.removeRolesFromUser(userId, roles, req.headers.authorization, this._handleApiResponse.bind(null, res));
+				await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleApiResponse.bind(null, res));
+			}
+
+			return res.send(true);
+		} catch (e) {
+			return this.sendError(e, res);
 		}
-
-		return res.send(true);
 	}
 
 	/**
@@ -131,16 +135,13 @@ export default class AdminController extends BaseController {
 	 * @param res - Express response
 	 */
 	async deleteUser(req: ExpressRequest, res: ExpressResponse) {
-		/*try {
-			let id = Number(req.query.id);
-			if (!SAML_ENABLED) {
-				await this._userHashService.deleteUserHash(id);
-			}
-			await this._userSvc.deleteUser(id);
+		try {
+			const userId = req.query.id as string;
+			await this._keycloakService.deleteUser(userId, req.headers.authorization, this._handleApiResponse.bind(null, res));
 			res.send(true);
 		} catch(e) {
 			return this.sendError(e, res);
-		}*/
+		}
 	}
 
 	/**

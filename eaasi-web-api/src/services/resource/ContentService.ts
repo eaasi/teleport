@@ -25,7 +25,6 @@ export default class ContentService extends BaseService {
 		let results = this._cache.get<IContentItem[]>(this.CACHE_KEYS.ALL_CONTENT)
 		if(results) return results;
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`, token);
-		console.log(res);
 		let content = await res.json() as IContentItem[];
 		content.forEach((x: IContentItem) => {
 			x.resourceType = resourceTypes.CONTENT
