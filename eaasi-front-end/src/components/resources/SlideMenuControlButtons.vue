@@ -54,15 +54,14 @@ export default class SlideMenuControlButtons extends Vue {
 		}
 	}
 
-	.btn-wrapper:after {
-		content: "";
+	.btn-wrapper::after {
 		background: $dark-blue;
-		position: absolute;
 		bottom: 0;
-		left: 12%;
+		content: '';
 		height: 2px;
+		left: 12%;
+		position: absolute;
 		width: 76%;
 	}
-
 }
 </style>
