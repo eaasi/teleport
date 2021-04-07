@@ -94,7 +94,7 @@ import EnvironmentMetadataSection from './EnvironmentMetadataSection.vue';
 import RevisionList from './RevisionList.vue';
 import AddSoftware from './AddSoftwareModal.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
-import { ROUTES } from '../../../../router/routes.const'; 
+import { ROUTES } from '../../../../router/routes.const';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import { Sync } from 'vuex-pathify';
@@ -134,7 +134,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	// Slide menu
 	actionMenuTabs: IEaasiTab[] = [
 		{
-			label: 'Actions'
+			label: 'Actions Menu'
 		}
 	]
 	actionMenuActiveTab: IEaasiTab = null;
@@ -177,7 +177,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	}
 
 	get resourceTitle(): string {
-		return this.activeEnvironment && this.activeEnvironment.title 
+		return this.activeEnvironment && this.activeEnvironment.title
 			? `${this.activeEnvironment.title}` : 'Environment Details';
 	}
 
