@@ -200,7 +200,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 		if (result && result.id) {
 			this.activeMode = this.mods[0];
-			this.$router.replace(`/resources/environment?resourceId=${result.id}`);
+			await this.$router.replace(`/resources/environment?resourceId=${result.id}`);
 			this.$route.query['resourceId'] = result.id;
 			await this.init();
 		}
@@ -411,8 +411,8 @@ export default class EnvironmentDetailsScreen extends Vue {
 				editType: 'text-input'
 			},
 			{
-				label: 'Date/Time',
-				value: '1:19PM 5/3/2019',
+				label: 'Date–Time',
+				value: '5/3/2019–1:19PM', // That's an en-dash
 				changed: false,
 				readonly: true,
 				editType: 'text-input'
