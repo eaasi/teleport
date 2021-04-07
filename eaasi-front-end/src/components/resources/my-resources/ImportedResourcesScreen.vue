@@ -248,9 +248,14 @@ export default class ImportedResourcesScreen extends Vue {
 		if (!curVal && prevVal === undefined) {
 			return;
 		}
-		// if we unselecting the last facet, do a clear search
+		// if we're unselecting the last facet, do a clear search
 		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			this.$store.dispatch('resource/clearSearch');
+			await this.search();
+			// per https://gitlab.com/eaasi/program_docs/eaasi/-/issues/948
+			// if we clear the search here, we effectively get back all resources.
+			// since this component deals specifically with Bookmarks,
+			// we should simply re-run search when last facet is cleared.
+			// await this.$store.dispatch('resource/clearSearch');
 		}
 	}
 
