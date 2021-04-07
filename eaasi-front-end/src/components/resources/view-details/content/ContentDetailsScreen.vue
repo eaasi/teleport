@@ -127,7 +127,7 @@ export default class ContentDetailsScreen extends Vue {
 	// Slide menu
 	actionMenuTabs: IEaasiTab[] = [
 		{
-			label: 'Actions'
+			label: 'Actions Menu'
 		}
 	];
 
