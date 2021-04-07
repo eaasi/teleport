@@ -140,7 +140,7 @@ export default class BaseHttpService {
 			if (res.ok) response.result = await res.json();
 
 			// Handle non-200 responses
-			else self._handleBadResponse<T>(requestInit, res, options.suppressErrors);
+			else await self._handleBadResponse<T>(requestInit, res, options.suppressErrors);
 
 			// Let Vue know that an ajax request has been completed
 			if (!options.suppressSpinner) eventBus.$emit('ajaxEnd');
@@ -217,9 +217,11 @@ export default class BaseHttpService {
 		suppressError: boolean
 	): Promise<IEaasiApiResponse<T>> {
 		let res = response as IEaasiApiResponse<T>;
+
 		console.error('Received non-200 response from HttpService:', res.body);
+
 		if (suppressError) return res;
-		
+
 		try {
 			let error = await res.json();
 			error.request = request;
