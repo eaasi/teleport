@@ -333,7 +333,7 @@ export default class ExploreResourcesScreen extends Vue {
 			justify-content: space-between;
 
 			.card-wrapper {
-				width: 53rem;
+				width: 420px;
 			}
 		}
 	}

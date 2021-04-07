@@ -21,8 +21,8 @@
 				<selectable-card-content :content-data="data.content" />
 			</div>
 
+			<hr class="subcontent-divider" />
 			<div v-if="data.subContent">
-				<hr class="subcontent-divider" />
 				<selectable-card-content
 					:content-data="data.subContent"
 				/>
@@ -189,6 +189,7 @@ export default class SelectableCard extends Vue {
 	}
 
 	.subcontent-divider {
+		border-color: lighten($dark-neutral, 90%);
 		margin-top: 1.4rem;
 	}
 
