@@ -4,7 +4,6 @@
 			<div :class="['eaasi-modal', 'size-' + size]">
 				<div class="eaasi-modal-header">
 					<div class="eaasi-modal-close" @click="$emit('close')">
-						<span class="fal fa-times"></span>
 					</div>
 					<slot name="header">
 						<h2 v-if="title">{{ title }}</h2>
