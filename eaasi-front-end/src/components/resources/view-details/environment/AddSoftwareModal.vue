@@ -18,14 +18,23 @@
 				:data="softwareList"
 			/>
 		</div>
+
 		<alert card v-if="errorMessage" type="error">
 			{{ errorMessage }}
 		</alert>
 
 		<template #buttonsRight>
 			<div class="justify-end buttons-right">
-				<ui-button @click="$emit('cancel')" color-preset="light-blue">Cancel</ui-button>
-				<ui-button @click="runInEmulator" :disabled="selectedSoftwareId == null">
+				<ui-button
+					@click="$emit('cancel')"
+					color-preset="light-blue"
+				>
+					Cancel
+				</ui-button>
+				<ui-button
+					@click="runInEmulator"
+					:disabled="selectedSoftwareId == null"
+				>
 					Run
 				</ui-button>
 			</div>
