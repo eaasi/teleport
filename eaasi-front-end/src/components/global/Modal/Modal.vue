@@ -3,9 +3,10 @@
 		<div class="eaasi-modal-container flex-column flex-center" role="dialog">
 			<div :class="['eaasi-modal', 'size-' + size]">
 				<div class="eaasi-modal-header">
-					<div v-if="showX"
-						 class="eaasi-modal-close"
-						 @click="$emit('close')"
+					<div
+						v-if="showX"
+						class="eaasi-modal-close"
+						@click="$emit('close')"
 					>
 						<span class="fal fa-times"></span>
 					</div>
