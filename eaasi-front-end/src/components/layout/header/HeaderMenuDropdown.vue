@@ -11,7 +11,7 @@
 					<span>Node Preferences</span>
 					<span class="icon fas fa-fw fa-edit"></span>
 				</li>
-				<li v-if="allowChangePassword" class="hmd-list-item flex flex-row justify-between" @click="isChangePasswordModalVisible = true">
+				<li v-if="allowChangePassword" class="hmd-list-item flex flex-row justify-between" @click="changePassword">
 					<span>Change Password</span>
 					<span class="icon fas fa-fw fa-key"></span>
 				</li>
@@ -86,6 +86,9 @@ export default class HeaderMenuDropdown extends Vue {
 		await this.$store.dispatch('logout');
 	}
 
+	changePassword() {
+		window.location.href = (window as any).keycloak.createAccountUrl() + '#/security/signingin';
+	}
 }
 
 </script>
