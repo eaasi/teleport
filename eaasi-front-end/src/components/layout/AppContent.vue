@@ -6,9 +6,6 @@
 				<router-view />
 			</section>
 		</div>
-		<div id="appFooter">
-			<app-footer />
-		</div>
 		<notifications />
 		<task-list v-if="hasTasks && isAllowed" collapsible closable fixed />
 		<div id="globalLoader" v-show="showLoader">
@@ -114,6 +111,7 @@ export default class AppContent extends Mixins(TaskManager) {
 		margin-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
 		padding-bottom: $footerHeight;
+		min-height: 100%;
 		position: relative;
 
 		&.no-header {
@@ -136,14 +134,6 @@ export default class AppContent extends Mixins(TaskManager) {
 
 	#mainContent {
 		min-height: calc(100vh - #{$headerHeight});
-	}
-
-	#appFooter {
-		bottom: 0;
-		left: $leftSidebarWidth * -1;
-		position: absolute;
-		right: 0;
-		z-index: 100;
 	}
 
 	#globalLoader {

@@ -7,6 +7,7 @@
 			<left-menu v-show="!hideLeftMenu" />
 			<app-header v-show="!hideAppHeader" />
 			<app-content />
+			<app-footer />
 			<!-- Error Modal visibility state managed in global store-->
 			<error-modal v-if="error" />
 		</template>
@@ -21,6 +22,7 @@ import LeftMenu from './components/layout/LeftMenu.vue';
 import AppHeader from './components/layout/header/AppHeader.vue';
 import AppContent from './components/layout/AppContent.vue';
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
+import AppFooter from '@/components/layout/AppFooter.vue';
 import eventBus from '@/utils/event-bus';
 import events from '@/config/events';
 import { generateNotificationError, generateNotificationWarning } from './helpers/NotificationHelper';
@@ -31,6 +33,7 @@ import { ROUTES } from './router/routes.const';
 	components: {
 		ErrorModal,
 		AppHeader,
+		AppFooter,
 		AppContent,
 		LeftMenu
 	}

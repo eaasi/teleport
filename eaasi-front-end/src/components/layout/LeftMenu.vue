@@ -98,6 +98,7 @@ export default class LeftMenu extends Vue {
 	position: fixed;
 	top: 0;
 	width: $leftSidebarWidth;
+	z-index: -1;
 }
 
 #headerLogo {
