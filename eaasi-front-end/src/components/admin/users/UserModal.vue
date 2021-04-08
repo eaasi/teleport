@@ -205,9 +205,11 @@ export default class UserModal extends Vue {
 	}
 
 	async saveUser() {
-		let success = await this.$store.dispatch('admin/saveUser', this.user);
-		if(!success) return;
-		await this.$store.dispatch('admin/getUsers');
+		let password = await this.$store.dispatch('admin/saveUser', this.user);
+		if(!password) return;
+    const notification = generateNotificationSuccess(`You successfully created account for ${this.user.username}. Provide this password to the user: ${password}`, 20000);
+    eventBus.$emit('notification:show', notification);
+    await this.$store.dispatch('admin/getUsers');
 		this.$emit('close');
 	}
 
@@ -224,10 +226,10 @@ export default class UserModal extends Vue {
 	}
 
 	async resetPassword() {
-		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
+		const password = await this.$store.dispatch('admin/resetPassword', {id: this.user.id, email: this.user.email});
 		this.isResetPasswordModalVisible = false;
-		const notification = success
-			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}.`)
+		const notification = password
+			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}. Provide this password to the user: ${password}`, 20000)
 			: generateNotificationError('Something went wrong, please try again.');
 		eventBus.$emit('notification:show', notification);
 		this.$emit('close');

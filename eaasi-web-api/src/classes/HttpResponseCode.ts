@@ -2,6 +2,7 @@ export default class HttpResponseCode {
 	static OK: number = 200   // Successful request
 	static CREATED: number = 201   // The specified resource was created
 	static ACCEPTED: number = 202   // The request was accepted
+	static NO_CONTENT: number = 204 // The server is not returning any content
 	static REDIRECT: number = 302   // "Found" - can be used for redirecting a request
 	static BAD_REQUEST: number = 400   // HTTP request sent to server has invalid syntax
 	static UNAUTHORIZED: number = 401   // User trying to access the resource is not authenticated

@@ -70,7 +70,7 @@ const actions = {
 		commit('SET_USERS_RESULT', usersResult);
 	},
 
-	async saveUser(_store: Store<AdminState>, user: User): Promise<boolean> {
+	async saveUser(_store: Store<AdminState>, user: User): Promise<string> {
 		return await _svc.saveUser(user);
 	},
 
@@ -121,8 +121,8 @@ const actions = {
 		return true;
 	},
 
-	async resetPassword(_, email: string): Promise<boolean> {
-		return await _svc.resetUserPassword(email);
+	async resetPassword(_, {id, email}: {id: string, email: string}): Promise<string> {
+		return await _svc.resetUserPassword(id, email);
 	},
 
 	/* Tasks

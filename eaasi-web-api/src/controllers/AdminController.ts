@@ -13,6 +13,9 @@ import BaseController from './base/BaseController';
 import KeycloakService from '@/services/keycloak/KeycloakService';
 import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
 import { Response } from 'node-fetch';
+import HttpResponseCode from '@/classes/HttpResponseCode';
+import { build_400_response } from '@/utils/error-helpers';
+import ErrorResponse from '@/classes/ErrorResponse';
 
 const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
@@ -56,8 +59,8 @@ export default class AdminController extends BaseController {
 		let query = this._getQueryFromParams(req);
 
 		try {
-			let users = await this._keycloakService.getUsers(query, req.headers.authorization, this._handleApiResponse.bind(null, res));
-			let count = await this._keycloakService.getUsersCount(req.headers.authorization, this._handleApiResponse.bind(null, res));
+			let users = await this._keycloakService.getUsers(query, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			let count = await this._keycloakService.getUsersCount(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			res.send({
 				result: users,
 				totalResults: count
@@ -88,22 +91,34 @@ export default class AdminController extends BaseController {
 	 */
 	async createUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			await this._keycloakService.createUser(req.body, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			let userData = req.body;
+			if (!userData) {
+				res.status(HttpResponseCode.BAD_REQUEST);
+				return res.send(build_400_response(userData));
+			}
+			const password = this.generatePassword();
+			userData.credentials = [{
+				type: 'password',
+				value: password,
+				temporary: true
+			}];
+			userData.enabled = true;
+			await this._keycloakService.createUser(req.body, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
 			let query = new KeycloakUserQuery();
 			query.username = req.body.username;
-			let users = await this._keycloakService.findUsers(query, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			let users = await this._keycloakService.findUsers(query, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			if (!users || users.length === 0) {
-				res.status(404);
-				return res.send({error: 'Created user not found'});
+				res.status(HttpResponseCode.NOT_FOUND);
+				return res.send(new ErrorResponse(HttpResponseCode.NOT_FOUND, 'Created user not found'));
 			}
 			let userId = users[0].id;
 
-			let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleApiResponse.bind(null, res));
+			let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			let role = roles.find(role => role.name === req.body.attributes.role[0]);
 
-			await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleApiResponse.bind(null, res));
-			return res.send(true);
+			await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			return res.send({password});
 		} catch (e) {
 			return this.sendError(e, res);
 		}
@@ -112,15 +127,15 @@ export default class AdminController extends BaseController {
 	async updateUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const userId = req.query.userId as string;
-			await this._keycloakService.updateUser(userId, req.body, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			await this._keycloakService.updateUser(userId, req.body, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
 			const roleUpdated = req.query.roleUpdated;
 			if (roleUpdated) {
-				let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleApiResponse.bind(null, res));
+				let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 				let role = roles.find(role => role.name === req.body.attributes.role[0]);
 
-				await this._keycloakService.removeRolesFromUser(userId, roles, req.headers.authorization, this._handleApiResponse.bind(null, res));
-				await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleApiResponse.bind(null, res));
+				await this._keycloakService.removeRolesFromUser(userId, roles, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			}
 
 			return res.send(true);
@@ -137,7 +152,7 @@ export default class AdminController extends BaseController {
 	async deleteUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const userId = req.query.id as string;
-			await this._keycloakService.deleteUser(userId, req.headers.authorization, this._handleApiResponse.bind(null, res));
+			await this._keycloakService.deleteUser(userId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			res.send(true);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -150,31 +165,21 @@ export default class AdminController extends BaseController {
 	 * @param res - Express response
 	 */
 	async resetUserPassword(req: ExpressRequest, res: ExpressResponse) {
-		/*if (SAML_ENABLED) {
-			res.status(500);
-			return res.send('Invalid endpoint');
-		}
 		try {
-			const { email } = req.body;
-			const user = await this._userSvc.getUserByEmail(email);
-			const plainUser = user.get({ plain: true }) as IEaasiUser;
+			const userId = req.query.id as string;
 			const password = this.generatePassword();
-			const hash = await this._authService.createUserHash(password);
-			const userHash: IEaasiUserHash = { hash, userId: plainUser.id };
-			const updatedUserHash = await this._userHashService.saveUserHash(userHash);
-			const mailPayload: IMailPayload = {
-				password,
-				receiver: email
-			}
-			const mailResponse = await this._mailerService.sendMail(MailerAction.PasswordReset, mailPayload);
-			if (mailResponse.accepted.length > 0) {
-				return res.send(true);
-			}
-			res.status(500);
-			res.send(false);
+			const userData = {
+				credentials: [{
+					type: 'password',
+					value: password,
+					temporary: true
+				}]
+			};
+			await this._keycloakService.updateUser(userId, userData, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			res.send({password});
 		} catch(e) {
 			return this.sendError(e, res);
-		}*/
+		}
 	}
 
 	private generatePassword(length: number = 8) {
@@ -328,14 +333,14 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async _handleApiResponse(res: ExpressResponse, apiResponse: Response) {
+	async _handleKeycloakResponse(res: ExpressResponse, apiResponse: Response) {
 		if (!apiResponse.ok) {
-			let error = await apiResponse.text();
+			let error = await apiResponse.json();
 			res.status(apiResponse.status);
-			res.send(error);
-			throw new Error(error);
+			res.send(new ErrorResponse(apiResponse.status, error.errorMessage));
+			throw new Error(error.errorMessage);
 		}
-		if ([201, 204].includes(apiResponse.status)) {
+		if ([HttpResponseCode.CREATED, HttpResponseCode.NO_CONTENT].includes(apiResponse.status)) {
 			return null;
 		} else {
 			return await apiResponse.json();

@@ -8,6 +8,8 @@ import { ITaskState } from '@/types/Task';
 import { IEaasiRole, IEmulator, IKeyboardSettings } from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import BaseHttpService from './BaseHttpService';
+import eventBus from '@/utils/event-bus';
+import { generateNotificationError } from '@/helpers/NotificationHelper';
 
 class AdminService extends BaseHttpService {
 
@@ -54,9 +56,13 @@ class AdminService extends BaseHttpService {
 		return res.result;
 	}
 
-	async saveUser(user: User): Promise<boolean> {
-		let res = await this.post('/admin/users/create', user.toKeycloakUserInfo());
-		return res.ok;
+	async saveUser(user: User): Promise<string> {
+		let res = await this.post<any>('/admin/users/create', user.toKeycloakUserInfo(), {suppressErrors: true});
+		if (!res.ok) {
+			const error = await res.json();
+			eventBus.$emit('notification:show', generateNotificationError(error.message));
+		}
+		return res.result.password;
 	}
 
 	async saveExistingUser(user: User, roleUpdated: boolean): Promise<boolean> {
@@ -69,9 +75,12 @@ class AdminService extends BaseHttpService {
 		return res.ok;
 	}
 
-	async resetUserPassword(email: string): Promise<boolean> {
-		let res = await this.post<any>('/admin/users/reset-password', { email });
-		return res.ok && res.result;
+	async resetUserPassword(id: string, email: string): Promise<string> {
+		let res = await this.post<any>(`/admin/users/reset-password?id=${id}`, { email });
+		if (res.ok) {
+			return res.result.password;
+		}
+		return null;
 	}
 
 	/* User Roles
