@@ -38,6 +38,7 @@
 							href="https://www.eaasi.cloud"
 							target="_blank"
 							rel="noopener noreferrer"
+							id="eaasi-website"
 						>
 							https://www.eaasi.cloud
 						</a>

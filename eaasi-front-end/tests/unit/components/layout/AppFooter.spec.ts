@@ -15,7 +15,7 @@ describe('AppFooter.vue', () => {
 	});
 
 	it('Contains a link to the Software Preservation Network', () => {
-		let link = footer.find('.footer-website a').attributes('href');
-		expect(link).toBe('http://www.eaasi.cloud');
+		let link = footer.find('#eaasi-website').attributes('href');
+		expect(link).toBe('https://www.eaasi.cloud');
 	});
 });
