@@ -157,7 +157,7 @@ export default class TaskList extends Vue {
 .task-list-wrapper {
 
 	&.fixed {
-		z-index: 100;
+		z-index: 400;
 
 		.task-list-container {
 			bottom: 20px;

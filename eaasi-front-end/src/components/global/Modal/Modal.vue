@@ -83,7 +83,7 @@ export default class Modal extends Vue {
 		opacity: 1;
 		overflow-y: scroll;
 		position: fixed;
-		z-index: 400;
+		z-index: 1000;
 	}
 
 	.eaasi-modal {
