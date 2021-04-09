@@ -22,7 +22,8 @@
 			</div>
 
 			<hr class="subcontent-divider" />
-			<div v-if="data.subContent">
+
+			<div v-if="data.subContent && Object.keys(data.subContent).length !== 0">
 				<selectable-card-content
 					:content-data="data.subContent"
 				/>
