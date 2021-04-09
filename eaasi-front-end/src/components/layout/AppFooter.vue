@@ -27,7 +27,7 @@
 					>
 						<span class="fab fa-twitter eb-icon teal"></span>
 						<span class="footer-item">
-							@SoftPresNetwork
+							#eaasi
 						</span>
 					</a>
 				</div>
