@@ -3,7 +3,11 @@
 		<div class="eaasi-modal-container flex-column flex-center" role="dialog">
 			<div :class="['eaasi-modal', 'size-' + size]">
 				<div class="eaasi-modal-header">
-					<div class="eaasi-modal-close" @click="$emit('close')">
+					<div
+						v-if="showX"
+						class="eaasi-modal-close"
+						@click="$emit('close')"
+					>
 						<span class="fal fa-times"></span>
 					</div>
 					<slot name="header">
@@ -48,9 +52,15 @@ export default class Modal extends Vue {
     @Prop({type: String, required: false})
     readonly title: string
 
+	/**
+	 * Show "X" in the top right-hand corner of the modal to cloase
+	 */
+	@Prop({type: Boolean, required: false, default: false})
+	readonly showX: string
 
-    /* Lifecycle Hooks
-    ============================================*/
+
+	/* Lifecycle Hooks
+	============================================*/
 
     mounted() {
 		document.body.classList.add('modal-open');
