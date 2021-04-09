@@ -53,6 +53,7 @@ export default class SlideMenu extends Vue {
 
 <style lang="scss">
 .slide-menu {
+	z-index: 20;
 	bottom: 0;
 	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
 	position: fixed;
@@ -60,6 +61,7 @@ export default class SlideMenu extends Vue {
 	top: $headerHeight;
 	transform: translate3d($slideMenuWidth + 1rem, 0, 0);
 	width: $slideMenuWidth;
+	overflow: scroll;
 
 	&.open {
 		transform: translate3d(0, 0, 0);
