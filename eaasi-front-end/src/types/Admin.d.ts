@@ -84,7 +84,8 @@ declare module 'eaasi-admin' {
 		email?: string;
 		attributes?: {
 			role: string[]
-		}
+		},
+		realmRoles?: string[]
 	}
 
 }

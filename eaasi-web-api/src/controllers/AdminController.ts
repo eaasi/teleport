@@ -114,16 +114,27 @@ export default class AdminController extends BaseController {
 			}
 			let userId = users[0].id;
 
-			let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-			let role = roles.find(role => role.name === req.body.attributes.role[0]);
+			let clientRoles = await this._keycloakService.getClientRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			let clientRole = clientRoles.find(role => role.name === req.body.attributes.role[0]);
+			await this._keycloakService.assignClientRoles(userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
-			await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			if (req.body.realmRoles && req.body.realmRoles.length > 0) {
+				let realmRoles = await this._keycloakService.getRealmRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				let realmRole = realmRoles.find(role => role.name === req.body.realmRoles[0]);
+				await this._keycloakService.assignRealmRoles(userId, [realmRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			}
+
 			return res.send({password});
 		} catch (e) {
 			return this.sendError(e, res);
 		}
 	}
 
+	/**
+	 * Updates user record
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
 	async updateUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const userId = req.query.userId as string;
@@ -131,11 +142,19 @@ export default class AdminController extends BaseController {
 
 			const roleUpdated = req.query.roleUpdated;
 			if (roleUpdated) {
-				let roles = await this._keycloakService.getRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-				let role = roles.find(role => role.name === req.body.attributes.role[0]);
+				let clientRoles = await this._keycloakService.getClientRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				let clientRole = clientRoles.find(role => role.name === req.body.attributes.role[0]);
 
-				await this._keycloakService.removeRolesFromUser(userId, roles, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-				await this._keycloakService.assignRoles(userId, [role], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				await this._keycloakService.removeClientRolesFromUser(userId, clientRoles, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				await this._keycloakService.assignClientRoles(userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+
+				let realmRoles = await this._keycloakService.getRealmRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				let realmRole = realmRoles.find(role => role.name === 'admin');
+				if (req.body.realmRoles && req.body.realmRoles.length > 0) {
+					await this._keycloakService.assignRealmRoles(userId, [realmRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				} else {
+					await this._keycloakService.removeRealmRolesFromUser(userId, [realmRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				}
 			}
 
 			return res.send(true);

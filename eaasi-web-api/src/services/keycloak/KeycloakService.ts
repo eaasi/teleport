@@ -56,20 +56,38 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.delete(url, null, null, token).then(res => callback(res));
 	}
 
-	async getRoles(token: string, callback: Function) {
+	async getClientRoles(token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${KEYCLOAK_CLIENT_UUID}/roles`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
 
-	async assignRoles(userId: string, roles: object, token: string, callback: Function) {
+	async getRealmRoles(token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/roles`;
+
+		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
+	async assignClientRoles(userId: string, roles: object, token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/clients/${KEYCLOAK_CLIENT_UUID}`;
 
 		return await this._httpService.post(url, roles, null, token).then(res => callback(res));
 	}
 
-	async removeRolesFromUser(userId: string, roles: object, token: string, callback: Function) {
+	async assignRealmRoles(userId: string, roles: object, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/realm`;
+
+		return await this._httpService.post(url, roles, null, token).then(res => callback(res));
+	}
+
+	async removeClientRolesFromUser(userId: string, roles: object, token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/clients/${KEYCLOAK_CLIENT_UUID}`;
+
+		return await this._httpService.delete(url, roles, null, token).then(res => callback(res));
+	}
+
+	async removeRealmRolesFromUser(userId: string, roles: object, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/realm`;
 
 		return await this._httpService.delete(url, roles, null, token).then(res => callback(res));
 	}

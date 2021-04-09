@@ -51,7 +51,7 @@ export default class User implements IEaasiUser {
 	}
 
 	toKeycloakUserInfo(): IKeycloakUserInfo  {
-		return {
+		let user: IKeycloakUserInfo =  {
 			id: this.id,
 			username: this.username,
 			firstName: this.firstName,
@@ -61,6 +61,12 @@ export default class User implements IEaasiUser {
 				role: [Object.keys(ROLES_MAPPER).find(role => ROLES_MAPPER[role] === this.roleId)]
 			}
 		};
+
+		if (this.roleId === userRoles.ADMIN) {
+			user.realmRoles = ['admin'];
+		}
+
+		return user;
 	}
 
 	_isKeycloakUser(obj: any): obj is IKeycloakUser {
