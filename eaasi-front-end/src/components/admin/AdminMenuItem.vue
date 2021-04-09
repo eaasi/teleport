@@ -49,7 +49,7 @@ a.admin-menu-item {
 
 	p {
 		color: #FFFFFF;
-		font-size: 1.6rem;
+		font-size: 1.5rem;
 		padding: 1.2rem 0;
 		transition: color 0.1s;
 
@@ -60,8 +60,8 @@ a.admin-menu-item {
 
 	span.fas {
 		color: $teal;
-		font-size: 2.2rem;
-		margin-right: 5px;
+		font-size: 1.4rem;
+		margin-right: 8px;
 	}
 }
 </style>

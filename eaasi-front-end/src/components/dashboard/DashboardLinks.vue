@@ -1,7 +1,7 @@
 <template>
 	<div class="db-links-container padded">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="db-links-column">
 					<h2>My Node Activity</h2>
 					<div class="db-links-subheading">
@@ -24,7 +24,7 @@
 					/>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="db-links-column">
 					<h2>My Resources</h2>
 					<div class="db-links-subheading">
