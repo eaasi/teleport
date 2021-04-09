@@ -119,10 +119,10 @@ export default class AdminMenu extends Vue {
 	width: 25rem;
 
 	h2 {
-		color: lighten($teal, 1%);
+		color: $teal;
 		font-size: 1.3rem;
-		text-transform: uppercase;
 		margin-top: -10px;
+		text-transform: uppercase;
 	}
 }
 
