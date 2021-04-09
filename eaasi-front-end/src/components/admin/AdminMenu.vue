@@ -1,7 +1,7 @@
 <template>
 	<div class="admin-menu" v-if="isViewable">
+		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Node Management</h2>
-		<admin-menu-item v-for="i in menuItems" :key="i.route" :item="i" />
 		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Node User Administration</h2>
 		<admin-menu-item v-for="i in userMenuItems" :key="i.route" :item="i" />
@@ -111,7 +111,7 @@ export default class AdminMenu extends Vue {
 <style lang="scss">
 
 .admin-menu {
-	background-color: darken($teal, 80%);
+	background-color: darken($teal, 78%);
 	box-sizing: border-box;
 	color: #FFFFFF;
 	padding: 2rem;

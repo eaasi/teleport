@@ -1,5 +1,5 @@
 <template functional>
-	<div class="content-container">
+	<div class="content-container" v-if="props.contentData">
 		<span v-for="(value, property) in props.contentData" class="content-sub-container" :key="property">
 			<span class="label">
 				{{ property }}:&nbsp;
@@ -41,8 +41,7 @@ export default class SelectableCardContent extends Vue {
 		width: 100%;
 
 		.content-sub-container {
-			display: inline-block;
-			max-width: 50%;
+			display: block;
 
 			.label {
 				color: #6F6A67;

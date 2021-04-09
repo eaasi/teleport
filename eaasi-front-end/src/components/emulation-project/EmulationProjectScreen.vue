@@ -325,8 +325,8 @@ export default class EmulationProjectScreen extends Vue {
 
 		.emulation-content {
 			background-color: lighten($light-neutral, 60%);
-			padding: 3rem;
 			height: 100vh;
+			padding: 3rem;
 		}
 
 		.side-bar {
