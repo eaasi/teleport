@@ -93,9 +93,9 @@ export default class AppFooter extends Vue {
 	}
 
 	#footerLogo {
+		margin-bottom: 1.1rem;
 		margin-left: 1rem;
 		margin-right: 1.8rem;
-		margin-bottom: 1.1rem;
 
 		img {
 			width: 8.5rem;
@@ -134,10 +134,10 @@ export default class AppFooter extends Vue {
 		}
 
 		.footer-item {
+			color: lighten($teal, 80%);
 			display: inline-block;
 			padding-left: 1.4rem;
 			text-decoration: underline;
-			color: lighten($teal, 80%);
 
 			> a {
 				color: lighten($teal, 80%);
@@ -174,8 +174,8 @@ export default class AppFooter extends Vue {
 			}
 
 			img {
-				margin-top: 6px;
 				height: 7rem;
+				margin-top: 6px;
 			}
 		}
 

@@ -111,7 +111,7 @@ export default class AdminMenu extends Vue {
 <style lang="scss">
 
 .admin-menu {
-	background-color: darken($teal, 40%);
+	background-color: darken($teal, 80%);
 	box-sizing: border-box;
 	color: #FFFFFF;
 	padding: 2rem;

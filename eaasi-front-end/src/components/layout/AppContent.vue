@@ -110,7 +110,6 @@ export default class AppContent extends Mixins(TaskManager) {
 	#contentWrapper {
 		margin-left: $leftSidebarWidth;
 		margin-top: $headerHeight;
-		padding-bottom: $footerHeight;
 		min-height: 100%;
 		position: relative;
 
