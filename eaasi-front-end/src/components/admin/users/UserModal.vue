@@ -57,6 +57,7 @@
 					<ui-button
 						@click.prevent="showDeleteModal"
 						color-preset="light-blue"
+						:disabled="user.id === loggedInUser.id"
 					>
 						Delete User
 					</ui-button>
