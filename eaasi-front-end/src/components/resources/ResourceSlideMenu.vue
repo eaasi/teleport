@@ -8,7 +8,7 @@
 							{{ resources.length }} Resources Selected
 						</span>
 						<span v-else-if="onlySelectedResource" class="flex-adapt">
-							{{ onlySelectedResource.title }}
+							{{ onlySelectedResource.title || onlySelectedResource.label }}
 						</span>
 						<span class="fas fa-times" @click="$emit('close')"></span>
 					</div>

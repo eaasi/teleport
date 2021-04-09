@@ -9,6 +9,7 @@ export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
 export interface IEaasiResource {
 	id?: string
 	title: string
+	label?: string
 	resourceType: ResourceType;
 	description?: string;
 	envId?: string;
