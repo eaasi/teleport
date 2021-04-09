@@ -92,13 +92,14 @@ export default class LeftMenu extends Vue {
 <style lang="scss">
 .left-menu {
 	background-color: darken($teal, 60%);
+	min-height: 100vh;
 	bottom: 0;
 	color: #FFFFFF;
 	left: 0;
 	position: fixed;
 	top: 0;
 	width: $leftSidebarWidth;
-	z-index: -1;
+	z-index: 2;
 }
 
 #headerLogo {

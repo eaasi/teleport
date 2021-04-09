@@ -87,9 +87,11 @@ export default class AppFooter extends Vue {
 
 <style lang="scss">
 	#footer {
+		position: relative;
 		background-color: darken($teal, 40%);
 		height: $footerHeight;
 		z-index: 300;
+		bottom: 0;
 	}
 
 	#footerLogo {

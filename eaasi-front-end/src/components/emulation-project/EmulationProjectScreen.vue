@@ -279,7 +279,7 @@ export default class EmulationProjectScreen extends Vue {
 			eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));
 		}
 		this.createEnvironmentPayload = null;
-		this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
+		await this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
 }
@@ -288,7 +288,6 @@ export default class EmulationProjectScreen extends Vue {
 
 <style lang="scss">
 .emulation-project-screen {
-	height: 100%;
 
 	.emulation-project-page-heading {
 		background: lighten($light-neutral, 80%);
@@ -327,6 +326,7 @@ export default class EmulationProjectScreen extends Vue {
 		.emulation-content {
 			background-color: lighten($light-neutral, 60%);
 			padding: 3rem;
+			height: 100vh;
 		}
 
 		.side-bar {
