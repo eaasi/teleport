@@ -11,32 +11,39 @@
 
 		<div id="footerLinks">
 			<div class="footer-social">
-				<div class="inline-block">
+				<div class="block">
 					<a href="mailto:eaasi@yale.edu" id="eaasiEmail">
 						<span class="fas fa-envelope-open eb-icon teal"></span>
-						<span class="footer-email">
+						<span class="footer-item">
 							eaasi@yale.edu
 						</span>
 					</a>
 				</div>
-				<a
-					class="inline-block social-link"
-					href="https://twitter.com/SoftPresNetwork"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<span class="fab fa-twitter eb-icon"></span>
-				</a>
-			</div>
-
-			<div class="footer-website">
-				<a
-					href="http://www.eaasi.cloud"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					www.eaasi.cloud
-				</a>
+				<div class="block">
+					<a
+						href="https://twitter.com/SoftPresNetwork"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span class="fab fa-twitter eb-icon teal"></span>
+						<span class="footer-item">
+							#eaasi
+						</span>
+					</a>
+				</div>
+				<div class="block">
+					<span class="fas fa-globe eb-icon teal"></span>
+					<span class="footer-item">
+						<a
+							href="https://www.eaasi.cloud"
+							target="_blank"
+							rel="noopener noreferrer"
+							id="eaasi-website"
+						>
+							https://www.eaasi.cloud
+						</a>
+					</span>
+				</div>
 			</div>
 		</div>
 
@@ -72,7 +79,7 @@ import Component from 'vue-class-component';
 })
 export default class AppFooter extends Vue {
 	get copyrightMessage() {
-		var now = new Date();
+		let now = new Date();
 		const thisYear = now.getFullYear();
 		return `© EaaSI ${thisYear}`;
 	}
@@ -82,12 +89,16 @@ export default class AppFooter extends Vue {
 <style lang="scss">
 	#footer {
 		background-color: darken($teal, 40%);
+		bottom: 0;
 		height: $footerHeight;
+		position: relative;
+		z-index: 300;
 	}
 
 	#footerLogo {
-		margin-left: 2.5rem;
-		margin-top: -4rem;
+		margin-bottom: 1.1rem;
+		margin-left: 1rem;
+		margin-right: 1.8rem;
 
 		img {
 			width: 8.5rem;
@@ -111,18 +122,29 @@ export default class AppFooter extends Vue {
 		color: #FFFFFF;
 		margin-right: 6rem;
 
+		.footer-social > div {
+			font-size: 1.4rem;
+			margin: 1rem 0;
+		}
+
 		.footer-social a {
 			color: #FFFFFF;
 			text-decoration: none;
 		}
 
 		.teal {
-			color: $teal;
+			color: lighten($teal, 30%);
 		}
 
-		.footer-email {
+		.footer-item {
+			color: lighten($teal, 80%);
 			display: inline-block;
 			padding-left: 1.4rem;
+			text-decoration: underline;
+
+			> a {
+				color: lighten($teal, 80%);
+			}
 		}
 
 		.footer-website {
@@ -140,10 +162,10 @@ export default class AppFooter extends Vue {
 	}
 
 	#footerSponsors {
-		color: #FFFFFF;
+		color: lighten($teal, 60%);
 		display: flex;
 		flex-direction: row;
-		font-size: 1.2rem;
+		font-size: 1.1rem;
 
 		.footer-principal-container {
 			border-right: 2px solid darken($dark-blue, 42%);
@@ -156,6 +178,7 @@ export default class AppFooter extends Vue {
 
 			img {
 				height: 7rem;
+				margin-top: 6px;
 			}
 		}
 
@@ -164,7 +187,6 @@ export default class AppFooter extends Vue {
 
 			.footer-sponsor-label {
 				font-size: 1.1rem;
-				margin-bottom: 9px;
 			}
 
 			.footer-sponsor-img {

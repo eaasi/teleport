@@ -1,5 +1,6 @@
 <template>
 	<div class="admin-menu" v-if="isViewable">
+		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Node Management</h2>
 		<admin-menu-item v-for="i in menuItems" :key="i.route" :item="i" />
 		<div class="menu-divider"></div>
