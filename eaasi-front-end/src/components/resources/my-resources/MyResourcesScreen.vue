@@ -136,10 +136,8 @@ export default class MyResourcesScreen extends Vue {
 
 	/* Lifecycle Hooks
 	============================================*/
-	mounted() {
-		if (this.defaultTab !== this.activeTab) {
-			this.activeTab = this.defaultTab;
-		}
+	created() {
+		this.activeTab = this.defaultTab;
 	}
 
 	@Watch('hasActiveResources')
