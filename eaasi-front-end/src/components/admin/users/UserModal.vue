@@ -66,6 +66,7 @@
 						@click.prevent="isResetPasswordModalVisible = true"
 						color-preset="light-blue"
 						style="margin-left: 2rem;"
+						:disabled="user.id === loggedInUser.id"
 					>
 						Reset Password
 					</ui-button>
