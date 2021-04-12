@@ -53,8 +53,8 @@
 			<div class="bottom-btn-wrapper" v-if="!isNew">
 				<hr class="btn-wrapper-hr" />
 				<div class="btn-wrapper">
-					<ui-button 
-						@click.prevent="showDeleteModal" 
+					<ui-button
+						@click.prevent="showDeleteModal"
 						color-preset="light-blue"
 					>
 						Delete User
@@ -174,7 +174,7 @@ export default class UserModal extends Vue {
 	}
 
 	get radioOptions(): IRadioOption[] {
-		if(!this.roles) return [];
+		if (!this.roles) return [];
 		return this.roles.map(x => {
 			return {
 				value: x.id,

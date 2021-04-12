@@ -85,7 +85,12 @@ const actions = {
 	async getRoles({ commit }: Store<AdminState>) {
 		let rolesResult = await _svc.getRoles();
 		if (!rolesResult) return;
-		commit('SET_ROLES', rolesResult.result);
+
+		// TODO: This is a cheap hack to hide the Manager role until user roles are designed
+		// https://gitlab.com/eaasi/eaasi-client-dev/-/issues/605
+		let roles = rolesResult.result.filter(r => r.roleName !== 'Manager');
+
+		commit('SET_ROLES', roles);
 	},
 
 	/* OAI-PMH Harvesters
