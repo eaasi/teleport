@@ -10,13 +10,17 @@ export default class StartEnvironmentParams extends ClientOptions {
 		if (!env.networking) {
 			return;
 		}
-
-		const networkConfig = super.getNetworkConfig();
-		networkConfig.enableInternet(env.networking.enableInternet);
+		super.getNetworkConfig().enableInternet(env.networking.enableInternet);
+		super.getNetworkConfig().setGateway(env.gateway);
+		super.getNetworkConfig().setNetwork(env.network);
 		super.enableNetworking(env.networking.connectEnvs);
-
-		const tcpGatewayConfig = new TcpGatewayConfig(env.networking.serverIp, env.networking.serverMode);
-		tcpGatewayConfig.enableSocks(env.networking.enableSocks);
-		networkConfig.setTcpGatewayConfig(tcpGatewayConfig);
+		try {
+			const tcpGatewayConfig = new TcpGatewayConfig(env.networking.serverIp, env.networking.serverMode);
+			tcpGatewayConfig.enableSocks(env.networking.enableSocks);
+			tcpGatewayConfig.enableLocalMode(env.networking.localServerMode);
+			super.getNetworkConfig().setTcpGatewayConfig(tcpGatewayConfig);
+		} catch (e) {
+			// do nothing
+		}
 	}
 }

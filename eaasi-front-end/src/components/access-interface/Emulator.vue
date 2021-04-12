@@ -27,6 +27,7 @@
 	import { getUserToken } from '@/utils/auth';
 
 	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
+	import { NetworkBuilder } from 'EaasClient/lib/networkBuilder';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.
@@ -156,14 +157,26 @@
 					vm.environment.envId,
 					vm.environment.archive
 				);
-				let params = new StartEnvironmentParams(vm.environment);
+				machine.setInteractive(true);
 
 				const { softwareId, archiveId, objectId } = vm.$route.query;
 				if (objectId) {
 					machine.setObject(objectId, archiveId);
-				}
-				else if (softwareId) {
+				} else if (softwareId) {
 					machine.setSoftware(softwareId, archiveId);
+				}
+
+				let components, clientOptions;
+				if (vm.environment.enableInternet) {
+					let networkBuilder = new NetworkBuilder(config.EMIL_SERVICE_ENDPOINT, getUserToken);
+					networkBuilder.addComponent(machine);
+					components =  await networkBuilder.getComponents();
+					clientOptions =  await networkBuilder.getDefaultClientOptions();
+					clientOptions.getNetworkConfig().enableInternet(true);
+					clientOptions.getNetworkConfig().enableSlirpDhcp(true);
+				} else {
+					components = [machine];
+					clientOptions = new StartEnvironmentParams(vm.environment);
 				}
 
 				const keyboardPrefs = vm.getKeyboardPreferences();
@@ -171,7 +184,7 @@
 					machine.setKeyboard(keyboardPrefs.keyboardLayout, keyboardPrefs.keyboardModel);
 				}
 
-				await vm.client.start([machine], params);
+				await vm.client.start(components, clientOptions);
 				vm.isStarted = true;
 				const container = vm.$refs._container;
 				await vm.client.connect(container);

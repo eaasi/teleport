@@ -121,6 +121,8 @@ export interface IEnvironment extends IEaasiResource {
 	temp?: boolean;
 	objectArchive?: ResourceArchive;
 	objectId?: string;
+	gateway?: any;
+	network?: any;
 }
 
 export interface IInstalledSoftware {
