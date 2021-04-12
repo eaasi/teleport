@@ -146,7 +146,10 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 			} else if (this.importType === importTypes.CONTENT) {
 				resourceName = this.content.title;
 			}
-			const taskWithDescription: ITaskState = {...task, description: `Import ${this.importType}: ${resourceName}`};
+			const taskWithDescription: ITaskState = {
+				...task,
+				description: `Import ${this.importType}: ${resourceName}`
+			};
 			this.activeTask = await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
 		}
 
@@ -181,14 +184,19 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 
 		async onImportImage(imageId: string) {
 			await this.createUserImportRelation(resourceTypes.IMAGE, imageId);
-
-			this.$router.push(ROUTES.RESOURCES.MY_RESOURCES);
+			await this.$router.push({
+				name: 'My Resources',
+				params: { defaultTab: 'Imported Resources' }}
+			);
 		}
 
 		async onImportContentTask(objectId: string) {
 			await this.createUserImportRelation(resourceTypes.CONTENT, objectId);
 			// This path occurs when a user uploads a Content Object
-			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources' }});
+			await this.$router.push({
+				name: 'My Resources',
+				params: { defaultTab: 'Imported Resources' }}
+			);
 		}
 
 		async onImportSoftwareTask(objectId: string) {
@@ -205,7 +213,10 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 			});
 
 			await this.createUserImportRelation(resourceTypes.SOFTWARE, objectId);
-			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources' } });
+			await this.$router.push({
+				name: 'My Resources',
+				params: { defaultTab: 'Imported Resources' }}
+			);
 		}
 
 		async createUserImportRelation(resourceType: ResourceType, resourceId: string) {
@@ -223,13 +234,13 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		}
 
 		scheduleNotificationFailure(message: string) {
-			const notif = generateNotificationError(message);
-			eventBus.$emit('notification:show', notif);
+			const notification = generateNotificationError(message);
+			eventBus.$emit('notification:show', notification);
 		}
 
 		scheduleNotificationSuccess(message: string) {
-			const notif = generateNotificationSuccess(message);
-			eventBus.$emit('notification:show', notif);
+			const notification = generateNotificationSuccess(message);
+			eventBus.$emit('notification:show', notification);
 		}
 
 		mounted() {
