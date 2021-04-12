@@ -274,6 +274,12 @@ export default class SoftwareDetailsScreen extends Vue {
 
 	/* Helpers
 	============================================*/
+	_aliasAllowedNumberOfInstances(allowedInstances: number) {
+		if (allowedInstances === -1) {
+			return 'Unlimited';
+		}
+		return allowedInstances;
+	}
 
 	_populateSoftwareProperties() {
 		this.softwareProperties = [
@@ -286,8 +292,8 @@ export default class SoftwareDetailsScreen extends Vue {
 				changed: false
 			},
 			{
-				label: 'Allowed number of instances (for unlimited choose -1)',
-				value: this.activeSoftware.allowedInstances,
+				label: 'Allowed number of instances',
+				value: this._aliasAllowedNumberOfInstances(this.activeSoftware.allowedInstances),
 				property: 'allowedInstances',
 				readonly: true,
 				editType: 'text-input',
