@@ -288,6 +288,7 @@ export default class EmulationProjectScreen extends Vue {
 
 <style lang="scss">
 .emulation-project-screen {
+	min-height: 100%;
 
 	.emulation-project-page-heading {
 		background: lighten($light-neutral, 80%);
@@ -325,7 +326,7 @@ export default class EmulationProjectScreen extends Vue {
 
 		.emulation-content {
 			background-color: lighten($light-neutral, 60%);
-			height: 100vh;
+			min-height: 100vh;
 			padding: 3rem;
 		}
 
