@@ -7,6 +7,7 @@
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
+					@change="$emit('input:change', {id, value})"
 				>
 					<slot></slot>
 				</select>
