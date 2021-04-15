@@ -111,16 +111,16 @@
 		/>
 		<confirm-modal
 			v-if="showRemoteEnvironmentWarningModal"
-			title="Remote environments can not be added to emulation project"
+			title="Public environments can not be added to emulation project"
 			confirm-label="Save to Node"
 			@close="closeRemoteEnvironmentWarningModal"
 			@click:cancel="closeRemoteEnvironmentWarningModal"
 			@click:confirm="replicateRemoteEnvironments"
 		>
-			<p>
-				Emulation Project does not support remote environments.
-				Please save selected remote environments to your node before adding to the Emulation Project.
-			</p>
+			<div id="publicWarning">
+				Emulation Project does not support adding public environments.
+				Please save selected public environments to your node before adding them to the Emulation Project.
+			</div>
 		</confirm-modal>
 	</div>
 </template>
@@ -544,5 +544,9 @@ export default class ResourceSlideMenu extends Vue {
 
 	.rsm-local-actions {
 		border-bottom: solid 4px lighten($light-neutral, 10%);
+	}
+
+	#publicWarning {
+		text-align: left;
 	}
 </style>
