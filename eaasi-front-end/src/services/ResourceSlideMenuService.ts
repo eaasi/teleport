@@ -28,9 +28,7 @@ export default class ResourceSlideMenuService {
 			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
 			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction()
 		];
-		if (selected.length === 1 && selected[0].resourceType === resourceTypes.CONTENT) {
-			localActions.push(new TreatAsSoftwareActionResolver(selected, roleId).resolveAction());
-		} else {
+		if (selected.length === 1 && selected[0].resourceType !== resourceTypes.CONTENT) {
 			localActions.push(new AddSoftwareActionResolver(selected, roleId).resolveAction());
 		}
 		return localActions;
@@ -49,4 +47,3 @@ export default class ResourceSlideMenuService {
 		];
 	}
 }
-

@@ -544,6 +544,5 @@ export default class ResourceSlideMenu extends Vue {
 
 	.rsm-local-actions {
 		border-bottom: solid 4px lighten($light-neutral, 10%);
-		margin-bottom: 3rem;
 	}
 </style>
