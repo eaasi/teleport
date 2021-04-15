@@ -211,7 +211,7 @@ export default class ResourceAdminService extends BaseService {
 				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.id));
 			}
 		}
-		
+
 		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
 			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
 		}
@@ -305,9 +305,9 @@ export default class ResourceAdminService extends BaseService {
 				if (facetValue === archiveTypes.DEFAULT) {
 					return 'Private';
 				} else if (facetValue === archiveTypes.PUBLIC) {
-					return 'Public';
+					return 'Saved Locally';
 				} else if (facetValue === archiveTypes.REMOTE) {
-					return 'Remote';
+					return 'Public';
 				}
 				break;
 			case 'os':
