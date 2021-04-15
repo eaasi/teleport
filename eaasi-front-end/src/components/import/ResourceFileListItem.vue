@@ -94,7 +94,7 @@ export default class ResourceFileListItem extends Vue {
 		if (this.selected) {
 			this.selectedFiles.forEach((file) => {
 				file.physicalFormat = e.value;
-			})
+			});
 		}
 	}
 }
