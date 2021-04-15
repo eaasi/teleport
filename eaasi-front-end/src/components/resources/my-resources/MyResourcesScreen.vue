@@ -126,7 +126,7 @@ export default class MyResourcesScreen extends Vue {
 		this.$nextTick(() => this.activeTab = currentTab);
 	}
 
-	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[1]) {
+	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[0]) {
 		this.actionMenuActiveTab = tab;
 	}
 
