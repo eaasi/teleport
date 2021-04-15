@@ -157,6 +157,7 @@ export default class EnvironmentResourceCard extends Vue {
 		}
 		if (this.savedToNode || this.environment.archive === archiveTypes.PUBLIC) {
 			tagGroup.push(
+				// TODO: Should we actually show both 'Public' and 'Saved Locally' icons here?
 				{
 					icon: translatedIcon('public-network'),
 					color: 'green',
