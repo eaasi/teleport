@@ -20,6 +20,7 @@
 					label="Physical Format"
 					class="sfl-format"
 					rules="required"
+					@input:change="handleChange"
 				>
 					<option value="Q495265">ISO</option>
 					<option value="Q493576">Floppy</option>
@@ -85,6 +86,15 @@ export default class ResourceFileListItem extends Vue {
 	onToggle(isChecked: boolean) {
 		if (!isChecked) {
 			this.selectedFiles = this.selectedFiles.filter(f => f.name !== this.file.name);
+		}
+	}
+
+	handleChange(e: {id: string, value: string}) {
+		// Only update other selected files if this file is also selected
+		if (this.selected) {
+			this.selectedFiles.forEach((file) => {
+				file.physicalFormat = e.value;
+			})
 		}
 	}
 }
