@@ -92,7 +92,7 @@ export default class ResourceFileListItem extends Vue {
 
 	handleChange(e: {id: string | PhysicalFormat, value: string}) {
 		// Only update other selected files if this file is also selected
-		let format = e.id as PhysicalFormat;
+		let format = e.value as PhysicalFormat;
 		if (this.selected) {
 			this.selectedFiles.forEach((file) => {
 				file.physicalFormat = format;
