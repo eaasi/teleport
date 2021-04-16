@@ -150,7 +150,7 @@ export default class RenderingEnvironments extends Vue {
 
 		this.environments = environments.result.filter(env => [archiveTypes.PUBLIC, archiveTypes.DEFAULT]
 			.includes(env.archive));
-		this.$store.dispatch('resource/clearSearchQuery');
+		await this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);
     }
 
@@ -205,7 +205,7 @@ export default class RenderingEnvironments extends Vue {
 
 		this.$store.commit('import/SET_IS_CONSTRUCTED_ENVIRONMENT', true);
 
-        this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
+        await this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${env.id}?${idType}=${this.resourceId}&archiveId=${this.archiveId}`);
     }
 
     remove(env) {
@@ -218,10 +218,6 @@ export default class RenderingEnvironments extends Vue {
         await this.init();
     }
 
-    async beforeDestroy() {
-        await this.$store.dispatch('resource/clearSearchQuery');
-	}
-	
 	/* Watcher
 	============================================*/
 	@Watch('completedTasks')
