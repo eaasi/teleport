@@ -97,12 +97,13 @@
 </template>
 
 <script lang="ts">
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile, IEaasiResource, ISoftwareMetadata, ISoftwareMetadataResponse } from '@/types/Resource';
 import { ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
-import { resourceTypes } from '@/utils/constants';
+import {archiveTypes, resourceTypes} from '@/utils/constants';
 import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
@@ -115,7 +116,7 @@ import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButt
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import { ROUTES } from '../../../../router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
-import { Sync } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'SoftwareDetailsScreen',
@@ -150,11 +151,15 @@ export default class SoftwareDetailsScreen extends Vue {
 	];
 
 	actionMenuActiveTab: IEaasiTab = null;
+	originalQuery: ResourceSearchQuery = null;
 
 	/* Computed
 	============================================*/
 	@Sync('resource/selectedResources')
 	resources: IEaasiResource[];
+
+	@Get('resource/query')
+	query: ResourceSearchQuery;
 
 	get isEditMode(): boolean {
 		return this.activeMode === 'Edit Mode';
@@ -265,6 +270,11 @@ export default class SoftwareDetailsScreen extends Vue {
     /* Lifecycle Hooks
 	============================================*/
     created() {
+		// Here we memoize the original query for back navigation, as
+		// other components mutate global state (inadequately designed)
+		// TODO: redesign use of store by components around specific features, use services directly from
+		// components where necessary to retrieve values without side-effects involving setting and clearing global state.
+		this.originalQuery = this.query;
 		this.init();
 	}
 
@@ -348,8 +358,10 @@ export default class SoftwareDetailsScreen extends Vue {
 		];
 	};
 
-	goBackToResults() {
-		this.$router.push(`${ROUTES.RESOURCES.EXPLORE}?retrieveQuery=true`);
+	async goBackToResults() {
+		this.$store.commit('resource/SET_QUERY', this.originalQuery);
+		await this.$store.dispatch('resource/searchResources');
+		await this.$router.push(`${ROUTES.RESOURCES.EXPLORE}?retrieveQuery=true`);
 	}
 }
 
