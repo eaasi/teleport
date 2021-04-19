@@ -13,7 +13,7 @@
 				</li>
 				<li class="hmd-list-item flex flex-row justify-between" @click="logOut">
 					<span>Log Out</span>
-					<span class="icon fas fa-fw fa-sign-out"></span>
+					<span class="icon fas fa-fw fa-sign-out-alt"></span>
 				</li>
 			</ul>
 		</transition>

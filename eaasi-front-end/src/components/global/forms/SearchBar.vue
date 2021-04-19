@@ -4,7 +4,7 @@
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<div classs="sb-content-left">
 					<slot name="left">
-						<span class="fal fa-search"></span>
+						<span class="fas fa-search"></span>
 					</slot>
 				</div>
 				<input

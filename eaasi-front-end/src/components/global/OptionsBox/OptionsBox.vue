@@ -6,7 +6,7 @@
 
 		<div class="ob-content">
 			<div class="ob-name text-center">
-				<span :class="`fal fa-${icon}`" v-if="icon"></span>
+				<div :class="`ob-icon far fa-${icon}`" v-if="icon"></div>
 				<span v-if="title">{{ title }}</span>
 			</div>
 
@@ -112,5 +112,9 @@ export default class OptionsBox extends Vue {
 		height: 2px;
 		margin: 0 1rem;
 	}
+}
+
+.ob-icon {
+	margin-right: 1rem;
 }
 </style>
