@@ -1,6 +1,7 @@
 <template>
 	<div class="li-container flex-row editable-checkbox">
 		<checkbox
+			class="checkbox-element"
 			v-model="item.value"
 			v-if="!readonly"
 		/>
@@ -108,6 +109,10 @@ export default class EditableCheckboxItem extends Vue {
 	.check-state-icon {
 		padding-right: 1rem;
 	}
+}
+
+.checkbox-element {
+	margin-right: 1rem;
 }
 
 </style>
