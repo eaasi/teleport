@@ -21,6 +21,7 @@
 					class="sfl-format"
 					rules="required"
 					@change="handleChange"
+					@sameValueChange="handleChange"
 				>
 					<option value="Q495265">ISO</option>
 					<option value="Q493576">Floppy</option>
