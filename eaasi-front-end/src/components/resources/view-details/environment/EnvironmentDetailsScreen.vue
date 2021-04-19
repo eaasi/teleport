@@ -9,7 +9,7 @@
 					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 				<h1>
-					{{ resourceTitle }}
+					{{ resourceTitle }} Details
 				</h1>
 			</div>
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
@@ -30,8 +30,7 @@
 					:resource="activeEnvironment"
 					:active-mode="activeMode"
 					:emulator-labeled-items="emulatorLabeledItems"
-					:os-labeled-items="osLabeledItems"
-					:ui-option-labeled-items="uiOptionLabeledItems"
+					:ui-option-labeled-items="runtimeOptionLabeledItems"
 					:network-labeled-items="networkLabeledItems"
 					:installed-software="installedSoftware"
 					:config-machine-labeled-items="configMachineLabeledItems"
@@ -127,7 +126,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	// Metadata
 	emulatorLabeledItems : ILabeledEditableItem[] = [];
 	osLabeledItems: ILabeledEditableItem[] = [];
-	uiOptionLabeledItems: ILabeledEditableItem[] = [];
+	runtimeOptionLabeledItems: ILabeledEditableItem[] = [];
 	networkLabeledItems: ILabeledEditableItem[] = [];
 	installedSoftware: ILabeledItem[] = [];
 	configMachineLabeledItems: ILabeledEditableItem[] = [];
@@ -186,7 +185,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	async saveDetails() {
 		this.emulatorLabeledItems
 			.forEach(el => this.activeEnvironment[el.property] = el.value);
-		this.uiOptionLabeledItems
+		this.runtimeOptionLabeledItems
 			.forEach(el => this.activeEnvironment[el.property] = el.value);
 		this.networkLabeledItems
 			.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
@@ -243,7 +242,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	async populateMetadata() {
 		await this._populateEmulatorConfig();
 		this._populateOperatingSystemConfig();
-		this._populateUIOptions();
+		this._populateRuntimeOptions();
 		this._populateNetworkOptions();
 		this._populateInstalledSoftware();
 		if (!this.readOnlyMode) {
@@ -441,10 +440,10 @@ export default class EnvironmentDetailsScreen extends Vue {
 		];
 	}
 
-	_populateUIOptions() {
-		this.uiOptionLabeledItems = [
+	_populateRuntimeOptions() {
+		this.runtimeOptionLabeledItems = [
 			{
-				label: 'Environment can print',
+				label: 'Environment Can Print',
 				value: this.activeEnvironment.enablePrinting,
 				property: 'enablePrinting',
 				changed: false,
@@ -460,7 +459,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 				editType: 'checkbox'
 			},
 			{
-				label: 'WebRTC Audio (Beta)',
+				label: 'WebRTC Audio',
 				value: this.activeEnvironment.useWebRTC,
 				property: 'useWebRTC',
 				changed: false,
@@ -468,9 +467,25 @@ export default class EnvironmentDetailsScreen extends Vue {
 				editType: 'checkbox'
 			},
 			{
-				label: 'Requires clean shutdown',
+				label: 'XPRA Video',
+				value: this.activeEnvironment.useXpra,
+				property: 'userXpra',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Requires Clean Shutdown',
 				value: this.activeEnvironment.shutdownByOs,
 				property: 'shutdownByOs',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
+			{
+				label: 'Internet Enabled',
+				value: this.activeEnvironment.enableInternet,
+				property: 'enableInternet',
 				changed: false,
 				readonly: false,
 				editType: 'checkbox'

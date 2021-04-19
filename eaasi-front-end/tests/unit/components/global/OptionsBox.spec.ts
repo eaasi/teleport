@@ -48,7 +48,7 @@ describe('OptionsBox.vue', () => {
 			}
 		});
 		console.log(wrapper.html());
-		expect(wrapper.find('.fal').classes()).toContain('fa-bulous');
+		expect(wrapper.find('.far').classes()).toContain('fa-bulous');
 	});
 
 	it('Has getter hasFooter which is called to render the template', () => {

@@ -13,22 +13,22 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
-				<section-heading title="Operating System" size="large" />
-				<editable-labeled-item-list
-					:readonly="true"
-					:labeled-items="osLabeledItems"
-					edit-type="text-input"
+			<div class="col-md-3">
+				<section-heading title="Configured Drives" size="large" />
+				<configured-drives
+					:readonly="!isEditMode"
+					:drives="drives"
+					@update-drives="updateDrives"
 				/>
 			</div>
-			<div class="col-md-4">
-				<section-heading title="Configured Machine" size="large" />
+			<div class="col-md-3">
+				<section-heading title="Runtime Options" size="large" />
 				<editable-labeled-item-list
 					:readonly="!isEditMode"
-					:labeled-items="configMachineLabeledItems"
+					:labeled-items="uiOptionLabeledItems"
 				/>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<section-heading title="Emulator" size="large" />
 				<configure-emulator
 					:readonly="!isEditMode"
@@ -37,31 +37,9 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
-				<section-heading title="Configured Drives" size="large" />
-				<configured-drives
-					:readonly="!isEditMode"
-					:drives="drives"
-					@update-drives="updateDrives"
-				/>
-			</div>
-			<div class="col-md-4">
-				<section-heading title="UI options" size="large" />
-				<editable-labeled-item-list
-					:readonly="!isEditMode"
-					:labeled-items="uiOptionLabeledItems"
-				/>
-			</div>
-			<div v-if="!isLinuxRuntimeSelected" class="col-md-4">
-				<section-heading title="Networking" size="large" />
-				<configure-network
-					:readonly="!isEditMode"
-					:network-items="networkLabeledItems"
-				/>
-			</div>
 		</div>
 		<div class="row">
-			<div v-if="installedSoftware.length" class="col-md-4">
+			<div v-if="installedSoftware.length" class="col-md-3">
 				<section-heading title="Configured software" size="large" />
 				<labeled-item-list :labeled-items="installedSoftware" />
 			</div>
@@ -117,9 +95,6 @@ export default class EnvironmentMetadataSection extends Vue {
 	@Prop({ type: Array as () => ILabeledEditableItem[] })
 	emulatorLabeledItems : ILabeledEditableItem[];
 
-	@Prop({ type:Array as () => ILabeledEditableItem[] })
-	osLabeledItems: ILabeledEditableItem[];
-
 	@Prop({ type: Array as () => ILabeledEditableItem[] })
 	uiOptionLabeledItems: ILabeledEditableItem[];
 
@@ -163,10 +138,6 @@ export default class EnvironmentMetadataSection extends Vue {
 		padding: 24px;
 	}
 	.vds-container {
-
-		.vds-description {
-			font-size: 1.6rem;
-		}
 
 		.vds-footer {
 			font-size: 0.8rem;

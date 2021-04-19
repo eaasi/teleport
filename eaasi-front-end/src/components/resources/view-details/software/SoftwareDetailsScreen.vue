@@ -9,7 +9,7 @@
 					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 				<h1>
-					{{ resourceTitle }}
+					{{ label }} Details
 				</h1>
 			</div>
 			<div v-if="activeSoftware" class="vrd-content">
@@ -24,7 +24,7 @@
 				/>
 				<div class="rdm-container">
 					<div class="row" style="margin-bottom: 1rem;">
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<resource-details-summary
 								:summary-data="resourceSummary"
 								:readonly="!isEditMode"
@@ -32,31 +32,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4">
-							<section-heading
-								title="Software details"
-								size="large"
-							/>
-							<editable-labeled-item-list
-								:readonly="!isEditMode"
-								:labeled-items="objectDetailsItems"
-								edit-type="text-input"
-							/>
-						</div>
-						<div class="col-md-8">
-							<section-heading
-								title="Rendering Environments"
-								size="large"
-							/>
-							<rendering-environments
-								:archive-id="$route.query.archiveId"
-								:resource-id="$route.query.resourceId"
-								:readonly="!isEditMode"
-							/>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-5">
 							<section-heading
 								title="Software Properties"
 								size="large"
@@ -68,7 +44,9 @@
 								@remove-fmt="removeFmt"
 							/>
 						</div>
-						<div class="col-md-4" v-if="softwareMetadata && softwareMetadata.mediaItems && softwareMetadata.mediaItems.file">
+					</div>
+					<div class="row">
+						<div class="col-md-5" v-if="softwareMetadata && softwareMetadata.mediaItems && softwareMetadata.mediaItems.file">
 							<section-heading
 								title="Attached Files"
 								size="large"
@@ -100,21 +78,17 @@
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { IEaasiResourceSummary, ISoftwarePackage, ISoftwareObject, IContentFile, IEaasiResource, ISoftwareMetadata, ISoftwareMetadataResponse } from '@/types/Resource';
-import { ITaskState } from '@/types/Task';
-import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
-import {archiveTypes, resourceTypes} from '@/utils/constants';
-import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
+import { IEaasiResourceSummary, ISoftwareObject, IEaasiResource, ISoftwareMetadataResponse } from '@/types/Resource';
+import {resourceTypes} from '@/utils/constants';
+import { ILabeledEditableItem} from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
-import RenderingEnvironments from './RenderingEnvironments.vue';
 import SoftwareProperties from './SoftwareProperties.vue';
-import EaasiTask from '@/models/task/EaasiTask';
 import MediaFilesList from './MediaFilesList.vue';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
-import { ROUTES } from '../../../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
 import {Get, Sync} from 'vuex-pathify';
 
@@ -128,7 +102,6 @@ import {Get, Sync} from 'vuex-pathify';
 		ModeToggle,
 		SlideMenuControlButtons,
 		ResourceSlideMenu,
-		RenderingEnvironments
 	}
 })
 export default class SoftwareDetailsScreen extends Vue {
@@ -140,8 +113,8 @@ export default class SoftwareDetailsScreen extends Vue {
 	mods = ['Review Mode', 'Edit Mode'];
 	activeMode: string = this.mods[0];
 	objectDetailsItems: ILabeledEditableItem[] = [];
-	renderingEnvs: ILabeledEditableItem[] = [];
 	softwareProperties: ILabeledEditableItem[] = [];
+	label: string = '';
 
 	// Slide menu
 	actionMenuTabs: IEaasiTab[] = [
@@ -168,7 +141,7 @@ export default class SoftwareDetailsScreen extends Vue {
 	get resourceSummary(): IEaasiResourceSummary {
 		return {
 			id: this.activeSoftware.objectId,
-			title: this.softwareMetadata ? this.softwareMetadata.metadata.title : '',
+			title: this.label || '',
 			description: this.softwareMetadata ? this.softwareMetadata.metadata.description : '',
 			content: null,
 			subContent: null,
@@ -198,13 +171,6 @@ export default class SoftwareDetailsScreen extends Vue {
 		return styles;
 	}
 
-	get resourceTitle(): string {
-		return this.softwareMetadata
-			&& this.softwareMetadata.metadata
-			&& this.softwareMetadata.metadata.title
-				? `${this.softwareMetadata.metadata.title}` : 'Software Details';
-	}
-
     /* Methods
 	============================================*/
 	onModeChange(mode: string) {
@@ -225,6 +191,7 @@ export default class SoftwareDetailsScreen extends Vue {
 	async init() {
 		const resourceId = this.$route.query.resourceId as string;
 		const archiveId = this.$route.query.archiveId as string;
+		this.label = this.$route.query.label as string;
 		const softwareMetadata = await this.$store.dispatch('software/getSoftwareMetadata', { archiveId, objectId: resourceId });
 		if (softwareMetadata && softwareMetadata.metadata) {
 			this.softwareMetadata = softwareMetadata;
@@ -286,13 +253,29 @@ export default class SoftwareDetailsScreen extends Vue {
 	============================================*/
 	_aliasAllowedNumberOfInstances(allowedInstances: number) {
 		if (allowedInstances === -1) {
-			return 'Unlimited';
+			return 'unlimited';
 		}
 		return allowedInstances;
 	}
 
 	_populateSoftwareProperties() {
 		this.softwareProperties = [
+			{
+				label: 'Object ID',
+				value: this.softwareMetadata.metadata.id,
+				property: 'id',
+				readonly: true,
+				editType: 'text-input',
+				changed: false
+			},
+			{
+				label: 'Object Label',
+				value: this.softwareMetadata.metadata.title,
+				property: 'label',
+				readonly: true,
+				editType: 'text-input',
+				changed: false
+			},
 			{
 				label: 'License information',
 				value: this.activeSoftware.licenseInformation,
@@ -318,7 +301,7 @@ export default class SoftwareDetailsScreen extends Vue {
 				changed: false
 			},
 			{
-				label: 'This is an Operating System',
+				label: 'Is Operating System',
 				value: this.activeSoftware.isOperatingSystem,
 				property: 'isOperatingSystem',
 				readonly: false,
@@ -368,6 +351,7 @@ export default class SoftwareDetailsScreen extends Vue {
 </script>
 
 <style lang="scss">
+
 .slide-menu-control-btns {
 	button {
 		font-size: 18px;
@@ -388,6 +372,7 @@ export default class SoftwareDetailsScreen extends Vue {
 .rdm-container {
 	padding: 24px;
 }
+
 .vds-container {
 
 	.vds-description {
@@ -401,5 +386,12 @@ export default class SoftwareDetailsScreen extends Vue {
 			text-transform: uppercase;
 		}
 	}
+}
+
+.back-to-results {
+	color: lighten($dark-blue, 20%);
+	font-size: 1.3rem;
+	font-weight: normal;
+	margin-bottom: 1rem;
 }
 </style>

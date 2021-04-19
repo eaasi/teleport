@@ -69,7 +69,7 @@ export default class AdminMenu extends Vue {
 		{
 			label: 'Install & Updates',
 			route: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
-			icon: 'arrows'
+			icon: 'arrows-alt'
 		},
 		{
 			label: 'Troubleshooting',

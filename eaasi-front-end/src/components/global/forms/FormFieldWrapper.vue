@@ -82,7 +82,7 @@ export default class FormFieldWrapper extends Vue {
 .eaasi-input {
 	background-color: lighten($light-blue, 90%);
 	overflow: visible;
-	padding: 0.6rem;
+	padding: 0.6rem 0.2rem;
 
 	input,
 	select,

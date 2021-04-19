@@ -22,13 +22,6 @@
 			anchor="key"
 			label="key"
 		/>
-
-		<editable-select-list
-			:item="os"
-			:readonly="readonly"
-			anchor="id"
-			label="label"
-		/>
 	</div>
 	<div v-else-if="emulatorItems.length < 1" class="lil-container">
 		<span class="lil-no-data">No Data</span>
