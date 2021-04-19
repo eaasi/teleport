@@ -9,7 +9,7 @@
 					<slide-menu-control-buttons @open="openActionMenu" :tabs="actionMenuTabs" />
 				</div>
 				<h1>
-					{{ resourceTitle }}
+					{{ resourceTitle }} Details
 				</h1>
 			</div>
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
@@ -30,7 +30,6 @@
 					:resource="activeEnvironment"
 					:active-mode="activeMode"
 					:emulator-labeled-items="emulatorLabeledItems"
-					:os-labeled-items="osLabeledItems"
 					:ui-option-labeled-items="uiOptionLabeledItems"
 					:network-labeled-items="networkLabeledItems"
 					:installed-software="installedSoftware"

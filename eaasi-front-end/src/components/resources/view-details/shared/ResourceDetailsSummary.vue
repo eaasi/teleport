@@ -77,7 +77,7 @@
 			v-model="summaryData.title"
 			:class="{ 'changed': titleChanged }"
 		/>
-		<div class="vds-description" v-if="summaryData.description">
+		<div class="vds-description" v-if="summaryData.description && !isEnvironment">
 			<span
 				v-if="readonly"
 				:class="{ 'changed': descriptionChanged }"
@@ -203,6 +203,7 @@
 		.vds-description {
 			color: $dark-neutral;
 			font-size: 1.5rem;
+			font-weight: bold;
 			padding: 1.2rem 0;
 		}
 
