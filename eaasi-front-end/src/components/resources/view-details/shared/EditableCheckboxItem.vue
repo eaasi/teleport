@@ -99,11 +99,11 @@ export default class EditableCheckboxItem extends Vue {
 	}
 
 	.green {
-		color: #00AE58;
+		color: #008040;
 	}
 
 	.red {
-		color: #BC6464;
+		color: #B24E4E;
 	}
 
 	.check-state-icon {

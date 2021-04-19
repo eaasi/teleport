@@ -7,7 +7,6 @@
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
-					@change="$emit('input:change', {id, value})"
 				>
 					<slot></slot>
 				</select>
@@ -20,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
@@ -34,14 +33,13 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 		FormFieldWrapper
 	}
 })
-export default class SelectList extends BaseFormField {}
+export default class SelectList extends BaseFormField { }
 
 </script>
 
 
 <style lang="scss">
 .select-list {
-
 	.eaasi-field-icon {
 		pointer-events: none;
 		position: absolute;
