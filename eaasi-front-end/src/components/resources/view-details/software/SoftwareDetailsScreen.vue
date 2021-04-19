@@ -389,8 +389,8 @@ export default class SoftwareDetailsScreen extends Vue {
 }
 
 .back-to-results {
-	font-size: 1.3rem;
 	color: lighten($dark-blue, 20%);
+	font-size: 1.3rem;
 	font-weight: normal;
 	margin-bottom: 1rem;
 }

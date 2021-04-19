@@ -69,7 +69,7 @@ export default class EditableTextItem extends Vue {
 	.input-wrapper {
 
 		input {
-			color: darken($dark-neutral, 20%)!important;
+			color: darken($dark-neutral, 20%);
 			font-size: 1.6rem;
 		}
 

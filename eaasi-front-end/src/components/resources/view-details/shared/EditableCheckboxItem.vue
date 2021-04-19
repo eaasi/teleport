@@ -40,23 +40,23 @@ export default class EditableCheckboxItem extends Vue {
 
     get displayValue() {
     	if (this.item.value === false) {
-    		return "FALSE";
+    		return 'FALSE';
 		}
-    	return "TRUE";
+    	return 'TRUE';
 	}
 
 	get displayColor() {
 		if (this.item.value === false) {
-			return "red";
+			return 'red';
 		}
-		return "green";
+		return 'green';
 	}
 
 	get displayIcon() {
 		if (this.item.value === false) {
-			return "fa-times";
+			return 'fa-times';
 		}
-		return "fa-check";
+		return 'fa-check';
 	}
 
 	/* Data
@@ -76,11 +76,11 @@ export default class EditableCheckboxItem extends Vue {
 <style lang='scss' scoped>
 .li-container {
 	.li-value {
+		border-bottom: none;
 		display: flex;
 		flex-grow: 1;
-		padding: 0!important;
-		margin: 0.8rem 1rem!important;
-		border-bottom: none!important;
+		margin: 0.8rem 1rem;
+		padding: 0;
 
 		&.changed {
 			background: lighten($yellow, 60%);
@@ -90,9 +90,9 @@ export default class EditableCheckboxItem extends Vue {
 	.display-value {
 		display: flex;
 		flex-grow: 1;
-		justify-content: flex-end;
 		font-size: 1.3rem;
 		font-weight: bold;
+		justify-content: flex-end;
 		margin: auto 0;
 		padding-top: 1rem;
 	}
@@ -110,6 +110,4 @@ export default class EditableCheckboxItem extends Vue {
 	}
 }
 
-.editable-checkbox {
-}
 </style>
