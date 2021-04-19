@@ -61,7 +61,8 @@ export default class EditableTextItem extends Vue {
 	&.readonly {
 		.eaasi-form-control {
 			.eaasi-input-wrapper {
-				border-bottom: 1px solid darken($light-neutral, 10%);
+				border-bottom: 1px solid $light-neutral;
+				margin-bottom: 1rem;
 			}
 		}
 	}
@@ -69,7 +70,7 @@ export default class EditableTextItem extends Vue {
 	.input-wrapper {
 
 		input {
-			color: darken($dark-neutral, 20%);
+			color: darken($dark-neutral, 30%);
 			font-size: 1.6rem;
 		}
 

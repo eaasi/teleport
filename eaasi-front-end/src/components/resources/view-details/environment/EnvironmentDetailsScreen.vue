@@ -443,7 +443,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	_populateRuntimeOptions() {
 		this.runtimeOptionLabeledItems = [
 			{
-				label: 'Environment can print',
+				label: 'Environment Can Print',
 				value: this.activeEnvironment.enablePrinting,
 				property: 'enablePrinting',
 				changed: false,

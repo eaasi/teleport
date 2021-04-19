@@ -8,7 +8,7 @@
 			{{ item.label }}
 		</div>
 		<div :class="['display-value', displayColor]">
-			<p :class="['check-state-icon', 'fa', displayIcon]"></p>{{ displayValue }}
+			<span :class="['check-state-icon', 'fa', displayIcon]"></span>{{ displayValue }}
 		</div>
 	</div>
 </template>
@@ -75,11 +75,13 @@ export default class EditableCheckboxItem extends Vue {
 
 <style lang='scss' scoped>
 .li-container {
+	border-bottom: 1px solid $light-neutral;
+	margin-bottom: 1rem;
 	.li-value {
 		border-bottom: none;
 		display: flex;
 		flex-grow: 1;
-		margin: 0.8rem 1rem;
+		margin: 0.8rem 1rem 0.4rem 0;
 		padding: 0;
 
 		&.changed {
@@ -93,8 +95,6 @@ export default class EditableCheckboxItem extends Vue {
 		font-size: 1.3rem;
 		font-weight: bold;
 		justify-content: flex-end;
-		margin: auto 0;
-		padding-top: 1rem;
 	}
 
 	.green {
@@ -102,7 +102,7 @@ export default class EditableCheckboxItem extends Vue {
 	}
 
 	.red {
-		color: #AE1329;
+		color: #BC6464;
 	}
 
 	.check-state-icon {
