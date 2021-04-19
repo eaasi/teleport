@@ -1,15 +1,19 @@
 <template>
 	<div v-if="items.length" class="lil-container">
 		<editable-text-item
+			:item="objectId"
+			:readonly="readonly"
+		/>
+		<editable-text-item
+			:item="objectLabel"
+			:readonly="readonly"
+		/>
+		<editable-text-item
 			:item="licenseInformation"
 			:readonly="readonly"
 		/>
 		<editable-text-item
 			:item="allowedInstances"
-			:readonly="readonly"
-		/>
-		<editable-text-item
-			:item="qid"
 			:readonly="readonly"
 		/>
 		<editable-checkbox-item
@@ -49,7 +53,6 @@ import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import EditableCheckboxItem from '../shared/EditableCheckboxItem.vue';
 import EditableSelectList from '../shared/EditableSelectList.vue';
 import EditableTextItem from '../shared/EditableTextItem.vue';
-import RenderingCapabilities from './RenderingCapabilities.vue';
 import { IOsItem } from '@/types/Resource';
 import {operatingSystems} from '@/models/admin/OperatingSystems';
 
@@ -57,7 +60,6 @@ import {operatingSystems} from '@/models/admin/OperatingSystems';
     name: 'SoftwareProperties',
     components: {
         EditableCheckboxItem,
-        RenderingCapabilities,
         EditableSelectList,
         EditableTextItem
     }
@@ -77,14 +79,17 @@ export default class SoftwareProperties extends Vue {
 
     /* Computed
     ============================================*/
-    get licenseInformation(): ILabeledEditableItem {
+	get objectId(): ILabeledEditableItem {
+		return this.items.find(i => i.property === 'id');
+	}
+	get objectLabel(): ILabeledEditableItem {
+		return this.items.find(i => i.property === 'label');
+	}
+	get licenseInformation(): ILabeledEditableItem {
         return this.items.find(i => i.property === 'licenseInformation');
     }
     get allowedInstances(): ILabeledEditableItem {
         return this.items.find(i => i.property === 'allowedInstances');
-    }
-    get qid(): ILabeledEditableItem {
-        return this.items.find(i => i.property === 'qid');
     }
     get isOperatingSystem(): ILabeledEditableItem {
         return this.items.find(i => i.property === 'isOperatingSystem');

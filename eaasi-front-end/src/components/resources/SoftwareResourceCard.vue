@@ -27,7 +27,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types/Resource.d.ts';
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
-import { ROUTES } from '../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import {translatedIcon} from '@/utils/constants';
 
 @Component({
@@ -109,7 +109,8 @@ export default class SoftwareResourceCard extends Vue {
 				path: ROUTES.RESOURCES.SOFTWARE,
 				query: {
 					resourceId: this.software.id.toString(),
-					archiveId: this.software.archiveId.toString()
+					archiveId: this.software.archiveId.toString(),
+					label: this.software.label
 				}
 			});
 	}

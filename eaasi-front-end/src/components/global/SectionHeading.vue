@@ -62,10 +62,10 @@ export default class SectionHeading extends Vue {
 	}
 
 	.medium {
-		font-size: 1.6rem;
+		font-size: 1.4rem;
 	}
 
 	.large {
-		font-size: 2rem;
+		font-size: 1.8rem;
 	}
 </style>

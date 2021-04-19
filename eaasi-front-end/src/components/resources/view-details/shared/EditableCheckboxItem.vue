@@ -1,12 +1,15 @@
 <template>
-	<div class="li-container flex-row">
-		<checkbox 
-			v-model="item.value" 
-			:disabled="readonly" 
+	<div class="li-container flex-row editable-checkbox">
+		<checkbox
+			v-model="item.value"
+			v-if="!readonly"
 		/>
-		<p :class="['li-value', 'text-bold', { changed }]">
+		<div :class="['li-value', 'text-bold', { changed }]">
 			{{ item.label }}
-		</p>
+		</div>
+		<div :class="['display-value', displayColor]">
+			<p :class="['check-state-icon', 'fa', displayIcon]"></p>{{ displayValue }}
+		</div>
 	</div>
 </template>
 
@@ -35,8 +38,29 @@ export default class EditableCheckboxItem extends Vue {
         return this.item.value !== this.localItem.value;
     }
 
-    /* Data
-    ============================================*/
+    get displayValue() {
+    	if (this.item.value === false) {
+    		return "FALSE";
+		}
+    	return "TRUE";
+	}
+
+	get displayColor() {
+		if (this.item.value === false) {
+			return "red";
+		}
+		return "green";
+	}
+
+	get displayIcon() {
+		if (this.item.value === false) {
+			return "fa-times";
+		}
+		return "fa-check";
+	}
+
+	/* Data
+	============================================*/
 	localItem: ILabeledItem = null;
 
 
@@ -52,13 +76,40 @@ export default class EditableCheckboxItem extends Vue {
 <style lang='scss' scoped>
 .li-container {
 	.li-value {
-		margin-left: 1rem;
-		padding-bottom: 0.5rem;
-		padding-top: 0.7rem;
+		display: flex;
+		flex-grow: 1;
+		padding: 0!important;
+		margin: 0.8rem 1rem!important;
+		border-bottom: none!important;
 
 		&.changed {
 			background: lighten($yellow, 60%);
 		}
 	}
+
+	.display-value {
+		display: flex;
+		flex-grow: 1;
+		justify-content: flex-end;
+		font-size: 1.3rem;
+		font-weight: bold;
+		margin: auto 0;
+		padding-top: 1rem;
+	}
+
+	.green {
+		color: #00AE58;
+	}
+
+	.red {
+		color: #AE1329;
+	}
+
+	.check-state-icon {
+		padding-right: 1rem;
+	}
+}
+
+.editable-checkbox {
 }
 </style>
