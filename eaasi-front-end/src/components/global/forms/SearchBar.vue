@@ -13,17 +13,22 @@
 					:value="value"
 					:id="id"
 				/>
-				<span class="cursor-pointer"
-					  v-show="value"
-					  @click="$emit('clear')"
-					  style="margin-right: 0.5rem;">
+				<span
+					class="cursor-pointer"
+					v-show="!showSearchChevron"
+					@click="$emit('clear')"
+					style="margin-right: 0.5rem;"
+				>
 					<span class="fas fa-times"></span>
 				</span>
-				<span class="eaasi-field-icon"
-					  @click="$emit('search')">
+				<span
+					class="eaasi-field-icon"
+					@click="$emit('search')"
+				>
 					<span
-						v-show="queryNotSet"
-						class="fas fa-chevron-circle-right">
+						v-show="showSearchChevron"
+						class="fas fa-chevron-circle-right"
+					>
 					</span>
 				</span>
 			</div>
@@ -65,8 +70,11 @@ export default class SearchBar extends BaseFormField {
 	@Get('resource/query')
 	query: IResourceSearchQuery;
 
-	get queryNotSet() {
-		return !this.query.keyword;
+	@Get('resource/lastSearchKeyword')
+	lastSearchKeyword: string;
+
+	get showSearchChevron() {
+		return this.query.keyword !== this.lastSearchKeyword || this.query.keyword === '';
 	}
 
 }
