@@ -38,8 +38,9 @@
 
 <script lang="ts">
 import { IResourceSearchQuery } from '@/types/Search';
+import { isEmptyOrSpaces } from '@/utils/functions';
 import { Component, Prop } from 'vue-property-decorator';
-import { Get } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
@@ -67,14 +68,20 @@ export default class SearchBar extends BaseFormField {
 	/* Computed
 	============================================*/
 
-	@Get('resource/query')
-	query: IResourceSearchQuery;
+	@Get('resource/query@keyword')
+	queryKeyword: IResourceSearchQuery;
 
 	@Get('resource/lastSearchKeyword')
 	lastSearchKeyword: string;
 
 	get showSearchChevron() {
-		return this.query.keyword !== this.lastSearchKeyword || this.query.keyword === '';
+		if (!this.queryKeyword || isEmptyOrSpaces(this.queryKeyword)) {
+			return true;
+		}
+		if (this.queryKeyword === '' && this.lastSearchKeyword === '') {
+			return true;
+		}
+		return this.queryKeyword !== this.lastSearchKeyword || this.queryKeyword === '';
 	}
 
 }
