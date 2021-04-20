@@ -69,7 +69,7 @@ export default class SearchBar extends BaseFormField {
 	============================================*/
 
 	@Get('resource/query@keyword')
-	queryKeyword: IResourceSearchQuery;
+	queryKeyword: string;
 
 	@Get('resource/lastSearchKeyword')
 	lastSearchKeyword: string;
