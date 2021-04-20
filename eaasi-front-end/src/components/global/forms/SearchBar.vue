@@ -13,11 +13,18 @@
 					:value="value"
 					:id="id"
 				/>
-				<span class="cursor-pointer" v-show="value" @click="$emit('clear')" style="margin-right: 0.5rem;">
+				<span class="cursor-pointer"
+					  v-show="value"
+					  @click="$emit('clear')"
+					  style="margin-right: 0.5rem;">
 					<span class="fas fa-times"></span>
 				</span>
-				<span class="eaasi-field-icon" @click="$emit('search')">
-					<span class="fas fa-chevron-circle-right"></span>
+				<span class="eaasi-field-icon"
+					  @click="$emit('search')">
+					<span
+						v-show="queryNotSet"
+						class="fas fa-chevron-circle-right">
+					</span>
 				</span>
 			</div>
 		</div>
@@ -25,7 +32,9 @@
 </template>
 
 <script lang="ts">
+import { IResourceSearchQuery } from '@/types/Search';
 import { Component, Prop } from 'vue-property-decorator';
+import { Get } from 'vuex-pathify';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
@@ -49,6 +58,16 @@ export default class SearchBar extends BaseFormField {
 	 */
 	@Prop({type: String, required: false, default: '#1C5F6B'})
 	readonly borderColor: string
+
+	/* Computed
+	============================================*/
+
+	@Get('resource/query')
+	query: IResourceSearchQuery;
+
+	get queryNotSet() {
+		return !this.query.keyword;
+	}
 
 }
 

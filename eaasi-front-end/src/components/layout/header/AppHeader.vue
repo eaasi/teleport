@@ -34,7 +34,7 @@ import HeaderMenuItem from './HeaderMenuItem.vue';
 import HeaderMenuDropDown from '@/components/layout/header/HeaderMenuDropdown.vue';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { jsonCopy } from '../../../utils/functions';
+import { jsonCopy } from '@/utils/functions';
 import ResourceSearchQuery from '../../../models/search/ResourceSearchQuery';
 import { ROUTES } from '@/router/routes.const';
 
