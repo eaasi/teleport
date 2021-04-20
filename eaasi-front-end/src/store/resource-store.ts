@@ -95,18 +95,21 @@ const actions = {
 	},
 
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
-		const resource = state.selectedResources[0];
-		if (!resource) return;
-
-		let id: string | number;
-		if (resource.envId) {
-			id = resource.envId;
-		} else if (resource.id) {
-			id = resource.id;
+		let resources = state.selectedResources;
+		if (!resources || !resources.length) {
+			console.warn("No resources ")
+			return;
 		}
-		if (!id) return;
-
-		return await _svc.deleteEnvironment(resource.envId);
+		return await Promise.all(resources.map(resource => {
+			let id: string | number;
+			if (resource.envId) {
+				id = resource.envId;
+			} else if (resource.id) {
+				id = resource.id;
+			}
+			if (!id) return;
+			_svc.deleteEnvironment(resource.envId)
+		}))
 	},
 
 	async deleteEnvironment(_, envId: string): Promise<void> {
@@ -120,7 +123,7 @@ const actions = {
 
 	async deleteImages(_, payloads: IImageDeletePayload[]) {
 		return await Promise.all(payloads.map(payload => {
-			return _svc.deleteImage(payload);
+			_svc.deleteImage(payload);
 		}));
 	},
 
