@@ -27,6 +27,7 @@
 			<content-resource-card
 				v-if="isContent"
 				:content="resource"
+				bookmark
 				@change="toggleResource(resource)"
 				is-clickable
 				@bookmarked="isActive => handleBookmark(resource.id, isActive)"
