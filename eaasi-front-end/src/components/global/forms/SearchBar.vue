@@ -13,11 +13,23 @@
 					:value="value"
 					:id="id"
 				/>
-				<span class="cursor-pointer" v-show="value" @click="$emit('clear')" style="margin-right: 0.5rem;">
+				<span
+					class="cursor-pointer"
+					v-show="!showSearchChevron"
+					@click="$emit('clear')"
+					style="margin-right: 0.5rem;"
+				>
 					<span class="fas fa-times"></span>
 				</span>
-				<span class="eaasi-field-icon" @click="$emit('search')">
-					<span class="fas fa-chevron-circle-right"></span>
+				<span
+					class="eaasi-field-icon"
+					@click="$emit('search')"
+				>
+					<span
+						v-show="showSearchChevron"
+						class="fas fa-chevron-circle-right"
+					>
+					</span>
 				</span>
 			</div>
 		</div>
@@ -25,7 +37,10 @@
 </template>
 
 <script lang="ts">
+import { IResourceSearchQuery } from '@/types/Search';
+import {isSpaces} from '@/utils/functions';
 import { Component, Prop } from 'vue-property-decorator';
+import {Get, Sync} from 'vuex-pathify';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
 
@@ -49,6 +64,25 @@ export default class SearchBar extends BaseFormField {
 	 */
 	@Prop({type: String, required: false, default: '#1C5F6B'})
 	readonly borderColor: string
+
+	/* Computed
+	============================================*/
+
+	@Get('resource/query@keyword')
+	queryKeyword: string;
+
+	@Get('resource/lastSearchKeyword')
+	lastSearchKeyword: string;
+
+	get showSearchChevron() {
+		if (!this.queryKeyword || isSpaces(this.queryKeyword)) {
+			return true;
+		}
+		if (this.queryKeyword as string === '' && this.lastSearchKeyword === '') {
+			return true;
+		}
+		return this.queryKeyword as string !== this.lastSearchKeyword || this.queryKeyword as string === '';
+	}
 
 }
 
