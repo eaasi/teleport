@@ -67,7 +67,7 @@ const actions = {
 	},
 
 	async searchResources({ state, commit }: Store<ResourceState>): Promise<IResourceSearchResponse> {
-		commit('SET_LAST_SEARCH_KEYWORD', state.query.keyword)
+		commit('SET_LAST_SEARCH_KEYWORD', state.query.keyword);
 		let result = await _svc.searchResources(state.query);
 		if (!result) return null;
 		commit('SET_RESULT', result);
