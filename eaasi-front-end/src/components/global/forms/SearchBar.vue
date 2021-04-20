@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { IResourceSearchQuery } from '@/types/Search';
-import { isEmptyOrSpaces } from '@/utils/functions';
+import {isSpaces} from '@/utils/functions';
 import { Component, Prop } from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 import BaseFormField from './BaseFormField.vue';
@@ -75,13 +75,13 @@ export default class SearchBar extends BaseFormField {
 	lastSearchKeyword: string;
 
 	get showSearchChevron() {
-		if (!this.queryKeyword || isEmptyOrSpaces(this.queryKeyword)) {
+		if (!this.queryKeyword || isSpaces(this.queryKeyword)) {
 			return true;
 		}
-		if (this.queryKeyword === '' && this.lastSearchKeyword === '') {
+		if (this.queryKeyword as string === '' && this.lastSearchKeyword === '') {
 			return true;
 		}
-		return this.queryKeyword !== this.lastSearchKeyword || this.queryKeyword === '';
+		return this.queryKeyword as string !== this.lastSearchKeyword || this.queryKeyword as string === '';
 	}
 
 }
