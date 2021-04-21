@@ -11,13 +11,13 @@ import BaseCrudController from './base/BaseCrudController';
 
 export default class EmulationProjectResourceController extends BaseController {
 
-	private _svc: EmulationProjectResourceService;
+	private _emulationProjectResourceService: EmulationProjectResourceService;
 
 	constructor(
 		service: EmulationProjectResourceService = new EmulationProjectResourceService()
 	) {
 		super();
-		this._svc = service;
+		this._emulationProjectResourceService = service;
 	}
 
 	/**
@@ -26,7 +26,7 @@ export default class EmulationProjectResourceController extends BaseController {
 	async getForProject(req: IGetEmulationProjectResourcesRequest, res: Response) {
 		try {
 			const projectId = Number(req.params.projectId);
-			const result = await this._svc.getEaasiResources(projectId);
+			const result = await this._emulationProjectResourceService.getEaasiResources(projectId);
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -37,7 +37,7 @@ export default class EmulationProjectResourceController extends BaseController {
 		try {
 			const emulationProjectId = Number(req.params.projectId);
 			const resourceTypes = req.body as ResourceType[];
-			const result = await this._svc.destroyAllWhere({ emulationProjectId, resourceType: { [Op.or]: resourceTypes } });
+			const result = await this._emulationProjectResourceService.destroyAllWhere({ emulationProjectId, resourceType: { [Op.or]: resourceTypes } });
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -50,7 +50,7 @@ export default class EmulationProjectResourceController extends BaseController {
 	 * @param res response
 	 */
 	async create(req: IAuthorizedPostRequest<EmulationProjectResource>, res: Response) {
-		const response = await this._svc.create(req.body);
+		const response = await this._emulationProjectResourceService.create(req.body);
 		const err: Error = response.error instanceof Error ? response.error : new Error(response.error);
 		if (response.hasError) {
 			return res
@@ -67,16 +67,18 @@ export default class EmulationProjectResourceController extends BaseController {
 	 */
 	async delete(req: IDeleteEmulationProjectResourceRequest, res: Response) {
 		const resourceId = req.params.resourceId;
-		const emulationProjectId = req.params.projectId;
-		const result = await this._svc.getOneWhere({ resourceId, emulationProjectId });
-		if(!result || !result.result) {
+		const emulationProjectId = Number(req.params.projectId);
+		const result = await this._emulationProjectResourceService.getOneWhere({ resourceId, emulationProjectId });
+		if (!result || !result.result) {
 			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_400_response(JSON.stringify(req.params)));
 		}
-		const deleteResponse = await this._svc.destroy(result.result.id);
+
+		const deleteResponse = await this._emulationProjectResourceService.destroy(result.result.id);
 
 		if (deleteResponse.hasError) {
+			console.error(deleteResponse);
 			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
 		}
 
