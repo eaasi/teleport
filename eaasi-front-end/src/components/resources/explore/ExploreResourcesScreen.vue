@@ -89,7 +89,7 @@
 			:active-tab="activeTab"
 			:tabs="tabs"
 			@bookmarks-updated="search"
-			@resource-deleted="search"
+			@resource-deleted="$router.go(0)"
 			@resource-published="onResourcePublished"
 			@close="closeActionMenu"
 			@navigate-to-tab="openActionMenu"
@@ -231,7 +231,9 @@ export default class ExploreResourcesScreen extends Vue {
 				onlyImportedResources: false,
 				archives: []
 			};
+
 			await this.$store.dispatch('resource/searchResources');
+
 			if (this.bentoResult?.bookmarks) {
 				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
 			}
