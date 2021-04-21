@@ -67,9 +67,9 @@ export default class EmulationProjectResourceController extends BaseController {
 	 */
 	async delete(req: IDeleteEmulationProjectResourceRequest, res: Response) {
 		const resourceId = req.params.resourceId;
-		const emulationProjectId = req.params.projectId;
+		const emulationProjectId = Number(req.params.projectId);
 		const result = await this._svc.getOneWhere({ resourceId, emulationProjectId });
-		if(!result || !result.result) {
+		if (!result || !result.result) {
 			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_400_response(JSON.stringify(req.params)));
