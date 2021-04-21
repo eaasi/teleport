@@ -26,7 +26,7 @@
 					:labeled-items="detailsItems"
 				/>
 
-				<div v-if="activeTab.label === 'Actions'">
+				<div v-if="activeTab.label === 'Actions' || activeTab.label === 'Actions Menu'">
 					<div class="rsm-local-actions">
 						<resource-action
 							v-for="action in localActionsForSelected"
