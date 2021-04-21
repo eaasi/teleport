@@ -97,7 +97,7 @@ const actions = {
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
 		let resources = state.selectedResources;
 		if (!resources || !resources.length) {
-			console.warn('No resources ');
+			console.warn('No resources to delete');
 			return;
 		}
 		return await Promise.all(resources.map(resource => {
