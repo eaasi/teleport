@@ -131,7 +131,6 @@
 
 <script lang="ts">
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-import ResourceSlideMenu from '../ResourceSlideMenu.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
@@ -154,7 +153,6 @@ import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 		AppliedSearchFacets,
 		ResourceFacets,
 		ResourceList,
-		ResourceSlideMenu,
 		ConfirmModal,
 		SlideMenuControlButtons
 	}
