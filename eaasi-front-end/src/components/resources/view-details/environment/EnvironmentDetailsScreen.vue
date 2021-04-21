@@ -258,7 +258,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		this.activeMode = mode;
 	}
 
-	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[1]) {
+	openActionMenu(tab: IEaasiTab = this.actionMenuTabs[0]) {
 		this.actionMenuActiveTab = tab;
 	}
 

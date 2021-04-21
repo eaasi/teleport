@@ -4,7 +4,7 @@
 		v-on="$listeners"
 		v-bind="$attrs"
 	>
-		<span :class="`far fa-${icon}`"></span>
+		<span :class="`fas fa-${icon}`"></span>
 	</button>
 </template>
 
@@ -51,7 +51,7 @@ export default class CircleButton extends Vue {
 	border: none;
 	border-radius: 50%;
 	cursor: pointer;
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	font-weight: 300;
 	height: 3.2rem;
 	outline: none;

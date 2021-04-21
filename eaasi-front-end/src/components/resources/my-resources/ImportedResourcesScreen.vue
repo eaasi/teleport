@@ -103,7 +103,6 @@ import { Get, Sync } from 'vuex-pathify';
 import User from '@/models/admin/User';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import ResourceList from '@/components/resources/ResourceList.vue';
-import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
@@ -122,7 +121,6 @@ import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
 		ResourceSortSection,
 		ResourceFacets,
 		ResourceList,
-		ResourceSlideMenu,
 		SlideMenuControlButtons,
 		ConfirmModal
 	}
