@@ -97,7 +97,7 @@ const actions = {
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
 		let resources = state.selectedResources;
 		if (!resources || !resources.length) {
-			console.warn("No resources ")
+			console.warn('No resources ');
 			return;
 		}
 		return await Promise.all(resources.map(resource => {
@@ -108,8 +108,8 @@ const actions = {
 				id = resource.id;
 			}
 			if (!id) return;
-			_svc.deleteEnvironment(resource.envId)
-		}))
+			_svc.deleteEnvironment(resource.envId);
+		}));
 	},
 
 	async deleteEnvironment(_, envId: string): Promise<void> {
