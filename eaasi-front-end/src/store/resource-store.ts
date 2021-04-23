@@ -102,6 +102,7 @@ const actions = {
 			console.warn('No resources to delete');
 			return;
 		}
+
 		return await Promise.all(resources.map(resource => {
 			let id: string | number;
 			if (resource.envId) {
@@ -109,8 +110,9 @@ const actions = {
 			} else if (resource.id) {
 				id = resource.id;
 			}
+
 			if (!id) return;
-			_svc.deleteEnvironment(resource.envId);
+			_svc.deleteEnvironment(id.toString());
 		}));
 	},
 
