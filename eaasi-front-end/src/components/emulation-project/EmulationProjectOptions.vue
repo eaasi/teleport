@@ -32,6 +32,10 @@
 			</div>
 		</div>
 		<!-- Start from Scratch -->
+		<!-- Not active
+
+		// See: https://gitlab.com/eaasi/program_docs/eaasi/-/issues/1018
+
 		<div class="emu-option-item flex flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Start from Scratch</h4>
@@ -46,6 +50,7 @@
 				</ui-button>
 			</div>
 		</div>
+		-->
 		<!-- Auto Match -->
 		<!-- Not in next release -->
 		<!-- <div class="emu-option-item flex flex-row justify-between">
