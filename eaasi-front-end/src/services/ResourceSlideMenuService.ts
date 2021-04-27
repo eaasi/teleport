@@ -8,7 +8,6 @@ import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsAct
 import { IEaasiResource } from '@/types/Resource';
 import { resourceTypes } from '@/utils/constants';
 import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
-import TreatAsSoftwareActionResolver from './ActionResolvers/TreatAsSoftwareActionResolver';
 
 
 /**
@@ -26,11 +25,9 @@ export default class ResourceSlideMenuService {
 			new ViewDetailsActionResolver(selected, roleId).action,
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
 			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
-			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction()
+			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
+			new AddSoftwareActionResolver(selected, roleId).resolveAction()
 		];
-		if (selected.length === 1 && selected[0].resourceType !== resourceTypes.CONTENT) {
-			localActions.push(new AddSoftwareActionResolver(selected, roleId).resolveAction());
-		}
 		return localActions;
 	}
 
