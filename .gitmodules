@@ -1,3 +1,4 @@
 [submodule "eaas-client"]
 	path = eaas-client
 	url = https://gitlab.com/emulation-as-a-service/eaas-client.git
+	branch = master

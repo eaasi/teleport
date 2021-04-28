@@ -1,27 +1,26 @@
-import { IStartEnvironmentParams, ITCPGatewayConfig } from '@/types/Eaas';
 import { IEnvironment } from '@/types/Resource';
+import { ClientOptions, TcpGatewayConfig } from 'EaasClient/lib/clientOptions.js';
 
-export default class StartEnvironmentParams implements IStartEnvironmentParams {
-	enableNetwork: boolean;
-	hasTcpGateway: boolean;
-	hasInternet: boolean;
-	xpraEncoding: string;
-	tcpGatewayConfig: ITCPGatewayConfig;
-
+export default class StartEnvironmentParams extends ClientOptions {
 	constructor(env: IEnvironment) {
-		this.xpraEncoding = env.xpraEncoding;
-		if(!env.networking) return;
+		super();
 
-		this.hasInternet = env.networking.enableInternet;
-		if (env.networking.connectEnvs) this.enableNetwork = true;
-		this.hasTcpGateway = env.networking.localServerMode ? false : env.networking.serverMode;
+		super.setXpraEncoding(env.xpraEncoding);
 
-		if (this.hasTcpGateway || env.networking.localServerMode) {
-			this.tcpGatewayConfig = {
-				socks: env.networking.enableSocks,
-				serverPort: env.networking.serverPort,
-				serverIp: env.networking.serverIp
-			};
+		if (!env.networking) {
+			return;
+		}
+		super.getNetworkConfig().enableInternet(env.networking.enableInternet);
+		super.getNetworkConfig().setGateway(env.gateway);
+		super.getNetworkConfig().setNetwork(env.network);
+		super.enableNetworking(env.networking.connectEnvs);
+		try {
+			const tcpGatewayConfig = new TcpGatewayConfig(env.networking.serverIp, env.networking.serverMode);
+			tcpGatewayConfig.enableSocks(env.networking.enableSocks);
+			tcpGatewayConfig.enableLocalMode(env.networking.localServerMode);
+			super.getNetworkConfig().setTcpGatewayConfig(tcpGatewayConfig);
+		} catch (e) {
+			// do nothing
 		}
 	}
 }

@@ -7,6 +7,9 @@ import clickOutside from './directives/click-outside';
 import router from './router';
 import './scss/global.scss';
 import store from './store';
+import * as EaasClient from 'EaasClient/eaas-client.js';
+
+(window as any).EaasClient = EaasClient;
 
 Vue.use(EaasiVueConfig);
 Vue.use(GlobalComponents);

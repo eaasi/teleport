@@ -17,14 +17,17 @@
 	import cookies from 'js-cookie';
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
-	import { IEaasClient, IbwflaController } from '@/types/Eaas';
+	import { IEaasClient } from '@/types/Eaas';
 	import { IEnvironment } from '@/types/Resource';
 	import { Sync } from 'vuex-pathify';
 	import { slugify } from '@/utils/functions';
-	import MachineComponentRequest from '@/models/eaas/emil/MachineComponentRequest';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
-import { INotification } from '../../types/Notification';
-import { generateId } from '@/utils/functions';
+	import { INotification } from '@/types/Notification';
+	import { generateId } from '@/utils/functions';
+	import { getUserToken } from '@/utils/auth';
+
+	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
+	import { NetworkBuilder } from 'EaasClient/lib/networkBuilder';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.
@@ -66,7 +69,8 @@ import { generateId } from '@/utils/functions';
 		/* Data
         ============================================*/
 
-		bwfla: IbwflaController = null;
+		//TODO: commented until BWFLA is imported
+		//bwfla: IbwflaController = null;
 		client: IEaasClient = null;
 		timeOutTimer = null
 		isStopping: boolean = false;
@@ -76,9 +80,8 @@ import { generateId } from '@/utils/functions';
 
 		attachUserControls() {
 			let vm = this;
-			if (!vm.bwfla) return;
 			if (vm.client.params.pointerLock === 'true') {
-				vm.bwfla.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
+				(window as any).EaasClient.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
 			}
 		}
 
@@ -105,33 +108,39 @@ import { generateId } from '@/utils/functions';
 		}
 
 		async getContainerOutput() {
-			let containerOutput = await fetch(this.client.getContainerResultUrl());
-			let containerOutputBlob = await containerOutput.blob();
-			let downloadLink = document.createElement('a');
-			downloadLink.href = URL.createObjectURL(containerOutputBlob);
-			downloadLink.download = 'output-data.zip';
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
+			const activeSession = this.client.getActiveSession();
+			if (activeSession) {
+				let containerOutput = await fetch(await activeSession.getContainerResultUrl());
+				let containerOutputBlob = await containerOutput.blob();
+				let downloadLink = document.createElement('a');
+				downloadLink.href = URL.createObjectURL(containerOutputBlob);
+				downloadLink.download = 'output-data.zip';
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+			}
 		};
 
 		changeMedia(changeMediaRequest) {
-			this.client.changeMedia(changeMediaRequest, () => {});
+			const activeSession = this.client.getActiveSession();
+			if (activeSession) {
+				activeSession.changeMedia(changeMediaRequest);
+			}
 		}
 
 		async init() {
 			let vm = this;
 			try {
-				let container = vm.$refs._container;
 				let EaasClient = (window as any).EaasClient || null;
 				if (!EaasClient) return;
 				if (!vm.client) {
 					await fetch(config.EMIL_SERVICE_ENDPOINT + '/EmilEnvironmentData/init');
-					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, container);
+					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, getUserToken);
 				}
-				if (!vm.bwfla) {
-					vm.bwfla = (window as any).BWFLA as IbwflaController;
-				}
+				//TODO: commented until BWFLA is imported
+				/*if (!vm.bwfla) {
+				  vm.bwfla = (window as any).BWFLA;
+				}*/
 				vm.setupListeners();
 				vm.startEnvironment();
 
@@ -144,31 +153,44 @@ import { generateId } from '@/utils/functions';
 			let vm = this;
 			this.showLoaderWithTimeout();
 			try {
-				let data = new MachineComponentRequest(vm.environment);
-				let params = new StartEnvironmentParams(vm.environment);
-				const { softwareId, archiveId, objectId, driveId } = vm.$route.query;
-				if (objectId && archiveId) {
-					data.objectArchive = archiveId as string;
-					data.object = objectId as string;
+				let machine = new MachineComponentBuilder(
+					vm.environment.envId,
+					vm.environment.archive
+				);
+				machine.setInteractive(true);
 
-					// TODO: Uncertain:
-					data.driveId = driveId as string;
-
-				} else if (softwareId && archiveId) {
-					data.objectArchive = archiveId as string;
-					data.software = softwareId as string;
+				const { softwareId, archiveId, objectId } = vm.$route.query;
+				if (objectId) {
+					machine.setObject(objectId, archiveId);
+				} else if (softwareId) {
+					machine.setSoftware(softwareId, archiveId);
 				}
-				let keyboardPrefs = vm.getKeyboardPreferences();
-				if (keyboardPrefs) data = { ...data, ...keyboardPrefs };
-				await vm.client.start([{data, visualize: true}], params);
+
+				let components, clientOptions;
+				if (vm.environment.enableInternet) {
+					let networkBuilder = new NetworkBuilder(config.EMIL_SERVICE_ENDPOINT, getUserToken);
+					networkBuilder.addComponent(machine);
+					components =  await networkBuilder.getComponents();
+					clientOptions =  await networkBuilder.getDefaultClientOptions();
+					clientOptions.getNetworkConfig().enableInternet(true);
+					clientOptions.getNetworkConfig().enableSlirpDhcp(true);
+				} else {
+					components = [machine];
+					clientOptions = new StartEnvironmentParams(vm.environment);
+				}
+
+				const keyboardPrefs = vm.getKeyboardPreferences();
+				if (keyboardPrefs) {
+					machine.setKeyboard(keyboardPrefs.keyboardLayout, keyboardPrefs.keyboardModel);
+				}
+
+				await vm.client.start(components, clientOptions);
 				vm.isStarted = true;
-				await vm.client.connect();
+				const container = vm.$refs._container;
+				await vm.client.connect(container);
 				vm.attachUserControls();
-				this.clientComponentId = vm.client['componentId'];
-
-				if (vm.client.driveId) {
-					this.$store.commit('SET_DRIVE_ID', vm.client.driveId);
-				}
+				const activeSession = vm.client.getActiveSession();
+				this.clientComponentId = activeSession ? activeSession.getId() : null;
 
 				this.initPrintListeners();
 			} catch(e) {
@@ -201,18 +223,18 @@ import { generateId } from '@/utils/functions';
 		}
 
 		async sendCtrlAltDelete() {
-			if (!this.client) return;
-			await this.client.sendCtrlAltDel();
+			if (!(window as any).EaasClient) return;
+			await (window as any).EaasClient.sendCtrlAltDel();
 		}
 
-		sendEscape() {
-			if (!this.client) return;
-			this.client.sendEsc();
+		async sendEscape() {
+			if (!(window as any).EaasClient) return;
+			await (window as any).EaasClient.sendEsc();
 		}
 
 		setupListeners() {
 			let vm = this;
-			vm.client.onError = (err) => vm.handleError(err);
+			vm.client.addEventListener('error',(err) => vm.handleError(err));
 			window.onbeforeunload = () => ''; // Show generic browser warning
 			window.onunload = () => vm.stopEnvironment();
 			vm.client.onEmulatorStopped = () => {
@@ -233,10 +255,13 @@ import { generateId } from '@/utils/functions';
 		}
 
 		async downloadPrintJob(label: string) {
-			// without getPrintJobs() call, downloadPrint() is not working as expected
-			this.client.getPrintJobs(() => {},() => {});
-			const pdfUrl = this.client.downloadPrint(label);
-			window.open(pdfUrl);
+			const activeSession = this.client.getActiveSession();
+			if (activeSession) {
+				// without getPrintJobs() call, downloadPrint() is not working as expected
+				activeSession.getPrintJobs();
+				const pdfUrl = activeSession.downloadPrint(label);
+				window.open(pdfUrl);
+			}
 		}
 
 		async saveEnvironmentImport({ description, title }) {  // TODO: arg will be object when metadata is ready
@@ -249,7 +274,7 @@ import { generateId } from '@/utils/functions';
 
 			// TODO: Handle saveResult failure modes
 			let saveResult = await this.$store.dispatch('import/saveEnvironmentImport', importData);
-			
+
 			if (saveResult) {
 				await this.stopEnvironment();
 			}
@@ -268,7 +293,7 @@ import { generateId } from '@/utils/functions';
 		}
 
 		initPrintListeners() {
-			this.client.eventSource.addEventListener('print-job', e => {
+			this.client.addEventListener('print-job', e => {
 				//@ts-ignore
 				var res = JSON.parse(e.data);
 				let notification: INotification = {
