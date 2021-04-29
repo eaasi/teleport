@@ -46,8 +46,8 @@ describe('AdminMenu.vue', () => {
 
 	it('Displays all menu items', () => {
 		const wrapper = shallowMount(AdminMenu, { store, localVue });
-		const userMenuItems = wrapper.vm.$data['userMenuItems'];
-		const menuItems = wrapper.vm.$data['menuItems'];
+		const userMenuItems = (wrapper.vm as any).userMenuItems;
+		const menuItems = (wrapper.vm as any).menuItems;
 		const allItems = userMenuItems.concat(menuItems);
 		expect(wrapper.findAll(AdminMenuItem).length).toBe(allItems.length);
 	});

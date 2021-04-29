@@ -39,7 +39,7 @@ export default class SlideMenuActionResolver {
 	}
 
 	isEnvironment(): boolean {
-		return this.selectedResources[0].resourceType === resourceTypes.ENVIRONMENT;
+		return this.isSingleSelected() && this.selectedResources[0].resourceType === resourceTypes.ENVIRONMENT;
 	}
 
 	isBaseEnvironment(): boolean {

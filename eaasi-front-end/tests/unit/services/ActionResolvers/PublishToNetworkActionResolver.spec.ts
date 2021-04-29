@@ -1,6 +1,6 @@
 import PublishToNetworkActionResolver from '@/services/ActionResolvers/PublishToNetworkActionResolver';
 import { generateFakeEnvironments } from '../../generators';
-import { archiveTypes } from '@/utils/constants';
+import {archiveTypes, ENVIRONMENT_TYPES} from '@/utils/constants';
 
 describe('PublishToNetworkActionResolver', () => {
 	it('should have action name Publish to Network', () => {
@@ -9,13 +9,13 @@ describe('PublishToNetworkActionResolver', () => {
 	});
 
 	it('should be enabled if a single, unpublished resource is selected', () => {
-		let fakeEnvs = generateFakeEnvironments(1);
+		let fakeEnvs = generateFakeEnvironments(1, ENVIRONMENT_TYPES.BASE);
 		let sut = new PublishToNetworkActionResolver(fakeEnvs, 1);
 		expect(sut.action.isEnabled).toBe(true);
 	});
 
 	it('should be enabled if multiple unpublished resources are selected', () => {
-		let fakeEnvs = generateFakeEnvironments(3);
+		let fakeEnvs = generateFakeEnvironments(3, ENVIRONMENT_TYPES.BASE);
 		let sut = new PublishToNetworkActionResolver(fakeEnvs, 1);
 		expect(sut.action.isEnabled).toBe(true);
 	});
@@ -28,19 +28,19 @@ describe('PublishToNetworkActionResolver', () => {
 	});
 
 	it('should be enabled for admin user role', () => {
-		let fakeEnvs = generateFakeEnvironments(1);
+		let fakeEnvs = generateFakeEnvironments(1, ENVIRONMENT_TYPES.BASE);
 		let sut = new PublishToNetworkActionResolver(fakeEnvs, 1);
 		expect(sut.action.isEnabled).toBe(true);
 	});
 
 	it('should be enabled for manager user role', () => {
-		let fakeEnvs = generateFakeEnvironments(1);
+		let fakeEnvs = generateFakeEnvironments(1, ENVIRONMENT_TYPES.BASE);
 		let sut = new PublishToNetworkActionResolver(fakeEnvs, 2);
 		expect(sut.action.isEnabled).toBe(true);
 	});
 
 	it('should be enabled for contributor user role', () => {
-		let fakeEnvs = generateFakeEnvironments(1);
+		let fakeEnvs = generateFakeEnvironments(1, ENVIRONMENT_TYPES.BASE);
 		let sut = new PublishToNetworkActionResolver(fakeEnvs, 3);
 		expect(sut.action.isEnabled).toBe(true);
 	});

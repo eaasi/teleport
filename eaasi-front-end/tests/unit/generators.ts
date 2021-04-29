@@ -43,7 +43,7 @@ export function generateFakeRole(): IEaasiRole {
 }
 
 
-export function generateFakeEnvironments(numberEnvs: number): IEnvironment[] {
+export function generateFakeEnvironments(numberEnvs: number, envType?: string): IEnvironment[] {
 	let envs = [];
 	for (let i = 1; i <= numberEnvs; i++) {
 		envs.push(
@@ -64,7 +64,7 @@ export function generateFakeEnvironments(numberEnvs: number): IEnvironment[] {
 				enableRelativeMouse: false,
 				enableSocks: false,
 				envId: faker.random.uuid(),
-				envType: faker.hacker.noun(),
+				envType: envType ? envType : faker.hacker.noun(),
 				gwPrivateIp: undefined,
 				gwPrivateMask: undefined,
 				helpText: faker.hacker.verb(),
