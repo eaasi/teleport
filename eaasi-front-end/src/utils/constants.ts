@@ -118,7 +118,7 @@ export const ROLES_MAPPER = {
 
 export const EDITION_TYPES = {
 	STANDALONE: 'standalone',
-	MULTI_TENANT: 'multi_tenant'
+	MULTI_TENANT: 'multi-tenant'
 };
 
 export const ENVIRONMENT_TYPES = {
