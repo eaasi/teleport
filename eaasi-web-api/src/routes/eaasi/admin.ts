@@ -163,4 +163,13 @@ router.get('/db-migration', (req, res) => controller.dbDataMigration(req, res))
  */
 router.get('/sync-environments', (req, res) => controller.syncEnvironments(req, res))
 
+/**
+ * @api {get} /groups/:name Get group
+ * @apiVersion 1.0.0
+ * @apiGroup Groups
+ * @apiPermission System Administrator only
+ * @apiDescription Gets group info by group name
+ */
+router.get('/groups/:name', (req, res) => controller.getGroup(req, res))
+
 module.exports = router;

@@ -160,6 +160,12 @@ class AdminService extends BaseHttpService {
 		return response.result;
 	}
 
+	async getGroupInfo(name: string) {
+		const response = await this.get<any>(`/admin/groups/${name}`);
+		if (!response.ok) return null;
+		return response.result;
+	}
+
 }
 
 export default new AdminService();

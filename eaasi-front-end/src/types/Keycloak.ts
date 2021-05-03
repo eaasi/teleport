@@ -7,6 +7,8 @@ export interface IKeycloakUser {
 	given_name?: string;
 	name?: string;
 	roles: KeycloakRole[]
+	tid?: string;
+	orgname?: string;
 }
 
 export enum KeycloakRole {

@@ -92,4 +92,10 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.delete(url, roles, null, token).then(res => callback(res));
 	}
 
+	async getGroups(token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups`;
+
+		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
 }

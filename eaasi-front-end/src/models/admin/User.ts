@@ -12,6 +12,8 @@ export default class User implements IEaasiUser {
 	createdAt: Date;
 	updatedAt: Date;
 	lastLogin: Date;
+	groupName: string;
+	orgName: string;
 
 	constructor(user: IKeycloakUser | IKeycloakUserInfo = null) {
 		if (user) {
@@ -22,6 +24,8 @@ export default class User implements IEaasiUser {
 				this.lastName = user.family_name;
 				this.username = user.preferred_username;
 				this.roleId = user.roles.length > 0 ? ROLES_MAPPER[user.roles[0]] : userRoles.CONTRIBUTOR;
+				this.groupName = user.tid;
+				this.orgName = user.orgname;
 			} else {
 				this.id = user.id;
 				this.email = user.email;
@@ -30,6 +34,8 @@ export default class User implements IEaasiUser {
 				this.username = user.username;
 				this.roleId = user.attributes && user.attributes.role && user.attributes.role.length > 0 ?
 					ROLES_MAPPER[user.attributes.role[0]] : userRoles.CONTRIBUTOR;
+				this.groupName = user.tid;
+				this.orgName = user.orgname;
 			}
 		}
 	}
@@ -47,6 +53,8 @@ export default class User implements IEaasiUser {
 		newUser.lastName = this.lastName;
 		newUser.username = this.username;
 		newUser.roleId = this.roleId;
+		newUser.groupName = this.groupName;
+		newUser.orgName = this.orgName;
 		return newUser;
 	}
 
@@ -59,7 +67,9 @@ export default class User implements IEaasiUser {
 			email: this.email,
 			attributes: {
 				role: [Object.keys(ROLES_MAPPER).find(role => ROLES_MAPPER[role] === this.roleId)]
-			}
+			},
+			tid: this.groupName,
+			orgname: this.orgName,
 		};
 
 		if (this.roleId === userRoles.ADMIN) {

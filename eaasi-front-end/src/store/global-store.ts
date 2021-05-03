@@ -3,8 +3,11 @@ import { make } from 'vuex-pathify';
 import config from '@/config';
 import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
+import _adminService from '@/services/AdminService';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
+import { KeycloakRole } from '@/types/Keycloak';
+import { IKeycloakGroup } from 'eaasi-admin';
 
 /*============================================================
  == State
@@ -25,6 +28,7 @@ export class GlobalState {
 	showLoader: boolean = false;
 	driveId: number;
 	permissions: PermissionResolver;
+	group: IKeycloakGroup;
 }
 
 const state = new GlobalState();
@@ -70,6 +74,15 @@ const actions = {
 		let user = await _authService.getUserData();
 		if (!user) return false;
 		commit('SET_LOGGED_IN_USER', new User(user));
+		if (user.orgname) {
+			commit('SET_NODE_NAME', user.orgname);
+		}
+		if (user.roles.includes(KeycloakRole.EaasAdmin) && user.tid) {
+			let group = await _adminService.getGroupInfo(user.tid);
+			if (group) {
+				commit('SET_GROUP', group);
+			}
+		}
 		return true;
 	},
 

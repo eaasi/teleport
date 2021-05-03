@@ -84,8 +84,16 @@ declare module 'eaasi-admin' {
 		email?: string;
 		attributes?: {
 			role: string[]
-		},
-		realmRoles?: string[]
+		};
+		realmRoles?: string[];
+		tid?: string;
+		orgname?: string;
+	}
+
+	export interface IKeycloakGroup {
+		id: string;
+		name: string;
+		path: string;
 	}
 
 }
