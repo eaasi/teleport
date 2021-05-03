@@ -53,6 +53,10 @@ mutations['SET_LOGGED_IN_USER'] = function(state: GlobalState, user: User) {
 	state.permissions = new PermissionResolver(loggedInUser.roleId);
 };
 
+mutations['SET_GROUP'] = function(state: GlobalState, group: IKeycloakGroup) {
+	state.group = group;
+};
+
 /*============================================================
  == Actions
 /============================================================*/

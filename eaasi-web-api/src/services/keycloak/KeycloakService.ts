@@ -19,9 +19,9 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.get(url, null, token);
 	}
 
-	async getUsers(query: CrudQuery, token: string, callback: Function) {
+	async getUsers(query: CrudQuery, groupId: string, token: string, callback: Function) {
 		let keycloakQuery = new KeycloakUserQuery(query);
-		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users?${keycloakQuery.constructQueryString()}`;
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups/${groupId}/members?${keycloakQuery.constructQueryString()}`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
@@ -96,6 +96,12 @@ export default class KeycloakService extends BaseService {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
+	async addUserToGroup(userId: string, groupId: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/groups/${groupId}`;
+
+		return await this._httpService.put(url, null, null, token).then(res => callback(res));
 	}
 
 }

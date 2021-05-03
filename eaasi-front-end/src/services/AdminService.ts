@@ -49,15 +49,16 @@ class AdminService extends BaseHttpService {
 	/* Users
 	============================================*/
 
-	async getUsers(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<User>> {
+	async getUsers(query: IEaasiSearchQuery, group: string): Promise<IEaasiSearchResponse<User>> {
 		let url = this.createQueryUrl('/admin/users/list', query);
+		url += `&groupId=${group}`;
 		let res = await this.get<IEaasiSearchResponse<User>>(url);
 		if (!res.ok) return null;
 		return res.result;
 	}
 
-	async saveUser(user: User): Promise<string> {
-		let res = await this.post<any>('/admin/users/create', user.toKeycloakUserInfo(), {suppressErrors: true});
+	async saveUser(user: User, groupId: string): Promise<string> {
+		let res = await this.post<any>(`/admin/users/create?groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
 		if (!res.ok) {
 			const error = await res.json();
 			eventBus.$emit('notification:show', generateNotificationError(error.message));

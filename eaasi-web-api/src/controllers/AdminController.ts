@@ -57,9 +57,10 @@ export default class AdminController extends BaseController {
 
 		// Parse request object to unpack limit, page, etc.
 		let query = this._getQueryFromParams(req);
+		let groupId = req.query.groupId as string;
 
 		try {
-			let users = await this._keycloakService.getUsers(query, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			let users = await this._keycloakService.getUsers(query, groupId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			let count = await this._keycloakService.getUsersCount(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			res.send({
 				result: users,
@@ -123,6 +124,9 @@ export default class AdminController extends BaseController {
 				let realmRole = realmRoles.find(role => role.name === req.body.realmRoles[0]);
 				await this._keycloakService.assignRealmRoles(userId, [realmRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			}
+
+			let groupId = req.query.groupId as string;
+			await this._keycloakService.addUserToGroup(userId, groupId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
 			return res.send({password});
 		} catch (e) {
