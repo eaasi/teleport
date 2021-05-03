@@ -2,8 +2,8 @@
 	<div id="notifications">
 		<div v-if="notifications.length > 0">
 			<div class="notif-wrapper flex flex-column">
-				<ui-notification  
-					v-for="(notification, index) in notifications" 
+				<ui-notification
+					v-for="(notification, index) in notifications"
 					:key="index"
 					:label="notification.label"
 					:icon="notification.icon"
@@ -46,7 +46,7 @@ export default class Notifications extends Vue {
     /* Lifecycle Hooks
     ============================================*/
     beforeMount() {
-        eventBus.$on('notification:show', 
+        eventBus.$on('notification:show',
             (notification: INotification) => this.showNotification(notification)
         );
     }

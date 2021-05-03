@@ -141,6 +141,11 @@ export default class AdminController extends BaseController {
 	 */
 	async updateUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
+			if (!await this._checkGroup(req, res)) {
+				res.status(HttpResponseCode.BAD_REQUEST);
+				return res.send(new ErrorResponse(HttpResponseCode.BAD_REQUEST, 'Only users from your organization can be updated'));
+			}
+
 			const userId = req.query.userId as string;
 			await this._keycloakService.updateUser(userId, req.body, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
@@ -174,7 +179,11 @@ export default class AdminController extends BaseController {
 	 */
 	async deleteUser(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			const userId = req.query.id as string;
+			if (!await this._checkGroup(req, res)) {
+				res.status(HttpResponseCode.BAD_REQUEST);
+				return res.send(new ErrorResponse(HttpResponseCode.BAD_REQUEST, 'Only users from your organization can be deleted'));
+			}
+			const userId = req.query.userId as string;
 			await this._keycloakService.deleteUser(userId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			res.send(true);
 		} catch(e) {
@@ -189,7 +198,11 @@ export default class AdminController extends BaseController {
 	 */
 	async resetUserPassword(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			const userId = req.query.id as string;
+			if (!await this._checkGroup(req, res)) {
+				res.status(HttpResponseCode.BAD_REQUEST);
+				return res.send(new ErrorResponse(HttpResponseCode.BAD_REQUEST, 'Password can be reset only for users from your organization'));
+			}
+			const userId = req.query.userId as string;
 			const password = this.generatePassword();
 			const userData = {
 				credentials: [{
@@ -369,6 +382,15 @@ export default class AdminController extends BaseController {
 		} catch (e) {
 			return this.sendError(e, res);
 		}
+	}
+
+	async _checkGroup(req: ExpressRequest, res: ExpressResponse) {
+		const userId = req.query.userId as string;
+		const groupId = req.query.groupId as string;
+
+		let userGroups = await this._keycloakService.getUserGroups(userId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+		let group = userGroups.find(group => group.id === groupId);
+		return !!group;
 	}
 
 	async _handleKeycloakResponse(res: ExpressResponse, apiResponse: Response) {

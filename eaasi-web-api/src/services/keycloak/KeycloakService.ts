@@ -104,4 +104,10 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.put(url, null, null, token).then(res => callback(res));
 	}
 
+	async getUserGroups(userId: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/groups`;
+
+		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
 }

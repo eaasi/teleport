@@ -200,18 +200,26 @@ export default class UserModal extends Vue {
 	}
 
 	async saveExistingUser() {
-		let success = await this.$store.dispatch('admin/saveExistingUser', {user: this.user, roleUpdated: this.oldRoleId !== this.user.roleId});
-		if(!success) return;
-		await this.$store.dispatch('admin/getUsers');
+		let result = await this.$store.dispatch('admin/saveExistingUser', {user: this.user, roleUpdated: this.oldRoleId !== this.user.roleId});
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			await this.$store.dispatch('admin/getUsers');
+		}
 		this.$emit('close');
 	}
 
 	async saveUser() {
-		let password = await this.$store.dispatch('admin/saveUser', this.user);
-		if(!password) return;
-    const notification = generateNotificationSuccess(`You successfully created account for ${this.user.username}. Provide this password to the user: ${password}`, 20000);
-    eventBus.$emit('notification:show', notification);
-    await this.$store.dispatch('admin/getUsers');
+		let result = await this.$store.dispatch('admin/saveUser', this.user);
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			const notification = generateNotificationSuccess(`You successfully created account for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+			eventBus.$emit('notification:show', notification);
+			await this.$store.dispatch('admin/getUsers');
+		}
 		this.$emit('close');
 	}
 
@@ -220,20 +228,26 @@ export default class UserModal extends Vue {
 	}
 
 	async confirmDeleteUser() {
-		let res = await this.$store.dispatch('admin/deleteUser', this.user.id);
-		if (!res) return;
-		await this.$store.dispatch('admin/getUsers');
+		let result = await this.$store.dispatch('admin/deleteUser', this.user.id);
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			await this.$store.dispatch('admin/getUsers');
+		}
 		this.isDeleteModalVisible = false;
 		this.$emit('close');
 	}
 
 	async resetPassword() {
-		const password = await this.$store.dispatch('admin/resetPassword', {id: this.user.id, email: this.user.email});
+		const result = await this.$store.dispatch('admin/resetPassword', {id: this.user.id, email: this.user.email});
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			generateNotificationSuccess(`You successfully reset a password for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+		}
 		this.isResetPasswordModalVisible = false;
-		const notification = password
-			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}. Provide this password to the user: ${password}`, 20000)
-			: generateNotificationError('Something went wrong, please try again.');
-		eventBus.$emit('notification:show', notification);
 		this.$emit('close');
 	}
 

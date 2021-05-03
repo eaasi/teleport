@@ -66,22 +66,28 @@ class AdminService extends BaseHttpService {
 		return res.result.password;
 	}
 
-	async saveExistingUser(user: User, roleUpdated: boolean): Promise<boolean> {
-		let res = await this.post(`/admin/users/update?userId=${user.id}&roleUpdated=${roleUpdated}`, user.toKeycloakUserInfo());
-		return res.ok;
-	}
-
-	async deleteUser(id: string): Promise<boolean> {
-		let res = await this.post(`/admin/users/delete?id=${id}`, {});
-		return res.ok;
-	}
-
-	async resetUserPassword(id: string, email: string): Promise<string> {
-		let res = await this.post<any>(`/admin/users/reset-password?id=${id}`, { email });
-		if (res.ok) {
-			return res.result.password;
+	async saveExistingUser(user: User, roleUpdated: boolean, groupId: string): Promise<any> {
+		let res = await this.post(`/admin/users/update?userId=${user.id}&roleUpdated=${roleUpdated}&groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
+		if (!res.ok) {
+			return await res.json();
 		}
-		return null;
+		return true;
+	}
+
+	async deleteUser(id: string, groupId: string): Promise<any> {
+		let res = await this.post(`/admin/users/delete?userId=${id}&groupId=${groupId}`, {}, {suppressErrors: true});
+		if (!res.ok) {
+			return await res.json();
+		}
+		return true;
+	}
+
+	async resetUserPassword(id: string, email: string, groupId: string): Promise<any> {
+		let res = await this.post<any>(`/admin/users/reset-password?userId=${id}&groupId=${groupId}`, { email }, {suppressErrors: true});
+		if (!res.ok) {
+			return await res.json();
+		}
+		return res.result.password;
 	}
 
 	/* User Roles

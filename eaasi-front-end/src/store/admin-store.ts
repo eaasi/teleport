@@ -74,12 +74,12 @@ const actions = {
 		return await _svc.saveUser(user, rootState.group.id);
 	},
 
-	async saveExistingUser(_store: Store<AdminState>, {user, roleUpdated}: {user: User, roleUpdated: boolean}): Promise<boolean> {
-		return await _svc.saveExistingUser(user, roleUpdated);
+	async saveExistingUser({ rootState }, {user, roleUpdated}: {user: User, roleUpdated: boolean}): Promise<boolean> {
+		return await _svc.saveExistingUser(user, roleUpdated, rootState.group.id);
 	},
 
-	async deleteUser(_store: Store<AdminState>, userId: string): Promise<boolean> {
-		return await _svc.deleteUser(userId);
+	async deleteUser({ rootState }, userId: string): Promise<boolean> {
+		return await _svc.deleteUser(userId, rootState.group.id);
 	},
 
 	async getRoles({ commit }: Store<AdminState>) {
@@ -121,8 +121,8 @@ const actions = {
 		return true;
 	},
 
-	async resetPassword(_, {id, email}: {id: string, email: string}): Promise<string> {
-		return await _svc.resetUserPassword(id, email);
+	async resetPassword({ rootState }, {id, email}: {id: string, email: string}): Promise<string> {
+		return await _svc.resetUserPassword(id, email, rootState.group.id);
 	},
 
 	/* Tasks
