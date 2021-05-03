@@ -47,7 +47,7 @@ export default [
 	{
 		path: ROUTES.MANAGE_NODE.ROOT,
 		name: 'Admin',
-		component: EmulatorManagement
+		component: RunningTaskManagement
 	},
 	{
 		path: ROUTES.MANAGE_NODE.USERS,
