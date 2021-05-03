@@ -10,8 +10,7 @@ import SaveToMyNodeActionResolver from '@/services/ActionResolvers/SaveToMyNodeA
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
-import {EDITION_TYPES, userRoles} from '@/utils/constants';
-import config from '@/config';
+import { userRoles } from '@/utils/constants';
 
 
 /**
@@ -41,13 +40,9 @@ export default class ResourceSlideMenuService {
 	 */
 	getNodeActions(selected: IEaasiResource[], roleId: number) {
 		let nodeActions = [];
-		if (config.EDITION_TYPE == EDITION_TYPES.STANDALONE) {
-			nodeActions.push(
-				new SaveToMyNodeActionResolver(selected, roleId).resolveAction()
-			);
-		}
 		if ([userRoles.ADMIN, userRoles.MANAGER].includes(roleId)) {
 			nodeActions.push(
+				new SaveToMyNodeActionResolver(selected, roleId).resolveAction(),
 				new PublishToNetworkActionResolver(selected, roleId).resolveAction(),
 				new DeleteResourceActionResolver(selected, roleId).resolveAction()
 			);
