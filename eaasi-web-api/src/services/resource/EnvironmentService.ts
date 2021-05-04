@@ -40,7 +40,7 @@ export default class EnvironmentService extends BaseService {
 		let res = await this._environmentRepoService.get('environments?detailed=true&localOnly=false', token);
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
-		
+
 		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
 		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
 			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
@@ -100,8 +100,8 @@ export default class EnvironmentService extends BaseService {
 	 *   replicateList: string[];
 	 * }
 	 */
-	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest): Promise<ISaveEnvironmentResponse> {
-		let response = await this._environmentRepoService.post('actions/replicate-image', replicateRequest);
+	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest, token?: string): Promise<ISaveEnvironmentResponse> {
+		let response = await this._environmentRepoService.post('actions/replicate-image', replicateRequest, token);
 		if(response.ok) this.clearCache();
 		return response.json()
 	}
@@ -211,8 +211,8 @@ export default class EnvironmentService extends BaseService {
 	*   id: string;
 	* }
 	*/
-	async forkRevision(revisionRequest: IRevisionRequest) {
-		let res = await this._environmentRepoService.post(`environments/${revisionRequest.envId}/revisions`, revisionRequest);
+	async forkRevision(revisionRequest: IRevisionRequest, token: string) {
+		let res = await this._environmentRepoService.post(`environments/${revisionRequest.envId}/revisions`, revisionRequest, token);
 		if(res.ok) this.clearCache();
 		return res.json();
 	}
@@ -234,7 +234,7 @@ export default class EnvironmentService extends BaseService {
 		let envId = revisionEnvRequest.envId;
 		let isTempEnv = await this._isTempEnvironment(envId);
 		if (isTempEnv) {
-			let parentEnv = await this.getEnvironment(envId);
+			let parentEnv = await this.getEnvironment(envId, token);
 			envId = parentEnv.parentEnvId;
 		}
 		let snapshotRequest: ISnapshotRequest = {
@@ -281,7 +281,7 @@ export default class EnvironmentService extends BaseService {
 
 	/*============================================================
 	 == Images
-	/============================================================*/	
+	/============================================================*/
 	async getImages(token: string): Promise<ImageListItem[]> {
 		let res = await this._environmentRepoService.get('images-index', token);
 		const nameIndexes = await res.json() as EmulatorNamedIndexes;
@@ -289,13 +289,13 @@ export default class EnvironmentService extends BaseService {
 			? nameIndexes.entries.entry.map(entry => new ImageListItem(entry.value)) : [];
 	}
 
-	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
-		let res = await this._environmentRepoService.post('actions/import-image', payload);
+	async importImage(payload: IImageImportPayload, token: string): Promise<IEmilTask> {
+		let res = await this._environmentRepoService.post('actions/import-image', payload, token);
 		return await res.json() as IEmilTask;
 	}
 
-	async deleteImage(payload: IImageDeletePayload) {
-		await this._environmentRepoService.post('actions/delete-image', payload);
+	async deleteImage(payload: IImageDeletePayload, token: string) {
+		await this._environmentRepoService.post('actions/delete-image', payload, token);
 	}
 
 	/*============================================================
@@ -304,26 +304,26 @@ export default class EnvironmentService extends BaseService {
 	/**
 	 * Gets a list of all available environment templates
 	 */
-	async getTemplates(): Promise<ITemplate[]> {
-		let res = await this._environmentRepoService.get('templates');
+	async getTemplates(token?: string): Promise<ITemplate[]> {
+		let res = await this._environmentRepoService.get('templates', token);
 		return res.json();
 	}
 
 	/**
 	 * Gets a list of all available patches
 	 */
-	async getPatches(): Promise<IPatch[]> {
-		let res = await this._environmentRepoService.get('patches');
+	async getPatches(token?: string): Promise<IPatch[]> {
+		let res = await this._environmentRepoService.get('patches', token);
 		return res.json();
 	}
 
-	async getOperatingSystemMetadata() {
-		let res = await this._environmentRepoService.get('os-metadata');
+	async getOperatingSystemMetadata(token?: string) {
+		let res = await this._environmentRepoService.get('os-metadata', token);
 		return res.json();
 	}
 
-	async getNameIndexes() {
-		let res = await this._environmentRepoService.get('image-name-index');
+	async getNameIndexes(token?: string) {
+		let res = await this._environmentRepoService.get('image-name-index', token);
 		return res.json();
 	}
 

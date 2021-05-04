@@ -57,7 +57,8 @@ export default class EaasiTaskController extends BaseController {
 	async getState(req: Request, res: Response) {
 		try {
 			let taskId = req.params['taskId'];
-			let emilTask: TaskState = await this.emilTaskService.getTaskState(taskId);
+			let token = req.headers.authorization;
+			let emilTask: TaskState = await this.emilTaskService.getTaskState(taskId, token);
 			const serviceResult = await this.taskService.getByTaskId(taskId);
 			const eaasiTask: IEaasiTask = serviceResult && serviceResult.result ? serviceResult.result.dataValues : null;
 
@@ -96,7 +97,7 @@ export default class EaasiTaskController extends BaseController {
 				await this._handleDeleteError(req, res, deleteApiResponse);
 			}
 
-			let deleteResponse = await this.emilTaskService.deleteTask(taskId);
+			let deleteResponse = await this.emilTaskService.deleteTask(taskId, req.user.token);
 			res.status(HttpResponseCode.OK).send(deleteResponse);
 		} catch(e) {
 			this.sendError(e, res);

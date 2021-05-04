@@ -2,6 +2,7 @@ import { ICreateEnvironmentPayload, IImageImportPayload, IImportObjectRequest, I
 import { IEnvironmentImportSnapshot } from '@/types/resource/Import';
 import { IComponentRequest } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
+import { objectArchiveTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ComponentService from '../resource/ComponentService';
@@ -34,8 +35,8 @@ export default class ImportService extends BaseService {
 	/**
 	 * Posts Resource Import Data to trigger import task from a URL
 	 */
-	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
-		return await this._environmentService.importImage(payload);
+	async importImage(payload: IImageImportPayload, token: string): Promise<IEmilTask> {
+		return await this._environmentService.importImage(payload, token);
 	}
 
 	/**
@@ -67,8 +68,8 @@ export default class ImportService extends BaseService {
 	 * Posts Object Import Request data
 	 * @param req : Request with req.body
 	 */
-	async importResourceFromFile({ files, label }: IImportObjectRequest): Promise<IEmilTask> {
-		return await this._contentService.importObject({ files, label })
+	async importResourceFromFile({ files, label }: IImportObjectRequest, token: string): Promise<IEmilTask> {
+		return await this._contentService.importObject({ files, label }, objectArchiveTypes.LOCAL, token)
 	}
 
 	/***

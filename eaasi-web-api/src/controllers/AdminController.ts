@@ -286,7 +286,8 @@ export default class AdminController extends BaseController {
 	 */
 	async getHarvesters(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			let list = await this._harvesterSvc.getHarvesters();
+			let token = req.headers.authorization;
+			let list = await this._harvesterSvc.getHarvesters(token);
 			res.send(list);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -301,7 +302,8 @@ export default class AdminController extends BaseController {
 	async addHarvester(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			let data = req.body as HarvesterReq;
-			let success = await this._harvesterSvc.addHarvester(data);
+			let token = req.headers.authorization;
+			let success = await this._harvesterSvc.addHarvester(data, token);
 			if(success) return res.send(true);
 			return this.sendError(new Error('Could not add new oai-pmh harvester'), res);
 		} catch(e) {
@@ -318,7 +320,8 @@ export default class AdminController extends BaseController {
 		try {
 			const name = req.query.name as string;
 			const full = req.query.full;
-			let result = await this._harvesterSvc.syncHarvester(name, !!full);
+			const token = req.headers.authorization;
+			let result = await this._harvesterSvc.syncHarvester(name, !!full, token);
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -333,7 +336,8 @@ export default class AdminController extends BaseController {
 	async deleteHarvester(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const name = req.query.name as string;
-			let success = await this._harvesterSvc.deleteHarvester(name);
+			const token = req.headers.authorization;
+			let success = await this._harvesterSvc.deleteHarvester(name, token);
 			if(success) return res.send(true);
 			return this.sendError(new Error(`Could not delete oai-pmh harvester: ${name}`), res);
 		} catch(e) {
@@ -362,7 +366,8 @@ export default class AdminController extends BaseController {
 
 	async getApiKey(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			const result = await this._adminService.getApiKey();
+			const token = req.headers.authorization;
+			const result = await this._adminService.getApiKey(token);
 			return res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);

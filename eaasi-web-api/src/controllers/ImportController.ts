@@ -26,11 +26,12 @@ export default class ImportController extends BaseController {
 			// if (!userId) this.sendClientError('Import requires a userId on request body', res);
 
 			// Invoke emil endpoint for importing a resource from URL
-			let emilResult = await this._emilImportService.importImage(req.body);
+			let token = req.headers.authorization;
+			let emilResult = await this._emilImportService.importImage(req.body, token);
 
 			// Invoke internal endpoint for associating a user with an import
 			// let userImportResult =  await this._userImportService.getByUserID(userId);
-			
+
 			res.send(emilResult);
 		} catch(e) {
 			this.sendError(e, res);
@@ -43,7 +44,8 @@ export default class ImportController extends BaseController {
 	async importFiles(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import resource from a file requires request body'), res);
-			let result = await this._emilImportService.importResourceFromFile(req.body);
+			let token = req.headers.authorization;
+			let result = await this._emilImportService.importResourceFromFile(req.body, token);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -116,11 +118,12 @@ export default class ImportController extends BaseController {
 			if (!req.body) {
 				this.sendClientError(new Error('Request to import image from url requires request body'), res);
 			}
-			let result = await this._emilImportService.importImage(req.body as IImageImportPayload);
+			let token = req.headers.authorization;
+			let result = await this._emilImportService.importImage(req.body as IImageImportPayload, token);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
 		}
 	}
-	
+
 }

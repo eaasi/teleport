@@ -34,17 +34,17 @@ export default class ContentService extends BaseService {
 		return content;
 	}
 
-	async getObjectMetadata(contentRequest: IContentRequest): Promise<IContentItem> {
-		let res = await this._contentRepoService.get(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
+	async getObjectMetadata(contentRequest: IContentRequest, token?: string): Promise<IContentItem> {
+		let res = await this._contentRepoService.get(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`, token);
 		let content = await res.json() as IContentItem;
 		content.resourceType = resourceTypes.CONTENT;
 		return content;
 	}
 
-	async getObjectArchives(): Promise<IObjectArchiveResonse> {
+	async getObjectArchives(token?: string): Promise<IObjectArchiveResonse> {
 		let result = this._cache.get<IObjectArchiveResonse>(this.CACHE_KEYS.ARCHIVES)
 		if(result) return result;
-		let res = await this._contentRepoService.get('archives');
+		let res = await this._contentRepoService.get('archives', token);
 		let archives = await res.json();
 		if (archives.length) this._cache.add(this.CACHE_KEYS.ARCHIVES, archives);
 		return archives;
@@ -57,8 +57,8 @@ export default class ContentService extends BaseService {
 	 *   contentId: string;
 	 * }
 	 */
-	async deleteContent(contentRequest: IContentRequest) {
-		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`);
+	async deleteContent(contentRequest: IContentRequest, token?: string) {
+		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`, null, token);
 		if (!res) return null;
 		if (res.ok) this.clearCache();
 		let reusableResponse = res.clone();
@@ -73,8 +73,8 @@ export default class ContentService extends BaseService {
 		}
 	}
 
-	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL): Promise<IEmilTask> {
-		const res = await this._contentRepoService.post(`/archives/${archiveId}/objects`, importPayload);
+	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL, token?: string): Promise<IEmilTask> {
+		const res = await this._contentRepoService.post(`/archives/${archiveId}/objects`, importPayload, token);
 		if (res.ok) this.clearCache();
 		return await res.json() as IEmilTask;
 	}

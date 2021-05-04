@@ -13,25 +13,25 @@ export default class HarvesterService {
 		this._svc = service;
 	}
 
-	public async getHarvesters(): Promise<string[]> {
-		let res = await this.get('harvesters');
+	public async getHarvesters(token?: string): Promise<string[]> {
+		let res = await this.get('harvesters', token);
 		return await res.json() as string[];
 	}
 
-	public async addHarvester(req: HarvesterReq): Promise<boolean> {
-		let res = await this.post('harvesters', req);
+	public async addHarvester(req: HarvesterReq, token?: string): Promise<boolean> {
+		let res = await this.post('harvesters', req, token);
 		return res.ok;
 	}
 
-	public async syncHarvester(name: string, full: boolean = false): Promise<HarvesterSyncResult> {
+	public async syncHarvester(name: string, full: boolean = false, token?: string): Promise<HarvesterSyncResult> {
 		let url = `harvesters/${name}`;
 		if (full) url += '?from=1970-01-01T00:00:00.000Z';
-		let res = await this.post(url, null);
+		let res = await this.post(url, null, token);
 		return await res.json() as HarvesterSyncResult;
 	}
 
-	public async deleteHarvester(name: string): Promise<boolean> {
-		let res = await this.delete(`harvesters/${name}`);
+	public async deleteHarvester(name: string, token?: string): Promise<boolean> {
+		let res = await this.delete(`harvesters/${name}`, token);
 		return res.ok;
 	}
 
@@ -39,16 +39,16 @@ export default class HarvesterService {
 	 == Private Methods
 	/============================================================*/
 
-	private async get(methodName: string) {
-		return await this._svc.get(this._createUrl(methodName));
+	private async get(methodName: string, token?: string) {
+		return await this._svc.get(this._createUrl(methodName), null, token);
 	}
 
-	private async post(methodName: string, data: any) {
-		return await this._svc.post(this._createUrl(methodName), data);
+	private async post(methodName: string, data: any, token?: string) {
+		return await this._svc.post(this._createUrl(methodName), data, null, token);
 	}
 
-	private async delete(methodName: string) {
-		return await this._svc.delete(this._createUrl(methodName));
+	private async delete(methodName: string, token?: string) {
+		return await this._svc.delete(this._createUrl(methodName), null, null, token);
 	}
 
 	private _createUrl(methodName: string): string {

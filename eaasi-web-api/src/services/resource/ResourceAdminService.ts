@@ -169,8 +169,8 @@ export default class ResourceAdminService extends BaseService {
 	 * 	objectId: string;
 	 * }
 	 */
-	async saveContent(contentOverride: IOverrideContentRequest) {
-		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride);
+	async saveContent(contentOverride: IOverrideContentRequest, token: string) {
+		let res = await this._emilClassificationService.post('overrideObjectCharacterization', contentOverride, token);
 		return res.json();
 	}
 
@@ -183,9 +183,9 @@ export default class ResourceAdminService extends BaseService {
 	 *  updateProposal: boolean;
 	 * }
 	 */
-	async classify(classifyRequest: IObjectClassificationRequest) {
+	async classify(classifyRequest: IObjectClassificationRequest, token: string) {
 		if(!classifyRequest) throw 'Did not receive Classification Request.';
-		let response = await this._emilClassificationService.post('', classifyRequest);
+		let response = await this._emilClassificationService.post('', classifyRequest, token);
 		return await response.json();
 	}
 
