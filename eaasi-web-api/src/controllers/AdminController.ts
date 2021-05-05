@@ -105,10 +105,10 @@ export default class AdminController extends BaseController {
 				temporary: true
 			}];
 			userData.enabled = true;
-			await this._keycloakService.createUser(req.body, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			await this._keycloakService.createUser(userData, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
 			let query = new KeycloakUserQuery();
-			query.username = req.body.username;
+			query.username = userData.username;
 			let users = await this._keycloakService.findUsers(query, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			if (!users || users.length === 0) {
 				res.status(HttpResponseCode.NOT_FOUND);
@@ -116,14 +116,13 @@ export default class AdminController extends BaseController {
 			}
 			let userId = users[0].id;
 			const clientUUID = await this._getClientUUID(req, res);
-
 			let clientRoles = await this._keycloakService.getClientRoles(clientUUID, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-			let clientRole = clientRoles.find(role => role.name === req.body.attributes.role[0]);
+			let clientRole = clientRoles.find(role => role.name === userData.attributes.role[0]);
 			await this._keycloakService.assignClientRoles(clientUUID, userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
-			if (req.body.realmRoles && req.body.realmRoles.length > 0) {
+			if (userData.realmRoles && userData.realmRoles.length > 0) {
 				let realmRoles = await this._keycloakService.getRealmRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-				let realmRole = realmRoles.find(role => role.name === req.body.realmRoles[0]);
+				let realmRole = realmRoles.find(role => role.name === userData.realmRoles[0]);
 				await this._keycloakService.assignRealmRoles(userId, [realmRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			}
 
@@ -405,7 +404,7 @@ export default class AdminController extends BaseController {
 
 	async _getClientUUID(req: ExpressRequest, res: ExpressResponse) {
 		let clients = await this._keycloakService.getClients(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-		
+
 		let client = clients.find(client => client.clientId === KEYCLOAK_CLIENT_ID);
 		if (client) {
 			return client.id;
