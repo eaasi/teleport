@@ -245,7 +245,8 @@ export default class UserModal extends Vue {
 			const notification = generateNotificationError(result.message);
 			eventBus.$emit('notification:show', notification);
 		} else {
-			generateNotificationSuccess(`You successfully reset a password for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+			const notification = generateNotificationSuccess(`You successfully reset a password for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+			eventBus.$emit('notification:show', notification);
 		}
 		this.isResetPasswordModalVisible = false;
 		this.$emit('close');
