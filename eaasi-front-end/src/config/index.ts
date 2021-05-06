@@ -23,5 +23,5 @@ export default {
 	KEYCLOAK_CLIENT_ID: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
 	KEYCLOAK_CLIENT_SCOPE: process.env.VUE_APP_KEYCLOAK_CLIENT_SCOPE,
 	KEYCLOAK_ON_LOGIN: 'login-required',
-	KEYCLOAK_FLOW: 'implicit'
+	KEYCLOAK_FLOW: 'standard'
 };

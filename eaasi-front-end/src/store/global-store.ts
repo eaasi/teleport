@@ -8,6 +8,7 @@ import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
 import { KeycloakRole } from '@/types/Keycloak';
 import { IKeycloakGroup } from 'eaasi-admin';
+import { setUserToken } from '@/utils/auth';
 
 /*============================================================
  == State
@@ -91,7 +92,7 @@ const actions = {
 	},
 
 	login({ dispatch }, jwt: string): void {
-		Cookies.set(config.JWT_NAME, jwt, { path: '/' });
+		setUserToken(jwt);
 		dispatch('initSession');
 	},
 
