@@ -222,7 +222,7 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	private generatePassword(length: number = 8) {
+	private generatePassword(length: number = 16) {
 		const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		let result = '';
 		for (var i = 0, n = charset.length; i < length; ++i) {
