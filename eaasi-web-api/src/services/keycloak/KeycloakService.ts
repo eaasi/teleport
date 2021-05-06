@@ -1,6 +1,6 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import BaseService from '@/services/base/BaseService';
-import { KEYCLOAK_CLIENT_UUID, KEYCLOAK_REALM, KEYCLOAK_URL } from '@/config/keycloak-config';
+import { KEYCLOAK_REALM, KEYCLOAK_URL } from '@/config/keycloak-config';
 import CrudQuery from '@/classes/CrudQuery';
 import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
 import { INewUser } from '@/types/admin/User';
@@ -56,8 +56,8 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.delete(url, null, null, token).then(res => callback(res));
 	}
 
-	async getClientRoles(token: string, callback: Function) {
-		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${KEYCLOAK_CLIENT_UUID}/roles`;
+	async getClientRoles(clientUUID: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${clientUUID}/roles`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
@@ -68,8 +68,8 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
 
-	async assignClientRoles(userId: string, roles: object, token: string, callback: Function) {
-		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/clients/${KEYCLOAK_CLIENT_UUID}`;
+	async assignClientRoles(clientUUID: string, userId: string, roles: object, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/clients/${clientUUID}`;
 
 		return await this._httpService.post(url, roles, null, token).then(res => callback(res));
 	}
@@ -80,8 +80,8 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.post(url, roles, null, token).then(res => callback(res));
 	}
 
-	async removeClientRolesFromUser(userId: string, roles: object, token: string, callback: Function) {
-		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/clients/${KEYCLOAK_CLIENT_UUID}`;
+	async removeClientRolesFromUser(clientUUID: string, userId: string, roles: object, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/role-mappings/clients/${clientUUID}`;
 
 		return await this._httpService.delete(url, roles, null, token).then(res => callback(res));
 	}
@@ -106,6 +106,12 @@ export default class KeycloakService extends BaseService {
 
 	async getUserGroups(userId: string, token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}/groups`;
+
+		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
+	async getClients(token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}

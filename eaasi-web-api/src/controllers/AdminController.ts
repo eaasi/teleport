@@ -16,6 +16,7 @@ import { Response } from 'node-fetch';
 import HttpResponseCode from '@/classes/HttpResponseCode';
 import { build_400_response } from '@/utils/error-helpers';
 import ErrorResponse from '@/classes/ErrorResponse';
+import { KEYCLOAK_CLIENT_ID } from '@/config/keycloak-config';
 
 const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENABLED == 'true';
 
@@ -114,10 +115,11 @@ export default class AdminController extends BaseController {
 				return res.send(new ErrorResponse(HttpResponseCode.NOT_FOUND, 'Created user not found'));
 			}
 			let userId = users[0].id;
+			const clientUUID = await this._getClientUUID(req, res);
 
-			let clientRoles = await this._keycloakService.getClientRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			let clientRoles = await this._keycloakService.getClientRoles(clientUUID, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			let clientRole = clientRoles.find(role => role.name === req.body.attributes.role[0]);
-			await this._keycloakService.assignClientRoles(userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			await this._keycloakService.assignClientRoles(clientUUID, userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
 			if (req.body.realmRoles && req.body.realmRoles.length > 0) {
 				let realmRoles = await this._keycloakService.getRealmRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
@@ -151,11 +153,14 @@ export default class AdminController extends BaseController {
 
 			const roleUpdated = req.query.roleUpdated;
 			if (roleUpdated) {
-				let clientRoles = await this._keycloakService.getClientRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				const clientUUID = await this._getClientUUID(req, res);
+
+				let clientRoles = await this._keycloakService.getClientRoles(clientUUID, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 				let clientRole = clientRoles.find(role => role.name === req.body.attributes.role[0]);
 
-				await this._keycloakService.removeClientRolesFromUser(userId, clientRoles, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-				await this._keycloakService.assignClientRoles(userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+
+				await this._keycloakService.removeClientRolesFromUser(clientUUID, userId, clientRoles, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+				await this._keycloakService.assignClientRoles(clientUUID, userId, [clientRole], req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 
 				let realmRoles = await this._keycloakService.getRealmRoles(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 				let realmRole = realmRoles.find(role => role.name === 'admin');
@@ -396,6 +401,19 @@ export default class AdminController extends BaseController {
 		let userGroups = await this._keycloakService.getUserGroups(userId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 		let group = userGroups.find(group => group.id === groupId);
 		return !!group;
+	}
+
+	async _getClientUUID(req: ExpressRequest, res: ExpressResponse) {
+		let clients = await this._keycloakService.getClients(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+		
+		let client = clients.find(client => client.clientId === KEYCLOAK_CLIENT_ID);
+		if (client) {
+			return client.id;
+		} else {
+			res.status(HttpResponseCode.NOT_FOUND);
+			res.send(new ErrorResponse(HttpResponseCode.NOT_FOUND, `Client ${KEYCLOAK_CLIENT_ID} not found`));
+			throw new Error(`Client ${KEYCLOAK_CLIENT_ID} not found`);
+		}
 	}
 
 	async _handleKeycloakResponse(res: ExpressResponse, apiResponse: Response) {
