@@ -7,7 +7,7 @@ import { INewUser } from '@/types/admin/User';
 
 export default class KeycloakService extends BaseService {
 	private readonly _httpService: HttpJSONService;
-    
+
 	constructor() {
 		super();
 		this._httpService = new HttpJSONService();
@@ -114,6 +114,13 @@ export default class KeycloakService extends BaseService {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
+	async getClient(cid: string, token: string, callback: Function) {
+		const query = `clientId=${encodeURIComponent(cid)}`;
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients?${query}`;
+		const clients =  await this._httpService.get(url, null, token).then(res => callback(res));
+		return clients.find(client => client.clientId === cid);
 	}
 
 }

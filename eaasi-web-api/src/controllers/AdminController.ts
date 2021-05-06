@@ -403,9 +403,7 @@ export default class AdminController extends BaseController {
 	}
 
 	async _getClientUUID(req: ExpressRequest, res: ExpressResponse) {
-		let clients = await this._keycloakService.getClients(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-
-		let client = clients.find(client => client.clientId === KEYCLOAK_CLIENT_ID);
+		let client = await this._keycloakService.getClient(KEYCLOAK_CLIENT_ID, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 		if (client) {
 			return client.id;
 		} else {
