@@ -61,11 +61,18 @@ export default class AdminController extends BaseController {
 		let groupId = req.query.groupId as string;
 
 		try {
-			let users = await this._keycloakService.getUsers(query, groupId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-			let count = await this._keycloakService.getUsersCount(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			// NOTE: Keycloak does not support server-side countig of members in a specific group.
+			//       Hence, always request all group's members, count and return expected subset!
+
+			let limits = new KeycloakUserQuery();
+			limits.first = 0;
+			limits.max = -1;
+
+			let users = await this._keycloakService.getUsers(limits, groupId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
+			limits = new KeycloakUserQuery(query);
 			res.send({
-				result: users,
-				totalResults: count
+				result: users.slice(limits.first, limits.max),
+				totalResults: users.length
 			});
 		} catch(e) {
 			return this.sendError(e, res);

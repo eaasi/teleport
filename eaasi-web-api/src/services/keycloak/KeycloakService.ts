@@ -1,7 +1,6 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import BaseService from '@/services/base/BaseService';
 import { KEYCLOAK_REALM, KEYCLOAK_URL } from '@/config/keycloak-config';
-import CrudQuery from '@/classes/CrudQuery';
 import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
 import { INewUser } from '@/types/admin/User';
 
@@ -19,10 +18,8 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.get(url, null, token);
 	}
 
-	async getUsers(query: CrudQuery, groupId: string, token: string, callback: Function) {
-		let keycloakQuery = new KeycloakUserQuery(query);
-		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups/${groupId}/members?${keycloakQuery.constructQueryString()}`;
-
+	async getUsers(query: KeycloakUserQuery, groupId: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups/${groupId}/members?${query.constructQueryString()}`;
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
 
