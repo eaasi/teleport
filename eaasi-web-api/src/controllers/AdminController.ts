@@ -381,8 +381,7 @@ export default class AdminController extends BaseController {
 	async getGroup(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const groupName = req.params.name;
-			let groups = await this._keycloakService.getGroups(req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
-			let group = groups.find(group => group.name === groupName);
+			let group = await this._keycloakService.getGroup(groupName, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			if (!group || !group.id) {
 				res.status(HttpResponseCode.NOT_FOUND);
 				return res.send(new ErrorResponse(HttpResponseCode.NOT_FOUND, `Group ${groupName} not found`));
