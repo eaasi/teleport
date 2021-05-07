@@ -43,6 +43,10 @@ module.exports = {
 			tenantId: {
 				type: Sq.STRING(128),
 				allowNull: true
+			},
+			type: {
+				type: Sq.STRING(50),
+				allowNull: true
 			}
 		})
 	},

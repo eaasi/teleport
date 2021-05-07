@@ -128,7 +128,7 @@ export default class EaasiTaskController extends BaseController {
 		try {
 			let task: IEaasiTask = req.body;
 			if (!task) return this.sendError(new Error('Task not found in request body'), res);
-			const response = await this.taskService.update(task.id, { description: task.description });
+			const response = await this.taskService.update(task.id, { description: task.description, type: task.type });
 			res.send(response.result);
 		} catch(e) {
 			this.sendError(e, res);
