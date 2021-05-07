@@ -26,7 +26,7 @@ export default class EmulationProjectResourceController extends BaseController {
 	async getForProject(req: IGetEmulationProjectResourcesRequest, res: Response) {
 		try {
 			const projectId = Number(req.params.projectId);
-			const result = await this._emulationProjectResourceService.getEaasiResources(projectId);
+			const result = await this._emulationProjectResourceService.getEaasiResources(projectId, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			return this.sendError(e, res);

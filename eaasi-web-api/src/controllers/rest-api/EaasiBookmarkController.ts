@@ -20,7 +20,7 @@ export default class EaasiBookmarkController extends BaseController {
 	 * @param res response
 	 */
 	async getByUserID(req: Request, res: Response) {
-		const userId = Number(req.query.userId);
+		const userId = String(req.query.userId);
 		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)

@@ -7,6 +7,8 @@ import clickOutside from './directives/click-outside';
 import router from './router';
 import './scss/global.scss';
 import store from './store';
+import Keycloak from 'keycloak-js';
+import config from '@/config';
 import * as EaasClient from 'EaasClient/eaas-client.js';
 
 (window as any).EaasClient = EaasClient;
@@ -45,8 +47,31 @@ Vue.directive('click-outside', clickOutside);
  == Global Vue Instance
 /============================================================*/
 
-new Vue({
-	router,
-	store,
-	render: h => h(App)
-}).$mount('#app');
+const initOptions = {
+	url: config.KEYCLOAK_URL,
+	realm: config.KEYCLOAK_REALM,
+	scope: config.KEYCLOAK_CLIENT_SCOPE,
+	clientId: config.KEYCLOAK_CLIENT_ID,
+	onLoad: config.KEYCLOAK_ON_LOGIN as Keycloak.KeycloakOnLoad,
+	flow: config.KEYCLOAK_FLOW as Keycloak.KeycloakFlow
+};
+
+(window as any).keycloak = Keycloak(initOptions);
+(window as any).keycloak.init(initOptions).then(async (auth) => {
+	if (!auth) {
+		window.location.reload();
+	} else {
+		store.dispatch('login', (window as any).keycloak.token);
+		// TODO: remove temporary entry for local eaas-client
+		localStorage.setItem('id_token', (window as any).keycloak.token);
+
+		await router.push('/');
+		new Vue({
+			router,
+			store,
+			render: h => h(App)
+		}).$mount('#app');
+	}
+}).catch((e) => {
+	console.error('Keycloak init error: ', e);
+});

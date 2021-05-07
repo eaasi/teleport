@@ -24,6 +24,7 @@
 						label="Username"
 						rules="required"
 						class="col-md-6"
+						:disabled="!isNew"
 					/>
 				</div>
 				<div class="name-fields row">
@@ -56,6 +57,7 @@
 					<ui-button
 						@click.prevent="showDeleteModal"
 						color-preset="light-blue"
+						:disabled="user.id === loggedInUser.id"
 					>
 						Delete User
 					</ui-button>
@@ -64,6 +66,7 @@
 						@click.prevent="isResetPasswordModalVisible = true"
 						color-preset="light-blue"
 						style="margin-left: 2rem;"
+						:disabled="user.id === loggedInUser.id"
 					>
 						Reset Password
 					</ui-button>
@@ -121,11 +124,10 @@ import FormModal from '@/components/global/forms/FormModal.vue';
 import DescriptiveRadios from '@/components/global/forms/DescriptiveRadios.vue';
 import TextInput from '@/components/global/forms/TextInput.vue';
 import Modal from '@/components/global/Modal/Modal.vue';
-import { userRoles } from '../../../utils/constants';
+import { userRoles } from '@/utils/constants';
 import config from '../../../config';
-import { generateNotificationError, generateCompletedTaskNotification, generateNotificationSuccess } from '../../../helpers/NotificationHelper';
+import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
-import User from '@/models/admin/User';
 
 @Component({
 	name: 'UserModal',
@@ -147,6 +149,9 @@ export default class UserModal extends Vue {
 
 	@Prop({type: Object as () => IEaasiUser, required: true})
 	readonly user: IEaasiUser;
+
+	@Prop()
+  readonly oldRoleId: number;
 
 	/* Computed
 	============================================*/
@@ -195,16 +200,26 @@ export default class UserModal extends Vue {
 	}
 
 	async saveExistingUser() {
-		let success = await this.$store.dispatch('admin/saveExistingUser', this.user);
-		if(!success) return;
-		await this.$store.dispatch('admin/getUsers');
+		let result = await this.$store.dispatch('admin/saveExistingUser', {user: this.user, roleUpdated: this.oldRoleId !== this.user.roleId});
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			await this.$store.dispatch('admin/getUsers');
+		}
 		this.$emit('close');
 	}
 
 	async saveUser() {
-		let success = await this.$store.dispatch('admin/saveUser', this.user);
-		if(!success) return;
-		await this.$store.dispatch('admin/getUsers');
+		let result = await this.$store.dispatch('admin/saveUser', this.user);
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			const notification = generateNotificationSuccess(`You successfully created account for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+			eventBus.$emit('notification:show', notification);
+			await this.$store.dispatch('admin/getUsers');
+		}
 		this.$emit('close');
 	}
 
@@ -213,20 +228,27 @@ export default class UserModal extends Vue {
 	}
 
 	async confirmDeleteUser() {
-		let res = await this.$store.dispatch('admin/deleteUser', this.user.id);
-		if (!res) return;
-		await this.$store.dispatch('admin/getUsers');
+		let result = await this.$store.dispatch('admin/deleteUser', this.user.id);
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			await this.$store.dispatch('admin/getUsers');
+		}
 		this.isDeleteModalVisible = false;
 		this.$emit('close');
 	}
 
 	async resetPassword() {
-		const success = await this.$store.dispatch('admin/resetPassword', this.user.email);
+		const result = await this.$store.dispatch('admin/resetPassword', {id: this.user.id, email: this.user.email});
+		if (result.hasError) {
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
+		} else {
+			const notification = generateNotificationSuccess(`You successfully reset a password for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+			eventBus.$emit('notification:show', notification);
+		}
 		this.isResetPasswordModalVisible = false;
-		const notification = success
-			? generateNotificationSuccess(`You successfully reset a password for ${this.user.username}.`)
-			: generateNotificationError('Something went wrong, please try again.');
-		eventBus.$emit('notification:show', notification);
 		this.$emit('close');
 	}
 

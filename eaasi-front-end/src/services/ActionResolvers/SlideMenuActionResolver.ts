@@ -1,5 +1,5 @@
-import { IEaasiResource } from '@/types/Resource';
-import { archiveTypes, resourceTypes, userRoles } from '@/utils/constants';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {archiveTypes, ENVIRONMENT_TYPES, resourceTypes, userRoles} from '@/utils/constants';
 import { IAction } from 'eaasi-nav';
 
 /**
@@ -38,8 +38,22 @@ export default class SlideMenuActionResolver {
 		return window.location.href.indexOf(resourceId) > 0;
 	}
 
+	isEnvironment(): boolean {
+		return this.isSingleSelected() && this.selectedResources[0].resourceType === resourceTypes.ENVIRONMENT;
+	}
+
+	isBaseEnvironment(): boolean {
+		return this.selectedResources[0].resourceType === resourceTypes.ENVIRONMENT
+			&& (this.selectedResources[0] as IEnvironment).envType === ENVIRONMENT_TYPES.BASE;
+	}
+
+	isContentObject(): boolean {
+		return this.selectedResources[0].resourceType === resourceTypes.CONTENT;
+	}
+
 	hasDetailsPage(): boolean {
-		return this.selectedResources[0].resourceType !== resourceTypes.IMAGE;
+		return ![resourceTypes.IMAGE, resourceTypes.CONTENT]
+			.includes(this.selectedResources[0].resourceType);
 	}
 
 	isSinglePublicResource() : boolean {
@@ -86,8 +100,8 @@ export default class SlideMenuActionResolver {
 	areOnlyPublishableResources(): boolean {
 		if(this.isAnyContentSelected()) return false;
 		return this.selectedResources.every((r) => {
-			return (r.resourceType === resourceTypes.SOFTWARE && r.isPublic === false)
-				|| (r.resourceType === resourceTypes.ENVIRONMENT && r.archive === 'default');
+			return r.resourceType === resourceTypes.ENVIRONMENT && r.archive === 'default'
+				&& (r as IEnvironment).envType === ENVIRONMENT_TYPES.BASE;
 		});
 	}
 }

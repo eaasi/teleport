@@ -26,11 +26,12 @@ export default class ImportController extends BaseController {
 			// if (!userId) this.sendClientError('Import requires a userId on request body', res);
 
 			// Invoke emil endpoint for importing a resource from URL
-			let emilResult = await this._emilImportService.importImage(req.body);
+			let token = req.headers.authorization;
+			let emilResult = await this._emilImportService.importImage(req.body, token);
 
 			// Invoke internal endpoint for associating a user with an import
 			// let userImportResult =  await this._userImportService.getByUserID(userId);
-			
+
 			res.send(emilResult);
 		} catch(e) {
 			this.sendError(e, res);
@@ -43,7 +44,8 @@ export default class ImportController extends BaseController {
 	async importFiles(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import resource from a file requires request body'), res);
-			let result = await this._emilImportService.importResourceFromFile(req.body);
+			let token = req.headers.authorization;
+			let result = await this._emilImportService.importResourceFromFile(req.body, token);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -56,7 +58,7 @@ export default class ImportController extends BaseController {
 	async saveImportEnvironment(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to snapshot environment import requires request body'), res);
-			let result = await this._emilImportService.snapshotImage(req.body);
+			let result = await this._emilImportService.snapshotImage(req.body, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -69,7 +71,7 @@ export default class ImportController extends BaseController {
 	async postComponents(req: Request, res: Response) {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to snapshot environment import requires request body'), res);
-			let result = await this._emilImportService.postComponents(req.body);
+			let result = await this._emilImportService.postComponents(req.body, req.headers.authorization);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -99,7 +101,7 @@ export default class ImportController extends BaseController {
 			if (!req.body) {
 				return this.sendClientError('Request to create image from ISO file upload requires request body', res)
 			}
-			let result = await this._emilImportService.createEnvironment(req.body);
+			let result = await this._emilImportService.createEnvironment(req.body, req.headers.authorization);
 			res.send(result);
 		} catch(err) {
 			this.sendError(err, res);
@@ -116,11 +118,12 @@ export default class ImportController extends BaseController {
 			if (!req.body) {
 				this.sendClientError(new Error('Request to import image from url requires request body'), res);
 			}
-			let result = await this._emilImportService.importImage(req.body as IImageImportPayload);
+			let token = req.headers.authorization;
+			let result = await this._emilImportService.importImage(req.body as IImageImportPayload, token);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
 		}
 	}
-	
+
 }

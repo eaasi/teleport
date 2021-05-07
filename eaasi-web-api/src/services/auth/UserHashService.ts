@@ -1,13 +1,13 @@
+/*
 import { IEaasiUserHash } from '@/data_access/interfaces/IEaasiUserHash';
-import { EaasiUserHash } from '@/data_access/models/app/EaasiUserHash';
 import CrudService from '@/services/base/CrudService';
 import ICrudService from '@/services/interfaces/ICrudService';
 import BaseService from '../base/BaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 
-/**
+/!**
  * Handles business logic related to working with User and Role data
- */
+ *!/
 export default class UserHashService extends BaseService {
 
 	private readonly _userHashCrudService: ICrudService<EaasiUserHash>;
@@ -19,11 +19,11 @@ export default class UserHashService extends BaseService {
 		this._userHashCrudService = userCrudService;
 	}
 
-	/**
+	/!**
 	 * Gets a User Hash by User Id
 	 * @param userId: number User PK
-	 */
-	async getUserHash(userId: number) {
+	 *!/
+	async getUserHash(userId: string) {
 		let result = await this._userHashCrudService.getByPk(userId);
 
 		if (result.hasError) {
@@ -37,10 +37,10 @@ export default class UserHashService extends BaseService {
 		return result.result;
 	}
 
-	/**
+	/!**
 	 * Saves / Creates a User Hash by user id and hash
 	 * @param { userId: number, hash: string }
-	 */
+	 *!/
 	async saveUserHash(userHash: IEaasiUserHash) {
 		const existingUserHash = await this._userHashCrudService.getByPk(userHash.userId);
 		let result: ICrudServiceResult<EaasiUserHash>;
@@ -58,10 +58,10 @@ export default class UserHashService extends BaseService {
 		return result.result;
 	}
 
-	/**
+	/!**
 	 * Deletes a User Hash by user id
 	 * @param userId: number User Hash PK
-	 */
+	 *!/
 	async deleteUserHash(userId: number) {
 		let result = await this._userHashCrudService.destroy(userId);
 
@@ -74,3 +74,4 @@ export default class UserHashService extends BaseService {
 
 
 }
+*/

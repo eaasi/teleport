@@ -1,4 +1,3 @@
-import { IAuthorizedRequest } from '@/types/auth/Auth';
 import { NextFunction, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
 const ERROR_MESSAGE = 'You\'ve reached the request limit, please try again later.';
@@ -16,12 +15,10 @@ export const resetPasswordRequestLimit = rateLimit({
 	max: 10,
 	windowMs: 60 * 60 * 1000, // 1 hour
 	message: ERROR_MESSAGE,
-	keyGenerator: (req: IAuthorizedRequest, res: Response) => `${req.user.id}-${req.body.email}-${req.ip}`,
 });
 
 export const createAccountRequestLimit = rateLimit({
 	max: 50,
 	windowMs: 60 * 60 * 1000, // 1 hour
 	message: ERROR_MESSAGE,
-	keyGenerator: (req: IAuthorizedRequest, res: Response) => `${req.user.id}-${req.ip}`,
 })

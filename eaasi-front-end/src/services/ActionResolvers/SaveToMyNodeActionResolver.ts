@@ -20,7 +20,7 @@ export default class SaveToMyNodeActionResolver extends SlideMenuActionResolver 
 			label: 'Save to My Node',
 			description: 'Make this resource available to all users of my node',
 			icon: translatedIcon('cloud-download'),
-			isEnabled: super.isSingleRemoteResource()
+			isEnabled: super.isSingleRemoteResource() && (super.isBaseEnvironment() || !super.isContentObject())
 		};
 	}
 }

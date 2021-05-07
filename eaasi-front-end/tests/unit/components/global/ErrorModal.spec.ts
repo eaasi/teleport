@@ -3,11 +3,13 @@ import globalStore from '@/store/global-store';
 import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
+import GlobalComponents from '@/components/global';
 
 
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
+localVue.use(GlobalComponents);
 
 describe('ErrorModal.vue when showDebugErrors is true', () => {
 
@@ -15,7 +17,6 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 
 	beforeEach(() => {
 		store = new Vuex.Store({
-			actions: {},
 			modules: {
 				// @ts-ignore
 				global: globalStore
@@ -47,7 +48,7 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 		let errorText = wrapper.find('.eaasi-info-modal-title > h2');
 		expect(errorText.text()).toContain('An Error Has Occurred');
 	});
-	
+
 	// For 2020.03 release we are showing complete front-end stack trace
 	// it('Displays message that developers have been notified', () => {
 	// 	const wrapper = mount(ErrorModal, { localVue, store, });

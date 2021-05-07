@@ -68,7 +68,7 @@ export default class CrudService<T extends Model> extends BaseService implements
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-	async getByPk(pk: number): Promise<ICrudServiceResult<T>> {
+	async getByPk(pk: string | number): Promise<ICrudServiceResult<T>> {
 		return await this.model
     		.findByPk(pk)
 			.then((result: T) => {
@@ -139,7 +139,7 @@ export default class CrudService<T extends Model> extends BaseService implements
      * @param modelData model object
      * @returns {Promise<{}>}
      */
-	async update(pk: number, modelData: any): Promise<ICrudServiceResult<T>> {
+	async update(pk: string | number, modelData: any): Promise<ICrudServiceResult<T>> {
 		// TODO: Pull the pk off of the modelData
     	return await this.model
 			.findByPk(pk)
@@ -171,7 +171,7 @@ export default class CrudService<T extends Model> extends BaseService implements
      * @param pk instance primary key
      * @returns {Promise<{}>}
      */
-	async destroy(pk: number): Promise<ICrudServiceResult<T>> {
+	async destroy(pk: string | number): Promise<ICrudServiceResult<T>> {
 		return await this.model
     		.findByPk(pk)
 			.then((found: T) => {
@@ -180,7 +180,7 @@ export default class CrudService<T extends Model> extends BaseService implements
 				}
 				return found.destroy()
 					.then(() => {
-						return new CrudServiceResult<number>(null, pk);
+						return new CrudServiceResult<string | number>(null, pk);
     				})
 					.catch((error: string) => {
 						this._logger.log.error(error);

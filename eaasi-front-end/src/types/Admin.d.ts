@@ -35,7 +35,7 @@ declare module 'eaasi-admin' {
 	============================================*/
 
 	export interface IEaasiUser {
-		id: number;
+		id: string;
 		email: string;
 		firstName: string;
 		lastName: string;
@@ -44,6 +44,7 @@ declare module 'eaasi-admin' {
 		createdAt: Date;
 		updatedAt: Date;
 		lastLogin: Date;
+		copy(): IEaasiUser;
 	}
 
 	export interface IEaasiRole {
@@ -73,6 +74,26 @@ declare module 'eaasi-admin' {
 	export interface IKeyboardLanguage {
 		descriptions: string;
 		name: string;
+	}
+
+	export interface IKeycloakUserInfo {
+		id: string;
+		username: string;
+		firstName?: string;
+		lastName?: string;
+		email?: string;
+		attributes?: {
+			role: string[]
+		};
+		realmRoles?: string[];
+		tid?: string;
+		orgname?: string;
+	}
+
+	export interface IKeycloakGroup {
+		id: string;
+		name: string;
+		path: string;
 	}
 
 }

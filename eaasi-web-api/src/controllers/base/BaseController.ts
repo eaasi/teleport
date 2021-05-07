@@ -28,8 +28,10 @@ export default class BaseController {
 			error = new Error(error);
 		}
 		this._logger.log.error(error.stack);
-		response.status(HttpResponseCode.SERVER_ERROR)
-			.send(build_500_response(error));
+		if (!response.headersSent) {
+			response.status(HttpResponseCode.SERVER_ERROR)
+				.send(build_500_response(error));
+		}
 	}
 
 	protected sendNotFound(response: Response) {

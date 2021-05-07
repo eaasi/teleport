@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import config from '@/config';
 import BaseHttpService from './BaseHttpService';
 import { ILoginRequest, ILoginResponse, IChangePasswordRequest } from '@/types/Auth';
-import { IEaasiUser } from 'eaasi-admin';
+import { IKeycloakUser } from '@/types/Keycloak';
 
 class AuthService extends BaseHttpService {
 
@@ -18,8 +18,8 @@ class AuthService extends BaseHttpService {
 		return res.result;
 	}
 
-	async getUserData(): Promise<IEaasiUser> {
-		let res = await this.get<IEaasiUser>('/auth/user');
+	async getUserData(): Promise<IKeycloakUser> {
+		let res = await this.get<IKeycloakUser>('/auth/user');
 		if(!res || !res.ok) return null;
 		return res.result;
 	}

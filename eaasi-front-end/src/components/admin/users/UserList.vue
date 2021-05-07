@@ -8,14 +8,17 @@
 		>
 			<thead>
 				<tr>
+					<sort-header sort-col="firstName" :query="query" @sort="sort">
+						First Name
+					</sort-header>
+					<sort-header sort-col="lastName" :query="query" @sort="sort">
+						Last Name
+					</sort-header>
 					<sort-header sort-col="username" :query="query" @sort="sort">
 						Username
 					</sort-header>
 					<sort-header sort-col="roleId" :query="query" @sort="sort">
 						Role
-					</sort-header>
-					<sort-header sort-col="lastLogin" :query="query" @sort="sort">
-						Last Login
 					</sort-header>
 					<td>
 					</td>
@@ -23,10 +26,10 @@
 			</thead>
 			<tbody>
 				<tr v-for="u in users" :key="u.id">
+					<td>{{ u.firstName }}</td>
+					<td>{{ u.lastName }}</td>
 					<td>{{ u.username }}</td>
 					<td>{{ getRole(u) }}</td>
-					<td v-if="u.lastLogin">{{ u.lastLogin | js-date-pretty-format }}</td>
-					<td v-else>Unknown</td>
 					<td class="details-cell">
 						<span
 							class="details-btn clickable"
@@ -46,11 +49,12 @@ import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import { IEaasiRole, IEaasiUser } from 'eaasi-admin';
+import {IEaasiRole, IEaasiUser, IKeycloakUserInfo} from 'eaasi-admin';
 import { IEaasiSearchQuery } from '@/types/Search';
 import User from '@/models/admin/User';
 import SortHeader from '@/components/global/tables/SortHeader.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
+import {ROLES_MAPPER} from '@/utils/constants';
 
 @Component({
 	name: 'UserList',
@@ -64,7 +68,7 @@ export default class UserList extends Vue {
 	============================================*/
 
 	@Prop({type: Array, required: true})
-	readonly users: User[];
+	readonly users: IKeycloakUserInfo[];
 
 	/* Computed
 	============================================*/
@@ -88,13 +92,14 @@ export default class UserList extends Vue {
 	/* Methods
 	============================================*/
 
-	editUser(u: User) {
-		this.$emit('rowClick', u);
+	editUser(u: IKeycloakUserInfo) {
+		this.$emit('rowClick', new User(u));
 	}
 
-	getRole(user: IEaasiUser) {
-		if(!this.roles || !this.roles.length || !user.roleId) return '';
-		let role = this.roles.find(x => x.id === user.roleId);
+	getRole(user: IKeycloakUserInfo) {
+		if (!user.attributes || !user.attributes.role || user.attributes.role.length === 0) return '';
+
+		let role = this.roles.find(x => x.id === ROLES_MAPPER[user.attributes.role[0]]);
 		return role ? role.roleName : '-';
 	}
 

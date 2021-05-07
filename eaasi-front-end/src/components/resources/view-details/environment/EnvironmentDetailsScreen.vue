@@ -118,7 +118,7 @@ export default class EnvironmentDetailsScreen extends Vue {
     	{ label: 'History', disabled: false },
 	];
 	activeTab: string = this.tabs[0].label;
-	mods = ['Review Mode'];
+	mods = ['Review Mode', 'Edit Mode'];
 	activeMode: string = this.mods[0];
 	activeEnvironment: IEnvironment = null;
 	confirmAction: string = null;
@@ -235,6 +235,9 @@ export default class EnvironmentDetailsScreen extends Vue {
 	async init() {
 		const { resourceId } = this.$route.query;
 		this.activeEnvironment = await this.$store.dispatch('resource/getEnvironment', resourceId);
+		if (!this.activeEnvironment.isPublic) {
+			this.mods = [this.mods[0]];
+		}
 		this.resources = [{...this.activeEnvironment, resourceType: resourceTypes.ENVIRONMENT}];
 		await this.populateMetadata();
 	}

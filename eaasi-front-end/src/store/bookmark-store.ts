@@ -43,14 +43,14 @@ const actions = {
         commit('SET_BOOKMARKS', updatedBookmarks);
     },
 
-    async getBookmarks({ commit }: Store<BookmarkStore>, userID: number) {
-        const result = await _svc.getBookmarks(userID);
+    async getBookmarks({ commit }: Store<BookmarkStore>, userId: string) {
+        const result = await _svc.getBookmarks(userId);
         if (!result) return;
         commit('SET_BOOKMARKS', result);
     },
 
-    async clearBookmarks({ commit }: Store<BookmarkStore>, userID: number) {
-        const result = await _svc.clearBookmarks(userID);
+    async clearBookmarks({ commit }: Store<BookmarkStore>, userId: string) {
+        const result = await _svc.clearBookmarks(userId);
         if (!result) return;
         commit('SET_BOOKMARKS', []);
     },

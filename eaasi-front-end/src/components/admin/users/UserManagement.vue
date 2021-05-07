@@ -18,7 +18,7 @@
 			/>
 			<user-list :users="list.result" @rowClick="setActiveUser" />
 		</div>
-		<user-modal v-if="activeUser" :user="activeUser" @close="setActiveUser(null)" />
+		<user-modal v-if="activeUser" :user="activeUser" :old-role-id="activeUserRoleId" @close="setActiveUser(null)" />
 	</section>
 </template>
 
@@ -56,12 +56,13 @@ export default class UserManagement extends AdminScreen {
 	/* Data
 	============================================*/
 	searchBorderColor = '#C7E4F5';
+	activeUserRoleId: number = null;
 
 	/* Computed
 	============================================*/
 
 	@Sync('admin/activeUser')
-	activeUser: User;
+	activeUser: IEaasiUser;
 
 	@Get('admin/usersQuery')
 	query: IEaasiSearchQuery;
@@ -98,7 +99,10 @@ export default class UserManagement extends AdminScreen {
 	}
 
 	setActiveUser(user: IEaasiUser) {
-		this.activeUser = jsonCopy(user);
+		this.activeUser = user ? user.copy() : null;
+		if (user) {
+			this.activeUserRoleId = jsonCopy(user.roleId);
+		}
 	}
 
 	/* Lifecycle Hooks

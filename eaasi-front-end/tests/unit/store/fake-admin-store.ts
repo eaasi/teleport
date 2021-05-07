@@ -62,7 +62,7 @@ const actions = {
 		console.log('saveUser');
 	},
 
-	deleteUser(_store: Store<AdminState>, userId: number)  {
+	deleteUser(_store: Store<AdminState>, userId: string)  {
 	},
 
 	getRoles({ commit }: Store<AdminState>) {

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-affected_tables="eaasi_role eaasi_user emulator eaasi_user_hash"
+affected_tables="eaasi_role emulator"
 
 function run_all_seeders {
   printf "Running database seeders on local PostgreSQL eaasi_dev database."

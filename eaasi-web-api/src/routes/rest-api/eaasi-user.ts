@@ -1,10 +1,10 @@
-import express from 'express';
+import express, {Response} from 'express';
 import { check, validationResult } from 'express-validator';
 
 let router = express.Router();
 
-const EaasiUserController = require('@/controllers/rest-api/EaasiUserController');
-const controller = new EaasiUserController();
+//const EaasiUserController = require('@/controllers/rest-api/EaasiUserController');
+//const controller = new EaasiUserController();
 
 /**
  * @api {get} eaasi-user/:id Request All EaasiUsers (Paginated)
@@ -21,10 +21,11 @@ router.get('/',
 	[check('limit').optional().isNumeric()],
 	[check('page').optional().isNumeric()],
 	(req: Express.Request, res: Express.Response) => {
-		const errors = validationResult(req);
+		//TODO: use Keycloak
+		/*const errors = validationResult(req);
 		return !errors.isEmpty()
 			? controller.sendMalformedRequestResponse(req, res, errors)
-			: controller.getAll(req, res);
+			: controller.getAll(req, res);*/
 	});
 
 /**
@@ -43,13 +44,15 @@ router.get('/',
  * @apiSuccess {Number} roleId The number corresponding to the EaasiRole ID of the EaasiUser
  * @apiSuccess {Date} lastLogin Timestamp of the last login of the EaasiUser
  */
+//TODO: use Keycloak
 router.get('/:id',
 	[check('id').isNumeric()],
-	(req: Express.Request, res: Express.Response) => {
-		const errors = validationResult(req);
+	(req: Express.Request, res: Response) => {
+	//TODO: use Keycloak
+		/*const errors = validationResult(req);
 		return !errors.isEmpty()
 			? controller.sendMalformedRequestResponse(req, res, errors)
-			: controller.get(req, res);
+			: controller.get(req, res);*/
 	});
 
 /**
@@ -73,7 +76,8 @@ router.get('/:id',
  */
 router.post('/',
 	(req: Express.Request, res: Express.Response) => {
-		return controller.create(req, res);
+	//TODO: use Keycloak
+		/*return controller.create(req, res);*/
 	});
 
 /**
@@ -104,10 +108,11 @@ router.post('/',
 router.put('/:id',
 	[check('id').isNumeric()],
 	(req: Express.Request, res: Express.Response) => {
-		const errors = validationResult(req);
+		//TODO: use Keycloak
+		/*const errors = validationResult(req);
 		return !errors.isEmpty()
 			? controller.sendMalformedRequestResponse(req, res, errors)
-			: controller.update(req, res);
+			: controller.update(req, res);*/
 	});
 
 /**
@@ -126,10 +131,11 @@ router.put('/:id',
 router.delete('/:id',
 	[check('id').isNumeric()],
 	(req: Express.Request, res: Express.Response) => {
-		const errors = validationResult(req);
+		//TODO: use Keycloak
+		/*const errors = validationResult(req);
 		return !errors.isEmpty()
 			? controller.sendMalformedRequestResponse(req, res, errors)
-			: controller.delete(req, res);
+			: controller.delete(req, res);*/
 	});
 
 module.exports = router;

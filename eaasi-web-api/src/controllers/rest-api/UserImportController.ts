@@ -39,7 +39,7 @@ export default class UserImportController extends BaseController {
 	 */
 	async getByUserID(req: Request, res: Response) {
 
-		const userId = Number(req.query.userId);
+		const userId = String(req.query.userId);
 
 		if (userId == null) {
 			return res
@@ -212,9 +212,9 @@ export default class UserImportController extends BaseController {
 		try {
 			const userImportRelation = req.body;
 			if (!req.body) this.sendClientError(new Error('Request to create user reference requires request body'), res);
-			const user = req.user;
+			const userId = req.query.userId as string;
 			const userImportResource: IUserImportedResource = {
-				userId: user.id,
+				userId: userId,
 				eaasiId: userImportRelation.resourceId
 			}
 			let result: IUserImportedResource;

@@ -3,7 +3,7 @@ import { UserImportedImage } from '@/data_access/models/app/UserImportedImage';
 import ICrudServiceResult from '@/services/interfaces/ICrudServiceResult';
 
 export default interface IResourceImportResult {
-	userId: number;
+	userId: string;
 	userImportedEnvironments: ICrudServiceResult<UserImportedEnvironment[]>;
 	userImportedSoftware: ICrudServiceResult<UserImportedSoftware[]>;
 	userImportedContent: ICrudServiceResult<UserImportedContent[]>;

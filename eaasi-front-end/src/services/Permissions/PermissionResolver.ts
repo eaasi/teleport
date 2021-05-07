@@ -1,5 +1,4 @@
-import { userRoles } from '@/utils/constants';
-import { IAction } from 'eaasi-nav';
+import {userRoles} from '@/utils/constants';
 
 /**
  * Resolves User Permission
@@ -17,7 +16,8 @@ export default class PermissionResolver {
 	 * - Manage Node option appears in the side menu
 	 */
 	allowsViewManageNodePage() : boolean {
-		return this.userRoleId === userRoles.ADMIN;
+		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
+			.includes(this.userRoleId);
 	}
 
 	/**
@@ -25,7 +25,8 @@ export default class PermissionResolver {
 	 * - assign roles
 	 */
 	allowsManageNodeUsers() : boolean {
-		return this.userRoleId === userRoles.ADMIN;
+		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
+			.includes(this.userRoleId);
 	}
 
 	/**
@@ -140,6 +141,16 @@ export default class PermissionResolver {
 	 */
 	canSaveResourcesToNode() {
 		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
+			.includes(this.userRoleId);
+	}
+
+	allowsManageNodeItems() {
+		return [userRoles.ADMIN, userRoles.MANAGER]
+			.includes(this.userRoleId);
+	}
+
+	allowsUserManageNodeItems() {
+		return [userRoles.ADMIN, userRoles.MANAGER]
 			.includes(this.userRoleId);
 	}
 }

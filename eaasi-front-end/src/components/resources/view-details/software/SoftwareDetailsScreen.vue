@@ -79,8 +79,8 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { IEaasiResourceSummary, ISoftwareObject, IEaasiResource, ISoftwareMetadataResponse } from '@/types/Resource';
-import {resourceTypes} from '@/utils/constants';
-import { ILabeledEditableItem} from '@/types/ILabeledItem';
+import { resourceTypes } from '@/utils/constants';
+import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import EditableLabeledItemList from '../shared/EditableLabeledItemList.vue';
 import ResourceDetailsSummary from '../shared/ResourceDetailsSummary.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
@@ -198,6 +198,9 @@ export default class SoftwareDetailsScreen extends Vue {
 		}
 		this.activeSoftware = await this.$store.dispatch('software/getSoftwareObject', resourceId);
 		if (!this.activeSoftware || !this.softwareMetadata) return;
+		if (!this.activeSoftware.isPublic) {
+			this.mods = [this.mods[0]];
+		}
 		this.activeMode = this.mods[0];
 		this._populateObjectDetails();
 		this._populateSoftwareProperties();

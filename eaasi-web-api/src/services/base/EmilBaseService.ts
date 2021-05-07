@@ -21,24 +21,24 @@ export default class EmilBaseService implements IHttpService {
 		this._logger = AppLogger;
 	}
 
-	public async get(methodName: string): Promise<Response> {
+	public async get(methodName: string, token?: string): Promise<Response> {
 		let url = this._createUrl(methodName);
-		return await this._svc.get(url);
+		return await this._svc.get(url, null, token);
 	}
 
-	public async post(methodName: string, data: any): Promise<Response> {
+	public async post(methodName: string, data: any, token?: string): Promise<Response> {
 		let url = this._createUrl(methodName);
-		return await this._svc.post(url, data);
+		return await this._svc.post(url, data, null, token);
 	}
 
-	public async patch(methodName: string, data: any): Promise<Response> {
+	public async patch(methodName: string, data: any, token?: string): Promise<Response> {
 		let url = this._createUrl(methodName);
-		return await this._svc.patch(url, data);
+		return await this._svc.patch(url, data, token);
 	}
 
-	public async delete(methodName: string, data: any = null): Promise<Response> {
+	public async delete(methodName: string, data: any = null, token?: string): Promise<Response> {
 		let url = this._createUrl(methodName);
-		return await this._svc.delete(url, data);
+		return await this._svc.delete(url, data, token);
 	}
 
 	private _createUrl(methodName: string): string {

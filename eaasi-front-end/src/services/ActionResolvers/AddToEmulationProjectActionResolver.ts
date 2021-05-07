@@ -1,7 +1,11 @@
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
-import {IEaasiResource} from '@/types/Resource';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
-import {translatedIcon} from '@/utils/constants';
+import {
+	ENVIRONMENT_TYPES,
+	resourceTypes,
+	translatedIcon
+} from '@/utils/constants';
 
 export default class AddToEmulationProjectActionResolver extends SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
@@ -20,7 +24,8 @@ export default class AddToEmulationProjectActionResolver extends SlideMenuAction
 			label: 'Add to Emulation Project',
 			description: 'Add this resource to my emulation project',
 			icon: translatedIcon('paperclip'),
-			isEnabled: true,
+			isEnabled: this.selectedResources.every(resource => resource.resourceType !== resourceTypes.ENVIRONMENT
+				|| (resource as IEnvironment).envType === ENVIRONMENT_TYPES.BASE),
 			// isEnabled: self.selectedResources.some(resource => {
 			// 	return self.projectResources.some(x => {
 			// 		return (x.resourceType === resourceTypes.ENVIRONMENT && x.resourceId === resource.envId)

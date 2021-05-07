@@ -11,12 +11,8 @@ module.exports = {
 				autoIncrement: true
 			},
 			userId: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(50),
 				allowNull: false,
-				references: {
-					model: 'eaasi_user',
-					key: 'id'
-				}
 			},
 			resourceId: {
 				type: Sq.STRING(128),

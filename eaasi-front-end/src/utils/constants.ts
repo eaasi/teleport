@@ -1,5 +1,6 @@
 import { ImportType } from '@/types/Import';
 import { IUIOsItem, ResourceType } from '@/types/Resource';
+import { KeycloakRole } from '@/types/Keycloak';
 
 const genericMachineIcon = require('../../assets/img/other.png');
 const linuxMachineIcon = require('../../assets/img/linux.png');
@@ -108,3 +109,19 @@ export function translatedIcon(name: string): string {
 			return 'X';
 	}
 }
+
+export const ROLES_MAPPER = {
+	[KeycloakRole.EaasUser]: userRoles.CONTRIBUTOR,
+	[KeycloakRole.EaasAdmin]: userRoles.ADMIN,
+	[KeycloakRole.EaasManager]: userRoles.MANAGER
+};
+
+export const EDITION_TYPES = {
+	STANDALONE: 'standalone',
+	MULTI_TENANT: 'multi-tenant'
+};
+
+export const ENVIRONMENT_TYPES = {
+	BASE: 'base',
+	OBJECT: 'object'
+};

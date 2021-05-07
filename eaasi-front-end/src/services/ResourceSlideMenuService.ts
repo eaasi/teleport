@@ -1,13 +1,16 @@
-import AddToEmulationProjectActionResolver from '@/services/ActionResolvers/AddToEmulationProjectActionResolver';
-import BookmarkResourceActionResolver from '@/services/ActionResolvers/BookmarkResourceActionResolver';
+import AddToEmulationProjectActionResolver
+	from '@/services/ActionResolvers/AddToEmulationProjectActionResolver';
+import BookmarkResourceActionResolver
+	from '@/services/ActionResolvers/BookmarkResourceActionResolver';
 import DeleteResourceActionResolver from '@/services/ActionResolvers/DeleteResourceActionResolver';
-import PublishToNetworkActionResolver from '@/services/ActionResolvers/PublishToNetworkActionResolver';
+import PublishToNetworkActionResolver
+	from '@/services/ActionResolvers/PublishToNetworkActionResolver';
 import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulatorActionResolver';
 import SaveToMyNodeActionResolver from '@/services/ActionResolvers/SaveToMyNodeActionResolver';
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
 import { IEaasiResource } from '@/types/Resource';
-import { resourceTypes } from '@/utils/constants';
 import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
+import { userRoles } from '@/utils/constants';
 
 
 /**
@@ -21,14 +24,13 @@ export default class ResourceSlideMenuService {
 	 * @param roleId: Logged-in User RoleID
 	 */
 	getLocalActions(selected: IEaasiResource[], roleId: number) {
-		let localActions =  [
+		return  [
 			new ViewDetailsActionResolver(selected, roleId).action,
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
 			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
 			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
 			new AddSoftwareActionResolver(selected, roleId).resolveAction()
 		];
-		return localActions;
 	}
 
 	/**
@@ -37,10 +39,14 @@ export default class ResourceSlideMenuService {
 	 * @param roleId: Logged-in User RoleID
 	 */
 	getNodeActions(selected: IEaasiResource[], roleId: number) {
-		return [
-			new SaveToMyNodeActionResolver(selected, roleId).resolveAction(),
-			new PublishToNetworkActionResolver(selected, roleId).resolveAction(),
-			new DeleteResourceActionResolver(selected, roleId).resolveAction(),
-		];
+		let nodeActions = [];
+		if ([userRoles.ADMIN, userRoles.MANAGER].includes(roleId)) {
+			nodeActions.push(
+				new SaveToMyNodeActionResolver(selected, roleId).resolveAction(),
+				new PublishToNetworkActionResolver(selected, roleId).resolveAction(),
+				new DeleteResourceActionResolver(selected, roleId).resolveAction()
+			);
+		}
+		return nodeActions;
 	}
 }

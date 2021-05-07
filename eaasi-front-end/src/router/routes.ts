@@ -4,7 +4,6 @@ import AccessInterfaceScreen from '@/components/access-interface/AccessInterface
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
 import InstallAndUpdateManagement from '@/components/admin/install-and-update/InstallAndUpdateManagement.vue';
 import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
-import NodePreferenceManagement from '@/components/admin/node-preferences/NodePreferenceManagement.vue';
 import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';
 import TroubleshootingSection from '@/components/admin/troubleshooting/TroubleshootingSection.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
@@ -14,7 +13,6 @@ import EmulationProjectDetails from '@/components/emulation-project/EmulationPro
 import EmulationProjectOptions from '@/components/emulation-project/EmulationProjectOptions.vue';
 import EmulationProjectScreen from '@/components/emulation-project/EmulationProjectScreen.vue';
 import ImportScreen from '@/components/import/ImportResourceScreen.vue';
-import LoginScreen from '@/components/login/LoginScreen.vue';
 import ExploreResourcesScreen from '@/components/resources/explore/ExploreResourcesScreen.vue';
 import MyResourcesScreen from '@/components/resources/my-resources/MyResourcesScreen.vue';
 import ContentDetailsScreen from '@/components/resources/view-details/content/ContentDetailsScreen.vue';
@@ -26,19 +24,17 @@ import { ROUTES } from './routes.const';
 export default [
 	{
 		path: ROUTES.INDEX,
-		redirect: {
-			path: ROUTES.DASHBOARD
-		},
+		redirect: ROUTES.DASHBOARD,
 	},
 
-	{
+	/*{
 		path: ROUTES.LOGIN,
 		name: 'Login',
 		component: LoginScreen,
 		meta: {
 			allowGuest: true
 		}
-	},
+	},*/
 
 	{
 		path: ROUTES.DASHBOARD,
@@ -51,7 +47,7 @@ export default [
 	{
 		path: ROUTES.MANAGE_NODE.ROOT,
 		name: 'Admin',
-		component: EmulatorManagement
+		component: RunningTaskManagement
 	},
 	{
 		path: ROUTES.MANAGE_NODE.USERS,
@@ -72,11 +68,6 @@ export default [
 		path: ROUTES.MANAGE_NODE.METADATA_SYNC,
 		name: 'Metadata Sync',
 		component: MetadataSyncAdmin
-	},
-	{
-		path: ROUTES.MANAGE_NODE.NODE_PREFERENCES,
-		name: 'Node Preferences',
-		component: NodePreferenceManagement
 	},
 	{
 		path: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,

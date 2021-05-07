@@ -38,14 +38,6 @@ describe('UserAdminService', () => {
 		}
 	});
 
-	it('on getUser calls getByPk on User Service with id', () => {
-		let mockUserService = new MockCrudService();
-		let mockRoleService = new MockCrudService();
-		let sut = new UserAdminService(mockUserService, mockRoleService);
-		sut.getUser(-12345);
-		expect(mockUserService.getByPkCalledWith).toStrictEqual(-12345);
-	});
-
 	it('on getUser throws if getByPk result hasError', async () => {
 		let mockUserService = new MockCrudService();
 		let mockRoleService = new MockCrudService();
@@ -66,14 +58,6 @@ describe('UserAdminService', () => {
 		} catch(e) {
 			expect(e).toBe('Cannot find user with id: FORCE_NULL');
 		}
-	});
-
-	it('on getUserByEmail calls getOneWhere given email', () => {
-		let mockUserService = new MockCrudService();
-		let mockRoleService = new MockCrudService();
-		let sut = new UserAdminService(mockUserService, mockRoleService);
-		sut.getUserByEmail('jane@yale.example.edu');
-		expect(mockUserService.getOneWhereCalledWith).toStrictEqual({email: 'jane@yale.example.edu'});
 	});
 
 	it('on getUserByEmail throws given error from getOneWhere', async () => {

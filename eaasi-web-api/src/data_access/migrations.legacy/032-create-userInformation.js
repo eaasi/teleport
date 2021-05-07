@@ -8,10 +8,9 @@ module.exports = {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			id: {
-				type: Sq.INTEGER,
+				type: Sq.STRING(50),
 				allowNull: false,
-				primaryKey: true,
-				autoIncrement: true
+				primaryKey: true
 			},
 			username: {
 				type: Sq.STRING(64),

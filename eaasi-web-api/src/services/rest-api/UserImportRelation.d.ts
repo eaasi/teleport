@@ -1,13 +1,13 @@
 import { ResourceType } from '@/types/resource/Resource';
 
 export interface IUserImportRelationRequest {
-	userId: number;
+	userId: string;
 	resourceId: string;
 	resourceType: ResourceType;
 }
 
 export interface IUserImportedResource {
 	id?: number;
-	userId: number;
+	userId: string;
 	eaasiId: string;
 }

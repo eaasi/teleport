@@ -4,6 +4,7 @@ export interface IEaasiTaskSuccessor {
 	emulationProjectId: number;
 	envId: string;
 	type: SuccessorType;
+	userId?: string;
 }
 
 export type SuccessorType = 'add-after-replication';

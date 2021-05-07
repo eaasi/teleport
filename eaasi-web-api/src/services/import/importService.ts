@@ -2,6 +2,7 @@ import { ICreateEnvironmentPayload, IImageImportPayload, IImportObjectRequest, I
 import { IEnvironmentImportSnapshot } from '@/types/resource/Import';
 import { IComponentRequest } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
+import { objectArchiveTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ComponentService from '../resource/ComponentService';
@@ -34,39 +35,41 @@ export default class ImportService extends BaseService {
 	/**
 	 * Posts Resource Import Data to trigger import task from a URL
 	 */
-	async importImage(payload: IImageImportPayload): Promise<IEmilTask> {
-		return await this._environmentService.importImage(payload);
+	async importImage(payload: IImageImportPayload, token: string): Promise<IEmilTask> {
+		return await this._environmentService.importImage(payload, token);
 	}
 
 	/**
 	 * Posts to components endpoint
 	 * @param payload IComponentRequest
+	 * @param token - user JWT token
 	 */
-	async postComponents(payload: IComponentRequest) {
-		return await this._componentService.postComponent(payload);
+	async postComponents(payload: IComponentRequest, token: string) {
+		return await this._componentService.postComponent(payload, token);
 	}
 
 	/**
 	 * Posts Snapshot data to trigger saving an imported resource
 	 */
-	async snapshotImage(snapshot: IEnvironmentImportSnapshot) {
-		return await this._environmentService.snapshotImage(snapshot);
+	async snapshotImage(snapshot: IEnvironmentImportSnapshot, token: string) {
+		return await this._environmentService.snapshotImage(snapshot, token);
 	}
 
 	/**
 	 * Posts payload to create and environment
 	 * @param payload
+	 * @param token - user JWT token
 	 */
-	async createEnvironment(payload: ICreateEnvironmentPayload) {
-		return await this._environmentService.createEnvironment(payload);
+	async createEnvironment(payload: ICreateEnvironmentPayload, token: string) {
+		return await this._environmentService.createEnvironment(payload, token);
 	}
 
 	/**
 	 * Posts Object Import Request data
 	 * @param req : Request with req.body
 	 */
-	async importResourceFromFile({ files, label }: IImportObjectRequest): Promise<IEmilTask> {
-		return await this._contentService.importObject({ files, label })
+	async importResourceFromFile({ files, label }: IImportObjectRequest, token: string): Promise<IEmilTask> {
+		return await this._contentService.importObject({ files, label }, objectArchiveTypes.LOCAL, token)
 	}
 
 	/***

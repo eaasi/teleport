@@ -3,11 +3,11 @@ import { make } from 'vuex-pathify';
 import config from '@/config';
 import User from '@/models/admin/User';
 import _authService from '@/services/AuthService';
+import _adminService from '@/services/AdminService';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import { IAppError } from '@/types/AppError';
-import { ILoginRequest } from '@/types/Auth';
-import { IEaasiUser } from 'eaasi-admin';
-import { IEaasiTab } from 'eaasi-nav';
+import { KeycloakRole } from '@/types/Keycloak';
+import { IKeycloakGroup } from 'eaasi-admin';
 
 /*============================================================
  == State
@@ -28,6 +28,7 @@ export class GlobalState {
 	showLoader: boolean = false;
 	driveId: number;
 	permissions: PermissionResolver;
+	group: IKeycloakGroup;
 }
 
 const state = new GlobalState();
@@ -46,10 +47,14 @@ mutations['SET_PERMISSIONS'] = function(state: GlobalState, roleId: number) {
 	state.permissions = new PermissionResolver(roleId);
 };
 
-mutations['SET_LOGGED_IN_USER'] = function(state: GlobalState, user: IEaasiUser) {
-	const loggedInUser = new User(user);
+mutations['SET_LOGGED_IN_USER'] = function(state: GlobalState, user: User) {
+	const loggedInUser = user;
 	state.loggedInUser = loggedInUser;
 	state.permissions = new PermissionResolver(loggedInUser.roleId);
+};
+
+mutations['SET_GROUP'] = function(state: GlobalState, group: IKeycloakGroup) {
+	state.group = group;
 };
 
 /*============================================================
@@ -62,15 +67,8 @@ const actions = {
 	============================================*/
 
 	async logout(): Promise<void> {
-		if (config.SAML_ENABLED) {
-			const { redirectTo } = await _authService.logout();
-			Cookies.remove(config.JWT_NAME, { path: '/'});
-			window.location.assign(redirectTo);
-		} else {
-			await _authService.logout();
-			Cookies.remove(config.JWT_NAME, { path: '/'});
-			window.location.reload();
-		}
+		(window as any).keycloak.logout();
+		Cookies.remove(config.JWT_NAME, { path: '/' });
   	},
 
 	async initSession({ commit, state }): Promise<boolean> {
@@ -80,13 +78,21 @@ const actions = {
 		let user = await _authService.getUserData();
 		if (!user) return false;
 		commit('SET_LOGGED_IN_USER', new User(user));
+		if (user.orgname) {
+			commit('SET_NODE_NAME', user.orgname);
+		}
+		if (user.roles.includes(KeycloakRole.EaasAdmin) && user.tid) {
+			let group = await _adminService.getGroupInfo(user.tid);
+			if (group) {
+				commit('SET_GROUP', group);
+			}
+		}
 		return true;
 	},
 
-	async login({ dispatch }, loginRequest: ILoginRequest): Promise<boolean> {
-		const success = await _authService.login(loginRequest);
-		if (success) dispatch('initSession');
-		return success;
+	login({ dispatch }, jwt: string): void {
+		Cookies.set(config.JWT_NAME, jwt, { path: '/' });
+		dispatch('initSession');
 	},
 
 };

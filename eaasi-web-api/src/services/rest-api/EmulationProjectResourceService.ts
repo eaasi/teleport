@@ -20,8 +20,9 @@ export default class EmulationProjectResourceService extends CrudService<Emulati
 	/**
 	 * Gets emil resources using emulationProjectResource map table
 	 * @param emulationProjectId
+	 * @param token - user JWT token
 	 */
-	async getEaasiResources(emulationProjectId: number): Promise<IEaasiResource[]> {
+	async getEaasiResources(emulationProjectId: number, token: string): Promise<IEaasiResource[]> {
 		const response = await this.getAllWhere({ emulationProjectId });
 		if (response.hasError && response.error) {
 			throw(response.error);
@@ -30,7 +31,7 @@ export default class EmulationProjectResourceService extends CrudService<Emulati
 			return [];
 		};
 		const emulationProjectResources = response.result.map(res => res.get({ plain: true })) as IEmulationProjectResource[];
-		const resources = await this._resourceSvc.getAllResources();
+		const resources = await this._resourceSvc.getAllResources(token);
 		if (!resources || !resources.length) {
 			return [];
 		};

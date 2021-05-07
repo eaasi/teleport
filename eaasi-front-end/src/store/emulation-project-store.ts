@@ -65,8 +65,8 @@ const actions = {
 	/* Project
 	============================================*/
 
-	async loadProject({ commit, dispatch }) {
-		let project = await _projectService.getProject();
+	async loadProject({ commit, dispatch, rootState }) {
+		let project = await _projectService.getProject(rootState.loggedInUser.id);
 		if(!project) return;
 		commit('SET_PROJECT', project);
 		return await dispatch('loadProjectResources', project.id);
@@ -135,7 +135,8 @@ const actions = {
 		return true;
 	},
 
-	async addTaskSuccessor(_, payload): Promise<IEaasiTaskSuccessor> {
+	async addTaskSuccessor({ rootState }, payload): Promise<IEaasiTaskSuccessor> {
+		payload.userId = rootState.loggedInUser.id;
 		return await _projectService.addTaskSuccessor(payload);
 	}
 

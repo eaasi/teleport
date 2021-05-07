@@ -2,6 +2,8 @@
  == Constants
 /============================================================*/
 
+import { EDITION_TYPES } from '@/utils/constants';
+
 export default {
 	BASE_URL: process.env.VUE_APP_BASE_URL,
 	SERVICE_URL: process.env.VUE_APP_SERVICE_URL,
@@ -14,5 +16,12 @@ export default {
 	TIME_OUT_DURATION: Number(process.env.VUE_APP_TIME_OUT_DURATION) || 60000,
 	SAML_ENABLED: process.env.VUE_APP_SAML_ENABLED == 'true' || process.env.VUE_APP_SAML_ENABLED == 'True',
 	APP_VERSION: '1.10.0',
-	KEYBOARD_SETTINGS_NAME: 'kbLayoutPrefs'
+	KEYBOARD_SETTINGS_NAME: 'kbLayoutPrefs',
+	EDITION_TYPE: process.env.VUE_APP_EDITION_TYPE || EDITION_TYPES.STANDALONE,
+	KEYCLOAK_URL: process.env.VUE_APP_KEYCLOAK_URL,
+	KEYCLOAK_REALM: process.env.VUE_APP_KEYCLOAK_REALM,
+	KEYCLOAK_CLIENT_ID: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
+	KEYCLOAK_CLIENT_SCOPE: process.env.VUE_APP_KEYCLOAK_CLIENT_SCOPE,
+	KEYCLOAK_ON_LOGIN: 'login-required',
+	KEYCLOAK_FLOW: 'implicit'
 };

@@ -25,8 +25,7 @@ import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import eventBus from '@/utils/event-bus';
 import events from '@/config/events';
-import { generateNotificationError, generateNotificationWarning } from './helpers/NotificationHelper';
-import { ROUTES } from './router/routes.const';
+import { generateNotificationWarning } from './helpers/NotificationHelper';
 
 @Component({
 	name: 'App',
@@ -78,7 +77,9 @@ export default class App extends Vue {
 			)
 		);
 
-		eventBus.$on(events.ACCESS_DENIED, () => this.$router.push(ROUTES.ACCESS_DENIED));
+		eventBus.$on(events.UNAUTHORIZED_ERROR, () => {
+			this.$store.dispatch('logout');
+		});
 
 	}
 

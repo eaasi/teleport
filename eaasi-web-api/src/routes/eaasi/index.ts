@@ -1,15 +1,14 @@
 import express from 'express';
-import passport from 'passport';
+import { verifyToken } from '@/middleware/auth-middleware';
 
 const router = express.Router();
-const jwtAuth = passport.authenticate('jwt', { session: false });
 
-router.use('/admin', jwtAuth, require('./admin'));
+router.use('/admin', verifyToken, require('./admin'));
 router.use('/auth', require('./auth'));
 router.use('/error-report', require('./logger'));
 router.use('/blog', require('./blog'));
-router.use('/resource', jwtAuth, require('./resource'));
-router.use('/import', jwtAuth, require('./import'));
-router.use('/emulation-project', jwtAuth, require('./emulation-project'));
+router.use('/resource', verifyToken, require('./resource'));
+router.use('/import', verifyToken, require('./import'));
+router.use('/emulation-project', verifyToken, require('./emulation-project'));
 
 module.exports = router;

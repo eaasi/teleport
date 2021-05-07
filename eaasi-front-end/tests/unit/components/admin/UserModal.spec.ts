@@ -7,10 +7,12 @@ import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import { generateFakeUsers } from '../../generators';
 import { makeAdminStoreState } from '../../store-helpers';
+import GlobalComponents from '@/components/global';
 
 const localVue = createLocalVue();
 
 localVue.use(Vuex);
+localVue.use(GlobalComponents);
 
 describe('UserModal.vue', () => {
 	let store;
@@ -23,6 +25,9 @@ describe('UserModal.vue', () => {
 				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore
+			},
+			state: {
+				loggedInUser: {'id': 123}
 			},
 			plugins: [pathify.plugin]
 		});

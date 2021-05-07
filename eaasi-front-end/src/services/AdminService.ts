@@ -8,6 +8,8 @@ import { ITaskState } from '@/types/Task';
 import { IEaasiRole, IEmulator, IKeyboardSettings } from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import BaseHttpService from './BaseHttpService';
+import eventBus from '@/utils/event-bus';
+import { generateNotificationError } from '@/helpers/NotificationHelper';
 
 class AdminService extends BaseHttpService {
 
@@ -47,31 +49,45 @@ class AdminService extends BaseHttpService {
 	/* Users
 	============================================*/
 
-	async getUsers(query: IEaasiSearchQuery): Promise<IEaasiSearchResponse<User>> {
+	async getUsers(query: IEaasiSearchQuery, group: string): Promise<IEaasiSearchResponse<User>> {
 		let url = this.createQueryUrl('/admin/users/list', query);
+		url += `&groupId=${group}`;
 		let res = await this.get<IEaasiSearchResponse<User>>(url);
 		if (!res.ok) return null;
 		return res.result;
 	}
 
-	async saveUser(user: User): Promise<boolean> {
-		let res = await this.post('/admin/users/save', { user, isNewPasswordRequired: true });
-		return res.ok;
+	async saveUser(user: User, groupId: string): Promise<string> {
+		let res = await this.post<any>(`/admin/users/create?groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
+		if (!res.ok) {
+			const error = await res.json();
+			eventBus.$emit('notification:show', generateNotificationError(error.message));
+		}
+		return res.result.password;
 	}
 
-	async saveExistingUser(user: User): Promise<boolean> {
-		let res = await this.post('/admin/users/save', { user, isNewPasswordRequired: false });
-		return res.ok;
+	async saveExistingUser(user: User, roleUpdated: boolean, groupId: string): Promise<any> {
+		let res = await this.post(`/admin/users/update?userId=${user.id}&roleUpdated=${roleUpdated}&groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
+		if (!res.ok) {
+			return await res.json();
+		}
+		return true;
 	}
 
-	async deleteUser(id: number): Promise<boolean> {
-		let res = await this.post(`/admin/users/delete?id=${id}`, {});
-		return res.ok;
+	async deleteUser(id: string, groupId: string): Promise<any> {
+		let res = await this.post(`/admin/users/delete?userId=${id}&groupId=${groupId}`, {}, {suppressErrors: true});
+		if (!res.ok) {
+			return await res.json();
+		}
+		return true;
 	}
 
-	async resetUserPassword(email: string): Promise<boolean> {
-		let res = await this.post<any>('/admin/users/reset-password', { email });
-		return res.ok && res.result;
+	async resetUserPassword(id: string, email: string, groupId: string): Promise<any> {
+		let res = await this.post<any>(`/admin/users/reset-password?userId=${id}&groupId=${groupId}`, { email }, {suppressErrors: true});
+		if (!res.ok) {
+			return await res.json();
+		}
+		return res.result.password;
 	}
 
 	/* User Roles
@@ -147,6 +163,12 @@ class AdminService extends BaseHttpService {
 
 	async getApiKey() {
 		const response = await this.get<any>('/admin/api-key');
+		if (!response.ok) return null;
+		return response.result;
+	}
+
+	async getGroupInfo(name: string) {
+		const response = await this.get<any>(`/admin/groups/${name}`);
 		if (!response.ok) return null;
 		return response.result;
 	}

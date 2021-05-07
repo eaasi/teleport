@@ -3,8 +3,8 @@
 		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Node Management</h2>
 		<admin-menu-item v-for="i in menuItems" :key="i.route" :item="i" />
-		<div class="menu-divider"></div>
-		<h2 class="admin-menu-heading">Node User Administration</h2>
+		<div class="menu-divider" v-if="isUserMenuViewable"></div>
+		<h2 class="admin-menu-heading" v-if="isUserMenuViewable">Node User Administration</h2>
 		<admin-menu-item v-for="i in userMenuItems" :key="i.route" :item="i" />
 		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Application Version</h2>
@@ -22,6 +22,8 @@ import { IMenuItem } from 'eaasi-nav';
 import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';
 import { ROUTES } from '../../router/routes.const';
+import config from '@/config';
+import { EDITION_TYPES } from '@/utils/constants';
 
 @Component({
 	name: 'AdminMenu',
@@ -45,52 +47,74 @@ export default class AdminMenu extends Vue {
 		return this.permit.allowsManageNodeUsers();
 	};
 
-	menuItems: IMenuItem[] = [
-		{
-			icon: 'server',
-			label: 'Emulators',
-			route: ROUTES.MANAGE_NODE.EMULATORS
-		},
-		{
-			icon: 'sync-alt',
-			label: 'Endpoints / Metadata Sync',
-			route: ROUTES.MANAGE_NODE.METADATA_SYNC
-		},
-		{
-			icon: 'tasks',
-			label: 'Running Tasks',
-			route: ROUTES.MANAGE_NODE.RUNNING_TASKS
-		},
-		{
-			label: 'Node Preferences',
-			route: ROUTES.MANAGE_NODE.NODE_PREFERENCES,
-			icon: 'edit'
-		},
-		{
-			label: 'Install & Updates',
-			route: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
-			icon: 'arrows-alt'
-		},
-		{
-			label: 'Troubleshooting',
-			route: ROUTES.MANAGE_NODE.TROUBLESHOOTING,
-			icon: 'wrench'
-		},
-	];
+	get isUserMenuViewable(): boolean {
+		return this.permit.allowsUserManageNodeItems();
+	}
 
-	userMenuItems: IMenuItem[] = [
-		{
-			icon: 'user',
-			label: 'Create New User',
-			route: '',
-			onClick: () => this.addUser()
-		},
-		{
-			icon: 'users',
-			label: 'Manage Users',
-			route: ROUTES.MANAGE_NODE.USERS
-		},
-	];
+	get menuItems(): IMenuItem[] {
+		let menuItems = [];
+		if (this.permit.allowsManageNodeItems() && config.EDITION_TYPE == EDITION_TYPES.STANDALONE) {
+			menuItems.push(
+				{
+					icon: 'server',
+					label: 'Emulators',
+					route: ROUTES.MANAGE_NODE.EMULATORS
+				},
+				{
+					icon: 'sync-alt',
+					label: 'Endpoints / Metadata Sync',
+					route: ROUTES.MANAGE_NODE.METADATA_SYNC
+				}
+			);
+		}
+		menuItems.push(
+			{
+				icon: 'tasks',
+				label: 'Running Tasks',
+				route: ROUTES.MANAGE_NODE.RUNNING_TASKS
+			}
+		);
+		if (this.permit.allowsManageNodeItems() && config.EDITION_TYPE == EDITION_TYPES.STANDALONE) {
+			menuItems.push(
+				{
+					label: 'Install & Updates',
+					route: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
+					icon: 'arrows'
+				}
+			);
+		}
+		menuItems.push(
+			{
+				label: 'Troubleshooting',
+				route: ROUTES.MANAGE_NODE.TROUBLESHOOTING,
+				icon: 'wrench'
+			}
+		);
+
+		return menuItems;
+	}
+
+
+	get userMenuItems(): IMenuItem[] {
+		let userMenuItems = [];
+		if (this.permit.allowsUserManageNodeItems()) {
+			userMenuItems.push(
+				{
+					icon: 'user',
+					label: 'Create New User',
+					route: '',
+					onClick: () => this.addUser()
+				},
+				{
+					icon: 'users',
+					label: 'Manage Users',
+					route: ROUTES.MANAGE_NODE.USERS
+				}
+			);
+		}
+		return userMenuItems;
+	}
+
 
 	/* Computed
 	============================================*/

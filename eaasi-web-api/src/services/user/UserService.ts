@@ -1,7 +1,7 @@
-import { EaasiUser } from '@/data_access/models/app/EaasiUser';
+//import { EaasiUser } from '@/data_access/models/app/EaasiUser';
 import BaseService from '@/services/base/BaseService';
-import CrudService from '@/services/base/CrudService';
-import ICrudService from '@/services/interfaces/ICrudService';
+//import CrudService from '@/services/base/CrudService';
+//import ICrudService from '@/services/interfaces/ICrudService';
 
 
 /**
@@ -9,21 +9,21 @@ import ICrudService from '@/services/interfaces/ICrudService';
  */
 export default class UserService extends BaseService {
 
-	readonly _userCrudService: ICrudService<EaasiUser>;
+	//readonly _userCrudService: ICrudService<EaasiUser>;
 
 	constructor(
-		userCrudService: ICrudService<EaasiUser> = new CrudService<EaasiUser>(EaasiUser),
+		//userCrudService: ICrudService<EaasiUser> = new CrudService<EaasiUser>(EaasiUser),
 	) {
 		super();
-		this._userCrudService = userCrudService;
+		//this._userCrudService = userCrudService;
 	}
     
 	/**
 	 * Gets a User by Email address
 	 * @param email: string email address
 	 */
-	async getUserByEmail(email: string): Promise<EaasiUser> {
-		let result = await this._userCrudService.getOneWhere({email});
+	async getUserByEmail(email: string): Promise<void> {
+		/*let result = await this._userCrudService.getOneWhere({email});
 
 		if (result.hasError) {
 			throw result.error;
@@ -33,15 +33,15 @@ export default class UserService extends BaseService {
 			throw `Cannot find user with email: ${email}`
 		}
 
-		return result.result;
+		return result.result;*/
 	}
     
 	/**
 	 * Gets a User by Id
 	 * @param id: number User PK
 	 */
-	async getUser(id: number) {
-		let result = await this._userCrudService.getByPk(id);
+	async getUser(id: string) {
+		/*let result = await this._userCrudService.getByPk(id);
 
 		if (result.hasError) {
 			throw result.error;
@@ -51,11 +51,11 @@ export default class UserService extends BaseService {
 			throw `Cannot find user with id: ${id}`
 		}
 
-		return result.result;
+		return result.result;*/
 	}
 
-	async recordLastLogin(userId: number) {
-		let result = await this._userCrudService.update(userId, { lastLogin: new Date() });
+	async recordLastLogin(userId: string) {
+		/*let result = await this._userCrudService.update(userId, { lastLogin: new Date() });
 
 		if (result.hasError) {
 			throw result.error;
@@ -63,7 +63,7 @@ export default class UserService extends BaseService {
 
 		if (result.result === null) {
 			throw `Cannot find user with id: ${userId}`
-		}
+		}*/
 	}
 
 }

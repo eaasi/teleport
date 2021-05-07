@@ -2,7 +2,7 @@ export * from './ApplicationLog';
 export * from './Bookmark';
 export * from './EaasiRole';
 export * from './EaasiTask';
-export * from './EaasiUser';
+//export * from './EaasiUser';
 export * from './EmulationProject';
 export * from './EmulationProjectResource';
 export * from './Emulator';

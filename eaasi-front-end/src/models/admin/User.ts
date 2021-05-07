@@ -1,8 +1,9 @@
-import { IEaasiUser } from 'eaasi-admin';
-import { userRoles } from '@/utils/constants';
+import {IEaasiUser, IKeycloakUserInfo} from 'eaasi-admin';
+import {ROLES_MAPPER, userRoles} from '@/utils/constants';
+import {IKeycloakUser} from '@/types/Keycloak';
 
 export default class User implements IEaasiUser {
-	id: number;
+	id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
@@ -11,23 +12,74 @@ export default class User implements IEaasiUser {
 	createdAt: Date;
 	updatedAt: Date;
 	lastLogin: Date;
+	groupName: string;
+	orgName: string;
 
-	constructor(user: IEaasiUser = null) {
+	constructor(user: IKeycloakUser | IKeycloakUserInfo = null) {
 		if (user) {
-			this.id = user.id;
-			this.email = user.email;
-			this.firstName = user.firstName;
-			this.lastName = user.lastName;
-			this.username = user.username;
-			this.roleId = user.roleId;
-			this.createdAt = user.createdAt;
-			this.updatedAt = user.updatedAt;
-			this.lastLogin = user.lastLogin;
+			if (this._isKeycloakUser(user)) {
+				this.id = user.sub;
+				this.email = user.email;
+				this.firstName = user.given_name;
+				this.lastName = user.family_name;
+				this.username = user.preferred_username;
+				this.roleId = user.roles.length > 0 ? ROLES_MAPPER[user.roles[0]] : userRoles.CONTRIBUTOR;
+				this.groupName = user.tid;
+				this.orgName = user.orgname;
+			} else {
+				this.id = user.id;
+				this.email = user.email;
+				this.firstName = user.firstName;
+				this.lastName = user.lastName;
+				this.username = user.username;
+				this.roleId = user.attributes && user.attributes.role && user.attributes.role.length > 0 ?
+					ROLES_MAPPER[user.attributes.role[0]] : userRoles.CONTRIBUTOR;
+				this.groupName = user.tid;
+				this.orgName = user.orgname;
+			}
 		}
 	}
 
 	get userHasEditPermissions() {
-		return this.roleId === userRoles.ADMIN 
-			|| this.roleId === userRoles.MANAGER;
+		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
+			.includes(this.roleId);
+	}
+
+	copy() {
+		let newUser = new User();
+		newUser.id = this.id;
+		newUser.email = this.email;
+		newUser.firstName = this.firstName;
+		newUser.lastName = this.lastName;
+		newUser.username = this.username;
+		newUser.roleId = this.roleId;
+		newUser.groupName = this.groupName;
+		newUser.orgName = this.orgName;
+		return newUser;
+	}
+
+	toKeycloakUserInfo(): IKeycloakUserInfo  {
+		let user: IKeycloakUserInfo =  {
+			id: this.id,
+			username: this.username,
+			firstName: this.firstName,
+			lastName: this.lastName,
+			email: this.email,
+			attributes: {
+				role: [Object.keys(ROLES_MAPPER).find(role => ROLES_MAPPER[role] === this.roleId)]
+			},
+			tid: this.groupName,
+			orgname: this.orgName,
+		};
+
+		if (this.roleId === userRoles.ADMIN) {
+			user.realmRoles = ['admin'];
+		}
+
+		return user;
+	}
+
+	_isKeycloakUser(obj: any): obj is IKeycloakUser {
+		return (obj && obj.sub);
 	}
 }

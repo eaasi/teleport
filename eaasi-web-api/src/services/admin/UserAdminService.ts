@@ -46,7 +46,7 @@ export default class UserAdminService extends UserService {
 	 * @param id: number User PK
 	 * @param user: User instance
 	 */
-	async saveUser(id: number, user: object) {
+	async saveUser(id: string, user: object) {
 		let result: ICrudServiceResult<EaasiUser>;
 
 		if (id) {
@@ -66,7 +66,7 @@ export default class UserAdminService extends UserService {
 	 * Sets the a last login date to now for the EaasiUser with the provided userId
 	 * @param userId: number User PK
 	 */
-	async setUserLastLogin(userId: number) {
+	async setUserLastLogin(userId: string) {
 		let now = Date.now();
 		if (await this._userCrudService.getByPk(userId)) {
 			return await this._userCrudService.update(userId, {lastLogin: now});

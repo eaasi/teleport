@@ -10,9 +10,9 @@ export default class EmilAdminService {
 		this._svc = svc;
 	}
 
-	async getApiKey() {
-		const res = await this._svc.get('apikey');
+	async getApiKey(token?: string) {
+		const res = await this._svc.get('apikey', token);
 		return  await res.json();
 	}
-	
+
 }

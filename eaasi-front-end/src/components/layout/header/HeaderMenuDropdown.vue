@@ -1,5 +1,5 @@
 <template>
-	<div class="header-menu-dropdown flex-row" @mouseleave="isDropDownVisible = false">
+	<div class="header-menu-dropdown flex-row" @mouseleave="isDropDownVisible = false" v-bind="$attrs">
 		<div class="hmd-user" @click="isDropDownVisible = !isDropDownVisible">
 			<span>{{ label }}</span>
 			<span v-if="icon" :class="`icon fas fa-fw fa-${icon}`"></span>
@@ -7,7 +7,11 @@
 
 		<transition name="fade">
 			<ul class="hmd-list" v-show="isDropDownVisible">
-				<li v-if="allowChangePassword" class="hmd-list-item flex flex-row justify-between" @click="isChangePasswordModalVisible = true">
+				<li class="hmd-list-item flex flex-row justify-between" @click="isNodePreferencesModalVisible = true">
+					<span>Node Preferences</span>
+					<span class="icon fas fa-fw fa-edit"></span>
+				</li>
+				<li v-if="allowChangePassword" class="hmd-list-item flex flex-row justify-between" @click="changePassword">
 					<span>Change Password</span>
 					<span class="icon fas fa-fw fa-key"></span>
 				</li>
@@ -21,24 +25,27 @@
 			v-if="isChangePasswordModalVisible"
 			@close="isChangePasswordModalVisible = false"
 		/>
+		<node-preferences-modal
+			v-if="isNodePreferencesModalVisible"
+			@close="isNodePreferencesModalVisible = false"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import authService from '@/services/AuthService';
 import { Get } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
-import { generateNotificationSuccess, generateNotificationError } from '../../../helpers/NotificationHelper';
-import eventBus from '../../../utils/event-bus';
 import config from '../../../config';
 import ChangePasswordModal from './ChangePasswordModal.vue';
+import NodePreferencesModal from './NodePreferencesModal.vue';
 
 @Component({
 	name: 'HeaderMenuDropDown',
 	components: {
-		ChangePasswordModal
+		ChangePasswordModal,
+		NodePreferencesModal
 	}
 })
 export default class HeaderMenuDropdown extends Vue {
@@ -70,6 +77,7 @@ export default class HeaderMenuDropdown extends Vue {
 	isDropDownVisible: boolean = false;
 	isChangePasswordModalVisible: boolean = false;
 	allowChangePassword: boolean = !config.SAML_ENABLED;
+	isNodePreferencesModalVisible: boolean = false;
 
 	/* Methods
 	============================================*/
@@ -78,6 +86,9 @@ export default class HeaderMenuDropdown extends Vue {
 		await this.$store.dispatch('logout');
 	}
 
+	changePassword() {
+		window.location.href = (window as any).keycloak.createAccountUrl() + '#/security/signingin';
+	}
 }
 
 </script>

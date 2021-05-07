@@ -3,11 +3,11 @@ import { authRequestLimit } from '@/middleware/request-limit';
 import { IAuthorizedRequest, IChangePasswordRequest } from '@/types/auth/Auth';
 import express from 'express';
 import passport from 'passport';
+import { verifyToken } from '@/middleware/auth-middleware';
 
 const router = express.Router();
 const controller = new AuthController();
 const samlAuth = passport.authenticate('saml', {session: false});
-const jwtAuth = passport.authenticate('jwt', {session: false});
 
 /**
  * @api {get} auth/login Log In
@@ -43,7 +43,7 @@ router.post('/callback', samlAuth, controller.callback);
  * @apiPermission Any
  * @apiDescription Authorized route for changing a user's password
  */
-router.post('/change-password', jwtAuth, (req: IAuthorizedRequest, res) => controller.changePassword(req as IChangePasswordRequest, res));
+router.post('/change-password', verifyToken, (req: IAuthorizedRequest, res) => controller.changePassword(req as IChangePasswordRequest, res));
 
 /**
  * @api {get} auth/user Get User Data
@@ -74,7 +74,7 @@ router.post('/change-password', jwtAuth, (req: IAuthorizedRequest, res) => contr
  *    "exp":1571496422
  *    }
  */
-router.get('/user', jwtAuth, (req: IAuthorizedRequest, res) => controller.user(req, res));
+router.get('/user', verifyToken, (req: IAuthorizedRequest, res) => controller.user(req, res));
 
 /**
  * @api {delete} auth/logout Log a User out
@@ -82,7 +82,7 @@ router.get('/user', jwtAuth, (req: IAuthorizedRequest, res) => controller.user(r
  * @apiGroup Auth
  * @apiPermission Logged in User only
  */
-router.delete('/logout', jwtAuth, controller.logout);
+router.delete('/logout', verifyToken, controller.logout);
 
 /**
  * @api {post} auth/refresh Refresh Auth Token
@@ -90,7 +90,7 @@ router.delete('/logout', jwtAuth, controller.logout);
  * @apiGroup Auth
  * @apiPermission
  */
-router.post('/refresh', jwtAuth, controller.refresh);
+router.post('/refresh', verifyToken, controller.refresh);
 
 /**
  * @api {post} auth/Shibboleth.sso/Metadata Request Shibboleth.sso Metadata

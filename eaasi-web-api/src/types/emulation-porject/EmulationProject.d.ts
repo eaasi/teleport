@@ -2,8 +2,8 @@ import { ResourceType } from "../resource/Resource";
 
 export interface IEmulationProject {
 	id: number;
-	userId: number;
-	resources: IEmulationProjectResource[]
+	userId: string;
+	resources: IEmulationProjectResource[];
 }
 
 export interface IEmulationProjectResource {
@@ -24,6 +24,6 @@ export interface IEmulatorComponentRequest {
 
 export interface ITempEnvironmentRecord {
 	id?: number;
-	userId: number;
+	userId: string;
 	envId: string;
 }

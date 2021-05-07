@@ -21,7 +21,7 @@ export interface IEaasiTaskSuccessorRequest {
 	taskId: number;
 	emulationProjectId: number;
 	type: SuccessorType;
-	userId: number;
+	userId: string;
 	envId: string;
 }
 
