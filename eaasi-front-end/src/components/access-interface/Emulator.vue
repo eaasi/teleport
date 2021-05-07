@@ -238,7 +238,11 @@
 
 		setupListeners() {
 			let vm = this;
-			vm.client.addEventListener('error',(err) => vm.handleError(err));
+			vm.client.addEventListener('error',(err) => {
+				if (err.detail !== 'STOPPED') {
+					vm.handleError(err);
+				}
+			});
 			window.onbeforeunload = () => ''; // Show generic browser warning
 			window.onunload = () => vm.stopEnvironment();
 			vm.client.onEmulatorStopped = () => {
