@@ -124,7 +124,11 @@
 		changeMedia(changeMediaRequest) {
 			const activeSession = this.client.getActiveSession();
 			if (activeSession) {
-				activeSession.changeMedia(changeMediaRequest);
+				let request = {
+					...changeMediaRequest,
+					driveId: activeSession.getRemovableMediaList()[0].driveIndex
+				};
+				activeSession.changeMedia(request);
 			}
 		}
 

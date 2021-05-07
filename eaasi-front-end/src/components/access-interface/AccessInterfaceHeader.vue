@@ -199,13 +199,13 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 
 	changeMedia(mediaId) {
-		let EaasClient = (window as any).EaasClient || null;
-		const { softwareId, objectId } = this.$route.query;
+		const { softwareId, objectId, archiveId } = this.$route.query;
 		const label = mediaId === 'empty' ? '' : mediaId;
 		const changeMediaRequest = {
 			objectId: softwareId ? softwareId : objectId,
 			label,
-			driveId: this.driveId
+			driveId: this.driveId,
+			archiveId: archiveId
 		};
 		eventBus.$emit('emulator:change-media', changeMediaRequest);
 		this.showMediaOptions = false;

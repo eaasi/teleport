@@ -124,6 +124,7 @@ export interface IEnvironment extends IEaasiResource {
 	objectId?: string;
 	gateway?: any;
 	network?: any;
+	driveId?: any;
 }
 
 export interface IInstalledSoftware {
