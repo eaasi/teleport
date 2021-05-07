@@ -146,6 +146,8 @@ export default class EmulationProjectScreen extends Vue {
 		}
 	}
 
+	/*
+	// FIXME: modifications on an environment are not correct here and should be avoided!
 	private async prepareEmulationProject(env: EmulationProjectEnvironment): Promise<IEnvironment> {
 		if (env.archive === 'public') {
 			return await this.preparePublicEnvironment(env);
@@ -153,6 +155,18 @@ export default class EmulationProjectScreen extends Vue {
 			return await this.preparePrivateEnvironment(env);
 		}
 		throw new Error(this.noRemoteEnvironmentsErrorMessage);
+	}
+	*/
+
+	private async prepareEmulationProject(emuProjectEnv: EmulationProjectEnvironment): Promise<IEnvironment> {
+		// just use selected environment as-is, without modifications
+		const id = emuProjectEnv.envId;
+		const environment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', id);
+		if (!environment) {
+			throw new Error(this.troubleRetrievingErrorMessage);
+		}
+
+		return environment;
 	}
 
 	private buildQuery(envId: string) {
