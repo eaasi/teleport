@@ -124,7 +124,11 @@
 		changeMedia(changeMediaRequest) {
 			const activeSession = this.client.getActiveSession();
 			if (activeSession) {
-				activeSession.changeMedia(changeMediaRequest);
+				let request = {
+					...changeMediaRequest,
+					driveId: activeSession.getRemovableMediaList()[0].driveIndex
+				};
+				activeSession.changeMedia(request);
 			}
 		}
 
@@ -234,7 +238,11 @@
 
 		setupListeners() {
 			let vm = this;
-			vm.client.addEventListener('error',(err) => vm.handleError(err));
+			vm.client.addEventListener('error',(err) => {
+				if (err.detail !== 'STOPPED') {
+					vm.handleError(err);
+				}
+			});
 			window.onbeforeunload = () => ''; // Show generic browser warning
 			window.onunload = () => vm.stopEnvironment();
 			vm.client.onEmulatorStopped = () => {
