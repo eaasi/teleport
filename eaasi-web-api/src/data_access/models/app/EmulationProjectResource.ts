@@ -48,6 +48,12 @@ export class EmulationProjectResource extends Model<EmulationProjectResource> {
 	})
 	resourceType: ResourceType;
 
+	@Column({
+		type: DataTypes.STRING,
+		allowNull: false,
+	})
+	archiveId: string;
+
 	@BelongsTo(() => EmulationProject, 'emulationProjectId')
 	emulationProject: EmulationProject;
 }

@@ -58,6 +58,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { ICreateEnvironmentPayload } from '@/types/Import';
 import { ROUTES } from '@/router/routes.const';
 import { IEnvironment, IEaasiResource } from '@/types/Resource';
+import { getResourceId, getResourceArchiveId } from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import { IEmulatorComponentRequest } from '@/types/Emulation';
@@ -173,8 +174,8 @@ export default class EmulationProjectScreen extends Vue {
 		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
 			? buildAccessInterfaceQuery({
 				envId,
-				archiveId: this.selectedObjects[0].archiveId,
-				objectId: this.selectedObjects[0].id
+				archiveId: getResourceArchiveId(this.selectedObjects[0]),
+				objectId: getResourceId(this.selectedObjects[0])
 			})
 			: buildAccessInterfaceQuery({ envId });
 	}
