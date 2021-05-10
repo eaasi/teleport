@@ -34,6 +34,10 @@ module.exports = {
 				type: Sq.STRING,
 				allowNull: false,
 			},
+			archiveId: {
+				type: Sq.STRING,
+				allowNull: false,
+			},
 		});
 	},
 	down: (queryInterface) => {

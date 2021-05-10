@@ -41,6 +41,11 @@ export function getResourceId(resource: IEaasiResource): string {
 	return resource.id;
 }
 
+export function getResourceArchiveId(resource: IEaasiResource): string {
+	if(resource.resourceType === resourceTypes.ENVIRONMENT) return resource.archive;
+	return resource.archiveId;
+}
+
 export function getResourceTypeTags(resource: IEaasiResource) {
 	if(resource.resourceType === resourceTypes.SOFTWARE) {
 		return [{

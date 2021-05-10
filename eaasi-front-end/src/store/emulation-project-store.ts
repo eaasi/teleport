@@ -1,4 +1,4 @@
-import { filterResourcesByType, getResourceId, removeResourcesByType } from '@/helpers/ResourceHelper';
+import { filterResourcesByType, getResourceId, getResourceArchiveId, removeResourcesByType } from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import _projectService from '@/services/EmulationProjectService';
 import { IEmulationProject } from '@/types/Emulation';
@@ -91,6 +91,7 @@ const actions = {
 		let result = await _projectService.addResources(notInProject.map(r => ({
 			id: undefined,
 			emulationProjectId: state.project.id,
+			archiveId: getResourceArchiveId(r),
 			resourceId: getResourceId(r),
 			resourceType: r.resourceType
 		})));

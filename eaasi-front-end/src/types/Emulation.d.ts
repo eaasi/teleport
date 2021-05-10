@@ -9,6 +9,7 @@ export interface IEmulationProject {
 export interface IEmulationProjectResource {
 	id: number;
 	emulationProjectId: number;
+	archiveId: string;
 	resourceId: string;
 	resourceType: ResourceType
 }

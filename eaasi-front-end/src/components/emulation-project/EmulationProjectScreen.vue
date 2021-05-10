@@ -58,6 +58,7 @@ import { Get, Sync } from 'vuex-pathify';
 import { ICreateEnvironmentPayload } from '@/types/Import';
 import { ROUTES } from '@/router/routes.const';
 import { IEnvironment, IEaasiResource } from '@/types/Resource';
+import { getResourceId, getResourceArchiveId } from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import { IEmulatorComponentRequest } from '@/types/Emulation';
@@ -146,6 +147,8 @@ export default class EmulationProjectScreen extends Vue {
 		}
 	}
 
+	/*
+	// FIXME: modifications on an environment are not correct here and should be avoided!
 	private async prepareEmulationProject(env: EmulationProjectEnvironment): Promise<IEnvironment> {
 		if (env.archive === 'public') {
 			return await this.preparePublicEnvironment(env);
@@ -154,13 +157,25 @@ export default class EmulationProjectScreen extends Vue {
 		}
 		throw new Error(this.noRemoteEnvironmentsErrorMessage);
 	}
+	*/
+
+	private async prepareEmulationProject(emuProjectEnv: EmulationProjectEnvironment): Promise<IEnvironment> {
+		// just use selected environment as-is, without modifications
+		const id = emuProjectEnv.envId;
+		const environment: IEnvironment = await this.$store.dispatch('resource/getEnvironment', id);
+		if (!environment) {
+			throw new Error(this.troubleRetrievingErrorMessage);
+		}
+
+		return environment;
+	}
 
 	private buildQuery(envId: string) {
 		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
 			? buildAccessInterfaceQuery({
 				envId,
-				archiveId: this.selectedObjects[0].archiveId,
-				objectId: this.selectedObjects[0].id
+				archiveId: getResourceArchiveId(this.selectedObjects[0]),
+				objectId: getResourceId(this.selectedObjects[0])
 			})
 			: buildAccessInterfaceQuery({ envId });
 	}
