@@ -67,7 +67,8 @@ const actions = {
 		let object = JSON.parse(importEmulatorTask.object);
 		let emulatorBuilder = new EmulatorBuilder(object.containerUrl, object.metadata);
 		let importResult = await emulatorBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
-		let task = new EaasiTask(importResult.taskId, `Importing emulator: ${object.containerUrl}`);
+		let containerSourceUrl = object.metadata ? object.metadata.containerSourceUrl : null;
+		let task = new EaasiTask(importResult.taskId, `Importing emulator${containerSourceUrl ? ': ' + containerSourceUrl : ''}`);
 		await dispatch('task/addTaskToQueue', task, { root: true });
 	},
 
