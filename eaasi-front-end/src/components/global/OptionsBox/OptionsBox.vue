@@ -6,7 +6,7 @@
 
 		<div class="ob-content">
 			<div class="ob-name text-center">
-				<div :class="`ob-icon far fa-${icon}`" v-if="icon"></div>
+				<div :class="`ob-icon fas fa-${icon}`" v-if="icon"></div>
 				<span v-if="title">{{ title }}</span>
 			</div>
 

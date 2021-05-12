@@ -9,6 +9,7 @@
 	>
 		<div class="emulator-form">
 			<text-input
+				class="em-text-input"
 				label="Emulator Name"
 				v-model="importRequest.urlString"
 				rules="required"
@@ -16,12 +17,14 @@
 			/>
 
 			<text-input
+				class="em-text-input"
 				label="Emulator Tag"
 				v-model="importRequest.tag"
 				placeholder="Enter a tag..."
 			/>
 
 			<text-input
+				class="em-text-input"
 				label="Emulator Alias"
 				v-model="importRequest.alias"
 				placeholder="Enter an alias..."
@@ -60,7 +63,7 @@ export default class EmulatorImportModal extends Vue {
 		let task = await this.$store.dispatch('admin/importEmulator', this.importRequest) as ITaskState;
 		if(!task) return;
 		const taskWithDescription: ITaskState = {
-			...task, 
+			...task,
 			description: `Import Emulator: ${this.importRequest.urlString}`
 		};
 		await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
@@ -88,6 +91,10 @@ export default class EmulatorImportModal extends Vue {
 
 	.card-container {
 		width: 100%;
+	}
+
+	.em-text-input {
+		margin-bottom: 2.4rem;
 	}
 }
 </style>

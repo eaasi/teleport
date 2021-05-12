@@ -1,16 +1,16 @@
 <template>
-	<div 
+	<div
 		:class="[
-			'task-container flex flex-row justify-between', 
+			'task-container flex flex-row justify-between',
 			{ 'in-queue': task.isDone === undefined, 'done': task.isDone, 'error': hasError }
 		]"
 	>
 		<span class="task-desc">{{ descriptionOrDefault }}</span>
-		<span class="erorr-message" v-if="task.message">{{ task.message }}</span>
+		<span class="error-message" v-if="task.message">{{ task.message }}</span>
 		<div style="white-space: nowrap;">
-			<span v-if="hasError" class="far fa-exclamation-triangle"></span>
-			<span v-else-if="task.isDone" class="far fa-check-circle"></span>
-			<span v-else class="far fa-fw fa-circle-notch fa-spin"></span>
+			<span v-if="hasError" class="fas fa-exclamation-triangle"></span>
+			<span v-else-if="task.isDone" class="fas fa-check-circle"></span>
+			<span v-else class="fas fa-fw fa-circle-notch fa-spin"></span>
 			<span class="fas fa-times close-icon" @click="$emit('remove-task', task)"></span>
 		</div>
 	</div>
@@ -50,7 +50,7 @@ export default class TaskCard extends Vue {
 	.task-desc {
 		word-break: break-word;
 	}
-	.erorr-message {
+	.error-message {
 		color: $red;
 		font-size: 1.2rem;
 	}

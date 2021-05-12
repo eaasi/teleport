@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="ah-alert flex-row" v-if="emulatorIsRunning">
-				<span class="far fa-exclamation-triangle"></span>
+				<span class="fas fa-exclamation-triangle"></span>
 				<span class="ah-warning-message">
 					Emulated computer must be shut down before saving.
 				</span>

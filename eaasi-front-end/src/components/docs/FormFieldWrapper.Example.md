@@ -15,7 +15,7 @@ See example usage for a custom input component:
                 :id="id"
             />
             <span class="eaasi-field-icon">
-                <i :class="`far fa-${icon}`"></i>
+                <i :class="`fas fa-${icon}`"></i>
             </span>
         </div>
 	</form-field-wrapper>
