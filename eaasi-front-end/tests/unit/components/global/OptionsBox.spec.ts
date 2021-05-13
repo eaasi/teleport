@@ -36,21 +36,6 @@ describe('OptionsBox.vue', () => {
 		expect(wrapper.find('.ob-footer-content').text()).toBe('quux');
 	});
 
-	it('Sets icon passed as prop', () => {
-		const wrapper = mount(OptionsBox, {
-			propsData: {
-				header: 'baggins',
-				icon: 'bulous',
-			},
-			slots: {
-				default: 'bilbo',
-				footer: 'quux',
-			}
-		});
-		console.log(wrapper.html());
-		expect(wrapper.find('.far').classes()).toContain('fa-bulous');
-	});
-
 	it('Has getter hasFooter which is called to render the template', () => {
 		const hasFooter = jest.fn();
 		const wrapper = mount(OptionsBox, {

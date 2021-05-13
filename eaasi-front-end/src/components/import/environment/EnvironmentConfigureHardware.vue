@@ -22,17 +22,17 @@
 
 		<div class="checkbox-lane flex-row justify-between">
 			<checkbox label="Relative Mouse" />
-			<span class="far fa-info-circle"></span>
+			<span class="fas fa-info-circle"></span>
 		</div>
 
 		<div class="checkbox-lane flex-row justify-between">
 			<checkbox label="Emulator Can Print" />
-			<span class="far fa-info-circle"></span>
+			<span class="fas fa-info-circle"></span>
 		</div>
 
 		<div class="checkbox-lane flex-row justify-between">
 			<checkbox label="High End Hardware" />
-			<span class="far fa-info-circle"></span>
+			<span class="fas fa-info-circle"></span>
 		</div>
 
 		<div class="mb-lg"></div>

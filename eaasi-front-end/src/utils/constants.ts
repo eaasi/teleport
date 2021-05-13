@@ -92,7 +92,7 @@ export function translatedIcon(name: string): string {
 		case 'manage':
 			return '';
 		case 'cloud-upload':
-			return '';
+			return '';
 		case 'public-network':
 			return '';
 		case 'power':

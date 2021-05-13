@@ -2,7 +2,7 @@
 	<div :class="`info-message ${type}`">
 		<div class="flex flex-row justify-between">
 			<div class="left">
-				<span class="far fa-exclamation-triangle"></span>
+				<span class="fas fa-exclamation-triangle"></span>
 				{{ message }}
 			</div>
 			<span v-if="collapsible" class="fas close fa-chevron-down" @click="toggle"></span>

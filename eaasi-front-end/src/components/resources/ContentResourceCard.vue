@@ -5,7 +5,7 @@
 		:data="summary"
 		:disable-select="disableSelect"
 		:is-bookmark-selected="isBookmarkSelected"
-		:is-clickable="isClickable"
+		:is-clickable="false"
 		@change="$emit('change', $event)"
 		@bookmarked="isActive => $emit('bookmarked', isActive)"
 		@click:header="goToDetailsPage"
