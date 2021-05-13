@@ -17,6 +17,10 @@ export default class CacheHelper implements ICacheHelper {
 	}
 
 	public get<T>(cacheKey: string): T {
+		// We're temporarily disabling cache
+		AppLogger.log.warn('Temporarily overriding cache for search: ' + cacheKey);
+		return null;
+
 		AppLogger.log.info('Searching cache for: ' + cacheKey);
 		const result = cache.get(cacheKey);
 		if (!result) return null;
