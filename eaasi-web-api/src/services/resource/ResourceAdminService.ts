@@ -217,8 +217,11 @@ export default class ResourceAdminService extends BaseService {
 			}
 		}
 
-		if(userResources && (query.onlyImportedResources || (results.length && results[0].resourceType === resourceTypes.CONTENT))) {
-			results = results.filter(r => userResources.some(ir => ir.eaasiId === r.id));
+		if(userResources 
+			&& (query.onlyImportedResources || 
+					(results.length && 
+						(results[0].resourceType === resourceTypes.CONTENT || results[0].resourceType === resourceTypes.SOFTWARE)))) {
+			results = results.filter(r => r.archiveId === archiveTypes.REMOTE || userResources.some(ir => ir.eaasiId === r.id));
 		}
 
 		if (results.length && query.keyword) {
