@@ -4,6 +4,7 @@ export interface INotification {
     id: string;
     type: NotificationType;
     notificationActions?: INotificationAction[];
+    icon?: string;
 }
 
 export interface INotificationAction {

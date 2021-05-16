@@ -37,7 +37,7 @@ export default class Notifications extends Vue {
         setTimeout(() => {
             this.notifications = this.notifications.filter(n => notification.id != n.id);
         }, notification.time);
-    }
+}
 
     closeNotification(notification: INotification) {
         this.notifications = this.notifications.filter(n => n.id !== notification.id);
