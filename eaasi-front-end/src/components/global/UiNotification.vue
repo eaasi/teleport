@@ -1,9 +1,9 @@
 <template>
 	<span :class="`ui-notification-container ${colorPreset}`">
 		<slot>
-			<span class="close-icon fas fa-times" @click="$emit('close')"></span>
+			<span class="fas fa-times close-icon" @click="$emit('close')"></span>
 			<span v-if="icon" :class="`icon-notif fas fa-${icon}`" style="margin-right: 1rem;"></span>
-			<span>{{ label }}</span>
+			<span class="notif-label">{{ label }}</span>
 		</slot>
 	</span>
 </template>
@@ -55,6 +55,7 @@ export default class UiNotification extends Vue {
 	max-width: 40rem;
 	padding: 2rem;
 	position: relative;
+
 	&.success {
 		.icon-notif {
 			color: darken($green, 30%);
@@ -79,13 +80,15 @@ export default class UiNotification extends Vue {
 		}
 	}
 	.close-icon {
-		color: #000000;
+		color: $dark-neutral;
 		cursor: pointer;
-		font-size: 1.6rem;
-		font-weight: 400;
 		position: absolute;
 		right: 0.5rem;
 		top: 0.5rem;
+		padding: 1rem;
+	}
+	.notif-label {
+		line-height: 2.3rem;
 	}
 }
 </style>
