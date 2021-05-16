@@ -82,10 +82,10 @@ export default class UiNotification extends Vue {
 	.close-icon {
 		color: $dark-neutral;
 		cursor: pointer;
+		padding: 1rem;
 		position: absolute;
 		right: 0.5rem;
 		top: 0.5rem;
-		padding: 1rem;
 	}
 	.notif-label {
 		line-height: 2.3rem;
