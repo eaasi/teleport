@@ -116,14 +116,15 @@ const actions = {
 	 * Imports a Software resource from file upload and returns an EaasiTask object
 	 * @param {Store<ImportState>} store
 	 */
-	async importSoftwareFromFile({ state, dispatch, commit }: Store<ImportState>): Promise<EaasiTask> {
+	async importSoftwareFromFile({ state, dispatch, commit, rootState }): Promise<EaasiTask> {
 		let uploadResponse = await dispatch('uploadContentResourceFiles');
-
+		const globalState = rootState as GlobalState;
 		if (uploadResponse.status === '0') {  // Success
 			let blobs = uploadResponse.uploads;
 
 			let importRequest = {
 				label: state.software.title,
+				userId: globalState.loggedInUser.id,
 				files: [],
 			};
 
