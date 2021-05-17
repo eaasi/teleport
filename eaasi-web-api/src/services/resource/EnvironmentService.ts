@@ -13,6 +13,7 @@ import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
 import TempEnvironmentService from './TempEnvironmentService';
+import {getUserIdFromToken} from '../../utils/token'
 
 export default class EnvironmentService extends BaseService {
 
@@ -35,7 +36,8 @@ export default class EnvironmentService extends BaseService {
 	}
 
 	async getAll(token?: string): Promise<IEnvironment[]> {
-		let results = this._cache.get<IEnvironment[]>(this.CACHE_KEYS.ALL_ENVIRONMENTS);
+		let userId = getUserIdFromToken(token);
+		let results = this._cache.get<IEnvironment[]>(`${this.CACHE_KEYS.ALL_ENVIRONMENTS}/${userId}`);
 		if (results) return results;
 		let res = await this._environmentRepoService.get('environments?detailed=true&localOnly=false', token);
 		let environments = await res.json() as IEnvironment[];
@@ -46,7 +48,7 @@ export default class EnvironmentService extends BaseService {
 			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
 			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
 		}
-		if (environments.length) this._cache.add(this.CACHE_KEYS.ALL_ENVIRONMENTS, environments);
+		if (environments.length) this._cache.add(`${this.CACHE_KEYS.ALL_ENVIRONMENTS}/${userId}`, environments);
 		return environments;
 	}
 

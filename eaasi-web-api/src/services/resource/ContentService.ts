@@ -5,6 +5,7 @@ import { IEmilTask } from '@/types/task/Task';
 import { objectArchiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import {getUserIdFromToken} from '../../utils/token'
 
 export default class ContentService extends BaseService {
 
@@ -22,7 +23,8 @@ export default class ContentService extends BaseService {
 	}
 
 	async getAll(archiveId: ArchiveType, token?: string): Promise<IContentItem[]> {
-		let results = this._cache.get<IContentItem[]>(this.CACHE_KEYS.ALL_CONTENT)
+		let userId = getUserIdFromToken(token);
+		let results = this._cache.get<IContentItem[]>(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`)
 		if(results) return results;
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`, token);
 		let content = await res.json() as IContentItem[];
@@ -30,7 +32,7 @@ export default class ContentService extends BaseService {
 			x.resourceType = resourceTypes.CONTENT
 			if (x.hasOwnProperty('title') && !x.hasOwnProperty('label')) x.label = x.title;
 		});
-		if (content.length) this._cache.add(this.CACHE_KEYS.ALL_CONTENT, content);
+		if (content.length) this._cache.add(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`, content);
 		return content;
 	}
 
