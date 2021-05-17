@@ -62,7 +62,7 @@ export default class ContentService extends BaseService {
 	async deleteContent(contentRequest: IContentRequest, token?: string) {
 		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`, null, token);
 		if (!res) return null;
-		if (res.ok) this.clearCache();
+		if (res.ok) this.clearCache(getUserIdFromToken(token));
 		let reusableResponse = res.clone();
 		try {
 			return await res.json();
@@ -77,7 +77,7 @@ export default class ContentService extends BaseService {
 
 	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL, token?: string): Promise<IEmilTask> {
 		const res = await this._contentRepoService.post(`/archives/${archiveId}/objects`, importPayload, token);
-		if (res.ok) this.clearCache();
+		if (res.ok) this.clearCache(getUserIdFromToken(token));
 		return await res.json() as IEmilTask;
 	}
 
@@ -85,10 +85,9 @@ export default class ContentService extends BaseService {
 	 == Cache
 	/============================================================*/
 
-	private clearCache() {
-		Object.values(this.CACHE_KEYS).forEach(key => {
-			this._cache.delete(key);
-		});
+	private clearCache(userId: string) {
+		this._cache.delete(this.CACHE_KEYS.ARCHIVES);
+		this._cache.delete(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`)
 	}
 
 

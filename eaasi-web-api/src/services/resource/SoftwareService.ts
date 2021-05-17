@@ -79,7 +79,7 @@ export default class SoftwareService extends BaseService {
 	 */
 	async saveSoftwareObject(softwareObject: ISoftwareObject, token?: string) {
 		let res = await this._softwareRepoService.post('packages', softwareObject, token);
-		if(res.ok) this.clearCache();
+		if(res.ok) this.clearCache(getUserIdFromToken(token));
 		return await res.json();
 	}
 
@@ -87,10 +87,8 @@ export default class SoftwareService extends BaseService {
 	 == Cache
 	/============================================================*/
 
-	clearCache() {
-		Object.values(this.CACHE_KEYS).forEach(key => {
-			this._cache.delete(key);
-		})
+	clearCache(userId: string) {
+		this._cache.delete(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`);
 	}
 
 }

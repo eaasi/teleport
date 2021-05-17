@@ -104,7 +104,7 @@ export default class EnvironmentService extends BaseService {
 	 */
 	async replicateEnvironment(replicateRequest: ReplicateEnvironmentRequest, token?: string): Promise<ISaveEnvironmentResponse> {
 		let response = await this._environmentRepoService.post('actions/replicate-image', replicateRequest, token);
-		if(response.ok) this.clearCache();
+		if(response.ok) this.clearCache( getUserIdFromToken(token));
 		return response.json()
 	}
 
@@ -121,12 +121,12 @@ export default class EnvironmentService extends BaseService {
 		};
 
 		let res = await this._environmentRepoService.delete(`environments/${id}`, environmentToDelete, token);
-		this.clearCache();
+		this.clearCache( getUserIdFromToken(token));
 		return await res.json();
 	}
 
 	async saveNewObjectEnvironment(newEnvRequest: IClientEnvironmentRequest, token: string): Promise<ISnapshotResponse> {
-		this.clearCache();
+		this.clearCache( getUserIdFromToken(token));
 		let snapshotRequest: ISnapshotRequest = {
 			archive: archiveTypes.DEFAULT,
 			envId: newEnvRequest.envId,
@@ -144,7 +144,7 @@ export default class EnvironmentService extends BaseService {
 	}
 
 	async saveNewEnvironment(newEnvRequest: IClientEnvironmentRequest, token: string) {
-		this.clearCache();
+		this.clearCache( getUserIdFromToken(token));
 		let snapshotRequest: ISnapshotRequest = {
 			type: 'newEnvironment',
 			envId: newEnvRequest.envId,
@@ -163,21 +163,23 @@ export default class EnvironmentService extends BaseService {
 
 	async updateEnvironmentDescription(env: IEnvironment, token: string): Promise<IEnvironment> {
 		const res = await this._environmentRepoService.patch(`environments/${env.envId}`, env, token);
-		if(res.ok) this.clearCache();
+		if(res.ok) this.clearCache( getUserIdFromToken(token));
 		return await res.json();
 	}
 
 	async createEnvironment(payload: ICreateEnvironmentPayload, token: string) {
 		const res = await this._environmentRepoService.post('environments', payload, token);
-		if (res.ok) this.clearCache();
+		if (res.ok) this.clearCache( getUserIdFromToken(token));
 		return await res.json();
 	}
 
+	/*
 	async importResourceFromUrl(payload: IImageImportPayload): Promise<IEmilTask> {
 		let res = await this._environmentRepoService.post('actions/import-image', payload);
-		if(res.ok) this.clearCache();
+		if(res.ok) this.clearCache( getUserIdFromToken(token));
 		return await res.json() as IEmilTask;
 	}
+	*/
 
 	async createDerivative(payload: IEmulatorComponentRequest, token: string): Promise<IEnvironment> {
 		const environment = await this.getEnvironment(payload.environment, token);
@@ -199,7 +201,7 @@ export default class EnvironmentService extends BaseService {
 			throw new Error(response.error ? response.error : response.message);
 		}
 		await this._componentService.stopComponent(id, token);
-		this.clearCache();
+		this.clearCache( getUserIdFromToken(token));
 		return await this.getEnvironment(response.envId, token);
 	}
 
@@ -215,7 +217,7 @@ export default class EnvironmentService extends BaseService {
 	*/
 	async forkRevision(revisionRequest: IRevisionRequest, token: string) {
 		let res = await this._environmentRepoService.post(`environments/${revisionRequest.envId}/revisions`, revisionRequest, token);
-		if(res.ok) this.clearCache();
+		if(res.ok) this.clearCache( getUserIdFromToken(token));
 		return res.json();
 	}
 
@@ -232,7 +234,7 @@ export default class EnvironmentService extends BaseService {
 	 * @param token - user JWT token
 	 */
 	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest, token: string) {
-		this.clearCache();
+		this.clearCache( getUserIdFromToken(token));
 		let envId = revisionEnvRequest.envId;
 		let isTempEnv = await this._isTempEnvironment(envId);
 		if (isTempEnv) {
@@ -365,10 +367,8 @@ export default class EnvironmentService extends BaseService {
 	 == Cache
 	/============================================================*/
 
-	clearCache() {
-		Object.values(this.CACHE_KEYS).forEach(key => {
-			this._cache.delete(key);
-		})
+	clearCache(userId: string) {
+		this._cache.delete(`${this.CACHE_KEYS.ALL_ENVIRONMENTS}/${userId}`);
 	}
 
 }
