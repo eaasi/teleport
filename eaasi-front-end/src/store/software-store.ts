@@ -62,8 +62,8 @@ const actions = {
 		return await _svc.saveContent(overrideRequest);
 	},
 
-	async searchSoftware({ state, commit }: Store<SoftwareState>) {
-		let result = await _svc.searchSoftware(state.query);
+	async searchSoftware({ state, commit, rootState }) {
+		let result = await _svc.searchSoftware(state.query, rootState.loggedInUser.id);
 		if(!result) return;
 		commit('SET_RESULT', result);
 		return result;
