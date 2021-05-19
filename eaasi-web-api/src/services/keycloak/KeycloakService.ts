@@ -195,17 +195,4 @@ export default class KeycloakService extends BaseService {
 		return group && group.attributes && group.attributes.orgname && group.attributes.orgname.length > 0 ?
 			group.attributes.orgname[0] : null;
 	}
-
-	async getOwnerLabel(ownerId: string, token: string) {
-		let orgName = await this.getOrganizationNameByUserId(ownerId, token);
-		if (!orgName) {
-			return null;
-		}
-		let ownerLabel = orgName;
-		let user = await this.getUser(ownerId, token, this.defaultHandler);
-		if (user) {
-			ownerLabel = (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) + ' (' + ownerLabel + ')';
-		}
-		return ownerLabel;
-	}
 }
