@@ -17,6 +17,7 @@ import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
+import KeycloakService from '@/services/keycloak/KeycloakService';
 
 export default class ResourceAdminService extends BaseService {
 
@@ -26,6 +27,7 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _emilClassificationService: EmilBaseService;
 	private readonly _bookmarkService: EaasiBookmarkService;
 	private readonly _resourceImportService: ResourceImportService;
+	private readonly _keycloakService: KeycloakService;
 
 	constructor(
 		environmentService: EnvironmentService = new EnvironmentService(),
@@ -33,7 +35,8 @@ export default class ResourceAdminService extends BaseService {
 		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		resourceImportService: ResourceImportService = new ResourceImportService()
+		resourceImportService: ResourceImportService = new ResourceImportService(),
+		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._emilClassificationService = emilClassificationService;
@@ -42,6 +45,7 @@ export default class ResourceAdminService extends BaseService {
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
+		this._keycloakService = keycloakService;
 	}
 
 	/*============================================================
@@ -96,12 +100,12 @@ export default class ResourceAdminService extends BaseService {
 			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result, token)
 		])
 
-		result.facets = this.populateFacets([
+		result.facets = await this.populateFacets([
 			...result.environments.result,
 			...result.software.result,
 			...result.content.result,
 			...result.images.result
-		]);
+		], token);
 
 		this.preselectResultFacets(result, query);
 
@@ -263,9 +267,10 @@ export default class ResourceAdminService extends BaseService {
 		return results.slice((query.page - 1) * query.limit, query.page * query.limit) as T[];
 	}
 
-	private populateFacets (
+	private async populateFacets (
 		resources: IEaasiResource[],
-	): IResourceSearchFacet[] {
+		token: string
+	): Promise<IResourceSearchFacet[]> {
 		const facets: IResourceSearchFacet[] = [
 			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
 			{ displayLabel: 'Network Status', name: 'archive', values: [] },
@@ -277,25 +282,25 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Operating System', name: 'os', values: [] },
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 		];
-		return facets.map(facet => this.populateFacetValues(resources, facet));
+		return await Promise.all(facets.map(facet => this.populateFacetValues(resources, facet, token)));
 	};
 
-	private populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet) {
-		resources.forEach(resource => {
-			if (!resource[facet.name]) return;
+	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet, token: string) {
+		for (const resource of resources) {
+			if (!resource[facet.name]) continue;
 			let value = facet.values.find(x => x.label === resource[facet.name]);
 			if(!value) {
 				facet.values.push({
 					label: resource[facet.name],
 					total: 1,
 					isSelected: false,
-					displayLabel: this.getDisplayLabelForFacet(facet.name, resource[facet.name]),
+					displayLabel: await this.getDisplayLabelForFacet(facet.name, resource[facet.name], token),
 					resourceType: resource.resourceType
 				});
 			} else {
 				value.total++;
 			}
-		});
+		}
 		return facet;
 	}
 
@@ -312,7 +317,7 @@ export default class ResourceAdminService extends BaseService {
 		return resources;
 	}
 
-	private getDisplayLabelForFacet(facetName: string, facetValue: string): string {
+	private async getDisplayLabelForFacet(facetName: string, facetValue: string, token: string): Promise<string> {
 		switch (facetName) {
 			case 'archive':
 				if (facetValue === archiveTypes.DEFAULT) {
@@ -333,6 +338,17 @@ export default class ResourceAdminService extends BaseService {
 					return osLabel;
 				}
 				break;
+			case 'owner':
+				let orgName = await this._keycloakService.getOrganizationNameByUserId(facetValue, token);
+				if (!orgName) {
+					return null;
+				}
+				let ownerLabel = orgName;
+				let user = await this._keycloakService.getUser(facetValue, token, this._keycloakService.defaultHandler);
+				if (user) {
+					ownerLabel = (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) + ' (' + ownerLabel + ')';
+				}
+				return ownerLabel;
 		}
 		return null;
 	}
