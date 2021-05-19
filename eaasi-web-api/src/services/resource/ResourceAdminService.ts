@@ -1,24 +1,23 @@
+import { UserImportedContent, UserImportedImage } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment, IImageListItem } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchFacetValue, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
+import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
+import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
+import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
 import KeycloakService from '@/services/keycloak/KeycloakService';
-
-const EMPTY_SEARCH_RESPONSE: IEaasiSearchResponse<any> = {
-	result: [],
-	totalResults: 0,
-};
 
 export default class ResourceAdminService extends BaseService {
 
@@ -27,6 +26,7 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _contentService: ContentService;
 	private readonly _emilClassificationService: EmilBaseService;
 	private readonly _bookmarkService: EaasiBookmarkService;
+	private readonly _resourceImportService: ResourceImportService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor(
@@ -35,11 +35,13 @@ export default class ResourceAdminService extends BaseService {
 		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
+		resourceImportService: ResourceImportService = new ResourceImportService(),
 		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._emilClassificationService = emilClassificationService;
 		this._bookmarkService = bookmarkService;
+		this._resourceImportService = resourceImportService;
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
@@ -81,33 +83,31 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: string, token: string): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
+		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
+		let userImportedResources: IResourceImportResult;
 
-		// pre-process received search parameters
-		query = this.prepareSearchQuery(query);
+		[bookmarksResponse, userImportedResources] = await Promise.all([
+			this._bookmarkService.getByUserID(userId),
+			this._resourceImportService.getByUserID(userId)
+		])
 
-		let bookmarks: IBookmark[] = [];
-		if (query.onlyBookmarks) {
-			const response = await this._bookmarkService.getByUserID(userId);
-			if (response.result) {
-				bookmarks = response.result as IBookmark[];
-			}
-		}
-
-		const bookmarked = new Set<string>(bookmarks.map(bm => bm.resourceId));
+		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
 		[result.environments, result.software, result.content, result.images] = await Promise.all([
-			this._searchEnvironments(query, bookmarked, token),
-			this._searchSoftware(query, bookmarked, token),
-			this._searchContent(query, bookmarked, token),
-			this._searchImages(query, bookmarked, token)
+			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result, token, query.forceClearCache),
+			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result, token),
+			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result, token),
+			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result, token)
 		])
 
 		result.facets = await this.populateFacets([
-			result.environments.result,
-			result.software.result,
-			result.content.result,
-			result.images.result
-		], query.selectedFacets, token);
+			...result.environments.result,
+			...result.software.result,
+			...result.content.result,
+			...result.images.result
+		], token);
+
+		this.preselectResultFacets(result, query);
 
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
@@ -120,59 +120,48 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchEnvironments (
 		query: IResourceSearchQuery,
-		bookmarks: Set<string>,
+		bookmarks: IBookmark[],
+		userResources: UserImportedContent[],
 		token: string,
 		forceClearCache: boolean = false
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
-		if (!query.types.includes(resourceTypes.ENVIRONMENT)) {
-			return EMPTY_SEARCH_RESPONSE;
-		}
-
 		let allEnvironments = await this._environmentService.getAll(token, forceClearCache);
-		return this._filterResults(allEnvironments, query, bookmarks);
+		let filtered = this._filterResults(allEnvironments, query, bookmarks, userResources);
+		return {
+			result: filtered.result,
+			totalResults: filtered.totalResults
+		};
 	}
 
 	private async _searchSoftware (
 		query: IResourceSearchQuery,
-		bookmarks: Set<string>,
+		bookmarks: IBookmark[],
+		userResources: UserImportedContent[],
 		token: string
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
-		if (!query.types.includes(resourceTypes.SOFTWARE)) {
-			return EMPTY_SEARCH_RESPONSE;
-		}
-
 		let softwareRes = await this._softwareService.getAll(token);
-		return this._filterResults(softwareRes, query, bookmarks);
+		softwareRes.forEach(resource => resource.resourceType = resourceTypes.SOFTWARE);
+		return this._filterResults(softwareRes, query, bookmarks, userResources);
 	}
 
 	private async _searchContent (
 		query: IResourceSearchQuery,
-		bookmarks: Set<string>,
+		bookmarks: IBookmark[],
+		userResources: UserImportedContent[],
 		token: string
 	): Promise<IEaasiSearchResponse<IContentItem>> {
-		if (!query.types.includes(resourceTypes.CONTENT)) {
-			return EMPTY_SEARCH_RESPONSE;
-		}
-
-		const archives = (query.archives && query.archives.length > 0) ? query.archives :
-				(await this._contentService.getObjectArchives(token)).archives;
-
-		const results = archives.map(name => this._contentService.getAll(name, token));
-		const content = (await Promise.all(results)).flat();
-		return this._filterResults(content, query, bookmarks);
+		let content = await this._contentService.getAll('default', token);
+		return this._filterResults(content, query, bookmarks, userResources);
 	}
 
 	private async _searchImages (
 		query: IResourceSearchQuery,
-		bookmarks: Set<string>,
+		bookmarks: IBookmark[],
+		userResources: UserImportedImage[],
 		token: string
 	): Promise<IEaasiSearchResponse<IImageListItem>> {
-		if (!query.types.includes(resourceTypes.IMAGE)) {
-			return EMPTY_SEARCH_RESPONSE;
-		}
-
 		let images = await this._environmentService.getImages(token);
-		return this._filterResults(images, query, bookmarks);
+		return this._filterResults(images, query, bookmarks, userResources);
 	}
 
 	/*============================================================
@@ -212,135 +201,46 @@ export default class ResourceAdminService extends BaseService {
 	 == Helpers
 	/============================================================*/
 
-	private prepareSearchQuery(query: IResourceSearchQuery): IResourceSearchQuery {
-		if (!query) {
-			return {} as IResourceSearchQuery;
-		}
-
-		if (query.selectedFacets && query.selectedFacets.length > 0) {
-			query.selectedFacets = this.prepareSearchFacets(query.selectedFacets);
-
-			// convert selected resource-type facet to a corresponding types-array...
-			const fpos = query.selectedFacets.findIndex(f => f.name === 'resourceType');
-			if (fpos > 0) {
-				const facet = query.selectedFacets.splice(fpos, 1)[0];
-				query.types = facet.values.map(v => v.resourceType);
-			}
-		}
-		else {
-			query.selectedFacets = [];
-		}
-
-		if (query.onlyImportedResources) {
-			// NOTE: software packages and objects are stored in user-private archives,
-			//       which currently are identified by names of the form 'user-<USER-ID>'
-			query.archives = ['user-' + query.userId];
-
-			// NOTE: currently only the following resources are considered "user-importable"!
-			if (!query.types || !query.types.length) {
-				query.types = [
-					resourceTypes.SOFTWARE,
-					resourceTypes.CONTENT,
-					resourceTypes.IMAGE,
-				];
-			}
-			else {
-				query.types = query.types.filter(t => t !== resourceTypes.ENVIRONMENT);
-			}
-		}
-
-		if (!query.types || !query.types.length) {
-			query.types = [
-				resourceTypes.ENVIRONMENT,
-				resourceTypes.SOFTWARE,
-				resourceTypes.CONTENT,
-				resourceTypes.IMAGE,
-			];
-		}
-
-		if (query.selectedFacets.length > 0) {
-			// NOTE: requested resource-types should also be adjusted according to the compatible
-			//       resource-types in selected facets, querying all other resources can be skipped!
-			const seltypes = new Set<ResourceType>();
-			query.selectedFacets.forEach(f => f.values.forEach(v => seltypes.add(v.resourceType)));
-			query.types = query.types.filter(t => seltypes.has(t));
-		}
-
-		return query;
-	}
-
-	private prepareSearchFacets(facets: IResourceSearchFacet[]): IResourceSearchFacet[] {
-		if (!facets || !facets.length) {
-			return facets;
-		}
-
-		const numFacetsTotal = facets.length;
-		let numValuesSkipped = 0;
-		let numValuesTotal = 0;
-
-		// remove all unselected facets...
-		facets = facets.filter(facet => {
-			const numValuesBefore = facet.values.length;
-			facet.values = facet.values.filter(value => value.isSelected);
-			numValuesSkipped += numValuesBefore - facet.values.length;
-			numValuesTotal += numValuesBefore;
-			return (facet.values.length > 0);
-		});
-
-		const numFacetsSkipped = numFacetsTotal - facets.length;
-		if (numFacetsSkipped > 0 || numValuesSkipped > 0) {
-			const message: string = `Skipped ${numValuesSkipped} out of ${numValuesTotal} value(s)`
-					+ ` and ${numFacetsSkipped} out of ${numFacetsTotal} search facet(s)`;
-
-			console.info(message);
-		}
-
-		return facets;
-	}
-
 	private _filterResults<T extends IEaasiResource>(
 		results: T[],
 		query: IResourceSearchQuery,
-		bookmarks: Set<string>
+		bookmarks: IBookmark[],
+		userResources: UserImportedContent[] | UserImportedImage[]
 	): IEaasiSearchResponse<T> {
+
 		if(!results || !results.length) {
-			return EMPTY_SEARCH_RESPONSE;
+			return { result: [], totalResults: 0 };
 		}
 
-		const resultResourceType: ResourceType = results[0].resourceType;
-		if (query.archives && query.archives.length > 0) {
-			// NOTE: no need to filter content objects again here, because these
-			//       are expected to be fetched only from requested archives!
-			switch (resultResourceType) {
-				case resourceTypes.SOFTWARE: {
-					results = results.filter(sw => query.archives.includes(sw.archiveId));
-					break;
-				}
-				case resourceTypes.ENVIRONMENT: {
-					results = results.filter(env => query.archives.includes(env.archive));
-					break;
-				}
-			}
+		if (query.archives && query.archives.length > 0 && results[0].resourceType !== 'Image') {
+			results = results.filter(sw => query.archives.includes(sw.archiveId));
 		}
 
-		if (query.onlyBookmarks) {
-			if (resultResourceType === resourceTypes.ENVIRONMENT) {
+		if (bookmarks && query.onlyBookmarks) {
+			if (results[0].resourceType === 'Environment') {
 				// @ts-ignore
-				results = results.filter(resource => bookmarks.has(resource.envId));
+				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.envId));
 			} else {
-				results = results.filter(resource => bookmarks.has(resource.id));
+				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.id));
 			}
 		}
 
-		if (query.keyword) {
+		if(userResources 
+			&& (query.onlyImportedResources || 
+					(results.length && 
+						(results[0].resourceType === resourceTypes.CONTENT || results[0].resourceType === resourceTypes.SOFTWARE)))) {
+			results = results.filter(r => r.archiveId === archiveTypes.REMOTE || userResources.some(ir => ir.eaasiId === r.id));
+		}
+
+		if (results.length && query.keyword) {
 			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
-		if (query.selectedFacets) {
+		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
 
-		if (query.sortCol) {
+		if (results.length && query.sortCol) {
 			results = results.sort((a, b) => {
 				const nameA = a.title ? a.title.toLowerCase() : a.label ? a.label.toLowerCase() : '';
 				const nameB = b.title ? a.title.toLowerCase() : b.label ? b.label.toLowerCase() : '';
@@ -368,131 +268,53 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	private async populateFacets (
-		results: IEaasiResource[][],
-		selfacets: IResourceSearchFacet[],
+		resources: IEaasiResource[],
 		token: string
 	): Promise<IResourceSearchFacet[]> {
 		const facets: IResourceSearchFacet[] = [
+			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
 			{ displayLabel: 'Network Status', name: 'archive', values: [] },
 			{ displayLabel: 'Environment Type', name: 'envType', values: [] },
-			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
 			// Removed as currently don't show any meaningful information
-			/*{ displayLabel: 'Source Location', name: 'archiveId', values: [] },*/
+			/*{ displayLabel: 'Source Organization', name: 'owner', values: [] },
+			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },*/
 
 			{ displayLabel: 'Operating System', name: 'os', values: [] },
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 		];
-
-		const rtfacet: IResourceSearchFacet = {
-			displayLabel: 'Resource Type',
-			name: 'resourceType',
-			values: [],
-		};
-
-		// FIXME: facets should generally be compatible with multiple resource-types,
-		//        but as-is can currently be generated for environments only!
-		const frtypes = new Map<string, ResourceType[]>();
-		facets.forEach(f => frtypes.set(f.name, [resourceTypes.ENVIRONMENT]));
-
-		const valmaps = new Map<string, Map<string, IResourceSearchFacetValue>>();
-		valmaps.set(rtfacet.name, new Map<string, IResourceSearchFacetValue>());
-		facets.forEach(f => valmaps.set(f.name, new Map<string, IResourceSearchFacetValue>()));
-
-		for (const resources of results) {
-			if (!resources || !resources.length) {
-				continue;
-			}
-
-			// populate resource-type facet...
-			{
-				// NOTE: we assume that all entries in each subarray are of the same resource-type,
-				//       hence it's enough to just look at the first entry and skip all others!
-				const resource = resources[0];
-				const label = resource[rtfacet.name];
-				const value: IResourceSearchFacetValue = {
-					label: label,
-					total: resources.length,
-					resourceType: resource.resourceType,
-					isSelected: false,
-				};
-
-				rtfacet.values.push(value);
-				valmaps.get(rtfacet.name)
-					.set(label, value);
-			}
-
-			const restype = resources[0].resourceType;
-
-			// populate all other facets from each resource entry...
-			for (const facet of facets) {
-				const restypes = frtypes.get(facet.name);
-				if (!restypes || !restypes.some(rt => rt === restype))
-					continue;
-
-				const valmap = valmaps.get(facet.name);
-				await this.populateFacetValues(resources, facet, valmap, token);
-			}
-		}
-
-		// pre-select new facet values...
-		for (const f of selfacets) {
-			const values = valmaps.get(f.name);
-			if (!values)
-				continue;
-
-			for (const selval of f.values) {
-				const value = values.get(selval.label);
-				if (value)
-					value.isSelected = selval.isSelected;
-			}
-		}
-
-		facets.unshift(rtfacet);
-
-		// finally, remove all empty facets...
-		return facets.filter(f => f.values && f.values.length > 0);
+		return await Promise.all(facets.map(facet => this.populateFacetValues(resources, facet, token)));
 	};
 
-	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet,
-				valmap: Map<string, IResourceSearchFacetValue>, token: string) {
+	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet, token: string) {
 		for (const resource of resources) {
-			const label = resource[facet.name];
-			if (!label)
-				continue;
-
-			let value: IResourceSearchFacetValue = valmap.get(label);
+			if (!resource[facet.name]) continue;
+			let value = facet.values.find(x => x.label === resource[facet.name]);
 			if(!value) {
-				value = {
-					label: label,
+				facet.values.push({
+					label: resource[facet.name],
 					total: 1,
 					isSelected: false,
-					displayLabel: await this.getDisplayLabelForFacet(facet.name, label, token),
+					displayLabel: await this.getDisplayLabelForFacet(facet.name, resource[facet.name], token),
 					resourceType: resource.resourceType
-				};
-
-				facet.values.push(value);
-				valmap.set(label, value);
+				});
 			} else {
 				value.total++;
 			}
 		}
+		return facet;
 	}
 
 	private filterByFacets<T extends IEaasiResource>(resources: T[], selectedFacets: IResourceSearchFacet[]): T[] {
 		if (!resources.length) return resources;
 
 		const selectedFacetsOfType = this.selectedFacetsOfType(selectedFacets, resources[0].resourceType);
-		if (!selectedFacetsOfType.length)
-			return resources;
-
-		return resources.filter(resource => {
-			return selectedFacetsOfType.every(facet => {
-				// NOTE: usually, only a single value per facet can be selected,
-				//       hence iteration should be faster than set-lookups here!
-				const curlabel: string = resource[facet.name];
-				return facet.values.some(v => v.label === curlabel);
-			});
+		selectedFacetsOfType.forEach(facet => {
+			resources = resources.filter(
+				resource => facet.values.some(value => resource[facet.name] === value.label)
+			)
 		});
+
+		return resources;
 	}
 
 	private async getDisplayLabelForFacet(facetName: string, facetValue: string, token: string): Promise<string> {
@@ -517,7 +339,16 @@ export default class ResourceAdminService extends BaseService {
 				}
 				break;
 			case 'owner':
-				return await this._keycloakService.getOwnerLabel(facetValue, token);
+				let orgName = await this._keycloakService.getOrganizationNameByUserId(facetValue, token);
+				if (!orgName) {
+					return null;
+				}
+				let ownerLabel = orgName;
+				let user = await this._keycloakService.getUser(facetValue, token, this._keycloakService.defaultHandler);
+				if (user) {
+					ownerLabel = (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) + ' (' + ownerLabel + ')';
+				}
+				return ownerLabel;
 		}
 		return null;
 	}
@@ -528,10 +359,29 @@ export default class ResourceAdminService extends BaseService {
 
 	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {
 		let selectedFacets = [];
+
 		facets.forEach(f => {
-			const values = f.values.filter(v => v.resourceType === resourceType);
-			selectedFacets.push({...f, values });
+			if(f.values.some(v => v.isSelected)) {
+				const values = f.values
+					.map(v => v.isSelected && v.resourceType === resourceType ? v : null)
+					.filter(i => i !== null);
+
+				selectedFacets.push({...f, values });
+			}
 		});
 		return selectedFacets;
 	}
+
+	private preselectResultFacets(result: IResourceSearchResponse, query: IResourceSearchQuery): void {
+		result.facets.forEach(facet => {
+			facet.values.forEach(value => {
+				const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
+				if (currentFacet) {
+					let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
+					if (selectedValue) value.isSelected = true;
+				}
+			})
+		})
+	}
+
 }
