@@ -24,8 +24,8 @@ class SoftwareService extends BaseHttpService {
 		return res.result;
 	}
 
-	async searchSoftware(query: IResourceSearchQuery): Promise<IResourceSearchResponse> {
-		let res = await this.post<IResourceSearchResponse>('/resource/search', query);
+	async searchSoftware(query: IResourceSearchQuery, userId: string): Promise<IResourceSearchResponse> {
+		let res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
 		if (!res.ok) return null;
 		return res.result;
 	}

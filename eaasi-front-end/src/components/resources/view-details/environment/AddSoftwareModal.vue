@@ -44,7 +44,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
+import { IEaasiUser } from 'eaasi-admin';
 import { ISoftwarePackage } from '@/types/Resource';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import { resourceTypes } from '@/utils/constants';
@@ -53,6 +55,9 @@ import { resourceTypes } from '@/utils/constants';
     name: 'AddSoftwareModal'
 })
 export default class AddSoftwareModal extends Vue {
+
+	@Get('loggedInUser')
+	user: IEaasiUser;
 
     /* Data
     ============================================*/
@@ -70,8 +75,12 @@ export default class AddSoftwareModal extends Vue {
 
     async init() {
         this.loading = true;
-        const searchQuery = new ResourceSearchQuery();
-        this.$store.commit('software/SET_QUERY', {...searchQuery, limit: 1000, types: [resourceTypes.SOFTWARE]});
+        const query = new ResourceSearchQuery();
+        query.userId = this.user.id;
+        query.types = [resourceTypes.SOFTWARE];
+        query.limit = 1000;
+
+        this.$store.commit('software/SET_QUERY', query);
         const { software } = await this.$store.dispatch('software/searchSoftware');
         if (!software) {
             this.errorMessage = 'Having troubles fetching a list of software packages.';
