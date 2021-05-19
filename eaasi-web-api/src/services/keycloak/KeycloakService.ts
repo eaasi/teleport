@@ -4,7 +4,7 @@ import { KEYCLOAK_REALM, KEYCLOAK_URL, KEYCLOAK_CLIENT_ID } from '@/config/keycl
 import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
 import { INewGroup, INewUser } from '@/types/admin/User';
 import { URLSearchParams } from 'url';
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 
 export default class KeycloakService extends BaseService {
 	private readonly _httpService: HttpJSONService;
@@ -12,6 +12,13 @@ export default class KeycloakService extends BaseService {
 	constructor() {
 		super();
 		this._httpService = new HttpJSONService();
+	}
+
+	async defaultHandler(response: Response) {
+		if (!response.ok) {
+			return null;
+		}
+		return await response.json();
 	}
 
 	async getUserTokens(username: string, password: string) {
@@ -83,11 +90,17 @@ export default class KeycloakService extends BaseService {
 		};
 
 		return await this._httpService.put(url, data, null, token)
-				.then(res => callback(res));
+			.then(res => callback(res));
 	}
 
 	async getClientRoles(clientUUID: string, token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${clientUUID}/roles`;
+
+		return await this._httpService.get(url, null, token).then(res => callback(res));
+	}
+
+	async getUser(userId: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${userId}`;
 
 		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
@@ -138,7 +151,13 @@ export default class KeycloakService extends BaseService {
 	async createGroup(group: INewGroup, token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups`;
 		return await this._httpService.post(url, group, null, token)
-				.then(res => callback(res));
+			.then(res => callback(res));
+	}
+
+	async getGroupById(id: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/groups/${id}`;
+
+		return await this._httpService.get(url, null, token).then(res => callback(res));
 	}
 
 	async addUserToGroup(userId: string, groupId: string, token: string, callback: Function) {
@@ -166,4 +185,14 @@ export default class KeycloakService extends BaseService {
 		return clients.find(client => client.clientId === cid);
 	}
 
+	async getOrganizationNameByUserId(userId: string, token: string) {
+		let groups = await this.getUserGroups(userId, token, this.defaultHandler);
+		if (!groups || groups.length == 0) {
+			return null;
+		}
+		let groupId = groups[0].id;
+		let group = await this.getGroupById(groupId, token, this.defaultHandler);
+		return group && group.attributes && group.attributes.orgname && group.attributes.orgname.length > 0 ?
+			group.attributes.orgname[0] : null;
+	}
 }
