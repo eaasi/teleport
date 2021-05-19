@@ -2,6 +2,7 @@ import { ISoftwareDescription, ISoftwareDescriptionList, ISoftwareObject, ISoftw
 import { resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
+import {getUserIdFromToken} from '../../utils/token'
 
 
 export default class SoftwareService extends BaseService {
@@ -19,12 +20,13 @@ export default class SoftwareService extends BaseService {
 	}
 
 	async getAll(token?: string): Promise<ISoftwarePackage[]> {
-		let results = this._cache.get<ISoftwarePackage[]>(this.CACHE_KEYS.ALL_SOFTWARE)
+		let userId = getUserIdFromToken(token);
+		let results = this._cache.get<ISoftwarePackage[]>(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`)
 		if(results) return results;
 		const descriptionList = await this.getSoftwareDescriptionList(token);
 		const packageList = await this.getSoftwarePackageList(token);
 		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
-		if (packageList.packages.length) this._cache.add(this.CACHE_KEYS.ALL_SOFTWARE, packages);
+		if (packageList.packages.length) this._cache.add(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`, packages);
 		return packages;
 	}
 
@@ -77,7 +79,7 @@ export default class SoftwareService extends BaseService {
 	 */
 	async saveSoftwareObject(softwareObject: ISoftwareObject, token?: string) {
 		let res = await this._softwareRepoService.post('packages', softwareObject, token);
-		if(res.ok) this.clearCache();
+		if(res.ok) this.clearCache(getUserIdFromToken(token));
 		return await res.json();
 	}
 
@@ -85,10 +87,8 @@ export default class SoftwareService extends BaseService {
 	 == Cache
 	/============================================================*/
 
-	clearCache() {
-		Object.values(this.CACHE_KEYS).forEach(key => {
-			this._cache.delete(key);
-		})
+	clearCache(userId: string) {
+		this._cache.delete(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`);
 	}
 
 }
