@@ -168,6 +168,11 @@ class ResourceService extends BaseHttpService {
 		return res.result;
 	}
 
+	async getResourceOwner(ownerId: string) {
+		const res = await this.get('/resource/owner?ownerId=' + ownerId);
+		return res.result;
+	}
+
 	async deleteSoftware(id: string) {
 		await this.delete(`/resource/delete-software-object?id=${id}`);
 	}
