@@ -11,6 +11,7 @@ import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { IClientEnvironmentRequest, IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import KeycloakService from '@/services/keycloak/KeycloakService';
 
 /**
  * Handles requests related to Resource entities
@@ -23,6 +24,7 @@ export default class ResourceController extends BaseController {
 	private readonly _contentService: ContentService;
 	private readonly _bookmarkService: EaasiBookmarkService;
 	private readonly _userImportedContent: ImportedContentService;
+	private readonly _keycloakService: KeycloakService;
 
 	constructor(
 		resourceService: ResourceAdminService = new ResourceAdminService(),
@@ -30,7 +32,8 @@ export default class ResourceController extends BaseController {
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		userImportedContent: ImportedContentService = new ImportedContentService()
+		userImportedContent: ImportedContentService = new ImportedContentService(),
+		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._svc = resourceService;
@@ -39,6 +42,7 @@ export default class ResourceController extends BaseController {
 		this._contentService = contentService;
 		this._bookmarkService = bookmarkService;
 		this._userImportedContent = userImportedContent;
+		this._keycloakService = keycloakService;
 	}
 
 	/**
@@ -364,6 +368,12 @@ export default class ResourceController extends BaseController {
 		} catch(e) {
 			this.sendError(e, res);
 		}
+	}
+
+	async getResourceOwner(req: Request, res: Response) {
+		const ownerId = req.query.ownerId as string;
+		let ownerLabel = await this._keycloakService.getOwnerLabel(ownerId, req.headers.authorization);
+		return res.send({ label: ownerLabel });
 	}
 }
 
