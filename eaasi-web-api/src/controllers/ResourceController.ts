@@ -4,6 +4,7 @@ import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
+import ImportedContentService from '@/services/rest-api/ImportedContentService';
 import { IAuthorizedGetRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
@@ -22,6 +23,7 @@ export default class ResourceController extends BaseController {
 	private readonly _softwareService: SoftwareService;
 	private readonly _contentService: ContentService;
 	private readonly _bookmarkService: EaasiBookmarkService;
+	private readonly _userImportedContent: ImportedContentService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor(
@@ -30,6 +32,7 @@ export default class ResourceController extends BaseController {
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
+		userImportedContent: ImportedContentService = new ImportedContentService(),
 		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
@@ -38,6 +41,7 @@ export default class ResourceController extends BaseController {
 		this._softwareService = softwareService;
 		this._contentService = contentService;
 		this._bookmarkService = bookmarkService;
+		this._userImportedContent = userImportedContent;
 		this._keycloakService = keycloakService;
 	}
 
@@ -146,7 +150,10 @@ export default class ResourceController extends BaseController {
 			const { archiveName, contentId} = req.query;
 			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest, token);
-			res.send(result);
+			// check if user has permissions to access requested resource
+			const userImportedRef = await this._userImportedContent.getByUserID(req.user.id);
+			const userHasAccessPermissions = userImportedRef.result.some(res => res.eaasiId === contentId);
+			userHasAccessPermissions ? res.send(result) : res.status(401).send(null);
 		} catch(e) {
 			this.sendError(e, res);
 		}
