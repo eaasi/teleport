@@ -216,7 +216,8 @@ export default class UserModal extends Vue {
 			const notification = generateNotificationError(result.message);
 			eventBus.$emit('notification:show', notification);
 		} else {
-			const notification = generateNotificationSuccess(`You successfully created account for ${this.user.username}. Provide this password to the user: ${result}`, 20000);
+			const message = `Account for ${this.user.username} created. Provide this temporary password to the user: ${result}`;
+			const notification = generateNotificationSuccess(message, 20000);
 			eventBus.$emit('notification:show', notification);
 			await this.$store.dispatch('admin/getUsers');
 		}
