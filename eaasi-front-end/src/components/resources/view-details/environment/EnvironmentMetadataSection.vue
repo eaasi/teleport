@@ -1,11 +1,12 @@
 <template>
 	<div class="rdm-container">
 		<div class="row" style="margin-bottom: 1rem;">
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<resource-details-summary
 					:summary-data="resource"
 					:readonly="!isEditMode"
 				/>
+				<div class="owner-label" v-if="ownerLabel">Owner: {{ ownerLabel }}</div>
 				<section-legend
 					v-if="isEditMode"
 					:data="editLegend"
@@ -107,6 +108,9 @@ export default class EnvironmentMetadataSection extends Vue {
 	@Prop({ type: Array as () => ILabeledEditableItem[] })
 	configMachineLabeledItems: ILabeledEditableItem[];
 
+	@Prop({ type: String })
+	ownerLabel: string;
+
     /* Computed
     ============================================*/
 	get drives(): IDrive[] {
@@ -146,5 +150,8 @@ export default class EnvironmentMetadataSection extends Vue {
 				text-transform: uppercase;
 			}
 		}
+	}
+	.owner-label {
+		margin-bottom: 10px;
 	}
 </style>
