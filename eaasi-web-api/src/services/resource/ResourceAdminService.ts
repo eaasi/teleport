@@ -339,16 +339,7 @@ export default class ResourceAdminService extends BaseService {
 				}
 				break;
 			case 'owner':
-				let orgName = await this._keycloakService.getOrganizationNameByUserId(facetValue, token);
-				if (!orgName) {
-					return null;
-				}
-				let ownerLabel = orgName;
-				let user = await this._keycloakService.getUser(facetValue, token, this._keycloakService.defaultHandler);
-				if (user) {
-					ownerLabel = (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) + ' (' + ownerLabel + ')';
-				}
-				return ownerLabel;
+				return await this._keycloakService.getOwnerLabel(facetValue, token);
 		}
 		return null;
 	}
