@@ -255,10 +255,6 @@ const actions = {
 		commit('SET_CONSTRUCTED_TITLE', '');
 	},
 
-	async createUserImportRelation({ rootState }, userImportRelationRequest: IUserImportRelationRequest) {
-		return await _importService.createUserImportRelation(userImportRelationRequest, rootState.loggedInUser.id);
-	}
-
 };
 
 /*============================================================

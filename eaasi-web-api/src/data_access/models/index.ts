@@ -1,7 +1,7 @@
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 
-import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EmulationProject, EmulationProjectResource, Emulator, EmulationProjectTaskSuccessor, UserImportedContent, UserImportedEnvironment, UserImportedImage, UserImportedSoftware } from '@/data_access/models/app';
+import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EmulationProject, EmulationProjectResource, Emulator, EmulationProjectTaskSuccessor } from '@/data_access/models/app';
 import { Sequelize } from 'sequelize-typescript';
 
 export const sequelize = new Sequelize({
@@ -23,10 +23,6 @@ export const sequelize = new Sequelize({
 		EmulationProjectResource,
 		EmulationProjectTaskSuccessor,
 		//Emulator,
-		UserImportedContent,
-		UserImportedEnvironment,
-		UserImportedImage,
-		UserImportedSoftware,
 
 		// -- LEGACY MODELS --:
 		// Audio Device
