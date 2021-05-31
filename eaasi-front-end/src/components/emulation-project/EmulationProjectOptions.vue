@@ -142,12 +142,6 @@ export default class EmulationProjectOptions extends Vue {
 			resourceType: resourceTypes.ENVIRONMENT,
 			resourceId: response.id,
 		};
-		let importResponse: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', userImportRelationRequest);
-		if (!importResponse || !importResponse.id) {
-			await this.$store.dispatch('resource/deleteEnvironment', response.id);
-			eventBus.$emit('notification:show', generateNotificationError(`Having troubles saving ${this.createEnvironmentPayload.label} environment to My Resources, please try again.`));
-			return;
-		}
 		const baseEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
 		await this.$store.dispatch('emulationProject/addResources', [baseEnv]);
 		this.environment = new EmulationProjectEnvironment(baseEnv);
