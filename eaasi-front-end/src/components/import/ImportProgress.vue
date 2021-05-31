@@ -183,7 +183,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		}
 
 		async onImportImage(imageId: string) {
-			await this.createUserImportRelation(resourceTypes.IMAGE, imageId);
+			this.notifyUserOnImportedResource(imageId, resourceTypes.CONTENT);
 			await this.$router.push({
 				name: 'My Resources',
 				params: { defaultTab: 'Imported Resources' }}
@@ -191,7 +191,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		}
 
 		async onImportContentTask(objectId: string) {
-			await this.createUserImportRelation(resourceTypes.CONTENT, objectId);
+			await this.notifyUserOnImportedResource(objectId, resourceTypes.CONTENT);
 			// This path occurs when a user uploads a Content Object
 			await this.$router.push({
 				name: 'My Resources',
@@ -200,7 +200,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		}
 
 		async onImportSoftwareTask(objectId: string) {
-			await this.$store.dispatch('import/saveSoftwareObject', {
+			const result = await this.$store.dispatch('import/saveSoftwareObject', {
 				allowedInstances: -1,
 				archiveId: 'zero conf',
 				exportFMTs: [],
@@ -212,19 +212,12 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 				objectId
 			});
 
-			await this.createUserImportRelation(resourceTypes.SOFTWARE, objectId);
+			await this.notifyUserOnImportedResource(objectId, resourceTypes.SOFTWARE);
+
 			await this.$router.push({
 				name: 'My Resources',
 				params: { defaultTab: 'Imported Resources' }}
 			);
-		}
-
-		async createUserImportRelation(resourceType: ResourceType, resourceId: string) {
-			this.userImportRequest.resourceId = resourceId;
-			this.userImportRequest.resourceType = resourceType;
-			const { eaasiId } = await this.$store.dispatch(
-				'import/createUserImportRelation', this.userImportRequest);
-			this.notifyUserOnImportedResource(eaasiId, resourceType);
 		}
 
 		notifyUserOnImportedResource(resourceId: string, resourceType: ResourceType) {
