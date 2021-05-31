@@ -11,7 +11,6 @@ import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
-import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
@@ -24,7 +23,6 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _contentService: ContentService;
 	private readonly _emilClassificationService: EmilBaseService;
 	private readonly _bookmarkService: EaasiBookmarkService;
-	private readonly _resourceImportService: ResourceImportService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor(
@@ -33,13 +31,11 @@ export default class ResourceAdminService extends BaseService {
 		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		resourceImportService: ResourceImportService = new ResourceImportService(),
 		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._emilClassificationService = emilClassificationService;
 		this._bookmarkService = bookmarkService;
-		this._resourceImportService = resourceImportService;
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
