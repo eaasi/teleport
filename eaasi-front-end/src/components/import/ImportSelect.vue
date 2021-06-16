@@ -22,11 +22,10 @@
 			<div class="row">
 				<div class="col-md-4">
 					<options-box title="Content File(s)" icon="file">
-						Like a folder, disc image, or individual file
+						User data or objects from a digital collection. Content can <b>not</b> be published to the EaaSI Network.
 						<template slot="footer">
 							<ui-button
 								block
-								sub-label="Examples: .jpg / .doc / .cdr / .pdf / .xd / .psd / .wav / etc"
 								@click="chooseImportType('content')"
 							>
 								Import Content
@@ -37,11 +36,10 @@
 
 				<div class="col-md-4 option-box-container">
 					<options-box title="Software Resource" icon="file">
-						Software disk image, install file, or files
+						Installation media or other dependencies to render Content. Software <b>can</b> be published to the EaaSI Network.
 						<template slot="footer">
 							<ui-button
 								block
-								sub-label="Examples: .exe / dmg / .iso / .e01 / etc."
 								@click="chooseImportType('software')"
 							>
 								Import Software
