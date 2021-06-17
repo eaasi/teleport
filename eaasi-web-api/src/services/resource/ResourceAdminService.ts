@@ -266,8 +266,9 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
 			{ displayLabel: 'Network Status', name: 'archive', values: [] },
 			{ displayLabel: 'Environment Type', name: 'envType', values: [] },
-			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
-			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },
+			// Removed as currently don't show any meaningful information
+			/*{ displayLabel: 'Source Organization', name: 'owner', values: [] },
+			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },*/
 
 			{ displayLabel: 'Operating System', name: 'os', values: [] },
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
