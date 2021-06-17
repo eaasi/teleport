@@ -2,7 +2,7 @@
 	<form-modal
 		ref="_form"
 		size="sm"
-		title="Node Preferences"
+		title="Keyboard Preferences"
 		@save="saveKeyboardSettings"
 		@close="cancel"
 		@click:cancel="cancel"

@@ -8,7 +8,7 @@
 		<transition name="fade">
 			<ul class="hmd-list" v-show="isDropDownVisible">
 				<li class="hmd-list-item flex flex-row justify-between" @click="isNodePreferencesModalVisible = true">
-					<span>Node Preferences</span>
+					<span>Keyboard Preferences</span>
 					<span class="icon fas fa-fw fa-edit"></span>
 				</li>
 				<li v-if="allowChangePassword" class="hmd-list-item flex flex-row justify-between" @click="changePassword">
