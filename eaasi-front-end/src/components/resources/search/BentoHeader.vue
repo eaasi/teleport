@@ -61,7 +61,7 @@ export default class BentoHeader extends Vue {
 	/* Computed
 	============================================*/
 	get label(): string {
-		return this.type + ' Results';
+		return this.type + ' Resources';
 	}
 
 	get icon(): string {
