@@ -23,10 +23,9 @@ export default class SoftwareService extends BaseService {
 		let userId = getUserIdFromToken(token);
 		let results = this._cache.get<ISoftwarePackage[]>(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`)
 		if(results) return results;
-		const descriptionList = await this.getSoftwareDescriptionList(token);
 		const packageList = await this.getSoftwarePackageList(token);
-		const packages = this._mergeDescriptionsWithPackages(descriptionList, packageList);
-		if (packageList.packages.length) this._cache.add(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`, packages);
+		const packages = packageList.packages;
+		if (packages.length) this._cache.add(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`, packages);
 		return packages;
 	}
 
