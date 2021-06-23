@@ -3,8 +3,8 @@
 		<div class="li-label">
 			{{ item.label }}
 		</div>
-		<p v-if="readonly" :class="['input-wrapper', { changed }]">{{ selectedValue }}</p>
-		<select-list v-else-if="!readonly" v-model="item.value" :class="['input-wrapper', { changed }]" readonly>
+		<p v-if="readonly" :class="['input-wrapper', { changed: item.value !== localItem.value }]">{{ selectedValue }}</p>
+		<select-list v-else-if="!readonly" v-model="item.value" :class="['input-wrapper', { changed: item.value !== localItem.value }]" readonly>
 			<option
 				v-for="(option, index) in item.data"
 				:key="index"
@@ -21,6 +21,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import { jsonCopy } from '@/utils/functions';
+import eventBus from '@/utils/event-bus';
 
 @Component({
     name: 'EditableSelectList'
@@ -46,10 +47,6 @@ export default class EditableSelectList extends Vue {
 
     /* Computed
     ============================================*/
-    get changed() {
-        return this.item.value !== this.localItem.value;
-    }
-
     get selectedValue() {
         // @ts-ignore
         const dataItem = this.item.data.find(d => d[this.anchor] === this.item.value);
@@ -59,7 +56,19 @@ export default class EditableSelectList extends Vue {
 
     /* Data
     ============================================*/
-	localItem: ILabeledEditableItem = jsonCopy(this.item);
+	localItem: ILabeledEditableItem;
+
+	refresh() {
+		this.localItem = jsonCopy(this.item);
+		this.$forceUpdate();
+	}
+
+	/* Lifecycle Methods
+    ============================================*/
+	created() {
+		this.refresh();
+		eventBus.$on('editable-item:refresh', this.refresh);
+	}
 
 }
 </script>

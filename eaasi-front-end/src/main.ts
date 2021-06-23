@@ -64,7 +64,6 @@ const initOptions = {
 	} else {
 		store.dispatch('login', (window as any).keycloak.token);
 
-		await router.push('/');
 		new Vue({
 			router,
 			store,

@@ -42,7 +42,10 @@
 import {IEnvironmentRevision} from '@/types/Resource';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiSearchQuery } from '@/types/Search';
+import { ROUTES } from '@/router/routes.const';
+import { INotification } from '@/types/Notification';
+import { generateId } from '@/utils/functions';
+import eventBus from '@/utils/event-bus';
 
 @Component({
 	name: 'ResourceDetailsRevisionList',
@@ -64,7 +67,18 @@ export default class ResourceDetailsRevisionList extends Vue {
 	async fork(rev: IEnvironmentRevision) {
 		const result = await this.$store.dispatch('resource/forkRevision', rev.id);
 		if (!result) return;
-		this.$router.push({ name: 'Explore Resources' });
+		if (result.status === '0') {
+			await this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: result.envId.toString() } });
+			this.$emit('full-refresh');
+		} else {
+			let notification: INotification = {
+				label: `Failed to fork environment: ${result.message}`,
+				time: 5000,
+				type: 'danger',
+				id: generateId()
+			};
+			eventBus.$emit('notification:show', notification);
+		}
 	}
 
     toggle(id: string) {

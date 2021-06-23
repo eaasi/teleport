@@ -38,6 +38,7 @@
 				<revision-list
 					v-show="activeTab === 'History'"
 					:revisions="activeEnvironment.revisions"
+					@full-refresh="fullRefresh"
 				/>
 			</div>
 			<!-- Modals -->
@@ -97,6 +98,7 @@ import { ROUTES } from '../../../../router/routes.const';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
 import { Sync } from 'vuex-pathify';
+import eventBus from '@/utils/event-bus';
 
 @Component({
 	name: 'EnvironmentDetailsScreen',
@@ -204,7 +206,9 @@ export default class EnvironmentDetailsScreen extends Vue {
 
 		if (result && result.id) {
 			this.activeMode = this.mods[0];
-			await this.$router.replace(`/resources/environment?resourceId=${result.id}`);
+			if (this.$route.fullPath !== `/resources/environment?resourceId=${result.id}`) {
+				await this.$router.replace(`/resources/environment?resourceId=${result.id}`);
+			}
 			this.$route.query['resourceId'] = result.id;
 			await this.init();
 		}
@@ -230,6 +234,14 @@ export default class EnvironmentDetailsScreen extends Vue {
 		const { envId } = this.activeEnvironment as IEnvironment;
 
 		this.$router.push(`${ROUTES.ACCESS_INTERFACE}/${envId}?softwareId=${id}&archiveId=${archiveId}`);
+	}
+
+	async fullRefresh() {
+		await this.init();
+		this.activeMode = 'Review Mode';
+		this.activeTab = this.tabs[0].label;
+		eventBus.$emit('resource-details:refresh');
+		eventBus.$emit('editable-item:refresh');
 	}
 
 	async refresh() {
@@ -498,7 +510,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 			},
 			{
 				label: 'Internet Enabled',
-				value: this.activeEnvironment.enableInternet,
+				value: this.activeEnvironment.networking ? this.activeEnvironment.networking.enableInternet : false,
 				property: 'enableInternet',
 				changed: false,
 				readonly: false,

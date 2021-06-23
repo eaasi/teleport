@@ -5,7 +5,7 @@
 			v-model="item.value"
 			v-if="!readonly"
 		/>
-		<div :class="['li-value', 'text-bold', { changed }]">
+		<div :class="['li-value', 'text-bold', { changed: item.value !== localItem.value }]">
 			{{ item.label }}
 		</div>
 		<div :class="['display-value', displayColor]">
@@ -19,6 +19,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledItem } from '@/types/ILabeledItem';
 import { jsonCopy } from '@/utils/functions';
+import eventBus from '@/utils/event-bus';
 
 @Component({
     name: 'EditableCheckboxItem'
@@ -35,10 +36,6 @@ export default class EditableCheckboxItem extends Vue {
 
     /* Computed
     ============================================*/
-    get changed() {
-        return this.item.value !== this.localItem.value;
-    }
-
     get displayValue() {
     	if (this.item.value === false) {
     		return 'FALSE';
@@ -64,11 +61,16 @@ export default class EditableCheckboxItem extends Vue {
 	============================================*/
 	localItem: ILabeledItem = null;
 
-
-    /* Lifecycle Methods
-    ============================================*/
-	beforeMount() {
+	refresh() {
 		this.localItem = jsonCopy(this.item);
+		this.$forceUpdate();
+	}
+
+	/* Lifecycle Methods
+		============================================*/
+	created() {
+		this.refresh();
+		eventBus.$on('editable-item:refresh', this.refresh);
 	}
 
 }
