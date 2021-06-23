@@ -4,7 +4,6 @@ import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiApiRequestOptions, IEaasiApiResponse } from '@/types/Http';
 import { IEaasiSearchQuery } from '@/types/Search';
 import eventBus from '@/utils/event-bus';
-import { setUserToken } from '@/utils/auth';
 
 export default class BaseHttpService {
 
@@ -148,15 +147,7 @@ export default class BaseHttpService {
 
 			if (response.status === 429) eventBus.$emit(events.REQUEST_LIMIT_REACHED);
 
-			if (response.status === 401) {
-				let refreshed = await (window as any).keycloak.updateToken(0);
-				if (refreshed) {
-					setUserToken((window as any).keycloak.token);
-					return this._makeRequest(url, method, data, options);
-				} else {
-					eventBus.$emit(events.UNAUTHORIZED_ERROR);
-				}
-			}
+			if (response.status === 401) eventBus.$emit(events.UNAUTHORIZED_ERROR);
 
 			return response;
 		} catch (e) {
