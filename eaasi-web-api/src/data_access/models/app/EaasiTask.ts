@@ -61,4 +61,10 @@ export class EaasiTask extends Model<EaasiTask> {
 	})
 	object: JSON;
 
+	@Column({
+		type: DataTypes.STRING(128),
+		allowNull: true
+	})
+	tenantId: string;
+
 }

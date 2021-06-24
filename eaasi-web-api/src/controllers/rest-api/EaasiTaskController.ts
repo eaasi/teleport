@@ -10,6 +10,8 @@ import { IEaasiTask } from '@/types/task/Task';
 import { build_404_response, build_500_response } from '@/utils/error-helpers';
 import { Request, Response } from 'express';
 import BaseController from '../base/BaseController';
+import { getTenantIdFromToken } from '@/utils/token';
+import ErrorResponse from '@/classes/ErrorResponse';
 
 export default class EaasiTaskController extends BaseController {
 
@@ -46,7 +48,11 @@ export default class EaasiTaskController extends BaseController {
 				.send(build_404_response(req.originalUrl));
 		}
 
-		return res.status(HttpResponseCode.OK).send(response.result);
+		let filteredTasks = response.result.result;
+		const tenantId = getTenantIdFromToken(req.headers.authorization);
+		filteredTasks = filteredTasks.filter(task => task.getDataValue('tenantId') === tenantId);
+
+		return res.status(HttpResponseCode.OK).send({ result: filteredTasks });
 	}
 
 	/**
@@ -68,13 +74,17 @@ export default class EaasiTaskController extends BaseController {
 				...emilTask,
 				taskId,
 				userData: emilTask.userData ? JSON.stringify(emilTask.userData) : null,
+				tenantId: getTenantIdFromToken(req.headers.authorization)
 			};
 
 			if (!eaasiTask) {
 				const response = await this.taskService.create(taskToSave);
 				return res.send(response.result);
 			}
-
+			if (eaasiTask.tenantId !== getTenantIdFromToken(req.headers.authorization)) {
+				return res.status(HttpResponseCode.FORBIDDEN)
+					.send(new ErrorResponse(HttpResponseCode.FORBIDDEN, 'Can\'t access task from other organization'));
+			}
 			const response = await this.taskService.update(eaasiTask.id, taskToSave);
 			return res.send(response.result);
 		} catch(e) {
@@ -92,13 +102,18 @@ export default class EaasiTaskController extends BaseController {
 			let id = Number(req.params.id);
 			const crudResult: ICrudServiceResult<EaasiTask> = await this.taskService.getByPk(id);
 			const taskId = crudResult.result.getDataValue('taskId');
-			let deleteApiResponse = await this.taskService.destroy(id);
-			if (deleteApiResponse.hasError) {
-				await this._handleDeleteError(req, res, deleteApiResponse);
-			}
+			if (crudResult.result.getDataValue('tenantId') === getTenantIdFromToken(req.headers.authorization)) {
+				let deleteApiResponse = await this.taskService.destroy(id);
+				if (deleteApiResponse.hasError) {
+					await this._handleDeleteError(req, res, deleteApiResponse);
+				}
 
-			let deleteResponse = await this.emilTaskService.deleteTask(taskId, req.user.token);
-			res.status(HttpResponseCode.OK).send(deleteResponse);
+				let deleteResponse = await this.emilTaskService.deleteTask(taskId, req.headers.authorization);
+				res.status(HttpResponseCode.OK).send(deleteResponse);
+			} else {
+				res.status(HttpResponseCode.FORBIDDEN)
+					.send(new ErrorResponse(HttpResponseCode.FORBIDDEN, 'Task from other organization can\'t be removed'));
+			}
 		} catch(e) {
 			this.sendError(e, res);
 		}
