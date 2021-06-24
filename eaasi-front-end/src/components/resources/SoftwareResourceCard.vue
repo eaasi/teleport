@@ -55,13 +55,6 @@ export default class SoftwareResourceCard extends Vue {
 
 	/* Data
 	============================================*/
-	resourceTypeTags: ITag[] =  [
-		{
-			text: resourceLabels.SOFTWARE,
-			icon: translatedIcon('disk'),
-			color:'white'
-		}
-	];
 
 	/* Computed
 	============================================*/
@@ -70,6 +63,15 @@ export default class SoftwareResourceCard extends Vue {
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
+
+	get resourceTypeTags(): ITag[] {
+		let text = this.software.isOperatingSystem ? resourceLabels.OPERATING_SYSTEM : resourceLabels.SOFTWARE;
+		return [{
+			text,
+			icon: translatedIcon('disk'),
+			color:'white'
+		}];
+	}
 
 	get summary(): IEaasiResourceSummary | null {
 		if (!this.software) return null;

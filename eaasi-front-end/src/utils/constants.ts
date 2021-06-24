@@ -15,8 +15,10 @@ export const resourceTypes: IResourceTypes = {
 };
 
 export const resourceLabels: any = {
-	ENVIRONMENT: 'Content Environment',
-	SOFTWARE: 'Operating System',
+	CONTENT_ENVIRONMENT: 'Content Environment',
+	ENVIRONMENT: 'Environment',
+	SOFTWARE: 'Software',
+	OPERATING_SYSTEM: 'Operating System',
 	CONTENT: 'Content',
 	IMAGE: 'Image'
 };

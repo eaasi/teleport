@@ -84,8 +84,10 @@ export default class EnvironmentResourceCard extends Vue {
 	readonly completedTasks: EaasiTask[];
 
 	get resourceTypeTags(): ITag[] {
+		const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'zero conf');
+		let text = isContentEnvironment ? resourceLabels.CONTENT_ENVIRONMENT : resourceLabels.ENVIRONMENT;
 		let tags = [{
-			text: resourceLabels.ENVIRONMENT as string,
+			text,
 			icon: translatedIcon('config-environment'),
 			color: 'white'
 		}];
