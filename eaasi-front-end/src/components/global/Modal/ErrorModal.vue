@@ -23,7 +23,7 @@
 				<strong>URL: </strong>{{ error.request.url }}
 			</div>
 
-			<div class="error-section">
+			<!--<div class="error-section">
 				<p>Stack Trace: </p>
 				<div id="debugErrorStack" v-if="error.stack">
 					<div class="scrollable-container lg">
@@ -53,7 +53,7 @@
 				>
 					Copy Error Details to Clipboard
 				</ui-button>
-			</div>
+			</div>-->
 		</div>
 		<!-- For 2020.03 release we are showing complete front-end stack trace -->
 		<!-- <div v-else class="error-container">
@@ -67,12 +67,19 @@
 			<div class="flex-row justify-end">
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
-						<a href="http://eaasi.portalmedia.com/emil/error-report">
+						<ui-button
+							color-preset="light-blue"
+							class="btn-info-modal-close"
+							@click="downloadFrontendLogs"
+						>
+							Download Front-End Logs
+						</ui-button>
+						<a :href="backendLogsUrl">
 							<ui-button
 								color-preset="light-blue"
 								class="btn-info-modal-close"
 							>
-								Download Server Logs
+								Download Back-End Logs
 							</ui-button>
 						</a>
 						<ui-button
@@ -95,9 +102,8 @@ import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import { Component } from 'vue-property-decorator';
 import { IApplicationLog } from '@/types/ApplicationLog';
 import { Get, Sync } from 'vuex-pathify';
-import { generateNotificationSuccess } from '../../../helpers/NotificationHelper';
-import eventBus from '../../../utils/event-bus';
 import config from '../../../config';
+import * as zlib from 'zlib';
 
 /**
  * A pop-up modal that notifies a user that an error has occurred
@@ -125,6 +131,7 @@ export default class ErrorModal extends Vue {
 	============================================*/
 	apiEvents: IApplicationLog[] = [];
 	appVersion: string = '';
+	backendLogsUrl: string = config.EMIL_SERVICE_ENDPOINT + '/error-report';
 
 	/* Methods
 	============================================*/
@@ -138,9 +145,9 @@ export default class ErrorModal extends Vue {
 		this.appVersion = config.APP_VERSION;
 	}
 
-	copyToClipboard() {
+	downloadFrontendLogs() {
 		let apiEventsString = this.apiEvents.map(event => this.objToString(event));
-		let textToClipboard = `
+		let logs = `
 ##### Front-End Stack Trace #####
 ${this.objToString(this.error)}
 ###### Web-Api Event List #######
@@ -148,9 +155,15 @@ ${apiEventsString}
 ###### App Version #######
 EaaSi Version: ${this.appVersion}
 ########## < END > ##############`;
-		this.executeCopy(textToClipboard);
-		const notification = generateNotificationSuccess('Error Details has been copied to your clipboard.');
-		eventBus.$emit('notification:show', notification);
+
+		var output = zlib.gzipSync(logs);
+		var blob = new Blob([output.buffer], { type: 'application/gzip' });
+		const link = document.createElement('a');
+		link.href = URL.createObjectURL(blob);
+		link.setAttribute('download', 'eaasi-frontend-error-report.gz');
+		document.body.appendChild(link);
+		link.click();
+		link.parentNode.removeChild(link);
 	}
 
 	objToString (obj) {
@@ -177,7 +190,7 @@ EaaSi Version: ${this.appVersion}
 	============================================*/
 	async beforeMount() {
 		await this.getApiEvents();
-	} 
+	}
 
 	beforeDestroy() {
 		this.error = null;
