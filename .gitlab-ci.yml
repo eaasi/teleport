@@ -4,28 +4,9 @@ image: node:latest
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-before_script:
-    # Install ssh-agent
-    - echo '========= Starting Deploy Stage ========='
-    - echo "$CI_COMMIT_REF_NAME"
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-
-    # Run ssh-agent in the build environment
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$BUILD_AGENT_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-    # Add git user
-    - git config --global user.email "wes@portalmedia.com"
-    - git config --global user.name "Wes"
-
-
 stages:
     - build
     - test
-    - deploy
 
 cache:
     paths:
@@ -74,11 +55,3 @@ test:api:
         - jest --verbose --detectOpenHandles --logHeapUsage --coverage
     only:
         - merge_requests
-
-deploy:all:
-    stage: deploy
-    script:
-        - ssh portalmedia@eaasi.portalmedia.com -tt -p "$SSH_PORT" \
-              "cd ~/eaasi/portal && sudo git stash && sudo git pull origin master && sudo git stash pop && sudo docker container stop eaasi-web-api eaasi-front-end eaasi-database eaasi-nginx && sudo docker container rm eaasi-web-api eaasi-front-end eaasi-database eaasi-nginx && sudo docker-compose up --build -d --no-deps --force-recreate eaasi-web-api eaasi-front-end eaasi-nginx eaasi-database && exit" 
-    only:
-        - staging
