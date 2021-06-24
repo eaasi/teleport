@@ -28,7 +28,7 @@ import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 import { ROUTES } from '@/router/routes.const';
-import {translatedIcon} from '@/utils/constants';
+import { resourceLabels, translatedIcon } from '@/utils/constants';
 
 @Component({
 	name: 'SoftwareResourceCard',
@@ -57,7 +57,7 @@ export default class SoftwareResourceCard extends Vue {
 	============================================*/
 	resourceTypeTags: ITag[] =  [
 		{
-			text:'Software',
+			text: resourceLabels.SOFTWARE,
 			icon: translatedIcon('disk'),
 			color:'white'
 		}

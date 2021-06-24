@@ -14,6 +14,13 @@ export const resourceTypes: IResourceTypes = {
 	IMAGE: 'Image'
 };
 
+export const resourceLabels: any = {
+	ENVIRONMENT: 'Content Environment',
+	SOFTWARE: 'Operating System',
+	CONTENT: 'Content',
+	IMAGE: 'Image'
+};
+
 export interface IResourceTypes {
 	ENVIRONMENT: ResourceType;
 	SOFTWARE: ResourceType;
