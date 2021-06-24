@@ -14,72 +14,12 @@
 					</div>
 				</div>
 				<environment-card v-if="environment" />
-
 				<div v-if="environment">
 					<h4>Environment Options</h4>
-					<checkbox-info
-						label="Environment can print"
-						v-model="enablePrinting"
+					<editable-labeled-item-list
+						readonly
+						:labeled-items="environmentOptions"
 					/>
-					<checkbox-info
-						label="Relative Mouse (Pointerlock)"
-						v-model="enableRelativeMouse"
-					/>
-					<checkbox-info
-						label="Requires clean shutdown"
-						v-model="shutdownByOs"
-					/>
-					<div>
-						<ui-button @click="showAdvancedOptions = !showAdvancedOptions" color-preset="white">
-							Advanced Options
-						</ui-button>
-						<div v-show="showAdvancedOptions" class="advanced-options-wrapper">
-							<checkbox-info
-								style="margin-bottom: 2rem;"
-								label="Virtualize CPU"
-								v-model="isKvmEnabled"
-							/>
-							<checkbox-info
-								label="WebRTC Audio (Beta)"
-								v-model="useWebRTC"
-							/>
-							<checkbox-info
-								label="XPRA Video (Experimental)"
-								v-model="useXpra"
-							/>
-							<div v-show="useXpra">
-								<select-list
-									v-model="xpraEncoding"
-									placeholder="Please select encoding for XPRA Video"
-									label="XPRA Video Encoding"
-								>
-									<option selected disabled value="">Please select encoding for XPRA Video</option>
-									<option value="auto">auto</option>
-									<option value="jpeg">jpeg</option>
-									<option value="png">png</option>
-									<option value="rgb24">rgb24</option>
-									<option value="rgb32">rgb32</option>
-									<option value="h264">h264</option>
-								</select-list>
-							</div>
-							<text-input
-								style="margin-bottom: 2rem;"
-								label="cpu"
-								rules="required|numeric|min:1|max:9"
-								v-model.number="environmentCpu"
-							/>
-							<text-input
-								style="margin-bottom: 2rem;"
-								label="Disk Size (MB)"
-								rules="required|numeric|minlength:0|maxlength:10000"
-								v-model.number="environmentMemory"
-							/>
-							<text-input
-								label="Config"
-								v-model="nativeConfig"
-							/>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -123,10 +63,13 @@ import EnvironmentCard from './shared/EnvironmentCard.vue';
 import DriveResourceCard from './shared/DriveResourceCard.vue';
 import ObjectCard from './shared/ObjectCard.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import EditableLabeledItemList from '../resources/view-details/shared/EditableLabeledItemList.vue';
+import { ILabeledEditableItem } from '@/types/ILabeledItem';
 
 @Component({
 	name: 'EmulationProjectDetails',
 	components: {
+		EditableLabeledItemList,
 		SystemTemplateDetails,
         EnvironmentCard,
 		ObjectCard,
@@ -243,6 +186,76 @@ export default class EmulationProjectDetails extends Vue {
 		}
     }
 
+    get environmentOptions(): ILabeledEditableItem[] {
+		let options: ILabeledEditableItem[] = [
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'Environment can print',
+				value: this.enablePrinting,
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'Relative Mouse (Pointerlock)',
+				value: this.enableRelativeMouse,
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'Requires clean shutdown',
+				value: this.shutdownByOs,
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'Virtualize CPU',
+				value: this.isKvmEnabled,
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'WebRTC Audio (Beta)',
+				value: this.useWebRTC,
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'XPRA Video (Experimental)',
+				value: this.useXpra,
+			}
+		];
+		if (this.useXpra) {
+			options.push({
+				readonly: true,
+				editType: 'text-input',
+				label: 'XPRA Video Encoding',
+				value: this.xpraEncoding,
+			});
+		}
+		options.push(
+			{
+				readonly: true,
+				editType: 'text-input',
+				label: 'cpu',
+				value: this.environmentCpu,
+			},
+			{
+				readonly: true,
+				editType: 'text-input',
+				label: 'Disk Size (MB)',
+				value: this.environmentMemory,
+			},
+			{
+				readonly: true,
+				editType: 'text-input',
+				label: 'Config',
+				value: this.nativeConfig,
+			}
+		);
+		return options;
+	}
+
 	/* Data
 	============================================*/
 
@@ -326,6 +339,10 @@ export default class EmulationProjectDetails extends Vue {
 	.remove-resource {
 		color: darken($light-blue, 30%);
 		padding: 1.1rem 0 1.1rem;
+	}
+
+	.lil-container {
+		max-width: 50rem;
 	}
 }
 </style>

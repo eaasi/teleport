@@ -6,7 +6,7 @@ export interface ILabeledItem {
 export interface ILabeledEditableItem extends ILabeledItem {
 	readonly: boolean;
 	editType: EditType;
-	changed: boolean;
+	changed?: boolean;
 	property?: string;
 	data?: any;
 }
