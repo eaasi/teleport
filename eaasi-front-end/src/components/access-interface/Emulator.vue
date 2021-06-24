@@ -246,6 +246,9 @@
 			window.onbeforeunload = () => ''; // Show generic browser warning
 			window.onunload = () => vm.stopEnvironment();
 			vm.client.onEmulatorStopped = () => {
+				// @ts-ignore
+				document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+				document.exitPointerLock();
 				this.isStarted = false;
 			};
 		}
