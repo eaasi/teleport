@@ -22,7 +22,7 @@
 				/>
 			</div>
 			<div class="col-md-3">
-				<section-heading title="Runtime Options" size="large" />
+				<section-heading title="Environment Options" size="large" />
 				<editable-labeled-item-list
 					:readonly="!isEditMode"
 					:labeled-items="uiOptionLabeledItems"

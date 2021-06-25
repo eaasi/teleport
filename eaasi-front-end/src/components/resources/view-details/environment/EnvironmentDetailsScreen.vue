@@ -180,6 +180,10 @@ export default class EnvironmentDetailsScreen extends Vue {
 			? `${this.activeEnvironment.title}` : 'Environment Details';
 	}
 
+	get isKvmEnabled(): boolean {
+		return this.activeEnvironment.nativeConfig && this.activeEnvironment.nativeConfig.indexOf(this.kvmFlag) >= 0;
+	}
+
     /* Methods
 	============================================*/
 	async saveDetails() {
@@ -460,6 +464,12 @@ export default class EnvironmentDetailsScreen extends Vue {
 				changed: false,
 				readonly: false,
 				editType: 'checkbox'
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'Virtualize CPU',
+				value: this.isKvmEnabled,
 			},
 			{
 				label: 'WebRTC Audio',
