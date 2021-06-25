@@ -3,7 +3,7 @@
 		<div class="rtl-header padded-xl">
 			<div class="container-xs">
 				<div class="flex-row justify-between">
-					<h1>Node Preferences</h1>
+					<h1>Keyboard Preferences</h1>
 				</div>
 			</div>
 		</div>
