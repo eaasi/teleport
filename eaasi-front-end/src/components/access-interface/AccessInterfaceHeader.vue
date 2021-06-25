@@ -99,7 +99,6 @@
 
 <script lang="ts">
 import {ISaveEnvOptions} from '@/types/SaveEnvironment';
-import {SaveEnvironmentOption} from '@/types/SaveEnvironmentOption';
 import eventBus from '@/utils/event-bus';
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
@@ -160,38 +159,8 @@ export default class AccessInterfaceHeader extends Vue {
 		eventBus.$emit('emulator:print:download-print-job', label);
 	}
 
-	async saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
-		let { title, description, saveType } = saveEnvOptions ;
-
-		// We are saving a new base environment resource
-		if (saveType === SaveEnvironmentOption.newEnvironment) {
-			let res = await this.$store.dispatch('resource/saveNewEnvironment', { title, description });
-			if (res.status === '0') {
-				this.$router.push({ name: 'Explore Resources' });
-			} else {
-				console.error('Error Saving Environment: ', res);
-			}
-
-		// We are making a revision to an existing environment resource
-		} else if (saveType === SaveEnvironmentOption.createRevision) {
-			let res = await this.$store.dispatch('resource/saveEnvironmentRevision', description);
-			if (res.status === '0') {
-				this.$router.push({ name: 'Explore Resources' });
-			} else {
-				console.error('Error Saving Environment: ', res);
-			}
-
-		// We are creating a new environment resource that is an 'Object Environment'
-		} else if (saveType === SaveEnvironmentOption.objectEnvironment) {
-			let res = await this.$store.dispatch('resource/saveObjectEnvironment', { title, description });
-			if (res.status === '0') {
-				this.$router.push({ name: 'Explore Resources' });
-			} else {
-				console.error('Error Saving Environment: ', res);
-			}
-		} else if (saveType === SaveEnvironmentOption.imageImport) {
-			eventBus.$emit('emulator:saveEnvironmentImport', { description, title });
-		}
+	saveEnvironment(saveEnvOptions: ISaveEnvOptions) {
+		eventBus.$emit('emulator:saveSnapshot', saveEnvOptions);
 	}
 
 	goToDashboard() {

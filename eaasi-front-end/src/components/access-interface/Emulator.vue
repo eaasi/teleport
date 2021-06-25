@@ -28,6 +28,14 @@
 
 	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
 	import { NetworkBuilder } from 'EaasClient/lib/networkBuilder';
+	import {
+		SaveNewEnvironmentRequest,
+		SaveObjectEnvironmentRequest,
+		SaveRevisionRequest
+	} from 'EaasClient/lib/componentSession';
+	import { ROUTES } from '@/router/routes.const';
+	import { ISaveEnvOptions } from '@/types/SaveEnvironment';
+	import { SaveEnvironmentOption } from '@/types/SaveEnvironmentOption';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.
@@ -293,6 +301,30 @@
 			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources'}});
 		}
 
+		async saveSnapshot(options: ISaveEnvOptions) {
+			let snapshotRequest;
+			switch (options.saveType) {
+				case SaveEnvironmentOption.newEnvironment:
+					snapshotRequest = new SaveNewEnvironmentRequest(options.title, options.description);
+					break;
+				case SaveEnvironmentOption.objectEnvironment:
+					snapshotRequest = new SaveObjectEnvironmentRequest(options.title, options.description);
+					break;
+				case SaveEnvironmentOption.createRevision:
+					snapshotRequest = new SaveRevisionRequest(options.description);
+					break;
+				default:
+					break;
+			}
+			if (!snapshotRequest) {
+				return;
+			}
+			let result = await this.client.getActiveSession().createSnapshot(snapshotRequest);
+			if (result.status === '0') {
+				await this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: result.envId.toString() } });
+			}
+		}
+
 		initBusListeners() {
 			eventBus.$on('emulator:save', () => this.saveEmulator());
 			eventBus.$on('emulator:saveEnvironmentImport', (importDetails) => this.saveEnvironmentImport(importDetails));
@@ -301,6 +333,7 @@
 			eventBus.$on('emulator:send:ctrlAltDelete', () => this.sendCtrlAltDelete());
 			eventBus.$on('emulator:change-media', (changeMediaRequest) => this.changeMedia(changeMediaRequest));
 			eventBus.$on('emulator:print:download-print-job', (label: string) => this.downloadPrintJob(label));
+			eventBus.$on('emulator:saveSnapshot', (options: ISaveEnvOptions) => this.saveSnapshot(options));
 		}
 
 		initPrintListeners() {
@@ -329,6 +362,7 @@
 			eventBus.$off('emulator:send:escape');
 			eventBus.$off('emulator:send:ctrlAltDelete');
 			eventBus.$off('emulator:print:download-print-job');
+			eventBus.$off('emulator:saveSnapshot');
 		}
 
 		/* Lifecycle Hooks
