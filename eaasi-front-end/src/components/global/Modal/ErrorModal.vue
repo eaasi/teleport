@@ -103,7 +103,7 @@ import { Component } from 'vue-property-decorator';
 import { IApplicationLog } from '@/types/ApplicationLog';
 import { Get, Sync } from 'vuex-pathify';
 import config from '../../../config';
-import * as zlib from 'zlib';
+import zlib from 'zlib';
 
 /**
  * A pop-up modal that notifies a user that an error has occurred
