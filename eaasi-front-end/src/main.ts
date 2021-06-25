@@ -10,6 +10,7 @@ import store from './store';
 import Keycloak from 'keycloak-js';
 import config from '@/config';
 import * as EaasClient from 'EaasClient/eaas-client.js';
+import { setUserToken } from '@/utils/auth';
 
 (window as any).EaasClient = EaasClient;
 
@@ -62,8 +63,6 @@ const initOptions = {
 		window.location.reload();
 	} else {
 		store.dispatch('login', (window as any).keycloak.token);
-		// TODO: remove temporary entry for local eaas-client
-		localStorage.setItem('id_token', (window as any).keycloak.token);
 
 		await router.push('/');
 		new Vue({
@@ -72,6 +71,19 @@ const initOptions = {
 			render: h => h(App)
 		}).$mount('#app');
 	}
+
+	// Refreshes access-token if it expires in lifespan/2
+	setInterval(() => {
+		(window as any).keycloak.updateToken(((window as any).keycloak.tokenParsed.exp - (window as any).keycloak.tokenParsed.iat) / 2)
+			.then((refreshed) => {
+				if (refreshed) {
+					setUserToken((window as any).keycloak.token);
+				}
+			})
+			.catch(() => {
+				console.error('Failed to refresh token');
+			});
+	}, 60 * 1000);
 }).catch((e) => {
 	console.error('Keycloak init error: ', e);
 });
