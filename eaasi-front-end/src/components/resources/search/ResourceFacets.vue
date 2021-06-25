@@ -1,6 +1,6 @@
 <template>
 	<div class="resource-facets">
-		<h2>Refine Your Results</h2>
+		<h2>Refine Your Resources</h2>
 		<checkbox-facet
 			v-for="(f, i) in availableFacets"
 			:key="i"
