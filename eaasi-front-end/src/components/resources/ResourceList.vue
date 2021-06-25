@@ -146,4 +146,10 @@ export default class ResourceList extends Vue {
 
 <style lang="scss">
 
+.resource-list {
+	.card-wrapper {
+		margin-right: 1rem;
+	}
+}
+
 </style>
