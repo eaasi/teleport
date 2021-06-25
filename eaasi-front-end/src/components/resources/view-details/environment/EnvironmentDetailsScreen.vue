@@ -137,6 +137,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 		}
 	]
 	actionMenuActiveTab: IEaasiTab = null;
+	kvmFlag: string = '-enable-kvm';
 
     /* Computed
 	============================================*/
