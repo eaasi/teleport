@@ -53,8 +53,8 @@ const actions = {
 		} else if (task.isDone) {
 			if (task.userData) task.userData = JSON.parse(task.userData);
 			await dispatch('onTaskComplete', task);
+			commit('ADD_OR_UPDATE_TASK', task);
 		}
-		commit('ADD_OR_UPDATE_TASK', task);
 		return task;
 	},
 
