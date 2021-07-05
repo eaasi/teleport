@@ -20,7 +20,6 @@ export default class EnvironmentService extends BaseService {
 	private readonly _environmentRepoService: EmilBaseService;
 	private readonly _componentService: ComponentService;
 	private readonly _tempEnvironmentService: TempEnvironmentService;
-	private readonly _emilEnvironmentDataService: EmilBaseService;
 	private readonly CACHE_KEYS = {
 		ALL_ENVIRONMENTS: 'all-environments'
 	}
@@ -29,13 +28,11 @@ export default class EnvironmentService extends BaseService {
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
 		componentService: ComponentService = new ComponentService(),
 		tempEnvService: TempEnvironmentService = new TempEnvironmentService(),
-		emilEnvironmentDataService: EmilBaseService = new EmilBaseService('EmilEnvironmentData')
 	) {
 		super();
 		this._environmentRepoService = environmentRepository;
 		this._componentService = componentService;
 		this._tempEnvironmentService = tempEnvService;
-		this._emilEnvironmentDataService = emilEnvironmentDataService;
 	}
 
 	async getAll(token?: string): Promise<IEnvironment[]> {
@@ -219,7 +216,7 @@ export default class EnvironmentService extends BaseService {
 	* }
 	*/
 	async forkRevision(revisionRequest: IRevisionRequest, token: string) {
-		let res = await this._emilEnvironmentDataService.post('forkRevision', revisionRequest, token);
+		let res = await this._environmentRepoService.post(`environments/${revisionRequest.id}/revisions`, revisionRequest, token);
 		if(res.ok) this.clearCache(getUserIdFromToken(token));
 		return res.json();
 	}
