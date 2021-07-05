@@ -138,6 +138,9 @@ export default class EmulationProjectDetails extends Vue {
 	@Sync('emulationProject/environment@drives')
 	drives: IDriveSetting[];
 
+	@Sync('emulationProject/environment@enableInternet')
+	enableInternet: boolean;
+
 	@Get('emulationProject/projectObjects')
 	projectObjects: IEaasiResource[];
 
@@ -191,7 +194,7 @@ export default class EmulationProjectDetails extends Vue {
 			{
 				readonly: true,
 				editType: 'checkbox',
-				label: 'Environment can print',
+				label: 'Environment Can Print',
 				value: this.enablePrinting,
 			},
 			{
@@ -203,27 +206,35 @@ export default class EmulationProjectDetails extends Vue {
 			{
 				readonly: true,
 				editType: 'checkbox',
-				label: 'Requires clean shutdown',
-				value: this.shutdownByOs,
-			},
-			{
-				readonly: true,
-				editType: 'checkbox',
 				label: 'Virtualize CPU',
 				value: this.isKvmEnabled,
 			},
 			{
 				readonly: true,
 				editType: 'checkbox',
-				label: 'WebRTC Audio (Beta)',
+				label: 'WebRTC Audio',
 				value: this.useWebRTC,
 			},
 			{
 				readonly: true,
 				editType: 'checkbox',
-				label: 'XPRA Video (Experimental)',
+				label: 'XPRA Video',
 				value: this.useXpra,
-			}
+			},
+			{
+				readonly: true,
+				editType: 'checkbox',
+				label: 'Requires Clean Shutdown',
+				value: this.shutdownByOs,
+			},
+			{
+				label: 'Internet Enabled',
+				value: this.enableInternet,
+				property: 'enableInternet',
+				changed: false,
+				readonly: false,
+				editType: 'checkbox'
+			},
 		];
 		if (this.useXpra) {
 			options.push({
