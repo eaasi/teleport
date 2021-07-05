@@ -29,7 +29,7 @@ import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
-import {resourceTypes, archiveTypes, translatedIcon} from '@/utils/constants';
+import { archiveTypes, translatedIcon, resourceLabels } from '@/utils/constants';
 import { IBookmark } from '@/types/Bookmark';
 import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
 import EaasiTask from '@/models/task/EaasiTask';
@@ -84,8 +84,10 @@ export default class EnvironmentResourceCard extends Vue {
 	readonly completedTasks: EaasiTask[];
 
 	get resourceTypeTags(): ITag[] {
+		const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null);
+		let text = isContentEnvironment ? resourceLabels.CONTENT_ENVIRONMENT : resourceLabels.ENVIRONMENT;
 		let tags = [{
-			text: resourceTypes.ENVIRONMENT as string,
+			text,
 			icon: translatedIcon('config-environment'),
 			color: 'white'
 		}];

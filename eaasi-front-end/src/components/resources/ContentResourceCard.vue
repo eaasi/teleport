@@ -27,7 +27,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
-import {resourceTypes, translatedIcon} from '@/utils/constants';
+import { resourceLabels, resourceTypes, translatedIcon } from '@/utils/constants';
 import { ROUTES } from '../../router/routes.const';
 
 @Component({
@@ -54,7 +54,7 @@ export default class ContentResourceCard extends Vue {
 
 	resourceTypeTags: ITag[] =  [
 		{
-			text: 'Content',
+			text: resourceLabels.CONTENT,
 			icon:  translatedIcon('file'),
 			color:'white'
 		}
@@ -79,6 +79,7 @@ export default class ContentResourceCard extends Vue {
 				color: 'red'
 			}];
 		}
+		return [];
 	}
 
 	get summary(): IEaasiResourceSummary {

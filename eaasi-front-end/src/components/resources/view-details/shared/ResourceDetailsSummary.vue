@@ -3,14 +3,14 @@
 		<div class="rds-tags">
 			<span v-if="isEnvironment">
 				<tag
-					text="Environment"
+					text="Content Environment"
 					:icon="environmentIcon"
 					color="white"
 				/>
 			</span>
 			<span v-if="isSoftware">
 				<tag
-					text="Software"
+					text="Operating System"
 					:icon="softwareIcon"
 					color="white"
 				/>

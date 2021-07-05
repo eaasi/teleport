@@ -27,7 +27,7 @@ import { Component, Prop } from 'vue-property-decorator';
 import { IEaasiResourceSummary, IEaasiResource, IImageListItem } from '@/types/Resource.d.ts';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
-import {resourceTypes, translatedIcon} from '@/utils/constants';
+import { resourceLabels, resourceTypes, translatedIcon } from '@/utils/constants';
 
 @Component({
 	name: 'ImageResourceCard',
@@ -52,7 +52,7 @@ export default class ImageResourceCard extends Vue {
 	============================================*/
 	imageTypeTags: ITag[] =  [
 		{
-			text: 'Image',
+			text: resourceLabels.CONTENT,
 			icon:  translatedIcon('disk'),
 			color: 'white'
 		}

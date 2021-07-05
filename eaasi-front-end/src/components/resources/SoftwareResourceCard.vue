@@ -28,7 +28,7 @@ import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 import { ROUTES } from '@/router/routes.const';
-import {translatedIcon} from '@/utils/constants';
+import { resourceLabels, translatedIcon } from '@/utils/constants';
 
 @Component({
 	name: 'SoftwareResourceCard',
@@ -55,13 +55,6 @@ export default class SoftwareResourceCard extends Vue {
 
 	/* Data
 	============================================*/
-	resourceTypeTags: ITag[] =  [
-		{
-			text:'Software',
-			icon: translatedIcon('disk'),
-			color:'white'
-		}
-	];
 
 	/* Computed
 	============================================*/
@@ -70,6 +63,15 @@ export default class SoftwareResourceCard extends Vue {
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
+
+	get resourceTypeTags(): ITag[] {
+		let text = this.software.isOperatingSystem ? resourceLabels.OPERATING_SYSTEM : resourceLabels.SOFTWARE;
+		return [{
+			text,
+			icon: translatedIcon('disk'),
+			color:'white'
+		}];
+	}
 
 	get summary(): IEaasiResourceSummary | null {
 		if (!this.software) return null;
