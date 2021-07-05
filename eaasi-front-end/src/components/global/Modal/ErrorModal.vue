@@ -69,7 +69,7 @@
 					<div class="justify-end buttons-right">
 						<ui-button
 							color-preset="light-blue"
-							class="btn-info-modal-close"
+							class="btn-error-modal"
 							@click="downloadFrontendLogs"
 						>
 							Download Front-End Logs
@@ -77,7 +77,7 @@
 						<a :href="backendLogsUrl">
 							<ui-button
 								color-preset="light-blue"
-								class="btn-info-modal-close"
+								class="btn-error-modal"
 							>
 								Download Back-End Logs
 							</ui-button>
@@ -85,7 +85,7 @@
 						<ui-button
 							@click="closeModal"
 							color-preset="light-blue"
-							class="btn-info-modal-close"
+							class="btn-error-modal"
 						>
 							Close
 						</ui-button>
@@ -242,5 +242,9 @@ EaaSi Version: ${this.appVersion}
 		margin: 0 auto;
 		max-width: 50rem;
 		padding: 4rem 0;
+	}
+
+	.btn-error-modal .eaasi-button {
+		margin-bottom: 1rem;
 	}
 </style>
