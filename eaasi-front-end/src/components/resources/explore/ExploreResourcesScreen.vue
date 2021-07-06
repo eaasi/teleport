@@ -89,7 +89,7 @@
 			:active-tab="activeTab"
 			:tabs="tabs"
 			@bookmarks-updated="search"
-			@resource-deleted="$router.go(0)"
+			@resource-deleted="update"
 			@resource-published="onResourcePublished"
 			@close="closeActionMenu"
 			@navigate-to-tab="openActionMenu"
@@ -219,6 +219,10 @@ export default class ExploreResourcesScreen extends Vue {
 	paginate(page) {
 		this.query.page = page;
 		this.$store.dispatch('resource/searchResources');
+	}
+
+	update() {
+		this.$router.go(0);
 	}
 
     async search() {

@@ -65,28 +65,28 @@
 				/>
 			</span>
 		</div>
-		<div v-if="readonly" :class="{ 'changed': titleChanged }">
+		<div v-if="readonly" :class="{ changed: localTitle !== summaryData.title }">
 			<section-heading
 				:title="summaryData.title"
 				size="large"
-				:class="{ 'changed': titleChanged }"
+				:class="{ changed: localTitle !== summaryData.title }"
 			/>
 		</div>
 		<text-input
 			v-else-if="!readonly"
 			v-model="summaryData.title"
-			:class="{ 'changed': titleChanged }"
+			:class="{ changed: localTitle !== summaryData.title }"
 		/>
 		<div class="vds-description" v-if="summaryData.description && !isEnvironment">
 			<span
 				v-if="readonly"
-				:class="{ 'changed': descriptionChanged }"
+				:class="{ changed: localDescription !== summaryData.description }"
 			>
 				{{ summaryData.description | stripHtml }}
 			</span>
 			<span v-else-if="!readonly">
 				<text-area-input
-					:class="{ 'changed': descriptionChanged }"
+					:class="{ changed: localDescription !== summaryData.description }"
 					v-model="summaryData.description"
 				/>
 			</span>
@@ -101,6 +101,7 @@
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IEaasiResourceSummary } from '@/types/Resource';
 	import { jsonCopy } from '@/utils/functions';
+	import eventBus from '@/utils/event-bus';
 
 	@Component({
 		name: 'ResourceDetailsSummary',
@@ -117,14 +118,6 @@
 
 		/* Computed
         ============================================*/
-		get titleChanged() {
-			return this.localTitle !== this.summaryData.title;
-		}
-
-		get descriptionChanged() {
-			return this.localDescription !== this.summaryData.description;
-		}
-
 		get isPublicArchive() {
 			return this.summaryData.archive === archiveTypes.PUBLIC;
 		}
@@ -176,8 +169,22 @@
 
 	/* Data
 	============================================*/
-		localTitle = jsonCopy(this.summaryData.title);
-		localDescription = this.summaryData.description ? jsonCopy(this.summaryData.description) : null;
+
+		localTitle: string;
+		localDescription: string;
+
+		saveLocalData() {
+			this.localTitle = jsonCopy(this.summaryData.title);
+			this.localDescription = this.summaryData.description ? jsonCopy(this.summaryData.description) : null;
+			this.$forceUpdate();
+		}
+
+	/* Lifecycle Methods
+    ============================================*/
+		created() {
+			this.saveLocalData();
+			eventBus.$on('resource-details:refresh', this.saveLocalData);
+		}
 
 	}
 

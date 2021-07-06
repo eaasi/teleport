@@ -27,7 +27,7 @@ export default class EnvironmentService extends BaseService {
 	constructor(
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
 		componentService: ComponentService = new ComponentService(),
-		tempEnvService: TempEnvironmentService = new TempEnvironmentService()
+		tempEnvService: TempEnvironmentService = new TempEnvironmentService(),
 	) {
 		super();
 		this._environmentRepoService = environmentRepository;
@@ -216,8 +216,8 @@ export default class EnvironmentService extends BaseService {
 	* }
 	*/
 	async forkRevision(revisionRequest: IRevisionRequest, token: string) {
-		let res = await this._environmentRepoService.post(`environments/${revisionRequest.envId}/revisions`, revisionRequest, token);
-		if(res.ok) this.clearCache( getUserIdFromToken(token));
+		let res = await this._environmentRepoService.post(`environments/${revisionRequest.id}/revisions`, revisionRequest, token);
+		if(res.ok) this.clearCache(getUserIdFromToken(token));
 		return res.json();
 	}
 

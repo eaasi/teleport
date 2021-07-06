@@ -4,7 +4,7 @@
 			{{ item.label }}
 		</div>
 		<text-input
-			:class="['input-wrapper', { changed }]"
+			:class="['input-wrapper', { changed: item.value !== localItem.value }]"
 			style="margin-bottom: 1rem;"
 			v-model="item.value"
 			:readonly="item.readonly || readonly"
@@ -17,6 +17,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { ILabeledEditableItem } from '@/types/ILabeledItem';
 import { jsonCopy } from '@/utils/functions';
+import eventBus from '@/utils/event-bus';
 
 @Component({
     name: 'EditableTextItem'
@@ -31,15 +32,21 @@ export default class EditableTextItem extends Vue {
     @Prop({ type: Boolean })
     readonly: Boolean;
 
-    /* Computed
-    ============================================*/
-    get changed() {
-        return this.item.value !== this.localItem.value;
-    }
-
     /* Data
     ============================================*/
-    localItem: ILabeledEditableItem = jsonCopy(this.item);
+    localItem: ILabeledEditableItem;
+
+	refresh() {
+		this.localItem = jsonCopy(this.item);
+		this.$forceUpdate();
+	}
+
+	/* Lifecycle Methods
+		============================================*/
+	created() {
+		this.refresh();
+		eventBus.$on('editable-item:refresh', this.refresh);
+	}
 
 }
 </script>
