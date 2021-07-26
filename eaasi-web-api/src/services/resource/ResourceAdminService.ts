@@ -132,8 +132,8 @@ export default class ResourceAdminService extends BaseService {
 		token: string
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
 		let softwareRes = await this._softwareService.getAll(token);
-		let result = this._filterResults(softwareRes, query, bookmarks, userResources);
-		return result;
+		softwareRes.forEach(resource => resource.resourceType = resourceTypes.SOFTWARE);
+		return this._filterResults(softwareRes, query, bookmarks, userResources);
 	}
 
 	private async _searchContent (
