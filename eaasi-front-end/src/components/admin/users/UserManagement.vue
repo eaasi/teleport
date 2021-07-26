@@ -2,11 +2,6 @@
 	<section id="userManagement" v-if="isViewable">
 		<div class="user-search">
 			<h1>Node Users</h1>
-			<search-bar
-				:border-color="searchBorderColor"
-				placeholder="Enter a name or email address"
-				v-model="query.keyword"
-			/>
 		</div>
 		<div class="padded" v-if="list">
 			<pagination
@@ -31,7 +26,6 @@ import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiUser } from 'eaasi-admin';
 import AdminScreen from '@/components/admin/AdminScreen.vue';
 import Pagination from '@/components/global/Pagination.vue';
-import SearchBar from '@/components/global/forms/SearchBar.vue';
 import User from '@/models/admin/User';
 import UserList from './UserList.vue';
 import UserModal from './UserModal.vue';
@@ -42,7 +36,6 @@ import UserModal from './UserModal.vue';
 		UserList,
 		UserModal,
 		Pagination,
-		SearchBar,
 	}
 })
 export default class UserManagement extends AdminScreen {
@@ -55,7 +48,6 @@ export default class UserManagement extends AdminScreen {
 
 	/* Data
 	============================================*/
-	searchBorderColor = '#C7E4F5';
 	activeUserRoleId: number = null;
 
 	/* Computed
