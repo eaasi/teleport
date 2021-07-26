@@ -124,7 +124,6 @@ export default class SoftwareDetailsScreen extends Vue {
 	];
 
 	actionMenuActiveTab: IEaasiTab = null;
-	originalQuery: ResourceSearchQuery = null;
 
 	/* Computed
 	============================================*/
@@ -240,11 +239,6 @@ export default class SoftwareDetailsScreen extends Vue {
     /* Lifecycle Hooks
 	============================================*/
     created() {
-		// Here we memoize the original query for back navigation, as
-		// other components mutate global state (inadequately designed)
-		// TODO: redesign use of store by components around specific features, use services directly from
-		// components where necessary to retrieve values without side-effects involving setting and clearing global state.
-		this.originalQuery = this.query;
 		this.init();
 	}
 
@@ -345,8 +339,6 @@ export default class SoftwareDetailsScreen extends Vue {
 	};
 
 	async goBackToResults() {
-		this.$store.commit('resource/SET_QUERY', this.originalQuery);
-		await this.$store.dispatch('resource/searchResources');
 		await this.$router.push(`${ROUTES.RESOURCES.EXPLORE}?retrieveQuery=true`);
 	}
 }
