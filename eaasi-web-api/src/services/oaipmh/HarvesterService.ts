@@ -35,6 +35,11 @@ export default class HarvesterService {
 		return res.ok;
 	}
 
+	public async getHarvester(name: string, token?: string): Promise<HarvesterReq> {
+		let res = await this.get(`harvesters/${name}`, token);
+		return await res.json() as HarvesterReq;
+	}
+
 	/*============================================================
 	 == Private Methods
 	/============================================================*/

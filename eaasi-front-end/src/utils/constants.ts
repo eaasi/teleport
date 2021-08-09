@@ -134,3 +134,8 @@ export const ENVIRONMENT_TYPES = {
 	BASE: 'base',
 	OBJECT: 'object'
 };
+
+export const ACTION_TYPE = {
+	EDIT: 'Edit',
+	ADD: 'Add'
+};
