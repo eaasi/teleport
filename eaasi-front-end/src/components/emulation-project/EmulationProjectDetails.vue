@@ -84,7 +84,7 @@ export default class EmulationProjectDetails extends Vue {
 	/* Computed
 	============================================*/
 
-	@Get('emulationProject/environment')
+	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
 
 	@Sync('emulationProject/environment@label')
@@ -279,7 +279,8 @@ export default class EmulationProjectDetails extends Vue {
 	============================================*/
 
 	clear() {
-		this.$store.commit('emulationProject/RESET');
+		this.environment = null;
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 	}
 
 	init() {
@@ -336,9 +337,10 @@ export default class EmulationProjectDetails extends Vue {
 	.rm-btn {
 		font-size: 1.4rem;
 		font-weight: 400;
+		align-items: baseline;
 
 		span {
-			font-weight: 400;
+			font-weight: 900;
 			margin-left: 1rem;
 		}
 	}
