@@ -39,7 +39,11 @@ module.exports = {
 				allowNull: true
 			},
 			createdAt: Sq.DATE,
-			updatedAt: Sq.DATE
+			updatedAt: Sq.DATE,
+			tenantId: {
+				type: Sq.STRING(128),
+				allowNull: true
+			}
 		})
 	},
 	down: (queryInterface, Sequelize) => {
