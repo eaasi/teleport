@@ -25,6 +25,7 @@ export default class SoftwareService extends BaseService {
 		if(results) return results;
 		const packageList = await this.getSoftwarePackageList(token);
 		const packages = packageList.packages;
+		packages.forEach(resource => resource.resourceType = resourceTypes.SOFTWARE);
 		if (packages.length) this._cache.add(`${this.CACHE_KEYS.ALL_SOFTWARE}/${userId}`, packages);
 		return packages;
 	}
