@@ -21,8 +21,8 @@
 			<h3>I want to import a...</h3>
 			<div class="row">
 				<div class="col-md-4">
-					<options-box title="Content File(s)" icon="file">
-						User data or objects from a digital collection. Content can <b>not</b> be published to the EaaSI Network.
+					<options-box title="Content Object" icon="file">
+						Files or objects from a digital collection to be added to an environment for access. Content objects <b>cannot</b> be published to the EaaSI network.
 						<template slot="footer">
 							<ui-button
 								block
@@ -35,8 +35,8 @@
 				</div>
 
 				<div class="col-md-4 option-box-container">
-					<options-box title="Software Resource" icon="file">
-						Installation media or other dependencies to render Content. Software <b>can</b> be published to the EaaSI Network.
+					<options-box title="Software Object" icon="file">
+						Media or files required to install or operate software within an emulation environment. Software objects <b>can</b> be published to the EaaSI network.
 						<template slot="footer">
 							<ui-button
 								block
