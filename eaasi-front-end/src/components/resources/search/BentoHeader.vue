@@ -79,7 +79,7 @@ export default class BentoHeader extends Vue {
 			return 'Files and objects from digital collections to be added to an environment for access.';
 		}
 		if (this.type === 'Environment') {
-			return 'Ready-to-emulate results that include an operating system and hardware settings.';
+			return 'Pre-configured environments ready for access or as a base environment for new configurations.';
 		}
 		return '';
 	}
