@@ -76,7 +76,7 @@ export default class BentoHeader extends Vue {
 			return 'Results for software install media that can be attached to environments so you can install the software.';
 		}
 		if (this.type === 'Content') {
-			return 'Content files, including ISOs, Disks, Floppy, and other.';
+			return 'Files and objects from digital collections to be added to an environment for access.';
 		}
 		if (this.type === 'Environment') {
 			return 'Ready-to-emulate results that include an operating system and hardware settings.';
