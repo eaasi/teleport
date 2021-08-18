@@ -38,6 +38,7 @@
 				<revision-list
 					v-show="activeTab === 'History'"
 					:revisions="activeEnvironment.revisions"
+					:description="activeEnvironment.description"
 					@full-refresh="fullRefresh"
 				/>
 			</div>

@@ -19,6 +19,19 @@
 					</tr>
 				</thead>
 				<tbody>
+					<tr v-if="description">
+						<td>
+							N/A
+						</td>
+						<td>
+							{{ description }}
+						</td>
+						<td class="edrl-details-cell">
+							<span class="edrl-details-heading disabled">
+								FORK
+							</span>
+						</td>
+					</tr>
 					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
 							N/A
@@ -56,6 +69,9 @@ export default class ResourceDetailsRevisionList extends Vue {
     ============================================*/
     @Prop({ required: true, type: Array })
     revisions?: IEnvironmentRevision[];
+
+    @Prop({ required: false, type: String })
+	description?: string;
 
     /* Data
     ============================================*/
@@ -107,6 +123,12 @@ export default class ResourceDetailsRevisionList extends Vue {
 		text-transform: uppercase;
 		&:hover {
 			background: #ffffff;
+		}
+
+		&.disabled {
+			background: transparent;
+			color: gray;
+			cursor: default;
 		}
 	}
 }
