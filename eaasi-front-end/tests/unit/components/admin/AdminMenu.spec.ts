@@ -1,7 +1,7 @@
 import AdminMenu from '@/components/admin/AdminMenu.vue';
 import AdminMenuItem from '@/components/admin/AdminMenuItem.vue';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
-import localAdminStore from '@/store/admin-store';
+import localAdminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
 import { userRoles } from '@/utils/constants';
 import { createLocalVue, shallowMount } from '@vue/test-utils';

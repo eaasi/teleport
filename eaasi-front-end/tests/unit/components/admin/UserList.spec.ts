@@ -1,6 +1,6 @@
 import UserList from '@/components/admin/users/UserList.vue';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
-import adminStore from '@/store/admin-store';
+import adminStore from '../../store/fake-admin-store';
 import { userRoles } from '@/utils/constants';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';

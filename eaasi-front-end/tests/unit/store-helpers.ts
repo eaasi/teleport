@@ -1,5 +1,5 @@
 import {generateFakeUsers} from './generators';
-import { AdminState } from '@/store/admin-store';
+import { AdminState } from './store/fake-admin-store';
 
 /**
  * Provides stub adminStore object for use in unit tests.
