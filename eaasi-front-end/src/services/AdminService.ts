@@ -114,6 +114,11 @@ class AdminService extends BaseHttpService {
 		return res.ok;
 	}
 
+	async updateHarvester(name: string, req: IAddHarvesterRequest): Promise<boolean> {
+		let res = await this.put<boolean>(`/admin/update-harvester/?name=${name}`, req);
+		return res.ok;
+	}
+
 	async syncHarvester(name: string, full: boolean = false): Promise<IHarvesterSyncResult> {
 		let url = `/admin/sync-harvester/?name=${name}`;
 		if(full) url += '&full=true';
@@ -124,6 +129,12 @@ class AdminService extends BaseHttpService {
 	async deleteHarvester(name: string): Promise<boolean> {
 		let res = await this.post<boolean>(`/admin/delete-harvester/?name=${name}`, null);
 		return res.ok;
+	}
+
+	async getHarvester(name: string): Promise<IAddHarvesterRequest> {
+		let res = await this.get<IAddHarvesterRequest>(`/admin/get-harvester/?name=${name}`, null);
+		if (!res.ok) return null;
+		return res.result;
 	}
 
 	/* Error Logs

@@ -1,4 +1,5 @@
 import def_get from 'lodash/get';
+import jwt from 'jsonwebtoken';
 
 /**
  * Extends Lodash's 'get' to return a default value if the result is null
@@ -208,4 +209,12 @@ export function moveElementInsideArray(arr, old_index, new_index) {
     }
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr; // for testing purposes
+}
+
+export function createJwt(secret) {
+	let claims = {
+		exp: Math.floor(Date.now() / 1000) + (60 * 60)
+	};
+
+	return jwt.sign(claims, secret, {algorithm: 'HS256'});
 }

@@ -323,6 +323,27 @@ export default class AdminController extends BaseController {
 	}
 
 	/**
+	 * Updates exiting oai-pmh harvester
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async updateHarvester(req: ExpressRequest, res: ExpressResponse) {
+		try {
+			let name = req.query.name as string;
+			let data = req.body as HarvesterReq;
+			let token = req.headers.authorization;
+			let success = await this._harvesterSvc.deleteHarvester(name, token);
+			if (success) {
+				success = await this._harvesterSvc.addHarvester(data, token);
+			}
+			if(success) return res.send(true);
+			return this.sendError(new Error('Could not update oai-pmh harvester'), res);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	/**
 	 * Syncs an existing oai-pmh harvester
 	 * @param req - Express request
 	 * @param res - Express response
@@ -351,6 +372,23 @@ export default class AdminController extends BaseController {
 			let success = await this._harvesterSvc.deleteHarvester(name, token);
 			if(success) return res.send(true);
 			return this.sendError(new Error(`Could not delete oai-pmh harvester: ${name}`), res);
+		} catch(e) {
+			return this.sendError(e, res);
+		}
+	}
+
+	/**
+	 * Gets an existing oai-pmh harvester
+	 * @param req - Express request
+	 * @param res - Express response
+	 */
+	async getHarvester(req: ExpressRequest, res: ExpressResponse) {
+		try {
+			const name = req.query.name as string;
+			const token = req.headers.authorization;
+			let result = await this._harvesterSvc.getHarvester(name, token);
+			if (result) return res.send(result);
+			return this.sendError(new Error(`Could not find oai-pmh harvester: ${name}`), res);
 		} catch(e) {
 			return this.sendError(e, res);
 		}

@@ -116,6 +116,15 @@ router.get('/get-harvesters', (req, res) => controller.getHarvesters(req, res));
 router.post('/add-harvester', (req, res) => controller.addHarvester(req, res));
 
 /**
+ * @api {post} admin/add-harvester Add a Harvester
+ * @apiVersion 1.0.0
+ * @apiGroup OAI-PMH
+ * @apiPermission System Administrator only
+ * @apiDescription Adds an OAI-PMH Harvester
+ */
+router.put('/update-harvester', (req, res) => controller.updateHarvester(req, res));
+
+/**
  * @api {post} admin/sync-harvester Synchronize Harvester
  * @apiVersion 1.0.0
  * @apiGroup OAI-PMH
@@ -132,6 +141,15 @@ router.post('/sync-harvester', (req, res) => controller.syncHarvester(req, res))
  * @apiDescription Deletes an OAI-PMH Harvester
  */
 router.post('/delete-harvester', (req, res) => controller.deleteHarvester(req, res));
+
+/**
+ * @api {post} admin/get-harvester Get a Harvester
+ * @apiVersion 1.0.0
+ * @apiGroup OAI-PMH
+ * @apiPermission System Administrator only
+ * @apiDescription Gets an OAI-PMH Harvester
+ */
+router.get('/get-harvester', (req, res) => controller.getHarvester(req, res));
 
 /**
  * @api {get} admin/api-key Get provider Api Key

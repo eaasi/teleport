@@ -106,7 +106,14 @@ const actions = {
 	async addHarvester({ dispatch }: Store<AdminState>, req: IAddHarvesterRequest): Promise<boolean> {
 		let success = await _svc.addHarvester(req);
 		if (!success) return false;
-		dispatch('getHarvesters');
+		await dispatch('getHarvesters');
+		return true;
+	},
+
+	async updateHarvester({ dispatch }: Store<AdminState>, {name, req}: {name: string, req: IAddHarvesterRequest}): Promise<boolean> {
+		let success = await _svc.updateHarvester(name, req);
+		if (!success) return false;
+		await dispatch('getHarvesters');
 		return true;
 	},
 
@@ -115,10 +122,14 @@ const actions = {
 	},
 
 	async deleteHarvester({ dispatch }: Store<AdminState>, name: string): Promise<boolean> {
-		let success = _svc.deleteHarvester(name);
+		let success = await _svc.deleteHarvester(name);
 		if (!success) return false;
-		dispatch('getHarvesters');
+		await dispatch('getHarvesters');
 		return true;
+	},
+
+	async getHarvester({ dispatch }: Store<AdminState>, name: string): Promise<IAddHarvesterRequest> {
+		return _svc.getHarvester(name);
 	},
 
 	async resetPassword({ rootState }, {id, email}: {id: string, email: string}): Promise<string> {
