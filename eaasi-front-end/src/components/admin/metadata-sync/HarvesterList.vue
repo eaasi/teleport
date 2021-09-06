@@ -19,29 +19,31 @@
 					<td @click="syncEndpoint(har, true)" class="text-center btn-cell">
 						<span>SYNC FULL</span>
 					</td>
-					<td @click="harvesterToDelete = har" class="text-center btn-cell">
-						<span>REMOVE</span>
+					<td @click="harvesterToEdit = har" class="text-center btn-cell">
+						<span>DETAILS</span>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<confirm-modal
-			title="Delete this endpoint?"
-			v-if="!!harvesterToDelete"
-			@click:confirm="removeEndpoint()"
-			@close="harvesterToDelete = null"
-		>
-			Are you sure you want to delete the {{ harvesterToDelete }} endpoint? <br /> This action cannot be undone.
-		</confirm-modal>
+		<harvester-details-modal
+			v-if="!!harvesterToEdit"
+			action-type="Edit"
+			:harvester="harvesterToEdit"
+			@close="harvesterToEdit = null"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
+import HarvesterDetailsModal from './HarvesterDetailsModal.vue';
 
 @Component({
-	name: 'HarvesterList'
+	name: 'HarvesterList',
+	components: {
+		HarvesterDetailsModal
+	}
 })
 export default class HarvesterList extends Vue {
 
@@ -54,18 +56,13 @@ export default class HarvesterList extends Vue {
 	/* Data
 	============================================*/
 
-	harvesterToDelete: string = null;
+	harvesterToEdit: string = null;
 
 	/* Methods
 	============================================*/
 
 	syncEndpoint(name: string, full: boolean = false) {
 		this.$store.dispatch('admin/syncHarvester', { name, full });
-	}
-
-	async removeEndpoint() {
-		await this.$store.dispatch('admin/deleteHarvester', this.harvesterToDelete);
-		this.harvesterToDelete = null;
 	}
 }
 

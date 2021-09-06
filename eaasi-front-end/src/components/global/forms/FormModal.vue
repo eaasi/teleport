@@ -12,8 +12,10 @@
 			</eaasi-form>
 		</div>
 		<div class="eaasi-form-modal-buttons" slot="footer">
-			<div class="flex-row justify-end">
-				<slot name="buttonsLeft"></slot>
+			<div class="flex-row justify-between">
+				<slot name="buttonsLeft">
+					<ui-button v-if="hasRemoveButton" @click="$emit('remove')" color-preset="light-blue">{{ removeText }}</ui-button>
+				</slot>
 				<slot name="buttonsRight">
 					<div class="justify-end buttons-right">
 						<ui-button @click="$emit('close')" color-preset="light-blue">{{ cancelText }}</ui-button>
@@ -75,6 +77,15 @@ export default class FormModal extends Vue {
      */
     @Prop({type: String, required: false, default: 'Cancel'})
 	readonly cancelText: string
+
+	@Prop({type: Boolean, required: false, default: false})
+	hasRemoveButton: boolean;
+
+    /**
+     * Remove button text
+     */
+    @Prop({type: String, required: false})
+	readonly removeText: string
 
 	/**
      * Alternative size of the modal. Accepts 'sm, small, lg, or large'

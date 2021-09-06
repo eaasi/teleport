@@ -32,8 +32,9 @@
 				v-if="result.length"
 			/>
 		</div>
-		<add-harvester-modal
+		<harvester-details-modal
 			v-if="showAddModal"
+			action-type="Add"
 			@close="showAddModal = false"
 		/>
 	</div>
@@ -43,7 +44,7 @@
 import AdminScreen from '../AdminScreen.vue';
 import { Component } from 'vue-property-decorator';
 import HarvesterList from './HarvesterList.vue';
-import AddHarvesterModal from './AddHarvesterModal.vue';
+import HarvesterDetailsModal from './HarvesterDetailsModal.vue';
 import { Get } from 'vuex-pathify';
 import config from '@/config/index';
 
@@ -51,7 +52,7 @@ import config from '@/config/index';
 	name: 'EmulatorManagement',
 	components: {
 		HarvesterList,
-		AddHarvesterModal
+		HarvesterDetailsModal
 	}
 })
 export default class EmulatorManagement extends AdminScreen {
