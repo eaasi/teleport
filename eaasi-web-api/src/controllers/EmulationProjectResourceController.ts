@@ -7,7 +7,6 @@ import { build_400_response, build_500_response } from '@/utils/error-helpers';
 import { Response } from 'express';
 import { Op } from 'sequelize';
 import BaseController from './base/BaseController';
-import BaseCrudController from './base/BaseCrudController';
 
 export default class EmulationProjectResourceController extends BaseController {
 
@@ -68,21 +67,14 @@ export default class EmulationProjectResourceController extends BaseController {
 	async delete(req: IDeleteEmulationProjectResourceRequest, res: Response) {
 		const resourceId = req.params.resourceId;
 		const emulationProjectId = Number(req.params.projectId);
-		const result = await this._emulationProjectResourceService.getOneWhere({ resourceId, emulationProjectId });
-		if (!result || !result.result) {
+		const result = await this._emulationProjectResourceService.destroyAllWhere({ resourceId, emulationProjectId });
+		if (result.hasError) {
+			this._logger.log.error(`Emulation project resource (${resourceId}, ${emulationProjectId}) can't be removed: ${result.error}`);
 			return res
 				.status(HttpResponseCode.NOT_FOUND)
 				.send(build_400_response(JSON.stringify(req.params)));
 		}
-
-		const deleteResponse = await this._emulationProjectResourceService.destroy(result.result.id);
-
-		if (deleteResponse.hasError) {
-			console.error(deleteResponse);
-			return BaseCrudController._handleDeleteError(req, res, deleteResponse);
-		}
-
-		return res.status(HttpResponseCode.OK).send(deleteResponse);
+		return res.status(HttpResponseCode.OK).send(result);
 	}
 
 }
