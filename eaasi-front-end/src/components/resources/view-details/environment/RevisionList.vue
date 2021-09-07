@@ -24,7 +24,7 @@
 							N/A
 						</td>
 						<td>
-							{{ description }}
+							{{ description | stripHtml }}
 						</td>
 						<td class="edrl-details-cell">
 							<span class="edrl-details-heading disabled">
