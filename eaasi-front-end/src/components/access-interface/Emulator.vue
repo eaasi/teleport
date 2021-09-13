@@ -88,8 +88,9 @@
 
 		attachUserControls() {
 			let vm = this;
-			if (vm.client.params.pointerLock === 'true') {
-				(window as any).EaasClient.requestPointerLock(vm.client.guac.getDisplay().getElement(), 'click');
+			const activeSession = vm.client.getActiveSession();
+			if (activeSession) {
+				activeSession.setPointerLock();
 			}
 		}
 
