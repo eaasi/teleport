@@ -147,4 +147,6 @@ export interface IComponentSession {
 	checkpoint(): Promise<any>;
 	downloadPrint(label: string): any;
 	getPrintJobs(): Promise<any>;
+	hasPointerLock(): boolean;
+	setPointerLock(): void;
 }
