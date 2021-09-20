@@ -87,7 +87,7 @@ export default class ResourceAdminService extends BaseService {
 		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
 		[result.environments, result.software, result.content, result.images] = await Promise.all([
-			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result, token),
+			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result, token, query.forceClearCache),
 			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result, token),
 			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result, token),
 			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result, token)
@@ -115,9 +115,10 @@ export default class ResourceAdminService extends BaseService {
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
 		userResources: UserImportedContent[],
-		token: string
+		token: string,
+		forceClearCache: boolean = false
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
-		let allEnvironments = await this._environmentService.getAll(token);
+		let allEnvironments = await this._environmentService.getAll(token, forceClearCache);
 		let filtered = this._filterResults(allEnvironments, query, bookmarks, userResources);
 		return {
 			result: filtered.result,

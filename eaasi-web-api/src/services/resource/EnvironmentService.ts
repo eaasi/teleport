@@ -35,10 +35,14 @@ export default class EnvironmentService extends BaseService {
 		this._tempEnvironmentService = tempEnvService;
 	}
 
-	async getAll(token?: string): Promise<IEnvironment[]> {
+	async getAll(token?: string, forceClearCache?: boolean): Promise<IEnvironment[]> {
 		let userId = getUserIdFromToken(token);
-		let results = this._cache.get<IEnvironment[]>(`${this.CACHE_KEYS.ALL_ENVIRONMENTS}/${userId}`);
-		if (results) return results;
+		if (forceClearCache) {
+			this.clearCache(userId);
+		} else {
+			let results = this._cache.get<IEnvironment[]>(`${this.CACHE_KEYS.ALL_ENVIRONMENTS}/${userId}`);
+			if (results) return results;
+		}
 		let res = await this._environmentRepoService.get('environments?detailed=true&localOnly=false', token);
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);

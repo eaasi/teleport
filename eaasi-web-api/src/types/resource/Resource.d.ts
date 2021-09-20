@@ -142,6 +142,7 @@ export interface IResourceSearchQuery extends IEaasiSearchQuery {
 	onlyBookmarks?: boolean;
 	onlyImportedResources?: boolean;
 	userId?: number | string;
+	forceClearCache?: boolean;
 }
 
 export interface IResourceSearchResponse {

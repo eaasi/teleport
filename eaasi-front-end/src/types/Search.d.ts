@@ -30,6 +30,7 @@ export interface IResourceSearchQuery {
 	userId?: string;
 	onlyBookmarks?: boolean;
 	onlyImportedResources?: boolean;
+	forceClearCache?: boolean;
 }
 
 export interface IResourceSearchResponse {
