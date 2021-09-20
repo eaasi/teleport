@@ -127,7 +127,7 @@ export default class ResourceDetailsRevisionList extends Vue {
 
 		&.disabled {
 			background: transparent;
-			color: gray;
+			color: #808080;
 			cursor: default;
 		}
 	}
