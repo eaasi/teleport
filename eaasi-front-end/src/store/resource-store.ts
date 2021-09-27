@@ -112,7 +112,7 @@ const actions = {
 			}
 
 			if (!id) return;
-			_svc.deleteEnvironment(id.toString());
+			return _svc.deleteEnvironment(id.toString());
 		}));
 	},
 
