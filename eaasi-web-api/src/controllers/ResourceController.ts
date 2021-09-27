@@ -71,6 +71,17 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
+	async deleteSoftwareObject(req: Request, res: Response) {
+		try {
+			let id = req.query.id as string;
+			let token = req.headers.authorization;
+			let result = await this._softwareService.deleteSoftwareObject(id, token);
+			res.send(result);
+		} catch(e) {
+			this.sendError(e, res);
+		}
+	}
+
 	/**
 	 * Gets information about a Software Package by `id` on the request query
 	 */

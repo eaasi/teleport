@@ -1,7 +1,7 @@
 import ResourceController, { IAuthorizedGetContentRequest } from '@/controllers/ResourceController';
 import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedPostRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IEmulatorComponentRequest } from '@/types/resource/Resource';
-import express, { Response } from 'express';
+import express, {Request, Response} from 'express';
 
 const router = express.Router();
 const controller = new ResourceController();
@@ -54,6 +54,8 @@ router.post('/fork-revision', (req, res) => controller.forkRevision(req, res));
  * @apiDescription Saves software object
  */
 router.post('/save-software-object', (req, res) => controller.saveSoftwareObject(req, res));
+
+router.delete('/delete-software-object', (req: Request, res) => controller.deleteSoftwareObject(req, res));
 
 /**
  * @api {post} replicates an image

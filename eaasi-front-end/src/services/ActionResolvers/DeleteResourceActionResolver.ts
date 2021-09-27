@@ -26,7 +26,6 @@ export default class DeleteResourceActionResolver extends SlideMenuActionResolve
 			icon: translatedIcon('trash'),
 			isEnabled: permit.allowsDeleteLocalResourcesFromNode()
 				&& super.isDeletableArchive()
-				&& !super.isAnySoftwareSelected()
 		};
 	};
 }

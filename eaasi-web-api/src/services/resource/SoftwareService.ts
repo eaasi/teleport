@@ -83,6 +83,11 @@ export default class SoftwareService extends BaseService {
 		return await res.json();
 	}
 
+	async deleteSoftwareObject(id: string, token?: string) {
+		let res = await this._softwareRepoService.delete(`packages/${id}`, null, token);
+		if(res.ok) this.clearCache(getUserIdFromToken(token));
+		return res.ok;
+	}
 	/*============================================================
 	 == Cache
 	/============================================================*/

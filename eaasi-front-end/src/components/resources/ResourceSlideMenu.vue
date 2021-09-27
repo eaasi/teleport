@@ -380,6 +380,11 @@ export default class ResourceSlideMenu extends Vue {
 				return { imageArchive: 'default', imageId: r.id };
 			});
 			await this.$store.dispatch('resource/deleteImages', imagesRequest);
+		} else if (this.softwareIsSelected) {
+			const softwareRequest = this.resources.map(r => {
+				return { id: r.id };
+			});
+			await this.$store.dispatch('resource/deleteSoftwareResources', softwareRequest);
 		} else {
 			const contentRequests = this.resources.map(r => {
 				return { archiveName: r.archiveId, contentId: r.id as string };
