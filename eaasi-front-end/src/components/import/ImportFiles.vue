@@ -1,21 +1,39 @@
 <template>
 	<div class="import-resource-files padded">
 		<!-- No Files Added -->
-		<div v-if="!filesAreAdded">
+		<div v-if="!filesAreAdded && !urlAdded">
 			<h3>{{ headline }}</h3>
 			<div class="row justify-left" style="margin-top: 3rem;">
-				<div class="col-md-5 import-option-block" v-if="isImageImport">
-					<div class="irf-option">
-						<span class="text-center">URL</span>
-						<text-input
-							@change="checkUrl"
-							label="File URL"
-							rules="url"
-							v-model="urlSource"
-							ref="urlField"
-						/>
-					</div>
+				<div class="col-md-12 import-option-block" v-if="isImageImport">
+					<text-input
+						class="image-url-input"
+						@change="checkUrl"
+						label="File URL"
+						rules="url"
+						v-model="urlSource"
+						ref="urlField"
+					/>
+					<ui-button
+						v-if="isImageImport"
+						@click="onContinue"
+						:disabled="!isUrlSource"
+						icon-right
+						icon="chevron-right"
+					>
+						Continue
+					</ui-button>
 				</div>
+			</div>
+		</div>
+
+		<div v-if="urlAdded">
+			<div class="flex-row">
+				<div class="flex-column file-message">
+					<div class="no-mb">1 file attached to this resource.</div>
+				</div>
+			</div>
+			<div class="flex-row">
+				<resource-url-item :file-url="urlSource" />
 			</div>
 		</div>
 
@@ -114,12 +132,14 @@
 	import ResourceImportFile from '@/models/import/ResourceImportFile';
 	import { ImportType, IResourceImportFile } from '@/types/Import';
 	import {operatingSystems} from '@/models/admin/OperatingSystems';
+	import ResourceUrlItem from './ResourceUrlItem.vue';
 
 	let http = new BaseHttpService();
 
 	@Component({
 		name: 'ImportFiles',
 		components: {
+			ResourceUrlItem,
 			Draggable,
 			ResourceFileListItem,
 		}
@@ -160,6 +180,10 @@
 			return !!this.files.length;
 		}
 
+		get urlAdded(): boolean {
+			return this.isImageImport && !!this.urlSource && this.step === 3;
+		}
+
 		get headline() {
 			if (this.isImageImport) {
 				return 'I will attach my disk image from...';
@@ -187,7 +211,7 @@
 			// noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
 			let validate = this.$refs.urlField['validate'];
 			validate();
-			this.step = this.isUrlSource ? 3 : 2;
+			//this.step = this.isUrlSource ? 3 : 2;
 		}
 
 
@@ -199,6 +223,10 @@
 				let newFile = new ResourceImportFile(f, startingSortIndex + i);
 				this.files.push(newFile);
 			}
+			this.step = 3;
+		}
+
+		onContinue() {
 			this.step = 3;
 		}
 
@@ -263,11 +291,6 @@
 
 <style lang="scss">
 
-	.import-option-block {
-		background-color: lighten($light-neutral, 80%);
-		padding: 3rem 2rem 2rem 2rem;
-	}
-
 	.irf-option {
 		height: 9.5rem;
 		> span {
@@ -295,5 +318,9 @@
 			font-size: 1.8rem;
 			margin-bottom: 1rem;
 		}
+	}
+
+	.image-url-input {
+		margin-bottom: 2rem;
 	}
 </style>
