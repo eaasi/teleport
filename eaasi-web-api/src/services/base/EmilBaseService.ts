@@ -38,7 +38,7 @@ export default class EmilBaseService implements IHttpService {
 
 	public async delete(methodName: string, data: any = null, token?: string): Promise<Response> {
 		let url = this._createUrl(methodName);
-		return await this._svc.delete(url, data, token);
+		return await this._svc.delete(url, data, null, token);
 	}
 
 	private _createUrl(methodName: string): string {
