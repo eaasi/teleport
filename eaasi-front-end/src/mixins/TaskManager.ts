@@ -30,13 +30,13 @@ export default class TaskManager extends Vue {
 			if (!task) clearInterval(this.timer);
 		}, 3000);
     }
-    
+
     /* Lifecycle hooks
     ==============================================*/
     async beforeMount() {
         await this.initTasks();
     }
-    
+
 	/* Watcher
 	==============================================*/
 	@Watch('activePollingTask')

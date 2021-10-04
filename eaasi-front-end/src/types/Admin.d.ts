@@ -4,7 +4,7 @@ declare module 'eaasi-admin' {
 	============================================*/
 
 	export interface IEmulator {
-		id: number;
+		id: string;
 		name: string;
 		entries: IEmulatorEntry[];
 		latestVersion: string | null;

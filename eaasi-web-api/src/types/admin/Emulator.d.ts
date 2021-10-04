@@ -6,7 +6,7 @@ export interface IEmulator {
 }
 
 export interface IEmulatorViewModel {
-	id: number;
+	id: string;
 	name: string;
 	entries: EmulatorEntry[];
 	latestVersion: string | null;

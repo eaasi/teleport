@@ -1,11 +1,9 @@
 import { Emulator } from '@/data_access/models/app/Emulator';
 import EmilBaseService from '@/services/base/EmilBaseService';
-import { IEmulator, IEmulatorViewModel } from '@/types/admin/Emulator';
 import { TaskState } from '@/types/emil/Emil';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
-import { AliasEntry, EmulatorEntry, EmulatorNamedIndexes } from '@/types/emil/EmilEnvironmentData';
+import { EmulatorEntry, EmulatorNamedIndexes } from '@/types/emil/EmilEnvironmentData';
 import BaseService from '../base/BaseService';
-import CrudQuery from '../../classes/CrudQuery';
 import CrudService from '../base/CrudService';
 import ICrudService from '../interfaces/ICrudService';
 
@@ -32,20 +30,11 @@ export default class EmulatorAdminService extends BaseService {
 	/**
 	 * Gets a list of emulator view models
 	 */
-	async getEmulators(): Promise<IEmulatorViewModel[]> {
-
-		// Get full emulators list from the database
-		let query = new CrudQuery()
-		query.limit = 10000;
-		let result = await this._emulatorAdminCrudService.getAll(query, true);
-		if (result.hasError) { throw result.error; }
-
+	async getEmulators(): Promise<EmulatorNamedIndexes> {
 		// Get named indexes from Emil
-		let dbList = result.result.result as IEmulator[];
 		let response = await this._emilEnvService.get('getNameIndexes');
 		if (response.ok) {
-			let indexes = await response.json() as EmulatorNamedIndexes;
-			return this._createEmulatorViewModels(dbList, indexes);
+			return await response.json() as EmulatorNamedIndexes;
 		} else {
 			throw 'Could not get named emulator indexes from emil';
 		}
@@ -74,52 +63,6 @@ export default class EmulatorAdminService extends BaseService {
 		});
 		if(response.ok) return true;
 		return false;
-	}
-
-	/*============================================================
-	 == Private methods
-	/============================================================*/
-
-	/**
-	 * Creates emulator view models by matching index response from emil with
-	 * emulators from the pg database
-	 * @param {IEmulator[]} dbList - The list of emulators from the pg database
-	 * @param {EmulatorNamedIndexes} indexes - The named indexes response data from emil
-	 */
-	private _createEmulatorViewModels(dbList: IEmulator[], indexes: EmulatorNamedIndexes) {
-		let emulators: IEmulatorViewModel[] = [];
-		let aliases = [];
-		if (indexes.aliases && indexes.aliases.entry) {
-			aliases = indexes.aliases.entry.map(x => x.value);
-		}
-
-		dbList.forEach(em => {
-			let latestVersion = this._getLatestVersion(em.name, aliases);
-			let entries = [];
-			if (indexes.entries && indexes.entries.entry) {
-				entries = indexes.entries.entry.filter(x => x.key.indexOf(em.name) > -1).map(x => x.value);
-			}
-
-			emulators.push({
-				id: em.id,
-				name: em.name,
-				entries,
-				latestVersion
-			});
-		});
-		return emulators;
-	}
-
-	/**
-	 * Given an emulator name and a list of alias entries, attempts to find the version number
-	 * that corresponds to the 'latest' alias
-	 * @param {string} emulatorName - The emulator name
-	 * @param aliasList - The full list of emulator aliases
-	 */
-	private _getLatestVersion(emulatorName: string, aliasList: AliasEntry[]): string | null {
-		let aliasEntry = aliasList.find(x => x.name.indexOf(emulatorName) > -1 && x.alias === 'latest');
-		if(!aliasEntry) return null;
-		return aliasEntry.version;
 	}
 
 }
