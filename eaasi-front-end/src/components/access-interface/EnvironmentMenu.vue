@@ -53,7 +53,8 @@
 			</collapsable>
 		</div>
 
-		<div v-if="tab === 'Configure New'" class="em-configure">
+		<!--Removed due to https://gitlab.com/eaasi/eaasi-client-dev/-/issues/660 -->
+		<!--<div v-if="tab === 'Configure New'" class="em-configure">
 			<h3 class="divider-header">New Configuration</h3>
 			<p class="mb">Document changes you make to the environment</p>
 			<collapsable
@@ -96,7 +97,7 @@
 					<ui-button block>Add To Environment Metadata</ui-button>
 				</eaasi-form>
 			</collapsable>
-		</div>
+		</div>-->
 	</div>
 </template>
 
@@ -107,7 +108,7 @@ import { Component } from 'vue-property-decorator';
 import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
 import { Get } from 'vuex-pathify';
-import {resourceTypes, archiveTypes, translatedIcon} from '@/utils/constants';
+import { translatedIcon } from '@/utils/constants';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -136,7 +137,7 @@ export default class EnvironmentMenu extends Vue {
 		}
 		return [
 			{ label: 'Saved Metadata' },
-			{ label: 'Configure New' }
+			/*{ label: 'Configure New' }*/
 		];
 	}
 
@@ -152,7 +153,7 @@ export default class EnvironmentMenu extends Vue {
 		return translatedIcon('upload');
 	}
 
-	tab: string = 'Configure New';
+	tab: string = 'Saved Metadata';
 
 	/**
 	 * Computes whether or not to show the details tab
@@ -197,6 +198,10 @@ export default class EnvironmentMenu extends Vue {
 
 	.fa-times {
 		cursor: pointer;
+	}
+
+	.eaasi-tabs li {
+		max-width: unset;
 	}
 }
 
