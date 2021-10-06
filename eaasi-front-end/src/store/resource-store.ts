@@ -66,9 +66,9 @@ const actions = {
 		return await _svc.getEnvironment(environmentId);
 	},
 
-	async searchResources({ state, commit, rootState }): Promise<IResourceSearchResponse> {
+	async searchResources({ state, commit, rootState }, options?: { forceClearCache : boolean }): Promise<IResourceSearchResponse> {
 		commit('SET_LAST_SEARCH_KEYWORD', state.query.keyword);
-		let result = await _svc.searchResources(state.query, rootState.loggedInUser.id);
+		let result = await _svc.searchResources({...state.query, forceClearCache: !!options?.forceClearCache}, rootState.loggedInUser.id);
 		if (!result) return null;
 		commit('SET_RESULT', result);
 		const selectedFacets = jsonCopy(result.facets);
