@@ -61,6 +61,10 @@ export interface IImageDeletePayload {
 	imageId: string;
 }
 
+export interface ISoftwareDeletePayload {
+	id: string;
+}
+
 export interface ICreateEnvironmentResponse {
 	status: string;
 	id: string;

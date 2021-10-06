@@ -53,9 +53,9 @@ const actions = {
 	},
 
 	async deleteContent(_, contentRequests: IContentRequest[]) {
-		contentRequests.forEach(async contentRequest =>
-			await _svc.deleteContent(contentRequest)
-		);
+		await Promise.all(contentRequests.map(contentRequest =>
+			_svc.deleteContent(contentRequest)
+		));
 	},
 
 	async saveContent(_, overrideRequest: IOverrideContentRequest) {

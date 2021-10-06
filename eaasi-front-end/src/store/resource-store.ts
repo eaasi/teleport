@@ -3,7 +3,7 @@ import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
 import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
-import { IImageDeletePayload, IPatch, ITemplate } from '@/types/Import';
+import {IImageDeletePayload, IPatch, ISoftwareDeletePayload, ITemplate} from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
@@ -112,7 +112,7 @@ const actions = {
 			}
 
 			if (!id) return;
-			_svc.deleteEnvironment(id.toString());
+			return _svc.deleteEnvironment(id.toString());
 		}));
 	},
 
@@ -126,9 +126,15 @@ const actions = {
 	},
 
 	async deleteImages(_, payloads: IImageDeletePayload[]) {
-		return await Promise.all(payloads.map(payload => {
-			_svc.deleteImage(payload);
-		}));
+		return await Promise.all(payloads.map(payload =>
+			_svc.deleteImage(payload)
+		));
+	},
+
+	async deleteSoftwareResources(_, payloads: ISoftwareDeletePayload[]) {
+		await Promise.all(payloads.map(payload =>
+			_svc.deleteSoftware(payload.id)
+		));
 	},
 
 	async deleteImage(_, payload: IImageDeletePayload) {
