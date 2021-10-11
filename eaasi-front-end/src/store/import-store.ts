@@ -141,7 +141,9 @@ const actions = {
 			});
 
 			commit('SET_FILES_TO_UPLOAD', []);
-			return await _importService.importUploadBlob(importRequest);
+			let task = await _importService.importUploadBlob(importRequest);
+			task.description = `Import Software: ${state.software.title}`;
+			return task;
 		}
 	},
 
@@ -174,7 +176,9 @@ const actions = {
 			});
 
 			commit('SET_FILES_TO_UPLOAD', []);
-			return await _importService.importUploadBlob(importRequest);
+			let task = await _importService.importUploadBlob(importRequest);
+			task.description = `Import Content: ${state.software.title}`;
+			return task;
 		}
 	},
 

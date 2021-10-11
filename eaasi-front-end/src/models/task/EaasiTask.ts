@@ -11,10 +11,12 @@ export default class EaasiTask implements ITaskState {
 	pollingInterval?: number = 1000;
 	userData?: any;
 	object?: any;
+	type?: string;
 
-	constructor(id: number | string, description?: string) {
+	constructor(id: number | string, description?: string, type?: string) {
 		this.taskId = id;
 		this.description = description;
+		this.type = type;
 	}
 
 }

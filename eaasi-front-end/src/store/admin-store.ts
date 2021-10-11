@@ -11,6 +11,11 @@ import { ITaskState } from '@/types/Task';
 import { IEaasiRole, IEmulator, IEmulatorEntry, IKeyboardSettings } from 'eaasi-admin';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+import { ContainerImageBuilder, EmulatorBuilder } from 'EaasClient/lib/containerBuilder';
+import config from '@/config';
+import { getUserToken } from '@/utils/auth';
+import { taskTypes } from '@/utils/constants';
+import { IEaasiTask } from '../../../eaasi-web-api/src/types/task/Task';
 
 /*============================================================
  == State
@@ -51,10 +56,20 @@ const actions = {
 	},
 
 	async importEmulator(_: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
-		let taskState = await _svc.importEmulator(req);
+		let imageBuilder = new ContainerImageBuilder(req.urlString, 'dockerhub');
+		imageBuilder.setTag((req.tag) ? req.tag : 'latest');
+		let taskState = await imageBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
 		if (!taskState) return null;
-		let description = req.update ? 'Updating' : 'Importing';
-		return new EaasiTask(taskState.taskId, `${description} ${req.urlString} emulator`);
+		return new EaasiTask(taskState.taskId, `Building container image: ${req.urlString}`, taskTypes.IMPORT_EMULATOR);
+	},
+
+	async buildEmulator({ dispatch }, importEmulatorTask: IEaasiTask) {
+		let object = JSON.parse(importEmulatorTask.object);
+		let emulatorBuilder = new EmulatorBuilder(object.containerUrl, object.metadata);
+		let importResult = await emulatorBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
+		let containerSourceUrl = object.metadata ? object.metadata.containerSourceUrl : null;
+		let task = new EaasiTask(importResult.taskId, `Importing emulator${containerSourceUrl ? ': ' + containerSourceUrl : ''}`);
+		await dispatch('task/addTaskToQueue', task, { root: true });
 	},
 
 	async setDefaultEmulatorVersion(_: Store<AdminState>, entry: IEmulatorEntry) {

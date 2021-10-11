@@ -24,7 +24,7 @@ export class EaasiTask extends Model<EaasiTask> {
 		allowNull: false,
 	})
 	taskId: string;
-	
+
 	@Column({
 		type: DataTypes.STRING(128),
 		allowNull: true,
@@ -66,5 +66,11 @@ export class EaasiTask extends Model<EaasiTask> {
 		allowNull: true
 	})
 	tenantId: string;
+
+	@Column({
+		type: DataTypes.STRING(50),
+		allowNull: true
+	})
+	type: string;
 
 }

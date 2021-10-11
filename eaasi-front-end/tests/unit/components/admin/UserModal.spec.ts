@@ -1,6 +1,6 @@
 import UserModal from '@/components/admin/users/UserModal.vue';
 import { FormModal } from '@/components/global/forms';
-import adminStore from '@/store/admin-store';
+import adminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';

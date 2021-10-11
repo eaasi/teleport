@@ -71,7 +71,7 @@ export default class TaskList extends Vue {
 	============================================*/
 	isShow: boolean = false;
 
-	@Sync('task/taskQueue')
+	@Get('task/taskQueue')
 	taskQueue: EaasiTask[];
 
 	@Get('task/orderedTasks')

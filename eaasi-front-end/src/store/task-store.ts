@@ -6,6 +6,7 @@ import { ITaskState } from '@/types/Task';
 import eventBus from '@/utils/event-bus';
 import { Store } from 'vuex';
 import { make } from 'vuex-pathify';
+import { taskTypes } from '@/utils/constants';
 
 const taskPreferenceSvc = new TaskPreferenceService();
 
@@ -52,8 +53,8 @@ const actions = {
 		} else if (task.isDone) {
 			if (task.userData) task.userData = JSON.parse(task.userData);
 			await dispatch('onTaskComplete', task);
+			commit('ADD_OR_UPDATE_TASK', task);
 		}
-		commit('ADD_OR_UPDATE_TASK', task);
 		return task;
 	},
 
@@ -91,8 +92,11 @@ const actions = {
         return await _taskService.updateTask(task);
 	},
 
-	onTaskComplete(_: Store<TaskState>, task: EaasiTask) {
+	onTaskComplete({ dispatch }, task: EaasiTask) {
 		eventBus.$emit('notification:show', generateCompletedTaskNotification(task));
+		if (task.type && task.type === taskTypes.IMPORT_EMULATOR) {
+			dispatch('admin/buildEmulator', task, { root: true });
+		}
 	}
 
 };

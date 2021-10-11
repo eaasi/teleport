@@ -60,7 +60,8 @@ export const archiveTypes: any = {
 export const taskTypes: any = {
 	IMPORT: 'import',
 	DEFAULT: 'default',
-	EMIL: 'emil'
+	EMIL: 'emil',
+	IMPORT_EMULATOR: 'import_emulator'
 };
 
 export const MIN_SEARCH_RESULT_LIMIT = 10;

@@ -11,6 +11,7 @@ export interface IEaasiTask extends IEmilTask {
 	id: number;
 	description?: string;
 	tenantId: string;
+	type?: string;
 }
 
 export interface IEaasiTaskState {

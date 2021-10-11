@@ -17,4 +17,5 @@ export interface ITaskState {
 	description? :string;
 	object?: string;
 	userData?: any;
+	type?: string;
 }
