@@ -68,7 +68,7 @@ const actions = {
 
     async addTaskToQueue({ commit, dispatch }: Store<TaskState>, task: EaasiTask): Promise<ITaskState> {
         let taskState: ITaskState = await dispatch('getTaskState', task.taskId);
-        if (taskState.status != '0') return null;
+        if (!taskState || taskState.status != '0') return null;
         let eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
 		if (!eaasiTask) return null;
 		commit('ADD_OR_UPDATE_TASK', eaasiTask);
