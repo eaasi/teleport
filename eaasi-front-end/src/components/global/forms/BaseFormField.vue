@@ -102,6 +102,10 @@ export default class BaseFormField extends Vue {
 		return this.$attrs.hasOwnProperty('readonly');
 	}
 
+	get required(): boolean {
+		return this.$attrs.hasOwnProperty('required');
+	}
+
 	get wrapperProps() {
 		return {
 			hideLabel: this.hideLabel,

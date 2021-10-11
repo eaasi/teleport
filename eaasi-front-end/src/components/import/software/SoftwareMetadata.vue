@@ -7,6 +7,7 @@
 				label="Name"
 				v-model="title"
 				rules="required"
+				required
 			/>
 
 			<ui-button

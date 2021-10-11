@@ -5,6 +5,7 @@
 			rules="required"
 			placeholder="Enter a name or title for this resource"
 			v-model="title"
+			required
 		/>
 		<text-area-input
 			label="Environment Description"

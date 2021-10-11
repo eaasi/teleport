@@ -12,6 +12,7 @@
 						rules="url"
 						v-model="urlSource"
 						ref="urlField"
+						required
 					/>
 					<ui-button
 						v-if="isImageImport"
