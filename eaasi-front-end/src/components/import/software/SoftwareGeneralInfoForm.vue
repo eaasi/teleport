@@ -7,6 +7,7 @@
 					placeholder="Enter a name or title for this resource..."
 					rules="required"
 					v-model="title"
+					required
 				/>
 			</div>
 		</div>

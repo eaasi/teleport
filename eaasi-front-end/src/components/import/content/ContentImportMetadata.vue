@@ -24,6 +24,7 @@
 							label="Name"
 							v-model="content.title"
 							rules="required"
+							required
 						/>
 					</div>
 				</div>

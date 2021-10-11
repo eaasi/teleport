@@ -10,6 +10,9 @@
 					<option value="software">
 						Software Resource
 					</option>
+					<option value="image">
+						Computer Image
+					</option>
 					<!-- WD: Temporarily Removed due to https://gitlab.com/eaasi/program_docs/eaasi/-/issues/975 -->
 					<!--					<option value="image" v-if="userCanImportEnvironment">-->
 					<!--						Image Import-->
@@ -48,6 +51,22 @@
 					</options-box>
 				</div>
 
+				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">
+					<options-box
+						title="Computer Image"
+						icon="file"
+					>
+						Disk image of an existing computer to be configured as a content environment or of a pre-installed operating system to be configured as a base environment.
+						<template slot="footer">
+							<ui-button
+								block
+								@click="chooseImportType('image')"
+							>
+								Import Image
+							</ui-button>
+						</template>
+					</options-box>
+				</div>
 				<!-- WD: Temporarily Removed due to https://gitlab.com/eaasi/program_docs/eaasi/-/issues/975 -->
 				<!--				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">-->
 				<!--					<options-box-->

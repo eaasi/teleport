@@ -7,6 +7,7 @@
 					label="RAM"
 					rules="required|numeric"
 					value="512"
+					required
 				/>
 			</column>
 			<column size="6">
@@ -14,6 +15,7 @@
 					label="CPU Cores"
 					rules="required|numeric"
 					value="2"
+					required
 				/>
 			</column>
 		</row>
