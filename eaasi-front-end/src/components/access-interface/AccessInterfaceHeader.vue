@@ -39,7 +39,7 @@
 				</ui-button>
 				<ui-button
 					size="sm"
-					:disabled="mediaItems.length === 0"
+					:disabled="!enableChangeMedia"
 					@click="showMediaOptions = true"
 				>
 					Change Resource Media
@@ -124,9 +124,6 @@ export default class AccessInterfaceHeader extends Vue {
 	@Get('emulatorIsRunning')
 	readonly emulatorIsRunning: boolean;
 
-	@Get('driveId')
-	readonly driveId: number;
-
 	@Get('resource/activeEnvironment')
 	readonly activeEnvironment: IEnvironment;
 
@@ -140,6 +137,8 @@ export default class AccessInterfaceHeader extends Vue {
 	showSaveEnvironment: boolean = false;
 	showPrintJobsModal: boolean = false;
 	printJobLabels: string[] = [];
+	enableChangeMedia: boolean = false;
+	driveId: number;
 
 	/* Methods
 	============================================*/
@@ -182,6 +181,13 @@ export default class AccessInterfaceHeader extends Vue {
 
 	initEmulatorListeners() {
 		eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
+		eventBus.$on('emulator:set-media', removableMediaList => {
+			if (!removableMediaList || removableMediaList.length === 0) {
+				return;
+			}
+			this.driveId = removableMediaList[0].driveIndex;
+			this.enableChangeMedia = true;
+		});
 	}
 
 	initBrowserEvents() {
