@@ -69,5 +69,5 @@ services:
     ports:
     - 5432:5432
     volumes:
-    - ./eaasi_db:/var/lib/postgresql/data
+    - ./eaasi-database/data:/var/lib/postgresql/data
     restart: on-failure
