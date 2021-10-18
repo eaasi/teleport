@@ -319,10 +319,10 @@ export default class ResourceController extends BaseController {
 		}
 	}
 
-	async getNameIndexes(req: Request, res: Response) {
+	async getEmulators(req: Request, res: Response) {
 		try {
 			let token = req.headers.authorization;
-			let result = await this._environmentService.getNameIndexes(token);
+			let result = await this._environmentService.getEmulators(token);
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);

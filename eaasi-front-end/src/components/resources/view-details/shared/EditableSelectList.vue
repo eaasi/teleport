@@ -37,20 +37,18 @@ export default class EditableSelectList extends Vue {
     readonly: Boolean;
 
     @Prop({ type: String, required: true })
-    anchor: String;
+    anchor: string;
 
     @Prop({ type: String, required: true })
-    label: String;
+    label: string;
 
     @Prop({ type: String })
-    defaultSelected: String;
+    defaultSelected: string;
 
     /* Computed
     ============================================*/
     get selectedValue() {
-        // @ts-ignore
-        const dataItem = this.item.data.find(d => d[this.anchor] === this.item.value);
-        // @ts-ignore
+        const dataItem = this.item.data.find(d => d.value === this.item.value);
         return dataItem ? dataItem[this.label] : this.defaultSelected;
     }
 

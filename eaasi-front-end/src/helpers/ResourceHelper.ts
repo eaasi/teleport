@@ -1,5 +1,4 @@
-import { IDrive, IDriveSetting, IEaasiResource, IEnvironment, ISoftwarePackage, ResourceType } from '@/types/Resource';
-import { ITag } from '@/types/Tag';
+import { IDrive, IDriveSetting, IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
 import {resourceTypes, translatedIcon} from '@/utils/constants';
 
 export type IEnvironmentUpdateRequest = {
@@ -103,8 +102,8 @@ export function removeResourcesByType(resources: IEaasiResource[], type: Resourc
 
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {
     return {
-        containerEmulatorName: environment.containerEmulatorName,
-        containerEmulatorVersion: environment.containerEmulatorVersion,
+		containerEmulatorName: environment.containerName,
+		containerEmulatorVersion: environment.containerVersion,
         description: environment.description,
         drives: environment.drives.length > 0 ? _mapDrives(environment.drives) : [],
         enablePrinting: environment.enablePrinting,

@@ -20,6 +20,7 @@ export default class EnvironmentService extends BaseService {
 	private readonly _environmentRepoService: EmilBaseService;
 	private readonly _componentService: ComponentService;
 	private readonly _tempEnvironmentService: TempEnvironmentService;
+	private readonly _emulatorRepoService: EmilBaseService;
 	private readonly CACHE_KEYS = {
 		ALL_ENVIRONMENTS: 'all-environments'
 	}
@@ -28,11 +29,13 @@ export default class EnvironmentService extends BaseService {
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
 		componentService: ComponentService = new ComponentService(),
 		tempEnvService: TempEnvironmentService = new TempEnvironmentService(),
+		emulatorRepository: EmilBaseService = new EmilBaseService('emulator-repository'),
 	) {
 		super();
 		this._environmentRepoService = environmentRepository;
 		this._componentService = componentService;
 		this._tempEnvironmentService = tempEnvService;
+		this._emulatorRepoService = emulatorRepository;
 	}
 
 	async getAll(token?: string, forceClearCache?: boolean): Promise<IEnvironment[]> {
@@ -330,8 +333,8 @@ export default class EnvironmentService extends BaseService {
 		return res.json();
 	}
 
-	async getNameIndexes(token?: string) {
-		let res = await this._environmentRepoService.get('image-name-index', token);
+	async getEmulators(token?: string) {
+		let res = await this._emulatorRepoService.get('emulators', token);
 		return res.json();
 	}
 

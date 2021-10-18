@@ -10,7 +10,6 @@ import Cookies from 'js-cookie';
 import BaseHttpService from './BaseHttpService';
 import eventBus from '@/utils/event-bus';
 import { generateNotificationError } from '@/helpers/NotificationHelper';
-import { EmulatorNamedIndexes } from '@/types/IEmulator';
 
 class AdminService extends BaseHttpService {
 

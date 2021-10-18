@@ -89,8 +89,8 @@ class ResourceService extends BaseHttpService {
 	/**
 	 * Makes a GET request to retrieve Name Indexes
 	 */
-	async getNameIndexes() {
-		let res = await this.get<any>('/resource/nameIndexes');
+	async getEmulators() {
+		let res = await this.get<any>('/resource/emulators');
 		return res.result;
 	}
 
