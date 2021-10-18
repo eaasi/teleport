@@ -99,12 +99,13 @@ describe('EnvironmentService', () => {
 		expect(mockEnvironmentRepoService.getUrl).toStrictEqual('os-metadata');
 	});
 
-	it('on getNameIndexes calls getNameIndexes', () => {
+	it('on getEmulators calls getEmulators', () => {
 		let mockEnvironmentRepoService = new MockHttpService();
+		let mockEmulatorRepoService = new MockHttpService();
 		let mockComponentService = new MockBaseService();
-		let sut = new EnvironmentService(mockEnvironmentRepoService, mockComponentService);
-		sut.getNameIndexes();
-		expect(mockEnvironmentRepoService.getUrl).toStrictEqual('image-name-index');
+		let sut = new EnvironmentService(mockEnvironmentRepoService, mockComponentService, null, mockEmulatorRepoService);
+		sut.getEmulators();
+		expect(mockEmulatorRepoService.getUrl).toStrictEqual('emulators');
 	});
 
 })
