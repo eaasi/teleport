@@ -1,5 +1,5 @@
 import { IContentItem } from '@/types/emil/EmilContentData';
-import { EmulatorEntry, IImageListItem } from '@/types/emil/EmilEnvironmentData';
+import { IImageListItem, ImageEntry } from '@/types/emil/EmilEnvironmentData';
 import { ResourceType } from '@/types/resource/Resource';
 import { resourceTypes } from '@/utils/constants';
 
@@ -9,9 +9,9 @@ export default class ImageListItem implements IImageListItem {
 	resourceType: ResourceType = resourceTypes.IMAGE;
 	isPublic: boolean = false;
 	
-	constructor(emulatorEntry: EmulatorEntry) {
-		this.id = emulatorEntry.image.id;
-		this.title = emulatorEntry.label;
+	constructor(imageEntry: ImageEntry) {
+		this.id = imageEntry.id;
+		this.title = imageEntry.label;
 	}
 
 	toContent(): IContentItem {

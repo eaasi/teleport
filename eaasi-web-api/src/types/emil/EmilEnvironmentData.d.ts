@@ -28,6 +28,13 @@ export interface EmulatorEntry {
 	label?: string;
 }
 
+export interface ImageEntry {
+	id: string;
+	label: string;
+	kind: string;
+	category: string;
+}
+
 export interface EmulatorEntries {
 	entry: KeyValuePair<EmulatorEntry>[];
 }
