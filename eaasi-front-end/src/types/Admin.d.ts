@@ -4,18 +4,20 @@ declare module 'eaasi-admin' {
 	============================================*/
 
 	export interface IEmulator {
-		id: string;
+		id?: string;
 		name: string;
 		entries: IEmulatorEntry[];
 		latestVersion: string | null;
 	}
 
 	export interface IEmulatorEntry {
+		id: string;
 		name: string;
 		version: string;
 		image: IEmulatorImage;
 		provenance: IEmulatorProvenance;
 		digest: string;
+		tags?: string[];
 	}
 
 	export interface IEmulatorImage {

@@ -76,8 +76,8 @@ const actions = {
 		await dispatch('task/addTaskToQueue', task, { root: true });
 	},
 
-	async setDefaultEmulatorVersion(_: Store<AdminState>, entry: IEmulatorEntry) {
-		return await _svc.setDefaultEmulatorVersion(entry);
+	async setDefaultEmulatorVersion(_: Store<AdminState>, id: string) {
+		return await _svc.setDefaultEmulatorVersion(id);
 	},
 
 	/* Users

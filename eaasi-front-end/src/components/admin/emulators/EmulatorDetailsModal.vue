@@ -86,21 +86,39 @@ export default class EmulatorModal extends Vue {
 	 * Determines if an emulator entry is the default version
 	 */
 	isDefault(e: IEmulatorEntry) {
-		return e.version === this.emulator.latestVersion;
+		return !!e.tags?.includes('default');
 	}
 
 	async makeDefault(entry: IEmulatorEntry) {
-		let previousVersion = this.emulator.latestVersion;
 		// Assume this will succeed and update the checkbox immediately
-		this.emulator.latestVersion = entry.version;
-		let success = await this.$store.dispatch('admin/setDefaultEmulatorVersion', entry);
+		let previousDefault = this.setDefaultTagToEntry(entry.id);
+		let success = await this.$store.dispatch('admin/setDefaultEmulatorVersion', entry.id);
 		if(success) {
 			// Refresh the latest emulator list
 			this.$store.dispatch('admin/getEmulators');
 		} else {
 			// If first call failed, revert to previous version
-			this.emulator.latestVersion = previousVersion;
+			this.setDefaultTagToEntry(previousDefault);
 		}
+	}
+
+	setDefaultTagToEntry(id) {
+		let previousDefault;
+		this.emulator.entries = this.emulator.entries.map(e => {
+			let newTags = e.tags ? [...e.tags] : [];
+			if (this.isDefault(e)) {
+				previousDefault = e.id;
+				newTags = newTags.filter(tag => tag !== 'default');
+			}
+			if (e.id === id) {
+				newTags.push('default');
+			}
+			return {
+				...e,
+				tags: newTags
+			};
+		});
+		return id;
 	}
 
 	async updateImage(entry: IEmulatorEntry) {
@@ -111,7 +129,7 @@ export default class EmulatorModal extends Vue {
 		const task = await this.$store.dispatch('admin/importEmulator', request) as EaasiTask;
 		if(!task) return;
 		const taskWithDescription: ITaskState = {
-			...task, 
+			...task,
 			description: `Import Emulator: ${entry.provenance.ociSourceUrl}:${entry.provenance.versionTag}`
 		};
 		await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);

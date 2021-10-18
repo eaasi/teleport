@@ -5,7 +5,7 @@ import { IApplicationLog } from '@/types/ApplicationLog';
 import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
-import { IEaasiRole, IKeyboardSettings } from 'eaasi-admin';
+import {IEaasiRole, IEmulator, IKeyboardSettings} from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import BaseHttpService from './BaseHttpService';
 import eventBus from '@/utils/event-bus';
@@ -29,8 +29,8 @@ class AdminService extends BaseHttpService {
 	/* Emulators
 	============================================*/
 
-	async getEmulators(): Promise<EmulatorNamedIndexes> {
-		let res = await this.get<EmulatorNamedIndexes>('/admin/get-emulators');
+	async getEmulators(): Promise<IEmulator[]> {
+		let res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
 		return res.result;
 	}
@@ -41,8 +41,8 @@ class AdminService extends BaseHttpService {
 		return res.result as ITaskState;
 	}
 
-	async setDefaultEmulatorVersion(entry: any) {
-		let res = await this.post<any>('/admin/set-default-emulator-version', entry);
+	async setDefaultEmulatorVersion(id: string) {
+		let res = await this.post<any>(`/admin/set-default-emulator-version?id=${id}`);
 		if (!res.ok) return null;
 		return res.result;
 	}

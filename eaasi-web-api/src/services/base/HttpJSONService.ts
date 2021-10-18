@@ -38,7 +38,7 @@ export default class HttpJSONService implements IHttpService {
 	 * @param token - optional user JWT token
 	 * @return {Promise<Response>} - Response from fetch APY
 	 */
-	public async post(url: string, data: any, options?: RequestInit, token?: string): Promise<Response> {
+	public async post(url: string, data?: any, options?: RequestInit, token?: string): Promise<Response> {
 		let requestInit = this._createRequestInit('POST', data, options, token);
 		return await fetch(url, requestInit);
 	}

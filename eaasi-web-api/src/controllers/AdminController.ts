@@ -6,7 +6,6 @@ import AuthService from '@/services/auth/AuthService';
 import MailerService from '@/services/mailer/MailerService';
 import HarvesterService from '@/services/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
-import { EmulatorEntry } from '@/types/emil/EmilEnvironmentData';
 import { HarvesterReq } from '@/types/oaipmh/Harvester';
 import { Request as ExpressRequest, Response as ExpressResponse}  from 'express';
 import BaseController from './base/BaseController';
@@ -249,7 +248,8 @@ export default class AdminController extends BaseController {
 	 */
 	async getEmulators(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			let emulators = await this._emulatorAdminSvc.getEmulators();
+			let token = req.headers.authorization;
+			let emulators = await this._emulatorAdminSvc.getEmulators(token);
 			res.send(emulators);
 		} catch(e) {
 			return this.sendError(e, res);
@@ -278,8 +278,9 @@ export default class AdminController extends BaseController {
 	 */
 	async setDefaultEmulatorVersion(req: ExpressRequest, res: ExpressResponse) {
 		try {
-			let entry = req.body as EmulatorEntry;
-			let response = await this._emulatorAdminSvc.setDefaultVersion(entry);
+			let id = req.query.id as string;
+			let token = req.headers.authorization;
+			let response = await this._emulatorAdminSvc.setDefaultVersion(id, token);
 			res.send(response);
 		} catch(e) {
 			return this.sendError(e, res);
