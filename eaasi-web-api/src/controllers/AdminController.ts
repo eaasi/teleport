@@ -1,8 +1,6 @@
 import EmilAdminService from '@/services/admin/EmilAdminService';
 import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
 import UserAdminService from '@/services/admin/UserAdminService';
-import AuthService from '@/services/auth/AuthService';
-//import UserHashService from '@/services/auth/UserHashService';
 import MailerService from '@/services/mailer/MailerService';
 import HarvesterService from '@/services/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
@@ -25,8 +23,6 @@ export default class AdminController extends BaseController {
 	readonly _userSvc: UserAdminService;
 	readonly _emulatorAdminSvc: EmulatorAdminService;
 	readonly _harvesterSvc: HarvesterService;
-	//readonly _userHashService: UserHashService;
-	readonly _authService: AuthService;
 	readonly _mailerService: MailerService;
 	readonly _adminService: EmilAdminService;
 	private readonly _keycloakService: KeycloakService;
@@ -39,8 +35,6 @@ export default class AdminController extends BaseController {
 		this._harvesterSvc = new HarvesterService();
 		this._keycloakService = new KeycloakService();
 		if (!SAML_ENABLED) {
-			//this._userHashService = new UserHashService();
-			this._authService = new AuthService();
 			this._mailerService = new MailerService();
 		}
 	}
