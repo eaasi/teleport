@@ -44,7 +44,7 @@ services:
     depends_on:
      - eaasi-database
     env_file:
-    - ./eaasi-web-api/.env.production
+    - ./eaasi-web-api/.env
     volumes:
     - ./eaasi-web-api/certs:/app/certs
     networks:
@@ -53,7 +53,6 @@ services:
     - eaasi-nginx:eaasi.portalmedia.com
     ports:
     - 8081:8081
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh scripts/start.sh"
     restart: on-failure
 
   # PostgreSQL Database
