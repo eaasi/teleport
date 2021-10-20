@@ -9,6 +9,7 @@ services:
   eaasi-nginx:
     image: nginx:stable-alpine
     container_name: eaasi-nginx
+    init: true
     depends_on:
     - eaasi-front-end
     - eaasi-web-api
@@ -26,6 +27,7 @@ services:
   eaasi-front-end:
     image: eaasi-front-end
     container_name: eaasi-front-end
+    init: true
     build:
       context: .
     networks:
@@ -38,6 +40,7 @@ services:
   eaasi-web-api:
     image: eaasi-web-api
     container_name: eaasi-web-api
+    init: true
     build:
       context: ./eaasi-web-api
     depends_on:
@@ -58,6 +61,7 @@ services:
   eaasi-database:
     image: eaasi-database
     container_name: eaasi-database
+    init: true
     build:
       context: ./eaasi-database
     env_file:
