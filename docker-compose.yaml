@@ -28,7 +28,6 @@ services:
     container_name: eaasi-front-end
     build:
       context: .
-      dockerfile: ./eaasi-front-end/Dockerfile
     networks:
     - eaasi
     ports:
