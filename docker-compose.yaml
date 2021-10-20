@@ -7,7 +7,7 @@ networks:
 services:
   # Nginx Reverse Proxy
   eaasi-nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     container_name: eaasi-nginx
     depends_on:
     - eaasi-front-end
