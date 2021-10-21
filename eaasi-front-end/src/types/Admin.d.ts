@@ -21,16 +21,15 @@ declare module 'eaasi-admin' {
 	}
 
 	export interface IEmulatorImage {
-		url: string;
+		category: string;
 		id: string;
-		type: string;
+		kind: string;
 		fstype: string;
 	}
 
 	export interface IEmulatorProvenance {
-		ociSourceUrl: string;
-		versionTag: string;
-		layers: string[];
+		url: string;
+		tag: string;
 	}
 
 	/* User

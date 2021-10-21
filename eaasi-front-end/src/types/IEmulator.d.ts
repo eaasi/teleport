@@ -23,16 +23,15 @@ export interface KeyValuePair<T> {
 
 
 export interface EmulatorImage {
-	url: string;
+	category: string;
 	id: string;
-	type: string;
+	kind: string;
 	fstype: string;
 }
 
 export interface EmulatorProvenance {
-	ociSourceUrl: string;
-	versionTag: string;
-	layers: string[];
+	url: string;
+	tag: string;
 }
 
 export interface EmulatorEntry {
