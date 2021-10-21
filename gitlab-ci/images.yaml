@@ -1,0 +1,58 @@
+.imagejob:
+  image: docker:latest
+  stage: build
+  services:
+  - docker:dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_DRIVER: "overlay2"
+    BUILDX_VERSION: "v0.6.3"
+    image: "${CI_REGISTRY_IMAGE}/${service}"
+    tag: "${CI_COMMIT_REF_SLUG}"
+  before_script:
+  # install docker's buildx plugin
+  - srcurl="https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.linux-amd64"
+  - dstdir="${HOME}/.docker/cli-plugins"
+  - mkdir -p "${dstdir}"
+  - wget -O "${dstdir}/docker-buildx" "${srcurl}"
+  - chmod a+x "${dstdir}/docker-buildx"
+  - unset srcurl dstdir
+  # prepare build environment
+  - docker info
+  - echo "${CI_REGISTRY_PASSWORD}" | docker login --password-stdin -u "${CI_REGISTRY_USER}" "${CI_REGISTRY}"
+  - docker context create eaasi
+  - docker buildx create --name eaasi --driver docker-container --use eaasi
+  - docker buildx inspect --bootstrap eaasi
+  - is_latest() test "${CI_COMMIT_REF_SLUG}" = "${CI_DEFAULT_BRANCH}"
+  script:
+  # optionally, load image into local docker instance
+  - if is_latest; then outargs='--output "type=docker"'; fi
+  # build and push image, export all intermediate layers as cache
+  - docker buildx build --progress plain --output 'type=registry' ${outargs}
+        --cache-to "type=registry,mode=max,ref=${image}:buildcache"
+        --cache-from "type=registry,ref=${image}:buildcache"
+        --tag "${image}:${tag}" "${workdir}"
+  # optionally, update latest tag
+  - if is_latest; then
+      docker tag "${image}:${tag}" "${image}:latest";
+      docker push "${image}:latest";
+    fi
+
+database-image:
+  extends: ".imagejob"
+  variables:
+    service: "eaasi-database"
+    workdir: "./eaasi-database"
+
+front-end-image:
+  extends: ".imagejob"
+  variables:
+    GIT_SUBMODULE_STRATEGY: "recursive"
+    service: "eaasi-front-end"
+    workdir: "."
+
+web-api-image:
+  extends: ".imagejob"
+  variables:
+    service: "eaasi-web-api"
+    workdir: "./eaasi-web-api"
