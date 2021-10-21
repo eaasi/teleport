@@ -1,5 +1,7 @@
 stages:
 - test
+- build
 
 include:
 - local: "gitlab-ci/tests.yaml"
+- local: "gitlab-ci/images.yaml"
