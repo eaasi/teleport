@@ -88,9 +88,9 @@ cleanup:
       local image="${CI_REGISTRY_IMAGE}/${service}";
       echo "Deleting docker-image '${image}:${tag}'...";
       skopeo delete "docker://${image}:${tag}";
+      echo "";
     }
   - | # delete docker images + caches for current branch
     for service in eaasi-database eaasi-front-end eaasi-web-api; do
       delete_docker_image "${service}" "${CI_COMMIT_REF_SLUG}";
-      delete_docker_image "${service}" "buildcache";
     done
