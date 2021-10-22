@@ -1,6 +1,7 @@
 stages:
 - test
 - build
+- cleanup
 
 include:
 - local: "gitlab-ci/tests.yaml"
