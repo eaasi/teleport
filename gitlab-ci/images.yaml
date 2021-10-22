@@ -78,16 +78,21 @@ cleanup:
   variables:
     GIT_STRATEGY: "none"
   before_script:
-  - apk add --no-cache skopeo
-  - echo "${CI_REGISTRY_PASSWORD}" | skopeo login --password-stdin -u "${CI_REGISTRY_USER}" "${CI_REGISTRY}"
+  - apk add --no-cache curl jq
   script:
+  - | # helper for sending authenticated api-requests
+    request() {
+      curl -s -H "PRIVATE-TOKEN: ${CONTAINER_REGISTRY_CLEANUP_TOKEN}" "$@"
+    }
   - | # delete docker image for given service and tag
     delete_docker_image() {
       local service="$1";
       local tag="$2";
-      local image="${CI_REGISTRY_IMAGE}/${service}";
-      echo "Deleting docker-image '${image}:${tag}'...";
-      skopeo delete "docker://${image}:${tag}";
+      echo "Deleting docker-image '${CI_REGISTRY_IMAGE}/${service}:${tag}'...";
+      local apiurl="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories";
+      local repoid=$(request -X GET "${apiurl}" | jq ".[] | select(.name == \"${service}\") | .id, halt");
+      request -X DELETE "${apiurl}/${repoid}/tags/${tag}";
+      echo "";
     }
   - | # delete docker images + caches for current branch
     for service in eaasi-database eaasi-front-end eaasi-web-api; do
