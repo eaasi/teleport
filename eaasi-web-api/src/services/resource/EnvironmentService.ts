@@ -2,7 +2,7 @@ import { TempEnvironment } from '@/data_access/models/app/TempEnvironment';
 import ImageListItem from '@/models/resource/ImageListItem';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ICreateEnvironmentPayload, IImageDeletePayload, IImageImportPayload } from '@/types/emil/Emil';
-import { EmulatorNamedIndexes, IEnvironment, IEnvironmentListItem } from '@/types/emil/EmilEnvironmentData';
+import { IEnvironment, IEnvironmentListItem, ImageEntry } from '@/types/emil/EmilEnvironmentData';
 import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IEmulatorComponentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
@@ -294,10 +294,9 @@ export default class EnvironmentService extends BaseService {
 	 == Images
 	/============================================================*/
 	async getImages(token: string): Promise<ImageListItem[]> {
-		let res = await this._environmentRepoService.get('images-index', token);
-		const nameIndexes = await res.json() as EmulatorNamedIndexes;
-		return nameIndexes && nameIndexes.entries && nameIndexes.entries.entry && nameIndexes.entries.entry.length
-			? nameIndexes.entries.entry.map(entry => new ImageListItem(entry.value)) : [];
+		let res = await this._environmentRepoService.get('images', token);
+		const images = await res.json() as ImageEntry[];
+		return images ? images.map(image => new ImageListItem(image)) : [];
 	}
 
 	async importImage(payload: IImageImportPayload, token: string): Promise<IEmilTask> {
