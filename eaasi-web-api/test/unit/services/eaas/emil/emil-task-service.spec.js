@@ -19,6 +19,16 @@ describe('Emil Container Service', () => {
 		}
 	});
 
+	it('throws an error if empty value is passed to getEnvironmentTaskState', async () => {
+		let sut = new EmilTaskService();
+		try {
+			await sut.getTaskState(null);
+			expect(true).toBe(false);
+		} catch (e) {
+			expect(e).toEqual('taskId must not be empty')
+		}
+	});
+
 	it('when getTaskState is called invokes `get` using the IHttpService implementation to query the expected URL', async () => {
 		let httpService = new MockHttpService();
 		let sut = new EmilTaskService(httpService);
