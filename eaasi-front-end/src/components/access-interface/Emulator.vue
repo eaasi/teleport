@@ -133,11 +133,7 @@
 		changeMedia(changeMediaRequest) {
 			const activeSession = this.client.getActiveSession();
 			if (activeSession) {
-				let request = {
-					...changeMediaRequest,
-					driveId: activeSession.getRemovableMediaList()[0].driveIndex
-				};
-				activeSession.changeMedia(request);
+				activeSession.changeMedia(changeMediaRequest);
 			}
 		}
 
@@ -204,6 +200,9 @@
 				vm.attachUserControls();
 				const activeSession = vm.client.getActiveSession();
 				this.clientComponentId = activeSession ? activeSession.getId() : null;
+				if (activeSession) {
+					eventBus.$emit('emulator:set-media', activeSession.getRemovableMediaList());
+				}
 
 				this.initPrintListeners();
 			} catch(e) {
