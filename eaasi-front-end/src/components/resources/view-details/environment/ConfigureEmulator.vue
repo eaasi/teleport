@@ -16,10 +16,10 @@
 		/>
 
 		<editable-select-list
-			:item="timeContext"
+			:item="containerVersion"
 			:readonly="readonly"
-			default-selected="Latest"
-			anchor="key"
+			default-selected="latest"
+			anchor="value"
 			label="key"
 		/>
 	</div>
@@ -65,8 +65,8 @@ export default class ConfigureEmulator extends Vue {
     get linuxRuntime() {
         return this.emulatorItems.find(i => i.property === 'linuxRuntime');
     }
-    get timeContext() {
-        return this.emulatorItems.find(i => i.property === 'timeContext');
+    get containerVersion() {
+        return this.emulatorItems.find(i => i.property === 'containerVersion');
     }
     get os() {
         return this.emulatorItems.find(i => i.property === 'os');

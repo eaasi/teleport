@@ -170,8 +170,8 @@ const actions = {
 		commit('SET_AVAILABLE_PATCHES', result);
 	},
 
-	async getNameIndexes(_) {
-		return await _svc.getNameIndexes();
+	async getEmulators(_) {
+		return await _svc.getEmulators();
 	},
 
 	async getOperatingSystemMetadata(_) {

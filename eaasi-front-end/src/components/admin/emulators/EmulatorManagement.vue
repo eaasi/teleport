@@ -49,6 +49,7 @@
 	import EmulatorImportModal from './EmulatorImportModal.vue';
 	import { Get, Sync } from 'vuex-pathify';
 	import { IEmulator } from 'eaasi-admin';
+	const emulators = require('../../../assets/json/emulators.json');
 
 	@Component({
 		name: 'EmulatorManagement',
@@ -100,7 +101,7 @@
         ============================================*/
 
 		mounted() {
-			this.$store.dispatch('admin/getEmulators');
+			this.$store.dispatch('admin/getEmulators', emulators);
 		}
 
 	}

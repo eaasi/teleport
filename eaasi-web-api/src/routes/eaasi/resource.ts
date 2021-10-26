@@ -138,13 +138,13 @@ router.get('/patches', (req, res) => controller.getPatches(req, res));
 router.get('/operatingSystemMetadata', (req, res) => controller.getOperatingSystemMetadata(req, res));
 
 /**
- * @api {get} resource/nameIndexes Gets name Indexes
+ * @api {get} resource/emulators Gets name Indexes
  * @apiVersion 1.0.0
- * @apiName Gets name indexes
+ * @apiName Gets emulators
  * @apiGroup Resources
- * @apiDescription Gets name indexes
+ * @apiDescription Gets emulators
  */
-router.get('/nameIndexes', (req, res) => controller.getNameIndexes(req, res));
+router.get('/emulators', (req, res) => controller.getEmulators(req, res));
 
 /**
  * @api {post} resource/classify creates a task to detect environments that uses requested software

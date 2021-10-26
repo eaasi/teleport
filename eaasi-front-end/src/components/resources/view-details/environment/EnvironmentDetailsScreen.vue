@@ -315,8 +315,8 @@ export default class EnvironmentDetailsScreen extends Vue {
 	}
 
 	async _populateEmulatorConfig() {
-		const nameIndexes =
-			await this.$store.dispatch('resource/getNameIndexes');
+		const emulators =
+			await this.$store.dispatch('resource/getEmulators');
 
 		const operatingSystemMetadata =
 			await this.$store.dispatch('resource/getOperatingSystemMetadata');
@@ -355,26 +355,19 @@ export default class EnvironmentDetailsScreen extends Vue {
 				changed: false
 			}
 		];
-		if (nameIndexes) {
-			let entries = [];
-			if (nameIndexes.entries && nameIndexes.entries.entry && nameIndexes.entries.entry.length) {
-				const activeEnvironmentEmulator = this.activeEnvironment.emulator.toLowerCase();
-				entries = nameIndexes.entries.entry.filter(e => e.key.toLowerCase().indexOf(activeEnvironmentEmulator) > 0);
-				if (entries.length) {
-					const latestEntry = {
-						key: 'latest',
-						value: {
-							name: entries[0].value.name
-						}
-					};
-					entries.unshift(latestEntry);
+		if (emulators) {
+			const activeEnvironmentEmulator = this.activeEnvironment.containerName;
+			let entries = emulators.filter(e => e.name === activeEnvironmentEmulator).map(e => {
+				if (e.provenance.tag === 'latest') {
+					return { key: `${e.version} (latest)`, value: e.version };
 				}
-			}
+				return { key: e.version, value: e.version };
+			});
 			this.emulatorLabeledItems.push({
 				label: 'Emulator Version',
-				value: this.activeEnvironment.timeContext ? this.activeEnvironment.timeContext : '',
+				value: this.activeEnvironment.containerVersion ? this.activeEnvironment.containerVersion : '',
 				readonly: false,
-				property: 'timeContext',
+				property: 'containerVersion',
 				editType: 'select',
 				changed: false,
 				data: entries

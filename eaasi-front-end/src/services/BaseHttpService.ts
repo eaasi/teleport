@@ -32,7 +32,7 @@ export default class BaseHttpService {
 	 */
 	async post<T>(
 		url: string,
-		data: any,
+		data?: any,
 		options?: IEaasiApiRequestOptions
 	): Promise<IEaasiApiResponse<T>> {
 		return this._makeRequest(url, 'POST', data, options);

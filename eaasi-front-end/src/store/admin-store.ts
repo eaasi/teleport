@@ -16,6 +16,10 @@ import config from '@/config';
 import { getUserToken } from '@/utils/auth';
 import { taskTypes } from '@/utils/constants';
 import { IEaasiTask } from '../../../eaasi-web-api/src/types/task/Task';
+import { IDefaultEmulators } from '@/types/IEmulator';
+import EmulatorService from '@/services/EmulatorService';
+
+const emulatorService = new EmulatorService();
 
 /*============================================================
  == State
@@ -49,10 +53,10 @@ const actions = {
 	/* Emulators
 	============================================*/
 
-	async getEmulators({ commit }: Store<AdminState>) {
+	async getEmulators({ commit }: Store<AdminState>, emulators: IDefaultEmulators) {
 		let result = await _svc.getEmulators();
 		if (!result) return;
-		commit('SET_EMULATORS', result);
+		commit('SET_EMULATORS', emulatorService.createEmulatorList(emulators, result));
 	},
 
 	async importEmulator(_: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
@@ -72,8 +76,8 @@ const actions = {
 		await dispatch('task/addTaskToQueue', task, { root: true });
 	},
 
-	async setDefaultEmulatorVersion(_: Store<AdminState>, entry: IEmulatorEntry) {
-		return await _svc.setDefaultEmulatorVersion(entry);
+	async setDefaultEmulatorVersion(_: Store<AdminState>, id: string) {
+		return await _svc.setDefaultEmulatorVersion(id);
 	},
 
 	/* Users

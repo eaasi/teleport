@@ -9,21 +9,23 @@
 			<table class="eaasi-table">
 				<caption>Available Emulators</caption>
 				<thead>
-					<th scope="col">User Version</th>
-					<th scope="col">OCI Source URL</th>
-					<th scope="col" style="width: 95px;">Docker Tag</th>
-					<th scope="col" style="width: 220px;"></th>
-					<th scope="col" style="width: 30px;" v-if="hasMultipleImages">Default</th>
+					<tr>
+						<th scope="col">User Version</th>
+						<th scope="col">OCI Source URL</th>
+						<th scope="col" style="width: 95px;">Docker Tag</th>
+						<th scope="col" style="width: 220px;"></th>
+						<th scope="col" style="width: 30px;" v-if="hasMultipleImages">Default</th>
+					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="e in emulator.entries" :key="e.image.id">
 						<td>{{ e.version }}</td>
-						<td>{{ e.provenance.ociSourceUrl }}</td>
+						<td>{{ e.provenance.url }}</td>
 						<td class="nb">
 							<span v-if="isLatest(e)" class="e-latest">
 								<span class="fas fa-check-circle"></span>
 							</span>
-							<span>{{ e.provenance.versionTag }}</span>
+							<span>{{ e.provenance.tag }}</span>
 						</td>
 						<td :class="['btn-cell nb text-right', {'text-center': hasMultipleImages}]">
 							<span v-if="canUpdate(e)" @click="updateImage(e)">Update</span>
@@ -71,7 +73,7 @@ export default class EmulatorModal extends Vue {
 	canUpdate(e: IEmulatorEntry) {
 		if(this.isLatest(e)) return false;
 		let otherVersions = this.emulator.entries
-			.filter(x => e.provenance.ociSourceUrl === x.provenance.ociSourceUrl);
+			.filter(x => e.provenance.url === x.provenance.url);
 		return !otherVersions.find(x => this.isLatest(x));
 	}
 
@@ -79,40 +81,58 @@ export default class EmulatorModal extends Vue {
 	 * Determines if an emulator entry is the latest version
 	 */
 	isLatest(e: IEmulatorEntry) {
-		return e.provenance.versionTag === 'latest';
+		return e.provenance.tag === 'latest';
 	}
 
 	/**
 	 * Determines if an emulator entry is the default version
 	 */
 	isDefault(e: IEmulatorEntry) {
-		return e.version === this.emulator.latestVersion;
+		return !!e.tags?.includes('default');
 	}
 
 	async makeDefault(entry: IEmulatorEntry) {
-		let previousVersion = this.emulator.latestVersion;
 		// Assume this will succeed and update the checkbox immediately
-		this.emulator.latestVersion = entry.version;
-		let success = await this.$store.dispatch('admin/setDefaultEmulatorVersion', entry);
+		let previousDefault = this.setDefaultTagToEntry(entry.id);
+		let success = await this.$store.dispatch('admin/setDefaultEmulatorVersion', entry.id);
 		if(success) {
 			// Refresh the latest emulator list
 			this.$store.dispatch('admin/getEmulators');
 		} else {
 			// If first call failed, revert to previous version
-			this.emulator.latestVersion = previousVersion;
+			this.setDefaultTagToEntry(previousDefault);
 		}
+	}
+
+	setDefaultTagToEntry(id) {
+		let previousDefault;
+		this.emulator.entries = this.emulator.entries.map(e => {
+			let newTags = e.tags ? [...e.tags] : [];
+			if (this.isDefault(e)) {
+				previousDefault = e.id;
+				newTags = newTags.filter(tag => tag !== 'default');
+			}
+			if (e.id === id) {
+				newTags.push('default');
+			}
+			return {
+				...e,
+				tags: newTags
+			};
+		});
+		return id;
 	}
 
 	async updateImage(entry: IEmulatorEntry) {
 		let request = new EmulatorImportRequest();
-		request.urlString = entry.provenance.ociSourceUrl;
-		request.tag = entry.provenance.versionTag;
+		request.urlString = entry.provenance.url;
+		request.tag = entry.provenance.tag;
 		request.update = true;
 		const task = await this.$store.dispatch('admin/importEmulator', request) as EaasiTask;
 		if(!task) return;
 		const taskWithDescription: ITaskState = {
-			...task, 
-			description: `Import Emulator: ${entry.provenance.ociSourceUrl}:${entry.provenance.versionTag}`
+			...task,
+			description: `Import Emulator: ${entry.provenance.url}:${entry.provenance.tag}`
 		};
 		await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
 		this.$store.commit('SET_ACTIVE_TASK', task);
