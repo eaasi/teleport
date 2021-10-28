@@ -26,29 +26,40 @@ module.exports = {
 			}
 	  	}
 	},
-	configureWebpack: (config) => ({
-		plugins: [
-			new CopyPlugin(
-				{
-					patterns: [
-						EaasClientCopyPattern(config, 'xpra/xpra-html5/html5'),
-						EaasClientCopyPattern(config, 'xpra/eaas-xpra-worker.js'),
-						EaasClientCopyPattern(config, 'xpra/xpraWrapper.js'),
-						EaasClientCopyPattern(config, 'xpra/eaas-xpra.js'),
-						EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole-common-js/src/main/webapp/modules'),
-						EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/client/styles/keyboard.css'),
-						EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/osk/styles/osk.css'),
-					]
-				},
-				{
-					copyUnmodified: true
+	configureWebpack: (config) => {
+		const experiments = {
+			// Enable support for top-level-await
+			topLevelAwait: true,
+		};
+
+		if (config.experiments == null)
+			config.experiments = {};
+
+		Object.assign(config.experiments, experiments);
+		return {
+			plugins: [
+				new CopyPlugin(
+					{
+						patterns: [
+							EaasClientCopyPattern(config, 'xpra/xpra-html5/html5'),
+							EaasClientCopyPattern(config, 'xpra/eaas-xpra-worker.js'),
+							EaasClientCopyPattern(config, 'xpra/xpraWrapper.js'),
+							EaasClientCopyPattern(config, 'xpra/eaas-xpra.js'),
+							EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole-common-js/src/main/webapp/modules'),
+							EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/client/styles/keyboard.css'),
+							EaasClientCopyPattern(config, 'guacamole/guacamole-client-eaas/guacamole/src/main/webapp/app/osk/styles/osk.css'),
+						]
+					},
+					{
+						copyUnmodified: true
+					}
+				)
+			],
+			resolve: {
+				alias: {
+					EaasClient: path.resolve(__dirname, '../eaas-client/'),
 				}
-			)
-		],
-		resolve: {
-			alias: {
-				EaasClient: path.resolve(__dirname, '../eaas-client/')
 			}
 		}
-	})
+	}
 };
