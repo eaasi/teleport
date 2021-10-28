@@ -13,10 +13,16 @@ module.exports = {
 	css: {
 	  	loaderOptions: {
 			sass: {
-				data: `
-					@import "@/scss/_variables.scss";
-					@import "@/scss/_mixins.scss";
-				`
+				additionalData: (source, context) => {
+					if (context.resourcePath.endsWith('scss/_variables.scss'))
+						return source;
+
+					return `
+						@import "@/scss/_variables.scss";
+						@import "@/scss/_mixins.scss";
+						${source}
+					`;
+				},
 			}
 	  	}
 	},
