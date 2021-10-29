@@ -58,8 +58,16 @@ module.exports = {
 			resolve: {
 				alias: {
 					EaasClient: path.resolve(__dirname, '../eaas-client/'),
-				}
+					zlib: require.resolve('browserify-zlib'),
+				},
+				// define polyfills for node's modules (missing in webpack 5)
+				fallback: {
+					buffer: require.resolve('buffer/'),
+					crypto: require.resolve('crypto-browserify'),
+					stream: require.resolve('stream-browserify'),
+					util: require.resolve('util/'),
+				},
 			}
-		}
+		};
 	}
 };
