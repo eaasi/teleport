@@ -16,7 +16,7 @@ export default class AddHarvesterRequest implements IAddHarvesterRequest {
 	}
 
 	private _constructHarvesterStream(endpointUrl: string, type: string, secret: string = null): IHarvesterStream {
-		let harvesterStream: IHarvesterStream = {
+		const harvesterStream: IHarvesterStream = {
 			source: {
 				url: `${endpointUrl}/${type}`
 			},

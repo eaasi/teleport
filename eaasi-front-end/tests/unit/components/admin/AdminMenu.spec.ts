@@ -18,7 +18,7 @@ describe('AdminMenu.vue', () => {
 
 	beforeEach(() => {
 		// Note: this is testing as if a user is admin (role 1)
-		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
+		const permissionResolver = new PermissionResolver(userRoles.ADMIN);
 
 		getters = {
 			permissions: () => permissionResolver,

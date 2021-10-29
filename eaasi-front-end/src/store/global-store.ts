@@ -74,16 +74,16 @@ const actions = {
 
 	async initSession({ commit, state }): Promise<boolean> {
 		if (state.loggedInUser) return true;
-		let token = Cookies.get(config.JWT_NAME);
+		const token = Cookies.get(config.JWT_NAME);
 		if (!token) return false;
-		let user = await _authService.getUserData();
+		const user = await _authService.getUserData();
 		if (!user) return false;
 		commit('SET_LOGGED_IN_USER', new User(user));
 		if (user.orgname) {
 			commit('SET_NODE_NAME', user.orgname);
 		}
 		if (user.roles.includes(KeycloakRole.EaasAdmin) && user.tid) {
-			let group = await _adminService.getGroupInfo(user.tid);
+			const group = await _adminService.getGroupInfo(user.tid);
 			if (group) {
 				commit('SET_GROUP', group);
 			}

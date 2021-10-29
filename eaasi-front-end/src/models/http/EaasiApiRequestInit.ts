@@ -12,7 +12,7 @@ export default class EaasiApiRequestInit implements RequestInit {
 	url: string;
 
 	constructor(url: string, method: string, data: any = null, options?: IEaasiApiRequestOptions) {
-		let token = Cookies.get(config.JWT_NAME);
+		const token = Cookies.get(config.JWT_NAME);
 		this.url = url;
 		this.method = method;
 		this.options = options || {};

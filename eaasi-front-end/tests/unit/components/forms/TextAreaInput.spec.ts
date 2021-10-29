@@ -10,7 +10,7 @@ describe('TextAreaInput.vue', () => {
 				rows: 18
 			},
 		});
-		let renderedRows = wrapper.find('textarea').attributes().rows;
+		const renderedRows = wrapper.find('textarea').attributes().rows;
 		expect(renderedRows).toBe('18');
 	});
 });

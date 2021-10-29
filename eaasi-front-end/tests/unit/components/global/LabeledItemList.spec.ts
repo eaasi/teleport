@@ -21,7 +21,7 @@ describe('LabeledItemList', () => {
 				]
 			},
 		});
-		let allLabels = wrapper.find('.lil-container').findAll('.li-container');
+		const allLabels = wrapper.find('.lil-container').findAll('.li-container');
 		expect(allLabels).toHaveLength(3);
 	});
 });

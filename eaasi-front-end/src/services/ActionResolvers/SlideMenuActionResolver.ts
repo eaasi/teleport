@@ -32,7 +32,7 @@ export default class SlideMenuActionResolver {
 	}
 
 	isResourceDetailPage(): boolean {
-		let resourceId = this.selectedResources[0].id != null
+		const resourceId = this.selectedResources[0].id != null
 			? this.selectedResources[0].id as string
 			: this.selectedResources[0].envId;
 		return window.location.href.indexOf(resourceId) > 0;
@@ -93,7 +93,7 @@ export default class SlideMenuActionResolver {
 	}
 
 	areOnlyDefaultResources(): boolean {
-		let resourceArchives = this.selectedResources.map(res => res.archive);
+		const resourceArchives = this.selectedResources.map(res => res.archive);
 		return resourceArchives.every(v => v === 'default');
 	}
 

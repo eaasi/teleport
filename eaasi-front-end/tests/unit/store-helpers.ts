@@ -8,7 +8,7 @@ import { AdminState } from './store/fake-admin-store';
  * @param numUsers
  */
 export function makeAdminStoreState(numUsers) : AdminState {
-	let state = new AdminState();
+	const state = new AdminState();
 	return {
 		...state,
 		usersQuery: {

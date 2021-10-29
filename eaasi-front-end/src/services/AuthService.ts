@@ -7,7 +7,7 @@ import { IKeycloakUser } from '@/types/Keycloak';
 class AuthService extends BaseHttpService {
 
 	async changePassword(req: IChangePasswordRequest) {
-		let res = await this.post<Boolean>('/auth/change-password', req);
+		const res = await this.post<Boolean>('/auth/change-password', req);
 
 		if (!res) return false;
 
@@ -19,13 +19,13 @@ class AuthService extends BaseHttpService {
 	}
 
 	async getUserData(): Promise<IKeycloakUser> {
-		let res = await this.get<IKeycloakUser>('/auth/user');
+		const res = await this.get<IKeycloakUser>('/auth/user');
 		if(!res || !res.ok) return null;
 		return res.result;
 	}
 
 	async logout(): Promise<any> {
-		let res = await this.delete('/auth/logout');
+		const res = await this.delete('/auth/logout');
 		if (!res || !res.ok) return null;
 		return res.result;
 	}

@@ -39,7 +39,7 @@ export default class ResourceSlideMenuService {
 	 * @param roleId: Logged-in User RoleID
 	 */
 	getNodeActions(selected: IEaasiResource[], roleId: number) {
-		let nodeActions = [];
+		const nodeActions = [];
 		if ([userRoles.ADMIN, userRoles.MANAGER].includes(roleId)) {
 			nodeActions.push(
 				new SaveToMyNodeActionResolver(selected, roleId).resolveAction(),

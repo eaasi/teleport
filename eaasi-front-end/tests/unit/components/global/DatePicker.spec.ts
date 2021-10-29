@@ -184,7 +184,7 @@ describe('Vue date pick', () => {
 
         wrapper.vm.open();
 
-        var event = new Event('keyup');
+        const event = new Event('keyup');
         document.dispatchEvent(event);
 
         expect(wrapper.vm.opened);

@@ -5,7 +5,7 @@ import User from '@/models/admin/User';
 import { resourceTypes, archiveTypes } from '@/utils/constants';
 
 export function generateFakeUsers(userCount: number) : User[] {
-	let users = [];
+	const users = [];
 	for (let i = 1; i <= userCount; i++) {
 		users.push({
 			id: faker.random.number(),
@@ -25,7 +25,7 @@ export function generateFakeUser(): IEaasiUser {
 }
 
 export function generateFakeRoles(roleCount: number) : IEaasiRole[] {
-	let roles = [];
+	const roles = [];
 	for (let i = 1; i <= roleCount; i++) {
 		roles.push({
 			id: faker.random.number(),
@@ -44,7 +44,7 @@ export function generateFakeRole(): IEaasiRole {
 
 
 export function generateFakeEnvironments(numberEnvs: number, envType?: string): IEnvironment[] {
-	let envs = [];
+	const envs = [];
 	for (let i = 1; i <= numberEnvs; i++) {
 		envs.push(
 			{

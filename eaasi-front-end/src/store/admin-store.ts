@@ -54,25 +54,25 @@ const actions = {
 	============================================*/
 
 	async getEmulators({ commit }: Store<AdminState>, emulators: IDefaultEmulators) {
-		let result = await _svc.getEmulators();
+		const result = await _svc.getEmulators();
 		if (!result) return;
 		commit('SET_EMULATORS', emulatorService.createEmulatorList(emulators, result));
 	},
 
 	async importEmulator(_: Store<AdminState>, req: EmulatorImportRequest): Promise<EaasiTask> {
-		let imageBuilder = new ContainerImageBuilder(req.urlString, 'dockerhub');
+		const imageBuilder = new ContainerImageBuilder(req.urlString, 'dockerhub');
 		imageBuilder.setTag((req.tag) ? req.tag : 'latest');
-		let taskState = await imageBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
+		const taskState = await imageBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
 		if (!taskState) return null;
 		return new EaasiTask(taskState.taskId, `Building container image: ${req.urlString}`, taskTypes.IMPORT_EMULATOR);
 	},
 
 	async buildEmulator({ dispatch }, importEmulatorTask: IEaasiTask) {
-		let object = JSON.parse(importEmulatorTask.object);
-		let emulatorBuilder = new EmulatorBuilder(object.containerUrl, object.metadata);
-		let importResult = await emulatorBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
-		let containerSourceUrl = object.metadata ? object.metadata.containerSourceUrl : null;
-		let task = new EaasiTask(importResult.taskId, `Importing emulator${containerSourceUrl ? ': ' + containerSourceUrl : ''}`);
+		const object = JSON.parse(importEmulatorTask.object);
+		const emulatorBuilder = new EmulatorBuilder(object.containerUrl, object.metadata);
+		const importResult = await emulatorBuilder.build(config.EMIL_SERVICE_ENDPOINT + '/', getUserToken);
+		const containerSourceUrl = object.metadata ? object.metadata.containerSourceUrl : null;
+		const task = new EaasiTask(importResult.taskId, `Importing emulator${containerSourceUrl ? ': ' + containerSourceUrl : ''}`);
 		await dispatch('task/addTaskToQueue', task, { root: true });
 	},
 
@@ -84,7 +84,7 @@ const actions = {
 	============================================*/
 
 	async getUsers({ commit, state, rootState }) {
-		let usersResult = await _svc.getUsers(state.usersQuery, rootState.group.id);
+		const usersResult = await _svc.getUsers(state.usersQuery, rootState.group.id);
 		if (!usersResult) return;
 		commit('SET_USERS_RESULT', usersResult);
 	},
@@ -102,12 +102,12 @@ const actions = {
 	},
 
 	async getRoles({ commit }: Store<AdminState>) {
-		let rolesResult = await _svc.getRoles();
+		const rolesResult = await _svc.getRoles();
 		if (!rolesResult) return;
 
 		// TODO: This is a cheap hack to hide the Manager role until user roles are designed
 		// https://gitlab.com/eaasi/eaasi-client-dev/-/issues/605
-		let roles = rolesResult.result.filter(r => r.roleName !== 'Manager');
+		const roles = rolesResult.result.filter(r => r.roleName !== 'Manager');
 
 		commit('SET_ROLES', roles);
 	},
@@ -116,21 +116,21 @@ const actions = {
 	============================================*/
 
 	async getHarvesters({ commit }: Store<AdminState>): Promise<string[]> {
-		let harvesters = await _svc.getHarvesters();
+		const harvesters = await _svc.getHarvesters();
 		if (!harvesters) return null;
 		commit('SET_HARVESTERS', harvesters);
 		return harvesters;
 	},
 
 	async addHarvester({ dispatch }: Store<AdminState>, req: IAddHarvesterRequest): Promise<boolean> {
-		let success = await _svc.addHarvester(req);
+		const success = await _svc.addHarvester(req);
 		if (!success) return false;
 		await dispatch('getHarvesters');
 		return true;
 	},
 
 	async updateHarvester({ dispatch }: Store<AdminState>, {name, req}: {name: string, req: IAddHarvesterRequest}): Promise<boolean> {
-		let success = await _svc.updateHarvester(name, req);
+		const success = await _svc.updateHarvester(name, req);
 		if (!success) return false;
 		await dispatch('getHarvesters');
 		return true;
@@ -141,7 +141,7 @@ const actions = {
 	},
 
 	async deleteHarvester({ dispatch }: Store<AdminState>, name: string): Promise<boolean> {
-		let success = await _svc.deleteHarvester(name);
+		const success = await _svc.deleteHarvester(name);
 		if (!success) return false;
 		await dispatch('getHarvesters');
 		return true;
@@ -158,7 +158,7 @@ const actions = {
 	/* Tasks
 	============================================*/
 	async getTaskState(_, taskId: string): Promise<ITaskState> {
-		let taskState = await _taskSvc.getTaskState(taskId);
+		const taskState = await _taskSvc.getTaskState(taskId);
 		if (!taskState) return null;
 		// TODO: Can refactor to store state in a map { taskId: taskState }
 		// TODO: Then, sync the map to the active tasks table view
