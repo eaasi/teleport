@@ -319,6 +319,8 @@
 			if (!snapshotRequest) {
 				return;
 			}
+
+			snapshotRequest.removeVolatileDrives(options.saveType != SaveEnvironmentOption.objectEnvironment);
 			let result = await this.client.getActiveSession().createSnapshot(snapshotRequest);
 			if (result.status === '0') {
 				await this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: result.envId.toString() } });
