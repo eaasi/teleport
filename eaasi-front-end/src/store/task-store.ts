@@ -26,9 +26,9 @@ const state = new TaskState();
 const mutations = make.mutations(state);
 
 mutations['ADD_OR_UPDATE_TASK'] = function(state: TaskState, task: ITaskState) {
-	let existingTask = state.taskQueue.find(x => x.taskId == task.taskId) || task as EaasiTask;
-	let otherTasks = state.taskQueue.filter(x => x.taskId != task.taskId);
-	let newTask = { ...existingTask, ...task };
+	const existingTask = state.taskQueue.find(x => x.taskId == task.taskId) || task as EaasiTask;
+	const otherTasks = state.taskQueue.filter(x => x.taskId != task.taskId);
+	const newTask = { ...existingTask, ...task };
 	state.taskQueue = [ ...otherTasks, newTask ];
 };
 
@@ -45,7 +45,7 @@ const actions = {
 	async getTaskState({ commit, dispatch, state }: Store<TaskState>, taskId: number | string) {
 		const existingTask =  state.taskQueue.find(t => t.taskId === taskId);
 		if (existingTask && existingTask.isDone) return;
-		let task = await _taskService.getTaskState(taskId);
+		const task = await _taskService.getTaskState(taskId);
 		if (!task) {
 			const message = `Can't retrieve task with taskId ${taskId}`;
 			eventBus.$emit('notification:show', generateNotificationError(message));
@@ -59,7 +59,7 @@ const actions = {
 	},
 
     async getEnvironmentTaskState({ commit }: Store<TaskState>, taskId: number | string) {
-		let res = await _taskService.getEnvironmentTaskState(taskId);
+		const res = await _taskService.getEnvironmentTaskState(taskId);
 		if (!res) return null;
 		res.taskId = taskId;
 		commit('ADD_OR_UPDATE_TASK', res);
@@ -67,9 +67,9 @@ const actions = {
     },
 
     async addTaskToQueue({ commit, dispatch }: Store<TaskState>, task: EaasiTask): Promise<ITaskState> {
-        let taskState: ITaskState = await dispatch('getTaskState', task.taskId);
+        const taskState: ITaskState = await dispatch('getTaskState', task.taskId);
         if (!taskState || taskState.status != '0') return null;
-        let eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
+        const eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
 		if (!eaasiTask) return null;
 		commit('ADD_OR_UPDATE_TASK', eaasiTask);
 		eventBus.$emit('task-manager:show', true);
@@ -78,7 +78,7 @@ const actions = {
     },
 
     async getAllTasks({ commit }) {
-        let tasks = await _taskService.getAllTasks();
+        const tasks = await _taskService.getAllTasks();
 		commit('SET_TASK_QUEUE', tasks);
 		return tasks;
     },

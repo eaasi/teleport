@@ -2,7 +2,7 @@ export default {
 
 	validate(validationString: string, value: string, name: string = '') {
 
-		let required = validationString.toLowerCase().indexOf('required') > -1;
+		const required = validationString.toLowerCase().indexOf('required') > -1;
 
 		// If value is blank, just validate based on whether or not one was required
 		if(!value || value === '') {
@@ -10,12 +10,13 @@ export default {
 			return 'This field is required.';
 		}
 		// If there are no rules, value is valid
-		let rules = this._getRules(validationString);
+		const rules = this._getRules(validationString);
 		if(!rules || !rules.length) return null;
 
-		let self = this;
+		const self = this;
 
 		for (let i = 0; i < rules.length; i++) {
+			// eslint-disable-next-line
 			let limit, { rule, param } = rules[i];
 			switch (rule) {
 			case 'email':
@@ -33,7 +34,7 @@ export default {
 				limit = Number(param);
 				if(isNaN(limit)) return;
 				if(value.length < limit) {
-					let msg = `be at least ${limit} characters`;
+					const msg = `be at least ${limit} characters`;
 					return name ? name + ' must ' + msg : 'Must' + msg;
 				}
 				break;
@@ -42,7 +43,7 @@ export default {
 				limit = Number(param);
 				if(isNaN(limit)) return;
 				if(value.length > limit) {
-					let msg = `exceed ${(limit)} characters`;
+					const msg = `exceed ${(limit)} characters`;
 					return name ? `${name} can not ${msg}`: `Can not ${msg}`;
 				}
 				break;
@@ -50,7 +51,7 @@ export default {
 				limit = Number(param);
 				if(isNaN(limit)) return;
 				if(value.length !== limit) {
-					let msg = `be ${limit} characters`;
+					const msg = `be ${limit} characters`;
 					return name ? name + ' must ' + msg : 'Must' + msg;
 				}
 				break;
@@ -70,13 +71,13 @@ export default {
 				}
 				break;
 			case 'regex':
-				let regex = new RegExp(param);
+				const regex = new RegExp(param);
 				if(!regex.test(value)) {
 					return 'Invalid format';
 				}
 				break;
 			case 'colorhex':
-				let re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+				const re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 				if(!re.test(value)) {
 					return 'Invalid hex color';
 				}
@@ -103,7 +104,7 @@ export default {
 
 	validateEmail(email: string) {
 		if (!email) return false;
-		let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return re.test(email);
 	},
 
@@ -135,10 +136,10 @@ export default {
 
 	_getRules(validationString: string) {
 		if(typeof validationString !== 'string') return [];
-		let validations = validationString.split('|');
-		let rules = [];
+		const validations = validationString.split('|');
+		const rules = [];
 		for(let i=0; i<validations.length; i++) {
-			let values = validations[i].toLowerCase().split(':');
+			const values = validations[i].toLowerCase().split(':');
 			rules.push({ rule: values[0], param: values[1] || null });
 		}
 		return rules;

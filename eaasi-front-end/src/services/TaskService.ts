@@ -12,7 +12,7 @@ class TaskService extends BaseHttpService {
 	 * @param taskID: string container task ID
 	 */
 	async getTaskState(taskId: number | string): Promise<ITaskState | null> {
-		let response = await this.get<ITaskState>(`${config.REST_API_URL}/eaasi-task/get-state/${taskId}`, {
+		const response = await this.get<ITaskState>(`${config.REST_API_URL}/eaasi-task/get-state/${taskId}`, {
 			suppressSpinner: true
 		});
 		if (!response) return null;
@@ -24,7 +24,7 @@ class TaskService extends BaseHttpService {
 	 * @param taskID: string environment task ID
 	 */
 	async getEnvironmentTaskState(taskId: number | string): Promise<ITaskState | null> {
-		let response = await this.get<ITaskState>(`${config.REST_API_URL}/eaasi-task/get-environment-state?id=${taskId}`, {
+		const response = await this.get<ITaskState>(`${config.REST_API_URL}/eaasi-task/get-environment-state?id=${taskId}`, {
 			suppressSpinner: true
 		});
 		if (!response) return null;
@@ -38,7 +38,7 @@ class TaskService extends BaseHttpService {
 	}
 
 	async getAllTasks(): Promise<ITaskState[]> {
-		let { result } = await this.get<IEaasiSearchResponse<ITaskState>>(`${config.REST_API_URL}/eaasi-task/`, {
+		const { result } = await this.get<IEaasiSearchResponse<ITaskState>>(`${config.REST_API_URL}/eaasi-task/`, {
 			suppressSpinner: true
 		});
 		const tasks = result && result.result.length ? result.result : [];
@@ -46,7 +46,7 @@ class TaskService extends BaseHttpService {
 	}
 
 	async updateTask(task: ITaskState): Promise<ITaskState> {
-		let response = await this.post<ITaskState>(`${config.REST_API_URL}/eaasi-task/`, task, {
+		const response = await this.post<ITaskState>(`${config.REST_API_URL}/eaasi-task/`, task, {
 			suppressSpinner: true
 		});
 		if (!response) return null;

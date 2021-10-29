@@ -46,10 +46,10 @@
 						@change="setEnvironment(env, $event)"
 						:value="!!environment && environment.envId == env.envId"
 					>
-						<template v-slot:tagsLeft>
+						<template #tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(env)" />
 						</template>
-						<template v-slot:tagsRight>
+						<template #tagsRight>
 							<tag-group position="right" :tags="getArchiveTags(env)" />
 						</template>
 					</selectable-radio-card>
@@ -97,7 +97,7 @@
 						@change="(e) => selectResource(obj, e)"
 						class="flex-grow no-mb"
 					>
-						<template v-slot:tagsLeft>
+						<template #tagsLeft>
 							<tag-group position="left" :tags="getTypeTags(obj)" />
 						</template>
 					</selectable-radio-card>

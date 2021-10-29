@@ -1,6 +1,6 @@
 import TaskPreferenceService from '@/services/TaskPreferenceService';
 
-declare var global: any;
+declare let global: any;
 
 describe('TaskPreferenceService', () => {
 

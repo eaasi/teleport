@@ -21,9 +21,9 @@ describe('UserList.vue', () => {
 
 	beforeEach(() => {
 		// Note: this is testing as if a user is admin (role 1)
-		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
+		const permissionResolver = new PermissionResolver(userRoles.ADMIN);
 
-		let stateForAdminStore = {
+		const stateForAdminStore = {
 			activeUser: { id: 99999 },
 			usersQuery: {},
 			roles: [],
@@ -33,7 +33,7 @@ describe('UserList.vue', () => {
 			permissions: () => permissionResolver,
 		};
 
-		let stateForGlobalStore = {
+		const stateForGlobalStore = {
 			loggedInUser : { id: 99999 },
 		};
 

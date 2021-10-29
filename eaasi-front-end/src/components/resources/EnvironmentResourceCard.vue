@@ -14,10 +14,10 @@
 			@click:header="goToDetailsPage"
 			:value="isSelected"
 		>
-			<template v-slot:tagsLeft>
+			<template #tagsLeft>
 				<tag-group position="left" :tags="resourceTypeTags" />
 			</template>
-			<template v-slot:tagsRight>
+			<template #tagsRight>
 				<tag-group v-if="cardSummary" position="right" :tags="environmentTagGroup" />
 			</template>
 		</selectable-card>

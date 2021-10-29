@@ -45,7 +45,7 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 
 	it('Displays error heading', () => {
 		const wrapper = mount(ErrorModal, { localVue, store, });
-		let errorText = wrapper.find('.eaasi-info-modal-title > h2');
+		const errorText = wrapper.find('.eaasi-info-modal-title > h2');
 		expect(errorText.text()).toContain('An Error Has Occurred');
 	});
 

@@ -29,19 +29,19 @@ class AdminService extends BaseHttpService {
 	============================================*/
 
 	async getEmulators(): Promise<IEmulator[]> {
-		let res = await this.get<IEmulator[]>('/admin/get-emulators');
+		const res = await this.get<IEmulator[]>('/admin/get-emulators');
 		if (!res.ok) return null;
 		return res.result;
 	}
 
 	async importEmulator(req: EmulatorImportRequest): Promise<ITaskState> {
-		let res = await this.post('/admin/import-emulator', req);
+		const res = await this.post('/admin/import-emulator', req);
 		if (!res.ok) return null;
 		return res.result as ITaskState;
 	}
 
 	async setDefaultEmulatorVersion(id: string) {
-		let res = await this.post<any>(`/admin/set-default-emulator-version?id=${id}`);
+		const res = await this.post<any>(`/admin/set-default-emulator-version?id=${id}`);
 		if (!res.ok) return null;
 		return res.result;
 	}
@@ -52,13 +52,13 @@ class AdminService extends BaseHttpService {
 	async getUsers(query: IEaasiSearchQuery, group: string): Promise<IEaasiSearchResponse<User>> {
 		let url = this.createQueryUrl('/admin/users/list', query);
 		url += `&groupId=${group}`;
-		let res = await this.get<IEaasiSearchResponse<User>>(url);
+		const res = await this.get<IEaasiSearchResponse<User>>(url);
 		if (!res.ok) return null;
 		return res.result;
 	}
 
 	async saveUser(user: User, groupId: string): Promise<string> {
-		let res = await this.post<any>(`/admin/users/create?groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
+		const res = await this.post<any>(`/admin/users/create?groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
 		if (!res.ok) {
 			const error = await res.json();
 			eventBus.$emit('notification:show', generateNotificationError(error.message));
@@ -67,7 +67,7 @@ class AdminService extends BaseHttpService {
 	}
 
 	async saveExistingUser(user: User, roleUpdated: boolean, groupId: string): Promise<any> {
-		let res = await this.post(`/admin/users/update?userId=${user.id}&roleUpdated=${roleUpdated}&groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
+		const res = await this.post(`/admin/users/update?userId=${user.id}&roleUpdated=${roleUpdated}&groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
 		if (!res.ok) {
 			return await res.json();
 		}
@@ -75,7 +75,7 @@ class AdminService extends BaseHttpService {
 	}
 
 	async deleteUser(id: string, groupId: string): Promise<any> {
-		let res = await this.post(`/admin/users/delete?userId=${id}&groupId=${groupId}`, {}, {suppressErrors: true});
+		const res = await this.post(`/admin/users/delete?userId=${id}&groupId=${groupId}`, {}, {suppressErrors: true});
 		if (!res.ok) {
 			return await res.json();
 		}
@@ -83,7 +83,7 @@ class AdminService extends BaseHttpService {
 	}
 
 	async resetUserPassword(id: string, email: string, groupId: string): Promise<any> {
-		let res = await this.post<any>(`/admin/users/reset-password?userId=${id}&groupId=${groupId}`, { email }, {suppressErrors: true});
+		const res = await this.post<any>(`/admin/users/reset-password?userId=${id}&groupId=${groupId}`, { email }, {suppressErrors: true});
 		if (!res.ok) {
 			return await res.json();
 		}
@@ -94,8 +94,8 @@ class AdminService extends BaseHttpService {
 	============================================*/
 
 	async getRoles(): Promise<IEaasiSearchResponse<IEaasiRole>>  {
-		let url = this.createQueryUrl('/admin/users/roles');
-		let res = await this.get<IEaasiSearchResponse<IEaasiRole>>(url);
+		const url = this.createQueryUrl('/admin/users/roles');
+		const res = await this.get<IEaasiSearchResponse<IEaasiRole>>(url);
 		if (!res.ok) return null;
 		return res.result;
 	}
@@ -104,35 +104,35 @@ class AdminService extends BaseHttpService {
 	============================================*/
 
 	async getHarvesters(): Promise<string[]> {
-		let res = await this.get<string[]>('/admin/get-harvesters');
+		const res = await this.get<string[]>('/admin/get-harvesters');
 		if(!res.ok) return null;
 		return res.result;
 	}
 
 	async addHarvester(req: IAddHarvesterRequest): Promise<boolean> {
-		let res = await this.post<boolean>('/admin/add-harvester', req);
+		const res = await this.post<boolean>('/admin/add-harvester', req);
 		return res.ok;
 	}
 
 	async updateHarvester(name: string, req: IAddHarvesterRequest): Promise<boolean> {
-		let res = await this.put<boolean>(`/admin/update-harvester/?name=${name}`, req);
+		const res = await this.put<boolean>(`/admin/update-harvester/?name=${name}`, req);
 		return res.ok;
 	}
 
 	async syncHarvester(name: string, full: boolean = false): Promise<IHarvesterSyncResult> {
 		let url = `/admin/sync-harvester/?name=${name}`;
 		if(full) url += '&full=true';
-		let res = await this.post<IHarvesterSyncResult>(url, null);
+		const res = await this.post<IHarvesterSyncResult>(url, null);
 		return res.result;
 	}
 
 	async deleteHarvester(name: string): Promise<boolean> {
-		let res = await this.post<boolean>(`/admin/delete-harvester/?name=${name}`, null);
+		const res = await this.post<boolean>(`/admin/delete-harvester/?name=${name}`, null);
 		return res.ok;
 	}
 
 	async getHarvester(name: string): Promise<IAddHarvesterRequest> {
-		let res = await this.get<IAddHarvesterRequest>(`/admin/get-harvester/?name=${name}`, null);
+		const res = await this.get<IAddHarvesterRequest>(`/admin/get-harvester/?name=${name}`, null);
 		if (!res.ok) return null;
 		return res.result;
 	}
