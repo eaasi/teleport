@@ -1,4 +1,5 @@
 const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 const path = require('path');
 
 const EaasClientCopyPattern = (config, subpath) => {
@@ -38,6 +39,11 @@ module.exports = {
 		Object.assign(config.experiments, experiments);
 		return {
 			plugins: [
+				new webpack.ProvidePlugin({
+					Buffer: [require.resolve('buffer/'), 'Buffer'],
+					console: require.resolve('console-browserify'),
+					process: require.resolve('process/browser'),
+				}),
 				new CopyPlugin(
 					{
 						patterns: [
@@ -58,8 +64,19 @@ module.exports = {
 			resolve: {
 				alias: {
 					EaasClient: path.resolve(__dirname, '../eaas-client/'),
-				}
+					zlib: require.resolve('browserify-zlib'),
+				},
+				// define polyfills for node's modules (missing in webpack 5+)
+				fallback: {
+					buffer: require.resolve('buffer/'),
+					console: require.resolve('console-browserify'),
+					crypto: require.resolve('crypto-browserify'),
+					stream: require.resolve('stream-browserify'),
+					process: require.resolve('process/browser'),
+					vm: require.resolve('vm-browserify'),
+					util: require.resolve('util/'),
+				},
 			}
-		}
+		};
 	}
 };
