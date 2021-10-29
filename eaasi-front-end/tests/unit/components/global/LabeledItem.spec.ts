@@ -11,7 +11,7 @@ describe('LabeledItem', () => {
 				}
 			},
 		});
-		let labelText = wrapper.find('.li-label').text();
+		const labelText = wrapper.find('.li-label').text();
 		expect(labelText).toBe('foo');
 	});
 
@@ -24,7 +24,7 @@ describe('LabeledItem', () => {
 				}
 			},
 		});
-		let labelValue = wrapper.find('.li-value').text();
+		const labelValue = wrapper.find('.li-value').text();
 		expect(labelValue).toBe('something else');
 	});
 });

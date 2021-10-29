@@ -89,10 +89,10 @@ export default class BaseHttpService {
 	 */
 	createQueryUrl(url: string, query?: IEaasiSearchQuery): string {
 		if(!query) return url;
-		let params = Object.keys(query);
+		const params = Object.keys(query);
 		url = url.indexOf('?') > -1 ? url : url + '?';
 		for (let i = 0; i < params.length; i++) {
-			let value = query[params[i]];
+			const value = query[params[i]];
 			if (typeof value === 'undefined' || value === null) continue;
 			url += `&${params[i]}=${query[params[i]]}`;
 		}
@@ -121,9 +121,9 @@ export default class BaseHttpService {
 
 		if (url.indexOf('://') === -1) url = config.SERVICE_URL + url;
 
-		let self = this;
-		let requestInit = new EaasiApiRequestInit(url, method, data, options);
-		let request = new Request(url, requestInit);
+		const self = this;
+		const requestInit = new EaasiApiRequestInit(url, method, data, options);
+		const request = new Request(url, requestInit);
 
 		let response: IEaasiApiResponse<T>;
 		options = options || requestInit.options;
@@ -132,7 +132,7 @@ export default class BaseHttpService {
 			// Let Vue know that an ajax request has been initiated
 			if (!options.suppressSpinner) eventBus.$emit('ajaxStart');
 
-			let res = await fetch(request);
+			const res = await fetch(request);
 
 			response = res as IEaasiApiResponse<T>;
 
@@ -176,11 +176,11 @@ export default class BaseHttpService {
 		try {
 			eventBus.$emit('ajaxStart', true);
 
-			let headers = {
+			const headers = {
 				'Accept': '*/*',
 			};
 
-			let res = await fetch(url, {
+			const res = await fetch(url, {
 				method: method,
 				headers: headers,
 				body: data
@@ -216,14 +216,14 @@ export default class BaseHttpService {
 		response: Response,
 		suppressError: boolean
 	): Promise<IEaasiApiResponse<T>> {
-		let res = response as IEaasiApiResponse<T>;
+		const res = response as IEaasiApiResponse<T>;
 
 		console.error('Received non-200 response from HttpService:', res.body);
 
 		if (suppressError) return res;
 
 		try {
-			let error = await res.json();
+			const error = await res.json();
 			error.request = request;
 			eventBus.$emit('ajaxError', error);
 		} catch (e) {

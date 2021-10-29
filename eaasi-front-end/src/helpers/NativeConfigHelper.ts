@@ -38,9 +38,9 @@ export function populateNativeConfigForCpu(cpu: string): string {
 
 export function updateNativeConfigForCpu(nativeConfig: string, cpu: string | number): string {
 	const cpuNumber = Number(cpu);
-	let nativeConfigElements = nativeConfig.split(' ');
+	const nativeConfigElements = nativeConfig.split(' ');
 	let cpuNumberIndex: number;
-	let filteredNativeConfig = nativeConfigElements.map((el, index) => {
+	const filteredNativeConfig = nativeConfigElements.map((el, index) => {
 		if (el === NATIVE_CONFIG_FLAG) {
 			cpuNumberIndex = index+1;
 		} else if (cpuNumberIndex === index) {
@@ -53,9 +53,9 @@ export function updateNativeConfigForCpu(nativeConfig: string, cpu: string | num
 
 export function updateNativeConfigForMemory(nativeConfig: string, memory: string | number): string {
 	const memoryNumber = Number(memory);
-	let nativeConfigElements = nativeConfig.split(' ');
+	const nativeConfigElements = nativeConfig.split(' ');
 	let memoryNumberIndex: number;
-	let filteredNativeConfig = nativeConfigElements.map((el, index) => {
+	const filteredNativeConfig = nativeConfigElements.map((el, index) => {
 		if (el === MEMORY_CONFIG_FLAG) {
 			memoryNumberIndex = index+1;
 		} else if (memoryNumberIndex === index) {

@@ -10,12 +10,12 @@ describe('AppFooter.vue', () => {
 	});
 
 	it('Contains a mailto link reference eaasi@yale.edu', () => {
-		let mailto = footer.find('#eaasiEmail').attributes('href');
+		const mailto = footer.find('#eaasiEmail').attributes('href');
 		expect(mailto).toContain('mailto:eaasi@yale.edu');
 	});
 
 	it('Contains a link to the Software Preservation Network', () => {
-		let link = footer.find('#eaasi-website').attributes('href');
+		const link = footer.find('#eaasi-website').attributes('href');
 		expect(link).toBe('https://www.eaasi.cloud');
 	});
 });

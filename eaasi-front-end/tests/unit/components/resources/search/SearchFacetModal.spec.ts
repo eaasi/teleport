@@ -26,7 +26,7 @@ describe('SearchFacetModal.vue', () => {
 			}
 		});
 		wrapper.vm.$data['attributes'] = [{label: 'chess', facetValues:[]}, {label: 'tournament', facetValues:[1, 2, 3]}];
-		let title = wrapper.find('h3').text();
+		const title = wrapper.find('h3').text();
 		expect(title).toBe('Filter scheveningen');
 	});
 });

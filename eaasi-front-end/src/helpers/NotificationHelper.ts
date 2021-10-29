@@ -3,7 +3,7 @@ import { INotification } from '@/types/Notification';
 import { generateId } from '@/utils/functions';
 
 export function generateTaskNotification(task: EaasiTask): INotification {
-    let notification: INotification = {
+    const notification: INotification = {
         id: generateId(),
         label: 'Failed to create a task.',
         time: 5000,
@@ -17,7 +17,7 @@ export function generateTaskNotification(task: EaasiTask): INotification {
 }
 
 export function generateCompletedTaskNotification(task: EaasiTask): INotification {
-    let notification: INotification = {
+    const notification: INotification = {
         id: generateId(),
         label: `Task ${task.description ? task.description : task.taskId} is now completed.`,
         time: 5000,
@@ -27,7 +27,7 @@ export function generateCompletedTaskNotification(task: EaasiTask): INotificatio
 }
 
 export function generateNotificationSuccess(message: string, time: number = 5000): INotification {
-    let notification: INotification = {
+    const notification: INotification = {
         id: generateId(),
         label: message,
         time: time,
@@ -37,7 +37,7 @@ export function generateNotificationSuccess(message: string, time: number = 5000
 }
 
 export function generateNotificationError(message: string): INotification {
-    let notification: INotification = {
+    const notification: INotification = {
         id: generateId(),
         label: message,
         time: 5000,
@@ -47,7 +47,7 @@ export function generateNotificationError(message: string): INotification {
 }
 
 export function generateNotificationWarning(message: string): INotification {
-    let notification: INotification = {
+    const notification: INotification = {
         id: generateId(),
         label: message,
         time: 5000,

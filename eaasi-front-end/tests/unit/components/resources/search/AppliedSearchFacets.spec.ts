@@ -46,7 +46,7 @@ describe('AppliedSearchFacets.vue', () => {
 			localVue,
 			store
 		});
-		let numFacets = wrapper.findAll('.active-facet').length;
+		const numFacets = wrapper.findAll('.active-facet').length;
 		expect(numFacets).toBe(2);
 	});
 });

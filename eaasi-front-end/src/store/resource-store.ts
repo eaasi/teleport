@@ -68,7 +68,7 @@ const actions = {
 
 	async searchResources({ state, commit, rootState }, options?: { forceClearCache : boolean }): Promise<IResourceSearchResponse> {
 		commit('SET_LAST_SEARCH_KEYWORD', state.query.keyword);
-		let result = await _svc.searchResources({...state.query, forceClearCache: !!options?.forceClearCache}, rootState.loggedInUser.id);
+		const result = await _svc.searchResources({...state.query, forceClearCache: !!options?.forceClearCache}, rootState.loggedInUser.id);
 		if (!result) return null;
 		commit('SET_RESULT', result);
 		const selectedFacets = jsonCopy(result.facets);
@@ -97,7 +97,7 @@ const actions = {
 	},
 
 	async deleteSelectedResource({ state }: Store<ResourceState>) {
-		let resources = state.selectedResources;
+		const resources = state.selectedResources;
 		if (!resources || !resources.length) {
 			console.warn('No resources to delete');
 			return;
@@ -145,7 +145,7 @@ const actions = {
 		const clearSearchQuery: IResourceSearchQuery = new ResourceSearchQuery();
 		commit('SET_QUERY', clearSearchQuery);
 		dispatch('searchResources');
-		let result = await _svc.searchResources(clearSearchQuery, rootState.loggedInUser.id);
+		const result = await _svc.searchResources(clearSearchQuery, rootState.loggedInUser.id);
 		if (!result) return;
 		commit('SET_RESULT', result);
 		return result;
@@ -161,12 +161,12 @@ const actions = {
 	},
 
 	async getTemplates({ commit }) {
-		let result = await _svc.getTemplates();
+		const result = await _svc.getTemplates();
 		commit('SET_AVAILABLE_TEMPLATES', result);
 	},
 
 	async getPatches({ commit }) {
-		let result = await _svc.getPatches();
+		const result = await _svc.getPatches();
 		commit('SET_AVAILABLE_PATCHES', result);
 	},
 
@@ -248,7 +248,7 @@ const actions = {
 	},
 
 	async removeTempEnvironment({ commit, dispatch }: Store<ResourceState>, envId: string) {
-		let tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
+		const tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
 		if (tempRecords.some(tmp => tmp.envId === envId)) {
 			await dispatch('deleteEnvironmentFromTempArchive', envId);
 			commit('SET_ACTIVE_ENVIRONMENT', null);
@@ -258,7 +258,7 @@ const actions = {
 	},
 
 	async refreshTempEnvs({ dispatch, commit }: Store<ResourceState>) {
-		let allTemp = await dispatch('getAllTemp');
+		const allTemp = await dispatch('getAllTemp');
 		commit('SET_TEMP_ENVIRONMENTS', allTemp);
 	},
 

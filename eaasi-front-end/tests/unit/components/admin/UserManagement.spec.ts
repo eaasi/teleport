@@ -23,9 +23,9 @@ describe('UserManagement.vue', () => {
 
 	beforeEach(() => {
 		// Note: this is testing as if a user is admin (role 1)
-		let permissionResolver = new PermissionResolver(userRoles.ADMIN);
+		const permissionResolver = new PermissionResolver(userRoles.ADMIN);
 
-		let localAdminStore = fakeAdminStore;
+		const localAdminStore = fakeAdminStore;
 
 		getters = {
 			permissions: () => permissionResolver,

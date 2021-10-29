@@ -31,14 +31,14 @@ class ImportService extends BaseHttpService {
 	 * @param {IResourceImportFile[]} filesToUpload
 	 */
 	async uploadContentResourceFiles(filesToUpload: IResourceImportFile[]) : Promise<IEmilUploadResponse> {
-		let formData = new FormData();
+		const formData = new FormData();
 
 		filesToUpload.forEach(file => {
 			formData.append('file', file.file, file.name);
 			formData.set('uploadId', (file.sortIndex - 1).toString());
 		});
 
-		let uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/upload`;
+		const uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/upload`;
 		const res = await this.postUpload<IEmilUploadResponse>(uploadUrl, formData);
 
 		if (!res.ok) {
