@@ -15,7 +15,7 @@ describe('Collapsable.vue', () => {
 		expect(wrapper.contains('.slot-content')).toBeFalsy();
 	});
 
-	it('Opens and displays slot content when title is clicked', () => {
+	it('Opens and displays slot content when title is clicked', async () => {
 		const wrapper = shallowMount(Collapsable, {
 			propsData: {
 				collapsed: true,
@@ -25,11 +25,11 @@ describe('Collapsable.vue', () => {
 				default: '<div class="slot-content">I am the content</div>'
 			}
 		});
-		wrapper.find('.collapse-title').trigger('click');
+		await wrapper.find('.collapse-title').trigger('click');
 		expect(wrapper.contains('.slot-content')).toBe(true);
 	});
 
-	it('Displays the correct title based on open state', () => {
+	it('Displays the correct title based on open state', async () => {
 		const wrapper = shallowMount(Collapsable, {
 			propsData: {
 				title: 'I am not open',
@@ -39,7 +39,7 @@ describe('Collapsable.vue', () => {
 		});
 		let menuWrapperText = wrapper.find('.collapse-title').text();
 		expect(menuWrapperText).toBe('I am not open');
-		wrapper.find('.collapse-title').trigger('click');
+		await wrapper.find('.collapse-title').trigger('click');
 		menuWrapperText = wrapper.find('.collapse-title').text();
 		expect(menuWrapperText).toBe('I am open');
 	});
@@ -72,7 +72,7 @@ describe('Collapsable.vue', () => {
 		expect(wrapper.find('.fas').classes()).toContain('fa-chevron-down');
 	});
 
-	it('Renders icon when opened as fa-chevron-up', () => {
+	it('Renders icon when opened as fa-chevron-up', async() => {
 		const wrapper = shallowMount(Collapsable, {
 			propsData: {
 				title: 'I am not open',
@@ -81,7 +81,7 @@ describe('Collapsable.vue', () => {
 			}
 		});
 		let menuWrapperText = wrapper.find('.collapse-title').text();
-		wrapper.find('.collapse-title').trigger('click');
+		await wrapper.find('.collapse-title').trigger('click');
 		menuWrapperText = wrapper.find('.collapse-title').text();
 		expect(wrapper.find('.fas').classes()).toContain('fa-chevron-up');
 	});
