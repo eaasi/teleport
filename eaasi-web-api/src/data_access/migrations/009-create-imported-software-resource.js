@@ -1,9 +1,8 @@
 'use strict';
 
-const Sq = require('sequelize');
-
 module.exports = {
 	up: (queryInterface, Sequelize) => {
+		const Sq = Sequelize.DataTypes;
 		return queryInterface.createTable('imported_software_resource', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
@@ -48,7 +47,7 @@ module.exports = {
 			},
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: (queryInterface) => {
 		return queryInterface.dropTable('imported_software_resource');
 	}
 };
