@@ -14,7 +14,7 @@ Vue.use(Router);
 
 const router = new Router({
 	mode: 'history',
-	base: config.BASE_URL,
+	base: config.ROUTER_BASE,
 	routes
 });
 

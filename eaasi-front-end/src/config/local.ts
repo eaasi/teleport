@@ -19,6 +19,9 @@ const APP_CONFIG: AppConfig = {
 if (process.env.VUE_APP_EDITION_TYPE != null)
 	APP_CONFIG.EDITION_TYPE = process.env.VUE_APP_EDITION_TYPE;
 
+if (process.env.VUE_APP_ROUTER_BASE != null)
+	APP_CONFIG.ROUTER_BASE = process.env.VUE_APP_ROUTER_BASE;
+
 if (process.env.VUE_APP_TIME_OUT_DURATION != null)
 	APP_CONFIG.TIME_OUT_DURATION = Number(process.env.VUE_APP_TIME_OUT_DURATION);
 

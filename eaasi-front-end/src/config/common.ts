@@ -3,6 +3,7 @@ import { EDITION_TYPES } from '@/utils/constants';
 export interface AppConfig {
 	APP_VERSION: string;
 	EDITION_TYPE: string;
+	ROUTER_BASE: string;
 	BASE_URL: string;
 	SERVICE_URL: string;
 	REST_API_URL: string;
@@ -29,4 +30,5 @@ export const APP_CONFIG_DEFAULTS: any = {
 	KEYCLOAK_FLOW: 'standard',
 	TIME_OUT_DURATION: 60000,
 	SAML_ENABLED: false,
+	ROUTER_BASE: '/',
 };
