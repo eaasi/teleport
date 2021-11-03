@@ -23,6 +23,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('audio_device');
+		const query = 'DROP TABLE IF EXISTS audio_device CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };
