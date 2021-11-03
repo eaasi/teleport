@@ -1,8 +1,9 @@
 module.exports = {
 	presets: [
-		'@vue/app',
+		'@vue/cli-plugin-babel/preset',
 	],
     plugins: [
+        '@babel/plugin-syntax-top-level-await',
         '@babel/plugin-proposal-nullish-coalescing-operator',
         '@babel/plugin-proposal-optional-chaining'
     ]

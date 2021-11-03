@@ -4,10 +4,10 @@
 			<div class="col">
 				<div v-for="resource in resources" :key="resource.id">
 					<selectable-card :data="resource" :bookmark="true" :footer="true">
-						<template v-slot:tagsLeft>
+						<template #tagsLeft>
 							<tag-group position="left" :tags="tagGroupData1" />
 						</template>
-						<template v-slot:tagsRight>
+						<template #tagsRight>
 							<tag-group position="right" :tags="tagGroupData2" />
 						</template>
 					</selectable-card>
@@ -16,10 +16,10 @@
 			<div class="col">
 				<div v-for="resource in revResources" :key="resource.id">
 					<selectable-card :data="resource" :bookmark="false" :footer="true">
-						<template v-slot:tagsLeft>
+						<template #tagsLeft>
 							<tag-group position="left" :tags="tagGroupData1" />
 						</template>
-						<template v-slot:tagsRight>
+						<template #tagsRight>
 							<tag-group position="right" :tags="tagGroupData2" />
 						</template>
 					</selectable-card>

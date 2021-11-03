@@ -70,7 +70,7 @@ export function getResourceTypeTags(resource: IEaasiResource) {
 }
 
 export function getEnvironmentResourceTypeTags(environmentResource: IEaasiResource) {
-	let tags = [];
+	const tags = [];
 	if (environmentResource.hasOwnProperty('envType')) {
 		if (environmentResource['envType'] === 'base') {
 			tags.push({

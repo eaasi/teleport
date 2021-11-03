@@ -58,7 +58,7 @@
 				<os-template-config v-if="selectedOSTemplate" :os-template="selectedOSTemplate" />
 			</div>
 		</div>
-		<template v-slot:buttons>
+		<template #buttons>
 			<div class="justify-end buttons-right">
 				<ui-button @click="$emit('close')" color-preset="light-blue">Cancel</ui-button>
 			</div>

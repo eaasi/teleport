@@ -12,7 +12,7 @@ import { archiveTypes } from '@/utils/constants';
 class ResourceService extends BaseHttpService {
 
 	async getEnvironment(envId: string): Promise<IEnvironment> {
-		let res = await this.get<IEnvironment>(`/resource/environment?id=${envId}`);
+		const res = await this.get<IEnvironment>(`/resource/environment?id=${envId}`);
 		if(!res.ok) return null;
 		return res.result;
 	}
@@ -22,7 +22,7 @@ class ResourceService extends BaseHttpService {
 	 * @param { IResourceSearchQuery } query
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: string): Promise<IResourceSearchResponse> {
-		let res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
+		const res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
 		if (!res.ok) return null;
 		return res.result;
 	}
@@ -64,7 +64,7 @@ class ResourceService extends BaseHttpService {
 	 * @param {string} environmentId
 	 */
 	async deleteEnvironment(environmentId: string) {
-		let res = await this.delete<any>(
+		const res = await this.delete<any>(
 			`/resource/environment/?id=${environmentId}`
 		);
 		return res.result;
@@ -90,7 +90,7 @@ class ResourceService extends BaseHttpService {
 	 * Makes a GET request to retrieve Name Indexes
 	 */
 	async getEmulators() {
-		let res = await this.get<any>('/resource/emulators');
+		const res = await this.get<any>('/resource/emulators');
 		return res.result;
 	}
 
@@ -98,12 +98,12 @@ class ResourceService extends BaseHttpService {
 	 * Makes a GET request to retrieve operatingSystemMetadata
 	 */
 	async operatingSystemMetadata() {
-		let res = await this.get<any>('/resource/operatingSystemMetadata');
+		const res = await this.get<any>('/resource/operatingSystemMetadata');
 		return res.result;
 	}
 
 	async forkRevision(id: string) {
-		let res = await this.post<any>('/resource/fork-revision', { id });
+		const res = await this.post<any>('/resource/fork-revision', { id });
 		return res.result;
 	}
 
@@ -111,7 +111,7 @@ class ResourceService extends BaseHttpService {
 	 * Makes a GET request to retrieve list of object archives
 	 */
 	async getObjectArchives() {
-		let res = await this.get<any>('/resource/objectArchive');
+		const res = await this.get<any>('/resource/objectArchive');
 		return res.result;
 	}
 
@@ -119,7 +119,7 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to save a new Environment resource from an existing environment ID via snapshot
 	 */
 	async saveNewEnvironment(envId: string, componentId: string, title: string, description: string) {
-		let res = await this.post<any>('/resource/save-new-environment',
+		const res = await this.post<any>('/resource/save-new-environment',
 			{ envId, componentId, title, description }
 		);
 		return res.result;
@@ -129,7 +129,7 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to save a new Content ("Object") Environment resource via snapshot
 	 */
 	async saveNewObjectEnvironment(envId: string, componentId: string, objectId: string, title: string, description: any) {
-		let res = await this.post<any>('/resource/save-new-object-environment',
+		const res = await this.post<any>('/resource/save-new-object-environment',
 			{ envId, componentId, objectId, title, description }
 		);
 		return res.result;
@@ -139,7 +139,7 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to save a revision of an existing Environment resource via snapshot
 	 */
 	async saveEnvironmentRevision(envId: string, componentId: string, description: any, environment: IEnvironment = null) {
-		let res = await this.post<any>('/resource/save-environment-revision',
+		const res = await this.post<any>('/resource/save-environment-revision',
 			{ envId, componentId, description }
 		);
 		return res.result;
@@ -151,7 +151,7 @@ class ResourceService extends BaseHttpService {
 	 * @param envId
 	 */
 	async publishEnvironmentsToNetwork(envIds: string[]) {
-		let res = await this.post<any>('/resource/replicate-environment',
+		const res = await this.post<any>('/resource/replicate-environment',
 			{
 				replicateList: envIds,
 				destArchive: archiveTypes.PUBLIC
@@ -161,22 +161,22 @@ class ResourceService extends BaseHttpService {
 	}
 
 	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest, userId: string): Promise<ITempEnvironmentRecord> {
-		let res = await this.post<ITempEnvironmentRecord>('/resource/temp/add?userId=' + userId, payload);
+		const res = await this.post<ITempEnvironmentRecord>('/resource/temp/add?userId=' + userId, payload);
 		return res.result;
 	}
 
 	async createAndAddEnvironmenttoTempArchive(payload: IEmulatorComponentRequest, userId: string): Promise<ITempEnvironmentRecord> {
-		let res = await this.post<ITempEnvironmentRecord>('/resource/temp/create?userId=' + userId, payload);
+		const res = await this.post<ITempEnvironmentRecord>('/resource/temp/create?userId=' + userId, payload);
 		return res.result;
 	}
 
 	async deleteEnvironmentFromTempArchive(envId: string, userId: string): Promise<ITempEnvironmentRecord> {
-		let res = await this.delete(`/resource/temp/${envId}?userId=${userId}`);
+		const res = await this.delete(`/resource/temp/${envId}?userId=${userId}`);
 		return res.result as ITempEnvironmentRecord;
 	}
 
 	async getAllTemp(): Promise<ITempEnvironmentRecord[]> {
-		let res = await this.get<ITempEnvironmentRecord[]>('/resource/temp');
+		const res = await this.get<ITempEnvironmentRecord[]>('/resource/temp');
 		return res.result;
 	}
 
@@ -185,7 +185,7 @@ class ResourceService extends BaseHttpService {
 	 * @param payload: IImageDeletePayload
 	 */
 	async deleteImage(payload: IImageDeletePayload) {
-		let res = await this.post('/resource/delete-image', payload);
+		const res = await this.post('/resource/delete-image', payload);
 		return res.result;
 	}
 

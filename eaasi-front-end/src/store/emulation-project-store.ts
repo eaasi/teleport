@@ -66,7 +66,7 @@ const actions = {
 	============================================*/
 
 	async loadProject({ commit, dispatch, rootState }) {
-		let project = await _projectService.getProject(rootState.loggedInUser.id);
+		const project = await _projectService.getProject(rootState.loggedInUser.id);
 		if(!project) return;
 		commit('SET_PROJECT', project);
 		return await dispatch('loadProjectResources', project.id);
@@ -76,7 +76,7 @@ const actions = {
 	============================================*/
 
 	async loadProjectResources({ commit }, projectId: number) {
-		let resources = await _projectService.getResources(projectId);
+		const resources = await _projectService.getResources(projectId);
 		if(!resources) return;
 		commit('SET_PROJECT_RESOURCES', resources);
 	},
@@ -85,10 +85,10 @@ const actions = {
 		if (!state.project) {
 			await dispatch('loadProject');
 		}
-		let notInProject = resources.filter(r => !state.projectResources.find(pr => {
+		const notInProject = resources.filter(r => !state.projectResources.find(pr => {
 			return getResourceId(r) === getResourceId(pr);
 		}));
-		let result = await _projectService.addResources(notInProject.map(r => ({
+		const result = await _projectService.addResources(notInProject.map(r => ({
 			id: undefined,
 			emulationProjectId: state.project.id,
 			archiveId: getResourceArchiveId(r),
@@ -100,8 +100,8 @@ const actions = {
 	},
 
 	async removeResource({ dispatch, state, commit }: Store<EmulationProjectStore>, resource: IEaasiResource) {
-		let resourceId = getResourceId(resource);
-		let result = await _projectService.removeResource(state.project.id, resourceId);
+		const resourceId = getResourceId(resource);
+		const result = await _projectService.removeResource(state.project.id, resourceId);
 		if (!result) return;
 		commit('REMOVE_SELECTED_RESOURCE', resourceId);
 		commit('REMOVE_RESOURCE_FROM_ENVIRONMENT', resourceId);
@@ -109,7 +109,7 @@ const actions = {
 	},
 
 	async removeResourcesOfType({ dispatch, commit, state }, resourceTypeList: ResourceType[]) {
-		let result = await _projectService.removeResourcesOfType(state.project.id, resourceTypeList);
+		const result = await _projectService.removeResourcesOfType(state.project.id, resourceTypeList);
 		if (!result) return;
 		const resourcesToRemove = state.projectResources.filter(
 			sr => resourceTypeList.some(type => type === sr.resourceType)
@@ -128,7 +128,7 @@ const actions = {
 	},
 
 	async clearAll({ commit, state }): Promise<boolean> {
-		let result = await _projectService.clearAll(state.project.id);
+		const result = await _projectService.clearAll(state.project.id);
 		if (!result) return false;
 		commit('RESET');
 		await dispatch('loadProject');

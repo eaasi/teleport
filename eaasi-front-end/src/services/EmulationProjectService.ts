@@ -9,13 +9,13 @@ class EmulationProjectService extends BaseHttpService {
 	============================================*/
 
     async getProject(userId: string) {
-		let res = await this.get<IEmulationProject>('/emulation-project/get-for-user?userId=' + userId);
+		const res = await this.get<IEmulationProject>('/emulation-project/get-for-user?userId=' + userId);
 		if(!res.ok) return null;
 		return res.result;
 	}
 
 	async saveProject(project: IEmulationProject) {
-		let res = await this.put<IEmulationProject>('/emulation-project', project);
+		const res = await this.put<IEmulationProject>('/emulation-project', project);
 		if(!res.ok) return null;
 		return res.result;
 	}
@@ -24,46 +24,46 @@ class EmulationProjectService extends BaseHttpService {
 	============================================*/
 
 	async getResources(projectId: number): Promise<IEmulationProjectResource[]> {
-		let res = await this.get<IEmulationProjectResource[]>(`/emulation-project/${projectId}/resources`);
+		const res = await this.get<IEmulationProjectResource[]>(`/emulation-project/${projectId}/resources`);
 		if(!res.ok) return null;
 		return res.result;
 	}
 
 	async addResource(resource: IEmulationProjectResource) {
-		let url = `/emulation-project/${resource.emulationProjectId}/resources`;
-		let res = await this.post<IEmulationProjectResource>(url, resource);
+		const url = `/emulation-project/${resource.emulationProjectId}/resources`;
+		const res = await this.post<IEmulationProjectResource>(url, resource);
 		return res.ok ? res.result : null;
 	}
 
 	async addResources(resources: IEmulationProjectResource[]) {
-		let results = await Promise.all(resources.map((resource) => {
+		const results = await Promise.all(resources.map((resource) => {
 			return this.addResource(resource);
 		}));
 		return !results.some(x => x === null);
 	}
 
 	async removeResource(projectId: number, resourceId: string) {
-		let url = `/emulation-project/${projectId}/resources/${resourceId}`;
-		let res = await this.delete<IEmulationProjectResource>(url);
+		const url = `/emulation-project/${projectId}/resources/${resourceId}`;
+		const res = await this.delete<IEmulationProjectResource>(url);
 		return res.ok ? res.result : null;
 	}
 
 	async removeResourcesOfType(projectId: number, resourceTypes: ResourceType[]) {
-		let url = `/emulation-project/${projectId}/delete-resources`;
-		let res = await this.post<IEmulationProjectResource[]>(url, resourceTypes);
+		const url = `/emulation-project/${projectId}/delete-resources`;
+		const res = await this.post<IEmulationProjectResource[]>(url, resourceTypes);
 		return res.ok ? res.result : null;
 	}
 
 	async clearAll(projectId: number): Promise<boolean> {
-		let url = `/emulation-project/${projectId}/clear-all`;
-		let res = await this.delete<boolean>(url);
+		const url = `/emulation-project/${projectId}/clear-all`;
+		const res = await this.delete<boolean>(url);
 		return res.ok ? res.result : null;
 	}
 
 	/* Task Successors
 	============================================*/
 	async addTaskSuccessor(payload: IEaasiTaskSuccessor) {
-		let res = await this.post<IEaasiTaskSuccessor>('/emulation-project/add-task-successor', payload);
+		const res = await this.post<IEaasiTaskSuccessor>('/emulation-project/add-task-successor', payload);
 		return res.ok ? res.result : null;
 	}
 

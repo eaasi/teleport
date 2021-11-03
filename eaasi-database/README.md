@@ -1,4 +1,4 @@
-# eaasi-client-database
+# eaasi-database
 
 ## Summary
 

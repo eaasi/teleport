@@ -4,16 +4,16 @@ import DatePicker from '../../../../src/components/global/DatePicker.vue';
 
 describe('Vue date pick', () => {
 
-    it('emits correct input on date select', () => {
+    it('emits correct input on date select', async () => {
 
         const wrapper = mount(DatePicker, {
             propsData: {value: '2017-12-29', displayFormat: 'DD.MM.YYYY'}
         }) as any;;
-        
-        wrapper.vm.open();
+
+        await wrapper.vm.open();
         wrapper.find('td[data-id="2017-12-30"]').trigger('click');
         wrapper.find('input').setValue('31.12.2017');
-        
+
         wrapper.vm.close();
 
         expect(wrapper.emitted().input).toEqual([
@@ -23,7 +23,7 @@ describe('Vue date pick', () => {
 
     });
 
-    it('can use alternate parsing engine', () => {
+    it('can use alternate parsing engine', async () => {
 
         const wrapper = mount(DatePicker, {propsData: {
             value: '2017-12-29 05:30',
@@ -36,10 +36,10 @@ describe('Vue date pick', () => {
                 return fecha.format(date, format);
             }
         }}) as any;
-        
+
         expect(wrapper.find('input').element.value).toEqual('29.12.2017 at 05:30');
-        
-        wrapper.vm.open();
+
+        await wrapper.vm.open();
         wrapper.find('td[data-id="2017-12-30"]').trigger('click');
 
         expect(wrapper.emitted().input).toEqual([
@@ -48,7 +48,7 @@ describe('Vue date pick', () => {
 
     });
 
-    it('can function as time picker', () => {
+    it('can function as time picker', async () => {
 
         const wrapper = mount(DatePicker, {
             propsData: {
@@ -60,7 +60,7 @@ describe('Vue date pick', () => {
             }
         }) as any;
 
-        wrapper.vm.open();
+        await wrapper.vm.open();
         wrapper.find('.vdpHoursInput').setValue('6');
         wrapper.find('.vdpMinutesInput').setValue('15');
         wrapper.find('.vdpHoursInput').setValue('24');
@@ -75,7 +75,7 @@ describe('Vue date pick', () => {
 
     });
 
-    it('disables dates correctly', () => {
+    it('disables dates correctly', async () => {
 
         const wrapper = mount(DatePicker, {
             propsData: {
@@ -87,7 +87,7 @@ describe('Vue date pick', () => {
             }
         }) as any;
 
-        wrapper.vm.open();
+        await wrapper.vm.open();
 
         expect(wrapper.find('td[data-id="2017-12-30"]').is('.disabled'));
 
@@ -97,21 +97,21 @@ describe('Vue date pick', () => {
 
     });
 
-    it('starts week on monday', () => {
+    it('starts week on monday', async () => {
 
         const wrapper = mount(DatePicker, {
             propsData: {
                 value: '2017-12-29'
             }
         }) as any;
-        
-        wrapper.vm.open();
+
+        await wrapper.vm.open();
 
         expect(wrapper.find('.vdpHeadCell:first-of-type span').text().trim()).toEqual('Mon');
         expect(wrapper.find('.vdpHeadCell:last-of-type span').text().trim()).toEqual('Sun');
     });
 
-    it('can start week on sunday', () => {
+    it('can start week on sunday', async () => {
 
         const wrapper = mount(DatePicker, {
             propsData: {
@@ -119,20 +119,20 @@ describe('Vue date pick', () => {
                 startWeekOnSunday: true
             }
         }) as any;
-        
-        wrapper.vm.open();
+
+        await wrapper.vm.open();
 
         expect(wrapper.find('.vdpHeadCell:first-of-type span').text().trim()).toEqual('Sun');
         expect(wrapper.find('.vdpHeadCell:last-of-type span').text().trim()).toEqual('Sat');
 
         // Change year and assert again
-        wrapper.setProps({value: '2018-12-29'});
+        await wrapper.setProps({value: '2018-12-29'});
 
         expect(wrapper.find('.vdpHeadCell:first-of-type span').text().trim()).toEqual('Sun');
         expect(wrapper.find('.vdpHeadCell:last-of-type span').text().trim()).toEqual('Sat');
     });
 
-    it('sets selected cells', () => {
+    it('sets selected cells', async () => {
 
         const wrapper = mount(DatePicker) as any;
         wrapper.vm.open();
@@ -141,7 +141,7 @@ describe('Vue date pick', () => {
 
         expect(wrapper.vm.isValidValue); // vue test utils sync bug
 
-        wrapper.setProps({value: '2017-12-29'});
+        await wrapper.setProps({value: '2017-12-29'});
 
         expect(wrapper.find('td[data-id="2017-12-29"]').is('.selected'));
 
@@ -149,14 +149,14 @@ describe('Vue date pick', () => {
 
     });
 
-    it('switches periods correctly', () => {
+    it('switches periods correctly', async () => {
 
         const wrapper = mount(DatePicker, {
             propsData: {value: '2017-12-29'}
         }) as any;
 
-        wrapper.vm.open();
-        wrapper.find('.vdpArrowNext').trigger('click');
+        await wrapper.vm.open();
+        await wrapper.find('.vdpArrowNext').trigger('click');
 
         expect( wrapper.findAll('.vdpPeriodControl > button').wrappers.map(
             buttonWrap => buttonWrap.element.textContent.trim()
@@ -184,7 +184,7 @@ describe('Vue date pick', () => {
 
         wrapper.vm.open();
 
-        var event = new Event('keyup');
+        const event = new Event('keyup');
         document.dispatchEvent(event);
 
         expect(wrapper.vm.opened);

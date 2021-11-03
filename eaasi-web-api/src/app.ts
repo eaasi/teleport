@@ -19,6 +19,8 @@ const upload = multer();
 const port = normalizePort(process.env.EXPRESS_PORT || '8081');
 const app = express();
 
+console.log('Initializing EaaSI Web-API (' + process.env.NODE_ENV + ')...');
+
 app.set('port', port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -50,16 +52,17 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-console.log("Mode:" + process.env.NODE_ENV)
-
+console.log('Preparing database...')
 sequelize.sync().then(() => {
 	/**
 	 * Create HTTP server.
 	 */
+	console.log('Starting HTTP server...')
 	const server = http.createServer(app);
-	server.listen(port);
 	server.on('error', (err) => onError(err, port));
 	server.on('listening', () => {
-		console.log('EaaSI Web API (Express) is listening on: ' + port);
+		console.log('Server is listening on port ' + port);
 	});
+
+	server.listen(port);
 });

@@ -7,8 +7,9 @@ networks:
 services:
   # Nginx Reverse Proxy
   eaasi-nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     container_name: eaasi-nginx
+    init: true
     depends_on:
     - eaasi-front-end
     - eaasi-web-api
@@ -26,9 +27,9 @@ services:
   eaasi-front-end:
     image: eaasi-front-end
     container_name: eaasi-front-end
+    init: true
     build:
       context: .
-      dockerfile: ./eaasi-front-end/Dockerfile
     networks:
     - eaasi
     ports:
@@ -39,12 +40,13 @@ services:
   eaasi-web-api:
     image: eaasi-web-api
     container_name: eaasi-web-api
+    init: true
     build:
       context: ./eaasi-web-api
     depends_on:
      - eaasi-database
     env_file:
-    - ./eaasi-web-api/.env.production
+    - ./eaasi-web-api/.env
     volumes:
     - ./eaasi-web-api/certs:/app/certs
     networks:
@@ -53,13 +55,13 @@ services:
     - eaasi-nginx:eaasi.portalmedia.com
     ports:
     - 8081:8081
-    command: bash -c "./wait-for-it.sh eaasi-database:5432 -- sh scripts/start.sh"
     restart: on-failure
 
   # PostgreSQL Database
   eaasi-database:
     image: eaasi-database
     container_name: eaasi-database
+    init: true
     build:
       context: ./eaasi-database
     env_file:
@@ -69,5 +71,5 @@ services:
     ports:
     - 5432:5432
     volumes:
-    - ./eaasi_db:/var/lib/postgresql/data
+    - ./eaasi-database/data:/var/lib/postgresql/data
     restart: on-failure

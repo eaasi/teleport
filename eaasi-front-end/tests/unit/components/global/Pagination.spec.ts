@@ -36,7 +36,7 @@ describe('Pagination.vue', () => {
 				};
 			}
 		});
-		let arrow = wrapper.find('.page-arrow');
+		const arrow = wrapper.find('.page-arrow');
 		arrow.trigger('click');
 		wrapper.vm.$nextTick(() => {
 			expect(wrapper.emitted('paginate')).toBeTruthy();

@@ -3,7 +3,7 @@ import AddHarvesterRequest from '@/models/eaas/oaipmh/AddHarvesterRequest';
 
 describe('AddHarvesterRequest', () => {
 	it('Should loop through provided syncTypes on construction', () => {
-		let sut = new AddHarvesterRequest('foo', 'some/endpoint/url', ['foo', 'bar']);
+		const sut = new AddHarvesterRequest('foo', 'some/endpoint/url', ['foo', 'bar']);
 		expect(sut.streams).toStrictEqual([
 			{
 				source: {

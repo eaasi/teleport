@@ -11,7 +11,7 @@ describe('HoverMenu.vue', () => {
 				menu: 'fake menu item'
 			}
 		});
-		let menuWrapperText = wrapper.find('.hover-menu-wrapper').text();
+		const menuWrapperText = wrapper.find('.hover-menu-wrapper').text();
 		expect(menuWrapperText).toBeFalsy();
 	});
 
