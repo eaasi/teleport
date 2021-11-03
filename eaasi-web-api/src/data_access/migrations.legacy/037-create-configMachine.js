@@ -86,6 +86,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('configured_machine');
+		const query = 'DROP TABLE IF EXISTS configured_machine CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

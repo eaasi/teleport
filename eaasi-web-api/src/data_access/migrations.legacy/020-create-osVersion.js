@@ -48,6 +48,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('osVersion');
+		const query = 'DROP TABLE IF EXISTS os_version CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };
