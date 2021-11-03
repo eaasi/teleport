@@ -40,6 +40,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('computing_environment');
+		const query = 'DROP TABLE IF EXISTS computing_environment CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

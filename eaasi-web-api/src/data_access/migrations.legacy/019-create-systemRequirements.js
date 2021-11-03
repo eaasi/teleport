@@ -65,6 +65,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('system_requirements');
+		const query = 'DROP TABLE IF EXISTS system_requirements CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };
