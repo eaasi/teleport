@@ -29,6 +29,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface) => {
-		return queryInterface.dropTable('emulation_project');
+		return queryInterface.dropTable('temp_environment');
 	}
 };
