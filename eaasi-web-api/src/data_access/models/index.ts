@@ -3,7 +3,6 @@ const config = require(__dirname + '/../config/config.js')[env];
 
 import { ApplicationLog, Bookmark, EaasiRole, EaasiTask, EmulationProject, EmulationProjectResource, Emulator, EmulationProjectTaskSuccessor, UserImportedContent, UserImportedEnvironment, UserImportedImage, UserImportedSoftware } from '@/data_access/models/app';
 import { Sequelize } from 'sequelize-typescript';
-import { TempEnvironment } from './app/TempEnvironment';
 
 export const sequelize = new Sequelize({
 	host: config.host,
@@ -24,7 +23,7 @@ export const sequelize = new Sequelize({
 		EmulationProjectResource,
 		EmulationProjectTaskSuccessor,
 		//Emulator,
-		TempEnvironment,
+		//TempEnvironment,
 		UserImportedContent,
 		UserImportedEnvironment,
 		UserImportedImage,
