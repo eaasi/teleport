@@ -25,7 +25,8 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable('system_requirements_requires_storage_device_type');
 		return queryInterface.dropTable('system_requirements_requires_storage_device');
 	}
 };

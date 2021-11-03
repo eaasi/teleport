@@ -33,7 +33,8 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable('system_requirements_requires_processor');
 		return queryInterface.dropTable('system_requirements_requires_processor_device');
 	}
 };

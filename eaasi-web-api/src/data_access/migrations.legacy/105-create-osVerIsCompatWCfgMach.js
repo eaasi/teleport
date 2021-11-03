@@ -25,7 +25,8 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable('os_version_is_compatible_with_configured_machine');
 		return queryInterface.dropTable('os_version_compatible_with_configured_machine');
 	}
 };
