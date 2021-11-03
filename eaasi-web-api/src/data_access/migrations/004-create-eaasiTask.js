@@ -38,15 +38,7 @@ module.exports = {
 				allowNull: true
 			},
 			createdAt: Sq.DATE,
-			updatedAt: Sq.DATE,
-			tenantId: {
-				type: Sq.STRING(128),
-				allowNull: true
-			},
-			type: {
-				type: Sq.STRING(50),
-				allowNull: true
-			}
+			updatedAt: Sq.DATE
 		})
 	},
 	down: (queryInterface) => {
