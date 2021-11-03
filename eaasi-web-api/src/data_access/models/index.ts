@@ -23,7 +23,7 @@ export const sequelize = new Sequelize({
 		EmulationProject,
 		EmulationProjectResource,
 		EmulationProjectTaskSuccessor,
-		Emulator,
+		//Emulator,
 		TempEnvironment,
 		UserImportedContent,
 		UserImportedEnvironment,
