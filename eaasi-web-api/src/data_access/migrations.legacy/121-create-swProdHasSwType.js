@@ -25,7 +25,8 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('softwareProduct_has_softwareType');
+	down: async(queryInterface, Sequelize) => {
+		await queryInterface.dropTable('softwareProduct_has_softwareType');
+		return queryInterface.dropTable('software_product_has_software_type');
 	}
 };

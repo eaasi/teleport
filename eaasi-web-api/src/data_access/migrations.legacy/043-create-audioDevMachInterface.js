@@ -26,6 +26,6 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('audioDevice_has_machine_interface');
+		return queryInterface.dropTable('audio_device_has_machine_interface');
 	}
 };
