@@ -203,9 +203,3 @@ Additionally, running the API using the standard entry point script locally `./m
 
 The app is configured to be deployed to a Docker container.  The Dockerfile for the app is located in the root of the project.
 A preliminary build stage runs on `node:10.16-alpine`.  The Dockerfile exposes port `8081` for the API.
-
-### wait-for-it
-
-The web API depends on the availability of a PostgreSQL database, where domain entity state is persisted.
-As the database engine may or may not be ready to accept connections before the API server is launched, the [`wait-for-it.sh`](https://github.com/vishnubob/wait-for-it)
-bash script is run during production.

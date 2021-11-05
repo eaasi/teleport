@@ -31,7 +31,7 @@ describe('DescriptiveRadios.vue', () => {
 				value: 2
 			}
 		});
-		let selected = options.find(x => x.value === 2);
+		const selected = options.find(x => x.value === 2);
 		expect(wrapper.find('.checked').find('h3').text()).toBe(selected.label);
 	});
 });

@@ -17,7 +17,7 @@ localVue.use(GlobalComponents);
 describe('UserModal.vue', () => {
 	let store;
 	beforeEach(() => {
-		let localAdminStore = adminStore;
+		const localAdminStore = adminStore;
 		localAdminStore.state = makeAdminStoreState(10);
 		store = new Vuex.Store({
 			modules: {
@@ -34,7 +34,7 @@ describe('UserModal.vue', () => {
 	});
 
 	it('Renders a FormModal', () => {
-		let fakeUser= generateFakeUsers(1)[0];
+		const fakeUser= generateFakeUsers(1)[0];
 		const wrapper = mount(UserModal, {
 			localVue,
 			propsData: {
@@ -46,7 +46,7 @@ describe('UserModal.vue', () => {
 	});
 
 	it('Shows "Delete user" button for existing users', () => {
-		let fakeUser = generateFakeUsers(1)[0];
+		const fakeUser = generateFakeUsers(1)[0];
 		const wrapper = mount(UserModal, {
 			localVue,
 			propsData: {
@@ -58,7 +58,7 @@ describe('UserModal.vue', () => {
 	});
 
 	it('Hides "Delete user" button for new users', () => {
-		let fakeUser = generateFakeUsers(1)[0];
+		const fakeUser = generateFakeUsers(1)[0];
 		const wrapper = mount(UserModal, {
 			localVue,
 			propsData: {

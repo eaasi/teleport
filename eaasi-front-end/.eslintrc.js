@@ -73,10 +73,10 @@ module.exports = {
 		],
 		'vue/singleline-html-element-content-newline': 'off',
 		'vue/require-default-prop': ['off', 'never'],
-		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
-		'@typescript-eslint/array-type': ['error', 'array']
+		'@typescript-eslint/array-type': ['error', { default: 'array' }]
 	}
 };

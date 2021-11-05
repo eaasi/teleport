@@ -11,10 +11,10 @@
 		@click:header="goToDetailsPage"
 		:value="isSelected"
 	>
-		<template v-slot:tagsLeft>
+		<template #tagsLeft>
 			<tag-group position="left" :tags="imageTypeTags" />
 		</template>
-		<template v-slot:tagsRight>
+		<template #tagsRight>
 			<tag-group v-if="summary" position="right" :tags="imageTagGroup" />
 		</template>
 	</selectable-card>

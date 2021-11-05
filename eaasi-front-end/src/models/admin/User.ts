@@ -46,7 +46,7 @@ export default class User implements IEaasiUser {
 	}
 
 	copy() {
-		let newUser = new User();
+		const newUser = new User();
 		newUser.id = this.id;
 		newUser.email = this.email;
 		newUser.firstName = this.firstName;
@@ -59,7 +59,7 @@ export default class User implements IEaasiUser {
 	}
 
 	toKeycloakUserInfo(): IKeycloakUserInfo  {
-		let user: IKeycloakUserInfo =  {
+		const user: IKeycloakUserInfo =  {
 			id: this.id,
 			username: this.username,
 			firstName: this.firstName,

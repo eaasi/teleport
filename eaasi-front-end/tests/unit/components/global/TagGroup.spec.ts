@@ -3,7 +3,7 @@ import {Tag, TagGroup} from '@/components/global';
 import faker from 'faker';
 
 function generateTags(tagCount) {
-	let tags = [];
+	const tags = [];
 	for (let i=0; i<tagCount; i++) {
 		tags.push(
 			{

@@ -40,15 +40,15 @@ describe('RadioButtons.vue', () => {
 				label: 'asdf'
 			},
 		});
-		let allInputs = wrapper.findAll('input').wrappers;
-		let options = [];
+		const allInputs = wrapper.findAll('input').wrappers;
+		const options = [];
 
 		for (let i = 0; i < allInputs.length; i++) {
-			let val = allInputs[i].attributes().value;
+			const val = allInputs[i].attributes().value;
 			options.push(val);
 		}
 
-		let expectedOpts = ['sally', 'joe'];
+		const expectedOpts = ['sally', 'joe'];
 
 		expect(expectedOpts).toEqual(options);
 	});

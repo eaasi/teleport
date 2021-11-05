@@ -32,7 +32,7 @@ Vue.filter('stripHtml', value => {
 
 Vue.filter('js-date-pretty-format', value => {
 	if (!value) return '';
-	let dt = new Date(value);
+	const dt = new Date(value);
 	return `${
 		(dt.getMonth()+1).toString().padStart(2, '0')}/${
 		dt.getDate().toString().padStart(2, '0')}/${

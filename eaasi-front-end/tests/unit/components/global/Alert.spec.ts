@@ -46,7 +46,7 @@ describe('Alert.vue', () => {
 		expect(wrapper.find('.fa-check-circle').exists()).toBe(false);
 	});
 
-	it('Sets the correct color class based on the type prop', () => {
+	it('Sets the correct color class based on the type prop', async () => {
 		const wrapper = shallowMount(Alert, {
 			propsData: {
 				type: 'error'
@@ -54,16 +54,16 @@ describe('Alert.vue', () => {
 		});
 		expect(wrapper.classes().indexOf('red') > -1).toBe(true);
 
-		wrapper.setProps({type: 'info'});
+		await wrapper.setProps({type: 'info'});
 		expect(wrapper.classes().indexOf('blue') > -1).toBe(true);
 
-		wrapper.setProps({type: 'warning'});
+		await wrapper.setProps({type: 'warning'});
 		expect(wrapper.classes().indexOf('orange') > -1).toBe(true);
 
-		wrapper.setProps({type: 'success'});
+		await wrapper.setProps({type: 'success'});
 		expect(wrapper.classes().indexOf('green') > -1).toBe(true);
 
-		wrapper.setProps({type: 'neutral'});
+		await wrapper.setProps({type: 'neutral'});
 		expect(wrapper.classes().indexOf('neutral') > -1).toBe(true);
 	});
 

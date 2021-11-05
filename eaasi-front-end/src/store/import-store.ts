@@ -103,12 +103,12 @@ const actions = {
 	 * @param {Store<ImportState>} store
 	 */
 	async importImage({ state }: Store<ImportState>) {
-		let payload: IImageImportPayload = {
+		const payload: IImageImportPayload = {
 			url: state.environment.urlSource,
 			label: state.environment.title
 		};
 
-		let taskState = await _importService.importImage(payload) as ITaskState;
+		const taskState = await _importService.importImage(payload) as ITaskState;
 		return new EaasiTask(taskState.taskId, `Image Import: ${payload.label}`);
 	},
 
@@ -117,12 +117,12 @@ const actions = {
 	 * @param {Store<ImportState>} store
 	 */
 	async importSoftwareFromFile({ state, dispatch, commit, rootState }): Promise<EaasiTask> {
-		let uploadResponse = await dispatch('uploadContentResourceFiles');
+		const uploadResponse = await dispatch('uploadContentResourceFiles');
 		const globalState = rootState as GlobalState;
 		if (uploadResponse.status === '0') {  // Success
-			let blobs = uploadResponse.uploads;
+			const blobs = uploadResponse.uploads;
 
-			let importRequest = {
+			const importRequest = {
 				label: state.software.title,
 				userId: globalState.loggedInUser.id,
 				files: [],
@@ -131,7 +131,7 @@ const actions = {
 			let i = 0;
 
 			blobs.forEach(url => {
-				let file = state.filesToUpload[i];
+				const file = state.filesToUpload[i];
 				importRequest.files.push({
 					'filename': file.name,
 					'deviceId': file.physicalFormat,
@@ -141,7 +141,7 @@ const actions = {
 			});
 
 			commit('SET_FILES_TO_UPLOAD', []);
-			let task = await _importService.importUploadBlob(importRequest);
+			const task = await _importService.importUploadBlob(importRequest);
 			task.description = `Import Software: ${state.software.title}`;
 			return task;
 		}
@@ -152,13 +152,13 @@ const actions = {
 	 * @param {Store<ImportState>} store
 	 */
 	async importContentFromFile({ state, commit, dispatch, rootState }): Promise<EaasiTask> {
-		let uploadResponse = await dispatch('uploadContentResourceFiles');
+		const uploadResponse = await dispatch('uploadContentResourceFiles');
 		const globalState = rootState as GlobalState;
 		// uploadResponse.status 0 is success
 		if (uploadResponse.status === '0') {
-			let blobs = uploadResponse.uploads;
+			const blobs = uploadResponse.uploads;
 
-			let importRequest = {
+			const importRequest = {
 				label: state.content.title,
 				userId: globalState.loggedInUser.id,
 				files: [],
@@ -166,7 +166,7 @@ const actions = {
 
 			let i = 0;
 			blobs.forEach(url => {
-				let file = state.filesToUpload[i];
+				const file = state.filesToUpload[i];
 				importRequest.files.push({
 					'filename': file.name,
 					'deviceId': file.physicalFormat,
@@ -176,7 +176,7 @@ const actions = {
 			});
 
 			commit('SET_FILES_TO_UPLOAD', []);
-			let task = await _importService.importUploadBlob(importRequest);
+			const task = await _importService.importUploadBlob(importRequest);
 			task.description = `Import Content: ${state.software.title}`;
 			return task;
 		}
@@ -193,7 +193,7 @@ const actions = {
 	 * @param importData: any object containing environment metadata to import
 	 */
 	async saveEnvironmentImport(_, importData: any) {
-		let snapshot: IEnvironmentImportSnapshot = {
+		const snapshot: IEnvironmentImportSnapshot = {
             componentId: importData.componentId,
 			environmentId: importData.environmentId,
 			importSaveDescription: importData.description,
@@ -204,7 +204,7 @@ const actions = {
 			userId: null
 		};
 
-		let result = await _importService.saveEnvironment(snapshot) as ITaskState;
+		const result = await _importService.saveEnvironment(snapshot) as ITaskState;
 		if (!result) console.error('No save result provided by snapshot response');
 		return result;
 	},
