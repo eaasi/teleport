@@ -26,17 +26,12 @@
   - is_latest() { test "${CI_COMMIT_REF_SLUG}" = "${CI_DEFAULT_BRANCH}"; }
   script:
   # optionally, load image into local docker instance
-  - if is_latest; then outargs='--output "type=docker"'; fi
+  - if is_latest; then aliases="--tag ${image}:latest"; fi
   # build and push image, export all intermediate layers as cache
-  - docker buildx build --progress plain --output 'type=registry' ${outargs}
+  - docker buildx build --progress plain --output 'type=registry'
         --cache-to "type=registry,mode=max,ref=${image}:buildcache"
         --cache-from "type=registry,ref=${image}:buildcache"
-        --tag "${image}:${tag}" "${workdir}"
-  # optionally, update latest tag
-  - if is_latest; then
-      docker tag "${image}:${tag}" "${image}:latest";
-      docker push "${image}:latest";
-    fi
+        --tag "${image}:${tag}" ${aliases} "${workdir}"
 
 database-image:
   extends: ".imagejob"
