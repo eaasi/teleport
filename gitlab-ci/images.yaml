@@ -39,18 +39,18 @@ database-image:
     service: "eaasi-database"
     workdir: "./eaasi-database"
 
-front-end-image:
-  extends: ".imagejob"
-  variables:
-    GIT_SUBMODULE_STRATEGY: "recursive"
-    service: "eaasi-front-end"
-    workdir: "."
+#front-end-image:
+#  extends: ".imagejob"
+#  variables:
+#    GIT_SUBMODULE_STRATEGY: "recursive"
+#    service: "eaasi-front-end"
+#    workdir: "."
 
-web-api-image:
-  extends: ".imagejob"
-  variables:
-    service: "eaasi-web-api"
-    workdir: "./eaasi-web-api"
+#web-api-image:
+#  extends: ".imagejob"
+#  variables:
+#    service: "eaasi-web-api"
+#    workdir: "./eaasi-web-api"
 
 start-env:
   image: alpine:latest

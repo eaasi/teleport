@@ -4,5 +4,5 @@ stages:
 - cleanup
 
 include:
-- local: "gitlab-ci/tests.yaml"
+#- local: "gitlab-ci/tests.yaml"
 - local: "gitlab-ci/images.yaml"
