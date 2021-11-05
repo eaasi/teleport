@@ -73,19 +73,20 @@ cleanup:
   variables:
     GIT_STRATEGY: "none"
   before_script:
-  - outfile="/usr/local/bin/reg"
-  - wget -O "${outfile}" "https://github.com/genuinetools/reg/releases/download/v0.16.1/reg-linux-amd64"
-  - echo "ade837fc5224acd8c34732bf54a94f579b47851cc6a7fd5899a98386b782e228  ${outfile}" | sha256sum -c -
-  - chmod a+x "${outfile}"
-  - unset outfile
+  - apk add --no-cache curl jq
   script:
+  - | # helper for sending authenticated api-requests
+    request() {
+      curl -s -H "PRIVATE-TOKEN: ${CONTAINER_REGISTRY_CLEANUP_TOKEN}" "$@"
+    }
   - | # delete docker image for given service and tag
     delete_docker_image() {
       local service="$1"
       local tag="$2"
-      local image="${CI_REGISTRY_IMAGE}/${service}"
-      echo "Deleting image '${image}:${tag}'..."
-      reg rm --auth-url "${CI_REGISTRY}" -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${image}:${tag}"
+      echo "Deleting docker-image '${CI_REGISTRY_IMAGE}/${service}:${tag}'..."
+      local apiurl="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories"
+      local repoid=$(request -X GET "${apiurl}" | jq ".[] | select(.name == \"${service}\") | .id, halt")
+      request -X DELETE "${apiurl}/${repoid}/tags/${tag}"
       echo ""
     }
   - | # delete docker images for current branch
