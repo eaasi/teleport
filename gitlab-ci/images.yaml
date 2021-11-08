@@ -8,7 +8,6 @@
     DOCKER_DRIVER: "overlay2"
     BUILDX_VERSION: "v0.6.3"
     image: "${CI_REGISTRY_IMAGE}/${service}"
-    tag: "${CI_COMMIT_REF_SLUG}"
   before_script:
   # install docker's buildx plugin
   - srcurl="https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.linux-amd64"
@@ -23,11 +22,12 @@
   - docker context create eaasi
   - docker buildx create --name eaasi --driver docker-container --use eaasi
   - docker buildx inspect --bootstrap eaasi
-  - is_latest() { test "${CI_COMMIT_REF_SLUG}" = "${CI_DEFAULT_BRANCH}"; }
+  - is_latest() { test "${CI_COMMIT_REF_NAME}" = "${CI_DEFAULT_BRANCH}"; }
   script:
   # optionally, load image into local docker instance
   - if is_latest; then aliases="--tag ${image}:latest"; fi
   # build and push image, export all intermediate layers as cache
+  - tag="$(printf %s "${CI_COMMIT_REF_NAME}" | tr -c 'a-zA-Z0-9_.' -)"
   - docker buildx build --progress plain --output 'type=registry'
         --cache-to "type=registry,mode=max,ref=${image}:buildcache"
         --cache-from "type=registry,ref=${image}:buildcache"
@@ -56,7 +56,7 @@ start-env:
   image: alpine:latest
   stage: cleanup
   environment:
-    name: "docker/${CI_COMMIT_REF_SLUG}"
+    name: "docker/${CI_COMMIT_REF_NAME}"
     on_stop: cleanup
   variables:
     GIT_STRATEGY: "none"
@@ -68,7 +68,7 @@ cleanup:
   stage: cleanup
   when: manual
   environment:
-    name: "docker/${CI_COMMIT_REF_SLUG}"
+    name: "docker/${CI_COMMIT_REF_NAME}"
     action: stop
   variables:
     GIT_STRATEGY: "none"
@@ -91,5 +91,6 @@ cleanup:
     }
   - | # delete docker images for current branch
     for service in eaasi-database eaasi-front-end eaasi-web-api; do
-      delete_docker_image "${service}" "${CI_COMMIT_REF_SLUG}" || true
+      local tag="$(printf %s "${CI_COMMIT_REF_NAME}" | tr -c 'a-zA-Z0-9_.' -)"
+      delete_docker_image "${service}" "${tag}" || true
     done
