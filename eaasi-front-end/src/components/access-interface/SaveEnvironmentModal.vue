@@ -8,7 +8,7 @@
 		size="sm"
 		class="software-picker-modal"
 	>
-		<div class="save-env-title" v-if="saveEnvOptions.saveType === 0 || isConstructedEnvironment">
+		<div class="save-env-title" v-if="saveEnvOptions.saveType === 0 || isObjectEnvironment">
 			<h3>Title</h3>
 			<text-input
 				rules="required"
@@ -24,7 +24,7 @@
 				placeholder="Description of changes made to this environment..."
 			/>
 		</div>
-		<div class="save-env-type" v-if="!isConstructedEnvironment">
+		<div class="save-env-type" v-if="!isObjectEnvironment">
 			<h3>Save Options</h3>
 			<descriptive-radios
 				:options="radioOptions"
@@ -51,17 +51,14 @@ import {Get} from 'vuex-pathify';
 })
 export default class SaveEnvironmentModal extends Vue {
 
-	@Get('import/environmentType')
-	environmentType: string;
-
-	@Get('import/isConstructedEnvironment')
-	isConstructedEnvironment: boolean;
+	@Get('emulationProject/isObjectEnvironment')
+	isObjectEnvironment: boolean;
 
 	@Get('import/isImportedEnvironment')
 	isImportedEnvironment: boolean;
 
 	get saveTitle() {
-		return this.isConstructedEnvironment
+		return this.isObjectEnvironment
 			? 'Save New Content Environment'
 			: 'Save Environment';
 	}
@@ -88,7 +85,7 @@ export default class SaveEnvironmentModal extends Vue {
 	};
 
 	created() {
-		if (this.environmentType == 'objectEnvironment') {
+		if (this.isObjectEnvironment) {
 			this.saveEnvOptions.saveType = SaveEnvironmentOption.objectEnvironment;
 		} else if (this.isImportedEnvironment) {
 			this.saveEnvOptions.saveType = SaveEnvironmentOption.imageImport;
