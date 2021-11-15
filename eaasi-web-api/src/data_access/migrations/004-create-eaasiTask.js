@@ -1,9 +1,8 @@
 'use strict';
 
-const Sq = require('sequelize');
-
 module.exports = {
 	up: (queryInterface, Sequelize) => {
+		const Sq = Sequelize.DataTypes;
 		return queryInterface.createTable('eaasi_task', {
 			id: {
 				type: Sq.INTEGER,
@@ -39,18 +38,10 @@ module.exports = {
 				allowNull: true
 			},
 			createdAt: Sq.DATE,
-			updatedAt: Sq.DATE,
-			tenantId: {
-				type: Sq.STRING(128),
-				allowNull: true
-			},
-			type: {
-				type: Sq.STRING(50),
-				allowNull: true
-			}
+			updatedAt: Sq.DATE
 		})
 	},
-	down: (queryInterface, Sequelize) => {
+	down: (queryInterface) => {
 		return queryInterface.dropTable('eaasi_task');
 	}
 };

@@ -40,6 +40,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('processor_device');
+		const query = 'DROP TABLE IF EXISTS processor_device CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

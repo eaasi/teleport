@@ -28,6 +28,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('machine_interface');
+		const query = 'DROP TABLE IF EXISTS machine_interface CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };
