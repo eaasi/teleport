@@ -21,9 +21,3 @@ export interface IEmulatorComponentRequest {
 	keyboardModel: string;
 	type: string;
 }
-
-export interface ITempEnvironmentRecord {
-	id?: number;
-	userId: string;
-	envId: string;
-}

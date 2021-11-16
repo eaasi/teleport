@@ -1,6 +1,5 @@
 import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest } from '@/helpers/ResourceHelper';
 import BaseHttpService from '@/services/BaseHttpService';
-import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import { IImageDeletePayload, IPatch, ITemplate } from '@/types/Import';
 import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
@@ -157,26 +156,6 @@ class ResourceService extends BaseHttpService {
 				destArchive: archiveTypes.PUBLIC
 			}
 		);
-		return res.result;
-	}
-
-	async addEnvironmentToTempArchive(payload: IEmulatorComponentRequest, userId: string): Promise<ITempEnvironmentRecord> {
-		const res = await this.post<ITempEnvironmentRecord>('/resource/temp/add?userId=' + userId, payload);
-		return res.result;
-	}
-
-	async createAndAddEnvironmenttoTempArchive(payload: IEmulatorComponentRequest, userId: string): Promise<ITempEnvironmentRecord> {
-		const res = await this.post<ITempEnvironmentRecord>('/resource/temp/create?userId=' + userId, payload);
-		return res.result;
-	}
-
-	async deleteEnvironmentFromTempArchive(envId: string, userId: string): Promise<ITempEnvironmentRecord> {
-		const res = await this.delete(`/resource/temp/${envId}?userId=${userId}`);
-		return res.result as ITempEnvironmentRecord;
-	}
-
-	async getAllTemp(): Promise<ITempEnvironmentRecord[]> {
-		const res = await this.get<ITempEnvironmentRecord[]>('/resource/temp');
 		return res.result;
 	}
 
