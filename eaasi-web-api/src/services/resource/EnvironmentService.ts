@@ -1,25 +1,20 @@
-import { TempEnvironment } from '@/data_access/models/app/TempEnvironment';
 import ImageListItem from '@/models/resource/ImageListItem';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import { ICreateEnvironmentPayload, IImageDeletePayload, IImageImportPayload } from '@/types/emil/Emil';
 import { IEnvironment, IEnvironmentListItem, ImageEntry } from '@/types/emil/EmilEnvironmentData';
-import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
 import { IEnvironmentImportSnapshot, IPatch, ITemplate } from '@/types/resource/Import';
 import { IClientEnvironmentRequest, IEmulatorComponentRequest, IRevisionRequest, ISaveEnvironmentResponse, ISnapshotRequest, ISnapshotResponse } from '@/types/resource/Resource';
 import { IEmilTask } from '@/types/task/Task';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import ComponentService from './ComponentService';
-import TempEnvironmentService from './TempEnvironmentService';
 import {getUserIdFromToken} from '../../utils/token'
 
 export default class EnvironmentService extends BaseService {
 
 	private readonly _environmentRepoService: EmilBaseService;
 	private readonly _componentService: ComponentService;
-	private readonly _tempEnvironmentService: TempEnvironmentService;
 	private readonly _emulatorRepoService: EmilBaseService;
 	private readonly CACHE_KEYS = {
 		ALL_ENVIRONMENTS: 'all-environments'
@@ -28,13 +23,11 @@ export default class EnvironmentService extends BaseService {
 	constructor(
 		environmentRepository: EmilBaseService = new EmilBaseService('environment-repository'),
 		componentService: ComponentService = new ComponentService(),
-		tempEnvService: TempEnvironmentService = new TempEnvironmentService(),
 		emulatorRepository: EmilBaseService = new EmilBaseService('emulator-repository'),
 	) {
 		super();
 		this._environmentRepoService = environmentRepository;
 		this._componentService = componentService;
-		this._tempEnvironmentService = tempEnvService;
 		this._emulatorRepoService = emulatorRepository;
 	}
 
@@ -49,12 +42,6 @@ export default class EnvironmentService extends BaseService {
 		let res = await this._environmentRepoService.get('environments?detailed=true&localOnly=false', token);
 		let environments = await res.json() as IEnvironment[];
 		environments.forEach(x => x.resourceType = resourceTypes.ENVIRONMENT);
-
-		let tempEnvResponse = await this._tempEnvironmentService.getAllWhere({});
-		if (tempEnvResponse.hasError || tempEnvResponse.result == null) {
-			let tempEnvs = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
-			environments = environments.filter(env => !tempEnvs.some(temp => temp.envId == env.envId));
-		}
 		if (environments.length) this._cache.add(`${this.CACHE_KEYS.ALL_ENVIRONMENTS}/${userId}`, environments);
 		return environments;
 	}
@@ -243,11 +230,6 @@ export default class EnvironmentService extends BaseService {
 	async saveEnvironmentRevision(revisionEnvRequest: IClientEnvironmentRequest, token: string) {
 		this.clearCache( getUserIdFromToken(token));
 		let envId = revisionEnvRequest.envId;
-		let isTempEnv = await this._isTempEnvironment(envId);
-		if (isTempEnv) {
-			let parentEnv = await this.getEnvironment(envId, token);
-			envId = parentEnv.parentEnvId;
-		}
 		let snapshotRequest: ISnapshotRequest = {
 			envId,
 			isRelativeMouse: false,
@@ -259,17 +241,7 @@ export default class EnvironmentService extends BaseService {
 			relativeMouse: false,
 			userId: null
 		};
-		let snapshotResult = await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest, token);
-		if (isTempEnv) {
-			// snapshotResult.
-			let revisionEnv = await this.getEnvironment(snapshotResult.envId, token);
-			// update result environment
-			let updatedRevisionEnv: IEnvironment = {...revisionEnvRequest.environment, envId: revisionEnv.envId};
-			let res = await this.updateEnvironmentDescription(updatedRevisionEnv, token);
-			// delete temp environment
-			await this.deleteFromTempArchive(envId);
-		}
-		return snapshotResult;
+		return await this._componentService.saveSnapshot(revisionEnvRequest.componentId, snapshotRequest, token);
 	}
 
 	/**
@@ -337,37 +309,6 @@ export default class EnvironmentService extends BaseService {
 		return res.json();
 	}
 
-	/*============================================================
-	 == Temporary Environments
-	/============================================================*/
-
-	async addToTempArchive(userId: string, envId: string): Promise<ITempEnvironmentRecord> {
-		let tempEnvRecord: ITempEnvironmentRecord = { userId, envId };
-		let response = await this._tempEnvironmentService.create(tempEnvRecord);
-		return await response.result.get({ plain: true })  as ITempEnvironmentRecord;
-	}
-
-	async deleteFromTempArchive(envId: string): Promise<ITempEnvironmentRecord> {
-		let tempEnvRecord = await this._tempEnvironmentService.getOneWhere({ envId });
-		let plain = tempEnvRecord.result.get({ plain: true }) as ITempEnvironmentRecord;
-		await this._tempEnvironmentService.destroy(plain.id);
-		return plain;
-	}
-
-	async getAllTemp(): Promise<ICrudServiceResult<TempEnvironment[]>> {
-		return await this._tempEnvironmentService.getAllWhere({});
-	}
-
-	async _isTempEnvironment(envId: string): Promise<boolean> {
-		let res = await this._tempEnvironmentService.getOneWhere({
-			where: {
-				envId
-			}
-		})
-		if (!res.result || res.hasError) return false;
-		let plain = await res.result.get({ plain: true });
-		return plain != null;
-	}
 
 	/*============================================================
 	 == Cache

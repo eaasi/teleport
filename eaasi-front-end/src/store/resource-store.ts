@@ -2,7 +2,6 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
-import { IEmulatorComponentRequest, ITempEnvironmentRecord } from '@/types/Emulation';
 import {IImageDeletePayload, IPatch, ISoftwareDeletePayload, ITemplate} from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
@@ -27,7 +26,6 @@ class ResourceState {
 	clientComponentId: string = '';
 	imports: IEaasiResource[] = [];
 	resourceName: string = '';
-	tempEnvironments: ITempEnvironmentRecord[] = [];
 	lastSearchKeyword: string = '';
 }
 
@@ -229,37 +227,6 @@ const actions = {
 
 	publishEnvironmentsToNetwork(_store, envIds: string[]) {
 		return _svc.publishEnvironmentsToNetwork(envIds);
-	},
-
-	async addEnvironmentToTempArchive({ rootState }, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
-		return await _svc.addEnvironmentToTempArchive(payload, rootState.loggedInUser.id);
-	},
-
-	async createAndAddEnvironmenttoTempArchive({ rootState }, payload: IEmulatorComponentRequest): Promise<ITempEnvironmentRecord> {
-		return await _svc.createAndAddEnvironmenttoTempArchive(payload, rootState.loggedInUser.id);
-	},
-
-	async deleteEnvironmentFromTempArchive({ rootState }, envId: string): Promise<ITempEnvironmentRecord> {
-		return await _svc.deleteEnvironmentFromTempArchive(envId, rootState.loggedInUser.id);
-	},
-
-	async getAllTemp(_): Promise<ITempEnvironmentRecord[]> {
-		return await _svc.getAllTemp();
-	},
-
-	async removeTempEnvironment({ commit, dispatch }: Store<ResourceState>, envId: string) {
-		const tempRecords: ITempEnvironmentRecord[] = await dispatch('getAllTemp');
-		if (tempRecords.some(tmp => tmp.envId === envId)) {
-			await dispatch('deleteEnvironmentFromTempArchive', envId);
-			commit('SET_ACTIVE_ENVIRONMENT', null);
-		}
-		await dispatch('refreshTempEnvs');
-		return null;
-	},
-
-	async refreshTempEnvs({ dispatch, commit }: Store<ResourceState>) {
-		const allTemp = await dispatch('getAllTemp');
-		commit('SET_TEMP_ENVIRONMENTS', allTemp);
 	},
 
 };
