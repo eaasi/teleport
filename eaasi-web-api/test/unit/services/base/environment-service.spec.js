@@ -31,8 +31,8 @@ describe('EnvironmentService', () => {
 		let mockEnvironmentRepoService = new MockHttpService();
 		let mockComponentService = new MockBaseService();
 		let sut = new EnvironmentService(mockEnvironmentRepoService, mockComponentService);
-		const replicateRequest = new ReplicateEnvironmentRequest({ 
-			destArchive: 'public', 
+		const replicateRequest = new ReplicateEnvironmentRequest({
+			destArchive: 'public',
 			replicateList: ['foo']
 		});
 		sut.replicateEnvironment(replicateRequest);
@@ -43,8 +43,8 @@ describe('EnvironmentService', () => {
 		let mockEnvironmentRepoService = new MockHttpService();
 		let mockComponentService = new MockBaseService();
 		let sut = new EnvironmentService(mockEnvironmentRepoService, mockComponentService);
-		const replicateRequest = new ReplicateEnvironmentRequest({ 
-			destArchive: 'public', 
+		const replicateRequest = new ReplicateEnvironmentRequest({
+			destArchive: 'public',
 			replicateList: ['foo']
 		});
 		sut.replicateEnvironment(replicateRequest);
@@ -103,7 +103,7 @@ describe('EnvironmentService', () => {
 		let mockEnvironmentRepoService = new MockHttpService();
 		let mockEmulatorRepoService = new MockHttpService();
 		let mockComponentService = new MockBaseService();
-		let sut = new EnvironmentService(mockEnvironmentRepoService, mockComponentService, null, mockEmulatorRepoService);
+		let sut = new EnvironmentService(mockEnvironmentRepoService, mockComponentService, mockEmulatorRepoService);
 		sut.getEmulators();
 		expect(mockEmulatorRepoService.getUrl).toStrictEqual('emulators');
 	});
