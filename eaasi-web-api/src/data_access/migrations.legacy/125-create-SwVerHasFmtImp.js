@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('softwareVersion_has_format_implementation', {
+		return queryInterface.createTable('software_version_has_format_implementation', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			softwareVersionID: {
@@ -38,7 +38,8 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable('softwareVersion_has_format_implementation');
 		return queryInterface.dropTable('software_version_has_format_implementation');
 	}
 };

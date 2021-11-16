@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('networkDevice_has_driver_software', {
+		return queryInterface.createTable('network_device_has_driver_software', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			networkDeviceID: {
@@ -25,7 +25,8 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable('networkDevice_has_driver_software');
 		return queryInterface.dropTable('network_device_has_driver_software');
 	}
 };
