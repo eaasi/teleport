@@ -1,8 +1,10 @@
 import HttpJSONService from '@/services/base/HttpJSONService';
 import BaseService from '@/services/base/BaseService';
-import { KEYCLOAK_REALM, KEYCLOAK_URL } from '@/config/keycloak-config';
+import { KEYCLOAK_REALM, KEYCLOAK_URL, KEYCLOAK_CLIENT_ID } from '@/config/keycloak-config';
 import KeycloakUserQuery from '@/classes/KeycloakUserQuery';
 import { INewUser } from '@/types/admin/User';
+import { URLSearchParams } from 'url';
+import fetch from 'node-fetch';
 
 export default class KeycloakService extends BaseService {
 	private readonly _httpService: HttpJSONService;
@@ -10,6 +12,25 @@ export default class KeycloakService extends BaseService {
 	constructor() {
 		super();
 		this._httpService = new HttpJSONService();
+	}
+
+	async getUserTokens(username: string, password: string) {
+		const url = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`;
+		const options = {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams({
+				'grant_type': 'password',
+				'client_id': KEYCLOAK_CLIENT_ID,
+				'username': username,
+				'password': password,
+			}),
+		};
+
+		const response = await fetch(url, options);
+		return await response.json();
 	}
 
 	async getUserInfo(token: string) {
