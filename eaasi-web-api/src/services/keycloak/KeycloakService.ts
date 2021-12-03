@@ -74,6 +74,18 @@ export default class KeycloakService extends BaseService {
 		return await this._httpService.delete(url, null, null, token).then(res => callback(res));
 	}
 
+	async resetUserPassword(id: string, password: string, token: string, callback: Function) {
+		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/users/${id}/reset-password`;
+		const data = {
+			type: 'password',
+			value: password,
+			temporary: true,
+		};
+
+		return await this._httpService.put(url, data, null, token)
+				.then(res => callback(res));
+	}
+
 	async getClientRoles(clientUUID: string, token: string, callback: Function) {
 		const url = `${KEYCLOAK_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${clientUUID}/roles`;
 
