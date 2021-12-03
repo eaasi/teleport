@@ -1,4 +1,5 @@
 export interface INewUser {
+	enabled?: boolean;
 	username?: string;
 	firstName?: string;
 	lastName?: string;
@@ -7,4 +8,12 @@ export interface INewUser {
 		role: string[];
 	};
 	credentials?: object[];
+}
+
+export interface INewGroup {
+	name: string;
+	attributes: {
+		tid: string[];
+		orgname: string[];
+	};
 }

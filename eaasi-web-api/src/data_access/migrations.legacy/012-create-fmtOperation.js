@@ -20,6 +20,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('format_operation');
+		const query = 'DROP TABLE IF EXISTS format_operation CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };
