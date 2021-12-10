@@ -24,9 +24,3 @@ export interface IEmulatorComponentRequest {
 	objectArchive?: string;
 	type: string;
 }
-
-export interface ITempEnvironmentRecord {
-	id?: number;
-	userId: string;
-	envId: string;
-}

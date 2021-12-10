@@ -29,6 +29,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('software_product');
+		const query = 'DROP TABLE IF EXISTS software_product CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

@@ -253,43 +253,4 @@ router.post('/save-new-object-environment', (req, res) => controller.saveNewObje
  */
 router.post('/save-environment-revision', (req, res) => controller.saveEnvironmentRevision(req, res));
 
-/**
- * @api {PUT} Adds a resource to temporary archive
- * @apiVersion 1.0.0
- * @apiName Add To Temporary Archive
- * @apiGroup Resources
- * @apiPermission All Users
- * @apiDescription Creates a record in the database 
- */
-router.post('/temp/create', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
-	controller.createAndAddToTempArchive(req, res)
-);
-
-router.post('/temp/add', (req: IAuthorizedPostRequest<IEmulatorComponentRequest>, res: Response) => 
-	controller.addToTempArchive(req, res)
-);
-
-/**
- * @api {DELETE} Deletes a resource from temporary archive
- * @apiVersion 1.0.0
- * @apiName Delete from Temporary Archive
- * @apiGroup Resources
- * @apiPermission All Users
- * @apiDescription Removes a record from the database 
- */
-router.delete('/temp/:id', (req: IAuthorizedDeleteRequest, res: Response) => 
-	controller.deleteFromTempArchive(req, res)
-);
-
-/**
- * @api {GET} Fetches all resources from the temporary archive
- * @apiVersion 1.0.0
- * @apiName Get All Temporary Archive Resources
- * @apiGroup Resources
- * @apiPermission All Users
- */
-router.get('/temp', (req: IAuthorizedGetRequest, res: Response) => 
-	controller.getAllTemp(req, res)
-);
-
 module.exports = router;

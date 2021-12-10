@@ -24,6 +24,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('color_depth');
+		const query = 'DROP TABLE IF EXISTS color_depth CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

@@ -19,6 +19,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('software_type');
+		const query = 'DROP TABLE IF EXISTS software_type CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

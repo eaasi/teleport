@@ -24,6 +24,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('network_device');
+		const query = 'DROP TABLE IF EXISTS network_device CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

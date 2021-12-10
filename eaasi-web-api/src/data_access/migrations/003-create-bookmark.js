@@ -1,9 +1,8 @@
 'use strict';
 
-const Sq = require('sequelize');
-
 module.exports = {
 	up: (queryInterface, Sequelize) => {
+		const Sq = Sequelize.DataTypes;
 		return queryInterface.createTable('bookmark', {
 			id: {
 				type: Sq.INTEGER,
@@ -22,7 +21,7 @@ module.exports = {
 			updatedAt: Sq.DATE
 		})
 	},
-	down: (queryInterface, Sequelize) => {
+	down: (queryInterface) => {
 		return queryInterface.dropTable('bookmark');
 	}
 };

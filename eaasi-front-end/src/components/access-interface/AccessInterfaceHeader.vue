@@ -107,7 +107,6 @@ import ChangeMediaModal from './ChangeMediaModal.vue';
 import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 import PrintJobsModal from './PrintJobsModal.vue';
 import { IEnvironment } from '@/types/Resource';
-import { ITempEnvironmentRecord } from '@/types/Emulation';
 
 @Component({
 	name: 'AccessInterfaceHeader',
@@ -126,9 +125,6 @@ export default class AccessInterfaceHeader extends Vue {
 
 	@Get('resource/activeEnvironment')
 	readonly activeEnvironment: IEnvironment;
-
-	@Get('resource/tempEnvironments')
-	readonly tempEnvironments: ITempEnvironmentRecord[];
 
 	/* Data
 	============================================*/
@@ -204,15 +200,11 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 
 	initBrowserEvents() {
-		window.addEventListener('beforeunload', () => this.removeTempEnvironment());
+		// Empty!
 	}
 
 	removeBrowserEvents() {
 		window.removeEventListener('beforeunload', () => {});
-	}
-
-	async removeTempEnvironment() {
-		await this.$store.dispatch('resource/removeTempEnvironment', this.activeEnvironment.envId);
 	}
 
 	async mounted() {
@@ -229,7 +221,6 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 
 	beforeDestroy() {
-		this.removeTempEnvironment();
 		this.removeBrowserEvents();
 		eventBus.$off('emulator:print:add-print-job');
 	}

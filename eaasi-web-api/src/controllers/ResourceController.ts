@@ -1,4 +1,3 @@
-import HttpResponseCode from '@/classes/HttpResponseCode';
 import ReplicateEnvironmentRequest from '@/models/resource/ReplicateEnvironmentRequest';
 import ContentService from '@/services/resource/ContentService';
 import EnvironmentService from '@/services/resource/EnvironmentService';
@@ -6,12 +5,10 @@ import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
 import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
 import ImportedContentService from '@/services/rest-api/ImportedContentService';
-import { IAuthorizedDeleteRequest, IAuthorizedGetRequest, IAuthorizedRequest } from '@/types/auth/Auth';
+import { IAuthorizedGetRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
-import { ITempEnvironmentRecord } from '@/types/emulation-porject/EmulationProject';
-import { IClientEnvironmentRequest, IContentRequest, IEmulatorComponentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
-import { build_404_response, build_500_response } from '@/utils/error-helpers';
+import { IClientEnvironmentRequest, IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
 
@@ -368,85 +365,6 @@ export default class ResourceController extends BaseController {
 			this.sendError(e, res);
 		}
 	}
-
-	/*============================================================
-	 == Temporary Environments
-	/============================================================*/
-
-	/**
-	 * Adds an Environment to a temporary archive
-	 */
-	async addToTempArchive(req: Request, res: Response) {
-		try {
-			let userId = req.query.userId as string;
-			let payload: IEmulatorComponentRequest = req.body;
-			let tempEnvRecord = await this._environmentService.addToTempArchive(userId, payload.environment);
-			return res.send(tempEnvRecord);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	async createAndAddToTempArchive(req: Request, res: Response) {
-		try {
-			let userId = req.query.userId as string;
-			let emuComponentRequest: IEmulatorComponentRequest = req.body;
-			let derivative = await this._environmentService.createDerivative(emuComponentRequest, req.headers.authorization);
-			this._logger.log.info(`Temporary Environment with id ${derivative.envId} has been created for user ${userId}`);
-			let savedEnvironment = await this._environmentService.addToTempArchive(userId, derivative.envId);
-			return res.send(savedEnvironment);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Deletes an Environment from a temporary archive
-	 */
-	async deleteFromTempArchive(req: IAuthorizedDeleteRequest, res: Response) {
-		try {
-			let id = req.params.id;
-			let userId = req.query.userId as string;
-			let tempEnvResponse = await this._environmentService.getAllTemp();
-			if (tempEnvResponse.result != null && tempEnvResponse.result.length) {
-				let tempEnvRecords = tempEnvResponse.result.map(r => r.get({ plain: true }) as ITempEnvironmentRecord);
-				let curTempRecord = tempEnvRecords.find(temp => temp.envId === id);
-				if (!curTempRecord) return res.send(false);
-				let token = req.headers.authorization;
-				await this._environmentService.deleteEnvironment(id, token);
-				this._logger.log.info(`Temporary Environment with id ${id} has been deleted for user ${userId}`);
-				let success = await this._environmentService.deleteFromTempArchive(id);
-				return res.send(success);
-			}
-			return res.send(false);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Gets All Environments from a temporary archive
-	 */
-	async getAllTemp(req: Request, res: Response) {
-		try {
-			let response = await this._environmentService.getAllTemp();
-			if (response.hasError) {
-				return res
-					.status(HttpResponseCode.SERVER_ERROR)
-					.send(build_500_response(response.error));
-			}
-
-			if (response.result == null) {
-				return res
-					.status(HttpResponseCode.NOT_FOUND)
-					.send(build_404_response(req.originalUrl));
-			}
-			return res.send(response.result);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
 }
 
 

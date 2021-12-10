@@ -4,7 +4,7 @@ const Sq = require('sequelize');
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('system_requirements_requires_processor', {
+		return queryInterface.createTable('system_requirements_requires_processor_device', {
 			createdAt: Sq.DATE,
 			updatedAt: Sq.DATE,
 			systemRequirementsID: {
@@ -33,8 +33,9 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('system_requirements_requires_processor');
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.dropTable('system_requirements_requires_processor');
+		return queryInterface.dropTable('system_requirements_requires_processor_device');
 	}
 };
 
