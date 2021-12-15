@@ -162,6 +162,10 @@ const getters = {
 	},
 	selectedObjects(state: EmulationProjectStore): IEaasiResource[] {
 		return state.selectedResources.filter(r => r.resourceType !== resourceTypes.ENVIRONMENT);
+	},
+	isObjectEnvironment(state: EmulationProjectStore): boolean {
+		const selectedObjects = getters.selectedObjects(state);
+		return selectedObjects.length > 0 && selectedObjects.every(object => object.resourceType === resourceTypes.CONTENT);
 	}
 };
 

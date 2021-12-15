@@ -177,10 +177,23 @@ export default class AccessInterfaceHeader extends Vue {
 
 	initEmulatorListeners() {
 		eventBus.$on('emulator:print:add-print-job', filename => this.printJobLabels.push(filename));
-		eventBus.$on('emulator:set-media', removableMediaList => {
+		eventBus.$on('emulator:set-media', async removableMediaList => {
 			if (!removableMediaList || removableMediaList.length === 0) {
 				return;
 			}
+			const mediaItems: [] = [];
+			for (let mediaItem of removableMediaList) {
+				const result = await this.$store.dispatch('software/getSoftwareMetadata', {
+					archiveId: mediaItem.archive,
+					objectId: mediaItem.id,
+				});
+				const files = result.mediaItems.file.map(file => ({
+					...file,
+					objectId: mediaItem.id
+				}));
+				mediaItems.push(...(files as []));
+			}
+			this.mediaItems = mediaItems;
 			this.driveId = removableMediaList[0].driveIndex;
 			this.enableChangeMedia = true;
 		});
@@ -195,14 +208,14 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 
 	async mounted() {
-		const { softwareId, objectId, archiveId} = this.$route.query;
+		/*const { softwareId, objectId, archiveId} = this.$route.query;
 		if ((softwareId || objectId) && archiveId) {
 			const result = await this.$store.dispatch('software/getSoftwareMetadata', {
 				archiveId,
 				objectId: softwareId ? softwareId : objectId,
 			});
 			this.mediaItems = result.mediaItems.file;
-		}
+		}*/
 		this.initEmulatorListeners();
 		this.initBrowserEvents();
 	}

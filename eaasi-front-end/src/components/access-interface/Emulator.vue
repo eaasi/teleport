@@ -80,7 +80,8 @@
 		//TODO: commented until BWFLA is imported
 		//bwfla: IbwflaController = null;
 		client: IEaasClient = null;
-		timeOutTimer = null
+		timeOutTimer = null;
+		clientReadyInterval = null;
 		isStopping: boolean = false;
 
 		/* Methods
@@ -200,15 +201,23 @@
 				vm.attachUserControls();
 				const activeSession = vm.client.getActiveSession();
 				this.clientComponentId = activeSession ? activeSession.getId() : null;
-				if (activeSession) {
-					eventBus.$emit('emulator:set-media', activeSession.getRemovableMediaList());
-				}
+				this.setClientReadyTimeout();
 
 				this.initPrintListeners();
 			} catch(e) {
 				vm.handleError(e);
 			}
 			vm.showLoader = false;
+		}
+
+		private setClientReadyTimeout() {
+			clearInterval(this.clientReadyInterval);
+			this.clientReadyInterval = setInterval(() => {
+				if (this.client.getActiveSession() && this.client.getActiveSession().getRemovableMediaList()) {
+					eventBus.$emit('emulator:set-media', this.client.getActiveSession().getRemovableMediaList());
+					clearInterval(this.clientReadyInterval);
+				}
+			}, 1000);
 		}
 
 		private showLoaderWithTimeout() {
@@ -225,6 +234,7 @@
 		}
 
 		async stopEnvironment() {
+			clearInterval(this.clientReadyInterval);
 			let vm = this;
 			if (!vm.client || vm.isStopping) return;
 			vm.isStopping = true;
@@ -319,6 +329,8 @@
 			if (!snapshotRequest) {
 				return;
 			}
+
+			snapshotRequest.removeVolatileDrives(options.saveType != SaveEnvironmentOption.objectEnvironment);
 			let result = await this.client.getActiveSession().createSnapshot(snapshotRequest);
 			if (result.status === '0') {
 				await this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: result.envId.toString() } });

@@ -30,8 +30,8 @@
 					<ui-button @click="$emit('close')" color-preset="light-blue">
 						Cancel
 					</ui-button>
-					<ui-button 
-						@click="$emit('change-media', selectedMediaId)" 
+					<ui-button
+						@click="$emit('change-media', selectedMediaId)"
 						:disabled="!selectedMediaId"
 					>
 						Change
@@ -86,14 +86,13 @@ export default class ChangeMediaModal extends Vue {
 				}]
 			});
 		});
-		
+
 		return mediaItems;
     }
 
     /* Data
     ============================================*/
 	selectedMediaId: string = null;
-	
 	select(mediaId: string) {
 		this.selectedMediaId = mediaId;
 	}
