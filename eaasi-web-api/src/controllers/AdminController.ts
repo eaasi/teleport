@@ -98,7 +98,7 @@ export default class AdminController extends BaseController {
 				res.status(HttpResponseCode.BAD_REQUEST);
 				return res.send(build_400_response(userData));
 			}
-			const password = this.generatePassword();
+			const password = AdminController.generatePassword();
 			userData.credentials = [{
 				type: 'password',
 				value: password,
@@ -222,7 +222,7 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	private generatePassword(length: number = 16) {
+	static generatePassword(length: number = 16) {
 		const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		let result = '';
 		for (var i = 0, n = charset.length; i < length; ++i) {

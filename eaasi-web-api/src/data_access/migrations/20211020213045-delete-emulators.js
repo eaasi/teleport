@@ -1,9 +1,9 @@
 'use strict';
 
-const Sq = require('sequelize');
-
-module.exports = {
+// legacy migration
+const migration = {
 	up: (queryInterface, Sequelize) => {
+		const Sq = Sequelize.DataTypes;
 		return queryInterface.createTable('emulator', {
 			createdAt: {
 				type: Sq.DATE,
@@ -27,7 +27,12 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: (queryInterface) => {
 		return queryInterface.dropTable('emulator');
 	}
+};
+
+module.exports = {
+	up: migration.down,
+	down: migration.up,
 };

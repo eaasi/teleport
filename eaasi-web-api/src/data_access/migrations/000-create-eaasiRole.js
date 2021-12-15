@@ -1,9 +1,8 @@
 'use strict';
 
-const Sq = require('sequelize');
-
 module.exports = {
 	up: (queryInterface, Sequelize) => {
+		const Sq = Sequelize.DataTypes;
 		return queryInterface.createTable('eaasi_role', {
 			id: {
 				type: Sq.INTEGER,
@@ -32,7 +31,7 @@ module.exports = {
 			}
 		});
 	},
-	down: (queryInterface, Sequelize) => {
+	down: (queryInterface) => {
 		return queryInterface.dropTable('eaasi_role');
 	}
 };

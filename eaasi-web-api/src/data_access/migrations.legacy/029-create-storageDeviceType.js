@@ -24,6 +24,7 @@ module.exports = {
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('storage_device_type');
+		const query = 'DROP TABLE IF EXISTS storage_device_type CASCADE;';
+		return queryInterface.sequelize.query(query);
 	}
 };

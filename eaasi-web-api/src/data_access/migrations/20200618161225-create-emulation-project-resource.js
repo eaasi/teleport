@@ -1,8 +1,8 @@
 'use strict';
-const Sq = require('sequelize');
 
 module.exports = {
-	up: (queryInterface) => {
+	up: (queryInterface, Sequelize) => {
+		const Sq = Sequelize.DataTypes;
 		return queryInterface.createTable('emulation_project_resource', {
 			id: {
 				type: Sq.INTEGER,
