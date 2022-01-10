@@ -1,36 +1,44 @@
 <template>
 	<div class="emu-project-content padded">
 		<!-- Error message -->
-		<alert
-			card
-			no-icon
-			type="warning"
-			class="mb"
-		>
-			Add a base environment to continue
-		</alert>
+		<!--		<alert
+					card
+					no-icon
+					type="warning"
+					class="mb"
+				>
+					Add a base environment to continue
+				</alert>-->
+
+		<selectable-text-card label="Basic" :value="isBasicSelected" @change="selectBasicMode">
+			Add content or install software in an existing environment resource.
+		</selectable-text-card>
+		<selectable-text-card label="Advanced" :value="isAdvancedSelected" @change="selectAdvancedMode">
+			Use a system template with no configured operating system or software.
+		</selectable-text-card>
+
 		<!-- Find a Base -->
-		<div class="emu-option-item flex-row justify-between">
-			<div class="content-wrapper">
-				<h4>Find a Base</h4>
-				<p>Find an existing base environment.</p>
-			</div>
-			<div class="btn-wrapper flex-row">
-				<ui-button
-					@click="search"
-					style="margin-right: 3rem;"
-					sub-label="…node or network saved resources"
-				>
-					Search/Browse
-				</ui-button>
-				<ui-button
-					@click="myResources"
-					sub-label="…imported or bookmarked resources"
-				>
-					My Resources
-				</ui-button>
-			</div>
-		</div>
+		<!--<div class="emu-option-item flex-row justify-between">
+					<div class="content-wrapper">
+						<h4>Find a Base</h4>
+						<p>Find an existing base environment.</p>
+					</div>
+					<div class="btn-wrapper flex-row">
+						<ui-button
+							@click="search"
+							style="margin-right: 3rem;"
+							sub-label="…node or network saved resources"
+						>
+							Search/Browse
+						</ui-button>
+						<ui-button
+							@click="myResources"
+							sub-label="…imported or bookmarked resources"
+						>
+							My Resources
+						</ui-button>
+					</div>
+				</div>-->
 		<!-- Start from Scratch -->
 		<!-- Not active
 
@@ -76,26 +84,26 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from './SoftwareResourcesWizard.vue';
 import ContentResourcesWizard from './ContentResourcesWizard.vue';
 import InfoMessage from './shared/InfoMessage.vue';
-import { ROUTES } from '@/router/routes.const';
+import {ROUTES} from '@/router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
-import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
-import { Sync } from 'vuex-pathify';
-import { generateNotificationError } from '@/helpers/NotificationHelper';
+import {ICreateEnvironmentPayload, ICreateEnvironmentResponse} from '@/types/Import';
+import {Sync} from 'vuex-pathify';
+import {generateNotificationError} from '@/helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
-import { IEnvironment } from '@/types/Resource';
+import {IEnvironment} from '@/types/Resource';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
-import { IUserImportRelationRequest, IUserImportedResource } from '@/types/UserImportRelation';
-import { resourceTypes } from '@/utils/constants';
+import {IUserImportRelationRequest, IUserImportedResource} from '@/types/UserImportRelation';
+import {resourceTypes} from '@/utils/constants';
 
 @Component({
 	name: 'EmulationProjectOptions',
-	components : {
+	components: {
 		BaseEnvironmentWizard,
 		SoftwareResourcesWizard,
 		InfoMessage,
@@ -112,6 +120,19 @@ export default class EmulationProjectOptions extends Vue {
 	environment: EmulationProjectEnvironment;
 
 	createBaseEnvModal: boolean = false;
+
+	isBasicSelected: boolean = false;
+	isAdvancedSelected: boolean = false;
+
+	selectBasicMode(value) {
+		this.isBasicSelected = value;
+		this.isAdvancedSelected = false;
+	}
+
+	selectAdvancedMode(value) {
+		this.isAdvancedSelected = value;
+		this.isBasicSelected = false;
+	}
 
 	search() {
 		this.$router.push(ROUTES.RESOURCES.EXPLORE);
@@ -197,16 +218,6 @@ export default class EmulationProjectOptions extends Vue {
 			}
 		}
 	}
-}
-
-.emu-project-actions {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
-
-.emu-project-action {
-	margin: 0 1.2rem;
 }
 
 </style>

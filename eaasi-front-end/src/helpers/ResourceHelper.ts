@@ -67,6 +67,14 @@ export function getResourceTypeTags(resource: IEaasiResource) {
 			color: 'white'
 		}];
 	}
+	if(resource.resourceType === resourceTypes.IMAGE && resource.isEmpty) {
+		return [{
+			text: 'Empty',
+			icon: translatedIcon('disk'),
+			color: 'white'
+		}];
+	}
+
 }
 
 export function getEnvironmentResourceTypeTags(environmentResource: IEaasiResource) {

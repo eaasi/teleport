@@ -16,6 +16,7 @@ export interface IEaasiResource {
 	archiveId?: string;
 	archive?: string;
 	isPublic: boolean;
+	isEmpty?: boolean;
 }
 
 export interface IImageListItem extends IEaasiResource {
