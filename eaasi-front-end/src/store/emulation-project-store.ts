@@ -8,12 +8,15 @@ import { IEaasiTaskSuccessor } from '@/types/Task';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { dispatch, make } from 'vuex-pathify';
+import {EmulationProjectMode} from '@/types/EmulationProject';
 
 /*============================================================
  == State
 /============================================================*/
 
 class EmulationProjectStore {
+	mode: EmulationProjectMode = null;
+	selectingResourceType: ResourceType = null;
 	chosenTemplateId: string = '';
     createEnvironmentPayload: ICreateEnvironmentPayload = null;
 	environment: EmulationProjectEnvironment = null;

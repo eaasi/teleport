@@ -1,5 +1,5 @@
 <template>
-	<div class="emu-project-content padded">
+	<div>
 		<!-- Error message -->
 		<!--		<alert
 					card
@@ -10,12 +10,17 @@
 					Add a base environment to continue
 				</alert>-->
 
-		<selectable-text-card label="Basic" :value="isBasicSelected" @change="selectBasicMode">
-			Add content or install software in an existing environment resource.
-		</selectable-text-card>
-		<selectable-text-card label="Advanced" :value="isAdvancedSelected" @change="selectAdvancedMode">
-			Use a system template with no configured operating system or software.
-		</selectable-text-card>
+		<div class="emu-project-content padded" v-if="!emulationProjectMode">
+			<selectable-text-card label="Basic" :value="isBasicSelected" @change="selectBasicMode">
+				Add content or install software in an existing environment resource.
+			</selectable-text-card>
+			<selectable-text-card label="Advanced" :value="isAdvancedSelected" @change="selectAdvancedMode">
+				Use a system template with no configured operating system or software.
+			</selectable-text-card>
+		</div>
+		<div v-if="emulationProjectMode">
+			<emulation-project-mode-screen :mode="emulationProjectMode" @reset="resetMode" />
+		</div>
 
 		<!-- Find a Base -->
 		<!--<div class="emu-option-item flex-row justify-between">
@@ -98,12 +103,15 @@ import {generateNotificationError} from '@/helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
 import {IEnvironment} from '@/types/Resource';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
-import {IUserImportRelationRequest, IUserImportedResource} from '@/types/UserImportRelation';
+import {IUserImportedResource, IUserImportRelationRequest} from '@/types/UserImportRelation';
 import {resourceTypes} from '@/utils/constants';
+import {EmulationProjectMode} from '@/types/EmulationProject';
+import EmulationProjectModeScreen from './EmulationProjectModeScreen.vue';
 
 @Component({
 	name: 'EmulationProjectOptions',
 	components: {
+		EmulationProjectModeScreen,
 		BaseEnvironmentWizard,
 		SoftwareResourcesWizard,
 		InfoMessage,
@@ -119,19 +127,37 @@ export default class EmulationProjectOptions extends Vue {
 	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
 
+	@Sync('emulationProject/mode')
+	emulationProjectMode: EmulationProjectMode;
+
 	createBaseEnvModal: boolean = false;
 
-	isBasicSelected: boolean = false;
-	isAdvancedSelected: boolean = false;
+	get isBasicSelected(): boolean {
+		return this.emulationProjectMode === EmulationProjectMode.Basic;
+	}
+
+	get isAdvancedSelected(): boolean {
+		return this.emulationProjectMode === EmulationProjectMode.Advanced;
+	}
 
 	selectBasicMode(value) {
-		this.isBasicSelected = value;
-		this.isAdvancedSelected = false;
+		if (value) {
+			this.emulationProjectMode = EmulationProjectMode.Basic;
+		} else {
+			this.emulationProjectMode = null;
+		}
 	}
 
 	selectAdvancedMode(value) {
-		this.isAdvancedSelected = value;
-		this.isBasicSelected = false;
+		if (value) {
+			this.emulationProjectMode = EmulationProjectMode.Advanced;
+		} else {
+			this.emulationProjectMode = null;
+		}
+	}
+
+	resetMode() {
+		this.emulationProjectMode = null;
 	}
 
 	search() {
