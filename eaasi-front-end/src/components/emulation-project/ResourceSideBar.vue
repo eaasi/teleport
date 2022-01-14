@@ -32,26 +32,31 @@
 						Clear List
 					</a>
 				</div>
-				<draggable handle=".drag-handler" drag-class="drag" ghost-class="ghost">
+				<draggable
+					handle=".drag-handler"
+					drag-class="drag"
+					ghost-class="ghost"
+					:group="{name: '1', pull: 'clone'}"
+					:list="environments.filter(env => !environment || env.envId !== environment.envId)"
+				>
 					<div
-						v-for="env in environments"
+						v-for="env in environments.filter(item => !environment || item.envId !== environment.envId)"
 						:key="env.envId"
 						class="mb"
 					>
 						<draggable-card
-							disabled
+							:disabled="!isSelectingEnvironment"
 							footer
 							:data="env"
 							is-clickable
 							hide-details
 							class="flex-grow no-mb"
-							@change="setEnvironment(env, $event)"
 						>
 							<template #tagsLeft>
-								<tag-group position="left" :tags="getTypeTags(env)"/>
+								<tag-group position="left" :tags="getTypeTags(env)" />
 							</template>
 							<template #tagsRight>
-								<tag-group position="right" :tags="getArchiveTags(env)"/>
+								<tag-group position="right" :tags="getArchiveTags(env)" />
 							</template>
 						</draggable-card>
 						<div class="remove-resource-button text-right">
@@ -80,10 +85,10 @@
 						class="flex-grow no-mb"
 					>
 						<template #tagsLeft>
-							<tag-group position="left" :tags="getTypeTags(emptyImage)"/>
+							<tag-group position="left" :tags="getTypeTags(emptyImage)" />
 						</template>
 						<template #tagsRight>
-							<tag-group position="right" :tags="getArchiveTags(emptyImage)"/>
+							<tag-group position="right" :tags="getArchiveTags(emptyImage)" />
 						</template>
 					</draggable-card>
 				</draggable>
@@ -126,7 +131,7 @@
 							class="flex-grow no-mb"
 						>
 							<template #tagsLeft>
-								<tag-group position="left" :tags="getTypeTags(obj)"/>
+								<tag-group position="left" :tags="getTypeTags(obj)" />
 							</template>
 						</draggable-card>
 						<div class="remove-resource-button text-right">
@@ -191,6 +196,13 @@ export default class ResourceSideBar extends Vue {
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
 
+	@Sync('emulationProject/selectingResourceType')
+	selectingResourceType: ResourceType;
+
+	get isSelectingEnvironment() {
+		return this.selectingResourceType === resourceTypes.ENVIRONMENT && !this.environment;
+	}
+
 	get resourceLimit(): number {
 		if (this.constructedFromBaseEnvironment) {
 			return this.environment ? this.environment.drives.length : this.defaultDriveLimit;
@@ -198,7 +210,7 @@ export default class ResourceSideBar extends Vue {
 	}
 
 	@Get('emulationProject/projectEnvironments')
-	environments: IEnvironment[];
+	readonly environments: IEnvironment[];
 
 	@Get('emulationProject/projectObjects')
 	objects: IEaasiResource[];
@@ -326,8 +338,10 @@ export default class ResourceSideBar extends Vue {
 	}
 }
 
-.drag:not(.ghost) .remove-resource-button {
-	display: none;
+.rsb-environments {
+	.drag:not(.ghost) .remove-resource-button {
+		display: none;
+	}
 }
 
 .rsb-environments, .rsb-objects {
