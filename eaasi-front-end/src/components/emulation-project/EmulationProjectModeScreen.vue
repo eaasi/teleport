@@ -15,7 +15,7 @@
 					<div v-if="isSelectingEnvironment || !!environment" class="drop-zone-container">
 						<div v-if="!isEnvironmentSelected" class="placeholder"><span>Drag objects here to add</span></div>
 						<draggable
-							group="1"
+							group="environment"
 							:class="['drop-zone']"
 							handle=".drag-handler"
 							drag-class="drag"
@@ -53,6 +53,54 @@
 			</div>
 			<emulation-project-environment-metadata :environment="environment" />
 		</div>
+		<div class="emu-project-content padded" v-if="environment">
+			<div class="environment-selection-zone">
+				<h2>Object resource</h2>
+				<div class="selecting-action-button" v-if="selected.length === 0">
+					<ui-button @click="startSelectingObject" :disabled="isSelectingObject">Select Resource</ui-button>
+					<ui-button color-preset="light-blue" @click="resetSelectingObjectType" v-if="isSelectingObject">Cancel</ui-button>
+				</div>
+				<div class="emu-project-content-drop-zone">
+					<div v-if="isSelectingObject || selected.length !== 0" class="drop-zone-container">
+						<div v-if="!isObjectSelected" class="placeholder"><span>Drag objects here to add</span></div>
+						<draggable
+							group="object"
+							:class="['drop-zone']"
+							handle=".drag-handler"
+							drag-class="drag"
+							ghost-class="ghost"
+							:list="selected"
+							@change="updateObjectsList"
+						>
+							<div
+								v-for="object in selected"
+								:key="object.id"
+							>
+								<draggable-card
+									footer
+									:data="object"
+									is-clickable
+									hide-details
+									class="flex-grow no-mb"
+								>
+									<template #tagsLeft>
+										<tag-group position="left" :tags="getTypeTags(object)" />
+									</template>
+									<template #tagsRight>
+										<tag-group position="right" :tags="getArchiveTags(object)" />
+									</template>
+								</draggable-card>
+							</div>
+						</draggable>
+					</div>
+					<div class="clear-dropzone-btn text-right">
+						<a v-if="selected.length !== 0" class="clickable txt-sm" @click="clearObject"> Empty <span
+							class="fas fa-times"
+						></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -60,10 +108,10 @@
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 import {EmulationProjectMode} from '@/types/EmulationProject';
-import {Sync} from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
 import Draggable from 'vuedraggable';
-import {archiveTypes, resourceTypes, translatedIcon} from '@/utils/constants';
+import {archiveTypes, EMULATION_PROJECT_RESOURCE_TYPES, resourceTypes, translatedIcon} from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import EmulationProjectEnvironmentMetadata
@@ -84,13 +132,19 @@ export default class EmulationProjectModeScreen extends Vue {
 	mode: EmulationProjectMode;
 
 	@Sync('emulationProject/selectingResourceType')
-	selectingResourceType: ResourceType;
+	selectingResourceType: string;
 
 	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
 
+	@Sync('emulationProject/selectedResources')
+	selected: IEaasiResource[];
+
+	@Get('emulationProject/projectEnvironments')
+	readonly environments: IEnvironment[];
+
 	startSelectingEnvironment() {
-		this.selectingResourceType = resourceTypes.ENVIRONMENT;
+		this.selectingResourceType = EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT;
 	}
 
 	resetSelectingResourceType() {
@@ -99,11 +153,28 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	get isSelectingEnvironment() {
-		return this.selectingResourceType === resourceTypes.ENVIRONMENT;
+		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT;
 	}
 
 	get isEnvironmentSelected() {
 		return this.selectedEnvironment.length !== 0;
+	}
+
+	startSelectingObject() {
+		this.selectingResourceType = EMULATION_PROJECT_RESOURCE_TYPES.OBJECT;
+	}
+
+	resetSelectingObjectType() {
+		this.selectingResourceType = null;
+		this.selected = [];
+	}
+
+	get isSelectingObject() {
+		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.OBJECT;
+	}
+
+	get isObjectSelected() {
+		return this.selected.length !== 0;
 	}
 
 	getTypeTags(resource: IEaasiResource) {
@@ -141,13 +212,30 @@ export default class EmulationProjectModeScreen extends Vue {
 		if (evt.added) {
 			this.environment = new EmulationProjectEnvironment(evt.added.element);
 			this.selectingResourceType = null;
-			console.log(this.environment);
+		}
+	}
+
+	updateObjectsList(evt) {
+		if (evt.added) {
+			this.selected = [evt.added.element];
+			this.selectingResourceType = null;
 		}
 	}
 
 	clearEnvironment() {
 		this.environment = null;
 		this.selectedEnvironment = [];
+		this.selected = [];
+	}
+
+	clearObject() {
+		this.selected = [];
+	}
+
+	beforeMount() {
+		if (this.environment) {
+			this.selectedEnvironment = [this.environments.find(env => env.envId === this.environment.envId)];
+		}
 	}
 
 
@@ -157,6 +245,10 @@ export default class EmulationProjectModeScreen extends Vue {
 <style lang="scss">
 
 .emulation-project-mode-screen {
+	.emu-project-content {
+		margin-bottom: 2rem;
+	}
+
 	.back-link {
 		display: block;
 		cursor: pointer;

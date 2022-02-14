@@ -141,3 +141,8 @@ export const ACTION_TYPE = {
 	EDIT: 'Edit',
 	ADD: 'Add'
 };
+
+export const EMULATION_PROJECT_RESOURCE_TYPES = {
+	ENVIRONMENT: 'environment',
+	OBJECT: 'object'
+};
