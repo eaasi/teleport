@@ -1,6 +1,6 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle, { disabled } ]">
-		<div :class="['panel-left grip-lines', disabled ? '' : 'drag-handler']">
+		<div v-show="!hideGripLines" :class="['panel-left grip-lines', disabled ? '' : 'drag-handler']">
 			<span class="fas fa-grip-lines"></span>
 		</div>
 
@@ -66,6 +66,9 @@ export default class SelectableRadioCard extends Vue {
 
 	@Prop({ type: Boolean, default: false })
 	readonly disabled: boolean;
+
+	@Prop({ type: Boolean, default: false })
+	readonly hideGripLines: boolean;
 
 	/* Computed
 	============================================*/
