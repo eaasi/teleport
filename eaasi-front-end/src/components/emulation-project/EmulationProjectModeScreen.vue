@@ -33,6 +33,7 @@
 									is-clickable
 									hide-details
 									class="flex-grow no-mb"
+									hide-grip-lines
 								>
 									<template #tagsLeft>
 										<tag-group position="left" :tags="getTypeTags(env)" />
@@ -82,6 +83,7 @@
 									is-clickable
 									hide-details
 									class="flex-grow no-mb"
+									hide-grip-lines
 								>
 									<template #tagsLeft>
 										<tag-group position="left" :tags="getTypeTags(object)" />
@@ -182,20 +184,21 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	getArchiveTags(resource: IEaasiResource) {
+		const archive = resource.archive || resource.archiveId;
 		let tagGroup = [];
-		if (resource.archive === archiveTypes.PUBLIC) {
+		if (archive === archiveTypes.PUBLIC) {
 			tagGroup.push({
 				icon: translatedIcon('map-marker'),
 				color: 'green',
 				text: 'Saved Locally'
 			});
-		} else if (resource.archive === archiveTypes.REMOTE) {
+		} else if (archive === archiveTypes.REMOTE) {
 			tagGroup.push({
 				icon: 'fa-cloud',
 				color: 'white',
 				text: 'Remote'
 			});
-		} else if (resource.archive === archiveTypes.DEFAULT) {
+		} else if (archive === archiveTypes.DEFAULT) {
 			tagGroup.push({
 				color: 'yellow',
 				text: 'Local'
