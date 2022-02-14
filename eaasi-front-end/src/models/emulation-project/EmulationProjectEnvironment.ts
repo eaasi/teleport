@@ -29,6 +29,7 @@ export default class EmulationProjectEnvironment implements IEaasiResource {
     nativeConfig = '';
 
     constructor(environment: IEnvironment = null) {
+    	console.log(environment);
         if (environment) {
             this.setEnvironmentProperties(environment);
         }

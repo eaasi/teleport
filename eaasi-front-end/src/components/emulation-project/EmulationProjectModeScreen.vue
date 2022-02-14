@@ -5,48 +5,53 @@
 			Back to start
 		</a>
 		<div class="emu-project-content padded">
-			<h2>Environment resource</h2>
-			<div class="selecting-action-button" v-if="!environment">
-				<ui-button @click="startSelectingEnvironment" :disabled="isSelectingEnvironment">Select Environment</ui-button>
-				<ui-button color-preset="light-blue" @click="resetSelectingResourceType" v-if="isSelectingEnvironment">Cancel</ui-button>
-			</div>
-			<div class="emu-project-content-drop-zone">
-				<div v-if="isSelectingEnvironment || !!environment" class="drop-zone-container">
-					<div v-if="!isEnvironmentSelected" class="placeholder"><span>Drag objects here to add</span></div>
-					<draggable
-						group="1"
-						:class="['drop-zone']"
-						handle=".drag-handler"
-						drag-class="drag"
-						ghost-class="ghost"
-						:list="selectedEnvironment"
-						@change="updateEnvironmentList"
-					>
-						<div
-							v-for="env in selectedEnvironment"
-							:key="env.envId"
-						>
-							<draggable-card
-								footer
-								:data="env"
-								is-clickable
-								hide-details
-								class="flex-grow no-mb"
-							>
-								<template #tagsLeft>
-									<tag-group position="left" :tags="getTypeTags(env)" />
-								</template>
-								<template #tagsRight>
-									<tag-group position="right" :tags="getArchiveTags(env)" />
-								</template>
-							</draggable-card>
-						</div>
-					</draggable>
+			<div class="environment-selection-zone">
+				<h2>Environment resource</h2>
+				<div class="selecting-action-button" v-if="!environment">
+					<ui-button @click="startSelectingEnvironment" :disabled="isSelectingEnvironment">Select Environment</ui-button>
+					<ui-button color-preset="light-blue" @click="resetSelectingResourceType" v-if="isSelectingEnvironment">Cancel</ui-button>
 				</div>
-				<a v-if="!!environment" class="clickable txt-sm" @click="clearEnvironment"> Empty <span
-					class="fas fa-times"
-				></span></a>
+				<div class="emu-project-content-drop-zone">
+					<div v-if="isSelectingEnvironment || !!environment" class="drop-zone-container">
+						<div v-if="!isEnvironmentSelected" class="placeholder"><span>Drag objects here to add</span></div>
+						<draggable
+							group="1"
+							:class="['drop-zone']"
+							handle=".drag-handler"
+							drag-class="drag"
+							ghost-class="ghost"
+							:list="selectedEnvironment"
+							@change="updateEnvironmentList"
+						>
+							<div
+								v-for="env in selectedEnvironment"
+								:key="env.envId"
+							>
+								<draggable-card
+									footer
+									:data="env"
+									is-clickable
+									hide-details
+									class="flex-grow no-mb"
+								>
+									<template #tagsLeft>
+										<tag-group position="left" :tags="getTypeTags(env)" />
+									</template>
+									<template #tagsRight>
+										<tag-group position="right" :tags="getArchiveTags(env)" />
+									</template>
+								</draggable-card>
+							</div>
+						</draggable>
+					</div>
+					<div class="clear-dropzone-btn text-right">
+						<a v-if="!!environment" class="clickable txt-sm" @click="clearEnvironment"> Empty <span
+							class="fas fa-times"
+						></span></a>
+					</div>
+				</div>
 			</div>
+			<emulation-project-environment-metadata :environment="environment" />
 		</div>
 	</div>
 </template>
@@ -61,10 +66,13 @@ import Draggable from 'vuedraggable';
 import {archiveTypes, resourceTypes, translatedIcon} from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import EmulationProjectEnvironmentMetadata
+	from '@/components/emulation-project/environment/EmulationProjectEnvironmentMetadata.vue';
 
 @Component({
 	name: 'EmulationProjectModeScreen',
 	components: {
+		EmulationProjectEnvironmentMetadata,
 		Draggable
 	}
 })
@@ -133,6 +141,7 @@ export default class EmulationProjectModeScreen extends Vue {
 		if (evt.added) {
 			this.environment = new EmulationProjectEnvironment(evt.added.element);
 			this.selectingResourceType = null;
+			console.log(this.environment);
 		}
 	}
 
@@ -172,7 +181,7 @@ export default class EmulationProjectModeScreen extends Vue {
 		height: max-content;
 		border: 2px dashed lighten($dark-neutral, 80%);
 		border-radius: 0.5rem;
-		margin: 2rem 0;
+		margin: 2rem 0 0 0;
 		position: relative;
 
 		.placeholder {
@@ -200,6 +209,19 @@ export default class EmulationProjectModeScreen extends Vue {
 				display: none;
 			}
 		}
+	}
+
+	.clear-dropzone-btn {
+		padding: 2px 5px 0 5px;
+
+		a > span {
+			padding-left: 0.4rem;
+		}
+	}
+
+	.environment-selection-zone {
+		border: solid 2px lighten($dark-neutral, 80%);
+		padding: 1rem;
 	}
 }
 

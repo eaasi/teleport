@@ -128,9 +128,9 @@ hr {
 	padding: 0.5rem;
 
 	&.grip-lines {
-		display: flex;
 		align-items: center;
 		cursor: grab;
+		display: flex;
 
 		span {
 			color: lighten($dark-blue, 20%);
