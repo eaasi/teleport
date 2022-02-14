@@ -36,7 +36,7 @@
 					handle=".drag-handler"
 					drag-class="drag"
 					ghost-class="ghost"
-					:group="{name: '1', pull: 'clone'}"
+					:group="{name: 'environment', pull: 'clone'}"
 					:list="environments.filter(env => !environment || env.envId !== environment.envId)"
 				>
 					<div
@@ -100,7 +100,7 @@
 						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.CONTENT, resourceTypes.SOFTWARE])"
 					>
-						Clear All
+						Clear List
 					</a>
 				</div>
 				<!--<div class="rsb-alert-container">
@@ -115,19 +115,23 @@
 					</alert>
 				</div>-->
 
-				<draggable handle=".drag-handler" drag-class="drag" ghost-class="ghost">
+				<draggable
+					handle=".drag-handler"
+					drag-class="drag"
+					ghost-class="ghost"
+					:group="{name: 'object', pull: 'clone'}"
+					:list="objects.filter(object => !selected.find(item => item.id === object.id))"
+				>
 					<div
-						v-for="obj in objects"
+						v-for="obj in objects.filter(object => !selected.find(item => item.id === object.id))"
 						:key="obj.id"
 						class="mb"
 					>
 						<draggable-card
-							disabled
+							:disabled="!isSelectingObject"
 							footer
 							hide-details
 							:data="{ title: obj.title || obj.label }"
-							:value="isSelected(obj)"
-							@change="(e) => selectResource(obj, e)"
 							class="flex-grow no-mb"
 						>
 							<template #tagsLeft>
@@ -153,7 +157,13 @@ import {IEaasiTab} from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
 import {Get, Sync} from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
-import {resourceTypes, IResourceTypes, translatedIcon, archiveTypes} from '@/utils/constants';
+import {
+	resourceTypes,
+	IResourceTypes,
+	translatedIcon,
+	archiveTypes,
+	EMULATION_PROJECT_RESOURCE_TYPES
+} from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
@@ -197,10 +207,14 @@ export default class ResourceSideBar extends Vue {
 	constructedFromBaseEnvironment: boolean;
 
 	@Sync('emulationProject/selectingResourceType')
-	selectingResourceType: ResourceType;
+	selectingResourceType: string;
 
 	get isSelectingEnvironment() {
-		return this.selectingResourceType === resourceTypes.ENVIRONMENT && !this.environment;
+		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT && !this.environment;
+	}
+
+	get isSelectingObject() {
+		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.OBJECT && this.selected.length === 0;
 	}
 
 	get resourceLimit(): number {
