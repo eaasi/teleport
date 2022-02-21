@@ -4,105 +4,17 @@
 			<span class="fas fa-arrow-left"></span>
 			Back to start
 		</a>
-		<div class="emu-project-content padded">
-			<div class="environment-selection-zone">
-				<h2>Environment resource</h2>
-				<div class="selecting-action-button" v-if="!environment">
-					<ui-button @click="startSelectingEnvironment" :disabled="isSelectingEnvironment">Select Environment</ui-button>
-					<ui-button color-preset="light-blue" @click="resetSelectingResourceType" v-if="isSelectingEnvironment">Cancel</ui-button>
-				</div>
-				<div class="emu-project-content-drop-zone">
-					<div v-if="isSelectingEnvironment || !!environment" class="drop-zone-container">
-						<div v-if="!isEnvironmentSelected" class="placeholder"><span>Drag objects here to add</span></div>
-						<draggable
-							group="environment"
-							:class="['drop-zone']"
-							handle=".drag-handler"
-							drag-class="drag"
-							ghost-class="ghost"
-							:list="selectedEnvironment"
-							@change="updateEnvironmentList"
-						>
-							<div
-								v-for="env in selectedEnvironment"
-								:key="env.envId"
-							>
-								<draggable-card
-									footer
-									:data="env"
-									is-clickable
-									hide-details
-									class="flex-grow no-mb"
-									hide-grip-lines
-								>
-									<template #tagsLeft>
-										<tag-group position="left" :tags="getTypeTags(env)" />
-									</template>
-									<template #tagsRight>
-										<tag-group position="right" :tags="getArchiveTags(env)" />
-									</template>
-								</draggable-card>
-							</div>
-						</draggable>
-					</div>
-					<div class="clear-dropzone-btn text-right">
-						<a v-if="!!environment" class="clickable txt-sm" @click="clearEnvironment"> Empty <span
-							class="fas fa-times"
-						></span></a>
-					</div>
-				</div>
-			</div>
-			<emulation-project-environment-metadata :environment="environment" />
-		</div>
-		<div class="emu-project-content padded" v-if="environment">
-			<div class="environment-selection-zone">
-				<h2>Object resource</h2>
-				<div class="selecting-action-button" v-if="selected.length === 0">
-					<ui-button @click="startSelectingObject" :disabled="isSelectingObject">Select Resource</ui-button>
-					<ui-button color-preset="light-blue" @click="resetSelectingObjectType" v-if="isSelectingObject">Cancel</ui-button>
-				</div>
-				<div class="emu-project-content-drop-zone">
-					<div v-if="isSelectingObject || selected.length !== 0" class="drop-zone-container">
-						<div v-if="!isObjectSelected" class="placeholder"><span>Drag objects here to add</span></div>
-						<draggable
-							group="object"
-							:class="['drop-zone']"
-							handle=".drag-handler"
-							drag-class="drag"
-							ghost-class="ghost"
-							:list="selected"
-							@change="updateObjectsList"
-						>
-							<div
-								v-for="object in selected"
-								:key="object.id"
-							>
-								<draggable-card
-									footer
-									:data="object"
-									is-clickable
-									hide-details
-									class="flex-grow no-mb"
-									hide-grip-lines
-								>
-									<template #tagsLeft>
-										<tag-group position="left" :tags="getTypeTags(object)" />
-									</template>
-									<template #tagsRight>
-										<tag-group position="right" :tags="getArchiveTags(object)" />
-									</template>
-								</draggable-card>
-							</div>
-						</draggable>
-					</div>
-					<div class="clear-dropzone-btn text-right">
-						<a v-if="selected.length !== 0" class="clickable txt-sm" @click="clearObject"> Empty <span
-							class="fas fa-times"
-						></span></a>
-					</div>
-				</div>
-			</div>
-		</div>
+		<emulation-project-basic-mode-screen
+			v-if="isBasicMode"
+			:selecting-resource-type="selectingResourceType"
+			:environment="environment"
+			:selected="selected"
+			:environments="environments"
+			@set-selecting-resource-type="setSelectingResourceType"
+			@set-selected-resources="setSelectedResources"
+			@set-environment="setEnvironment"
+		/>
+		<emulation-project-advanced-mode-screen v-if="isAdvancedMode" />
 	</div>
 </template>
 
@@ -111,24 +23,24 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 import {EmulationProjectMode} from '@/types/EmulationProject';
 import {Get, Sync} from 'vuex-pathify';
-import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import Draggable from 'vuedraggable';
-import {archiveTypes, EMULATION_PROJECT_RESOURCE_TYPES, resourceTypes, translatedIcon} from '@/utils/constants';
-import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import EmulationProjectEnvironmentMetadata
-	from '@/components/emulation-project/environment/EmulationProjectEnvironmentMetadata.vue';
+	from '@/components/emulation-project/metadata/EmulationProjectEnvironmentMetadata.vue';
+import EmulationProjectBasicModeScreen from '@/components/emulation-project/EmulationProjectBasicModeScreen.vue';
+import EmulationProjectAdvancedModeScreen from '@/components/emulation-project/EmulationProjectAdvancedModeScreen.vue';
 
 @Component({
 	name: 'EmulationProjectModeScreen',
 	components: {
+		EmulationProjectAdvancedModeScreen,
+		EmulationProjectBasicModeScreen,
 		EmulationProjectEnvironmentMetadata,
 		Draggable
 	}
 })
 export default class EmulationProjectModeScreen extends Vue {
-
-	selectedEnvironment: IEnvironment[] = [];
 
 	@Prop({ type: String })
 	mode: EmulationProjectMode;
@@ -145,102 +57,29 @@ export default class EmulationProjectModeScreen extends Vue {
 	@Get('emulationProject/projectEnvironments')
 	readonly environments: IEnvironment[];
 
-	startSelectingEnvironment() {
-		this.selectingResourceType = EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT;
+	get isBasicMode() {
+		return this.mode === EmulationProjectMode.Basic;
 	}
 
-	resetSelectingResourceType() {
-		this.selectingResourceType = null;
-		this.selectedEnvironment = [];
+	get isAdvancedMode() {
+		return this.mode === EmulationProjectMode.Advanced;
 	}
 
-	get isSelectingEnvironment() {
-		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT;
+	setSelectingResourceType(type: string | null) {
+		this.selectingResourceType = type;
 	}
 
-	get isEnvironmentSelected() {
-		return this.selectedEnvironment.length !== 0;
+	setSelectedResources(resources: IEaasiResource[]) {
+		this.selected = resources;
 	}
 
-	startSelectingObject() {
-		this.selectingResourceType = EMULATION_PROJECT_RESOURCE_TYPES.OBJECT;
-	}
-
-	resetSelectingObjectType() {
-		this.selectingResourceType = null;
-		this.selected = [];
-	}
-
-	get isSelectingObject() {
-		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.OBJECT;
-	}
-
-	get isObjectSelected() {
-		return this.selected.length !== 0;
-	}
-
-	getTypeTags(resource: IEaasiResource) {
-		return getResourceTypeTags(resource);
-	}
-
-	getArchiveTags(resource: IEaasiResource) {
-		const archive = resource.archive || resource.archiveId;
-		let tagGroup = [];
-		if (archive === archiveTypes.PUBLIC) {
-			tagGroup.push({
-				icon: translatedIcon('map-marker'),
-				color: 'green',
-				text: 'Saved Locally'
-			});
-		} else if (archive === archiveTypes.REMOTE) {
-			tagGroup.push({
-				icon: 'fa-cloud',
-				color: 'white',
-				text: 'Remote'
-			});
-		} else if (archive === archiveTypes.DEFAULT) {
-			tagGroup.push({
-				color: 'yellow',
-				text: 'Local'
-			});
-		}
-		return tagGroup;
+	setEnvironment(environment: EmulationProjectEnvironment) {
+		this.environment = environment;
 	}
 
 	backToStart() {
 		this.$emit('reset');
 	}
-
-	updateEnvironmentList(evt) {
-		if (evt.added) {
-			this.environment = new EmulationProjectEnvironment(evt.added.element);
-			this.selectingResourceType = null;
-		}
-	}
-
-	updateObjectsList(evt) {
-		if (evt.added) {
-			this.selected = [evt.added.element];
-			this.selectingResourceType = null;
-		}
-	}
-
-	clearEnvironment() {
-		this.environment = null;
-		this.selectedEnvironment = [];
-		this.selected = [];
-	}
-
-	clearObject() {
-		this.selected = [];
-	}
-
-	beforeMount() {
-		if (this.environment) {
-			this.selectedEnvironment = [this.environments.find(env => env.envId === this.environment.envId)];
-		}
-	}
-
 
 }
 </script>
