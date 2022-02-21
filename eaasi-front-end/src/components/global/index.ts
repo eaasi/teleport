@@ -49,6 +49,7 @@ import UiNotification from './UiNotification.vue';
 import ViewHeader from './ViewHeader.vue';
 import DraggableCard from './DraggableCard/DraggableCard.vue';
 import SelectableTextCard from './SelectableCard/SelectableTextCard.vue';
+import TipsForSuccess from './TipsForSuccess.vue';
 
 /*============================================================
  == Vue Plugin
@@ -106,6 +107,7 @@ export default {
 		Vue.component('ViewHeader', ViewHeader);
 		Vue.component('DraggableCard', DraggableCard);
 		Vue.component('SelectableTextCard', SelectableTextCard);
+		Vue.component('TipsForSuccess', TipsForSuccess);
 	}
 };
 
