@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from './SoftwareResourcesWizard.vue';
@@ -200,7 +200,14 @@ export default class EmulationProjectOptions extends Vue {
 		this.environment = new EmulationProjectEnvironment(baseEnv);
 		this.createBaseEnvModal = false;
 		// mutate base env at this point
-		await this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		await this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+	}
+
+	@Watch('environment')
+	handleSelectedEnvironment(nextEnvironment: EmulationProjectEnvironment) {
+		if (nextEnvironment) {
+			this.selectBasicMode(true);
+		}
 	}
 
 }

@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import Draggable from 'vuedraggable';
 import {archiveTypes, EMULATION_PROJECT_RESOURCE_TYPES, translatedIcon} from '@/utils/constants';
@@ -225,6 +225,15 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 	beforeMount() {
 		if (this.environment) {
 			this.selectedEnvironment = [this.environments.find(env => env.envId === this.environment.envId)];
+		}
+	}
+
+	@Watch('environment')
+	setSelectedEnvironment(nextEnvironment: EmulationProjectEnvironment) {
+		if (nextEnvironment) {
+			this.selectedEnvironment = [this.environments.find(env => env.envId === nextEnvironment.envId)];
+		} else {
+			this.selectedEnvironment = [];
 		}
 	}
 
