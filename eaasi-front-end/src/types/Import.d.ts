@@ -44,7 +44,7 @@ export interface IImportObjectRequest {
  */
 export interface ICreateEnvironmentPayload {
 	nativeConfig: string;
-	driveSettings: IDriveSetting[];
+	driveSettings:  IDriveSetting[];
 	templateId: string;
 	operatingSystemId: string;
 	label: string;
