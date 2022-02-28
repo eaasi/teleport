@@ -286,7 +286,7 @@ export default class EmulationProjectDetails extends Vue {
 	init() {
 		if (this.environments.length === 1) {
 			this.environment = new EmulationProjectEnvironment(this.environments[0]);
-			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
 		if (!this.environment) {
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);

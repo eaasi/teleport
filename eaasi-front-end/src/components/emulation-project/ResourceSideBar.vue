@@ -308,7 +308,7 @@ export default class ResourceSideBar extends Vue {
 	setEnvironment(environment: IEnvironment, checked: boolean) {
 		if (checked) {
 			this.environment = new EmulationProjectEnvironment(environment);
-			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		} else {
 			this.environment = null;
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
