@@ -162,13 +162,14 @@ export default class EmulationProjectScreen extends Vue {
 	async init() {
 		this.showLoader = true;
 		await this.$store.dispatch('emulationProject/loadProject');
-		if (this.environments.length === 1) {
+		/*if (this.environments.length === 1) {
 			this.environment = new EmulationProjectEnvironment(this.environments[0]);
 			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 		}
 		if (!this.environment) {
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
-		}
+		}*/
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		this.showLoader = false;
 	}
 
