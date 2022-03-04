@@ -6,7 +6,7 @@
 
 		<div :class="['panel-right', selectStyle, { clickable: isClickable }]" @click="toggleSelected">
 			<div :class="['header', { mb: !data.content }]">
-				{{ data.title }}
+				{{ data.title || data.label }}
 			</div>
 
 			<div class="content" v-if="data.content">
