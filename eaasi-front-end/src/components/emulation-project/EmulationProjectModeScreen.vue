@@ -81,6 +81,7 @@ export default class EmulationProjectModeScreen extends Vue {
 		this.environment = null;
 		this.selected = [];
 		this.$emit('reset');
+		this.selectingResourceTypes = [];
 	}
 
 }
