@@ -16,7 +16,7 @@ import {EmulationProjectMode} from '@/types/EmulationProject';
 
 class EmulationProjectStore {
 	mode: EmulationProjectMode = null;
-	selectingResourceType: ResourceType = null;
+	selectingResourceTypes: ResourceType[] = [];
 	chosenTemplateId: string = '';
     createEnvironmentPayload: ICreateEnvironmentPayload = null;
 	environment: EmulationProjectEnvironment = null;

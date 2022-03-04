@@ -206,15 +206,15 @@ export default class ResourceSideBar extends Vue {
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
 
-	@Sync('emulationProject/selectingResourceType')
-	selectingResourceType: string;
+	@Sync('emulationProject/selectingResourceTypes')
+	selectingResourceTypes: string[];
 
 	get isSelectingEnvironment() {
-		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT && !this.environment;
+		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT) && !this.environment;
 	}
 
 	get isSelectingObject() {
-		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.OBJECT && this.selected.length === 0;
+		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.OBJECT) && this.selected.length === 0;
 	}
 
 	get resourceLimit(): number {
