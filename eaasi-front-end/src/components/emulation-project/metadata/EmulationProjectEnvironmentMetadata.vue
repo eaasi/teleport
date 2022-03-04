@@ -34,25 +34,9 @@ export default class EmulationProjectEnvironmentMetadata extends Vue {
 	get devicesMetadata() {
 		return [
 			{
-				label: 'Audio Device',
-				value: '-',
+				label: 'Emulator Configuration',
+				value: this.environment.nativeConfig || '-',
 				property: 'audioDevice',
-				readonly: true,
-				editType: 'text-input',
-				changed: false
-			},
-			{
-				label: 'Network Device',
-				value: '-',
-				property: 'id',
-				readonly: true,
-				editType: 'text-input',
-				changed: false
-			},
-			{
-				label: 'GPU Device',
-				value: '-',
-				property: 'id',
 				readonly: true,
 				editType: 'text-input',
 				changed: false
