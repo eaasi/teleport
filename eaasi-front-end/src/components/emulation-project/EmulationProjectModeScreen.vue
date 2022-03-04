@@ -6,11 +6,11 @@
 		</a>
 		<emulation-project-basic-mode-screen
 			v-if="isBasicMode"
-			:selecting-resource-type="selectingResourceType"
+			:selecting-resource-types="selectingResourceTypes"
 			:environment="environment"
 			:selected="selected"
 			:environments="environments"
-			@set-selecting-resource-type="setSelectingResourceType"
+			@set-selecting-resource-types="setSelectingResourceTypes"
 			@set-selected-resources="setSelectedResources"
 			@set-environment="setEnvironment"
 		/>
@@ -45,8 +45,8 @@ export default class EmulationProjectModeScreen extends Vue {
 	@Prop({ type: String })
 	mode: EmulationProjectMode;
 
-	@Sync('emulationProject/selectingResourceType')
-	selectingResourceType: string;
+	@Sync('emulationProject/selectingResourceTypes')
+	selectingResourceTypes: string[];
 
 	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
@@ -65,8 +65,8 @@ export default class EmulationProjectModeScreen extends Vue {
 		return this.mode === EmulationProjectMode.Advanced;
 	}
 
-	setSelectingResourceType(type: string | null) {
-		this.selectingResourceType = type;
+	setSelectingResourceTypes(types: string[]) {
+		this.selectingResourceTypes = types;
 	}
 
 	setSelectedResources(resources: IEaasiResource[]) {
@@ -117,7 +117,6 @@ export default class EmulationProjectModeScreen extends Vue {
 		height: max-content;
 		border: 2px dashed lighten($dark-neutral, 80%);
 		border-radius: 0.5rem;
-		margin: 2rem 0 0 0;
 		position: relative;
 
 		.placeholder {
@@ -156,8 +155,16 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.environment-selection-zone {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
 		border: solid 2px lighten($dark-neutral, 80%);
-		padding: 1rem;
+		padding: 1.5rem 1rem;
+	}
+
+	.environment-selection-controls {
+		width: 385px;
+		margin-bottom: 1rem;
 	}
 }
 

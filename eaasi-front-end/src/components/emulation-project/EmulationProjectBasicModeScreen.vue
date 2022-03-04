@@ -2,10 +2,12 @@
 	<div class="emulation-project-basic-mode-screen">
 		<div class="emu-project-content padded">
 			<div class="environment-selection-zone">
-				<h2>Environment resource</h2>
-				<div class="selecting-action-button" v-if="!environment">
-					<ui-button @click="startSelectingEnvironment" :disabled="isSelectingEnvironment">Select Environment</ui-button>
-					<ui-button color-preset="light-blue" @click="resetSelectingResourceType" v-if="isSelectingEnvironment">Cancel</ui-button>
+				<div class="environment-selection-controls">
+					<h2>Environment resource</h2>
+					<div class="selecting-action-button" v-if="!environment">
+						<ui-button @click="startSelectingEnvironment" :disabled="isSelectingEnvironment">Select Environment</ui-button>
+						<ui-button color-preset="light-blue" @click="resetSelectingEnvironmentType" v-if="isSelectingEnvironment">Cancel</ui-button>
+					</div>
 				</div>
 				<div class="emu-project-content-drop-zone">
 					<div v-if="isSelectingEnvironment || !!environment" class="drop-zone-container">
@@ -50,12 +52,14 @@
 			</div>
 			<emulation-project-environment-metadata :environment="environment" />
 		</div>
-		<div class="emu-project-content padded" v-if="environment">
+		<div class="emu-project-content padded">
 			<div class="environment-selection-zone">
-				<h2>Object resource</h2>
-				<div class="selecting-action-button" v-if="selected.length === 0">
-					<ui-button @click="startSelectingObject" :disabled="isSelectingObject">Select Resource</ui-button>
-					<ui-button color-preset="light-blue" @click="resetSelectingObjectType" v-if="isSelectingObject">Cancel</ui-button>
+				<div class="environment-selection-controls">
+					<h2>Object resource</h2>
+					<div class="selecting-action-button" v-if="selected.length === 0">
+						<ui-button @click="startSelectingObject" :disabled="isSelectingObject">Select Resource</ui-button>
+						<ui-button color-preset="light-blue" @click="resetSelectingObjectType" v-if="isSelectingObject">Cancel</ui-button>
+					</div>
 				</div>
 				<div class="emu-project-content-drop-zone">
 					<div v-if="isSelectingObject || selected.length !== 0" class="drop-zone-container">
@@ -112,6 +116,7 @@ import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import EmulationProjectEnvironmentMetadata
 	from '@/components/emulation-project/metadata/EmulationProjectEnvironmentMetadata.vue';
+import _ from 'lodash';
 
 @Component({
 	name: 'EmulationProjectBasicModeScreen',
@@ -124,8 +129,8 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 
 	selectedEnvironment: IEnvironment[] = [];
 
-	@Prop({ type: String })
-	selectingResourceType: string;
+	@Prop({ type: Array })
+	selectingResourceTypes: string[];
 
 	@Prop()
 	environment: EmulationProjectEnvironment;
@@ -137,16 +142,16 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 	readonly environments: IEnvironment[];
 
 	startSelectingEnvironment() {
-		this.$emit('set-selecting-resource-type', EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT);
+		this.$emit('set-selecting-resource-types', _.uniq([...this.selectingResourceTypes, EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT]));
 	}
 
-	resetSelectingResourceType() {
-		this.$emit('set-selecting-resource-type', null);
+	resetSelectingEnvironmentType() {
+		this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT));
 		this.selectedEnvironment = [];
 	}
 
 	get isSelectingEnvironment() {
-		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT;
+		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT);
 	}
 
 	get isEnvironmentSelected() {
@@ -154,16 +159,16 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 	}
 
 	startSelectingObject() {
-		this.$emit('set-selecting-resource-type', EMULATION_PROJECT_RESOURCE_TYPES.OBJECT);
+		this.$emit('set-selecting-resource-types', _.uniq([...this.selectingResourceTypes, EMULATION_PROJECT_RESOURCE_TYPES.OBJECT]));
 	}
 
 	resetSelectingObjectType() {
-		this.$emit('set-selecting-resource-type', null);
+		this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.OBJECT));
 		this.$emit('set-selected-resources', []);
 	}
 
 	get isSelectingObject() {
-		return this.selectingResourceType === EMULATION_PROJECT_RESOURCE_TYPES.OBJECT;
+		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.OBJECT);
 	}
 
 	get isObjectSelected() {
@@ -201,21 +206,20 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 	updateEnvironmentList(evt) {
 		if (evt.added) {
 			this.$emit('set-environment', new EmulationProjectEnvironment(evt.added.element));
-			this.$emit('set-selecting-resource-type', null);
+			this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT));
 		}
 	}
 
 	updateObjectsList(evt) {
 		if (evt.added) {
 			this.$emit('set-selected-resources', [evt.added.element]);
-			this.$emit('set-selecting-resource-type', null);
+			this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.OBJECT));
 		}
 	}
 
 	clearEnvironment() {
 		this.$emit('set-environment', null);
 		this.selectedEnvironment = [];
-		this.$emit('set-selected-resources', []);
 	}
 
 	clearObject() {
