@@ -77,6 +77,7 @@
 				</div>
 				<draggable handle=".drag-handler" drag-class="drag" ghost-class="ghost">
 					<draggable-card
+						:group="{name: 'object', pull: 'clone'}"
 						disabled
 						footer
 						:data="emptyImage"
@@ -103,32 +104,21 @@
 						Clear List
 					</a>
 				</div>
-				<!--<div class="rsb-alert-container">
-					<alert
-						no-icon
-						type="info"
-						style="margin-bottom: 1rem;"
-						v-if="resourceLimit === 1"
-					>
-						Only one object type can be emulated <br/>
-						at a time - content or software
-					</alert>
-				</div>-->
 
 				<draggable
 					handle=".drag-handler"
 					drag-class="drag"
 					ghost-class="ghost"
 					:group="{name: 'object', pull: 'clone'}"
-					:list="objects.filter(object => !selected.find(item => item.id === object.id))"
+					:list="objects.filter(object => !selected.find(item => item.id === object.id) && !isResourceSelectedForDrive(object.id))"
 				>
 					<div
-						v-for="obj in objects.filter(object => !selected.find(item => item.id === object.id))"
+						v-for="obj in objects.filter(object => !selected.find(item => item.id === object.id) && !isResourceSelectedForDrive(object.id))"
 						:key="obj.id"
 						class="mb"
 					>
 						<draggable-card
-							:disabled="!isSelectingObject"
+							:disabled="!isSelectingObject(obj.resourceType)"
 							footer
 							hide-details
 							:data="{ title: obj.title || obj.label }"
@@ -162,7 +152,6 @@ import {
 	IResourceTypes,
 	translatedIcon,
 	archiveTypes,
-	EMULATION_PROJECT_RESOURCE_TYPES
 } from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
@@ -173,6 +162,7 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 import DraggableCard from '@/components/global/DraggableCard/DraggableCard.vue';
 import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
 import Draggable from 'vuedraggable';
+import _ from 'lodash';
 
 @Component({
 	name: 'ResourceSideBar',
@@ -207,14 +197,44 @@ export default class ResourceSideBar extends Vue {
 	constructedFromBaseEnvironment: boolean;
 
 	@Sync('emulationProject/selectingResourceTypes')
-	selectingResourceTypes: string[];
+	selectingResourceTypes: ResourceType[];
+
+	@Get('emulationProject/selectedResourcesPerDrive')
+	selectedResourcesPerDrive: IEaasiResource[][];
 
 	get isSelectingEnvironment() {
-		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT) && !this.environment;
+		return this.selectingResourceTypes.includes(resourceTypes.ENVIRONMENT) && !this.environment;
 	}
 
-	get isSelectingObject() {
-		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.OBJECT) && this.selected.length === 0;
+	get isSelectingSoftware() {
+		return this.selectingResourceTypes.includes(resourceTypes.SOFTWARE);
+	}
+
+	get isSelectingContent() {
+		return this.selectingResourceTypes.includes(resourceTypes.CONTENT);
+	}
+
+	get isSelectingImage() {
+		return this.selectingResourceTypes.includes(resourceTypes.IMAGE);
+	}
+
+	isSelectingObject(type: ResourceType) {
+		switch (type) {
+			case 'Content':
+				return this.isSelectingContent;
+			case 'Software':
+				return this.isSelectingSoftware;
+			case 'Environment':
+				return this.isSelectingEnvironment;
+			case 'Image':
+				return this.isSelectingImage;
+			default:
+				return false;
+		}
+	}
+
+	isResourceSelectedForDrive(id: string) {
+		return _.flatten(this.selectedResourcesPerDrive).some(resource => resource.id === id);
 	}
 
 	get resourceLimit(): number {

@@ -4,16 +4,7 @@
 			<span class="fas fa-arrow-left"></span>
 			Back to start
 		</a>
-		<emulation-project-basic-mode-screen
-			v-if="isBasicMode"
-			:selecting-resource-types="selectingResourceTypes"
-			:environment="environment"
-			:selected="selected"
-			:environments="environments"
-			@set-selecting-resource-types="setSelectingResourceTypes"
-			@set-selected-resources="setSelectedResources"
-			@set-environment="setEnvironment"
-		/>
+		<emulation-project-basic-mode-screen v-if="isBasicMode" />
 		<emulation-project-advanced-mode-screen v-if="isAdvancedMode" />
 	</div>
 </template>
@@ -30,6 +21,7 @@ import EmulationProjectEnvironmentMetadata
 	from '@/components/emulation-project/metadata/EmulationProjectEnvironmentMetadata.vue';
 import EmulationProjectBasicModeScreen from '@/components/emulation-project/EmulationProjectBasicModeScreen.vue';
 import EmulationProjectAdvancedModeScreen from '@/components/emulation-project/EmulationProjectAdvancedModeScreen.vue';
+import {ICreateEnvironmentPayload} from '@/types/Import';
 
 @Component({
 	name: 'EmulationProjectModeScreen',
@@ -54,6 +46,15 @@ export default class EmulationProjectModeScreen extends Vue {
 	@Sync('emulationProject/selectedResources')
 	selected: IEaasiResource[];
 
+	@Sync('emulationProject/selectedResourcesPerDrive')
+	selectedResourcesPerDrive: IEaasiResource[][];
+
+	@Sync('emulationProject/selectedTemplateId')
+	selectedTemplateId: string;
+
+	@Sync('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
+
 	@Get('emulationProject/projectEnvironments')
 	readonly environments: IEnvironment[];
 
@@ -65,7 +66,7 @@ export default class EmulationProjectModeScreen extends Vue {
 		return this.mode === EmulationProjectMode.Advanced;
 	}
 
-	setSelectingResourceTypes(types: string[]) {
+	setSelectingResourceTypes(types: ResponseType[]) {
 		this.selectingResourceTypes = types;
 	}
 
@@ -82,6 +83,9 @@ export default class EmulationProjectModeScreen extends Vue {
 		this.selected = [];
 		this.$emit('reset');
 		this.selectingResourceTypes = [];
+		this.createEnvironmentPayload = null;
+		this.selectedTemplateId = null;
+		this.selectedResourcesPerDrive = [];
 	}
 
 }
