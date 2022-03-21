@@ -34,25 +34,9 @@ export default class EmulationProjectHardwareMetadata extends Vue {
 	get devicesMetadata() {
 		return [
 			{
-				label: 'Audio Device',
-				value: '-',
+				label: 'Emulator Configuration',
+				value: this.template?.nativeConfig?.value || '-',
 				property: 'audioDevice',
-				readonly: true,
-				editType: 'text-input',
-				changed: false
-			},
-			{
-				label: 'Network Device',
-				value: '-',
-				property: 'id',
-				readonly: true,
-				editType: 'text-input',
-				changed: false
-			},
-			{
-				label: 'GPU Device',
-				value: '-',
-				property: 'id',
 				readonly: true,
 				editType: 'text-input',
 				changed: false
@@ -65,22 +49,6 @@ export default class EmulationProjectHardwareMetadata extends Vue {
 			{
 				label: 'Emulator',
 				value: this.template.emulator?.bean || '-',
-				property: 'id',
-				readonly: true,
-				editType: 'text-input',
-				changed: false
-			},
-			{
-				label: 'CPU Cores',
-				value: '-',
-				property: 'id',
-				readonly: true,
-				editType: 'text-input',
-				changed: false
-			},
-			{
-				label: 'Memory',
-				value: '-',
 				property: 'id',
 				readonly: true,
 				editType: 'text-input',
