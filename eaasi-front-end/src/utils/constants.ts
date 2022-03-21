@@ -141,7 +141,8 @@ export const ACTION_TYPE = {
 	ADD: 'Add'
 };
 
-export const EMULATION_PROJECT_RESOURCE_TYPES = {
-	ENVIRONMENT: 'environment',
-	OBJECT: 'object'
+export const AVAILABLE_RESOURCES_BY_DISK_TYPE = {
+	disk: [resourceTypes.IMAGE],
+	floppy: [resourceTypes.IMAGE, resourceTypes.SOFTWARE, resourceTypes.CONTENT],
+	cdrom: [resourceTypes.SOFTWARE, resourceTypes.CONTENT],
 };

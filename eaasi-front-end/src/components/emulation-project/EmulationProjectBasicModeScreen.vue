@@ -108,15 +108,16 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop, Watch} from 'vue-property-decorator';
-import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {Component, Watch} from 'vue-property-decorator';
+import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
 import Draggable from 'vuedraggable';
-import {archiveTypes, EMULATION_PROJECT_RESOURCE_TYPES, translatedIcon} from '@/utils/constants';
+import {archiveTypes, resourceTypes, translatedIcon} from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import EmulationProjectEnvironmentMetadata
 	from '@/components/emulation-project/metadata/EmulationProjectEnvironmentMetadata.vue';
 import _ from 'lodash';
+import {Get, Sync} from 'vuex-pathify';
 
 @Component({
 	name: 'EmulationProjectBasicModeScreen',
@@ -129,29 +130,29 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 
 	selectedEnvironment: IEnvironment[] = [];
 
-	@Prop({ type: Array })
-	selectingResourceTypes: string[];
+	@Sync('emulationProject/selectingResourceTypes')
+	selectingResourceTypes: ResourceType[];
 
-	@Prop()
+	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
 
-	@Prop()
+	@Sync('emulationProject/selectedResources')
 	selected: IEaasiResource[];
 
-	@Prop()
+	@Get('emulationProject/projectEnvironments')
 	readonly environments: IEnvironment[];
 
 	startSelectingEnvironment() {
-		this.$emit('set-selecting-resource-types', _.uniq([...this.selectingResourceTypes, EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT]));
+		this.selectingResourceTypes = _.uniq([...this.selectingResourceTypes, resourceTypes.ENVIRONMENT]);
 	}
 
 	resetSelectingEnvironmentType() {
-		this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT));
+		this.selectingResourceTypes = _.filter(this.selectingResourceTypes, type => type !== resourceTypes.ENVIRONMENT);
 		this.selectedEnvironment = [];
 	}
 
 	get isSelectingEnvironment() {
-		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT);
+		return this.selectingResourceTypes.includes(resourceTypes.ENVIRONMENT);
 	}
 
 	get isEnvironmentSelected() {
@@ -159,16 +160,16 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 	}
 
 	startSelectingObject() {
-		this.$emit('set-selecting-resource-types', _.uniq([...this.selectingResourceTypes, EMULATION_PROJECT_RESOURCE_TYPES.OBJECT]));
+		this.selectingResourceTypes = _.uniq([...this.selectingResourceTypes, resourceTypes.CONTENT, resourceTypes.SOFTWARE]);
 	}
 
 	resetSelectingObjectType() {
-		this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.OBJECT));
-		this.$emit('set-selected-resources', []);
+		this.selectingResourceTypes = _.filter(this.selectingResourceTypes, type => type !== resourceTypes.CONTENT && type !== resourceTypes.SOFTWARE);
+		this.selected = [];
 	}
 
 	get isSelectingObject() {
-		return this.selectingResourceTypes.includes(EMULATION_PROJECT_RESOURCE_TYPES.OBJECT);
+		return this.selectingResourceTypes.includes(resourceTypes.CONTENT) || this.selectingResourceTypes.includes(resourceTypes.SOFTWARE);
 	}
 
 	get isObjectSelected() {
@@ -205,25 +206,25 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 
 	updateEnvironmentList(evt) {
 		if (evt.added) {
-			this.$emit('set-environment', new EmulationProjectEnvironment(evt.added.element));
-			this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.ENVIRONMENT));
+			this.environment = new EmulationProjectEnvironment(evt.added.element);
+			this.selectingResourceTypes = _.filter(this.selectingResourceTypes, type => type !== resourceTypes.ENVIRONMENT);
 		}
 	}
 
 	updateObjectsList(evt) {
 		if (evt.added) {
-			this.$emit('set-selected-resources', [evt.added.element]);
-			this.$emit('set-selecting-resource-types', _.filter(this.selectingResourceTypes, type => type !== EMULATION_PROJECT_RESOURCE_TYPES.OBJECT));
+			this.selected = [evt.added.element];
+			this.selectingResourceTypes = _.filter(this.selectingResourceTypes, type => type !== resourceTypes.CONTENT && type !== resourceTypes.SOFTWARE);
 		}
 	}
 
 	clearEnvironment() {
-		this.$emit('set-environment', null);
+		this.environment = null;
 		this.selectedEnvironment = [];
 	}
 
 	clearObject() {
-		this.$emit('set-selected-resources', []);
+		this.selected = [];
 	}
 
 	beforeMount() {
