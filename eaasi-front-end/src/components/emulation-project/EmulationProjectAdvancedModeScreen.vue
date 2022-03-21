@@ -27,24 +27,25 @@
 			<div v-for="driveSetting in driveSettings" :key="driveSetting.driveIndex">
 				<div class="disk-select-card">
 					<div class="disk-label">{{ getDiskLabel(driveSetting.drive.type) }}</div>
-					<div class="selecting-action-button" v-if="!driveSetting.imageId && !driveSetting.objectId">
-						<ui-button @click="startSelectingResource(driveSetting.driveIndex)" :disabled="selectingResourceForDiskIndex === driveSetting.driveIndex">Select Resource</ui-button>
-						<ui-button color-preset="light-blue" @click="stopSelectingResource" v-if="selectingResourceForDiskIndex === driveSetting.driveIndex">Cancel</ui-button>
+					<div class="selecting-action-button" v-if="!isResourceSelected(driveSetting)">
+						<ui-button @click="startSelectingResource(driveSetting)" :disabled="!isSelectionAvailable(driveSetting) || selectingResourceForDiskIndex === driveSetting.driveIndex">Select Resource</ui-button>
+						<ui-button color-preset="light-blue" @click="stopSelectingResource(driveSetting)" v-if="selectingResourceForDiskIndex === driveSetting.driveIndex">Cancel</ui-button>
+						<div class="disk-select-note" v-if="!isSelectionAvailable(driveSetting)">No matching resources for this drive.</div>
 					</div>
 					<div class="emu-project-content-drop-zone">
-						<div v-if="selectingResourceForDiskIndex === driveSetting.driveIndex || driveSetting.imageId || driveSetting.objectId" class="drop-zone-container">
-							<div v-if="!driveSetting.imageId && !driveSetting.objectId" class="placeholder"><span>Drag objects here to add</span></div>
+						<div v-if="isSelectionAvailable(driveSetting) && isDropzoneVisible(driveSetting)" class="drop-zone-container">
+							<div v-if="!isResourceSelected(driveSetting)" class="placeholder"><span>Drag objects here to add</span></div>
 							<draggable
-								group="object"
+								:group="{name: 'object', push: 'clone'}"
 								:class="['drop-zone']"
 								handle=".drag-handler"
 								drag-class="drag"
 								ghost-class="ghost"
-								:list="selected"
+								:list="selectedResourcesPerDrive[driveSetting.driveIndex]"
 								@change="updateObjectsList"
 							>
 								<div
-									v-for="object in selected"
+									v-for="object in selectedResourcesPerDrive[driveSetting.driveIndex]"
 									:key="object.id"
 								>
 									<draggable-card
@@ -65,11 +66,17 @@
 								</div>
 							</draggable>
 						</div>
+						<div class="clear-dropzone-btn text-right">
+							<a v-if="isResourceSelected(driveSetting)" class="clickable txt-sm" @click="clearObject(driveSetting)"> Empty <span
+								class="fas fa-times"
+							></span></a>
+						</div>
 					</div>
 					<div class="boot-drive-checkbox">
 						<checkbox
 							label="Boot Drive"
 							v-model="driveSetting.bootDrive"
+							:disabled="!isSelectionAvailable(driveSetting)"
 						/>
 					</div>
 				</div>
@@ -81,13 +88,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import {Sync} from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import {ICreateEnvironmentPayload, ITemplate} from '@/types/Import';
 import EmulationProjectHardwareMetadata
 	from '@/components/emulation-project/metadata/EmulationProjectHardwareMetadata.vue';
-import {IDriveSetting} from '@/types/Resource';
+import {IDriveSetting, IEaasiResource, ResourceType} from '@/types/Resource';
 import Checkbox from '@/components/global/forms/Checkbox.vue';
 import Draggable from 'vuedraggable';
+import _ from 'lodash';
+import {archiveTypes, AVAILABLE_RESOURCES_BY_DISK_TYPE, resourceTypes, translatedIcon} from '@/utils/constants';
+import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 
 @Component({
 	name: 'EmulationProjectAdvancedModeScreen',
@@ -99,9 +109,13 @@ import Draggable from 'vuedraggable';
 })
 export default class EmulationProjectAdvancedModeScreen extends Vue {
 
-	selectedTemplateId: string = null;
+	@Sync('emulationProject/selectedTemplateId')
+	selectedTemplateId: string;
 
 	selectingResourceForDiskIndex: number = -1;
+
+	@Sync('emulationProject/selectedResourcesPerDrive')
+	selectedResourcesPerDrive: IEaasiResource[][];
 
 	@Sync('resource/availableTemplates')
 	availableTemplates: ITemplate[];
@@ -112,8 +126,30 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 	@Sync('emulationProject/createEnvironmentPayload@driveSettings')
 	driveSettings: IDriveSetting[];
 
+	@Sync('emulationProject/selectingResourceTypes')
+	selectingResourceTypes: ResourceType[];
+
+	@Get('emulationProject/projectObjects')
+	objects: IEaasiResource[];
+
 	get selectedTemplate() {
 		return this.availableTemplates.find(template => template.id === this.selectedTemplateId);
+	}
+
+	isDropzoneVisible(driveSetting: IDriveSetting) {
+		return this.selectingResourceForDiskIndex === driveSetting.driveIndex || this.isResourceSelected(driveSetting);
+	}
+
+	isResourceSelected(driveSetting: IDriveSetting) {
+		return !_.isEmpty(this.selectedResourcesPerDrive[driveSetting.driveIndex]);
+	}
+
+	isSelectionAvailable(driveSetting: IDriveSetting) {
+		try {
+			return this.objects.some(object => AVAILABLE_RESOURCES_BY_DISK_TYPE[driveSetting.drive.type].includes(object.resourceType));
+		} catch (e) {
+			return false;
+		}
 	}
 
 	getDiskLabel(type: string) {
@@ -129,12 +165,14 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 		}
 	}
 
-	startSelectingResource(index: number) {
-		this.selectingResourceForDiskIndex = index;
+	startSelectingResource(driveSetting: IDriveSetting) {
+		this.selectingResourceForDiskIndex = driveSetting.driveIndex;
+		this.selectingResourceTypes = _.uniq([...this.selectingResourceTypes, ...AVAILABLE_RESOURCES_BY_DISK_TYPE[driveSetting.drive.type]]);
 	}
 
-	stopSelectingResource() {
+	stopSelectingResource(driveSetting: IDriveSetting) {
 		this.selectingResourceForDiskIndex = -1;
+		this.selectingResourceTypes = _.filter(this.selectingResourceTypes, type => !AVAILABLE_RESOURCES_BY_DISK_TYPE[driveSetting.drive.type].includes(type));
 	}
 
 	selectTemplate(template: string) {
@@ -147,18 +185,48 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 			label: this.selectedTemplate?.description.title,
 		};
 		this.selectingResourceForDiskIndex = -1;
+		this.selectedResourcesPerDrive = this.selectedTemplate?.drive.map(() => []);
 	}
 
-	updateObjectsList() {
-
+	updateObjectsList(evt) {
+		if (evt.added) {
+			this.selectedResourcesPerDrive[this.selectingResourceForDiskIndex] = [evt.added.element];
+			this.selectingResourceTypes = _.filter(this.selectingResourceTypes, type =>
+				!AVAILABLE_RESOURCES_BY_DISK_TYPE[this.driveSettings[this.selectingResourceForDiskIndex].drive.type].includes(type));
+			this.selectingResourceForDiskIndex = -1;
+		}
 	}
 
-	getTypeTags() {
-
+	getTypeTags(resource: IEaasiResource) {
+		return getResourceTypeTags(resource);
 	}
 
-	getArchiveTags() {
+	getArchiveTags(resource: IEaasiResource) {
+		const archive = resource.archive || resource.archiveId;
+		let tagGroup = [];
+		if (archive === archiveTypes.PUBLIC) {
+			tagGroup.push({
+				icon: translatedIcon('map-marker'),
+				color: 'green',
+				text: 'Saved Locally'
+			});
+		} else if (archive === archiveTypes.REMOTE) {
+			tagGroup.push({
+				icon: 'fa-cloud',
+				color: 'white',
+				text: 'Remote'
+			});
+		} else if (archive === archiveTypes.DEFAULT) {
+			tagGroup.push({
+				color: 'yellow',
+				text: 'Local'
+			});
+		}
+		return tagGroup;
+	}
 
+	clearObject(driveSetting: IDriveSetting) {
+		this.selectedResourcesPerDrive = this.selectedResourcesPerDrive.map((resources, index) => index === driveSetting.driveIndex ? [] : resources);
 	}
 
 	async init() {
@@ -198,6 +266,13 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 	.boot-drive-checkbox {
 		width: max-content;
 	}
+}
+
+.disk-select-note {
+	display: flex;
+	align-items: center;
+	border-left: solid 2px $dark-neutral;
+	padding-left: 1rem;
 }
 
 </style>

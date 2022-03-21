@@ -24,6 +24,8 @@ class EmulationProjectStore {
 	projectResources: IEaasiResource[] = [];
 	selectedResources: IEaasiResource[] = [];
     selectedSoftwareId: string = null;
+	selectedResourcesPerDrive: IEaasiResource[][] = [];
+	selectedTemplateId: string = null;
 }
 
 const state = new EmulationProjectStore();
