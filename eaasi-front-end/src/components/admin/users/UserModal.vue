@@ -15,9 +15,9 @@
 						label="Organization Email"
 						rules="required|email"
 						class="col-md-6"
+						required
 					/>
 				</div>
-
 				<div class="row">
 					<text-input
 						v-model="user.username"
@@ -25,19 +25,18 @@
 						rules="required"
 						class="col-md-6"
 						:disabled="!isNew"
+						required
 					/>
 				</div>
 				<div class="name-fields row">
 					<text-input
 						v-model="user.firstName"
 						label="First Name"
-						rules="required"
 						class="col-md-6"
 					/>
 					<text-input
 						v-model="user.lastName"
 						label="Last Name"
-						rules="required"
 						class="col-md-6"
 					/>
 				</div>
