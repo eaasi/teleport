@@ -22,7 +22,7 @@
 						</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
+						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run project</ui-button>
 					</div>
 				</div>
 			</div>
@@ -162,13 +162,14 @@ export default class EmulationProjectScreen extends Vue {
 	async init() {
 		this.showLoader = true;
 		await this.$store.dispatch('emulationProject/loadProject');
-		if (this.environments.length === 1) {
+		/*if (this.environments.length === 1) {
 			this.environment = new EmulationProjectEnvironment(this.environments[0]);
 			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 		}
 		if (!this.environment) {
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
-		}
+		}*/
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		this.showLoader = false;
 	}
 
@@ -216,7 +217,7 @@ export default class EmulationProjectScreen extends Vue {
 	.emulation-project-page-heading {
 		background: lighten($light-neutral, 80%);
 		border-bottom: solid 3px lighten($light-neutral, 10%);
-		padding: 3rem 3rem 1rem;
+		padding: 3rem 1.8rem;
 		.emulation-project-page-title {
 			padding-bottom: 3px;
 		}
@@ -235,11 +236,8 @@ export default class EmulationProjectScreen extends Vue {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		padding: 2rem;
-	}
-
-	.emu-project-action {
-		margin: 0 1.2rem;
+		gap: 1.8rem;
+		margin-left: 3rem;
 	}
 
 	.main-content {

@@ -140,3 +140,9 @@ export const ACTION_TYPE = {
 	EDIT: 'Edit',
 	ADD: 'Add'
 };
+
+export const AVAILABLE_RESOURCES_BY_DISK_TYPE = {
+	disk: [resourceTypes.IMAGE],
+	floppy: [resourceTypes.IMAGE, resourceTypes.SOFTWARE, resourceTypes.CONTENT],
+	cdrom: [resourceTypes.SOFTWARE, resourceTypes.CONTENT],
+};

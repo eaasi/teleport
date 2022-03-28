@@ -29,39 +29,70 @@
 						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.ENVIRONMENT])"
 					>
-						Clear All
+						Clear List
 					</a>
 				</div>
-				<div
-					v-for="env in environments"
-					:key="env.envId"
-					class="flex-row mb"
+				<draggable
+					handle=".drag-handler"
+					drag-class="drag"
+					ghost-class="ghost"
+					:group="{name: 'environment', pull: 'clone'}"
+					:list="environments.filter(env => !environment || env.envId !== environment.envId)"
 				>
-					<selectable-radio-card
+					<div
+						v-for="env in environments.filter(item => !environment || item.envId !== environment.envId)"
+						:key="env.envId"
+						class="mb"
+					>
+						<draggable-card
+							:disabled="!isSelectingEnvironment"
+							footer
+							:data="env"
+							is-clickable
+							hide-details
+							class="flex-grow no-mb"
+						>
+							<template #tagsLeft>
+								<tag-group position="left" :tags="getTypeTags(env)" />
+							</template>
+							<template #tagsRight>
+								<tag-group position="right" :tags="getArchiveTags(env)" />
+							</template>
+						</draggable-card>
+						<div class="remove-resource-button text-right">
+							<a class="clickable txt-sm" @click="removeResource(env)">Remove from project <span
+								class="fas fa-times"
+							></span></a>
+						</div>
+					</div>
+				</draggable>
+				<div class="flex-row justify-between rsb-header">
+					<h4 class="no-mb">Images</h4>
+					<a
+						class="clickable txt-sm"
+						@click="removeResourcesOfType([resourceTypes.IMAGE])"
+					>
+						Clear List
+					</a>
+				</div>
+				<draggable handle=".drag-handler" drag-class="drag" ghost-class="ghost">
+					<draggable-card
+						:group="{name: 'object', pull: 'clone'}"
+						disabled
 						footer
-						:data="env"
+						:data="emptyImage"
 						is-clickable
 						hide-details
 						class="flex-grow no-mb"
-						@change="setEnvironment(env, $event)"
-						:value="!!environment && environment.envId == env.envId"
 					>
 						<template #tagsLeft>
-							<tag-group position="left" :tags="getTypeTags(env)" />
+							<tag-group position="left" :tags="getTypeTags(emptyImage)" />
 						</template>
 						<template #tagsRight>
-							<tag-group position="right" :tags="getArchiveTags(env)" />
+							<tag-group position="right" :tags="getArchiveTags(emptyImage)" />
 						</template>
-					</selectable-radio-card>
-					<div>
-						<circle-button
-							color-preset="light-blue"
-							icon="times"
-							class="ml-sm"
-							@click="removeResource(env)"
-						/>
-					</div>
-				</div>
+					</draggable-card>
+				</draggable>
 			</div>
 			<div class="rsb-objects" v-if="objects.length">
 				<div class="flex-row justify-between rsb-header">
@@ -70,46 +101,40 @@
 						class="clickable txt-sm"
 						@click="removeResourcesOfType([resourceTypes.CONTENT, resourceTypes.SOFTWARE])"
 					>
-						Clear All
+						Clear List
 					</a>
 				</div>
-				<div class="rsb-alert-container">
-					<alert
-						no-icon
-						type="info"
-						style="margin-bottom: 1rem;"
-						v-if="resourceLimit === 1"
-					>
-						Only one object type can be emulated <br />
-						at a time - content or software
-					</alert>
-				</div>
-				<div
-					v-for="obj in objects"
-					:key="obj.id"
-					class="flex-row mb"
+
+				<draggable
+					handle=".drag-handler"
+					drag-class="drag"
+					ghost-class="ghost"
+					:group="{name: 'object', pull: 'clone'}"
+					:list="objects.filter(object => !selected.find(item => item.id === object.id) && !isResourceSelectedForDrive(object.id))"
 				>
-					<selectable-radio-card
-						footer
-						hide-details
-						:data="{ title: obj.title || obj.label }"
-						:value="isSelected(obj)"
-						@change="(e) => selectResource(obj, e)"
-						class="flex-grow no-mb"
+					<div
+						v-for="obj in objects.filter(object => !selected.find(item => item.id === object.id) && !isResourceSelectedForDrive(object.id))"
+						:key="obj.id"
+						class="mb"
 					>
-						<template #tagsLeft>
-							<tag-group position="left" :tags="getTypeTags(obj)" />
-						</template>
-					</selectable-radio-card>
-					<div>
-						<circle-button
-							color-preset="light-blue"
-							icon="times"
-							class="ml-sm"
-							@click="removeResource(obj)"
-						/>
+						<draggable-card
+							:disabled="!isSelectingObject(obj.resourceType)"
+							footer
+							hide-details
+							:data="{ title: obj.title || obj.label }"
+							class="flex-grow no-mb"
+						>
+							<template #tagsLeft>
+								<tag-group position="left" :tags="getTypeTags(obj)" />
+							</template>
+						</draggable-card>
+						<div class="remove-resource-button text-right">
+							<a class="clickable txt-sm" @click="removeResource(obj)">Remove from project <span
+								class="fas fa-times"
+							></span></a>
+						</div>
 					</div>
-				</div>
+				</draggable>
 			</div>
 		</div>
 	</div>
@@ -117,28 +142,38 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-import { IEaasiTab } from 'eaasi-nav';
+import {Component} from 'vue-property-decorator';
+import {IEaasiTab} from 'eaasi-nav';
 import InfoMessage from './shared/InfoMessage.vue';
-import { Get, Sync } from 'vuex-pathify';
+import {Get, Sync} from 'vuex-pathify';
 import {IEaasiResource, IEnvironment, ResourceType} from '@/types/Resource';
-import {resourceTypes, IResourceTypes, translatedIcon, archiveTypes} from '@/utils/constants';
+import {
+	resourceTypes,
+	IResourceTypes,
+	translatedIcon,
+	archiveTypes,
+} from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 import EnvironmentResourceCard from '@/components/resources/EnvironmentResourceCard.vue';
 import SoftwareResourceCard from '@/components/resources/SoftwareResourceCard.vue';
 import ContentResourceCard from '@/components/resources/ContentResourceCard.vue';
-import { ROUTES } from '@/router/routes.const';
+import {ROUTES} from '@/router/routes.const';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
+import DraggableCard from '@/components/global/DraggableCard/DraggableCard.vue';
 import SelectableRadioCard from '@/components/global/SelectableCard/SelectableRadioCard.vue';
+import Draggable from 'vuedraggable';
+import _ from 'lodash';
 
 @Component({
 	name: 'ResourceSideBar',
 	components: {
-		SelectableRadioCard,
+		DraggableCard,
 		EnvironmentResourceCard,
 		SoftwareResourceCard,
 		ContentResourceCard,
-		InfoMessage
+		InfoMessage,
+		SelectableRadioCard,
+		Draggable
 	}
 })
 export default class ResourceSideBar extends Vue {
@@ -161,15 +196,55 @@ export default class ResourceSideBar extends Vue {
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
 
+	@Sync('emulationProject/selectingResourceTypes')
+	selectingResourceTypes: ResourceType[];
+
+	@Get('emulationProject/selectedResourcesPerDrive')
+	selectedResourcesPerDrive: IEaasiResource[][];
+
+	get isSelectingEnvironment() {
+		return this.selectingResourceTypes.includes(resourceTypes.ENVIRONMENT) && !this.environment;
+	}
+
+	get isSelectingSoftware() {
+		return this.selectingResourceTypes.includes(resourceTypes.SOFTWARE);
+	}
+
+	get isSelectingContent() {
+		return this.selectingResourceTypes.includes(resourceTypes.CONTENT);
+	}
+
+	get isSelectingImage() {
+		return this.selectingResourceTypes.includes(resourceTypes.IMAGE);
+	}
+
+	isSelectingObject(type: ResourceType) {
+		switch (type) {
+			case 'Content':
+				return this.isSelectingContent;
+			case 'Software':
+				return this.isSelectingSoftware;
+			case 'Environment':
+				return this.isSelectingEnvironment;
+			case 'Image':
+				return this.isSelectingImage;
+			default:
+				return false;
+		}
+	}
+
+	isResourceSelectedForDrive(id: string) {
+		return _.flatten(this.selectedResourcesPerDrive).some(resource => resource.id === id);
+	}
+
 	get resourceLimit(): number {
 		if (this.constructedFromBaseEnvironment) {
 			return this.environment ? this.environment.drives.length : this.defaultDriveLimit;
-		}
-		else return 1;
+		} else return 1;
 	}
 
 	@Get('emulationProject/projectEnvironments')
-	environments: IEnvironment[];
+	readonly environments: IEnvironment[];
 
 	@Get('emulationProject/projectObjects')
 	objects: IEaasiResource[];
@@ -185,6 +260,13 @@ export default class ResourceSideBar extends Vue {
 			label: 'Project Resources'
 		},
 	];
+
+	emptyImage: IEaasiResource = {
+		title: 'Empty Disk',
+		resourceType: 'Image',
+		isPublic: false,
+		isEmpty: true,
+	};
 
 	defaultDriveLimit: number = 3;
 	activeTab: IEaasiTab = this.tabs[0];
@@ -246,7 +328,7 @@ export default class ResourceSideBar extends Vue {
 	setEnvironment(environment: IEnvironment, checked: boolean) {
 		if (checked) {
 			this.environment = new EmulationProjectEnvironment(environment);
-			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		} else {
 			this.environment = null;
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
@@ -263,13 +345,9 @@ export default class ResourceSideBar extends Vue {
 }
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .resource-side-bar {
 	padding: 1.8rem;
-
-	.resource-object-container {
-		width: 308px;
-	}
 
 	.rsb-alert-container {
 		padding: 1rem 0;
@@ -279,6 +357,32 @@ export default class ResourceSideBar extends Vue {
 .rsb-header {
 	border-bottom: solid 2px lighten($dark-neutral, 80%);
 	margin-bottom: 1.5rem;
-	padding-bottom: 1rem;
+	padding-bottom: 0.5rem;
+
+	h4 {
+		text-transform: uppercase;
+	}
 }
+
+.remove-resource-button {
+	padding: 2px 5px 0 5px;
+
+	a > span {
+		padding-left: 0.4rem;
+	}
+}
+
+.rsb-environments {
+	.drag:not(.ghost) .remove-resource-button {
+		display: none;
+	}
+}
+
+.rsb-environments, .rsb-objects {
+	padding: 1.5rem;
+	margin-bottom: 1rem;
+	border: 1px solid lighten($dark-neutral, 80%);
+	border-radius: 1rem;
+}
+
 </style>

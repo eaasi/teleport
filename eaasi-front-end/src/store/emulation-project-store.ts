@@ -8,12 +8,15 @@ import { IEaasiTaskSuccessor } from '@/types/Task';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { dispatch, make } from 'vuex-pathify';
+import {EmulationProjectMode} from '@/types/EmulationProject';
 
 /*============================================================
  == State
 /============================================================*/
 
 class EmulationProjectStore {
+	mode: EmulationProjectMode = null;
+	selectingResourceTypes: ResourceType[] = [];
 	chosenTemplateId: string = '';
     createEnvironmentPayload: ICreateEnvironmentPayload = null;
 	environment: EmulationProjectEnvironment = null;
@@ -21,6 +24,8 @@ class EmulationProjectStore {
 	projectResources: IEaasiResource[] = [];
 	selectedResources: IEaasiResource[] = [];
     selectedSoftwareId: string = null;
+	selectedResourcesPerDrive: IEaasiResource[][] = [];
+	selectedTemplateId: string = null;
 }
 
 const state = new EmulationProjectStore();

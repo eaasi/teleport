@@ -47,6 +47,9 @@ import UiButton from './UiButton.vue';
 import UiChip from './UiChip.vue';
 import UiNotification from './UiNotification.vue';
 import ViewHeader from './ViewHeader.vue';
+import DraggableCard from './DraggableCard/DraggableCard.vue';
+import SelectableTextCard from './SelectableCard/SelectableTextCard.vue';
+import TipsForSuccess from './TipsForSuccess.vue';
 
 /*============================================================
  == Vue Plugin
@@ -102,6 +105,9 @@ export default {
 		Vue.component('UiChip', UiChip);
 		Vue.component('UiNotification', UiNotification);
 		Vue.component('ViewHeader', ViewHeader);
+		Vue.component('DraggableCard', DraggableCard);
+		Vue.component('SelectableTextCard', SelectableTextCard);
+		Vue.component('TipsForSuccess', TipsForSuccess);
 	}
 };
 
@@ -109,5 +115,5 @@ export default {
  == Individual exports for testing purposes
 /============================================================*/
 
-export { Alert, CircleButton, DatePicker, DateRange, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader, SearchSelectList };
+export { Alert, CircleButton, DatePicker, DateRange, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader, SearchSelectList, DraggableCard };
 

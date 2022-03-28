@@ -1,36 +1,49 @@
 <template>
-	<div class="emu-project-content padded">
+	<div>
 		<!-- Error message -->
-		<alert
-			card
-			no-icon
-			type="warning"
-			class="mb"
-		>
-			Add a base environment to continue
-		</alert>
-		<!-- Find a Base -->
-		<div class="emu-option-item flex-row justify-between">
-			<div class="content-wrapper">
-				<h4>Find a Base</h4>
-				<p>Find an existing base environment.</p>
-			</div>
-			<div class="btn-wrapper flex-row">
-				<ui-button
-					@click="search"
-					style="margin-right: 3rem;"
-					sub-label="…node or network saved resources"
+		<!--		<alert
+					card
+					no-icon
+					type="warning"
+					class="mb"
 				>
-					Search/Browse
-				</ui-button>
-				<ui-button
-					@click="myResources"
-					sub-label="…imported or bookmarked resources"
-				>
-					My Resources
-				</ui-button>
-			</div>
+					Add a base environment to continue
+				</alert>-->
+
+		<div class="emu-project-content padded" v-if="!emulationProjectMode">
+			<selectable-text-card label="Basic" :value="isBasicSelected" @change="selectBasicMode">
+				Add content or install software in an existing environment resource.
+			</selectable-text-card>
+			<selectable-text-card label="Advanced" :value="isAdvancedSelected" @change="selectAdvancedMode">
+				Use a system template with no configured operating system or software.
+			</selectable-text-card>
 		</div>
+		<div v-if="emulationProjectMode">
+			<emulation-project-mode-screen :mode="emulationProjectMode" @reset="resetMode" />
+		</div>
+
+		<!-- Find a Base -->
+		<!--<div class="emu-option-item flex-row justify-between">
+					<div class="content-wrapper">
+						<h4>Find a Base</h4>
+						<p>Find an existing base environment.</p>
+					</div>
+					<div class="btn-wrapper flex-row">
+						<ui-button
+							@click="search"
+							style="margin-right: 3rem;"
+							sub-label="…node or network saved resources"
+						>
+							Search/Browse
+						</ui-button>
+						<ui-button
+							@click="myResources"
+							sub-label="…imported or bookmarked resources"
+						>
+							My Resources
+						</ui-button>
+					</div>
+				</div>-->
 		<!-- Start from Scratch -->
 		<!-- Not active
 
@@ -76,26 +89,29 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import Vue from 'vue';
 import BaseEnvironmentWizard from './base-environment/BaseEnvironmentWizard.vue';
 import SoftwareResourcesWizard from './SoftwareResourcesWizard.vue';
 import ContentResourcesWizard from './ContentResourcesWizard.vue';
 import InfoMessage from './shared/InfoMessage.vue';
-import { ROUTES } from '@/router/routes.const';
+import {ROUTES} from '@/router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
-import { ICreateEnvironmentPayload, ICreateEnvironmentResponse } from '@/types/Import';
-import { Sync } from 'vuex-pathify';
-import { generateNotificationError } from '@/helpers/NotificationHelper';
+import {ICreateEnvironmentPayload, ICreateEnvironmentResponse} from '@/types/Import';
+import {Sync} from 'vuex-pathify';
+import {generateNotificationError} from '@/helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
-import { IEnvironment } from '@/types/Resource';
+import {IEnvironment} from '@/types/Resource';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
-import { IUserImportRelationRequest, IUserImportedResource } from '@/types/UserImportRelation';
-import { resourceTypes } from '@/utils/constants';
+import {IUserImportedResource, IUserImportRelationRequest} from '@/types/UserImportRelation';
+import {resourceTypes} from '@/utils/constants';
+import {EmulationProjectMode} from '@/types/EmulationProject';
+import EmulationProjectModeScreen from './EmulationProjectModeScreen.vue';
 
 @Component({
 	name: 'EmulationProjectOptions',
-	components : {
+	components: {
+		EmulationProjectModeScreen,
 		BaseEnvironmentWizard,
 		SoftwareResourcesWizard,
 		InfoMessage,
@@ -111,7 +127,38 @@ export default class EmulationProjectOptions extends Vue {
 	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
 
+	@Sync('emulationProject/mode')
+	emulationProjectMode: EmulationProjectMode;
+
 	createBaseEnvModal: boolean = false;
+
+	get isBasicSelected(): boolean {
+		return this.emulationProjectMode === EmulationProjectMode.Basic;
+	}
+
+	get isAdvancedSelected(): boolean {
+		return this.emulationProjectMode === EmulationProjectMode.Advanced;
+	}
+
+	selectBasicMode(value) {
+		if (value) {
+			this.emulationProjectMode = EmulationProjectMode.Basic;
+		} else {
+			this.emulationProjectMode = null;
+		}
+	}
+
+	selectAdvancedMode(value) {
+		if (value) {
+			this.emulationProjectMode = EmulationProjectMode.Advanced;
+		} else {
+			this.emulationProjectMode = null;
+		}
+	}
+
+	resetMode() {
+		this.emulationProjectMode = null;
+	}
 
 	search() {
 		this.$router.push(ROUTES.RESOURCES.EXPLORE);
@@ -153,7 +200,14 @@ export default class EmulationProjectOptions extends Vue {
 		this.environment = new EmulationProjectEnvironment(baseEnv);
 		this.createBaseEnvModal = false;
 		// mutate base env at this point
-		await this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
+		await this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
+	}
+
+	@Watch('environment')
+	handleSelectedEnvironment(nextEnvironment: EmulationProjectEnvironment) {
+		if (nextEnvironment) {
+			this.selectBasicMode(true);
+		}
 	}
 
 }
@@ -197,16 +251,6 @@ export default class EmulationProjectOptions extends Vue {
 			}
 		}
 	}
-}
-
-.emu-project-actions {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
-
-.emu-project-action {
-	margin: 0 1.2rem;
 }
 
 </style>
