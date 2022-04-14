@@ -213,6 +213,10 @@ export default class ResourceAdminService extends BaseService {
 			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
+		if (results.length && query.types && query.types.length > 0) {
+			results = results.filter(resource => query.types.includes(resource.resourceType));
+		}
+
 		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
