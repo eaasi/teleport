@@ -9,7 +9,6 @@ import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulato
 import SaveToMyNodeActionResolver from '@/services/ActionResolvers/SaveToMyNodeActionResolver';
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
 import { IEaasiResource } from '@/types/Resource';
-import AddSoftwareActionResolver from './ActionResolvers/AddSoftwareActionResolver';
 import { userRoles } from '@/utils/constants';
 
 
@@ -29,7 +28,6 @@ export default class ResourceSlideMenuService {
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
 			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
 			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
-			new AddSoftwareActionResolver(selected, roleId).resolveAction()
 		];
 	}
 

@@ -104,11 +104,6 @@
 				</span>
 			</alert>
 		</confirm-modal>
-		<add-software
-			v-if="addingSoftware"
-			@cancel="addingSoftware = false"
-			@run-in-emulator="runInEmulator"
-		/>
 		<confirm-modal
 			v-if="showRemoteEnvironmentWarningModal"
 			title="Public environments can not be added to emulation project"
@@ -145,7 +140,6 @@ import { IEaasiTaskSuccessor, ITaskState } from '@/types/Task';
 import { IEaasiTaskListStatus } from '@/types/IEaasiTaskListStatus';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
-import AddSoftware from '@/components/resources/view-details/environment/AddSoftwareModal.vue';
 import { ROUTES } from '@/router/routes.const';
 import { jsonEquals } from '@/utils/functions';
 import {IEmulationProject} from '@/types/Emulation';
@@ -158,7 +152,6 @@ let resourceService = ResourceService;
 	components: {
 		LabeledItemList,
 		ResourceAction,
-		AddSoftware,
 		SlideMenu,
 		ConfirmModal
 	}
@@ -241,7 +234,6 @@ export default class ResourceSlideMenu extends Vue {
 	============================================*/
 	detailsItems: ILabeledItem[] = [];
 	confirmAction : string = null;
-	addingSoftware: boolean = false;
 	showRemoteEnvironmentWarningModal: boolean = false;
 
 	/* Methods
@@ -431,9 +423,6 @@ export default class ResourceSlideMenu extends Vue {
 				break;
 			case 'viewDetails':
 				this.viewDetails();
-				break;
-			case 'add-software':
-				this.addingSoftware = true;
 				break;
 			case 'treat-as-software':
 				this.$emit('treat-as-software');

@@ -62,18 +62,12 @@
 					</span>
 				</alert>
 			</confirm-modal>
-			<add-software
-				v-if="addingSoftware"
-				@cancel="addingSoftware = false"
-				@run-in-emulator="runInEmulator"
-			/>
 		</div>
 		<!-- Resources Slide Menu -->
 		<resource-slide-menu
 			v-if="isActionMenuOpen"
 			:active-tab="actionMenuActiveTab"
 			:tabs="actionMenuTabs"
-			@add-software="addingSoftware = true"
 			@bookmarks-updated="init"
 			@resource-deleted="goBackToResults"
 			@resource-published="init"
@@ -94,7 +88,6 @@ import { ILabeledEditableItem, ILabeledItem } from '@/types/ILabeledItem';
 import EaasiTask from '@/models/task/EaasiTask';
 import EnvironmentMetadataSection from './EnvironmentMetadataSection.vue';
 import RevisionList from './RevisionList.vue';
-import AddSoftware from './AddSoftwareModal.vue';
 import ModeToggle from '../shared/ModeToggle.vue';
 import { ROUTES } from '../../../../router/routes.const';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
@@ -105,7 +98,6 @@ import eventBus from '@/utils/event-bus';
 @Component({
 	name: 'EnvironmentDetailsScreen',
 	components: {
-		AddSoftware,
 		RevisionList,
 		EnvironmentMetadataSection,
 		ModeToggle,
@@ -126,7 +118,6 @@ export default class EnvironmentDetailsScreen extends Vue {
 	activeMode: string = this.mods[0];
 	activeEnvironment: IEnvironment = null;
 	confirmAction: string = null;
-	addingSoftware: boolean = false;
 	// Metadata
 	emulatorLabeledItems : ILabeledEditableItem[] = [];
 	osLabeledItems: ILabeledEditableItem[] = [];
