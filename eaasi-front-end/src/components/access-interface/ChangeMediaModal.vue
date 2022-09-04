@@ -82,7 +82,7 @@ export default class ChangeMediaModal extends Vue {
 				},
 				{
 					label: 'Media Label',
-					value: item.id
+					value: item.id + (item.label ? ` (${item.label})` : '')
 				}]
 			});
 		});
