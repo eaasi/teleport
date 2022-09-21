@@ -50,6 +50,7 @@ import ViewHeader from './ViewHeader.vue';
 import DraggableCard from './DraggableCard/DraggableCard.vue';
 import SelectableTextCard from './SelectableCard/SelectableTextCard.vue';
 import TipsForSuccess from './TipsForSuccess.vue';
+import Tooltip from './Tooltip.vue';
 
 /*============================================================
  == Vue Plugin
@@ -108,6 +109,7 @@ export default {
 		Vue.component('DraggableCard', DraggableCard);
 		Vue.component('SelectableTextCard', SelectableTextCard);
 		Vue.component('TipsForSuccess', TipsForSuccess);
+		Vue.component('Tooltip', Tooltip);
 	}
 };
 

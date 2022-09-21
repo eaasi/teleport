@@ -45,6 +45,9 @@ export default class BaseFormField extends Vue {
 	@Prop({required: true})
 	readonly value: any;
 
+	@Prop({ type: String, required: false })
+	tooltip: string;
+
 	/* Data
 	============================================*/
 
