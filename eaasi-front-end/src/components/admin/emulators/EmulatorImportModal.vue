@@ -10,10 +10,12 @@
 		<div class="emulator-form">
 			<text-input
 				class="em-text-input"
-				label="Emulator Name"
+				label="Emulator Source"
 				v-model="importRequest.urlString"
 				rules="required"
-				placeholder="Enter a name..."
+				required
+				placeholder="Enter a source..."
+				tooltip="Please enter the address for an emulator container from an approved registry (e.g. <code>registry.gitlab.com/emulation-as-a-service/emulators/vice-eaas</code>)"
 			/>
 
 			<text-input
