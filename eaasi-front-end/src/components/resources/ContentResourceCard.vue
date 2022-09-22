@@ -55,7 +55,7 @@ export default class ContentResourceCard extends Vue {
 	resourceTypeTags: ITag[] =  [
 		{
 			text: resourceLabels.CONTENT,
-			icon:  translatedIcon('file'),
+			icon:  translatedIcon('disk'),
 			color:'white'
 		}
 	];
