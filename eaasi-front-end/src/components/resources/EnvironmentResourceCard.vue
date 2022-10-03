@@ -117,7 +117,7 @@ export default class EnvironmentResourceCard extends Vue {
 		// 	});
 		// }
 
-		let text = !!this.environment.installedSoftwareIds.length ? resourceLabels.SOFTWARE_ENVIRONMENT : resourceLabels.CONTENT_ENVIRONMENT;
+		let text = !!this.environment?.installedSoftwareIds?.length ? resourceLabels.SOFTWARE_ENVIRONMENT : resourceLabels.CONTENT_ENVIRONMENT;
 		return [{
 			text,
 			icon: translatedIcon('config-environment'),
