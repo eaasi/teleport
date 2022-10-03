@@ -226,17 +226,17 @@ export default class UserImportController extends BaseController {
 				case resourceTypes.CONTENT:
 					const contentresult = await this.importedContentService.create(userImportResource);
 					if (contentresult.hasError) throw contentresult.error;
-					result = contentresult.result.get({ plain: true }) as IUserImportedResource;
+					result = contentresult.result.get({ plain: true }) as unknown as IUserImportedResource;
 					break;
 				case resourceTypes.SOFTWARE:
 					const softwareResult = await this.importedSoftwareService.create(userImportResource);
 					if (softwareResult.hasError) throw softwareResult.error;
-					result = softwareResult.result.get({ plain: true }) as IUserImportedResource;
+					result = softwareResult.result.get({ plain: true }) as unknown as IUserImportedResource;
 					break;
 				case resourceTypes.ENVIRONMENT:
 					const environmentResult = await this.importedEnvironmentService.create(userImportResource);
 					if (environmentResult.hasError) throw environmentResult.error;
-					result = environmentResult.result.get({ plain: true }) as IUserImportedResource;
+					result = environmentResult.result.get({ plain: true }) as unknown as IUserImportedResource;
 					break;
 			}
 			res.send(result);

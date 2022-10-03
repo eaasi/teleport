@@ -207,7 +207,7 @@ export default class AdminController extends BaseController {
 				return res.send(new ErrorResponse(HttpResponseCode.BAD_REQUEST, 'Password can be reset only for users from your organization'));
 			}
 			const userId = req.query.userId as string;
-			const password = this.generatePassword();
+			const password = AdminController.generatePassword();
 			const userData = {
 				credentials: [{
 					type: 'password',
