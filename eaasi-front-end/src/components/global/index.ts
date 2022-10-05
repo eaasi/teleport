@@ -47,6 +47,7 @@ import UiButton from './UiButton.vue';
 import UiChip from './UiChip.vue';
 import UiNotification from './UiNotification.vue';
 import ViewHeader from './ViewHeader.vue';
+import Tooltip from './Tooltip.vue';
 
 /*============================================================
  == Vue Plugin
@@ -102,6 +103,7 @@ export default {
 		Vue.component('UiChip', UiChip);
 		Vue.component('UiNotification', UiNotification);
 		Vue.component('ViewHeader', ViewHeader);
+		Vue.component('Tooltip', Tooltip);
 	}
 };
 

@@ -17,6 +17,7 @@
 				<span class="eaasi-field-icon">
 					<span :class="`fas fa-${icon}`"></span>
 				</span>
+				<tooltip v-if="tooltip" :text="tooltip" />
 			</div>
 		</div>
 	</form-field-wrapper>
@@ -26,6 +27,7 @@
 import { Component } from 'vue-property-decorator';
 import BaseFormField from './BaseFormField.vue';
 import FormFieldWrapper from './FormFieldWrapper.vue';
+import Tooltip from '../Tooltip.vue';
 
 /**
  * A Text Input form field
@@ -34,7 +36,8 @@ import FormFieldWrapper from './FormFieldWrapper.vue';
 @Component({
 	name: 'TextInput',
 	components: {
-		FormFieldWrapper
+		FormFieldWrapper,
+		Tooltip
 	}
 })
 export default class TextInput extends BaseFormField {}
