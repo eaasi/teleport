@@ -138,7 +138,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		async doImport() {
 			let task = await this.$store.dispatch('import/import');
 			if (!task) return;
-			let resourceName = '';
+			/*let resourceName = '';
 			if (this.importType === importTypes.IMAGE) {
 				resourceName = this.environment.title;
 			} else if (this.importType === importTypes.SOFTWARE) {
@@ -149,8 +149,8 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 			const taskWithDescription: ITaskState = {
 				...task,
 				description: `Import ${this.importType}: ${resourceName}`
-			};
-			this.activeTask = await this.$store.dispatch('task/addTaskToQueue', taskWithDescription);
+			};*/
+			this.activeTask = await this.$store.dispatch('task/addTaskToQueue', task);
 		}
 
 		reset() {

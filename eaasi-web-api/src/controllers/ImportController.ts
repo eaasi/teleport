@@ -1,8 +1,11 @@
 import ImportService from '@/services/import/importService';
 import { IAuthorizedPostRequest } from '@/types/auth/Auth';
-import { ICreateEnvironmentPayload, IImageImportPayload, IUploadRequest } from '@/types/emil/Emil';
+import {ICreateEnvironmentPayload, IImageImportPayload, IUploadRequest, TaskState} from '@/types/emil/Emil';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import EaasiTaskService from '@/services/rest-api/EaasiTaskService';
+import {IEmilTask} from '@/types/task/Task';
+import {getTenantIdFromToken} from '@/utils/token';
 
 /**
  * Handles requests concerning importing resources
@@ -10,10 +13,13 @@ import BaseController from './base/BaseController';
 export default class ImportController extends BaseController {
 
 	private readonly _emilImportService: ImportService;
+	private readonly taskService: EaasiTaskService;
 
-	constructor(importService: ImportService= new ImportService()) {
+	constructor(importService: ImportService= new ImportService(),
+		taskService: EaasiTaskService = new EaasiTaskService()) {
 		super();
 		this._emilImportService  = importService;
+		this.taskService = taskService;
 	}
 
 	/**
@@ -29,6 +35,9 @@ export default class ImportController extends BaseController {
 			let token = req.headers.authorization;
 			let emilResult = await this._emilImportService.importImage(req.body, token);
 
+			if (emilResult) {
+				await this.createTask(emilResult, req);
+			}
 			res.send(emilResult);
 		} catch(e) {
 			this.sendError(e, res);
@@ -42,7 +51,10 @@ export default class ImportController extends BaseController {
 		try {
 			if (!req.body) this.sendClientError(new Error('Request to import resource from a file requires request body'), res);
 			let token = req.headers.authorization;
-			let result = await this._emilImportService.importResourceFromFile(req.body, token);
+			let result: IEmilTask = await this._emilImportService.importResourceFromFile(req.body, token);
+			if (result) {
+				await this.createTask(result, req);
+			}
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
@@ -117,10 +129,23 @@ export default class ImportController extends BaseController {
 			}
 			let token = req.headers.authorization;
 			let result = await this._emilImportService.importImage(req.body as IImageImportPayload, token);
+			if (result) {
+				await this.createTask(result, req);
+			}
 			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
 		}
+	}
+
+	async createTask(task: IEmilTask, req: Request) {
+		let taskToSave = {
+			...task,
+			userData: task.userData ? JSON.stringify(task.userData) : null,
+			tenantId: getTenantIdFromToken(req.headers.authorization),
+			description: req.body.description,
+		};
+		await this.taskService.create(taskToSave);
 	}
 
 }

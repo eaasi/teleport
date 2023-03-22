@@ -54,6 +54,7 @@ export interface IImageImportPayload {
 	url: string;
 	label: string;
 	imageType?: string;
+	description?: string;
 }
 
 export interface IImageDeletePayload {

@@ -105,11 +105,11 @@ const actions = {
 	async importImage({ state }: Store<ImportState>) {
 		const payload: IImageImportPayload = {
 			url: state.environment.urlSource,
-			label: state.environment.title
+			label: state.environment.title,
+			description: `Image Import: ${state.environment.title}`,
 		};
 
-		const taskState = await _importService.importImage(payload) as ITaskState;
-		return new EaasiTask(taskState.taskId, `Image Import: ${payload.label}`);
+		return await _importService.importImage(payload) as ITaskState;
 	},
 
 	/**
@@ -126,6 +126,7 @@ const actions = {
 				label: state.software.title,
 				userId: globalState.loggedInUser.id,
 				files: [],
+				description: `Import Software: ${state.software.title}`,
 			};
 
 			let i = 0;
@@ -141,9 +142,7 @@ const actions = {
 			});
 
 			commit('SET_FILES_TO_UPLOAD', []);
-			const task = await _importService.importUploadBlob(importRequest);
-			task.description = `Import Software: ${state.software.title}`;
-			return task;
+			return await _importService.importUploadBlob(importRequest);
 		}
 	},
 
@@ -162,6 +161,7 @@ const actions = {
 				label: state.content.title,
 				userId: globalState.loggedInUser.id,
 				files: [],
+				description: `Import Content: ${state.content.title}`,
 			};
 
 			let i = 0;
@@ -176,9 +176,7 @@ const actions = {
 			});
 
 			commit('SET_FILES_TO_UPLOAD', []);
-			const task = await _importService.importUploadBlob(importRequest);
-			task.description = `Import Content: ${state.software.title}`;
-			return task;
+			return await _importService.importUploadBlob(importRequest);
 		}
 	},
 
