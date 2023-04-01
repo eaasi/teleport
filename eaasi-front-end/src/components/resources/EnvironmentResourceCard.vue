@@ -27,13 +27,19 @@
 <script lang="ts">
 import {ITag} from '@/types/Tag';
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
-import { Get, Sync } from 'vuex-pathify';
-import { archiveTypes, translatedIcon, resourceLabels } from '@/utils/constants';
-import { IBookmark } from '@/types/Bookmark';
-import { IEaasiEnvironmentCardSummary, IEaasiResourceSummary, IEnvironment, IEaasiResource, ISavingEnvironmentState } from '@/types/Resource.d.ts';
+import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Get, Sync} from 'vuex-pathify';
+import {archiveTypes, resourceLabels, translatedIcon} from '@/utils/constants';
+import {IBookmark} from '@/types/Bookmark';
+import {
+	IEaasiEnvironmentCardSummary,
+	IEaasiResource,
+	IEaasiResourceSummary,
+	IEnvironment,
+	ISavingEnvironmentState
+} from '@/types/Resource.d.ts';
 import EaasiTask from '@/models/task/EaasiTask';
-import { ROUTES } from '@/router/routes.const';
+import {ROUTES} from '@/router/routes.const';
 
 @Component({
 	name: 'EnvironmentResourceCard',
@@ -84,33 +90,19 @@ export default class EnvironmentResourceCard extends Vue {
 	readonly completedTasks: EaasiTask[];
 
 	get resourceTypeTags(): ITag[] {
-		const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null);
-		let text = isContentEnvironment ? resourceLabels.CONTENT_ENVIRONMENT : resourceLabels.ENVIRONMENT;
-		let tags = [{
+		let text = resourceLabels.ENVIRONMENT;
+		if (this.environment?.objectId) {
+			text = resourceLabels.CONTENT_ENVIRONMENT;
+		}
+		else if (this.environment?.installedSoftwareIds?.length > 0) {
+			text = resourceLabels.SOFTWARE_ENVIRONMENT;
+		}
+
+		return [{
 			text,
 			icon: translatedIcon('config-environment'),
 			color: 'white'
 		}];
-
-		// TODO: Do we need to reactivate logic for isContent / isBase environment?
-		// Currently removed because almost all environments are Base environments.
-
-		// const isContentEnvironment = (this.environment.objectArchive === 'zero conf' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'zero conf');
-		// const isBaseEnvironment = (this.environment.objectArchive === 'Remote Objects' && this.environment.objectId != null) || this.environment.installedSoftwareIds.some(software => software.archive === 'Remote Objects');
-		// if (isContentEnvironment) {
-		// 	tags.push({
-		// 		icon: translatedIcon('file'),
-		// 		color: 'white',
-		// 		text: 'Content Environment'
-		// 	});
-		// } else if (isBaseEnvironment) {
-		// 	tags.push({
-		// 		icon: translatedIcon('file'),
-		// 		color: 'white',
-		// 		text: 'Base Environment'
-		// 	});
-		// }
-		return tags;
 	};
 
 	get isBookmarkSelected(): Boolean {

@@ -52,7 +52,7 @@ export default class ImageResourceCard extends Vue {
 	============================================*/
 	imageTypeTags: ITag[] =  [
 		{
-			text: resourceLabels.CONTENT,
+			text: resourceLabels.IMAGE,
 			icon:  translatedIcon('disk'),
 			color: 'white'
 		}
