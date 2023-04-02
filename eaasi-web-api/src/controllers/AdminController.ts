@@ -64,7 +64,7 @@ export default class AdminController extends BaseController {
 			let users = await this._keycloakService.getUsers(limits, groupId, req.headers.authorization, this._handleKeycloakResponse.bind(null, res));
 			limits = new KeycloakUserQuery(query);
 			res.send({
-				result: users.slice(limits.first, limits.max),
+				result: users.slice(limits.first, limits.first + limits.max),
 				totalResults: users.length
 			});
 		} catch(e) {
