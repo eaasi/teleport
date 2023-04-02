@@ -76,7 +76,7 @@ export default class ContentService extends BaseService {
 	}
 
 	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL, token?: string): Promise<IEmilTask> {
-		const res = await this._contentRepoService.post(`/archives/${archiveId}/objects`, importPayload, token);
+		const res = await this._contentRepoService.post(`archives/${archiveId}/objects`, importPayload, token);
 		if (res.ok) this.clearCache(getUserIdFromToken(token));
 		return await res.json() as IEmilTask;
 	}
