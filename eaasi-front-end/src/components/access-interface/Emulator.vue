@@ -18,7 +18,7 @@
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
 	import { IEaasClient } from '@/types/Eaas';
-	import { IEaasiResource, IEnvironment } from '@/types/Resource';
+	import { IEnvironment } from '@/types/Resource';
 	import { Sync } from 'vuex-pathify';
 	import { slugify } from '@/utils/functions';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
@@ -26,23 +26,11 @@
 	import { generateId } from '@/utils/functions';
 	import { getUserToken } from '@/utils/auth';
 
-	import {
-		EphemeralMachineComponentBuilder,
-		ImageDataSource,
-		MachineComponentBuilder,
-		ObjectDataSource,
-		SoftwareDataSource
-	} from 'EaasClient/lib/componentBuilder';
+	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
 	import { NetworkBuilder } from 'EaasClient/lib/networkBuilder';
 	import { ROUTES } from '@/router/routes.const';
 	import { ISaveEnvOptions } from '@/types/SaveEnvironment';
 	import { SaveEnvironmentOption } from '@/types/SaveEnvironmentOption';
-	import { ICreateEnvironmentPayload } from '@/types/Import';
-	import {
-		SaveNewEnvironmentRequest,
-		SaveObjectEnvironmentRequest,
-		SaveRevisionRequest
-	} from 'EaasClient/lib/componentSession';
 
 	/**
 	 * Component contains screen in which an emulated environment is presented.
@@ -60,14 +48,8 @@
 		/* Props
         ============================================*/
 
-		@Prop({type: Object as () => IEnvironment, required: false})
+		@Prop({type: Object as () => IEnvironment, required: true})
 		readonly environment: IEnvironment;
-
-		@Prop({type: Object as () => ICreateEnvironmentPayload, required: false})
-		readonly createEnvironmentPayload: ICreateEnvironmentPayload;
-
-		@Prop({type: Object as () => IEaasiResource[][], required: false})
-		readonly driveAssignments: IEaasiResource[][];
 
 		@Prop({type: String, required: false})
 		readonly driveId: string;
@@ -176,21 +158,10 @@
 			let vm = this;
 			this.showLoaderWithTimeout();
 			try {
-				let machine;
-				if (vm.environment) {
-					machine = new MachineComponentBuilder(
-						vm.environment.envId,
-						vm.environment.archive
-					);
-				} else if (vm.createEnvironmentPayload) {
-					machine = new EphemeralMachineComponentBuilder(
-						vm.createEnvironmentPayload
-					);
-				}
-				if (!machine) {
-					throw new Error('Failed to initialize the machine component builder');
-				}
-
+				let machine = new MachineComponentBuilder(
+					vm.environment.envId,
+					vm.environment.archive
+				);
 				machine.setInteractive(true);
 
 				const { softwareId, archiveId, objectId } = vm.$route.query;
@@ -199,21 +170,18 @@
 				} else if (softwareId) {
 					machine.setSoftware(softwareId, archiveId);
 				}
-				this.setResourcesToDrives(machine);
 
 				let components, clientOptions;
-				if (vm.environment && vm.environment.networking?.enableInternet) {
+				if (vm.environment.enableInternet) {
 					let networkBuilder = new NetworkBuilder(config.EMIL_SERVICE_ENDPOINT, getUserToken);
 					networkBuilder.addComponent(machine);
 					components =  await networkBuilder.getComponents();
 					clientOptions =  await networkBuilder.getDefaultClientOptions();
 					clientOptions.getNetworkConfig().enableInternet(true);
 					clientOptions.getNetworkConfig().enableSlirpDhcp(true);
-				} else if (vm.environment) {
-					components = [machine];
-					clientOptions = new StartEnvironmentParams(vm.environment);
 				} else {
 					components = [machine];
+					clientOptions = new StartEnvironmentParams(vm.environment);
 				}
 
 				const keyboardPrefs = vm.getKeyboardPreferences();
@@ -235,31 +203,6 @@
 				vm.handleError(e);
 			}
 			vm.showLoader = false;
-		}
-
-		private setResourcesToDrives(machine: MachineComponentBuilder) {
-			if (this.driveAssignments.length === 0) {
-				return;
-			}
-			this.driveAssignments.forEach((resources, index) => {
-				if (!resources || resources.length === 0) {
-					return;
-				}
-				const resource = resources[0];
-				switch (resource.resourceType) {
-					case 'Software':
-						machine.setDriveAssignment(index, new SoftwareDataSource(resource.id));
-						break;
-					case 'Content':
-						machine.setDriveAssignment(index, new ObjectDataSource(resource.id, resource.archive));
-						break;
-					case 'Image':
-						machine.setDriveAssignment(index, new ImageDataSource(resource.id));
-						break;
-					default:
-						break;
-				}
-			});
 		}
 
 		private setClientReadyTimeout() {
@@ -326,7 +269,7 @@
 		takeScreenShot() {
 			let canvas = document.querySelector('#emulatorWrapper canvas') as HTMLCanvasElement;
 			if (!canvas) return;
-			let envTitle = this.environment?.title || this.createEnvironmentPayload?.label;
+			let envTitle = this.environment.title;
 			let filename = slugify(envTitle + '-screenshot-' + new Date().toLocaleString());
 			canvas.toBlob(blob => saveAs(blob, filename));
 		}
@@ -363,13 +306,9 @@
 			this.$router.push({ name: 'My Resources', params: { defaultTab: 'Imported Resources'}});
 		}
 
-		async saveNewEnvironment(options: ISaveEnvOptions) {
-			if (this.createEnvironmentPayload) {
-				return;
-			}
-
+		async saveSnapshot(options: ISaveEnvOptions) {
 			let snapshotRequest;
-			switch (options.saveType) {
+			/*switch (options.saveType) {
 				case SaveEnvironmentOption.newEnvironment:
 					snapshotRequest = new SaveNewEnvironmentRequest(options.title, options.description);
 					break;
@@ -381,29 +320,16 @@
 					break;
 				default:
 					break;
-			}
+			}*/
 			if (!snapshotRequest) {
 				return;
 			}
 
 			snapshotRequest.removeVolatileDrives(options.saveType != SaveEnvironmentOption.objectEnvironment);
-			let task = await this.client.getActiveSession().createSnapshot(snapshotRequest);
-			if (!task) {
-				return;
-			}
-			await this.$store.dispatch('task/addTaskToQueue', task);
-		}
-
-		async saveEphemeralEnvironment(options: ISaveEnvOptions) {
-			const environment = await this.$store.dispatch('emulationProject/saveBaseEnvironmentFromEmulator', { label: options.title });
-			this.$router.push(`${ROUTES.RESOURCES.ENVIRONMENT}?resourceId=${environment.envId}`);
-		}
-
-		async saveSnapshot(options: ISaveEnvOptions) {
-			if (this.createEnvironmentPayload) {
-				await this.saveEphemeralEnvironment(options);
-			} else {
-				await this.saveNewEnvironment(options);
+			let result = await this.client.getActiveSession().createSnapshot(snapshotRequest);
+			if (result.status === '0') {
+				await this.$router.push({ path: ROUTES.RESOURCES.ENVIRONMENT, query: { resourceId: result.envId.toString() } });
+				await this.$store.dispatch('resource/searchResources', { forceClearCache: true });
 			}
 		}
 
