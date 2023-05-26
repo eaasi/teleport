@@ -229,14 +229,20 @@ export default class EmulationProjectBasicModeScreen extends Vue {
 
 	beforeMount() {
 		if (this.environment) {
-			this.selectedEnvironment = [this.environments.find(env => env.envId === this.environment.envId)];
+			const environment = this.environments.find(env => env.envId === this.environment.envId);
+			if (environment) {
+				this.selectedEnvironment = [environment];
+			}
 		}
 	}
 
 	@Watch('environment')
 	setSelectedEnvironment(nextEnvironment: EmulationProjectEnvironment) {
 		if (nextEnvironment) {
-			this.selectedEnvironment = [this.environments.find(env => env.envId === nextEnvironment.envId)];
+			const environment = this.environments.find(env => env.envId === nextEnvironment.envId);
+			if (environment) {
+				this.selectedEnvironment = [environment];
+			}
 		} else {
 			this.selectedEnvironment = [];
 		}

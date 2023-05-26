@@ -2,13 +2,17 @@ import { filterResourcesByType, getResourceId, getResourceArchiveId, removeResou
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import _projectService from '@/services/EmulationProjectService';
 import { IEmulationProject } from '@/types/Emulation';
-import { ICreateEnvironmentPayload } from '@/types/Import';
+import {ICreateEnvironmentPayload, ICreateEnvironmentResponse} from '@/types/Import';
 import { IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
 import { IEaasiTaskSuccessor } from '@/types/Task';
 import { resourceTypes } from '@/utils/constants';
 import { Store } from 'vuex';
 import { dispatch, make } from 'vuex-pathify';
-import {EmulationProjectMode} from '@/types/EmulationProject';
+import { EmulationProjectMode } from '@/types/EmulationProject';
+import _importService from '@/services/ImportService';
+import _resourceService from '@/services/ResourceService';
+import eventBus from '@/utils/event-bus';
+import { generateNotificationError } from '@/helpers/NotificationHelper';
 
 /*============================================================
  == State
@@ -144,7 +148,25 @@ const actions = {
 	async addTaskSuccessor({ rootState }, payload): Promise<IEaasiTaskSuccessor> {
 		payload.userId = rootState.loggedInUser.id;
 		return await _projectService.addTaskSuccessor(payload);
-	}
+	},
+
+	async saveBaseEnvironment({ commit, state }): Promise<EmulationProjectEnvironment | null> {
+		if (!state.createEnvironmentPayload) {
+			return null;
+		}
+		if (state.environment) {
+			return state.environment;
+		}
+		const response = await _importService.createEnvironment(state.createEnvironmentPayload);
+		if (!response || !response.id) {
+			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${state.createEnvironmentPayload.label} environment, please try again.`));
+			return null;
+		}
+		const baseEnv: IEnvironment = await _resourceService.getEnvironment(response.id);
+		const emulationProjectEnv = new EmulationProjectEnvironment(baseEnv);
+		commit('SET_ENVIRONMENT', emulationProjectEnv);
+		return emulationProjectEnv;
+	},
 
 };
 
@@ -154,7 +176,7 @@ const actions = {
 
 const getters = {
 	canRunProject(state): boolean {
-		return state.environment != null;
+		return state.environment != null || state.createEnvironmentPayload != null;
 	},
 	constructedFromBaseEnvironment(state): boolean {
 		return state.createEnvironmentPayload != null;

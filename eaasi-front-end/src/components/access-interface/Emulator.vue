@@ -28,11 +28,6 @@
 
 	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
 	import { NetworkBuilder } from 'EaasClient/lib/networkBuilder';
-	import {
-		SaveNewEnvironmentRequest,
-		SaveObjectEnvironmentRequest,
-		SaveRevisionRequest
-	} from 'EaasClient/lib/componentSession';
 	import { ROUTES } from '@/router/routes.const';
 	import { ISaveEnvOptions } from '@/types/SaveEnvironment';
 	import { SaveEnvironmentOption } from '@/types/SaveEnvironmentOption';
@@ -313,7 +308,7 @@
 
 		async saveSnapshot(options: ISaveEnvOptions) {
 			let snapshotRequest;
-			switch (options.saveType) {
+			/*switch (options.saveType) {
 				case SaveEnvironmentOption.newEnvironment:
 					snapshotRequest = new SaveNewEnvironmentRequest(options.title, options.description);
 					break;
@@ -325,7 +320,7 @@
 					break;
 				default:
 					break;
-			}
+			}*/
 			if (!snapshotRequest) {
 				return;
 			}
