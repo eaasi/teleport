@@ -61,7 +61,7 @@ import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import {getResourceArchiveId, getResourceId} from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-import {buildAccessInterfaceQuery, EPHEMERAL_ENVIRONMENT_ID} from '@/helpers/AccessInterfaceHelper';
+import {buildAccessInterfaceQuery} from '@/helpers/AccessInterfaceHelper';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import eventBus from '@/utils/event-bus';
@@ -96,6 +96,9 @@ export default class EmulationProjectScreen extends Vue {
 
 	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
+
+	@Sync('resource/activeEnvironment')
+	activeEnvironment: IEnvironment;
 
 	@Get('emulationProject/canRunProject')
 	readonly canRunProject: boolean;
@@ -134,8 +137,7 @@ export default class EmulationProjectScreen extends Vue {
 			const emulationProjectEnv = await this.prepareEmulationProject(environment);
 
 			// Set newly create emulation project environment to active
-			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', emulationProjectEnv);
-			this.$store.commit('resource/SET_ACTIVE_EPHEMERAL_ENVIRONMENT', this.createEnvironmentPayload);
+			this.activeEnvironment = emulationProjectEnv;
 
 			// Route to access interface screen
 			this.$router.push(this.buildQuery(emulationProjectEnv.envId));
@@ -156,9 +158,6 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	private buildQuery(envId: string) {
-		if (!envId && this.createEnvironmentPayload)
-			envId = EPHEMERAL_ENVIRONMENT_ID;
-
 		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
 			? buildAccessInterfaceQuery({
 				envId,
@@ -211,6 +210,7 @@ export default class EmulationProjectScreen extends Vue {
 		if (!result) {
 			eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));
 		}
+		this.createEnvironmentPayload = null;
 		await this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
