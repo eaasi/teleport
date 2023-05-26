@@ -51,21 +51,22 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Vue from 'vue';
 import EmulationProjectOptions from './EmulationProjectOptions.vue';
-import { Get, Sync } from 'vuex-pathify';
-import { ICreateEnvironmentPayload } from '@/types/Import';
-import { ROUTES } from '@/router/routes.const';
-import { IEnvironment, IEaasiResource } from '@/types/Resource';
-import { getResourceId, getResourceArchiveId } from '@/helpers/ResourceHelper';
+import {Get, Sync} from 'vuex-pathify';
+import {ICreateEnvironmentPayload} from '@/types/Import';
+import {ROUTES} from '@/router/routes.const';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {getResourceArchiveId, getResourceId} from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
+import {buildAccessInterfaceQuery} from '@/helpers/AccessInterfaceHelper';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import eventBus from '@/utils/event-bus';
-import { generateNotificationError } from '@/helpers/NotificationHelper';
+import {generateNotificationError} from '@/helpers/NotificationHelper';
+import {EmulationProjectMode} from '@/types/EmulationProject';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -114,6 +115,9 @@ export default class EmulationProjectScreen extends Vue {
 	@Get('emulationProject/selectedObjects')
 	selectedObjects: IEaasiResource[];
 
+	@Get('emulationProject/mode')
+	mode: EmulationProjectMode;
+
 	get clearAllDisabled(): boolean {
 		return this.environments.length === 0 && this.objects.length === 0;
 	}
@@ -126,7 +130,11 @@ export default class EmulationProjectScreen extends Vue {
 	============================================*/
 	async runEmulationProject() {
 		try {
-			const emulationProjectEnv = await this.prepareEmulationProject(this.environment);
+			const environment = this.mode === EmulationProjectMode.Advanced ?
+				await this.$store.dispatch('emulationProject/saveBaseEnvironment') :
+				this.environment;
+
+			const emulationProjectEnv = await this.prepareEmulationProject(environment);
 
 			// Set newly create emulation project environment to active
 			this.activeEnvironment = emulationProjectEnv;
