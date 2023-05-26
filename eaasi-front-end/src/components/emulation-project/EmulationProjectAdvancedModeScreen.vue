@@ -187,6 +187,7 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 			operatingSystemId: this.selectedTemplate?.operatingSystemId || 'default',
 			label: this.selectedTemplate?.description.title,
 		};
+		console.log(this.selectedTemplateId, this.createEnvironmentPayload);
 		this.selectingResourceForDiskIndex = -1;
 		this.selectedResourcesPerDrive = this.selectedTemplate?.drive.map(() => []);
 	}

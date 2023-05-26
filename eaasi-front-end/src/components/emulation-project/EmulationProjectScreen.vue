@@ -24,9 +24,6 @@
 					<div class="emu-project-action">
 						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run project</ui-button>
 					</div>
-					<div class="emu-project-action">
-						<ui-button :disabled="!canSaveProject" @click="openSaveEnvironmentModal">Save project</ui-button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -50,11 +47,6 @@
 				Are you sure you want to clear all your resources that are attached to emulation project?
 			</p>
 		</confirm-modal>
-		<save-environment-modal
-			v-if="isOpenSaveEnvironmentModal"
-			@save="saveEmulationProject"
-			@close="closeSaveEnvironmentModal"
-		/>
 	</div>
 </template>
 
@@ -75,7 +67,6 @@ import EmulationProjectEnvironment from '@/models/emulation-project/EmulationPro
 import eventBus from '@/utils/event-bus';
 import {generateNotificationError} from '@/helpers/NotificationHelper';
 import {EmulationProjectMode} from '@/types/EmulationProject';
-import SaveEnvironmentModal from '@/components/emulation-project/SaveEnvironmentModal.vue';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -83,8 +74,7 @@ import SaveEnvironmentModal from '@/components/emulation-project/SaveEnvironment
 		EmulationProjectOptions,
 		CreateBaseEnvModal,
 		ConfirmModal,
-		ResourceSideBar,
-		SaveEnvironmentModal
+		ResourceSideBar
 	}
 })
 export default class EmulationProjectScreen extends Vue {
@@ -113,17 +103,11 @@ export default class EmulationProjectScreen extends Vue {
 	@Get('emulationProject/canRunProject')
 	readonly canRunProject: boolean;
 
-	@Get('emulationProject/canSaveProject')
-	readonly canSaveProject: boolean;
-
 	@Get('emulationProject/projectEnvironments')
 	environments: IEnvironment[];
 
 	@Get('emulationProject/projectObjects')
 	objects: IEaasiResource[];
-
-	@Get('emulationProject/projectImages')
-	images: IEaasiResource[];
 
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
@@ -134,10 +118,8 @@ export default class EmulationProjectScreen extends Vue {
 	@Get('emulationProject/mode')
 	mode: EmulationProjectMode;
 
-	isOpenSaveEnvironmentModal: boolean = false;
-
 	get clearAllDisabled(): boolean {
-		return this.environments.length === 0 && this.objects.length === 0 && this.images.length === 0;
+		return this.environments.length === 0 && this.objects.length === 0;
 	}
 
 	/* Methods
@@ -148,32 +130,18 @@ export default class EmulationProjectScreen extends Vue {
 	============================================*/
 	async runEmulationProject() {
 		try {
-			const emulationProjectEnv = this.environment ? await this.prepareEmulationProject(this.environment) : null;
+			const environment = this.mode === EmulationProjectMode.Advanced ?
+				await this.$store.dispatch('emulationProject/saveBaseEnvironment') :
+				this.environment;
+
+			const emulationProjectEnv = await this.prepareEmulationProject(environment);
 
 			// Set newly create emulation project environment to active
 			this.activeEnvironment = emulationProjectEnv;
 
 			// Route to access interface screen
-			this.$router.push(this.buildQuery(emulationProjectEnv?.envId));
+			this.$router.push(this.buildQuery(emulationProjectEnv.envId));
 		} catch(e) {
-			this.handleError(e);
-		}
-	}
-
-	openSaveEnvironmentModal() {
-		this.isOpenSaveEnvironmentModal = true;
-	}
-
-	closeSaveEnvironmentModal() {
-		this.isOpenSaveEnvironmentModal = false;
-	}
-
-	async saveEmulationProject(label: string) {
-		try {
-			const environment = await this.$store.dispatch('emulationProject/saveBaseEnvironment', { label });
-			this.$router.push(`${ROUTES.RESOURCES.ENVIRONMENT}?resourceId=${environment.envId}`);
-			this.closeSaveEnvironmentModal();
-		} catch (e) {
 			this.handleError(e);
 		}
 	}
