@@ -18,7 +18,7 @@
 	import { Component, Prop } from 'vue-property-decorator';
 	import { IAppError } from '@/types/AppError';
 	import { IEaasClient } from '@/types/Eaas';
-	import { IEnvironment } from '@/types/Resource';
+	import { IEaasiResource, IEnvironment } from '@/types/Resource';
 	import { Sync } from 'vuex-pathify';
 	import { slugify } from '@/utils/functions';
 	import StartEnvironmentParams from '@/models/eaas/emil/StartEnvironmentParams';
@@ -26,7 +26,12 @@
 	import { generateId } from '@/utils/functions';
 	import { getUserToken } from '@/utils/auth';
 
-	import { MachineComponentBuilder } from 'EaasClient/lib/componentBuilder';
+	import {
+		ImageDataSource,
+		MachineComponentBuilder,
+		ObjectDataSource,
+		SoftwareDataSource
+	} from 'EaasClient/lib/componentBuilder';
 	import { NetworkBuilder } from 'EaasClient/lib/networkBuilder';
 	import { ROUTES } from '@/router/routes.const';
 	import { ISaveEnvOptions } from '@/types/SaveEnvironment';
@@ -68,6 +73,9 @@
 
 		@Sync('resource/clientComponentId')
 		clientComponentId: string;
+
+		@Sync('emulationProject/selectedResourcesPerDrive')
+		selectedResourcesPerDrive: IEaasiResource[][];
 
 		/* Data
         ============================================*/
@@ -170,6 +178,7 @@
 				} else if (softwareId) {
 					machine.setSoftware(softwareId, archiveId);
 				}
+				this.setResourcesToDrives(machine);
 
 				let components, clientOptions;
 				if (vm.environment.enableInternet) {
@@ -203,6 +212,31 @@
 				vm.handleError(e);
 			}
 			vm.showLoader = false;
+		}
+
+		private setResourcesToDrives(machine: MachineComponentBuilder) {
+			if (this.selectedResourcesPerDrive.length === 0) {
+				return;
+			}
+			this.selectedResourcesPerDrive.forEach((resources, index) => {
+				if (!resources || resources.length === 0) {
+					return;
+				}
+				const resource = resources[0];
+				switch (resource.resourceType) {
+					case 'Software':
+						machine.setDriveAssignment(index, new SoftwareDataSource(resource.id));
+						break;
+					case 'Content':
+						machine.setDriveAssignment(index, new ObjectDataSource(resource.id, resource.archive));
+						break;
+					case 'Image':
+						machine.setDriveAssignment(index, new ImageDataSource(resource.id));
+						break;
+					default:
+						break;
+				}
+			});
 		}
 
 		private setClientReadyTimeout() {
@@ -385,6 +419,7 @@
 			await this.stopEnvironment();
 			this.removeBusListeners();
 			this.isStarted = false;
+			this.selectedResourcesPerDrive = [];
 		}
 
 	}
