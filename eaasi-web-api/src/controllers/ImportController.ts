@@ -131,7 +131,9 @@ export default class ImportController extends BaseController {
 				this.sendClientError(new Error('Request to import image from url requires request body'), res);
 			}
 			let token = req.headers.authorization;
-			let result = await this._emilImportService.importImage(req.body as IImageImportPayload, token);
+			const { url, label, imageType } = req.body;
+			const data: IImageImportPayload = { url, label, imageType };
+			let result = await this._emilImportService.importImage(data, token);
 			if (result) {
 				await this.createTask(result, req);
 			}
