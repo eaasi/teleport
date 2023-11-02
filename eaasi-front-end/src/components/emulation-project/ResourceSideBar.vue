@@ -22,77 +22,109 @@
 			>
 				Find Resource(s)
 			</ui-button>
-			<div class="rsb-environments" v-if="environments.length">
-				<div class="flex-row justify-between rsb-header">
-					<h4 class="no-mb">Environments</h4>
-					<a
-						class="clickable txt-sm"
-						@click="removeResourcesOfType([resourceTypes.ENVIRONMENT])"
+			<div class="rsb-environments" v-if="environments.length || images.length">
+				<div v-if="environments.length">
+					<div class="flex-row justify-between rsb-header">
+						<h4 class="no-mb">Environments</h4>
+						<a
+							class="clickable txt-sm"
+							@click="removeResourcesOfType([resourceTypes.ENVIRONMENT])"
+						>
+							Clear List
+						</a>
+					</div>
+					<draggable
+						handle=".drag-handler"
+						drag-class="drag"
+						ghost-class="ghost"
+						:group="{name: 'environment', pull: 'clone'}"
+						:list="environments.filter(env => !environment || env.envId !== environment.envId)"
 					>
-						Clear List
-					</a>
+						<div
+							v-for="env in environments.filter(item => !environment || item.envId !== environment.envId)"
+							:key="env.envId"
+							class="mb"
+						>
+							<draggable-card
+								:disabled="!isSelectingEnvironment"
+								footer
+								:data="env"
+								is-clickable
+								hide-details
+								class="flex-grow no-mb"
+							>
+								<template #tagsLeft>
+									<tag-group position="left" :tags="getTypeTags(env)" />
+								</template>
+								<template #tagsRight>
+									<tag-group position="right" :tags="getArchiveTags(env)" />
+								</template>
+							</draggable-card>
+							<div class="remove-resource-button text-right">
+								<a class="clickable txt-sm" @click="removeResource(env)">Remove from project <span
+									class="fas fa-times"
+								></span></a>
+							</div>
+						</div>
+					</draggable>
 				</div>
-				<draggable
-					handle=".drag-handler"
-					drag-class="drag"
-					ghost-class="ghost"
-					:group="{name: 'environment', pull: 'clone'}"
-					:list="environments.filter(env => !environment || env.envId !== environment.envId)"
-				>
-					<div
-						v-for="env in environments.filter(item => !environment || item.envId !== environment.envId)"
-						:key="env.envId"
-						class="mb"
+				<div v-if="images.length">
+					<div class="flex-row justify-between rsb-header">
+						<h4 class="no-mb">Images</h4>
+						<a
+							class="clickable txt-sm"
+							@click="removeResourcesOfType([resourceTypes.IMAGE])"
+						>
+							Clear List
+						</a>
+					</div>
+					<draggable
+						handle=".drag-handler"
+						drag-class="drag"
+						ghost-class="ghost"
+						:group="{name: 'object', pull: 'clone'}"
+						:list="images.filter(object => !selected.find(item => item.id === object.id) && !isResourceSelectedForDrive(object.id))"
 					>
+						<div
+							v-for="image in images"
+							:key="image.id"
+							class="mb"
+						>
+							<draggable-card
+								:group="{name: 'object', pull: 'clone'}"
+								:disabled="!isSelectingImage"
+								footer
+								:data="image"
+								is-clickable
+								hide-details
+								class="flex-grow no-mb"
+							>
+								<template #tagsLeft>
+									<tag-group position="left" :tags="getTypeTags(image)" />
+								</template>
+								<template #tagsRight>
+									<tag-group position="right" :tags="getArchiveTags(image)" />
+								</template>
+							</draggable-card>
+						</div>
 						<draggable-card
-							:disabled="!isSelectingEnvironment"
+							:group="{name: 'object', pull: 'clone'}"
+							disabled
 							footer
-							:data="env"
+							:data="emptyImage"
 							is-clickable
 							hide-details
 							class="flex-grow no-mb"
 						>
 							<template #tagsLeft>
-								<tag-group position="left" :tags="getTypeTags(env)" />
+								<tag-group position="left" :tags="getTypeTags(emptyImage)" />
 							</template>
 							<template #tagsRight>
-								<tag-group position="right" :tags="getArchiveTags(env)" />
+								<tag-group position="right" :tags="getArchiveTags(emptyImage)" />
 							</template>
 						</draggable-card>
-						<div class="remove-resource-button text-right">
-							<a class="clickable txt-sm" @click="removeResource(env)">Remove from project <span
-								class="fas fa-times"
-							></span></a>
-						</div>
-					</div>
-				</draggable>
-				<div class="flex-row justify-between rsb-header">
-					<h4 class="no-mb">Images</h4>
-					<a
-						class="clickable txt-sm"
-						@click="removeResourcesOfType([resourceTypes.IMAGE])"
-					>
-						Clear List
-					</a>
+					</draggable>
 				</div>
-				<draggable handle=".drag-handler" drag-class="drag" ghost-class="ghost">
-					<draggable-card
-						:group="{name: 'object', pull: 'clone'}"
-						disabled
-						footer
-						:data="emptyImage"
-						is-clickable
-						hide-details
-						class="flex-grow no-mb"
-					>
-						<template #tagsLeft>
-							<tag-group position="left" :tags="getTypeTags(emptyImage)" />
-						</template>
-						<template #tagsRight>
-							<tag-group position="right" :tags="getArchiveTags(emptyImage)" />
-						</template>
-					</draggable-card>
-				</draggable>
 			</div>
 			<div class="rsb-objects" v-if="objects.length">
 				<div class="flex-row justify-between rsb-header">
@@ -249,6 +281,9 @@ export default class ResourceSideBar extends Vue {
 	@Get('emulationProject/projectObjects')
 	objects: IEaasiResource[];
 
+	@Get('emulationProject/projectImages')
+	images: IEaasiResource[];
+
 	get hasObjectSlots(): boolean {
 		return this.resourceLimit > this.selected.length;
 	}
@@ -315,7 +350,7 @@ export default class ResourceSideBar extends Vue {
 	}
 
 	selectResource(resource: IEaasiResource, selected: boolean) {
-		let resourcesToSelect = [];
+		let resourcesToSelect;
 
 		if (!selected || this.isSelected(resource)) {
 			resourcesToSelect = this.selected.filter(x => x.id !== resource.id);

@@ -92,11 +92,11 @@ import {Get, Sync} from 'vuex-pathify';
 import {ICreateEnvironmentPayload, ITemplate} from '@/types/Import';
 import EmulationProjectHardwareMetadata
 	from '@/components/emulation-project/metadata/EmulationProjectHardwareMetadata.vue';
-import {IDriveSetting, IEaasiResource, ResourceType} from '@/types/Resource';
+import { IDriveSetting, IEaasiResource, ResourceType } from '@/types/Resource';
 import Checkbox from '@/components/global/forms/Checkbox.vue';
 import Draggable from 'vuedraggable';
 import _ from 'lodash';
-import {archiveTypes, AVAILABLE_RESOURCES_BY_DISK_TYPE, resourceTypes, translatedIcon} from '@/utils/constants';
+import {archiveTypes, AVAILABLE_RESOURCES_BY_DISK_TYPE, translatedIcon} from '@/utils/constants';
 import {getResourceTypeTags} from '@/helpers/ResourceHelper';
 
 @Component({
@@ -132,6 +132,9 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 	@Get('emulationProject/projectObjects')
 	objects: IEaasiResource[];
 
+	@Get('emulationProject/projectImages')
+	images: IEaasiResource[];
+
 	get selectedTemplate() {
 		return this.availableTemplates.find(template => template.id === this.selectedTemplateId);
 	}
@@ -146,7 +149,7 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 
 	isSelectionAvailable(driveSetting: IDriveSetting) {
 		try {
-			return this.objects.some(object => AVAILABLE_RESOURCES_BY_DISK_TYPE[driveSetting.drive.type].includes(object.resourceType));
+			return [...this.objects, ...this.images].some(object => AVAILABLE_RESOURCES_BY_DISK_TYPE[driveSetting.drive.type].includes(object.resourceType));
 		} catch (e) {
 			return false;
 		}
@@ -184,7 +187,6 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 			operatingSystemId: this.selectedTemplate?.operatingSystemId || 'default',
 			label: this.selectedTemplate?.description.title,
 		};
-		console.log(this.selectedTemplateId, this.createEnvironmentPayload);
 		this.selectingResourceForDiskIndex = -1;
 		this.selectedResourcesPerDrive = this.selectedTemplate?.drive.map(() => []);
 	}
@@ -234,6 +236,8 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 		await this.$store.dispatch('resource/getTemplates');
 		if (this.createEnvironmentPayload) {
 			this.selectedTemplateId = this.createEnvironmentPayload.templateId;
+			this.selectedResourcesPerDrive = this.createEnvironmentPayload.driveSettings.map(() => []);
+			this.createEnvironmentPayload.driveSettings = this.createEnvironmentPayload.driveSettings.map((driveSetting) => ({ drive: driveSetting.drive, driveIndex: driveSetting.driveIndex, bootDrive: false }));
 		}
 		this.selectingResourceForDiskIndex = -1;
 	}
