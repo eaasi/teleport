@@ -67,14 +67,21 @@ export function getResourceTypeTags(resource: IEaasiResource) {
 			color: 'white'
 		}];
 	}
-	if(resource.resourceType === resourceTypes.IMAGE && resource.isEmpty) {
+	if(resource.resourceType === resourceTypes.IMAGE) {
+		if (resource.isEmpty) {
+			return [{
+				text: 'Empty',
+				icon: translatedIcon('disk'),
+				color: 'white'
+			}];
+		}
 		return [{
-			text: 'Empty',
+			text: resourceTypes.IMAGE as string,
 			icon: translatedIcon('disk'),
 			color: 'white'
 		}];
 	}
-
+	return [];
 }
 
 export function getEnvironmentResourceTypeTags(environmentResource: IEaasiResource) {
@@ -103,9 +110,9 @@ export function filterResourcesByType(resources: IEaasiResource[], type: Resourc
 	return resources.filter(x => x.resourceType === type);
 }
 
-export function removeResourcesByType(resources: IEaasiResource[], type: ResourceType) {
+export function removeResourcesByType(resources: IEaasiResource[], types: ResourceType[]) {
 	if(!Array.isArray(resources)) return [];
-	return resources.filter(x => x.resourceType !== type);
+	return resources.filter(x => !types.includes(x.resourceType));
 }
 
 export function mapEnvironmentToEnvironmentUpdateRequest(environment: IEnvironment): IEnvironmentUpdateRequest {

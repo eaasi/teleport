@@ -50,7 +50,7 @@ export class EmulationProjectResource extends Model<EmulationProjectResource> {
 
 	@Column({
 		type: DataTypes.STRING,
-		allowNull: false,
+		allowNull: true,
 	})
 	archiveId: string;
 
