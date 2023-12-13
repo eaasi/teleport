@@ -3,7 +3,7 @@
 		<div class="em-header">
 			<div class="em-tags">
 				<tag
-					v-if="environment.isImport"
+					v-if="environment && environment.isImport"
 					text="New Import"
 					:icon="uploadIcon"
 					color="yellow"
@@ -22,15 +22,16 @@
 					:icon="configEnvironmentIcon"
 				/>
 			</div>
-			<h2 v-if="environment.isImport">{{ importTitle }}</h2>
-			<h2 v-else>{{ environment.title }}</h2>
-			<p v-if="environment.isImport"></p>
-			<p v-else-if="environment.description">{{ environment.description | stripHtml }}</p>
+			<h2 v-if="environment && environment.isImport">{{ importTitle }}</h2>
+			<h2 v-else-if="environment">{{ environment.title }}</h2>
+			<h2 v-else-if="createEnvironmentPayload">{{ createEnvironmentPayload.label }}</h2>
+			<p v-if="environment && environment.isImport"></p>
+			<p v-else-if="environment && environment.description">{{ environment.description | stripHtml }}</p>
 			<p v-else>No description for this environment was provided.</p>
 		</div>
 
 		<tabbed-nav
-			v-if="!environment.isImport"
+			v-if="!environment || !environment.isImport"
 			:tabs="tabs"
 			v-model="tab"
 		/>
@@ -109,6 +110,7 @@ import { IEaasiTab } from 'eaasi-nav';
 import { IEnvironment } from '@/types/Resource';
 import { Get } from 'vuex-pathify';
 import { translatedIcon } from '@/utils/constants';
+import { ICreateEnvironmentPayload } from '@/types/Import';
 
 @Component({
 	name: 'EnvironmentMenu',
@@ -125,6 +127,9 @@ export default class EnvironmentMenu extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment;
 
+	@Get('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
+
 	@Get('import/environment@title')
 	readonly importTitle: string;
 
@@ -132,7 +137,7 @@ export default class EnvironmentMenu extends Vue {
 	readonly isConstructed: boolean;
 
 	get tabs(): IEaasiTab[] {
-		if (this.environment.isImport) {
+		if (!this.environment || this.environment.isImport) {
 			return [];
 		}
 		return [
@@ -171,12 +176,12 @@ export default class EnvironmentMenu extends Vue {
 	saveImport() {
 		eventBus.$emit('emulator:saveEnvironmentImport', {
 			description: this.newImportDescription,
-			title: this.environment.title
+			title: this.environment ? this.environment.title : this.createEnvironmentPayload.label,
 		});
 	}
 
 	mounted() {
-		if (this.environment.isImport) {
+		if (this.environment && this.environment.isImport) {
 			this.tab = 'New Import';
 		}
 	}
