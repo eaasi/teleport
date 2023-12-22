@@ -51,6 +51,7 @@ module.exports = {
 	editorConfig: {
 		theme: 'oceanic-next'
 	},
+	simpleEditor: false,
 	theme: {
 		color: {
 			title: '#FFF',

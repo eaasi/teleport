@@ -22,7 +22,10 @@
 						</ui-button>
 					</div>
 					<div class="emu-project-action">
-						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run</ui-button>
+						<ui-button :disabled="!canRunProject" @click="runEmulationProject">Run project</ui-button>
+					</div>
+					<div class="emu-project-action">
+						<ui-button :disabled="!canSaveProject" @click="openSaveEnvironmentModal">Save project</ui-button>
 					</div>
 				</div>
 			</div>
@@ -47,25 +50,32 @@
 				Are you sure you want to clear all your resources that are attached to emulation project?
 			</p>
 		</confirm-modal>
+		<save-environment-modal
+			v-if="isOpenSaveEnvironmentModal"
+			@save="saveEmulationProject"
+			@close="closeSaveEnvironmentModal"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Vue from 'vue';
 import EmulationProjectOptions from './EmulationProjectOptions.vue';
-import { Get, Sync } from 'vuex-pathify';
-import { ICreateEnvironmentPayload } from '@/types/Import';
-import { ROUTES } from '@/router/routes.const';
-import { IEnvironment, IEaasiResource } from '@/types/Resource';
-import { getResourceId, getResourceArchiveId } from '@/helpers/ResourceHelper';
+import {Get, Sync} from 'vuex-pathify';
+import {ICreateEnvironmentPayload} from '@/types/Import';
+import {ROUTES} from '@/router/routes.const';
+import {IEaasiResource, IEnvironment} from '@/types/Resource';
+import {getResourceArchiveId, getResourceId} from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-import { buildAccessInterfaceQuery } from '@/helpers/AccessInterfaceHelper';
+import {buildAccessInterfaceQuery} from '@/helpers/AccessInterfaceHelper';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import eventBus from '@/utils/event-bus';
-import { generateNotificationError } from '@/helpers/NotificationHelper';
+import {generateNotificationError} from '@/helpers/NotificationHelper';
+import {EmulationProjectMode} from '@/types/EmulationProject';
+import SaveEnvironmentModal from '@/components/emulation-project/SaveEnvironmentModal.vue';
 
 @Component({
 	name: 'EmulationProjectScreen',
@@ -73,7 +83,8 @@ import { generateNotificationError } from '@/helpers/NotificationHelper';
 		EmulationProjectOptions,
 		CreateBaseEnvModal,
 		ConfirmModal,
-		ResourceSideBar
+		ResourceSideBar,
+		SaveEnvironmentModal
 	}
 })
 export default class EmulationProjectScreen extends Vue {
@@ -102,11 +113,17 @@ export default class EmulationProjectScreen extends Vue {
 	@Get('emulationProject/canRunProject')
 	readonly canRunProject: boolean;
 
+	@Get('emulationProject/canSaveProject')
+	readonly canSaveProject: boolean;
+
 	@Get('emulationProject/projectEnvironments')
 	environments: IEnvironment[];
 
 	@Get('emulationProject/projectObjects')
 	objects: IEaasiResource[];
+
+	@Get('emulationProject/projectImages')
+	images: IEaasiResource[];
 
 	@Get('emulationProject/constructedFromBaseEnvironment')
 	constructedFromBaseEnvironment: boolean;
@@ -114,8 +131,13 @@ export default class EmulationProjectScreen extends Vue {
 	@Get('emulationProject/selectedObjects')
 	selectedObjects: IEaasiResource[];
 
+	@Get('emulationProject/mode')
+	mode: EmulationProjectMode;
+
+	isOpenSaveEnvironmentModal: boolean = false;
+
 	get clearAllDisabled(): boolean {
-		return this.environments.length === 0 && this.objects.length === 0;
+		return this.environments.length === 0 && this.objects.length === 0 && this.images.length === 0;
 	}
 
 	/* Methods
@@ -126,14 +148,32 @@ export default class EmulationProjectScreen extends Vue {
 	============================================*/
 	async runEmulationProject() {
 		try {
-			const emulationProjectEnv = await this.prepareEmulationProject(this.environment);
+			const emulationProjectEnv = this.environment ? await this.prepareEmulationProject(this.environment) : null;
 
 			// Set newly create emulation project environment to active
 			this.activeEnvironment = emulationProjectEnv;
 
 			// Route to access interface screen
-			this.$router.push(this.buildQuery(emulationProjectEnv.envId));
+			this.$router.push(this.buildQuery(emulationProjectEnv?.envId));
 		} catch(e) {
+			this.handleError(e);
+		}
+	}
+
+	openSaveEnvironmentModal() {
+		this.isOpenSaveEnvironmentModal = true;
+	}
+
+	closeSaveEnvironmentModal() {
+		this.isOpenSaveEnvironmentModal = false;
+	}
+
+	async saveEmulationProject(label: string) {
+		try {
+			const environment = await this.$store.dispatch('emulationProject/saveBaseEnvironment', { label });
+			this.$router.push(`${ROUTES.RESOURCES.ENVIRONMENT}?resourceId=${environment.envId}`);
+			this.closeSaveEnvironmentModal();
+		} catch (e) {
 			this.handleError(e);
 		}
 	}
@@ -162,13 +202,14 @@ export default class EmulationProjectScreen extends Vue {
 	async init() {
 		this.showLoader = true;
 		await this.$store.dispatch('emulationProject/loadProject');
-		if (this.environments.length === 1) {
+		/*if (this.environments.length === 1) {
 			this.environment = new EmulationProjectEnvironment(this.environments[0]);
 			this.$router.push(ROUTES.EMULATION_PROJECT.DETAILS);
 		}
 		if (!this.environment) {
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
-		}
+		}*/
+		this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		this.showLoader = false;
 	}
 
@@ -216,7 +257,7 @@ export default class EmulationProjectScreen extends Vue {
 	.emulation-project-page-heading {
 		background: lighten($light-neutral, 80%);
 		border-bottom: solid 3px lighten($light-neutral, 10%);
-		padding: 3rem 3rem 1rem;
+		padding: 3rem 1.8rem;
 		.emulation-project-page-title {
 			padding-bottom: 3px;
 		}
@@ -235,11 +276,8 @@ export default class EmulationProjectScreen extends Vue {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		padding: 2rem;
-	}
-
-	.emu-project-action {
-		margin: 0 1.2rem;
+		gap: 1.8rem;
+		margin-left: 3rem;
 	}
 
 	.main-content {

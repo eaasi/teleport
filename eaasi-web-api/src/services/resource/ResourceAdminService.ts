@@ -52,15 +52,17 @@ export default class ResourceAdminService extends BaseService {
 	async getAllResources(token?: string): Promise<IEaasiResource[]> {
 		let environments: IEnvironment[],
 			software: ISoftwarePackage[],
-			content: IContentItem[];
+			content: IContentItem[],
+			images: IImageListItem[];
 
-		[environments, software, content] = await Promise.all([
+		[environments, software, content, images] = await Promise.all([
 			this._environmentService.getAll(token),
 			this._softwareService.getAll(token),
-			this._contentService.getAll('zero conf', token)
+			this._contentService.getAll('zero conf', token),
+			this._environmentService.getImages(token),
 		]);
 
-		return [...environments, ...software, ...content] as IEaasiResource[];
+		return [...environments, ...software, ...content, ...images] as IEaasiResource[];
 	}
 
 	/*============================================================
