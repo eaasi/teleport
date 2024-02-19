@@ -2,7 +2,6 @@
 import AccessDeniedScreen from '@/components/access-denied/AccessDeniedScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
-import InstallAndUpdateManagement from '@/components/admin/install-and-update/InstallAndUpdateManagement.vue';
 import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
 import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';
 import TroubleshootingSection from '@/components/admin/troubleshooting/TroubleshootingSection.vue';
@@ -68,11 +67,6 @@ export default [
 		path: ROUTES.MANAGE_NODE.METADATA_SYNC,
 		name: 'Metadata Sync',
 		component: MetadataSyncAdmin
-	},
-	{
-		path: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
-		name: 'Install and Updates',
-		component: InstallAndUpdateManagement
 	},
 	{
 		path: ROUTES.MANAGE_NODE.TROUBLESHOOTING,

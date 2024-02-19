@@ -74,15 +74,6 @@ export default class AdminMenu extends Vue {
 				route: ROUTES.MANAGE_NODE.RUNNING_TASKS
 			}
 		);
-		if (this.permit.allowsManageNodeItems() && config.EDITION_TYPE == EDITION_TYPES.STANDALONE) {
-			menuItems.push(
-				{
-					label: 'Install & Updates',
-					route: ROUTES.MANAGE_NODE.INSTALL_AND_UPDATES,
-					icon: 'arrows'
-				}
-			);
-		}
 		menuItems.push(
 			{
 				label: 'Troubleshooting',
