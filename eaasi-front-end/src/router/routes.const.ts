@@ -8,7 +8,6 @@ export const ROUTES: IRoutes = {
         RUNNING_TASKS: '/manage-node/running-tasks',
         METADATA_SYNC: '/manage-node/metadata-sync',
         NODE_PREFERENCES: '/manage-node/node-preferences',
-        INSTALL_AND_UPDATES: '/manage-node/install-updates',
         TROUBLESHOOTING: '/manage-node/troubleshooting',
     },
     EMULATION_PROJECT: {
@@ -49,7 +48,6 @@ interface IManageNodeRoutes {
     RUNNING_TASKS: string;
     METADATA_SYNC: string;
     NODE_PREFERENCES: string;
-    INSTALL_AND_UPDATES: string;
     TROUBLESHOOTING: string;
 }
 
