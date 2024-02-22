@@ -25,7 +25,7 @@
 			</div>
 		</div>
 		<div class="dh-quick-links flex-row">
-			<a href="https://eaasi-sandbox.softwarepreservationnetwork.org/eaasi/" target="_blank" rel="noopener noreferrer">
+			<a href="https://sandbox.eaasi.cloud" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Open source software sandbox with access to EaaSI service."
 					icon="box"
