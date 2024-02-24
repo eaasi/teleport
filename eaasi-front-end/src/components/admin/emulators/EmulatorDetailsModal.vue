@@ -10,9 +10,9 @@
 				<caption>Available Emulators</caption>
 				<thead>
 					<tr>
-						<th scope="col">User Version</th>
-						<th scope="col">OCI Source URL</th>
-						<th scope="col" style="width: 95px;">Docker Tag</th>
+						<th scope="col">Emulator Alias</th>
+						<th scope="col">Emulator Source</th>
+						<th scope="col" style="width: 95px;">Emulator Tag</th>
 						<th scope="col" style="width: 220px;"></th>
 						<th scope="col" style="width: 30px;" v-if="hasMultipleImages">Default</th>
 					</tr>
