@@ -157,4 +157,16 @@ $checkboxSize: 18px;
 		top: 0;
 	}
 }
+
+.select-archive-group {
+	.eaasi-checkbox {
+		label {
+			align-items: center;
+
+			span {
+				margin: 0;
+			}
+		}
+	}
+}
 </style>
