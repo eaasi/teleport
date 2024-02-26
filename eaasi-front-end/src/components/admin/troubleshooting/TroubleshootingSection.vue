@@ -12,10 +12,10 @@
 			<p>
 				Helpful for troubleshooting back-end services like emulator, resource replication, resource import, metadata synchronization, etc.
 			</p>
-			<a 
-				:href="emilErrorDownloadUrl" 
-				target="blank" 
-				noreferrer 
+			<a
+				:href="emilErrorDownloadUrl"
+				target="blank"
+				noreferrer
 				nofollow
 			>
 				<ui-button class="btn-info-modal-close" icon="cloud-download">
@@ -29,14 +29,48 @@
 			<p>
 				Helpful for troubleshooting of Authentication/Authorization, User Credentials, Front-End facing features: bookmarks, resource-to-user relationship, search and discovery, etc.
 			</p>
-			<a 
-				:href="webApiErrorDownloadUrl" 
-				target="blank" 
-				noreferrer 
+			<a
+				:href="webApiErrorDownloadUrl"
+				target="blank"
+				noreferrer
 				nofollow
 			>
 				<ui-button class="btn-info-modal-close" icon="cloud-download">
 					Download
+				</ui-button>
+			</a>
+			<div class="section-divider padded"></div>
+		</div>
+		<div class="padded-xl container-xs">
+			<h4 class="uppercase medium">REFRESH STORAGE INDEX</h4>
+			<p>
+				Helpful for troubleshooting problems with importing resources.
+			</p>
+			<div class="select-archive-group">
+				<h5 class="select-archive-header">Select archive(s) to refresh:</h5>
+				<checkbox
+					label="image archive"
+					:value="isChecked('image_archive')"
+					@input="onToggle('image_archive')"
+					style="margin-left: 10px;"
+				/>
+
+				<checkbox
+					label="object archive"
+					:value="isChecked('object_archive')"
+					@input="onToggle('object_archive')"
+					style="margin-left: 10px;"
+				/>
+<!--				<checkbox class="no-mb" :value="isDefault(e)" @change="makeDefault(e)" />-->
+			</div>
+			<a
+				:href="refreshArchive"
+				target="blank"
+				noreferrer
+				nofollow
+			>
+				<ui-button class="btn-info-modal-close" icon="cloud-download">
+					Refresh
 				</ui-button>
 			</a>
 		</div>
@@ -66,16 +100,33 @@ export default class TroubleshootingSection extends AdminScreen {
     get emilErrorDownloadUrl(): string {
         return config.EMIL_SERVICE_ENDPOINT + '/error-report';
 	}
-	
+
 	get webApiErrorDownloadUrl(): string {
 		return config.SERVICE_URL + '/error-report/download-all';
+	}
+
+	get refreshArchive(): string {
+		return config.EMIL_SERVICE_ENDPOINT + '/error-report';
 	}
 
     /* Data
     ============================================*/
 
+	checkedArchives: string[] = [];
     /* Methods
     ============================================*/
+
+	isChecked(type: string) {
+		return this.checkedArchives.includes(type);
+	}
+
+	onToggle(type: string) {
+		if (this.checkedArchives.includes(type)) {
+			this.checkedArchives = this.checkedArchives.filter(f => f !== type);
+		} else {
+			this.checkedArchives.push(type);
+		}
+	}
 
     /* Lifecycle Hooks
     ============================================*/
@@ -84,5 +135,17 @@ export default class TroubleshootingSection extends AdminScreen {
 </script>
 
 <style lang='scss' scoped>
+
+.select-archive-group {
+	margin: 10px 0;
+
+	.select-archive-header {
+		margin: 20px 0;
+	}
+
+	.eaasi-checkbox {
+		margin-bottom: 10px;
+	}
+}
 
 </style>
