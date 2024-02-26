@@ -34,7 +34,7 @@
 					</tr>
 					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
-							{{ new Date(timestamp).toISOString().slice(0,10) }}
+							{{ new Date(rev.timestamp).toISOString().slice(0,10) }}
 						</td>
 						<td>
 							{{ rev.text | stripHtml }}
