@@ -7,13 +7,13 @@
 				</caption>
 				<thead>
 					<tr>
-						<th id="dateCol">
+						<th id="dateCol" style="min-width: 10ch;">
 							Date
 						</th>
-						<th id="timeCol">
+						<th id="timeCol" style="min-width: 8ch;">
 							Time
 						</th>
-						<th id="changedCol" style="width: 900px;">
+						<th id="changedCol" style="width: 100%;">
 							Changes
 						</th>
 						<th id="detailsCol">
