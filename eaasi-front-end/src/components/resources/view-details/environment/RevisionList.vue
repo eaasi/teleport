@@ -21,7 +21,7 @@
 				<tbody>
 					<tr v-if="description">
 						<td>
-							{{ new Date(timestamp).toISOString().slice(0,10) }}
+							{{ toDateString(timestamp) }}
 						</td>
 						<td>
 							{{ description | stripHtml }}
@@ -34,7 +34,7 @@
 					</tr>
 					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
-							{{ new Date(rev.timestamp).toISOString().slice(0,10) }}
+							{{ toDateString(rev.timestamp) }}
 						</td>
 						<td>
 							{{ rev.text | stripHtml }}
@@ -108,6 +108,18 @@ export default class ResourceDetailsRevisionList extends Vue {
     		this.expandedRows.push(id);
     	}
     }
+
+	private getTimestampSubstring(ts: string, start: number, end: number): string {
+		// NOTE: timestamp is expected to be in ISO-8601 format!
+		if (ts == null || ts.length < end)
+			return 'N/A';
+
+		return ts.substring(start, end);
+	}
+
+	toDateString(ts: string): string {
+		return this.getTimestampSubstring(ts, 0, 10);
+	}
 }
 
 </script>
