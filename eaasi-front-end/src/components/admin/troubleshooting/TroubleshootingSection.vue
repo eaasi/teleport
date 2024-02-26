@@ -22,8 +22,8 @@
 					Download
 				</ui-button>
 			</a>
+			<div class="section-divider padded"></div>
 		</div>
-		<div class="section-divider"></div>
 		<div class="padded-xl container-xs">
 			<h4 class="uppercase medium">Download Web API Logs</h4>
 			<p>
@@ -39,8 +39,8 @@
 					Download
 				</ui-button>
 			</a>
+			<div class="section-divider padded"></div>
 		</div>
-		<div class="section-divider"></div>
 		<div class="padded-xl container-xs">
 			<h4 class="uppercase medium">REFRESH STORAGE INDEX</h4>
 			<p>
@@ -207,11 +207,6 @@ export default class TroubleshootingSection extends AdminScreen {
 	.eaasi-checkbox {
 		margin-bottom: 10px;
 	}
-}
-
-.section-divider {
-	margin-left: 5rem;
-	margin-right: 5rem;
 }
 
 </style>
