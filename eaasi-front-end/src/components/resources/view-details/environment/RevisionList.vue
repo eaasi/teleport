@@ -10,6 +10,9 @@
 						<th id="dateCol">
 							Date
 						</th>
+						<th id="timeCol">
+							Time
+						</th>
 						<th id="changedCol" style="width: 900px;">
 							Changes
 						</th>
@@ -24,6 +27,9 @@
 							{{ toDateString(timestamp) }}
 						</td>
 						<td>
+							{{ toTimeString(timestamp) }}
+						</td>
+						<td>
 							{{ description | stripHtml }}
 						</td>
 						<td class="edrl-details-cell">
@@ -35,6 +41,9 @@
 					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
 							{{ toDateString(rev.timestamp) }}
+						</td>
+						<td>
+							{{ toTimeString(rev.timestamp) }}
 						</td>
 						<td>
 							{{ rev.text | stripHtml }}
@@ -119,6 +128,10 @@ export default class ResourceDetailsRevisionList extends Vue {
 
 	toDateString(ts: string): string {
 		return this.getTimestampSubstring(ts, 0, 10);
+	}
+
+	toTimeString(ts: string): string {
+		return this.getTimestampSubstring(ts, 11, 19);
 	}
 }
 
