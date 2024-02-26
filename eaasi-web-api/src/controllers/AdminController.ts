@@ -389,25 +389,6 @@ export default class AdminController extends BaseController {
 		}
 	}
 
-	async dbDataMigration(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/db-migration
-			res.send(true);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	async syncEnvironments(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let result = true;
-			// TODO: add call to _environmentService.dbDataMigration() which should send a GET request to /emil/environment-repository/actions/sync
-			res.send(result)
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
 	async getApiKey(req: ExpressRequest, res: ExpressResponse) {
 		try {
 			const token = req.headers.authorization;
