@@ -42,6 +42,14 @@ export default class BaseHttpService {
 		return this._makeRequest(url, 'POST', data, options);
 	}
 
+	async postLocal<T>(
+		url: string,
+		data?: any,
+		options?: IEaasiApiRequestOptions
+	): Promise<IEaasiApiResponse<T>> {
+		return this._makeRequestLocal(url, 'POST', data, options);
+	}
+
 	/**
 	 * Makes a POST request for uploading files using Fetch
 	 *

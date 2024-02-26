@@ -6,6 +6,7 @@ import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes } from '@/utils/constants';
+import config from '@/config';
 
 
 class ResourceService extends BaseHttpService {
@@ -172,6 +173,30 @@ class ResourceService extends BaseHttpService {
 		await this.delete(`/resource/delete-software-object?id=${id}`);
 	}
 
+
+	/**
+	 * Makes a POST request to synchronizate image archives
+	 */
+	async syncImagesUrl() {
+		const res = await this.postLocal('/emil/environment-repository/actions/sync');
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to synchronizate object archives
+	 */
+	async syncObjectsUrl() {
+		const res = await this.postLocal('/emil/object-repository/actions/sync');
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to synchronizate software archives
+	 */
+	async syncSoftwareUrl() {
+		const res = await this.postLocal('/emil/software-repository/actions/sync');
+		return res.result;
+	}
 }
 
 export default new ResourceService();
