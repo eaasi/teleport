@@ -119,14 +119,6 @@ const actions = {
 		console.log('setKeyboardSettings');
 	},
 
-	dbDataMigration(_) {
-		console.log('dbDataMigration');
-	},
-
-	syncEnvironments(_) {
-		console.log('syncEnvironments');
-	},
-
 	getApiKey({ commit }: Store<AdminState>) {
 		console.log('getApiKey');
 	}

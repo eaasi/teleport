@@ -161,17 +161,6 @@ class AdminService extends BaseHttpService {
 		Cookies.set(config.KEYBOARD_SETTINGS_NAME, JSON.stringify(settings));
 	}
 
-	async dbDataMigration() {
-		const response = await this.get<any>('/admin/db-migration');
-		if (!response.ok) return null;
-		return response.result;
-	}
-	async syncEnvironments() {
-		const response = await this.get<any>('/admin/sync-environments');
-		if (!response.ok) return null;
-		return response.result;
-	}
-
 	async getApiKey() {
 		const response = await this.get<any>('/admin/api-key');
 		if (!response.ok) return null;

@@ -160,27 +160,6 @@ router.get('/get-harvester', (req, res) => controller.getHarvester(req, res));
  */
 router.get('/api-key', (req, res) => controller.getApiKey(req, res));
 
-/* Install and Update
-============================================*/
-
-/**
- * @api {get} admin/db-migration Database Migration
- * @apiVersion 1.0.0
- * @apiGroup Install and Update
- * @apiPermission System Administrator only
- * @apiDescription Triggers old data migration in the EaaS database
- */
-router.get('/db-migration', (req, res) => controller.dbDataMigration(req, res))
-
-/**
- * @api {get} admin/sync-environments Syncronizes archives
- * @apiVersion 1.0.0
- * @apiGroup Install and Update
- * @apiPermission System Administrator only
- * @apiDescription Triggers synchronizing archives in EaaS
- */
-router.get('/sync-environments', (req, res) => controller.syncEnvironments(req, res))
-
 /**
  * @api {get} /groups/:name Get group
  * @apiVersion 1.0.0
