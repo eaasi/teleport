@@ -186,14 +186,6 @@ const actions = {
 		_svc.setKeyboardSettings(keyboardSettings);
 	},
 
-	async dbDataMigration(_) {
-		return await _svc.dbDataMigration();
-	},
-
-	async syncEnvironments(_) {
-		return await _svc.syncEnvironments();
-	},
-
 	async getApiKey({ commit }: Store<AdminState>) {
 		const res = await _svc.getApiKey();
 		commit('SET_API_KEY', res.apikey);
