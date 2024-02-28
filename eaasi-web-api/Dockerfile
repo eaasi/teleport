@@ -12,6 +12,7 @@ FROM base AS build
 RUN npm ci
 COPY --chown=node:node . ./
 RUN sed -i "s/src/dist/g" .sequelizerc
+ENV NODE_ENV production
 RUN npm run build
 
 FROM node:lts-alpine
