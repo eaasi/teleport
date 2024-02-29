@@ -21,7 +21,7 @@
 				<tbody>
 					<tr v-if="description">
 						<td>
-							N/A
+							{{ new Date(timestamp).toISOString().slice(0,10) }}
 						</td>
 						<td>
 							{{ description | stripHtml }}
@@ -34,7 +34,7 @@
 					</tr>
 					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
-							N/A
+							{{ new Date(timestamp).toISOString().slice(0,10) }}
 						</td>
 						<td>
 							{{ rev.text | stripHtml }}
@@ -72,6 +72,9 @@ export default class ResourceDetailsRevisionList extends Vue {
 
     @Prop({ required: false, type: String })
 	description?: string;
+
+	@Prop({ required: false, type: String })
+	timestamp?: string;
 
     /* Data
     ============================================*/
