@@ -15,17 +15,20 @@
 				label="Endpoint Name"
 				v-model="endpointName"
 				:rules="validateName"
+				required
 				placeholder="Enter a name..."
 			/>
 			<text-input
 				label="API Key"
 				v-model="secret"
+				required
 				placeholder="Enter API key"
 			/>
 			<text-input
 				label="Host Location"
 				v-model="endpointUrl"
 				rules="required|url"
+				required
 				placeholder="Enter a URL..."
 			/>
 			<alert card class="ah-error" type="error" v-if="error">
