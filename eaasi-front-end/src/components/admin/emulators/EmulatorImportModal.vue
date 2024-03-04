@@ -23,6 +23,7 @@
 				label="Emulator Tag"
 				v-model="importRequest.tag"
 				placeholder="Enter a tag..."
+				tooltip="Enter the tag for a specific container from the registry listed above. If left blank, this will default to use the tag <code>latest</code>."
 			/>
 
 			<text-input
@@ -30,6 +31,7 @@
 				label="Emulator Alias"
 				v-model="importRequest.alias"
 				placeholder="Enter an alias..."
+				tooltip="Enter an optional human-readable name or description for this particular emulator container. If left blank, this will default to the same value as the Emulator Tag."
 			/>
 		</div>
 	</form-modal>
