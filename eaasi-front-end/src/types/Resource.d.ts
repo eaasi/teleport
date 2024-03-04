@@ -153,6 +153,7 @@ export interface IEnvironmentRevision {
 	id: string;
 	text: string;
 	archive: string;
+	timestamp: string;
 }
 
 export interface IDriveSetting {

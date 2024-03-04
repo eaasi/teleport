@@ -7,10 +7,13 @@
 				</caption>
 				<thead>
 					<tr>
-						<th id="dateCol">
+						<th id="dateCol" style="min-width: 10ch;">
 							Date
 						</th>
-						<th id="changedCol" style="width: 900px;">
+						<th id="timeCol" style="min-width: 8ch;">
+							Time
+						</th>
+						<th id="changedCol" style="width: 100%;">
 							Changes
 						</th>
 						<th id="detailsCol">
@@ -21,7 +24,10 @@
 				<tbody>
 					<tr v-if="description">
 						<td>
-							N/A
+							{{ toDateString(timestamp) }}
+						</td>
+						<td>
+							{{ toTimeString(timestamp) }}
 						</td>
 						<td>
 							{{ description | stripHtml }}
@@ -34,7 +40,10 @@
 					</tr>
 					<tr v-for="rev in revisions" :key="rev.id">
 						<td>
-							N/A
+							{{ toDateString(rev.timestamp) }}
+						</td>
+						<td>
+							{{ toTimeString(rev.timestamp) }}
 						</td>
 						<td>
 							{{ rev.text | stripHtml }}
@@ -73,6 +82,9 @@ export default class ResourceDetailsRevisionList extends Vue {
     @Prop({ required: false, type: String })
 	description?: string;
 
+	@Prop({ required: false, type: String })
+	timestamp?: string;
+
     /* Data
     ============================================*/
 	expandedRows: any[] = [];
@@ -105,6 +117,22 @@ export default class ResourceDetailsRevisionList extends Vue {
     		this.expandedRows.push(id);
     	}
     }
+
+	private getTimestampSubstring(ts: string, start: number, end: number): string {
+		// NOTE: timestamp is expected to be in ISO-8601 format!
+		if (ts == null || ts.length < end)
+			return 'N/A';
+
+		return ts.substring(start, end);
+	}
+
+	toDateString(ts: string): string {
+		return this.getTimestampSubstring(ts, 0, 10);
+	}
+
+	toTimeString(ts: string): string {
+		return this.getTimestampSubstring(ts, 11, 19);
+	}
 }
 
 </script>
