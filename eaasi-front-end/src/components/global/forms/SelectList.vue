@@ -1,7 +1,7 @@
 <template>
 	<form-field-wrapper class="eaasi-select" v-bind="wrapperProps" :readonly="readonly">
 		<div class="eaasi-input-wrapper">
-			<div :class="['eaasi-input flex-row relative select-list', fieldStatus, {readonly}]">
+			<div :class="['eaasi-input flex-row relative select-list', fieldStatus, {readonly}, {empty: !value}]">
 				<select
 					v-bind="$attrs"
 					v-on="inputListeners"
@@ -44,6 +44,16 @@ export default class SelectList extends BaseFormField { }
 		pointer-events: none;
 		position: absolute;
 		right: 0.6rem;
+	}
+
+	&.empty {
+		select {
+			color: $grey;
+
+			option {
+				color: initial;
+			}
+		}
 	}
 }
 </style>

@@ -16,6 +16,7 @@ export interface IEaasiResource {
 	archiveId?: string;
 	archive?: string;
 	isPublic: boolean;
+	isEmpty?: boolean;
 }
 
 export interface IImageListItem extends IEaasiResource {
@@ -163,14 +164,15 @@ export interface IDriveSetting {
 	imageArchive?: string;
 	objectArchive?: string;
 	objectId?: string;
+	bootDrive?: boolean;
 }
 
 export interface IDrive {
-	data: string;
-	iface: string;
-	filesystem: string;
-	bus: string;
-	unit: string;
+	data?: string;
+	iface?: string;
+	filesystem?: string;
+	bus?: string;
+	unit?: string;
 	type: string;
 	boot: boolean;
 	plugged: boolean;

@@ -1,4 +1,4 @@
-import { IDrive, IDriveSetting, PhysicalFormat } from './Resource';
+import {IDrive, IDriveSetting, IInstalledSoftware, PhysicalFormat} from './Resource';
 
 export type ImportType = 'content' | 'software' | 'environment' | 'bulk' | 'image';
 
@@ -44,7 +44,7 @@ export interface IImportObjectRequest {
  */
 export interface ICreateEnvironmentPayload {
 	nativeConfig: string;
-	driveSettings: IDriveSetting[];
+	driveSettings:  IDriveSetting[];
 	templateId: string;
 	operatingSystemId: string;
 	label: string;
@@ -83,6 +83,7 @@ export interface IFileImport {
 
 
 export interface ITemplate {
+	deleted: boolean;
 	abstractDataResource: IAbstractDataResource[];
 	arch: string;
 	checkpointBindingId: string;
