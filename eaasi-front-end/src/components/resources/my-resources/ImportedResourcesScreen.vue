@@ -202,7 +202,7 @@ export default class ImportedResourcesScreen extends Vue {
 				userId: this.user.id,
 				onlyImportedResources: true,
 				onlyBookmarks: false,
-				archives: ['zero conf', 'default']
+				archives: ['default']
 			};
 			await this.$store.dispatch('resource/searchResources');
 			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
