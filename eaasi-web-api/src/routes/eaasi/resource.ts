@@ -253,4 +253,14 @@ router.post('/save-new-object-environment', (req, res) => controller.saveNewObje
  */
 router.post('/save-environment-revision', (req, res) => controller.saveEnvironmentRevision(req, res));
 
+/**
+ * @api {post} Refresh image archive
+ * @apiVersion 1.0.0
+ * @apiName Synchronized Images
+ * @apiGroup Resources
+ * @apiDescription Refresh image archive
+ */
+router.post('/environment-repository/actions/sync', (req, res) => controller.syncImagesUrl(req, res));
+
+
 module.exports = router;

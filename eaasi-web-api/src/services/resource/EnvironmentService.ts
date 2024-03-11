@@ -280,6 +280,10 @@ export default class EnvironmentService extends BaseService {
 		await this._environmentRepoService.post('actions/delete-image', payload, token);
 	}
 
+	async syncImagesUrl(payload) {
+		await this._environmentRepoService.post('/environment-repository/actions/sync', payload);
+	}
+
 	/*============================================================
 	 == Templates and Patches
 	/============================================================*/

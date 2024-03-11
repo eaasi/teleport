@@ -54,25 +54,24 @@
 					@input="onToggle('image_archive')"
 					style="margin-left: 10px;"
 				/>
-
 				<checkbox
 					label="object archive"
 					:value="isChecked('object_archive')"
 					@input="onToggle('object_archive')"
 					style="margin-left: 10px;"
 				/>
-<!--				<checkbox class="no-mb" :value="isDefault(e)" @change="makeDefault(e)" />-->
+				<checkbox
+					label="software archive"
+					:value="isChecked('software archive')"
+					@input="onToggle('software archive')"
+					style="margin-left: 10px;"
+				/>
 			</div>
-			<a
-				:href="refreshArchive"
-				target="blank"
-				noreferrer
-				nofollow
-			>
-				<ui-button class="btn-info-modal-close" icon="cloud-download">
-					Refresh
-				</ui-button>
-			</a>
+			<span @click="refreshArchive(checkedArchives)">
+					<ui-button class="btn-info-modal-close" icon="cloud-download">
+					 Refresh
+				 </ui-button>
+			</span>
 		</div>
 	</div>
 </template>
@@ -83,6 +82,9 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import AdminScreen from '../AdminScreen.vue';
 import config from '@/config';
 import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
+import eventBus from '@/utils/event-bus';
+import { generateId } from '@/utils/functions';
+import { INotification } from '@/types/Notification';
 
 @Component({
     name: 'TroubleshootingSection',
@@ -105,10 +107,6 @@ export default class TroubleshootingSection extends AdminScreen {
 		return config.SERVICE_URL + '/error-report/download-all';
 	}
 
-	get refreshArchive(): string {
-		return config.EMIL_SERVICE_ENDPOINT + '/error-report';
-	}
-
     /* Data
     ============================================*/
 
@@ -125,6 +123,23 @@ export default class TroubleshootingSection extends AdminScreen {
 			this.checkedArchives = this.checkedArchives.filter(f => f !== type);
 		} else {
 			this.checkedArchives.push(type);
+		}
+	}
+
+	async refreshArchive(checkedArchives: string[]) {
+		const result = await this.$store.dispatch('resource/syncImagesUrl');
+		console.log('result 1 ', result, checkedArchives);
+		if (!result) return;
+		if (result.status === '0') {
+			this.$emit('full-refresh');
+		} else {
+			let notification: INotification = {
+				label: 'Failed to refresh archive',
+				time: 5000,
+				type: 'danger',
+				id: generateId()
+			};
+			eventBus.$emit('notification:show', notification);
 		}
 	}
 

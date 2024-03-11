@@ -229,6 +229,9 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
+	async syncImagesUrl() {
+		return await _svc.syncImagesUrl();
+	},
 };
 
 /*============================================================

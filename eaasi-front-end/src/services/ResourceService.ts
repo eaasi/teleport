@@ -172,6 +172,10 @@ class ResourceService extends BaseHttpService {
 		await this.delete(`/resource/delete-software-object?id=${id}`);
 	}
 
+	async syncImagesUrl() {
+		const res = await this.post<any>('/environment-repository/actions/sync');
+		return res.result;
+	}
 }
 
 export default new ResourceService();

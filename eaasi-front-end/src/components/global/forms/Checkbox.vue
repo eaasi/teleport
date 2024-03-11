@@ -161,6 +161,8 @@ $checkboxSize: 18px;
 .select-archive-group {
 	.eaasi-checkbox {
 		label {
+			align-items: center;
+
 			span {
 				margin: 0;
 			}
