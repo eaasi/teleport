@@ -62,15 +62,15 @@
 				/>
 				<checkbox
 					label="software archive"
-					:value="isChecked('software archive')"
-					@input="onToggle('software archive')"
+					:value="isChecked('software_archive')"
+					@input="onToggle('software_archive')"
 					style="margin-left: 10px;"
 				/>
 			</div>
-			<span @click="refreshArchive(checkedArchives)">
-					<ui-button class="btn-info-modal-close" icon="cloud-download">
-					 Refresh
-				 </ui-button>
+			<span @click="refreshArchives(checkedArchives)">
+				<ui-button class="btn-info-modal-close" icon="cloud-download">
+					Refresh
+				</ui-button>
 			</span>
 		</div>
 	</div>
@@ -126,21 +126,64 @@ export default class TroubleshootingSection extends AdminScreen {
 		}
 	}
 
-	async refreshArchive(checkedArchives: string[]) {
-		const result = await this.$store.dispatch('resource/syncImagesUrl');
-		console.log('result 1 ', result, checkedArchives);
-		if (!result) return;
-		if (result.status === '0') {
-			this.$emit('full-refresh');
-		} else {
-			let notification: INotification = {
-				label: 'Failed to refresh archive',
-				time: 5000,
-				type: 'danger',
-				id: generateId()
-			};
-			eventBus.$emit('notification:show', notification);
-		}
+	async refreshArchives(checkedArchives: string[]) {
+		 checkedArchives.forEach( async archiveType => {
+			switch (archiveType) {
+				case 'image_archive':
+					const resultSyncImages = await this.$store.dispatch('resource/syncImagesUrl');
+					console.log('image_archive ', resultSyncImages);
+					if (!resultSyncImages) return;
+					if (resultSyncImages.status === '0') {
+						this.$emit('full-refresh');
+					} else {
+						let notification: INotification = {
+							label: 'Failed to refresh archive',
+							time: 5000,
+							type: 'danger',
+							id: generateId()
+						};
+						eventBus.$emit('notification:show', notification);
+					}
+					return;
+				case 'object_archive':
+					const resultSyncObjects = await this.$store.dispatch('resource/syncObjectsUrl');
+					console.log('object_archive ', resultSyncObjects);
+					if (!resultSyncObjects) return;
+					if (resultSyncObjects.status === '0') {
+						this.$emit('full-refresh');
+					} else {
+						let notification: INotification = {
+							label: 'Failed to refresh archive',
+							time: 5000,
+							type: 'danger',
+							id: generateId()
+						};
+						eventBus.$emit('notification:show', notification);
+					}
+					return ;
+				case 'software_archive':
+					const resultSyncObject = await this.$store.dispatch('resource/syncObjectsUrl');
+					const resultSyncSoftware = await this.$store.dispatch('resource/syncSoftwareUrl');
+					console.log('resultSyncObject ', resultSyncObject);
+					console.log('resultSyncSoftware ', resultSyncSoftware);
+
+					if (!resultSyncObject && !resultSyncSoftware) return;
+					if (resultSyncObject.status === '0' && resultSyncSoftware.status === '0') {
+						this.$emit('full-refresh');
+					} else {
+						let notification: INotification = {
+							label: 'Failed to refresh archives',
+							time: 5000,
+							type: 'danger',
+							id: generateId()
+						};
+						eventBus.$emit('notification:show', notification);
+					}
+					return ;
+				default:
+					return;
+			}
+		});
 	}
 
     /* Lifecycle Hooks

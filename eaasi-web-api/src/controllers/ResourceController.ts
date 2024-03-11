@@ -365,17 +365,6 @@ export default class ResourceController extends BaseController {
 			this.sendError(e, res);
 		}
 	}
-
-	async syncImagesUrl(req: Request, res: Response) {
-		try {
-			const payload = req.body as any;
-			let result = await this._environmentService.syncImagesUrl(payload);
-			console.log('req', req, result);
-			res.send(result);
-		} catch(e) {
-			this.sendError(e, res);
-		}
-	}
 }
 
 

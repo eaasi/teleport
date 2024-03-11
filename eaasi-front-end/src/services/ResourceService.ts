@@ -172,8 +172,28 @@ class ResourceService extends BaseHttpService {
 		await this.delete(`/resource/delete-software-object?id=${id}`);
 	}
 
+
+	/**
+	 * Makes a POST request to synchronizate image archives
+	 */
 	async syncImagesUrl() {
-		const res = await this.post<any>('/environment-repository/actions/sync');
+		const res = await this.post('/environment-repository/actions/sync');
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to synchronizate object archives
+	 */
+	async syncObjectsUrl() {
+		const res = await this.post('/object-repository/actions/sync');
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to synchronizate software archives
+	 */
+	async syncSoftwareUrl() {
+		const res = await this.post('/software-repository/actions/sync');
 		return res.result;
 	}
 }

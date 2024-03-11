@@ -232,6 +232,14 @@ const actions = {
 	async syncImagesUrl() {
 		return await _svc.syncImagesUrl();
 	},
+
+	async syncObjectsUrl() {
+		return await _svc.syncObjectsUrl();
+	},
+
+	async syncSoftwareUrl() {
+		return await _svc.syncSoftwareUrl();
+	},
 };
 
 /*============================================================
