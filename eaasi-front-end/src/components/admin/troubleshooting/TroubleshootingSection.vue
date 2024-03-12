@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import AdminScreen from '../AdminScreen.vue';
 import config from '@/config';
 import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
@@ -111,6 +111,7 @@ export default class TroubleshootingSection extends AdminScreen {
     ============================================*/
 
 	checkedArchives: string[] = [];
+
     /* Methods
     ============================================*/
 
@@ -127,12 +128,12 @@ export default class TroubleshootingSection extends AdminScreen {
 	}
 
 	async refreshArchives(checkedArchives: string[]) {
-		 checkedArchives.forEach( async archiveType => {
+		 for (const archiveType of checkedArchives) {
 			switch (archiveType) {
 				case 'image_archive':
 					const resultSyncImages = await this.$store.dispatch('resource/syncImagesUrl');
 					console.log('image_archive ', resultSyncImages);
-					if (!resultSyncImages) return;
+					if (!resultSyncImages) continue;
 					if (resultSyncImages.status === '0') {
 						this.$emit('full-refresh');
 					} else {
@@ -144,11 +145,11 @@ export default class TroubleshootingSection extends AdminScreen {
 						};
 						eventBus.$emit('notification:show', notification);
 					}
-					return;
+					continue;
 				case 'object_archive':
 					const resultSyncObjects = await this.$store.dispatch('resource/syncObjectsUrl');
 					console.log('object_archive ', resultSyncObjects);
-					if (!resultSyncObjects) return;
+					if (!resultSyncObjects) continue;
 					if (resultSyncObjects.status === '0') {
 						this.$emit('full-refresh');
 					} else {
@@ -160,14 +161,14 @@ export default class TroubleshootingSection extends AdminScreen {
 						};
 						eventBus.$emit('notification:show', notification);
 					}
-					return ;
+					continue;
 				case 'software_archive':
 					const resultSyncObject = await this.$store.dispatch('resource/syncObjectsUrl');
 					const resultSyncSoftware = await this.$store.dispatch('resource/syncSoftwareUrl');
 					console.log('resultSyncObject ', resultSyncObject);
 					console.log('resultSyncSoftware ', resultSyncSoftware);
 
-					if (!resultSyncObject && !resultSyncSoftware) return;
+					if (!resultSyncObject && !resultSyncSoftware) continue;
 					if (resultSyncObject.status === '0' && resultSyncSoftware.status === '0') {
 						this.$emit('full-refresh');
 					} else {
@@ -179,11 +180,11 @@ export default class TroubleshootingSection extends AdminScreen {
 						};
 						eventBus.$emit('notification:show', notification);
 					}
-					return ;
+					continue;
 				default:
-					return;
+					continue;
 			}
-		});
+		}
 	}
 
     /* Lifecycle Hooks

@@ -6,6 +6,7 @@ import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes } from '@/utils/constants';
+import config from '@/config';
 
 
 class ResourceService extends BaseHttpService {
@@ -177,24 +178,21 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to synchronizate image archives
 	 */
 	async syncImagesUrl() {
-		const res = await this.post('/environment-repository/actions/sync');
-		return res.result;
+		await this.post(`${config.EMIL_SERVICE_ENDPOINT}/environment-repository/actions/sync`);
 	}
 
 	/**
 	 * Makes a POST request to synchronizate object archives
 	 */
 	async syncObjectsUrl() {
-		const res = await this.post('/object-repository/actions/sync');
-		return res.result;
+		await this.post(`${config.EMIL_SERVICE_ENDPOINT}/object-repository/actions/sync`);
 	}
 
 	/**
 	 * Makes a POST request to synchronizate software archives
 	 */
 	async syncSoftwareUrl() {
-		const res = await this.post('/software-repository/actions/sync');
-		return res.result;
+		await this.post(`${config.EMIL_SERVICE_ENDPOINT}/software-repository/actions/sync`);
 	}
 }
 
