@@ -178,21 +178,24 @@ class ResourceService extends BaseHttpService {
 	 * Makes a POST request to synchronizate image archives
 	 */
 	async syncImagesUrl() {
-		await this.post(`${config.EMIL_SERVICE_ENDPOINT}/environment-repository/actions/sync`);
+		const res = await this.postLocal('/emil/environment-repository/actions/sync');
+		return res.result;
 	}
 
 	/**
 	 * Makes a POST request to synchronizate object archives
 	 */
 	async syncObjectsUrl() {
-		await this.post(`${config.EMIL_SERVICE_ENDPOINT}/object-repository/actions/sync`);
+		const res = await this.postLocal('/emil/object-repository/actions/sync');
+		return res.result;
 	}
 
 	/**
 	 * Makes a POST request to synchronizate software archives
 	 */
 	async syncSoftwareUrl() {
-		await this.post(`${config.EMIL_SERVICE_ENDPOINT}/software-repository/actions/sync`);
+		const res = await this.postLocal('/emil/software-repository/actions/sync');
+		return res.result;
 	}
 }
 

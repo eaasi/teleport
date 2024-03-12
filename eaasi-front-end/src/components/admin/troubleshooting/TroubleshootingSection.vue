@@ -68,7 +68,7 @@
 				/>
 			</div>
 			<span @click="refreshArchives(checkedArchives)">
-				<ui-button class="btn-info-modal-close" icon="cloud-download">
+				<ui-button class="btn-info-modal-close" icon="cloud-download" :disabled="disabled">
 					Refresh
 				</ui-button>
 			</span>
@@ -106,6 +106,9 @@ export default class TroubleshootingSection extends AdminScreen {
 	get webApiErrorDownloadUrl(): string {
 		return config.SERVICE_URL + '/error-report/download-all';
 	}
+	get disabled(): boolean {
+		return this.checkedArchives.length === 0;
+	}
 
     /* Data
     ============================================*/
@@ -132,13 +135,13 @@ export default class TroubleshootingSection extends AdminScreen {
 			switch (archiveType) {
 				case 'image_archive':
 					const resultSyncImages = await this.$store.dispatch('resource/syncImagesUrl');
-					console.log('image_archive ', resultSyncImages);
+
 					if (!resultSyncImages) continue;
 					if (resultSyncImages.status === '0') {
 						this.$emit('full-refresh');
 					} else {
 						let notification: INotification = {
-							label: 'Failed to refresh archive',
+							label: 'Failed to refresh image archive',
 							time: 5000,
 							type: 'danger',
 							id: generateId()
@@ -148,13 +151,13 @@ export default class TroubleshootingSection extends AdminScreen {
 					continue;
 				case 'object_archive':
 					const resultSyncObjects = await this.$store.dispatch('resource/syncObjectsUrl');
-					console.log('object_archive ', resultSyncObjects);
+
 					if (!resultSyncObjects) continue;
 					if (resultSyncObjects.status === '0') {
 						this.$emit('full-refresh');
 					} else {
 						let notification: INotification = {
-							label: 'Failed to refresh archive',
+							label: 'Failed to refresh object archive',
 							time: 5000,
 							type: 'danger',
 							id: generateId()
@@ -165,15 +168,13 @@ export default class TroubleshootingSection extends AdminScreen {
 				case 'software_archive':
 					const resultSyncObject = await this.$store.dispatch('resource/syncObjectsUrl');
 					const resultSyncSoftware = await this.$store.dispatch('resource/syncSoftwareUrl');
-					console.log('resultSyncObject ', resultSyncObject);
-					console.log('resultSyncSoftware ', resultSyncSoftware);
 
 					if (!resultSyncObject && !resultSyncSoftware) continue;
 					if (resultSyncObject.status === '0' && resultSyncSoftware.status === '0') {
 						this.$emit('full-refresh');
 					} else {
 						let notification: INotification = {
-							label: 'Failed to refresh archives',
+							label: 'Failed to refresh software archive',
 							time: 5000,
 							type: 'danger',
 							id: generateId()
@@ -183,8 +184,9 @@ export default class TroubleshootingSection extends AdminScreen {
 					continue;
 				default:
 					continue;
-			}
 		}
+		 }
+		this.checkedArchives = [];
 	}
 
     /* Lifecycle Hooks

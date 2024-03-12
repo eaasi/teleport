@@ -38,6 +38,14 @@ export default class BaseHttpService {
 		return this._makeRequest(url, 'POST', data, options);
 	}
 
+	async postLocal<T>(
+		url: string,
+		data?: any,
+		options?: IEaasiApiRequestOptions
+	): Promise<IEaasiApiResponse<T>> {
+		return this._makeRequestLocal(url, 'POST', data, options);
+	}
+
 	/**
 	 * Makes a POST request for uploading files using Fetch
 	 *
@@ -120,6 +128,49 @@ export default class BaseHttpService {
 	): Promise<IEaasiApiResponse<T>> {
 
 		if (url.indexOf('://') === -1) url = config.SERVICE_URL + url;
+
+		const self = this;
+		const requestInit = new EaasiApiRequestInit(url, method, data, options);
+		const request = new Request(url, requestInit);
+
+		let response: IEaasiApiResponse<T>;
+		options = options || requestInit.options;
+
+		try {
+			// Let Vue know that an ajax request has been initiated
+			if (!options.suppressSpinner) eventBus.$emit('ajaxStart');
+
+			const res = await fetch(request);
+
+			response = res as IEaasiApiResponse<T>;
+
+			// If 200 response, parse the body as the generic type
+			if (res.ok) response.result = await res.json();
+
+			// Handle non-200 responses
+			else await self._handleBadResponse<T>(requestInit, res, options.suppressErrors);
+
+			// Let Vue know that an ajax request has been completed
+			if (!options.suppressSpinner) eventBus.$emit('ajaxEnd');
+
+			if (response.status === 429) eventBus.$emit(events.REQUEST_LIMIT_REACHED);
+
+			if (response.status === 401) eventBus.$emit(events.UNAUTHORIZED_ERROR);
+
+			return response;
+		} catch (e) {
+			eventBus.$emit('ajaxEnd');
+			e.request = options;
+			self._handleError(e, options.suppressErrors);
+		}
+	}
+
+	private async _makeRequestLocal<T>(
+		url: string,
+		method: string,
+		data?: any,
+		options?: IEaasiApiRequestOptions
+	): Promise<IEaasiApiResponse<T>> {
 
 		const self = this;
 		const requestInit = new EaasiApiRequestInit(url, method, data, options);
