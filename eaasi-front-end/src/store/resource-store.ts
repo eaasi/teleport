@@ -229,6 +229,17 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
+	async syncImagesUrl() {
+		return await _svc.syncImagesUrl();
+	},
+
+	async syncObjectsUrl() {
+		return await _svc.syncObjectsUrl();
+	},
+
+	async syncSoftwareUrl() {
+		return await _svc.syncSoftwareUrl();
+	},
 };
 
 /*============================================================

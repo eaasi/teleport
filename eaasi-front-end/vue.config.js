@@ -76,7 +76,17 @@ module.exports = {
 					vm: require.resolve('vm-browserify'),
 					util: require.resolve('util/'),
 				},
-			}
+			},
+			devServer: {
+				proxy: {
+					'/emil': {
+						target: process.env.VUE_APP_EMIL_SERVICE_ENDPOINT,
+						pathRewrite: {
+							'^/emil': ''
+						},
+					}
+				}
+			},
 		};
 	}
 };

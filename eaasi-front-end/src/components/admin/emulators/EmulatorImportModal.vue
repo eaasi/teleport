@@ -23,7 +23,7 @@
 				label="Emulator Tag"
 				v-model="importRequest.tag"
 				placeholder="Enter a tag..."
-				tooltip="Enter the tag for a specific container from the registry listed above. If left blank, this will default to use the tag latest"
+				tooltip="Enter the tag for a specific container from the registry listed above. If left blank, this will default to use the tag <code>latest</code>."
 			/>
 
 			<text-input
