@@ -55,7 +55,7 @@ export default class ApplicationLogController extends BaseController {
 			let r = new Readable();
 			r.push(logs);
 			r.push(null);
-			res.setHeader('Content-Disposition', 'attachment; filename=eaasi-webapi-error-report.gz');
+			res.setHeader('Content-Disposition', 'attachment; filename=eaasi-error-report.gz');
 			r.pipe(gzip).pipe(res);
 		} catch(e) {
 			this.sendError(e, res);

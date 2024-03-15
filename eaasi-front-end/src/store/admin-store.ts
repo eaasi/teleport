@@ -175,6 +175,10 @@ const actions = {
 		return await _svc.getMostRecentErrorLogs();
 	},
 
+	async getBEErrorLogs(_): Promise<IApplicationLog[]> {
+		return await _svc.getBEErrorLogs();
+	},
+
 	/*
 	Node Preferences
 	============================================*/

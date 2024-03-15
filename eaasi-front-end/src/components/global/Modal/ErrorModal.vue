@@ -74,14 +74,13 @@
 						>
 							Download Front-End Logs
 						</ui-button>
-						<a :href="backendLogsUrl">
-							<ui-button
-								color-preset="light-blue"
-								class="btn-error-modal"
-							>
-								Download Back-End Logs
-							</ui-button>
-						</a>
+						<ui-button
+							color-preset="light-blue"
+							class="btn-error-modal"
+							@click="downloadBackendLogs"
+						>
+							Download Back-End Logs
+						</ui-button>
 						<ui-button
 							@click="closeModal"
 							color-preset="light-blue"
@@ -130,6 +129,7 @@ export default class ErrorModal extends Vue {
 	/* Data
 	============================================*/
 	apiEvents: IApplicationLog[] = [];
+	backendapiEvents: IApplicationLog[] = [];
 	appVersion: string = '';
 	backendLogsUrl: string = config.EMIL_SERVICE_ENDPOINT + '/error-report';
 
@@ -142,6 +142,7 @@ export default class ErrorModal extends Vue {
 
 	async getApiEvents() {
 		this.apiEvents = await this.$store.dispatch('admin/getMostRecentErrorLogs');
+		this.backendapiEvents = await this.$store.dispatch('admin/getBEErrorLogs');
 		this.appVersion = config.APP_VERSION;
 	}
 
@@ -161,6 +162,25 @@ EaaSi Version: ${this.appVersion}
 		const link = document.createElement('a');
 		link.href = URL.createObjectURL(blob);
 		link.setAttribute('download', 'eaasi-frontend-error-report.gz');
+		document.body.appendChild(link);
+		link.click();
+		link.parentNode.removeChild(link);
+	}
+
+	downloadBackendLogs() {
+		let apiEventsString = this.backendapiEvents.map(event => this.objToString(event));
+		let logs = `
+##### Back-End Stack Trace #####
+${apiEventsString}
+###### App Version #######
+EaaSi Version: ${this.appVersion}
+########## < END > ##############`;
+
+		var output = zlib.gzipSync(logs);
+		var blob = new Blob([output.buffer], { type: 'application/gzip' });
+		const link = document.createElement('a');
+		link.href = URL.createObjectURL(blob);
+		link.setAttribute('download', 'eaasi-backend-error-report.gz');
 		document.body.appendChild(link);
 		link.click();
 		link.parentNode.removeChild(link);

@@ -12,10 +12,10 @@
 			<p>
 				Helpful for troubleshooting back-end services like emulator, resource replication, resource import, metadata synchronization, etc.
 			</p>
-			<a 
-				:href="emilErrorDownloadUrl" 
-				target="blank" 
-				noreferrer 
+			<a
+				:href="BEErrorDownloadUrl"
+				target="blank"
+				noreferrer
 				nofollow
 			>
 				<ui-button class="btn-info-modal-close" icon="cloud-download">
@@ -29,10 +29,10 @@
 			<p>
 				Helpful for troubleshooting of Authentication/Authorization, User Credentials, Front-End facing features: bookmarks, resource-to-user relationship, search and discovery, etc.
 			</p>
-			<a 
-				:href="webApiErrorDownloadUrl" 
-				target="blank" 
-				noreferrer 
+			<a
+				:href="webApiErrorDownloadUrl"
+				target="blank"
+				noreferrer
 				nofollow
 			>
 				<ui-button class="btn-info-modal-close" icon="cloud-download">
@@ -63,10 +63,10 @@ export default class TroubleshootingSection extends AdminScreen {
 
     /* Computed
     ============================================*/
-    get emilErrorDownloadUrl(): string {
-        return config.EMIL_SERVICE_ENDPOINT + '/error-report';
+	get BEErrorDownloadUrl(): string {
+		return config.SERVICE_URL + '/error-report/download-all';
 	}
-	
+
 	get webApiErrorDownloadUrl(): string {
 		return config.SERVICE_URL + '/error-report/download-all';
 	}

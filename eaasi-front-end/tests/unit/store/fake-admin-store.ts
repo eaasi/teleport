@@ -108,6 +108,10 @@ const actions = {
 		console.log('getMostRecentErrorLogs');
 	},
 
+	getBEErrorLogs(_) {
+		console.log('getBEErrorLogs');
+	},
+
 	/*
 	Node Preferences
 	============================================*/

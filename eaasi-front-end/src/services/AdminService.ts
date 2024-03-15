@@ -151,6 +151,12 @@ class AdminService extends BaseHttpService {
 		return response.result;
 	}
 
+	async getBEErrorLogs(): Promise<IApplicationLog[]> {
+		const response = await this.get<IApplicationLog[]>('/error-report/get-all');
+		if (!response.ok) return [];
+		return response.result;
+	}
+
 	getKeyboardSettings(): IKeyboardSettings {
 		const keyboardSettigs = Cookies.get(config.KEYBOARD_SETTINGS_NAME);
 		if (!keyboardSettigs) return this._defaultKeyboardSetting;
