@@ -1,7 +1,7 @@
 <template>
 	<div id="accessInterface" class="flex">
 		<access-interface-header
-			@click:exit="mode === 'advanced' ? exit() : showConfirmExitModal = true"
+			@click:exit="createEnvironmentPayload ? exit() : showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
 		/>
 
@@ -57,7 +57,6 @@
 	import EnvironmentMenu from './EnvironmentMenu.vue';
 	import { IEaasiUser } from 'eaasi-admin';
 	import {ICreateEnvironmentPayload} from '@/types/Import';
-	import {EmulationProjectMode} from '@/types/EmulationProject';
 
 	@Component({
 		name: 'AccessInterfaceScreen',
@@ -120,9 +119,6 @@
 
 		@Get('loggedInUser')
 		loggedInUser: IEaasiUser;
-
-		@Get('emulationProject/mode')
-		mode: EmulationProjectMode;
 
 		/* Data
         ============================================*/

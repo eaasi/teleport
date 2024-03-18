@@ -15,7 +15,7 @@
 				</ui-button>
 				<ui-button
 					size="sm"
-					v-if="mode !== 'advanced'"
+					v-if="!createEnvironmentPayload"
 					@click="showSaveEnvironment = true"
 				>
 					Save Environment
@@ -108,7 +108,7 @@ import ChangeMediaModal from './ChangeMediaModal.vue';
 import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 import PrintJobsModal from './PrintJobsModal.vue';
 import { IEnvironment } from '@/types/Resource';
-import {EmulationProjectMode} from '@/types/EmulationProject';
+import {ICreateEnvironmentPayload} from '@/types/Import';
 
 @Component({
 	name: 'AccessInterfaceHeader',
@@ -128,8 +128,8 @@ export default class AccessInterfaceHeader extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly activeEnvironment: IEnvironment;
 
-	@Get('emulationProject/mode')
-	mode: EmulationProjectMode;
+	@Get('emulationProject/createEnvironmentPayload')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
 
 	/* Data
 	============================================*/
