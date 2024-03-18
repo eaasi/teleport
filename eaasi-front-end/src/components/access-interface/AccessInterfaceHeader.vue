@@ -128,7 +128,7 @@ export default class AccessInterfaceHeader extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly activeEnvironment: IEnvironment;
 
-	@Get('resource/activeEphemeralEnvironment')
+	@Get('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
 	/* Data
