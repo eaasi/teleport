@@ -229,6 +229,10 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
+	async getResourceOwner(_, ownerId: string) {
+		return await _svc.getResourceOwner(ownerId);
+	},
+
 	async syncImagesUrl() {
 		return await _svc.syncImagesUrl();
 	},

@@ -20,11 +20,11 @@ module.exports = {
 	// docker compose network host 'eaasi-database'
 	// compose networked services have a hostname of their service name.
 	'development': {
-		'username': 'eaasi_dev',
-		'password': 'eaasi_dev',
-		'database': 'eaasi_dev',
-		'host': 'localhost',
-		'port': 5432,
+		'username': DB_USERNAME,
+		'password': DB_PASSWORD,
+		'database': DB_NAME,
+		'host': DB_HOST,
+		'port': DB_PORT,
 		'dialect': 'postgres',
 	},
 

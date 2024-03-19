@@ -9,6 +9,7 @@ COPY ./eaas-client ${workdir}/eaas-client/
 COPY ./eaasi-web-api ${workdir}/eaasi-web-api/
 COPY ./eaasi-front-end ./
 RUN ln -f -s remote.ts ./src/config/index.ts
+ENV NODE_ENV production
 RUN npm run build
 
 FROM nginx:stable-alpine
