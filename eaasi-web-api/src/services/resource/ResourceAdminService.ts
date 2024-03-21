@@ -1,4 +1,3 @@
-import { UserImportedContent, UserImportedImage } from '@/data_access/models/app';
 import { ResourceSearchResponse } from '@/models/resource/ResourceSearchResponse';
 import { IObjectClassificationRequest } from '@/types/emil/Emil';
 import { IContentItem } from '@/types/emil/EmilContentData';
@@ -6,14 +5,12 @@ import { IEnvironment, IImageListItem } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
 import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
-import IResourceImportResult from '@/types/resource/ResourceImportResult';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
 import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
-import ResourceImportService from '../rest-api/ResourceImportService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
@@ -26,7 +23,6 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _contentService: ContentService;
 	private readonly _emilClassificationService: EmilBaseService;
 	private readonly _bookmarkService: EaasiBookmarkService;
-	private readonly _resourceImportService: ResourceImportService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor(
@@ -35,13 +31,11 @@ export default class ResourceAdminService extends BaseService {
 		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
 		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		resourceImportService: ResourceImportService = new ResourceImportService(),
 		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._emilClassificationService = emilClassificationService;
 		this._bookmarkService = bookmarkService;
-		this._resourceImportService = resourceImportService;
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
@@ -84,20 +78,18 @@ export default class ResourceAdminService extends BaseService {
 	async searchResources(query: IResourceSearchQuery, userId: string, token: string): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
 		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
-		let userImportedResources: IResourceImportResult;
 
-		[bookmarksResponse, userImportedResources] = await Promise.all([
-			this._bookmarkService.getByUserID(userId),
-			this._resourceImportService.getByUserID(userId)
+		[bookmarksResponse] = await Promise.all([
+			this._bookmarkService.getByUserID(userId)
 		])
 
 		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
 		[result.environments, result.software, result.content, result.images] = await Promise.all([
-			this._searchEnvironments(query, bookmarks, userImportedResources.userImportedEnvironments.result, token, query.forceClearCache),
-			this._searchSoftware(query, bookmarks, userImportedResources.userImportedSoftware.result, token),
-			this._searchContent(query, bookmarks, userImportedResources.userImportedContent.result, token),
-			this._searchImages(query, bookmarks, userImportedResources.userImportedImage.result, token)
+			this._searchEnvironments(query, bookmarks, token),
+			this._searchSoftware(query, bookmarks, token),
+			this._searchContent(query, bookmarks, token),
+			this._searchImages(query, bookmarks, token)
 		])
 
 		result.facets = await this.populateFacets([
@@ -121,12 +113,11 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchEnvironments (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[],
 		token: string,
 		forceClearCache: boolean = false
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
 		let allEnvironments = await this._environmentService.getAll(token, forceClearCache);
-		let filtered = this._filterResults(allEnvironments, query, bookmarks, userResources);
+		let filtered = this._filterResults(allEnvironments, query, bookmarks);
 		return {
 			result: filtered.result,
 			totalResults: filtered.totalResults
@@ -136,32 +127,31 @@ export default class ResourceAdminService extends BaseService {
 	private async _searchSoftware (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[],
 		token: string
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
 		let softwareRes = await this._softwareService.getAll(token);
 		softwareRes.forEach(resource => resource.resourceType = resourceTypes.SOFTWARE);
-		return this._filterResults(softwareRes, query, bookmarks, userResources);
+		return this._filterResults(softwareRes, query, bookmarks);
 	}
 
 	private async _searchContent (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedContent[],
 		token: string
 	): Promise<IEaasiSearchResponse<IContentItem>> {
-		let content = await this._contentService.getAll('default', token);
-		return this._filterResults(content, query, bookmarks, userResources);
+		const respose = await this._contentService.getObjectArchives(token);
+		const results = respose.archives.map(name => this._contentService.getAll(name, token));
+		const content = (await Promise.all(results)).flat();
+		return this._filterResults(content, query, bookmarks);
 	}
 
 	private async _searchImages (
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[],
-		userResources: UserImportedImage[],
 		token: string
 	): Promise<IEaasiSearchResponse<IImageListItem>> {
 		let images = await this._environmentService.getImages(token);
-		return this._filterResults(images, query, bookmarks, userResources);
+		return this._filterResults(images, query, bookmarks);
 	}
 
 	/*============================================================
@@ -204,16 +194,14 @@ export default class ResourceAdminService extends BaseService {
 	private _filterResults<T extends IEaasiResource>(
 		results: T[],
 		query: IResourceSearchQuery,
-		bookmarks: IBookmark[],
-		userResources: UserImportedContent[] | UserImportedImage[]
+		bookmarks: IBookmark[]
 	): IEaasiSearchResponse<T> {
-
 		if(!results || !results.length) {
 			return { result: [], totalResults: 0 };
 		}
 
 		if (query.archives && query.archives.length > 0 && results[0].resourceType !== 'Image') {
-			results = results.filter(sw => query.archives.includes(sw.archiveId));
+			results = results.filter(sw => query.archives.includes(sw.archiveId) || query.archives.includes(sw.archive));
 		}
 
 		if (bookmarks && query.onlyBookmarks) {
@@ -223,13 +211,6 @@ export default class ResourceAdminService extends BaseService {
 			} else {
 				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.id));
 			}
-		}
-
-		if(userResources 
-			&& (query.onlyImportedResources || 
-					(results.length && 
-						(results[0].resourceType === resourceTypes.CONTENT || results[0].resourceType === resourceTypes.SOFTWARE)))) {
-			results = results.filter(r => r.archiveId === archiveTypes.REMOTE || userResources.some(ir => ir.eaasiId === r.id));
 		}
 
 		if (results.length && query.keyword) {
@@ -275,9 +256,9 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
 			{ displayLabel: 'Network Status', name: 'archive', values: [] },
 			{ displayLabel: 'Environment Type', name: 'envType', values: [] },
+			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
 			// Removed as currently don't show any meaningful information
-			/*{ displayLabel: 'Source Organization', name: 'owner', values: [] },
-			{ displayLabel: 'Source Location', name: 'archiveId', values: [] },*/
+			/*{ displayLabel: 'Source Location', name: 'archiveId', values: [] },*/
 
 			{ displayLabel: 'Operating System', name: 'os', values: [] },
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
