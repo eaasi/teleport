@@ -5,7 +5,8 @@ import { IBookmark } from './Bookmark';
 
 export type PhysicalFormat = 'Q493576' | 'Q495265' | 'disk' | 'Q82753';
 export type ResourceType = 'Environment' | 'Software' | 'Content' | 'Image';
-export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | 'zero conf';
+//export type ArchiveType = 'public' | 'default' | 'remote' | 'Remote Objects' | 'zero conf';
+export type ArchiveType = string;  // can be any arbitrary string!
 
 export interface IEaasiResource {
 	id: string;
