@@ -11,7 +11,7 @@ export default class ContentService extends BaseService {
 
 	private readonly _contentRepoService: EmilBaseService;
 	private readonly CACHE_KEYS = {
-		ALL_CONTENT: 'all-content-items',
+		ITEMS: 'content-items',
 		ARCHIVES: 'content-archives'
 	};
 
@@ -23,8 +23,8 @@ export default class ContentService extends BaseService {
 	}
 
 	async getAll(archiveId: ArchiveType, token?: string): Promise<IContentItem[]> {
-		let userId = getUserIdFromToken(token);
-		let results = this._cache.get<IContentItem[]>(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`)
+		const cacheKey = `${this.CACHE_KEYS.ITEMS}/${archiveId}`;
+		let results = this._cache.get<IContentItem[]>(cacheKey);
 		if(results) return results;
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`, token);
 		let content = await res.json() as IContentItem[];
@@ -32,7 +32,7 @@ export default class ContentService extends BaseService {
 			x.resourceType = resourceTypes.CONTENT
 			if (x.hasOwnProperty('title') && !x.hasOwnProperty('label')) x.label = x.title;
 		});
-		if (content.length) this._cache.add(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`, content);
+		if (content.length) this._cache.add(cacheKey, content);
 		return content;
 	}
 
@@ -44,11 +44,13 @@ export default class ContentService extends BaseService {
 	}
 
 	async getObjectArchives(token?: string): Promise<IObjectArchiveResonse> {
-		let result = this._cache.get<IObjectArchiveResonse>(this.CACHE_KEYS.ARCHIVES)
+		const userId = getUserIdFromToken(token);
+		const cacheKey = `${this.CACHE_KEYS.ARCHIVES}/${userId}`;
+		let result = this._cache.get<IObjectArchiveResonse>(cacheKey);
 		if(result) return result;
 		let res = await this._contentRepoService.get('archives', token);
 		let archives = await res.json();
-		if (archives.length) this._cache.add(this.CACHE_KEYS.ARCHIVES, archives);
+		if (archives.length) this._cache.add(cacheKey, archives);
 		return archives;
 	}
 
@@ -86,8 +88,15 @@ export default class ContentService extends BaseService {
 	/============================================================*/
 
 	private clearCache(userId: string) {
-		this._cache.delete(this.CACHE_KEYS.ARCHIVES);
-		this._cache.delete(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`)
+		const cacheKeyForArchives = `${this.CACHE_KEYS.ARCHIVES}/${userId}`;
+		const cachedArchiveResponse = this._cache.get<IObjectArchiveResonse>(cacheKeyForArchives);
+		if (!cachedArchiveResponse)
+			return;
+
+		this._cache.delete(cacheKeyForArchives);
+		cachedArchiveResponse.archives.forEach(archiveId => {
+			this._cache.delete(`${this.CACHE_KEYS.ITEMS}/${archiveId}`)
+		});
 	}
 
 
