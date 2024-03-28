@@ -1,7 +1,7 @@
 <template>
-	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
+	<div :class="['resource-object-container flex', selectStyle, { disabled }]" @click="toggleSelected">
 		<div v-if="!disabled" :class="['panel-left', selectStyle]">
-			<checkbox :value="value" @input="toggleSelected" />
+			<checkbox :value="value" />
 		</div>
 		<div class="selectable-text-card-content">
 			<h1>{{ label }}</h1>
@@ -72,6 +72,7 @@ hr {
 	margin-bottom: 1.5rem;
 	min-height: 7rem;
 	position: relative;
+	cursor: pointer;
 
 	&.selected {
 		background-color: lighten($light-blue, 90%);
