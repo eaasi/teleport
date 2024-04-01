@@ -1,7 +1,7 @@
 <template>
 	<div id="accessInterface" class="flex">
 		<access-interface-header
-			@click:exit="mode === 'advanced' ? exit() : showConfirmExitModal = true"
+			@click:exit="createEnvironmentPayload ? exit() : showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
 		/>
 
@@ -57,7 +57,6 @@
 	import EnvironmentMenu from './EnvironmentMenu.vue';
 	import { IEaasiUser } from 'eaasi-admin';
 	import {ICreateEnvironmentPayload} from '@/types/Import';
-	import {EmulationProjectMode} from '@/types/EmulationProject';
 
 	@Component({
 		name: 'AccessInterfaceScreen',
@@ -120,9 +119,6 @@
 
 		@Get('loggedInUser')
 		loggedInUser: IEaasiUser;
-
-		@Get('emulationProject/mode')
-		mode: EmulationProjectMode;
 
 		/* Data
         ============================================*/
@@ -190,6 +186,7 @@
 		}
 
 		async exit() {
+			console.log('createEnvironmentPayload', this.createEnvironmentPayload);
 			this.showConfirmExitModal = false;
 			const result = await this.stop();
 			if (result) this.$router.go(-1);
@@ -199,6 +196,8 @@
 			let vm = this;
 			vm.showConfirmRestartModal = false;
 			if (!vm.$refs._emulator) return;
+			console.log('createEnvironmentPayload', this.createEnvironmentPayload);
+			console.log('vm ', vm.createEnvironmentPayload);
 			let environment = jsonCopy(vm.environment) as IEnvironment;
 			let createEnvironmentPayload = jsonCopy(vm.createEnvironmentPayload) as ICreateEnvironmentPayload;
 			await vm.$refs._emulator.stopEnvironment();
