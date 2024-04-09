@@ -4,7 +4,7 @@
 		v-bind="wrapperPropsExtended"
 		:readonly="disabled"
 	>
-		<label>
+		<label :disabled="disabled">
 			<span>{{ label }}</span>
 			<input
 				type="checkbox"
@@ -76,6 +76,10 @@ $checkboxSize: 18px;
 		padding-left: $checkboxSize + 10px;
 		position: relative;
 		user-select: none;
+
+		&[disabled] {
+			cursor: not-allowed;
+		}
 
 		input {
 			cursor: pointer;

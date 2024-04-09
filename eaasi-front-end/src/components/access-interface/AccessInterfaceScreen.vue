@@ -5,13 +5,14 @@
 			@click:restart="showConfirmRestartModal = true"
 		/>
 
-		<environment-menu v-if="environment" />
+		<environment-menu v-if="environment || createEnvironmentPayload" />
 
 		<div class="flex-adapt padded ai-content">
 			<div class="ai-emulator">
 				<emulator
-					v-if="environment"
+					v-if="environment || createEnvironmentPayload"
 					:environment="environment"
+					:create-environment-payload="createEnvironmentPayload"
 					ref="_emulator"
 				/>
 			</div>
@@ -55,6 +56,7 @@
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';
 import { IEaasiUser } from 'eaasi-admin';
+	import {ICreateEnvironmentPayload} from '@/types/Import';
 	@Component({
 		name: 'AccessInterfaceScreen',
 		components: {
@@ -74,6 +76,9 @@ import { IEaasiUser } from 'eaasi-admin';
 
 		@Sync('resource/activeEnvironment')
 		environment: IEnvironment;
+
+		@Sync('emulationProject/createEnvironmentPayload')
+		createEnvironmentPayload: ICreateEnvironmentPayload;
 
 		@Get('emulatorIsRunning')
 		readonly emulatorIsRunning: boolean;
@@ -190,10 +195,13 @@ import { IEaasiUser } from 'eaasi-admin';
 			vm.showConfirmRestartModal = false;
 			if (!vm.$refs._emulator) return;
 			let environment = jsonCopy(vm.environment) as IEnvironment;
+			let createEnvironmentPayload = jsonCopy(vm.createEnvironmentPayload) as ICreateEnvironmentPayload;
 			await vm.$refs._emulator.stopEnvironment();
 			vm.environment = null;
+			vm.createEnvironmentPayload = null;
 			vm.$nextTick(() => {
 				vm.environment = environment;
+				vm.createEnvironmentPayload = createEnvironmentPayload;
 			});
 		}
 
@@ -209,7 +217,9 @@ import { IEaasiUser } from 'eaasi-admin';
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
 			next(async vm => {
 				const { envId } = to.params;
-				await vm.getEnvironment(envId);
+				if (envId !== 'undefined') {
+					await vm.getEnvironment(envId);
+				}
 				vm.hideAppHeader = true;
 				vm.hideLeftMenu = true;
 			});
