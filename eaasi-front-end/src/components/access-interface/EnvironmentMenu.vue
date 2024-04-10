@@ -127,7 +127,7 @@ export default class EnvironmentMenu extends Vue {
 	@Get('resource/activeEnvironment')
 	readonly environment: IEnvironment;
 
-	@Get('emulationProject/createEnvironmentPayload')
+	@Get('resource/activeEphemeralEnvironment')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
 	@Get('import/environment@title')

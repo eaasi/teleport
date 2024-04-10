@@ -78,7 +78,7 @@
 		@Sync('resource/activeEnvironment')
 		environment: IEnvironment;
 
-		@Sync('emulationProject/createEnvironmentPayload')
+		@Sync('resource/activeEphemeralEnvironment')
 		createEnvironmentPayload: ICreateEnvironmentPayload;
 
 		@Get('emulatorIsRunning')

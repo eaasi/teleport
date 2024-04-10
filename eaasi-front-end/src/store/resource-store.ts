@@ -2,7 +2,7 @@ import { IEnvironmentUpdateRequest, IReplicateEnvironmentRequest, ISaveEnvironme
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 import _svc from '@/services/ResourceService';
 import { IBookmark } from '@/types/Bookmark';
-import {IImageDeletePayload, IPatch, ISoftwareDeletePayload, ITemplate} from '@/types/Import';
+import {ICreateEnvironmentPayload, IImageDeletePayload, IPatch, ISoftwareDeletePayload, ITemplate} from '@/types/Import';
 import { IEaasiResource, IEnvironment, ISavingEnvironmentState, ResourceType } from '@/types/Resource';
 import { IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
@@ -17,6 +17,7 @@ import {IEaasiTab} from 'eaasi-nav';
 
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
+	activeEphemeralEnvironment: ICreateEnvironmentPayload = null;
 	selectedResources: IEaasiResource[] = [];
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;

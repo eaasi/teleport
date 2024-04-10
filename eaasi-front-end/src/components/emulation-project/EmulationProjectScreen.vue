@@ -107,9 +107,6 @@ export default class EmulationProjectScreen extends Vue {
 	@Sync('emulationProject/environment')
 	environment: EmulationProjectEnvironment;
 
-	@Sync('resource/activeEnvironment')
-	activeEnvironment: IEnvironment;
-
 	@Get('emulationProject/canRunProject')
 	readonly canRunProject: boolean;
 
@@ -151,7 +148,8 @@ export default class EmulationProjectScreen extends Vue {
 			const emulationProjectEnv = this.environment ? await this.prepareEmulationProject(this.environment) : null;
 
 			// Set newly create emulation project environment to active
-			this.activeEnvironment = emulationProjectEnv;
+			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', emulationProjectEnv);
+			this.$store.commit('resource/SET_ACTIVE_EPHEMERAL_ENVIRONMENT', this.createEnvironmentPayload);
 
 			// Route to access interface screen
 			this.$router.push(this.buildQuery(emulationProjectEnv?.envId));
