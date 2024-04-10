@@ -59,7 +59,7 @@ export default class SaveEnvironmentModal extends Vue {
 	@Sync('resource/activeEnvironment')
 	environment: IEnvironment;
 
-	@Sync('emulationProject/createEnvironmentPayload')
+	@Get('resource/activeEphemeralEnvironment')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
 	@Get('import/isImportedEnvironment')
