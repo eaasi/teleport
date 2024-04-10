@@ -237,6 +237,7 @@
 		async destroyed() {
 			// Clear constructed / imported environment state
 			await this.$store.dispatch('import/clearEnvironment');
+			this.$store.commit('resource/RESET_ACTIVE_ENVIRONMENT_CONFIG');
 		}
 	}
 
