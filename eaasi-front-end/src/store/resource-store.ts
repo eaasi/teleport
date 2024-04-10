@@ -55,6 +55,11 @@ mutations['UNSELECT_ALL_FACETS'] = function(state: ResourceState) {
 	});
 };
 
+mutations['RESET_ACTIVE_ENVIRONMENT_CONFIG'] = function(state: ResourceState) {
+	state.activeEnvironment = null;
+	state.activeEphemeralEnvironment = null;
+};
+
 /*============================================================
  == Actions
 /============================================================*/
