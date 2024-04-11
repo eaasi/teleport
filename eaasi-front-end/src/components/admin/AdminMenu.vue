@@ -29,7 +29,7 @@ import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';
 import { ROUTES } from '@/router/routes.const';
 import config from '@/config';
-import { EDITION_TYPES } from '@/utils/constants';
+import { EDITION_TYPES, userRoles } from '@/utils/constants';
 
 @Component({
 	name: 'AdminMenu',
@@ -65,14 +65,14 @@ export default class AdminMenu extends Vue {
 
 	get roleType(): string {
 		switch(this.permit.userRoleId) {
-			case 1: {
+			case userRoles.ADMIN: {
 				return 'ADMIN';
 			}
-			case 2: {
-				return 'ADMIN';
+			case userRoles.MANAGER: {
+				return 'MANAGER';
 			}
-			case 3: {
-				return 'ADMIN';
+			case userRoles.CONTRIBUTOR: {
+				return 'CONTRIBUTOR';
 			}
 		}
 	}
