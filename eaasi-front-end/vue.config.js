@@ -1,6 +1,9 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const {gitDescribe, gitDescribeSync} = require('git-describe');
+
+process.env.VUE_APP_GIT_HASH = gitDescribeSync().hash;
 
 const EaasClientCopyPattern = (config, subpath) => {
 	const outdir = path.dirname(config.output.filename);
@@ -76,7 +79,17 @@ module.exports = {
 					vm: require.resolve('vm-browserify'),
 					util: require.resolve('util/'),
 				},
-			}
+			},
+			devServer: {
+				proxy: {
+					'/emil': {
+						target: process.env.VUE_APP_EMIL_SERVICE_ENDPOINT,
+						pathRewrite: {
+							'^/emil': ''
+						},
+					}
+				}
+			},
 		};
 	}
 };

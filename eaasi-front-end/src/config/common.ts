@@ -23,7 +23,7 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: any = {
-	APP_VERSION: '2021.10',
+	APP_VERSION: '2024.1-dev',
 	EDITION_TYPE: EDITION_TYPES.STANDALONE,
 	KEYBOARD_SETTINGS_NAME: 'kbLayoutPrefs',
 	KEYCLOAK_ON_LOGIN: 'login-required',
