@@ -1,9 +1,13 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
-const {gitDescribe, gitDescribeSync} = require('git-describe');
+const {gitDescribeSync} = require('git-describe');
 
-process.env.VUE_APP_GIT_HASH = gitDescribeSync().hash;
+const gitInfo = gitDescribeSync(__dirname, {
+	long: true,
+});
+
+process.env.VUE_APP_BUILD_VERSION = gitInfo.raw;
 
 const EaasClientCopyPattern = (config, subpath) => {
 	const outdir = path.dirname(config.output.filename);
