@@ -2,7 +2,6 @@ import { EDITION_TYPES } from '@/utils/constants';
 
 export interface AppConfig {
 	APP_VERSION: string;
-	BUILD_VERSION: string;
 	EDITION_TYPE: string;
 	ROUTER_BASE: string;
 	BASE_URL: string;
@@ -25,7 +24,6 @@ export interface AppConfig {
 
 export const APP_CONFIG_DEFAULTS: any = {
 	APP_VERSION: '2024.1-dev',
-	BUILD_VERSION: process.env.VUE_APP_BUILD_VERSION,
 	EDITION_TYPE: EDITION_TYPES.STANDALONE,
 	KEYBOARD_SETTINGS_NAME: 'kbLayoutPrefs',
 	KEYCLOAK_ON_LOGIN: 'login-required',
