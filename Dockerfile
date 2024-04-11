@@ -1,6 +1,7 @@
 ARG workdir="/app"
 
 FROM node:lts-alpine AS build
+RUN apk add git
 ARG workdir
 WORKDIR ${workdir}/eaasi-front-end
 COPY ./eaasi-front-end/package*.json ./
