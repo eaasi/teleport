@@ -9,6 +9,12 @@
 		<div class="menu-divider"></div>
 		<h2 class="admin-menu-heading">Application Version</h2>
 		<div class="app-version">{{ appVersion }}</div>
+		<div class="addition-app-info" v-if="!isProduction">
+			<div>User: {{ user.username }}</div>
+			<div>Role: {{ roleType }}</div>
+			<div>Build: {{ BEBuild }}</div>
+			<div>UI-Build: {{ commitHash }} </div>
+		</div>
 	</div>
 </template>
 
@@ -21,7 +27,7 @@ import { Get } from 'vuex-pathify';
 import { IMenuItem } from 'eaasi-nav';
 import AdminMenuItem from './AdminMenuItem.vue';
 import User from '@/models/admin/User';
-import { ROUTES } from '../../router/routes.const';
+import { ROUTES } from '@/router/routes.const';
 import config from '@/config';
 import { EDITION_TYPES } from '@/utils/constants';
 
@@ -41,6 +47,12 @@ export default class AdminMenu extends Vue {
 
 	/* Data
 	============================================*/
+	commitHash: string = process.env.VUE_APP_GIT_HASH;
+	BEBuild: string = '';
+
+	get isProduction(): boolean {
+		return process.env.NODE_ENV === 'production';
+	}
 
 	get isViewable(): boolean {
 		if (!this.user) return false;
@@ -49,6 +61,20 @@ export default class AdminMenu extends Vue {
 
 	get isUserMenuViewable(): boolean {
 		return this.permit.allowsUserManageNodeItems();
+	}
+
+	get roleType(): string {
+		switch(this.permit.userRoleId) {
+			case 1: {
+				return 'ADMIN';
+			}
+			case 2: {
+				return 'ADMIN';
+			}
+			case 3: {
+				return 'ADMIN';
+			}
+		}
 	}
 
 	get menuItems(): IMenuItem[] {
@@ -85,7 +111,6 @@ export default class AdminMenu extends Vue {
 		return menuItems;
 	}
 
-
 	get userMenuItems(): IMenuItem[] {
 		let userMenuItems = [];
 		if (this.permit.allowsUserManageNodeItems()) {
@@ -106,12 +131,15 @@ export default class AdminMenu extends Vue {
 		return userMenuItems;
 	}
 
-
 	/* Computed
 	============================================*/
 
 	@Get('appVersion')
 	readonly appVersion: string;
+
+	async getBEBuildVersion() {
+		this.BEBuild = await this.$store.dispatch('admin/getBEBuildVersion');
+	}
 
 	/* Methods
 	============================================*/
@@ -119,6 +147,10 @@ export default class AdminMenu extends Vue {
 	addUser() {
 		this.$router.push(ROUTES.MANAGE_NODE.USERS);
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
+	}
+
+	mounted() {
+		this.getBEBuildVersion();
 	}
 }
 
@@ -145,6 +177,14 @@ export default class AdminMenu extends Vue {
 	background-color: darken($teal, 55%);
 	height: 2px;
 	margin: 2rem 0;
+}
+
+.addition-app-info {
+	margin: 20px 0;
+
+	div {
+		margin: 10px 0;
+	}
 }
 
 </style>

@@ -173,6 +173,12 @@ class AdminService extends BaseHttpService {
 		return response.result;
 	}
 
+	async getBEBuildVersion() {
+		const response = await this.getLocal<any>('/emil/admin/build-info');
+		if (!response.ok) return [];
+		return response.result.version;
+	}
+
 }
 
 export default new AdminService();

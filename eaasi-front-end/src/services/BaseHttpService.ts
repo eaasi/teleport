@@ -22,6 +22,10 @@ export default class BaseHttpService {
 		return this._makeRequest(url, 'GET', null, options);
 	}
 
+	async getLocal<T>(url: string, options?: IEaasiApiRequestOptions): Promise<IEaasiApiResponse<T>> {
+		return this._makeRequestLocal(url, 'GET', null, options);
+	}
+
 	/**
 	 * Makes a POST request using Fetch
 	 *
