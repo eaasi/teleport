@@ -15,6 +15,7 @@
 				</ui-button>
 				<ui-button
 					size="sm"
+					v-if="!createEnvironmentPayload"
 					@click="showSaveEnvironment = true"
 				>
 					Save Environment
@@ -107,6 +108,7 @@ import ChangeMediaModal from './ChangeMediaModal.vue';
 import SaveEnvironmentModal from './SaveEnvironmentModal.vue';
 import PrintJobsModal from './PrintJobsModal.vue';
 import { IEnvironment } from '@/types/Resource';
+import {ICreateEnvironmentPayload} from '@/types/Import';
 
 @Component({
 	name: 'AccessInterfaceHeader',
@@ -125,6 +127,9 @@ export default class AccessInterfaceHeader extends Vue {
 
 	@Get('resource/activeEnvironment')
 	readonly activeEnvironment: IEnvironment;
+
+	@Get('resource/activeEphemeralEnvironment')
+	createEnvironmentPayload: ICreateEnvironmentPayload;
 
 	/* Data
 	============================================*/

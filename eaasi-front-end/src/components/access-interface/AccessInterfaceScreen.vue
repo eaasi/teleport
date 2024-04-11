@@ -1,7 +1,7 @@
 <template>
 	<div id="accessInterface" class="flex">
 		<access-interface-header
-			@click:exit="showConfirmExitModal = true"
+			@click:exit="createEnvironmentPayload ? exit() : showConfirmExitModal = true"
 			@click:restart="showConfirmRestartModal = true"
 		/>
 
@@ -55,8 +55,9 @@
 	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';
-import { IEaasiUser } from 'eaasi-admin';
+	import { IEaasiUser } from 'eaasi-admin';
 	import {ICreateEnvironmentPayload} from '@/types/Import';
+
 	@Component({
 		name: 'AccessInterfaceScreen',
 		components: {
@@ -77,7 +78,7 @@ import { IEaasiUser } from 'eaasi-admin';
 		@Sync('resource/activeEnvironment')
 		environment: IEnvironment;
 
-		@Sync('emulationProject/createEnvironmentPayload')
+		@Sync('resource/activeEphemeralEnvironment')
 		createEnvironmentPayload: ICreateEnvironmentPayload;
 
 		@Get('emulatorIsRunning')
@@ -236,6 +237,7 @@ import { IEaasiUser } from 'eaasi-admin';
 		async destroyed() {
 			// Clear constructed / imported environment state
 			await this.$store.dispatch('import/clearEnvironment');
+			this.$store.commit('resource/RESET_ACTIVE_ENVIRONMENT_CONFIG');
 		}
 	}
 
