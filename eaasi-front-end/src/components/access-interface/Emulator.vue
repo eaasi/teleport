@@ -60,10 +60,10 @@
 		/* Props
         ============================================*/
 
-		@Prop({type: Object as () => IEnvironment, required: true})
+		@Prop({type: Object as () => IEnvironment, required: false})
 		readonly environment: IEnvironment;
 
-		@Prop({type: Object as () => ICreateEnvironmentPayload, required: true})
+		@Prop({type: Object as () => ICreateEnvironmentPayload, required: false})
 		readonly createEnvironmentPayload: ICreateEnvironmentPayload;
 
 		@Prop({type: String, required: false})
