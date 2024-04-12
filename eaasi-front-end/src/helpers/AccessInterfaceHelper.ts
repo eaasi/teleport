@@ -1,5 +1,8 @@
 import { ROUTES } from '@/router/routes.const';
 
+// Special symbolic ID for ephemeral environments
+export const EPHEMERAL_ENVIRONMENT_ID: string = 'ephemeral-environment';
+
 export function buildAccessInterfaceQuery(args: IAccessInterfaceQueryPayload): string {
     const { envId, softwareId, objectId, archiveId } = args;
     let path = ROUTES.ACCESS_INTERFACE;
