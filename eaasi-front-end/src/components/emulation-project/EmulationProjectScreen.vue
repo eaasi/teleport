@@ -208,7 +208,6 @@ export default class EmulationProjectScreen extends Vue {
 		if (!result) {
 			eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));
 		}
-		this.createEnvironmentPayload = null;
 		await this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
