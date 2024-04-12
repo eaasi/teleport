@@ -69,7 +69,7 @@ import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import {getResourceArchiveId, getResourceId} from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-import {buildAccessInterfaceQuery} from '@/helpers/AccessInterfaceHelper';
+import {buildAccessInterfaceQuery, EPHEMERAL_ENVIRONMENT_ID} from '@/helpers/AccessInterfaceHelper';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import eventBus from '@/utils/event-bus';
@@ -188,6 +188,9 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	private buildQuery(envId: string) {
+		if (!envId && this.createEnvironmentPayload)
+			envId = EPHEMERAL_ENVIRONMENT_ID;
+
 		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
 			? buildAccessInterfaceQuery({
 				envId,
