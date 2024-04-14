@@ -3,11 +3,17 @@ const webpack = require('webpack');
 const path = require('path');
 const {gitDescribeSync} = require('git-describe');
 
-const gitInfo = gitDescribeSync(__dirname, {
+const gitDescribeOptions = {
+	dirtyMark: '-dirty',
 	long: true,
-});
+};
 
-process.env.VUE_APP_BUILD_VERSION = gitInfo.raw;
+const gitInfo = gitDescribeSync(__dirname, gitDescribeOptions);
+
+// NOTE: Due to the current way containerized builds are configured and executed,
+//       the working tree will always be "dirty" (even for production builds)!
+//       Hence, the "dirty" mark should always be removed from the version too.
+process.env.VUE_APP_BUILD_VERSION = gitInfo.raw.replace(gitDescribeOptions.dirtyMark, '');
 
 const EaasClientCopyPattern = (config, subpath) => {
 	const outdir = path.dirname(config.output.filename);
