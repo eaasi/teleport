@@ -8,6 +8,7 @@
     paths:
     - "${cachedir}"
   script:
+  - apk add git
   - cd "${service}"
   - npm ci --cache "../${cachedir}"
   - npm run "test:unit"
