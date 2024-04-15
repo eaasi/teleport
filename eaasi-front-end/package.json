@@ -9,7 +9,8 @@
 		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
-		"test:unit": "vue-cli-service test:unit --coverage --verbose --logHeapUsage",
+		"test:unit": "vue-cli-service test:unit --verbose --clear-mocks --log-heap-usage",
+		"test:unit:coverage": "vue-cli-service test:unit --verbose --clear-mocks --log-heap-usage --coverage --coverage-provider v8",
 		"watch-test:unit": "vue-cli-service test:unit --watch --verbose"
 	},
 	"dependencies": {
@@ -84,5 +85,10 @@
 		"vue-cli-plugin-styleguidist": "^4.41.2",
 		"vue-template-compiler": "^2.6.12",
 		"webpack": "^5.61.0"
+	},
+	"overrides":{
+		"v8-to-istanbul":{
+			"source-map": "0.7.4"
+		}
 	}
 }
