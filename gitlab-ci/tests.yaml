@@ -9,6 +9,7 @@
     - "${cachedir}"
   script:
   - apk add git
+  - node --version
   - cd "${service}"
   - npm ci --cache "../${cachedir}"
   - npm run "test:unit"
