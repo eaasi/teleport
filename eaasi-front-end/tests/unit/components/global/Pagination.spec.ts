@@ -1,5 +1,7 @@
-import { mount } from '@vue/test-utils';
+import { enableAutoDestroy, mount } from '@vue/test-utils';
 import { Pagination } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('Pagination.vue', () => {
 

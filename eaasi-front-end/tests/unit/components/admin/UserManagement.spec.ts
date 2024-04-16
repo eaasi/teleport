@@ -3,15 +3,16 @@ import UserManagement from '@/components/admin/users/UserManagement.vue';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import globalStore from '@/store/global-store';
 import { userRoles } from '@/utils/constants';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import { makeAdminStoreState } from '../../store-helpers';
 import fakeAdminStore from '../../store/fake-admin-store';
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 const $colors = {
 	'lightNeutral': '#bbb'

@@ -1,6 +1,8 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { Tag } from '@/components/global';
 import {translatedIcon} from '@/utils/constants';
+
+enableAutoDestroy(afterEach);
 
 describe('Tag.vue', () => {
 	it ('Renders text passed as prop', () => {

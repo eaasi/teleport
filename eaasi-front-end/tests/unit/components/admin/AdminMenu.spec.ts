@@ -4,12 +4,14 @@ import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import localAdminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
 import { userRoles } from '@/utils/constants';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('AdminMenu.vue', () => {
 	let store;

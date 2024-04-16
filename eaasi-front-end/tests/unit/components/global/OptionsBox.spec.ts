@@ -1,5 +1,7 @@
-import {mount, shallowMount} from '@vue/test-utils';
+import {enableAutoDestroy, mount, shallowMount} from '@vue/test-utils';
 import {BigButton, OptionsBox} from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('OptionsBox.vue', () => {
 	it('Renders header string passed as prop', () => {
