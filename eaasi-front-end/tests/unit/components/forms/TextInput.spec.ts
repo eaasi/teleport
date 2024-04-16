@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { TextInput } from '@/components/global/forms';
+
+enableAutoDestroy(afterEach);
 
 describe('TextInput.vue', () => {
 	it('Renders an input field', () => {

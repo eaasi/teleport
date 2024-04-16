@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { UiButton } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('UiButton.vue', () => {
 	it('Renders button text passed into slot', () => {

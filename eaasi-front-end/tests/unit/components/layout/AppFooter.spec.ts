@@ -1,5 +1,7 @@
 import AppFooter from '@/components/layout/AppFooter.vue';
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('AppFooter.vue', () => {
 

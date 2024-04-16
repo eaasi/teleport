@@ -1,15 +1,16 @@
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 import globalStore from '@/store/global-store';
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import GlobalComponents from '@/components/global';
 
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
 localVue.use(GlobalComponents);
+
+enableAutoDestroy(afterEach);
 
 describe('ErrorModal.vue when showDebugErrors is true', () => {
 

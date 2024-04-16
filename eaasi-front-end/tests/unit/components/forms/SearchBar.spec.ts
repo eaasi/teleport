@@ -1,11 +1,13 @@
 import resourceStore from '@/store/resource-store';
-import {createLocalVue, shallowMount} from '@vue/test-utils';
+import {createLocalVue, enableAutoDestroy, shallowMount} from '@vue/test-utils';
 import { SearchBar } from '@/components/global/forms';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('SearchBar.vue', () => {
 	let store;

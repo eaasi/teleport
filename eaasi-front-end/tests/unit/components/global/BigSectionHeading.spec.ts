@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { BigSectionHeading } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('BigSectionHeading.vue', () => {
 	it('Renders `title` prop as heading text', () => {

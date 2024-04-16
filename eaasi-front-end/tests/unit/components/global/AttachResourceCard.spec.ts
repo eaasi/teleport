@@ -1,5 +1,7 @@
-import { mount, shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import { AttachResourceCard, UiButton } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('AttachResourceCard.vue', () => {
 	it('Renders title prop in component', () => {
