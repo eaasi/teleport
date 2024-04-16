@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import {EaasiForm } from '@/components/global/forms';
+
+enableAutoDestroy(afterEach);
 
 describe('EaasiForm.vue', () => {
 

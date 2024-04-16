@@ -1,5 +1,7 @@
 import {AttachResourceCard, DualToggle, UiButton} from '@/components/global';
-import {mount, shallowMount} from '@vue/test-utils';
+import {enableAutoDestroy, mount, shallowMount} from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('DualToggle.vue', () => {
 	it('Applies class of active if value matched options zero index', () => {

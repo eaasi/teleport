@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { Collapsable } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('Collapsable.vue', () => {
 	it('Does not show slot content when closed', () => {

@@ -1,5 +1,7 @@
 import { FileUploadButton, UiButton } from '@/components/global';
-import { mount } from '@vue/test-utils';
+import { enableAutoDestroy, mount } from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('FileUploadButton.vue', () => {
 	it('Renders buttonLabel passed as prop', () => {

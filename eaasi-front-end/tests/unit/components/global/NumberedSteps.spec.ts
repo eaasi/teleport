@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import NumberedStep from '@/components/global/NumberedSteps/NumberedStep.vue';
 import NumberedSteps from '@/components/global/NumberedSteps/NumberedSteps.vue';
 import {INumberedStep} from '@/types/NumberedStep';
@@ -33,6 +33,8 @@ function getSteps(count: number): INumberedStep[] {
 	return stubSteps.slice(0, count);
 }
 
+
+enableAutoDestroy(afterEach);
 
 describe('NumberedSteps.vue', () => {
 	it('When 0 steps passed as props => renders 3 Numbered Step components', () => {

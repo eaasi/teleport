@@ -19,6 +19,13 @@ describe('BaseHttpService', () => {
 
 	});
 
+	afterEach(() => {
+		global.Request.mockReset();
+		global.Request = null;
+		global.fetch.mockReset();
+		global.fetch = null;
+	});
+
 	it('should invoke fetch once when calling get()', async () => {
 		const sut = new BaseHttpService();
 		const response = await sut.get('http://foo.bar');

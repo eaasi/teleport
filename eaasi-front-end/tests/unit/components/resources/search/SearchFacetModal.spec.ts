@@ -1,11 +1,12 @@
 import Vuex from 'vuex';
-import {createLocalVue, mount} from '@vue/test-utils';
+import {createLocalVue, enableAutoDestroy, mount} from '@vue/test-utils';
 import {SearchFacetModal} from '@/components/global';
 
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('SearchFacetModal.vue', () => {
 

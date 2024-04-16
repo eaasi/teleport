@@ -1,6 +1,8 @@
-import { mount } from '@vue/test-utils';
+import { enableAutoDestroy, mount } from '@vue/test-utils';
 import fecha from 'fecha';
 import DatePicker from '../../../../src/components/global/DatePicker.vue';
+
+enableAutoDestroy(afterEach);
 
 describe('Vue date pick', () => {
 

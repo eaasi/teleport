@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { HoverMenu } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('HoverMenu.vue', () => {
 	it('Has invisible menu slot if no mouseenter event is triggered', () => {
