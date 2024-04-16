@@ -27,7 +27,7 @@ describe('TagGroup.vue', () => {
 				]
 			},
 		});
-		expect(wrapper.findAll(Tag)).toHaveLength(3);
+		expect(wrapper.findAllComponents(Tag)).toHaveLength(3);
 	});
 
 	it('Renders one hundred tags when passed as props', () => {
@@ -36,6 +36,6 @@ describe('TagGroup.vue', () => {
 				tags: generateTags(100)
 			},
 		});
-		expect(wrapper.findAll(Tag)).toHaveLength(100);
+		expect(wrapper.findAllComponents(Tag)).toHaveLength(100);
 	});
 });

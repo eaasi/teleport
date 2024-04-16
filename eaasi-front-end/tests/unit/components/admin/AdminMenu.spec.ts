@@ -51,7 +51,7 @@ describe('AdminMenu.vue', () => {
 		const userMenuItems = (wrapper.vm as any).userMenuItems;
 		const menuItems = (wrapper.vm as any).menuItems;
 		const allItems = userMenuItems.concat(menuItems);
-		expect(wrapper.findAll(AdminMenuItem).length).toBe(allItems.length);
+		expect(wrapper.findAllComponents(AdminMenuItem).length).toBe(allItems.length);
 	});
 
 	it('Contains Node Management section', () => {
