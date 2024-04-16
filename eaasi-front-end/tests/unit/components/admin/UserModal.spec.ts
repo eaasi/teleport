@@ -43,7 +43,7 @@ describe('UserModal.vue', () => {
 			},
 			store
 		});
-		expect(wrapper.find(FormModal).exists()).toBe(true);
+		expect(wrapper.findComponent(FormModal).exists()).toBe(true);
 	});
 
 	it('Shows "Delete user" button for existing users', () => {
