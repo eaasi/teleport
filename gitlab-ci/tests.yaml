@@ -10,7 +10,7 @@
   script:
   - cd "${service}"
   - npm ci --cache "../${cachedir}"
-  - npm run "test:unit"
+  - NODE_OPTIONS=--max-old-space-size=8000 npm run "test:unit"
 
 front-end-tests:
   extends: ".testjob"
