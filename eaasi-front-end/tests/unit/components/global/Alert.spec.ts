@@ -1,5 +1,7 @@
 import Alert from '@/components/global/Alert/Alert.vue';
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('Alert.vue', () => {
 	it('Displays error icon when type is error', () => {

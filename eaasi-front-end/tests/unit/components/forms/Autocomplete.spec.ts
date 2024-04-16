@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import {Autocomplete } from '@/components/global/forms';
+
+enableAutoDestroy(afterEach);
 
 describe('AutoComplete.vue', () => {
 	it('If list is visible, renders Searching message', () => {

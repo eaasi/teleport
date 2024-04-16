@@ -1,8 +1,10 @@
 import { SearchSelectList } from '@/components/global/forms';
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('SearchSelectList.vue', () => {
-    
+
 	it('should show select list for search query', () => {
 		const wrapper = shallowMount(SearchSelectList, {
 			propsData: {
@@ -26,7 +28,7 @@ describe('SearchSelectList.vue', () => {
                 ]
 			},
         });
-        
+
         wrapper.setData({ query: 'pa', showList: true });
         expect(wrapper.find('.select-list').exists()).toBe(true);
         expect(wrapper.find('No Result').exists()).toBe(false);
@@ -55,7 +57,7 @@ describe('SearchSelectList.vue', () => {
                 ]
 			},
         });
-        
+
         wrapper.setData({ query: 'pa', showList: true });
         wrapper.vm.$emit('input', 'Paris');
 

@@ -1,5 +1,7 @@
-import { mount } from '@vue/test-utils';
+import { enableAutoDestroy, mount } from '@vue/test-utils';
 import LabeledItemList from '@/components/global/LabeledItem/LabeledItemList.vue';
+
+enableAutoDestroy(afterEach);
 
 describe('LabeledItemList', () => {
 	it('Displays list of LabeledItems passed as prop', () => {

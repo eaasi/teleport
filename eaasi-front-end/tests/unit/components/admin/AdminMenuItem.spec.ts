@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import AdminMenuItem from '@/components/admin/AdminMenuItem.vue';
 
 const menuItem = {
@@ -8,6 +8,7 @@ const menuItem = {
 	onClick: () => console.log('clicked!')
 };
 
+enableAutoDestroy(afterEach);
 
 describe('AdminMenuItem.vue', () => {
 	it('Renders item icon', () => {

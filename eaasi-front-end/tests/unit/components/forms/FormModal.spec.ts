@@ -1,7 +1,9 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { FormModal } from '@/components/global/forms';
 
 // TODO: Test button click emissions
+
+enableAutoDestroy(afterEach);
 
 describe('FormModal.vue', () => {
 	it('Displays title when passed as props', () => {

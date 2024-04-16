@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { UiChip } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('UiChip.vue', () => {
 	it('Renders chip text passed into slot', () => {

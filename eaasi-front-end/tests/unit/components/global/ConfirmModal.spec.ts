@@ -1,5 +1,7 @@
-import { mount, shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import {ConfirmModal, Loader, LoaderOverlay, Modal, UiButton} from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('ConfirmModal.vue', () => {
 	it('It wraps Modal component', () => {

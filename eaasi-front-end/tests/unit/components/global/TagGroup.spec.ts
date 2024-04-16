@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import {Tag, TagGroup} from '@/components/global';
 import faker from 'faker';
 
@@ -13,6 +13,8 @@ function generateTags(tagCount) {
 	}
 	return tags;
 }
+
+enableAutoDestroy(afterEach);
 
 describe('TagGroup.vue', () => {
 	it('Renders three tags when passed as props', () => {

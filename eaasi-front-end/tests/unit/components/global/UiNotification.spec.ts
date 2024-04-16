@@ -1,5 +1,7 @@
 import { UiNotification } from '@/components/global';
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('UiNotification.vue', () => {
 	it('Renders notification text passed into slot', () => {
@@ -22,7 +24,7 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.danger').exists()).toBeTruthy();
     });
-    
+
     it('Renders warning color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
@@ -34,7 +36,7 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.warning').exists()).toBeTruthy();
     });
-    
+
     it('Renders info color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
@@ -46,7 +48,7 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.info').exists()).toBeTruthy();
     });
-    
+
     it('Renders success color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
@@ -58,7 +60,7 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.success').exists()).toBeTruthy();
     });
-    
+
     it('Renders success color preset by default', () => {
 		const wrapper = shallowMount(UiNotification, {
 			slots: {
