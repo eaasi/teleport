@@ -1,9 +1,9 @@
 import AppFooter from '@/components/layout/AppFooter.vue';
 import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 
-enableAutoDestroy(afterEach);
-
 describe('AppFooter.vue', () => {
+
+	enableAutoDestroy(afterAll);
 
 	const footer = shallowMount(AppFooter);
 
