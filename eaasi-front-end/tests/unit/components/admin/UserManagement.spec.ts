@@ -56,6 +56,6 @@ describe('UserManagement.vue', () => {
 			store
 		});
 
-		expect(wrapper.find(UserList).exists()).toBe(true);
+		expect(wrapper.findComponent(UserList).exists()).toBe(true);
 	});
 });
