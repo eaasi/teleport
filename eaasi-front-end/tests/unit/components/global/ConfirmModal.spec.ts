@@ -20,7 +20,7 @@ describe('ConfirmModal.vue', () => {
 				size: 'lg'
 			}
 		});
-		expect(wrapper.contains(Modal));
+		expect(wrapper.findComponent(Modal).exists()).toBe(true);
 	});
 
 	it('It renders title passed as prop', () => {
