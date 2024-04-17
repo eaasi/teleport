@@ -91,7 +91,7 @@ describe('Vue date pick', () => {
 
         await wrapper.vm.open();
 
-        expect(wrapper.find('td[data-id="2017-12-30"]').is('.disabled'));
+        expect(wrapper.find('td[data-id="2017-12-30"]').classes()).toContain('disabled');
 
         await wrapper.find('td[data-id="2017-12-30"]').trigger('click');
 
@@ -145,7 +145,7 @@ describe('Vue date pick', () => {
 
         await wrapper.setProps({value: '2017-12-29'});
 
-        expect(wrapper.find('td[data-id="2017-12-29"]').is('.selected'));
+        expect(wrapper.find('td[data-id="2017-12-29"]').classes()).toContain('selected');
 
         wrapper.destroy();
 
