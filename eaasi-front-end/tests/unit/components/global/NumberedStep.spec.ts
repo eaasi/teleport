@@ -45,7 +45,7 @@ describe('NumberedStep.vue', () => {
 				}
 			}
 		});
-		expect(wrapper.contains('span.fa-check')).toBe(true);
+		expect(wrapper.find('span.fa-check').exists()).toBe(true);
 	});
 
 	it('When complete => renders step description', () => {

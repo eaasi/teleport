@@ -56,11 +56,13 @@ describe('AdminMenu.vue', () => {
 
 	it('Contains Node Management section', () => {
 		const wrapper = shallowMount(AdminMenu, { store, localVue });
-		expect(wrapper.contains('Node Management'));
+		const headings = wrapper.findAll('.admin-menu-heading').wrappers;
+		expect(headings.some((h) => h.text() == 'Node Management')).toBe(true);
 	});
 
 	it('Contains Node User Administration section', () => {
 		const wrapper = shallowMount(AdminMenu, { store, localVue });
-		expect(wrapper.contains('Node User Administration'));
+		const headings = wrapper.findAll('.admin-menu-heading').wrappers;
+		expect(headings.some((h) => h.text() == 'Node User Administration')).toBe(true);
 	});
 });
