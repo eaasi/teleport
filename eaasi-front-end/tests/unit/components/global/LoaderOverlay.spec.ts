@@ -10,6 +10,6 @@ describe('LoaderOverlay.vue', () => {
 				Loader
 			}
 		});
-		expect(wrapper.contains(Loader));
+		expect(wrapper.findComponent(Loader).exists()).toBe(true);
 	});
 });
