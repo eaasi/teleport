@@ -14,7 +14,7 @@ describe('Collapsable.vue', () => {
 				default: '<div class="slot-content">I am the content</div>'
 			}
 		});
-		expect(wrapper.contains('.slot-content')).toBeFalsy();
+		expect(wrapper.find('.slot-content').exists()).toBe(false);
 	});
 
 	it('Opens and displays slot content when title is clicked', async () => {
@@ -28,7 +28,7 @@ describe('Collapsable.vue', () => {
 			}
 		});
 		await wrapper.find('.collapse-title').trigger('click');
-		expect(wrapper.contains('.slot-content')).toBe(true);
+		expect(wrapper.find('.slot-content').exists()).toBe(true);
 	});
 
 	it('Displays the correct title based on open state', async () => {
