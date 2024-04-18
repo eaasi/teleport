@@ -38,24 +38,6 @@ describe('OptionsBox.vue', () => {
 		expect(wrapper.find('.ob-footer-content').text()).toBe('quux');
 	});
 
-	it('Has getter hasFooter which is called to render the template', () => {
-		const hasFooter = jest.fn();
-		const wrapper = mount(OptionsBox, {
-			propsData: {
-				header: 'baggins',
-				icon: 'bulous',
-			},
-			slots: {
-				default: 'bilbo',
-				footer: 'quux',
-			},
-			methods: {
-				hasFooter
-			}
-		});
-		expect(hasFooter).toBeCalled();
-	});
-
 	it('Has footer slot if used', () => {
 		const wrapper = mount(OptionsBox, {
 			propsData: {

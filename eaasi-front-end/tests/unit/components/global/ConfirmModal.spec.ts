@@ -63,7 +63,6 @@ describe('ConfirmModal.vue', () => {
 	});
 
 	it('Clicking cancel triggers cancel method', () => {
-		const cancel = jest.fn();
 		const wrapper = mount(ConfirmModal, {
 			components: {
 				ConfirmModal,
@@ -72,9 +71,6 @@ describe('ConfirmModal.vue', () => {
 			slots: {
 				default: 'hello world',
 			},
-			methods: {
-				cancel
-			},
 			propsData: {
 				title: 'cat and dog',
 				confirmLabel: 'gus',
@@ -82,8 +78,9 @@ describe('ConfirmModal.vue', () => {
 				size: 'lg'
 			}
 		});
+
 		wrapper.find('.btn-modal-cancel button').trigger('click');
-		expect(cancel).toBeCalledTimes(1);
+		expect(wrapper.emitted('click:cancel')).toBeTruthy();
 	});
 
 	it('Clicking confirm triggers emit click:confirm event', () => {
