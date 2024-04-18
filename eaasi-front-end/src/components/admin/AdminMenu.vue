@@ -49,8 +49,6 @@ export default class AdminMenu extends Vue {
 
 	/* Data
 	============================================*/
-	frontEndBuild: string = process.env.VUE_APP_BUILD_VERSION;
-	backEndBuild: string = '';
 
 	get isViewable(): boolean {
 		if (!this.user) return false;
@@ -134,6 +132,11 @@ export default class AdminMenu extends Vue {
 
 	@Get('appVersion')
 	readonly appVersion: string;
+
+	@Get('buildVersion')
+	readonly frontEndBuild: string;
+
+	backEndBuild: string = '';
 
 	async getBEBuildVersion() {
 		this.backEndBuild = await this.$store.dispatch('admin/getBEBuildVersion');
