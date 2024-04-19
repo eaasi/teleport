@@ -7,3 +7,6 @@ eaasi-nginx/cache
 eaas-client.prod.yml
 eaasi_db/
 **/__pycache__
+
+# Jest cache
+.jest
