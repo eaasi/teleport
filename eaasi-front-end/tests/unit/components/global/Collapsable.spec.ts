@@ -65,7 +65,6 @@ describe('Collapsable.vue', () => {
 			propsData: {
 				collapsed: true,
 				title: 'something',
-				icon: 'moon'
 			},
 			slots: {
 				default: '<div class="slot-content">I am the content</div>'
