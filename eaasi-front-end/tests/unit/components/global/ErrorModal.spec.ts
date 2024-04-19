@@ -1,4 +1,5 @@
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
+import localAdminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
 import { createLocalVue, enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
@@ -19,6 +20,8 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 	beforeEach(() => {
 		store = new Vuex.Store({
 			modules: {
+				// @ts-ignore
+				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore
 			},
