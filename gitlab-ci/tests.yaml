@@ -2,16 +2,18 @@
   image: node:lts-alpine
   stage: test
   variables:
-    cachedir: ".npm"
+    npm_cache_dir: ".npm"
+    jest_cache_dir: ".jest"
   cache:
     key: "cache-${CI_JOB_NAME}"
     paths:
-    - "${cachedir}"
+    - "${npm_cache_dir}"
+    - "${jest_cache_dir}"
   script:
   - apk add git
   - node --version
   - cd "${service}"
-  - npm ci --cache "../${cachedir}"
+  - npm ci --cache "../${npm_cache_dir}"
   - npm run "test:unit:coverage"
 
 front-end-tests:
