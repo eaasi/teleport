@@ -7,6 +7,7 @@ describe('SelectableCard.vue', () => {
 	it('Renders a title', () => {
 		const wrapper = shallowMount(SelectableCard, {
 			propsData: {
+				value: false,
 				data: {
 					title: 'foo'
 				},
