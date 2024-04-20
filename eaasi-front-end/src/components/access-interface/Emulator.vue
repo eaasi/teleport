@@ -482,7 +482,6 @@
 			await this.stopEnvironment();
 			this.removeBusListeners();
 			this.isStarted = false;
-			this.selectedResourcesPerDrive = [];
 		}
 
 	}
