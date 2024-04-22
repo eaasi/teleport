@@ -39,6 +39,7 @@ describe('AdminMenu.vue', () => {
 			},
 			state: {
 				appVersion: '',
+				buildVersion: '',
 				loggedInUser: {'id': 123}
 			},
 			plugins: [pathify.plugin],
