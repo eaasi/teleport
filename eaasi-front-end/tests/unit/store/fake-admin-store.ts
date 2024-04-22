@@ -121,7 +121,11 @@ const actions = {
 
 	getApiKey({ commit }: Store<AdminState>) {
 		console.log('getApiKey');
-	}
+	},
+
+	getBEBuildVersion(){
+		return '';
+	},
 
 };
 
