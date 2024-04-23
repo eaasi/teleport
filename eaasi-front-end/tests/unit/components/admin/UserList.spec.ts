@@ -2,15 +2,16 @@ import UserList from '@/components/admin/users/UserList.vue';
 import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import adminStore from '../../store/fake-admin-store';
 import { userRoles } from '@/utils/constants';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import { generateFakeUsers } from '../../generators';
 
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('UserList.vue', () => {
 

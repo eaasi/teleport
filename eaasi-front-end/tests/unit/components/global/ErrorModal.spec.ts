@@ -1,15 +1,17 @@
 import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
+import localAdminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import GlobalComponents from '@/components/global';
 
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
 localVue.use(GlobalComponents);
+
+enableAutoDestroy(afterEach);
 
 describe('ErrorModal.vue when showDebugErrors is true', () => {
 
@@ -18,6 +20,8 @@ describe('ErrorModal.vue when showDebugErrors is true', () => {
 	beforeEach(() => {
 		store = new Vuex.Store({
 			modules: {
+				// @ts-ignore
+				admin: localAdminStore,
 				// @ts-ignore
 				global: globalStore
 			},

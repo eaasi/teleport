@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import LegendElement from '@/components/global/LegendElement.vue';
+
+enableAutoDestroy(afterEach);
 
 describe('LegendElement.vue', () => {
 	it('Renders text passed as prop', () => {

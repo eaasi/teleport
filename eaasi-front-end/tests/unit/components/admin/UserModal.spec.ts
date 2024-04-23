@@ -2,7 +2,7 @@ import UserModal from '@/components/admin/users/UserModal.vue';
 import { FormModal } from '@/components/global/forms';
 import adminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
-import { createLocalVue, mount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import { generateFakeUsers } from '../../generators';
@@ -10,9 +10,10 @@ import { makeAdminStoreState } from '../../store-helpers';
 import GlobalComponents from '@/components/global';
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
 localVue.use(GlobalComponents);
+
+enableAutoDestroy(afterEach);
 
 describe('UserModal.vue', () => {
 	let store;
@@ -42,7 +43,7 @@ describe('UserModal.vue', () => {
 			},
 			store
 		});
-		expect(wrapper.find(FormModal).exists()).toBe(true);
+		expect(wrapper.findComponent(FormModal).exists()).toBe(true);
 	});
 
 	it('Shows "Delete user" button for existing users', () => {

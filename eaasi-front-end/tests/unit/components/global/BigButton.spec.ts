@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { BigButton } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('BigButton.vue', () => {
 	it('Renders label prop as button text', () => {

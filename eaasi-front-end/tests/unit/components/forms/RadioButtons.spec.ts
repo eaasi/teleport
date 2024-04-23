@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { RadioButtons } from '@/components/global/forms';
+
+enableAutoDestroy(afterEach);
 
 describe('RadioButtons.vue', () => {
 	it('Renders label passed as prop', () => {

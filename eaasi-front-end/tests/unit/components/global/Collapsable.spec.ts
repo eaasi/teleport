@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { Collapsable } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('Collapsable.vue', () => {
 	it('Does not show slot content when closed', () => {
@@ -12,7 +14,7 @@ describe('Collapsable.vue', () => {
 				default: '<div class="slot-content">I am the content</div>'
 			}
 		});
-		expect(wrapper.contains('.slot-content')).toBeFalsy();
+		expect(wrapper.find('.slot-content').exists()).toBe(false);
 	});
 
 	it('Opens and displays slot content when title is clicked', async () => {
@@ -26,7 +28,7 @@ describe('Collapsable.vue', () => {
 			}
 		});
 		await wrapper.find('.collapse-title').trigger('click');
-		expect(wrapper.contains('.slot-content')).toBe(true);
+		expect(wrapper.find('.slot-content').exists()).toBe(true);
 	});
 
 	it('Displays the correct title based on open state', async () => {
@@ -63,7 +65,6 @@ describe('Collapsable.vue', () => {
 			propsData: {
 				collapsed: true,
 				title: 'something',
-				icon: 'moon'
 			},
 			slots: {
 				default: '<div class="slot-content">I am the content</div>'

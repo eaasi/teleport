@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import NumberedStep from '@/components/global/NumberedSteps/NumberedStep.vue';
 import NumberedSteps from '@/components/global/NumberedSteps/NumberedSteps.vue';
 import {INumberedStep} from '@/types/NumberedStep';
@@ -34,13 +34,15 @@ function getSteps(count: number): INumberedStep[] {
 }
 
 
+enableAutoDestroy(afterEach);
+
 describe('NumberedSteps.vue', () => {
 	it('When 0 steps passed as props => renders 3 Numbered Step components', () => {
 		const wrapper = shallowMount(NumberedSteps, { propsData: {
 			steps: [],
             value: 91
 		}});
-		expect(wrapper.findAll(NumberedStep).exists()).toBe(false);
+		expect(wrapper.findAllComponents(NumberedStep).exists()).toBe(false);
 	});
 
 	it('When 1 step passed as props => renders 1 Numbered Step components', () => {
@@ -49,7 +51,7 @@ describe('NumberedSteps.vue', () => {
 			steps: testSteps,
             value: 24
 		}});
-		expect(wrapper.findAll(NumberedStep).length).toBe(1);
+		expect(wrapper.findAllComponents(NumberedStep).length).toBe(1);
 	});
 
 	it('When 3 steps passed as props => renders 3 Numbered Step components', () => {
@@ -58,7 +60,7 @@ describe('NumberedSteps.vue', () => {
 			steps: testSteps,
 			value: 2
 		}});
-		expect(wrapper.findAll(NumberedStep).length).toBe(3);
+		expect(wrapper.findAllComponents(NumberedStep).length).toBe(3);
 	});
 
 	it('When 5 steps passed as props => renders 5 Numbered Step components', () => {
@@ -67,6 +69,6 @@ describe('NumberedSteps.vue', () => {
 			steps: testSteps,
 			value: 213
 		}});
-		expect(wrapper.findAll(NumberedStep).length).toBe(5);
+		expect(wrapper.findAllComponents(NumberedStep).length).toBe(5);
 	});
 });

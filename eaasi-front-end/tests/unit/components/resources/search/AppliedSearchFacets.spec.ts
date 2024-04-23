@@ -1,13 +1,14 @@
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
-import {createLocalVue, shallowMount} from '@vue/test-utils';
+import {createLocalVue, enableAutoDestroy, shallowMount} from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 import resourceStore from '@/store/resource-store';
 
 
 const localVue = createLocalVue();
-
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('AppliedSearchFacets.vue', () => {
 

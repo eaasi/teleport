@@ -1,9 +1,14 @@
 import { UiNotification } from '@/components/global';
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('UiNotification.vue', () => {
 	it('Renders notification text passed into slot', () => {
 		const wrapper = shallowMount(UiNotification, {
+			propsData: {
+				label: 'Test',
+			},
 			slots: {
 				default: 'Default!'
 			}
@@ -14,6 +19,7 @@ describe('UiNotification.vue', () => {
 	it('Renders danger color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
+				label: 'Test',
 				colorPreset: 'danger'
 			},
 			slots: {
@@ -22,10 +28,11 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.danger').exists()).toBeTruthy();
     });
-    
+
     it('Renders warning color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
+				label: 'Test',
 				colorPreset: 'warning'
 			},
 			slots: {
@@ -34,10 +41,11 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.warning').exists()).toBeTruthy();
     });
-    
+
     it('Renders info color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
+				label: 'Test',
 				colorPreset: 'info'
 			},
 			slots: {
@@ -46,10 +54,11 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.info').exists()).toBeTruthy();
     });
-    
+
     it('Renders success color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
+				label: 'Test',
 				colorPreset: 'success'
 			},
 			slots: {
@@ -58,9 +67,12 @@ describe('UiNotification.vue', () => {
 		});
 		expect(wrapper.find('.success').exists()).toBeTruthy();
     });
-    
+
     it('Renders success color preset by default', () => {
 		const wrapper = shallowMount(UiNotification, {
+			propsData: {
+				label: 'Test',
+			},
 			slots: {
 				default: 'Success Notification'
 			}

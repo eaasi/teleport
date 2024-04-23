@@ -1,7 +1,9 @@
-import { mount } from '@vue/test-utils';
+import { enableAutoDestroy, mount } from '@vue/test-utils';
 import SlideMenu from '@/components/layout/SlideMenu.vue';
 
 describe('SlideMenu.vue', () => {
+
+	enableAutoDestroy(afterAll);
 
 	const menu = mount(SlideMenu, {
 		propsData: {
@@ -32,5 +34,4 @@ describe('SlideMenu.vue', () => {
 		await menu.setProps({open: false});
 		expect(menu.classes().some(x => x === 'open')).toBe(false);
 	});
-
 });

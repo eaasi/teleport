@@ -4,12 +4,14 @@ import PermissionResolver from '@/services/Permissions/PermissionResolver';
 import localAdminStore from '../../store/fake-admin-store';
 import globalStore from '@/store/global-store';
 import { userRoles } from '@/utils/constants';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('AdminMenu.vue', () => {
 	let store;
@@ -37,6 +39,7 @@ describe('AdminMenu.vue', () => {
 			},
 			state: {
 				appVersion: '',
+				buildVersion: '',
 				loggedInUser: {'id': 123}
 			},
 			plugins: [pathify.plugin],
@@ -49,16 +52,18 @@ describe('AdminMenu.vue', () => {
 		const userMenuItems = (wrapper.vm as any).userMenuItems;
 		const menuItems = (wrapper.vm as any).menuItems;
 		const allItems = userMenuItems.concat(menuItems);
-		expect(wrapper.findAll(AdminMenuItem).length).toBe(allItems.length);
+		expect(wrapper.findAllComponents(AdminMenuItem).length).toBe(allItems.length);
 	});
 
 	it('Contains Node Management section', () => {
 		const wrapper = shallowMount(AdminMenu, { store, localVue });
-		expect(wrapper.contains('Node Management'));
+		const headings = wrapper.findAll('.admin-menu-heading').wrappers;
+		expect(headings.some((h) => h.text() == 'Node Management')).toBe(true);
 	});
 
 	it('Contains Node User Administration section', () => {
 		const wrapper = shallowMount(AdminMenu, { store, localVue });
-		expect(wrapper.contains('Node User Administration'));
+		const headings = wrapper.findAll('.admin-menu-heading').wrappers;
+		expect(headings.some((h) => h.text() == 'Node User Administration')).toBe(true);
 	});
 });

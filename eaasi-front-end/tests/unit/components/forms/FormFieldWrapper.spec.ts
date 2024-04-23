@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import FormFieldWrapper from '@/components/global/forms/FormFieldWrapper.vue';
+
+enableAutoDestroy(afterEach);
 
 describe('FormFieldWrapper.vue', () => {
 

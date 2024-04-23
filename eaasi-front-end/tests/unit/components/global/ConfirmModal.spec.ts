@@ -1,5 +1,7 @@
-import { mount, shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import {ConfirmModal, Loader, LoaderOverlay, Modal, UiButton} from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('ConfirmModal.vue', () => {
 	it('It wraps Modal component', () => {
@@ -18,7 +20,7 @@ describe('ConfirmModal.vue', () => {
 				size: 'lg'
 			}
 		});
-		expect(wrapper.contains(Modal));
+		expect(wrapper.findComponent(Modal).exists()).toBe(true);
 	});
 
 	it('It renders title passed as prop', () => {
@@ -61,7 +63,6 @@ describe('ConfirmModal.vue', () => {
 	});
 
 	it('Clicking cancel triggers cancel method', () => {
-		const cancel = jest.fn();
 		const wrapper = mount(ConfirmModal, {
 			components: {
 				ConfirmModal,
@@ -70,9 +71,6 @@ describe('ConfirmModal.vue', () => {
 			slots: {
 				default: 'hello world',
 			},
-			methods: {
-				cancel
-			},
 			propsData: {
 				title: 'cat and dog',
 				confirmLabel: 'gus',
@@ -80,8 +78,9 @@ describe('ConfirmModal.vue', () => {
 				size: 'lg'
 			}
 		});
+
 		wrapper.find('.btn-modal-cancel button').trigger('click');
-		expect(cancel).toBeCalledTimes(1);
+		expect(wrapper.emitted('click:cancel')).toBeTruthy();
 	});
 
 	it('Clicking confirm triggers emit click:confirm event', () => {

@@ -7,6 +7,7 @@ module.exports = {
 	testURL: 'http://localhost/',
 	testMatch: ['**/test/unit/**/*.(js|ts)'],
 	collectCoverage: true,
+	cacheDirectory: '../.jest',
 	testResultsProcessor: "jest-sonar-reporter",
 	coveragePathIgnorePatterns: [
 		'/node_modules/',

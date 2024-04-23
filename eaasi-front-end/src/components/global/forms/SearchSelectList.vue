@@ -3,7 +3,6 @@
 		<div class="eaasi-input-wrapper">
 			<div 
 				:class="['eaasi-input flex-row relative', fieldStatus, { readonly }]" 
-				v-click-outside="closeList"
 			>
 				<input 
 					:value="query"
