@@ -246,6 +246,11 @@ const actions = {
 	async syncSoftwareUrl() {
 		return await _svc.syncSoftwareUrl();
 	},
+
+	async getResourceOwner(_, ownerId: string) {
+		return await _svc.getResourceOwner(ownerId);
+	}
+
 };
 
 /*============================================================
