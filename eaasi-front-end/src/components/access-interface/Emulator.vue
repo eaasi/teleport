@@ -182,7 +182,6 @@
 						vm.environment.archive
 					);
 				} else if (vm.createEnvironmentPayload) {
-					this.setResourcesToEnvironmentConfigDrives(vm.createEnvironmentPayload);
 					machine = new EphemeralMachineComponentBuilder(
 						vm.createEnvironmentPayload
 					);
@@ -235,28 +234,6 @@
 				vm.handleError(e);
 			}
 			vm.showLoader = false;
-		}
-
-		private setResourcesToEnvironmentConfigDrives(createEnvironmentPayload: ICreateEnvironmentPayload) {
-			this.selectedResourcesPerDrive.forEach((resources, index) => {
-				if (!resources || resources.length === 0) {
-					return;
-				}
-				const resource = resources[0];
-				switch (resource.resourceType) {
-					case 'Software':
-					case 'Content':
-						createEnvironmentPayload.driveSettings[index].objectId = resource.id;
-						createEnvironmentPayload.driveSettings[index].objectArchive = resource.archiveId || 'default';
-						break;
-					case 'Image':
-						createEnvironmentPayload.driveSettings[index].imageId = resource.id;
-						createEnvironmentPayload.driveSettings[index].imageArchive = resource.archiveId || 'default';
-						break;
-					default:
-						break;
-				}
-			});
 		}
 
 		private setResourcesToDrives(machine: MachineComponentBuilder) {
