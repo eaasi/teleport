@@ -66,6 +66,9 @@
 		@Prop({type: Object as () => ICreateEnvironmentPayload, required: false})
 		readonly createEnvironmentPayload: ICreateEnvironmentPayload;
 
+		@Prop({type: Object as () => IEaasiResource[][], required: false})
+		readonly driveAssignments: IEaasiResource[][];
+
 		@Prop({type: String, required: false})
 		readonly driveId: string;
 
@@ -83,9 +86,6 @@
 
 		@Sync('resource/clientComponentId')
 		clientComponentId: string;
-
-		@Sync('emulationProject/selectedResourcesPerDrive')
-		selectedResourcesPerDrive: IEaasiResource[][];
 
 		/* Data
         ============================================*/
@@ -238,10 +238,10 @@
 		}
 
 		private setResourcesToDrives(machine: MachineComponentBuilder) {
-			if (this.selectedResourcesPerDrive.length === 0) {
+			if (this.driveAssignments.length === 0) {
 				return;
 			}
-			this.selectedResourcesPerDrive.forEach((resources, index) => {
+			this.driveAssignments.forEach((resources, index) => {
 				if (!resources || resources.length === 0) {
 					return;
 				}
