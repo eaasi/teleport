@@ -18,6 +18,7 @@ import {IEaasiTab} from 'eaasi-nav';
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
 	activeEphemeralEnvironment: ICreateEnvironmentPayload = null;
+	activeDriveAssignments: IEaasiResource[][] = [];
 	selectedResources: IEaasiResource[] = [];
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
@@ -53,6 +54,12 @@ mutations['UNSELECT_ALL_FACETS'] = function(state: ResourceState) {
 	state.query.selectedFacets.forEach(facet => {
 		facet.values.forEach(value => value.isSelected = false);
 	});
+};
+
+mutations['RESET_ACTIVE_ENVIRONMENT_CONFIG'] = function(state: ResourceState) {
+	state.activeEnvironment = null;
+	state.activeEphemeralEnvironment = null;
+	state.activeDriveAssignments = [];
 };
 
 /*============================================================
