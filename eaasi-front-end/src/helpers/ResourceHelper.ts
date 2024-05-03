@@ -110,7 +110,7 @@ export function filterResourcesByType(resources: IEaasiResource[], type: Resourc
 	return resources.filter(x => x.resourceType === type);
 }
 
-export function removeResourcesByType(resources: IEaasiResource[], types: ResourceType[]) {
+export function removeResourcesByType(resources: IEaasiResource[], types: ResourceType) {
 	if(!Array.isArray(resources)) return [];
 	return resources.filter(x => !types.includes(x.resourceType));
 }

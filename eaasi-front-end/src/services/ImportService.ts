@@ -26,27 +26,35 @@ class ImportService extends BaseHttpService {
 		return res.result;
 	}
 
+
 	/**
-	 * Makes a POST request with FormData for Content or Software Resource files
+	 * Makes a POST request for Content or Software Resource files
 	 * @param {IResourceImportFile[]} filesToUpload
 	 */
-	async uploadContentResourceFiles(filesToUpload: IResourceImportFile[]) : Promise<IEmilUploadResponse> {
-		const formData = new FormData();
-
-		filesToUpload.forEach(file => {
-			formData.append('file', file.file, file.name);
-			formData.set('uploadId', (file.sortIndex - 1).toString());
-		});
-
-		const uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/upload`;
-		const res = await this.postUpload<IEmilUploadResponse>(uploadUrl, formData);
-
-		if (!res.ok) {
-			console.error('Response returned error: ', res);
-			return null;
+	async uploadContentResourceFilesNew(filesToUpload: IResourceImportFile[]) : Promise<{
+		uploadedItemList: any[];
+		status: string;
+		uploads: any[]
+	}> {
+		let uploadFiles = {
+			'status': '0',
+			'uploadedItemList': [],
+			'uploads': []
+		};
+		for (const file of filesToUpload) {
+			const uploadUrl = '/emil/upload';
+			const res = await this.postUploadExtended<IEmilUploadResponse>(uploadUrl, file);
+			if (!res.result.status) {
+				console.error('Response returned error: ', res);
+				return null;
+			}
+			uploadFiles = {
+				'status': '0',
+				'uploadedItemList': [...uploadFiles.uploadedItemList, ...res.result.uploadedItemList],
+				'uploads': [...uploadFiles.uploads, ...res.result.uploads]
+			};
 		}
-
-		return res.result;
+		return uploadFiles;
 	}
 
 	/**
