@@ -1,7 +1,7 @@
 <template>
 	<div class="software-form">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 col-sm-12">
 				<text-input
 					label="Software Name"
 					placeholder="Enter a name or title for this resource..."

@@ -180,10 +180,13 @@ const actions = {
 		}
 	},
 
-	async uploadContentResourceFiles({ state }): Promise<IEmilUploadResponse> {
-		return await _importService.uploadContentResourceFiles(state.filesToUpload);
+	async uploadContentResourceFiles({ state }): Promise<{
+		uploadedItemList: any[];
+		status: string;
+		uploads: any[]
+	}> {
+		return await _importService.uploadContentResourceFilesNew(state.filesToUpload);
 	},
-
 
 	/**
 	 * Triggers a snapshot of an imported environment
