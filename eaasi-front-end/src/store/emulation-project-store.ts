@@ -186,7 +186,8 @@ const getters = {
 		return filterResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT) as IEnvironment[];
 	},
 	projectObjects(state) {
-		return removeResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT);
+		console.log('removeResourcesByType', resourceTypes);
+		//return removeResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT);
 	},
 	selectedObjects(state: EmulationProjectStore): IEaasiResource[] {
 		return state.selectedResources.filter(r => r.resourceType !== resourceTypes.ENVIRONMENT);
