@@ -40,6 +40,7 @@ class ImportService extends BaseHttpService {
 
 		const uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/upload`;
 		const res = await this.postUpload<IEmilUploadResponse>(uploadUrl, formData);
+		console.log('res', res);
 
 		if (!res.ok) {
 			console.error('Response returned error: ', res);
@@ -47,6 +48,31 @@ class ImportService extends BaseHttpService {
 		}
 
 		return res.result;
+	}
+
+	/**
+	 * Makes a POST request with FormData for Content or Software Resource files
+	 * @param {IResourceImportFile[]} filesToUpload
+	 */
+	async uploadContentResourceFilesNew(filesToUpload: IResourceImportFile[]) : Promise<any[]> {
+		const a = [];
+		console.log('filesToUpload', filesToUpload);
+		for (const file of filesToUpload) {
+			console.log('file', file);
+			const uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/uploads`;
+			const res = await this.postUploadExtended<IEmilUploadResponse>(uploadUrl, file);
+			a.push(res);
+		}
+
+		/*
+		if (!res.ok) {
+			console.error('Response returned error: ', res);
+			return null;
+		}*/
+
+		//return res.result;
+		console.log('a', a);
+		return a;
 	}
 
 	/**
