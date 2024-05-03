@@ -180,8 +180,12 @@ const actions = {
 		}
 	},
 
-	async uploadContentResourceFiles({ state }): Promise<IEmilUploadResponse> {
+	/*async uploadContentResourceFiles({ state }): Promise<IEmilUploadResponse> {
 		return await _importService.uploadContentResourceFiles(state.filesToUpload);
+	},
+*/
+	async uploadContentResourceFiles({ state }): Promise<any[]> {
+		return await _importService.uploadContentResourceFilesNew(state.filesToUpload);
 	},
 
 
