@@ -271,8 +271,6 @@ export default class BaseHttpService {
 		method: string,
 		file: any,
 	): Promise<IEaasiApiResponse<T>> {
-		if (url.indexOf('://') === -1) url = config.SERVICE_URL + url;
-
 		let response: IEaasiApiResponse<T>;
 		try {
 			eventBus.$emit('ajaxStart', true);
@@ -282,13 +280,11 @@ export default class BaseHttpService {
 				'x-eaas-filename': file.name,
 			};
 
-
 			const res = await fetch(url, {
 				method: method,
 				headers: headers,
 				body: file.file
 			});
-			console.log('res extend',res);
 
 			eventBus.$emit('ajaxEnd', true);
 			response = res as IEaasiApiResponse<T>;
