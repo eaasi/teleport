@@ -65,6 +65,13 @@ export default class BaseHttpService {
 		return this._makeUploadRequest(url, 'POST', data);
 	}
 
+	async postUploadExtended<T>(
+		url: string,
+		file: any,
+	): Promise<IEaasiApiResponse<T>> {
+		return this._makeUploadRequestExtended(url, 'POST', file);
+	}
+
 	/**
 	 * Makes a PUT request using Fetch
 	 *
@@ -250,6 +257,42 @@ export default class BaseHttpService {
 			}
 
 			// TODO: Handle non-200 responses
+
+			return response;
+
+		} catch (e) {
+			console.warn(e);
+			eventBus.$emit('ajaxEnd');
+		}
+	}
+
+	private async _makeUploadRequestExtended<T>(
+		url: string,
+		method: string,
+		file: any,
+	): Promise<IEaasiApiResponse<T>> {
+		let response: IEaasiApiResponse<T>;
+		try {
+			eventBus.$emit('ajaxStart', true);
+
+			const headers = {
+				'content-type': 'application/octet-stream',
+				'x-eaas-filename': file.name,
+			};
+
+			const res = await fetch(url, {
+				method: method,
+				headers: headers,
+				body: file.file
+			});
+
+			eventBus.$emit('ajaxEnd', true);
+			response = res as IEaasiApiResponse<T>;
+
+			// If 200 response, parse the body as the generic type
+			if (res.ok) {
+				response.result = await res.json();
+			}
 
 			return response;
 
