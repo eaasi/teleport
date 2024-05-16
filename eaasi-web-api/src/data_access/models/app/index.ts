@@ -6,8 +6,4 @@ export * from './EaasiTask';
 export * from './EmulationProject';
 export * from './EmulationProjectResource';
 export * from './Emulator';
-export * from './UserImportedContent';
-export * from './UserImportedEnvironment';
-export * from './UserImportedImage';
-export * from './UserImportedSoftware';
 export * from './EmulationProjectTaskSuccessor';

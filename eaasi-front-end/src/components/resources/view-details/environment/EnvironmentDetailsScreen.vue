@@ -34,6 +34,7 @@
 					:network-labeled-items="networkLabeledItems"
 					:installed-software="installedSoftware"
 					:config-machine-labeled-items="configMachineLabeledItems"
+					:owner-label="ownerLabel"
 				/>
 				<revision-list
 					v-show="activeTab === 'History'"
@@ -133,6 +134,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	]
 	actionMenuActiveTab: IEaasiTab = null;
 	kvmFlag: string = '-enable-kvm';
+	ownerLabel: string = null;
 
     /* Computed
 	============================================*/
@@ -250,6 +252,8 @@ export default class EnvironmentDetailsScreen extends Vue {
 		}
 		this.resources = [{...this.activeEnvironment, resourceType: resourceTypes.ENVIRONMENT}];
 		await this.populateMetadata();
+		let owner = await this.$store.dispatch('resource/getResourceOwner', this.activeEnvironment.owner);
+		this.ownerLabel = owner.label;
 	}
 
 	async populateMetadata() {

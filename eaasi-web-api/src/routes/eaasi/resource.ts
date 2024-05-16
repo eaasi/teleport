@@ -253,4 +253,13 @@ router.post('/save-new-object-environment', (req, res) => controller.saveNewObje
  */
 router.post('/save-environment-revision', (req, res) => controller.saveEnvironmentRevision(req, res));
 
+/**
+ * @api {GET} Gets owner label by user id
+ * @apiVersion 1.0.0
+ * @apiName Get owner by id
+ * @apiGroup Resources
+ * @apiPermission All Users
+ */
+router.get('/owner', (req, res) => controller.getResourceOwner(req, res));
+
 module.exports = router;
