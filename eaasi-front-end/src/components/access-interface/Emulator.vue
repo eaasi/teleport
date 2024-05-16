@@ -66,6 +66,9 @@
 		@Prop({type: Object as () => ICreateEnvironmentPayload, required: false})
 		readonly createEnvironmentPayload: ICreateEnvironmentPayload;
 
+		@Prop({type: Object as () => IEaasiResource[][], required: false})
+		readonly driveAssignments: IEaasiResource[][];
+
 		@Prop({type: String, required: false})
 		readonly driveId: string;
 
@@ -83,9 +86,6 @@
 
 		@Sync('resource/clientComponentId')
 		clientComponentId: string;
-
-		@Sync('emulationProject/selectedResourcesPerDrive')
-		selectedResourcesPerDrive: IEaasiResource[][];
 
 		/* Data
         ============================================*/
@@ -182,7 +182,6 @@
 						vm.environment.archive
 					);
 				} else if (vm.createEnvironmentPayload) {
-					this.setResourcesToEnvironmentConfigDrives(vm.createEnvironmentPayload);
 					machine = new EphemeralMachineComponentBuilder(
 						vm.createEnvironmentPayload
 					);
@@ -237,33 +236,11 @@
 			vm.showLoader = false;
 		}
 
-		private setResourcesToEnvironmentConfigDrives(createEnvironmentPayload: ICreateEnvironmentPayload) {
-			this.selectedResourcesPerDrive.forEach((resources, index) => {
-				if (!resources || resources.length === 0) {
-					return;
-				}
-				const resource = resources[0];
-				switch (resource.resourceType) {
-					case 'Software':
-					case 'Content':
-						createEnvironmentPayload.driveSettings[index].objectId = resource.id;
-						createEnvironmentPayload.driveSettings[index].objectArchive = resource.archiveId || 'default';
-						break;
-					case 'Image':
-						createEnvironmentPayload.driveSettings[index].imageId = resource.id;
-						createEnvironmentPayload.driveSettings[index].imageArchive = resource.archiveId || 'default';
-						break;
-					default:
-						break;
-				}
-			});
-		}
-
 		private setResourcesToDrives(machine: MachineComponentBuilder) {
-			if (this.selectedResourcesPerDrive.length === 0) {
+			if (this.driveAssignments.length === 0) {
 				return;
 			}
-			this.selectedResourcesPerDrive.forEach((resources, index) => {
+			this.driveAssignments.forEach((resources, index) => {
 				if (!resources || resources.length === 0) {
 					return;
 				}
@@ -481,7 +458,6 @@
 			await this.stopEnvironment();
 			this.removeBusListeners();
 			this.isStarted = false;
-			this.selectedResourcesPerDrive = [];
 		}
 
 	}
