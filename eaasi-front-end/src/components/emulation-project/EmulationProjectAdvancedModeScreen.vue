@@ -236,8 +236,6 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 		await this.$store.dispatch('resource/getTemplates');
 		if (this.createEnvironmentPayload) {
 			this.selectedTemplateId = this.createEnvironmentPayload.templateId;
-			this.selectedResourcesPerDrive = this.createEnvironmentPayload.driveSettings.map(() => []);
-			this.createEnvironmentPayload.driveSettings = this.createEnvironmentPayload.driveSettings.map((driveSetting) => ({ drive: driveSetting.drive, driveIndex: driveSetting.driveIndex, bootDrive: false }));
 		}
 		this.selectingResourceForDiskIndex = -1;
 	}

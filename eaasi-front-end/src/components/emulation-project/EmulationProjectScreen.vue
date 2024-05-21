@@ -98,6 +98,9 @@ export default class EmulationProjectScreen extends Vue {
 	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
 
+	@Get('emulationProject/selectedResourcesPerDrive')
+	selectedResourcesPerDrive: IEaasiResource[][];
+
 	@Sync('showLoader')
 	showLoader: boolean;
 
@@ -150,6 +153,7 @@ export default class EmulationProjectScreen extends Vue {
 			// Set newly create emulation project environment to active
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', emulationProjectEnv);
 			this.$store.commit('resource/SET_ACTIVE_EPHEMERAL_ENVIRONMENT', this.createEnvironmentPayload);
+			this.$store.commit('resource/SET_ACTIVE_DRIVE_ASSIGNMENTS', this.selectedResourcesPerDrive);
 
 			// Route to access interface screen
 			this.$router.push(this.buildQuery(emulationProjectEnv?.envId));
