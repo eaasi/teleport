@@ -43,7 +43,7 @@ export default class PermissionResolver {
 	 * - Can delete resources from node (local only)
 	 */
 	allowsDeleteLocalResourcesFromNode() {
-		return [userRoles.ADMIN, userRoles.MANAGER]
+		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
 			.includes(this.userRoleId);
 	}
 
