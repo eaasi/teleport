@@ -45,6 +45,12 @@ export default class ResourceSlideMenuService {
 				new DeleteResourceActionResolver(selected, roleId).resolveAction()
 			);
 		}
+		else if (roleId == userRoles.CONTRIBUTOR) {
+			nodeActions.push(
+				new DeleteResourceActionResolver(selected, roleId).resolveAction()
+			);
+		}
+
 		return nodeActions;
 	}
 }
