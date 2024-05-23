@@ -78,6 +78,11 @@ export default class ResourceAdminService extends BaseService {
 	async searchResources(query: IResourceSearchQuery, userId: string, token: string): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
 		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
+		if (query.onlyImportedResources) {
+			// NOTE: software packages and objects are stored in user-private archives,
+			//       which currently are identified by names of the form 'user-<USER-ID>'
+			query.archives = ['user-' + userId];
+		}
 
 		[bookmarksResponse] = await Promise.all([
 			this._bookmarkService.getByUserID(userId)
