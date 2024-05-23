@@ -139,8 +139,10 @@ export default class ResourceAdminService extends BaseService {
 		bookmarks: IBookmark[],
 		token: string
 	): Promise<IEaasiSearchResponse<IContentItem>> {
-		const respose = await this._contentService.getObjectArchives(token);
-		const results = respose.archives.map(name => this._contentService.getAll(name, token));
+		const archives = (query.archives && query.archives.length > 0) ? query.archives :
+				(await this._contentService.getObjectArchives(token)).archives;
+
+		const results = archives.map(name => this._contentService.getAll(name, token));
 		const content = (await Promise.all(results)).flat();
 		return this._filterResults(content, query, bookmarks);
 	}
