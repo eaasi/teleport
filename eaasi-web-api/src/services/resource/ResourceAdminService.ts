@@ -217,6 +217,13 @@ export default class ResourceAdminService extends BaseService {
 			return {} as IResourceSearchQuery;
 		}
 
+		if (query.selectedFacets && query.selectedFacets.length > 0) {
+			query.selectedFacets = this.prepareSearchFacets(query.selectedFacets);
+		}
+		else {
+			query.selectedFacets = [];
+		}
+
 		if (query.onlyImportedResources) {
 			// NOTE: software packages and objects are stored in user-private archives,
 			//       which currently are identified by names of the form 'user-<USER-ID>'
@@ -245,6 +252,35 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		return query;
+	}
+
+	private prepareSearchFacets(facets: IResourceSearchFacet[]): IResourceSearchFacet[] {
+		if (!facets || !facets.length) {
+			return facets;
+		}
+
+		const numFacetsTotal = facets.length;
+		let numValuesSkipped = 0;
+		let numValuesTotal = 0;
+
+		// remove all unselected facets...
+		facets = facets.filter(facet => {
+			const numValuesBefore = facet.values.length;
+			facet.values = facet.values.filter(value => value.isSelected);
+			numValuesSkipped += numValuesBefore - facet.values.length;
+			numValuesTotal += numValuesBefore;
+			return (facet.values.length > 0);
+		});
+
+		const numFacetsSkipped = numFacetsTotal - facets.length;
+		if (numFacetsSkipped > 0 || numValuesSkipped > 0) {
+			const message: string = `Skipped ${numValuesSkipped} out of ${numValuesTotal} value(s)`
+					+ ` and ${numFacetsSkipped} out of ${numFacetsTotal} search facet(s)`;
+
+			console.info(message);
+		}
+
+		return facets;
 	}
 
 	private _filterResults<T extends IEaasiResource>(
@@ -285,7 +321,7 @@ export default class ResourceAdminService extends BaseService {
 			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
-		if (query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
+		if (query.selectedFacets) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
 
@@ -399,15 +435,9 @@ export default class ResourceAdminService extends BaseService {
 
 	private selectedFacetsOfType(facets: IResourceSearchFacet[], resourceType: ResourceType): IResourceSearchFacet[] {
 		let selectedFacets = [];
-
 		facets.forEach(f => {
-			if(f.values.some(v => v.isSelected)) {
-				const values = f.values
-					.map(v => v.isSelected && v.resourceType === resourceType ? v : null)
-					.filter(i => i !== null);
-
-				selectedFacets.push({...f, values });
-			}
+			const values = f.values.filter(v => v.resourceType === resourceType);
+			selectedFacets.push({...f, values });
 		});
 		return selectedFacets;
 	}
