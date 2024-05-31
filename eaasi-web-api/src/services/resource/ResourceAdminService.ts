@@ -220,15 +220,15 @@ export default class ResourceAdminService extends BaseService {
 			}
 		}
 
-		if (results.length && query.keyword) {
+		if (query.keyword) {
 			results = this.filterByKeyword<T>(results, query.keyword);
 		}
 
-		if (results.length && query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
+		if (query.selectedFacets.some(f => f.values.some(v => v.isSelected))) {
 			results = this.filterByFacets<T>(results, query.selectedFacets);
 		}
 
-		if (results.length && query.sortCol) {
+		if (query.sortCol) {
 			results = results.sort((a, b) => {
 				const nameA = a.title ? a.title.toLowerCase() : a.label ? a.label.toLowerCase() : '';
 				const nameB = b.title ? a.title.toLowerCase() : b.label ? b.label.toLowerCase() : '';
