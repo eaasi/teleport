@@ -219,6 +219,13 @@ export default class ResourceAdminService extends BaseService {
 
 		if (query.selectedFacets && query.selectedFacets.length > 0) {
 			query.selectedFacets = this.prepareSearchFacets(query.selectedFacets);
+
+			// convert selected resource-type facet to a corresponding types-array...
+			const fpos = query.selectedFacets.findIndex(f => f.name === 'resourceType');
+			if (fpos > 0) {
+				const facet = query.selectedFacets.splice(fpos, 1)[0];
+				query.types = facet.values.map(v => v.resourceType);
+			}
 		}
 		else {
 			query.selectedFacets = [];
