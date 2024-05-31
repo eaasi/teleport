@@ -192,6 +192,14 @@ export default class EnvironmentDetailsScreen extends Vue {
 		this.networkLabeledItems
 			.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
 
+		// HACK: special-case "enableInternet" for now, see <https://gitlab.com/eaasi/eaasi-client-dev/-/issues/857#note_1915159583>
+		if (this.activeEnvironment.enableInternet) {
+			this.activeEnvironment.networking.connectEnvs = true;
+			this.activeEnvironment.networking.enableInternet = true;
+		} else {
+			this.activeEnvironment.networking = undefined;
+		}
+
 		this.activeEnvironment.time =
 			new Date(this.activeEnvironment.time)
 				.getTime();
