@@ -16,6 +16,11 @@ import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
 import KeycloakService from '@/services/keycloak/KeycloakService';
 
+const EMPTY_SEARCH_RESPONSE: IEaasiSearchResponse<any> = {
+	result: [],
+	totalResults: 0,
+};
+
 export default class ResourceAdminService extends BaseService {
 
 	private readonly _environmentService: EnvironmentService;
@@ -78,11 +83,9 @@ export default class ResourceAdminService extends BaseService {
 	async searchResources(query: IResourceSearchQuery, userId: string, token: string): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
 		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
-		if (query.onlyImportedResources) {
-			// NOTE: software packages and objects are stored in user-private archives,
-			//       which currently are identified by names of the form 'user-<USER-ID>'
-			query.archives = ['user-' + userId];
-		}
+
+		// pre-process received search parameters
+		query = this.prepareSearchQuery(query);
 
 		[bookmarksResponse] = await Promise.all([
 			this._bookmarkService.getByUserID(userId)
@@ -121,12 +124,12 @@ export default class ResourceAdminService extends BaseService {
 		token: string,
 		forceClearCache: boolean = false
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
+		if (!query.types.includes(resourceTypes.ENVIRONMENT)) {
+			return EMPTY_SEARCH_RESPONSE;
+		}
+
 		let allEnvironments = await this._environmentService.getAll(token, forceClearCache);
-		let filtered = this._filterResults(allEnvironments, query, bookmarks);
-		return {
-			result: filtered.result,
-			totalResults: filtered.totalResults
-		};
+		return this._filterResults(allEnvironments, query, bookmarks);
 	}
 
 	private async _searchSoftware (
@@ -134,6 +137,10 @@ export default class ResourceAdminService extends BaseService {
 		bookmarks: IBookmark[],
 		token: string
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
+		if (!query.types.includes(resourceTypes.SOFTWARE)) {
+			return EMPTY_SEARCH_RESPONSE;
+		}
+
 		let softwareRes = await this._softwareService.getAll(token);
 		return this._filterResults(softwareRes, query, bookmarks);
 	}
@@ -143,6 +150,10 @@ export default class ResourceAdminService extends BaseService {
 		bookmarks: IBookmark[],
 		token: string
 	): Promise<IEaasiSearchResponse<IContentItem>> {
+		if (!query.types.includes(resourceTypes.CONTENT)) {
+			return EMPTY_SEARCH_RESPONSE;
+		}
+
 		const archives = (query.archives && query.archives.length > 0) ? query.archives :
 				(await this._contentService.getObjectArchives(token)).archives;
 
@@ -156,6 +167,10 @@ export default class ResourceAdminService extends BaseService {
 		bookmarks: IBookmark[],
 		token: string
 	): Promise<IEaasiSearchResponse<IImageListItem>> {
+		if (!query.types.includes(resourceTypes.IMAGE)) {
+			return EMPTY_SEARCH_RESPONSE;
+		}
+
 		let images = await this._environmentService.getImages(token);
 		return this._filterResults(images, query, bookmarks);
 	}
@@ -197,13 +212,36 @@ export default class ResourceAdminService extends BaseService {
 	 == Helpers
 	/============================================================*/
 
+	private prepareSearchQuery(query: IResourceSearchQuery): IResourceSearchQuery {
+		if (!query) {
+			return {} as IResourceSearchQuery;
+		}
+
+		if (query.onlyImportedResources) {
+			// NOTE: software packages and objects are stored in user-private archives,
+			//       which currently are identified by names of the form 'user-<USER-ID>'
+			query.archives = ['user-' + query.userId];
+		}
+
+		if (!query.types || !query.types.length) {
+			query.types = [
+				resourceTypes.ENVIRONMENT,
+				resourceTypes.SOFTWARE,
+				resourceTypes.CONTENT,
+				resourceTypes.IMAGE,
+			];
+		}
+
+		return query;
+	}
+
 	private _filterResults<T extends IEaasiResource>(
 		results: T[],
 		query: IResourceSearchQuery,
 		bookmarks: IBookmark[]
 	): IEaasiSearchResponse<T> {
 		if(!results || !results.length) {
-			return { result: [], totalResults: 0 };
+			return EMPTY_SEARCH_RESPONSE;
 		}
 
 		if (query.archives && query.archives.length > 0 && results[0].resourceType !== 'Image') {
