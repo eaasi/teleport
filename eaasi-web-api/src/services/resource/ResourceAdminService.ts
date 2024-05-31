@@ -221,6 +221,18 @@ export default class ResourceAdminService extends BaseService {
 			// NOTE: software packages and objects are stored in user-private archives,
 			//       which currently are identified by names of the form 'user-<USER-ID>'
 			query.archives = ['user-' + query.userId];
+
+			// NOTE: currently only the following resources are considered "user-importable"!
+			if (!query.types || !query.types.length) {
+				query.types = [
+					resourceTypes.SOFTWARE,
+					resourceTypes.CONTENT,
+					resourceTypes.IMAGE,
+				];
+			}
+			else {
+				query.types = query.types.filter(t => t !== resourceTypes.ENVIRONMENT);
+			}
 		}
 
 		if (!query.types || !query.types.length) {
