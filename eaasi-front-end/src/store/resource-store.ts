@@ -189,7 +189,7 @@ const actions = {
 	},
 
 	async getImports({ commit, state, rootState }) {
-		const importQuery: IResourceSearchQuery = {
+		let importQuery: IResourceSearchQuery = {
 			keyword: null,
 			selectedFacets: state.query.selectedFacets,
 			limit: state.query.limit,
@@ -197,6 +197,8 @@ const actions = {
 			types: [],
 			archives: ['zero conf', 'default']  // TODO: What is zero conf?
 		};
+
+		importQuery = ResourceSearchQuery.prepare(importQuery);
 
 		const result = await _svc.searchResources(importQuery, rootState.loggedInUser.id);
 		if (!result) return;
