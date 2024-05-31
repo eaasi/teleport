@@ -7,6 +7,7 @@ import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes } from '@/utils/constants';
 import config from '@/config';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 
 class ResourceService extends BaseHttpService {
@@ -22,6 +23,10 @@ class ResourceService extends BaseHttpService {
 	 * @param { IResourceSearchQuery } query
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: string): Promise<IResourceSearchResponse> {
+		if (query) {
+			query = ResourceSearchQuery.prepare(query);
+		}
+
 		const res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
 		if (!res.ok) return null;
 		return res.result;

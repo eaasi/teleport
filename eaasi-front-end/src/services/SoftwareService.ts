@@ -2,6 +2,7 @@ import { IContent, IContentRequest, IObjectClassificationRequest, IOverrideConte
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import BaseHttpService from './BaseHttpService';
 import { IEmilResult } from '@/types/Http';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 class SoftwareService extends BaseHttpService {
 
@@ -25,6 +26,10 @@ class SoftwareService extends BaseHttpService {
 	}
 
 	async searchSoftware(query: IResourceSearchQuery, userId: string): Promise<IResourceSearchResponse> {
+		if (query) {
+			query = ResourceSearchQuery.prepare(query);
+		}
+
 		const res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
 		if (!res.ok) return null;
 		return res.result;
