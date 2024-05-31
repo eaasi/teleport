@@ -256,12 +256,24 @@ export default class ResourceAdminService extends BaseService {
 			return EMPTY_SEARCH_RESPONSE;
 		}
 
-		if (query.archives && query.archives.length > 0 && results[0].resourceType !== 'Image') {
-			results = results.filter(sw => query.archives.includes(sw.archiveId) || query.archives.includes(sw.archive));
+		const resultResourceType: ResourceType = results[0].resourceType;
+		if (query.archives && query.archives.length > 0) {
+			// NOTE: no need to filter content objects again here, because these
+			//       are expected to be fetched only from requested archives!
+			switch (resultResourceType) {
+				case resourceTypes.SOFTWARE: {
+					results = results.filter(sw => query.archives.includes(sw.archiveId));
+					break;
+				}
+				case resourceTypes.ENVIRONMENT: {
+					results = results.filter(env => query.archives.includes(env.archive));
+					break;
+				}
+			}
 		}
 
 		if (bookmarks && query.onlyBookmarks) {
-			if (results[0].resourceType === 'Environment') {
+			if (resultResourceType === resourceTypes.ENVIRONMENT) {
 				// @ts-ignore
 				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.envId));
 			} else {
