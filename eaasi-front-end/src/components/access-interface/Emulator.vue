@@ -201,7 +201,7 @@
 				this.setResourcesToDrives(machine);
 
 				let components, clientOptions;
-				if (vm.environment && vm.environment.enableInternet) {
+				if (vm.environment && vm.environment.networking?.enableInternet) {
 					let networkBuilder = new NetworkBuilder(config.EMIL_SERVICE_ENDPOINT, getUserToken);
 					networkBuilder.addComponent(machine);
 					components =  await networkBuilder.getComponents();
