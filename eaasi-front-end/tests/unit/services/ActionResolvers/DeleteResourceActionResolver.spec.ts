@@ -58,9 +58,9 @@ describe('DeleteResourceActionResolver', () => {
 		expect(sut.action.isEnabled).toBe(true);
 	});
 
-	it('should be disabled for contributor user role', () => {
+	it('should be enabled for contributor user role', () => {
 		const fakeEnvs = generateFakeEnvironments(1);
 		const sut = new DeleteResourceActionResolver(fakeEnvs, 3);
-		expect(sut.action.isEnabled).toBe(false);
+		expect(sut.action.isEnabled).toBe(true);
 	});
 });
