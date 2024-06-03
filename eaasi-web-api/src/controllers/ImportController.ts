@@ -41,6 +41,7 @@ export default class ImportController extends BaseController {
 			if (emilResult) {
 				await this.createTask(emilResult, req);
 			}
+
 			res.send(emilResult);
 		} catch(e) {
 			this.sendError(e, res);

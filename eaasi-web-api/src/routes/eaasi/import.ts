@@ -1,13 +1,10 @@
 import ImportController from '@/controllers/ImportController';
-import UserImportController from '@/controllers/rest-api/UserImportController';
-import { IUserImportRelationRequest } from '@/services/rest-api/UserImportRelation';
 import { IAuthorizedPostRequest } from '@/types/auth/Auth';
 import { ICreateEnvironmentPayload } from '@/types/emil/Emil';
 import express from 'express';
 
 const router = express.Router();
 const importController = new ImportController();
-const userImportController = new UserImportController();
 
 /**
  * @api {get} import/url Import a resource from a URL
@@ -62,21 +59,5 @@ router.post('/saveEnvironment', (req, res) => importController.saveImportEnviron
  * @apiDescription Triggers a post to components
  */
 router.post('/postComponents', (req, res) => importController.postComponents(req, res));
-
-/**
- * @api {get} import/user-import-relation creates a record for user imported resource
- * @apiVersion 1.0.0
- * @apiGroup Import Resources
- * @apiPermission All Users
- */
-router.post('/user-import-relation', (req: IAuthorizedPostRequest<IUserImportRelationRequest>, res) => userImportController.createUserImportRelation(req, res));
-
-/**
- * @api {get} import/user-imported-resource fetches user imported resources
- * @apiVersion 1.0.0
- * @apiGroup Import Resources
- * @apiPermission All Users
- */
-router.get('/user-imported-resource', (req, res) => userImportController.getByUserID(req, res));
 
 module.exports = router;
