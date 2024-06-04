@@ -105,9 +105,7 @@ export default class ResourceAdminService extends BaseService {
 			result.software.result,
 			result.content.result,
 			result.images.result
-		], token);
-
-		this.preselectResultFacets(result, query);
+		], query.selectedFacets, token);
 
 		result.environments.result = this.paginate(query, result.environments.result);
 		result.software.result = this.paginate(query, result.software.result);
@@ -361,6 +359,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async populateFacets (
 		results: IEaasiResource[][],
+		selfacets: IResourceSearchFacet[],
 		token: string
 	): Promise<IResourceSearchFacet[]> {
 		const facets: IResourceSearchFacet[] = [
@@ -411,6 +410,19 @@ export default class ResourceAdminService extends BaseService {
 			for (const facet of facets) {
 				const valmap = valmaps.get(facet.name);
 				await this.populateFacetValues(resources, facet, valmap, token);
+			}
+		}
+
+		// pre-select new facet values...
+		for (const f of selfacets) {
+			const values = valmaps.get(f.name);
+			if (!values)
+				continue;
+
+			for (const selval of f.values) {
+				const value = values.get(selval.label);
+				if (value)
+					value.isSelected = selval.isSelected;
 			}
 		}
 
@@ -499,17 +511,4 @@ export default class ResourceAdminService extends BaseService {
 		});
 		return selectedFacets;
 	}
-
-	private preselectResultFacets(result: IResourceSearchResponse, query: IResourceSearchQuery): void {
-		result.facets.forEach(facet => {
-			facet.values.forEach(value => {
-				const currentFacet = query.selectedFacets.find(f => f.name === facet.name);
-				if (currentFacet) {
-					let selectedValue = currentFacet.values.find(v => v.label === value.label && v.isSelected)
-					if (selectedValue) value.isSelected = true;
-				}
-			})
-		})
-	}
-
 }
