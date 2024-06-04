@@ -400,13 +400,17 @@ export default class ResourceAdminService extends BaseService {
 		if (!resources.length) return resources;
 
 		const selectedFacetsOfType = this.selectedFacetsOfType(selectedFacets, resources[0].resourceType);
-		selectedFacetsOfType.forEach(facet => {
-			resources = resources.filter(
-				resource => facet.values.some(value => resource[facet.name] === value.label)
-			)
-		});
+		if (!selectedFacetsOfType.length)
+			return resources;
 
-		return resources;
+		return resources.filter(resource => {
+			return selectedFacetsOfType.every(facet => {
+				// NOTE: usually, only a single value per facet can be selected,
+				//       hence iteration should be faster than set-lookups here!
+				const curlabel: string = resource[facet.name];
+				return facet.values.some(v => v.label === curlabel);
+			});
+		});
 	}
 
 	private async getDisplayLabelForFacet(facetName: string, facetValue: string, token: string): Promise<string> {
