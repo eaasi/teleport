@@ -364,7 +364,6 @@ export default class ResourceAdminService extends BaseService {
 		token: string
 	): Promise<IResourceSearchFacet[]> {
 		const facets: IResourceSearchFacet[] = [
-			{ displayLabel: 'Resource Types', name: 'resourceType', values: [] },
 			{ displayLabel: 'Network Status', name: 'archive', values: [] },
 			{ displayLabel: 'Environment Type', name: 'envType', values: [] },
 			{ displayLabel: 'Source Organization', name: 'owner', values: [] },
@@ -375,7 +374,14 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 		];
 
+		const rtfacet: IResourceSearchFacet = {
+			displayLabel: 'Resource Type',
+			name: 'resourceType',
+			values: [],
+		};
+
 		const valmaps = new Map<string, Map<string, IResourceSearchFacetValue>>();
+		valmaps.set(rtfacet.name, new Map<string, IResourceSearchFacetValue>());
 		facets.forEach(f => valmaps.set(f.name, new Map<string, IResourceSearchFacetValue>()));
 
 		for (const resources of results) {
@@ -383,12 +389,32 @@ export default class ResourceAdminService extends BaseService {
 				continue;
 			}
 
+			// populate resource-type facet...
+			{
+				// NOTE: we assume that all entries in each subarray are of the same resource-type,
+				//       hence it's enough to just look at the first entry and skip all others!
+				const resource = resources[0];
+				const label = resource[rtfacet.name];
+				const value: IResourceSearchFacetValue = {
+					label: label,
+					total: resources.length,
+					resourceType: resource.resourceType,
+					isSelected: false,
+				};
+
+				rtfacet.values.push(value);
+				valmaps.get(rtfacet.name)
+					.set(label, value);
+			}
+
+			// populate all other facets from each resource entry...
 			for (const facet of facets) {
 				const valmap = valmaps.get(facet.name);
 				await this.populateFacetValues(resources, facet, valmap, token);
 			}
 		}
 
+		facets.unshift(rtfacet);
 		return facets;
 	};
 
