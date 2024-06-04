@@ -4,7 +4,7 @@ import { IContentItem } from '@/types/emil/EmilContentData';
 import { IEnvironment, IImageListItem } from '@/types/emil/EmilEnvironmentData';
 import { ISoftwareDescription, ISoftwarePackage } from '@/types/emil/EmilSoftwareData';
 import { IBookmark } from '@/types/resource/Bookmark';
-import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
+import { IEaasiResource, IEaasiSearchQuery, IEaasiSearchResponse, IOverrideContentRequest, IResourceSearchFacet, IResourceSearchFacetValue, IResourceSearchQuery, IResourceSearchResponse, ResourceType } from '@/types/resource/Resource';
 import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
@@ -375,36 +375,46 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 		];
 
+		const valmaps = new Map<string, Map<string, IResourceSearchFacetValue>>();
+		facets.forEach(f => valmaps.set(f.name, new Map<string, IResourceSearchFacetValue>()));
+
 		for (const resources of results) {
 			if (!resources || !resources.length) {
 				continue;
 			}
 
-			facets.forEach(async (facet, index) => {
-				await this.populateFacetValues(resources, facet, token);
-			});
+			for (const facet of facets) {
+				const valmap = valmaps.get(facet.name);
+				await this.populateFacetValues(resources, facet, valmap, token);
+			}
 		}
 
 		return facets;
 	};
 
-	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet, token: string) {
+	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet,
+				valmap: Map<string, IResourceSearchFacetValue>, token: string) {
 		for (const resource of resources) {
-			if (!resource[facet.name]) continue;
-			let value = facet.values.find(x => x.label === resource[facet.name]);
+			const label = resource[facet.name];
+			if (!label)
+				continue;
+
+			let value: IResourceSearchFacetValue = valmap.get(label);
 			if(!value) {
-				facet.values.push({
-					label: resource[facet.name],
+				value = {
+					label: label,
 					total: 1,
 					isSelected: false,
-					displayLabel: await this.getDisplayLabelForFacet(facet.name, resource[facet.name], token),
+					displayLabel: await this.getDisplayLabelForFacet(facet.name, label, token),
 					resourceType: resource.resourceType
-				});
+				};
+
+				facet.values.push(value);
+				valmap.set(label, value);
 			} else {
 				value.total++;
 			}
 		}
-		return facet;
 	}
 
 	private filterByFacets<T extends IEaasiResource>(resources: T[], selectedFacets: IResourceSearchFacet[]): T[] {
