@@ -101,10 +101,10 @@ export default class ResourceAdminService extends BaseService {
 		])
 
 		result.facets = await this.populateFacets([
-			...result.environments.result,
-			...result.software.result,
-			...result.content.result,
-			...result.images.result
+			result.environments.result,
+			result.software.result,
+			result.content.result,
+			result.images.result
 		], token);
 
 		this.preselectResultFacets(result, query);
@@ -360,7 +360,7 @@ export default class ResourceAdminService extends BaseService {
 	}
 
 	private async populateFacets (
-		resources: IEaasiResource[],
+		results: IEaasiResource[][],
 		token: string
 	): Promise<IResourceSearchFacet[]> {
 		const facets: IResourceSearchFacet[] = [
@@ -374,7 +374,18 @@ export default class ResourceAdminService extends BaseService {
 			{ displayLabel: 'Operating System', name: 'os', values: [] },
 			{ displayLabel: 'Emulator', name: 'emulator', values: [] },
 		];
-		return await Promise.all(facets.map(facet => this.populateFacetValues(resources, facet, token)));
+
+		for (const resources of results) {
+			if (!resources || !resources.length) {
+				continue;
+			}
+
+			facets.forEach(async (facet, index) => {
+				await this.populateFacetValues(resources, facet, token);
+			});
+		}
+
+		return facets;
 	};
 
 	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet, token: string) {
