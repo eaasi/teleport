@@ -9,7 +9,6 @@ import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import ICrudServiceResult from '../interfaces/ICrudServiceResult';
 import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
@@ -82,16 +81,18 @@ export default class ResourceAdminService extends BaseService {
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: string, token: string): Promise<IResourceSearchResponse> {
 		let result = new ResourceSearchResponse();
-		let bookmarksResponse: ICrudServiceResult<IBookmark[]>;
 
 		// pre-process received search parameters
 		query = this.prepareSearchQuery(query);
 
-		[bookmarksResponse] = await Promise.all([
-			this._bookmarkService.getByUserID(userId)
-		])
+		let bookmarks: IBookmark[] = [];
+		if (query.onlyBookmarks) {
+			const response = await this._bookmarkService.getByUserID(userId);
+			if (response.result) {
+				bookmarks = response.result as IBookmark[];
+			}
+		}
 
-		const bookmarks: IBookmark[] = bookmarksResponse.result ? bookmarksResponse.result as IBookmark[] : [];
 
 		[result.environments, result.software, result.content, result.images] = await Promise.all([
 			this._searchEnvironments(query, bookmarks, token),
