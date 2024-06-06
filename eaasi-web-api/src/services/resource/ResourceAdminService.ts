@@ -93,12 +93,13 @@ export default class ResourceAdminService extends BaseService {
 			}
 		}
 
+		const bookmarked = new Set<string>(bookmarks.map(bm => bm.resourceId));
 
 		[result.environments, result.software, result.content, result.images] = await Promise.all([
-			this._searchEnvironments(query, bookmarks, token),
-			this._searchSoftware(query, bookmarks, token),
-			this._searchContent(query, bookmarks, token),
-			this._searchImages(query, bookmarks, token)
+			this._searchEnvironments(query, bookmarked, token),
+			this._searchSoftware(query, bookmarked, token),
+			this._searchContent(query, bookmarked, token),
+			this._searchImages(query, bookmarked, token)
 		])
 
 		result.facets = await this.populateFacets([
@@ -119,7 +120,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchEnvironments (
 		query: IResourceSearchQuery,
-		bookmarks: IBookmark[],
+		bookmarks: Set<string>,
 		token: string,
 		forceClearCache: boolean = false
 	): Promise<IEaasiSearchResponse<IEnvironment>> {
@@ -133,7 +134,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchSoftware (
 		query: IResourceSearchQuery,
-		bookmarks: IBookmark[],
+		bookmarks: Set<string>,
 		token: string
 	): Promise<IEaasiSearchResponse<ISoftwareDescription>> {
 		if (!query.types.includes(resourceTypes.SOFTWARE)) {
@@ -146,7 +147,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchContent (
 		query: IResourceSearchQuery,
-		bookmarks: IBookmark[],
+		bookmarks: Set<string>,
 		token: string
 	): Promise<IEaasiSearchResponse<IContentItem>> {
 		if (!query.types.includes(resourceTypes.CONTENT)) {
@@ -163,7 +164,7 @@ export default class ResourceAdminService extends BaseService {
 
 	private async _searchImages (
 		query: IResourceSearchQuery,
-		bookmarks: IBookmark[],
+		bookmarks: Set<string>,
 		token: string
 	): Promise<IEaasiSearchResponse<IImageListItem>> {
 		if (!query.types.includes(resourceTypes.IMAGE)) {
@@ -292,7 +293,7 @@ export default class ResourceAdminService extends BaseService {
 	private _filterResults<T extends IEaasiResource>(
 		results: T[],
 		query: IResourceSearchQuery,
-		bookmarks: IBookmark[]
+		bookmarks: Set<string>
 	): IEaasiSearchResponse<T> {
 		if(!results || !results.length) {
 			return EMPTY_SEARCH_RESPONSE;
@@ -314,12 +315,12 @@ export default class ResourceAdminService extends BaseService {
 			}
 		}
 
-		if (bookmarks && query.onlyBookmarks) {
+		if (query.onlyBookmarks) {
 			if (resultResourceType === resourceTypes.ENVIRONMENT) {
 				// @ts-ignore
-				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.envId));
+				results = results.filter(resource => bookmarks.has(resource.envId));
 			} else {
-				results = results.filter(resource => bookmarks.some(b => b.resourceId === resource.id));
+				results = results.filter(resource => bookmarks.has(resource.id));
 			}
 		}
 
