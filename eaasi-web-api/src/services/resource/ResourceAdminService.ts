@@ -258,6 +258,14 @@ export default class ResourceAdminService extends BaseService {
 			];
 		}
 
+		if (query.selectedFacets.length > 0) {
+			// NOTE: requested resource-types should also be adjusted according to the compatible
+			//       resource-types in selected facets, querying all other resources can be skipped!
+			const seltypes = new Set<ResourceType>();
+			query.selectedFacets.forEach(f => f.values.forEach(v => seltypes.add(v.resourceType)));
+			query.types = query.types.filter(t => seltypes.has(t));
+		}
+
 		return query;
 	}
 
