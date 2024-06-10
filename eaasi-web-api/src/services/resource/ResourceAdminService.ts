@@ -389,6 +389,11 @@ export default class ResourceAdminService extends BaseService {
 			values: [],
 		};
 
+		// FIXME: facets should generally be compatible with multiple resource-types,
+		//        but as-is can currently be generated for environments only!
+		const frtypes = new Map<string, ResourceType[]>();
+		facets.forEach(f => frtypes.set(f.name, [resourceTypes.ENVIRONMENT]));
+
 		const valmaps = new Map<string, Map<string, IResourceSearchFacetValue>>();
 		valmaps.set(rtfacet.name, new Map<string, IResourceSearchFacetValue>());
 		facets.forEach(f => valmaps.set(f.name, new Map<string, IResourceSearchFacetValue>()));
@@ -416,8 +421,14 @@ export default class ResourceAdminService extends BaseService {
 					.set(label, value);
 			}
 
+			const restype = resources[0].resourceType;
+
 			// populate all other facets from each resource entry...
 			for (const facet of facets) {
+				const restypes = frtypes.get(facet.name);
+				if (!restypes || !restypes.some(rt => rt === restype))
+					continue;
+
 				const valmap = valmaps.get(facet.name);
 				await this.populateFacetValues(resources, facet, valmap, token);
 			}
