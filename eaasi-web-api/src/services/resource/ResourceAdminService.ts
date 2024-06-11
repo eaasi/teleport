@@ -448,7 +448,9 @@ export default class ResourceAdminService extends BaseService {
 		}
 
 		facets.unshift(rtfacet);
-		return facets;
+
+		// finally, remove all empty facets...
+		return facets.filter(f => f.values && f.values.length > 0);
 	};
 
 	private async populateFacetValues(resources: IEaasiResource[], facet: IResourceSearchFacet,
