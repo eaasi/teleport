@@ -73,7 +73,7 @@
 									:query="query"
 									:result="bentoResult.images"
 									type="Image"
-									@click:all="getAll(['Images'])"
+									@click:all="getAll(['Image'])"
 									@bookmarked="search"
 								/>
 							</div>
