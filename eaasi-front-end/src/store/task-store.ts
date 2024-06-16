@@ -69,8 +69,10 @@ const actions = {
     async addTaskToQueue({ commit, dispatch }: Store<TaskState>, task: EaasiTask): Promise<ITaskState> {
         const taskState: ITaskState = await dispatch('getTaskState', task.taskId);
         if (!taskState || taskState.status != '0') return null;
-        //const eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
-		//if (!eaasiTask) return null;
+		if (task.type === taskTypes.IMPORT_EMULATOR) {
+			const eaasiTask = await dispatch('updateTask', Object.assign(taskState, task));
+			if (!eaasiTask) return null;
+		}
 		commit('ADD_OR_UPDATE_TASK', taskState);
 		eventBus.$emit('task-manager:show', true);
 		eventBus.$emit('notification:show', generateTaskNotification(task));
