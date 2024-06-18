@@ -184,14 +184,13 @@ export default class ImportedResourcesScreen extends Vue {
 	============================================*/
 
     async getAll(types) {
-		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
 		await this.search();
 	}
 
 	async paginate(page) {
 		this.query.page = page;
-		await this.$store.dispatch('resource/searchResources');
+		await this.search();
 	}
 
     async search() {
@@ -245,15 +244,6 @@ export default class ImportedResourcesScreen extends Vue {
 	async onSelectedFacets(curVal, prevVal) {
 		if (!curVal && prevVal === undefined) {
 			return;
-		}
-		// if we're unselecting the last facet, do a clear search
-		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			await this.search();
-			// per https://gitlab.com/eaasi/program_docs/eaasi/-/issues/948
-			// if we clear the search here, we effectively get back all resources.
-			// since this component deals specifically with Bookmarks,
-			// we should simply re-run search when last facet is cleared.
-			// await this.$store.dispatch('resource/clearSearch');
 		}
 	}
 

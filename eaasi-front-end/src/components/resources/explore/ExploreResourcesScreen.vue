@@ -216,9 +216,9 @@ export default class ExploreResourcesScreen extends Vue {
     /* Methods
 	============================================*/
 
-	paginate(page) {
+	async paginate(page) {
 		this.query.page = page;
-		this.$store.dispatch('resource/searchResources');
+		await this.search();
 	}
 
 	update() {
@@ -244,11 +244,10 @@ export default class ExploreResourcesScreen extends Vue {
 		});
 	}
 
-    getAll(types) {
+    async getAll(types) {
 		this.query.keyword = null;
-		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
-		this.search();
+		await this.search();
 	}
 
 	onResourcePublished() {
@@ -290,17 +289,6 @@ export default class ExploreResourcesScreen extends Vue {
 		this.selectedResources = [];
 		this.$store.dispatch('resource/clearSearchQuery');
 		this.$store.commit('resource/SET_RESULT', null);
-	}
-
-	@Watch('hasSelectedFacets')
-	onSelectedFacets(curVal, prevVal) {
-		if (!curVal && prevVal === undefined) {
-			return;
-		}
-		// if we're un-selecting the last facet, do a clear search
-		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			this.$store.dispatch('resource/clearSearch');
-		}
 	}
 
 	@Watch('hasActiveResources')
