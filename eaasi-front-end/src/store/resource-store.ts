@@ -300,10 +300,12 @@ const getters = {
 		if (!getters.onlySelectedFacets) {
 			return null;
 		}
-		const resourceTypes = getters.onlySelectedFacets.flatMap(
-			f => f.values.map(v => v.resourceType)
+
+		const resourceTypes = new Set<ResourceType>();
+		getters.onlySelectedFacets.forEach(f =>
+			f.values.forEach(v => resourceTypes.add(v.resourceType))
 		);
-		return removeDuplicatesFromFlatArray<ResourceType>(resourceTypes);
+		return Array.from<ResourceType>(resourceTypes);
 	},
 
 	facetsOfSingleTypeSelected(_, getters): boolean {
@@ -312,11 +314,12 @@ const getters = {
 
 	onlySelectedFacets(state: ResourceState): IResourceSearchFacet[] {
 		return state.query.selectedFacets
-			.flatMap(f => {
-				if(f.values.some(v => v.isSelected)) {
-					const values = f.values
+			.map(f => {
+				const values = f.values
 						.map(v => v.isSelected ? v : null)
 						.filter(i => i !== null);
+
+				if (values && values.length > 0) {
 					return {...f, values };
 				} else {
 					return null;
