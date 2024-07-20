@@ -238,8 +238,9 @@ export default class ExploreResourcesScreen extends Vue {
 
 			await this.$store.dispatch('resource/searchResources');
 
-			if (this.bentoResult?.bookmarks) {
-				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+			const bookmarks = this.bentoResult?.bookmarks;
+			if (!bookmarks || !bookmarks.length) {
+				this.bentoResult.bookmarks = this.bookmarks;
 			}
 		});
 	}
@@ -266,6 +267,10 @@ export default class ExploreResourcesScreen extends Vue {
 		if (keyword) {
 			this.query.keyword = keyword;
 		}
+
+		// prefetch bookmarks once...
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
+
 		await this.search();
 	}
 
