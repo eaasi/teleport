@@ -112,6 +112,7 @@ import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { ROUTES } from '@/router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
 import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
+import { IBookmark } from '@/types/Bookmark';
 
 
 @Component({
@@ -155,6 +156,9 @@ export default class ImportedResourcesScreen extends Vue {
 
 	@Get('resource/onlySelectedFacets')
 	onlySelectedFacets: IResourceSearchFacet[];
+
+	@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];
 
 	get hasSelectedFacets() {
 		return this.onlySelectedFacets.length > 0;
@@ -203,8 +207,13 @@ export default class ImportedResourcesScreen extends Vue {
 				onlyBookmarks: false,
 				archives: ['default']
 			};
+
 			await this.$store.dispatch('resource/searchResources');
-			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+
+			const bookmarks = this.bentoResult?.bookmarks;
+			if (!bookmarks || !bookmarks.length) {
+				this.bentoResult.bookmarks = this.bookmarks;
+			}
 		});
 	}
 
@@ -216,7 +225,7 @@ export default class ImportedResourcesScreen extends Vue {
 		this.$emit('open-action-menu', tab);
 	}
 
-	init() {
+	async init() {
 		const { retrieveQuery } = this.$route.query;
 		if (retrieveQuery) {
 			const query: IResourceSearchQuery = this.queryService.retrieveQuery();
@@ -224,6 +233,9 @@ export default class ImportedResourcesScreen extends Vue {
 				this.query = query;
 			}
 		}
+
+		// prefetch bookmarks once...
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
 	}
 
 	/* Lifecycle Hooks
