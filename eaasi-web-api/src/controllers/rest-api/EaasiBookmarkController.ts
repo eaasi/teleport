@@ -86,7 +86,7 @@ export default class EaasiBookmarkController extends BaseController {
 	}
 
 	async deleteAll(req: Request, res: Response) {
-		const userId = Number(req.query.userId);
+		const userId = req.query.userId as string;
 		if (userId == null) {
 			return res
 				.status(HttpResponseCode.BAD_REQUEST)

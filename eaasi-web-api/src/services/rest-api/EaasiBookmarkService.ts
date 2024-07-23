@@ -36,7 +36,7 @@ export default class EaasiBookmarkService extends CrudService<Bookmark> {
 	 * Removes all Bookmarks for a User
 	 * @param userID: number PK for the User
 	 */
-	async destroyAll(userId: number) {
+	async destroyAll(userId: string) {
 		return await this.model
 			.destroy({
 				where: {
