@@ -62,19 +62,17 @@ export default class ObjectCard extends Vue {
 <style lang='scss'>
 .object-card {
 	background: #ffffff;
-	border: 1px solid lighten($dark-neutral, 50%);
-	border-radius: 0.2rem;
+	border: 1px solid lighten($medium-grey, 50%);
 	padding: 0.5rem 1rem;
 
 	.object-title {
-		color: lighten($dark-blue, 30%);
+		color: $green;
 		font-weight: 500;
 		padding: 0.5rem 0 1rem 0;
 	}
 
 	.footer {
-		border-top: 1px solid darken($light-neutral, 10%);
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		font-size: 1.2rem;
 		font-weight: 500;
 		padding-top: 0.5rem;

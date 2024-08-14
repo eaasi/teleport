@@ -3,7 +3,7 @@
 		<div class="flex flex-row justify-between" style="width: 40rem;">
 			<select-list
 				:value="query.limit"
-				style="width: 12rem;"
+				style="width: -webkit-fill-available;"
 				@change="changeLimit"
 			>
 				<option
@@ -103,8 +103,17 @@ export default class ResourceSortSeciton extends Vue {
 	margin: 1rem;
 	.sort-label {
 		font-size: 1.2rem;
-		margin-right: 2.5rem;
+		margin-right: 2rem;
+		margin-left: 4rem;
 		text-transform: uppercase;
+	}
+}
+@media screen and (max-width: 850px) {
+	.sort-section {
+		.sort-label {
+			margin-right: 5px;
+			margin-left: 10px;
+		}
 	}
 }
 </style>

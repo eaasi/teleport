@@ -39,7 +39,7 @@
 		height: 2.2rem;
 
 		.legend-color {
-			border: 1px solid $light-neutral;
+			border: 1px solid $grey;
 			box-sizing: border-box;
 			display: inline-block;
 			height: 2.2rem;
@@ -54,7 +54,7 @@
 
 		// Add additional colors as necessary
 		.yellow {
-			background: lighten($yellow, 60%);
+			background: $grey;
 		}
 	}
 </style>

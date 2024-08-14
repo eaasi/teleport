@@ -45,7 +45,7 @@ export default class EditableCheckboxItem extends Vue {
 
 	get displayColor() {
 		if (this.item.value === false) {
-			return 'red';
+			return 'black';
 		}
 		return 'green';
 	}
@@ -78,7 +78,7 @@ export default class EditableCheckboxItem extends Vue {
 
 <style lang='scss' scoped>
 .li-container {
-	border-bottom: 1px solid $light-neutral;
+	border-bottom: 1px solid $medium-grey;
 	margin-bottom: 1rem;
 	.li-value {
 		border-bottom: none;
@@ -86,10 +86,6 @@ export default class EditableCheckboxItem extends Vue {
 		flex-grow: 1;
 		margin: 0.8rem 1rem 0.4rem 0;
 		padding: 0;
-
-		&.changed {
-			background: lighten($yellow, 60%);
-		}
 	}
 
 	.display-value {
@@ -104,8 +100,8 @@ export default class EditableCheckboxItem extends Vue {
 		color: #008040;
 	}
 
-	.red {
-		color: #B24E4E;
+	.black {
+		color: black;
 	}
 
 	.check-state-icon {

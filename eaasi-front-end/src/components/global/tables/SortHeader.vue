@@ -84,7 +84,7 @@ export default class SortHeader extends Vue {
 	user-select: none;
 
 	.sh-arrow {
-		color: $light-blue;
+		color: $dark-green;
 		visibility: hidden;
 	}
 

@@ -1,17 +1,22 @@
 <template>
 	<header id="header" class="flex-row">
-		<div id="headerSearch" class="flex-grow">
-			<form @submit.prevent="search">
-				<search-bar
-					placeholder="Search resources..."
-					:border-color="searchBorderColor"
-					v-model="searchKeyword"
-					name="q"
-					role="search"
-					@search="search"
-					@clear="clearSearchQuery"
-				/>
-			</form>
+		<div class="tablet-header-wrapper">
+			<div class="header-h">Reviving histories, ensuring access</div>
+			<div id="headerSearch">
+				<form @submit.prevent="search">
+					<search-bar
+						placeholder="Search resources..."
+						:border-color="searchBorderColor"
+						v-model="searchKeyword"
+						name="q"
+						role="searchbox"
+						type="search"
+						aria-label="search"
+						@search="search"
+						@clear="clearSearchQuery"
+					/>
+				</form>
+			</div>
 		</div>
 		<div id="headerRight" class="flex flex-end">
 			<header-menu-item
@@ -88,17 +93,36 @@ export default class AppHeader extends Vue {
 <style lang="scss">
 #header {
 	background-color: #FFFFFF;
-	border-bottom: 1px solid darken($light-neutral, 10%);
+	border: 2px solid $green;
 	height: $headerHeight;
-	left: $leftSidebarWidth;
+	left: 156px;
 	position: fixed;
 	right: 0;
 	top: 0;
 	z-index: 10;
+
+	.tablet-header-wrapper {
+		display: flex;
+		align-items: center;
+		height: -webkit-fill-available;
+		width: -webkit-fill-available;
+	}
+
+	.header-h {
+		font-weight: 700;
+		font-size: large;
+		color: $black;
+		border-right: 2px solid $green;
+		height: 100%;
+		width: 100%;
+		padding: 0 20px;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
 }
 
 #headerRight {
-
 	a {
 		display: block;
 		padding: 1rem;
@@ -108,10 +132,28 @@ export default class AppHeader extends Vue {
 
 #headerSearch {
 	padding: 0 2rem;
+	width: fit-content;
 
 	.eaasi-search-bar {
 		margin-bottom: 0;
-		max-width: 70rem;
+		width: fit-content;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	#header {
+		display: flex;
+		flex-direction: column;
+		left: 126px;
+
+		.header-h {
+			font-size: medium;
+			border-right: none;
+		}
+
+		.tablet-header-wrapper {
+			border-bottom: 2px solid $green;
+		}
 	}
 }
 

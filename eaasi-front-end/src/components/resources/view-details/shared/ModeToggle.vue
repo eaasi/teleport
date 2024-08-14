@@ -15,9 +15,9 @@
 					<span>
 						Edit resource metadata and save changes.
 					</span>
-					<div>
+					<div class="metadata-group-btn">
 						<ui-button
-							color-preset="light-blue"
+							color-preset="white"
 							size="md"
 							style="margin-right: 1rem;"
 							@click="$emit('refresh')"
@@ -112,21 +112,33 @@ export default class ModeToggle extends Vue {
 <style lang='scss' scoped>
 .mtb-container {
 	align-items: center;
-	background-color: lighten($light-neutral, 40%);
-	border-bottom: 2px solid darken($light-neutral, 20%);
+	background-color: $medium-grey;
 	display: flex;
-	height: 64px;
-	padding-left: 2.4rem;
-	padding-right: 2.4rem;
+	min-height: 64px;
+	padding: 1rem 2.4rem;
 
 	.mtb-mode {
 		margin-left: 1.2rem;
 	}
 	.read-only-message {
-		border: 2px solid lighten($dark-neutral, 40%);
+		border: 2px solid $dark-light-grey;
 		border-radius: 2rem;
-		color: $dark-neutral;
+		color: $medium-grey;
 		padding: 1rem;
+	}
+}
+@media screen and (max-width: 1200px) {
+	.mtb-container {
+		flex-direction: column;
+		gap: 15px;
+
+		span:first-child {
+			margin-right: 15px;
+		}
+	}
+
+	.metadata-group-btn{
+		display: flex;
 	}
 }
 </style>

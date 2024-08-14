@@ -8,7 +8,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				colorPreset: 'light-blue',
+				colorPreset: 'white',
 				icon: 'file',
 				iconRight: ''
 			},
@@ -23,7 +23,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				colorPreset: 'light-blue',
+				colorPreset: 'white',
 				icon: 'whatever',
 				iconRight: ''
 			},
@@ -38,7 +38,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				colorPreset: 'light-blue',
+				colorPreset: 'white',
 				icon: 'whatever',
 				iconRight: true
 			},
@@ -53,7 +53,7 @@ describe('UiButton.vue', () => {
 		const wrapper = shallowMount(UiButton, {
 			propsData: {
 				block: true,
-				colorPreset: 'light-blue',
+				colorPreset: 'white',
 				icon: 'bread',
 				iconRight: true
 			},
@@ -61,7 +61,7 @@ describe('UiButton.vue', () => {
 				default: '<div>its all good</div>'
 			}
 		});
-		expect(wrapper.find('.light-blue').exists()).toBeTruthy();
+		expect(wrapper.find('.white').exists()).toBeTruthy();
 	});
 
 	it('Renders block class when passed as props', () => {

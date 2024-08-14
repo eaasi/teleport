@@ -7,6 +7,7 @@
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
+					data-testid="test-select"
 				>
 					<slot></slot>
 				</select>
@@ -48,7 +49,7 @@ export default class SelectList extends BaseFormField { }
 
 	&.empty {
 		select {
-			color: $grey;
+			color: black;
 
 			option {
 				color: initial;

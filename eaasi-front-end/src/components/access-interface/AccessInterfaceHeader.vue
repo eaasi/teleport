@@ -3,7 +3,7 @@
 		<div class="ah-top flex align-center">
 			<div class="ah-logo clickable" @click="goToDashboard">
 				<!--suppress HtmlUnknownTarget -->
-				<img id="eaasi-ah-logo" src="@/assets/header-logo.png" alt="Eaasi Logo" />
+				<img id="eaasi-ah-logo" src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png" alt="Eaasi Logo" />
 			</div>
 
 			<div class="ah-top-buttons flex-nowrap">
@@ -46,12 +46,6 @@
 					Change Resource Media
 					<span v-if="mediaItems.length" class="fas fa-chevron-down" style="margin-left: 1rem;"></span>
 				</ui-button>
-				<!-- <ui-button
-					size="sm"
-					disabled
-				>
-					Downloadable Assets
-				</ui-button> -->
 			</div>
 			<div class="ah-options-border"></div>
 			<div class="ah-options-right flex flex-center flex-wrap">
@@ -234,7 +228,7 @@ export default class AccessInterfaceHeader extends Vue {
 
 <style lang="scss">
 	#accessHeader {
-		background-color: lighten($teal, 60%);
+		background-color: lighten($grey, 40%);
 		left: 0;
 		position: fixed;
 		right: 0;
@@ -252,9 +246,8 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 
 	.ah-top {
-		border-bottom: 3px solid lighten($teal, 10%);
 		height: $accessHeaderHeight - 4rem;
-		padding-left: 14rem;
+		padding-left: 15rem;
 		position: relative;
 
 		.ah-top-buttons {
@@ -263,7 +256,7 @@ export default class AccessInterfaceHeader extends Vue {
 	}
 
 	.ah-bottom {
-		background-color: darken($teal, 20%);
+		background-color: $grey;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: nowrap;
@@ -281,14 +274,11 @@ export default class AccessInterfaceHeader extends Vue {
 		}
 
 		.ah-options-border {
-			border-right: 3px solid darken($teal, 50%);
+			border-right: 2px solid #d9dadb;
 		}
 	}
 
 	.ah-logo {
-		background-color: darken($teal, 28%);
-		border: 4px solid darken($teal, 42%);
-		border-radius: 50%;
 		left: 1rem;
 		position: absolute;
 		top: 1.2rem;
@@ -296,6 +286,11 @@ export default class AccessInterfaceHeader extends Vue {
 		#eaasi-ah-logo {
 			position: relative;
 			top: 1px;
+			width: 130px;
+
+			&:hover {
+				opacity: 0.7;
+			}
 		}
 	}
 

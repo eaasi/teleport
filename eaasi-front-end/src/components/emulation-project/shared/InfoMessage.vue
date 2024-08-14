@@ -78,7 +78,7 @@ export default class InfoMessage extends Vue {
 		}
 
 		p {
-			color: darken($dark-neutral, 40%);
+			color: $dark-light-grey;
 		}
 	}
 }

@@ -48,8 +48,13 @@
 <style lang="scss">
 	.search-facet-wrapper {
 		background-color: #FFFFFF;
-		border: solid 1px lighten($light-neutral, 20%);
+		border: solid 2px black;
 		margin-bottom: 2rem;
+	}
+	.fa-chevron-up, .fa-chevron-down {
+		&:before {
+			padding: 10px;
+		}
 	}
 
 	.sfw-header,
@@ -58,6 +63,7 @@
 	}
 	.sfw-label {
 		text-transform: uppercase;
+		margin-right: 10px;
 	}
 
 	.sfw-content {
@@ -68,22 +74,23 @@
 		cursor: pointer;
 		font-size: 1.4rem;
 		user-select: none;
+		font-weight: 400;
 
 		&:hover {
-			background-color: lighten($light-neutral, 90%);
+			background-color: lighten($light-grey, 90%);
 		}
 	}
 
 	.sfw-collapse {
-		background-color: lighten($light-blue, 80%);
-		border-radius: 50%;
-		color: $light-blue;
+		background-color: $medium-grey;
+		border-radius: 25%;
+		color: $dark-light-grey;
 		height: 30px;
 		width: 30px;
 	}
 
 	.sfw-header.collapsed {
-		background-color: lighten($light-blue, 80%);
+		background-color: $medium-grey;
 	}
 
 	.chevdark {

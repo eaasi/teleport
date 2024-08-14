@@ -18,7 +18,7 @@
 				v-if="!resources && !resources.length"
 				block
 				class="mb"
-				color-preset="light-blue"
+				color-preset="white"
 			>
 				Find Resource(s)
 			</ui-button>
@@ -390,7 +390,7 @@ export default class ResourceSideBar extends Vue {
 }
 
 .rsb-header {
-	border-bottom: solid 2px lighten($dark-neutral, 80%);
+	border-bottom: solid 2px $medium-grey;
 	margin-bottom: 1.5rem;
 	padding-bottom: 0.5rem;
 
@@ -415,10 +415,16 @@ export default class ResourceSideBar extends Vue {
 
 .rsb-environments,
 .rsb-objects {
-	border: 1px solid lighten($dark-neutral, 80%);
+	border: 1px solid $medium-grey;
 	border-radius: 1rem;
 	margin-bottom: 1rem;
 	padding: 1.5rem;
+}
+
+@media screen and (max-width: 1050px) {
+	.resource-side-bar {
+		padding: 1rem;
+	}
 }
 
 </style>

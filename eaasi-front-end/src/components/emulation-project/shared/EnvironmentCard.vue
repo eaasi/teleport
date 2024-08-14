@@ -115,19 +115,19 @@ export default class EnvironmentCard extends Vue {
 <style lang='scss'>
 .environment-card {
 	background: #ffffff;
-	border: 1px solid lighten($dark-neutral, 50%);
+	border: 1px solid $medium-grey;
 	border-radius: 0.2rem;
 	padding: 0.5rem 1rem;
 
 	.environment-title {
-		color: lighten($dark-blue, 30%);
+		color: lighten($dark-green, 30%);
 		font-weight: 500;
 		padding: 0.5rem 0 1rem 0;
 	}
 
 	.footer {
-		border-top: 1px solid darken($light-neutral, 10%);
-		color: $dark-neutral;
+		border-top: 1px solid $dark-light-grey;
+		color: $medium-grey;
 		font-size: 1.2rem;
 		font-weight: 500;
 		padding-top: 0.5rem;

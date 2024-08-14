@@ -2,67 +2,24 @@
 	<footer id="footer" class="flex-row">
 		<div id="footerLogo">
 			<div class="footer-logo">
-				<img src="@/assets/eaasi_logos/logoEaaSI_160.png" alt="Eaasi Logo" />
-			</div>
-			<div class="footer-logo-label">
-				{{ copyrightMessage }}
+				<img src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png" alt="Eaasi footer Logo" />
 			</div>
 		</div>
 
 		<div id="footerLinks">
 			<div class="footer-social">
 				<div class="block">
-					<a href="mailto:eaasi@yale.edu" id="eaasiEmail">
-						<span class="fas fa-envelope-open eb-icon teal"></span>
-						<span class="footer-item">
-							eaasi@yale.edu
-						</span>
-					</a>
-				</div>
-				<div class="block">
-					<a
-						href="https://twitter.com/SoftPresNetwork"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<span class="fab fa-twitter eb-icon teal"></span>
-						<span class="footer-item">
-							#eaasi
-						</span>
-					</a>
-				</div>
-				<div class="block">
 					<span class="fas fa-globe eb-icon teal"></span>
 					<span class="footer-item">
 						<a
-							href="https://www.eaasi.cloud"
+							href="https://forum.eaasi.cloud"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="eaasi-website"
 						>
-							https://www.eaasi.cloud
+							https://forum.eaasi.cloud
 						</a>
 					</span>
-				</div>
-			</div>
-		</div>
-
-		<div id="footerSponsors">
-			<div class="footer-principal-container">
-				<div class="footer-principal-label">
-					Principal Partner
-				</div>
-				<img src="@/assets/yale-white_2x.png" alt="Yale University Logo" />
-			</div>
-			<div class="footer-sponsor-container">
-				<div class="footer-sponsor-label block">
-					Made Possible By
-				</div>
-				<div class="footer-sponsor-img inline-block">
-					<img src="@/assets/andrew-w-mellon-white.png" class="md" alt="The Andrew W. Mellon Foundation logo" />
-				</div>
-				<div class="footer-sponsor-img inline-block sloan">
-					<img src="@/assets/footerLogoSloan.png" class="lg" alt="The Alfred P. Sloan Foundation logo" />
 				</div>
 			</div>
 		</div>
@@ -77,44 +34,31 @@ import Component from 'vue-class-component';
 @Component({
 	name: 'AppFooter',
 })
-export default class AppFooter extends Vue {
-	get copyrightMessage() {
-		let now = new Date();
-		const thisYear = now.getFullYear();
-		return `© EaaSI ${thisYear}`;
-	}
-};
+export default class AppFooter extends Vue {};
+
 </script>
 
 <style lang="scss">
 	#footer {
-		background-color: darken($teal, 40%);
+		background-color: $green;
 		bottom: 0;
 		height: $footerHeight;
 		position: relative;
 		z-index: 300;
+		color: $black;
+		flex: 0;
 	}
 
 	#footerLogo {
-		margin-bottom: 1.1rem;
-		margin-left: 1rem;
+		margin-left: 0.3rem;
 		margin-right: 1.8rem;
 
 		img {
-			width: 8.5rem;
+			width: 150px;
 		}
 
 		.footer-logo {
-			border: 1rem solid darken($teal, 40%);
-			border-radius: 50%;
 			display: block;
-		}
-
-		.footer-logo-label {
-			color: lighten($teal, 60%);
-			display: block;
-			font-size: 1.2rem;
-			text-align: center;
 		}
 	}
 
@@ -133,17 +77,25 @@ export default class AppFooter extends Vue {
 		}
 
 		.teal {
-			color: lighten($teal, 30%);
+			color: $black;
 		}
 
 		.footer-item {
-			color: lighten($teal, 80%);
+			color: $black;
 			display: inline-block;
 			padding-left: 1.4rem;
-			text-decoration: underline;
+			text-decoration: none;
 
 			> a {
-				color: lighten($teal, 80%);
+				color: $black;
+
+				&:hover {
+					color: $dark-light-grey;
+				}
+			}
+
+			&:hover {
+				color: $dark-light-grey;
 			}
 		}
 
@@ -152,59 +104,12 @@ export default class AppFooter extends Vue {
 		}
 
 		.footer-website a {
-			color: #FFFFFF;
+			color: $black;
 			text-decoration: none;
 		}
 
 		.social-link {
 			padding-left: 2rem;
-		}
-	}
-
-	#footerSponsors {
-		color: lighten($teal, 60%);
-		display: flex;
-		flex-direction: row;
-		font-size: 1.1rem;
-
-		.footer-principal-container {
-			border-right: 2px solid darken($dark-blue, 42%);
-			padding: 0 1.4rem;
-
-			.footer-principal-label {
-				font-size: 1.1rem;
-				margin-bottom: 3px;
-			}
-
-			img {
-				height: 7rem;
-				margin-top: 6px;
-			}
-		}
-
-		.footer-sponsor-container {
-			padding-left: 2.8rem;
-
-			.footer-sponsor-label {
-				font-size: 1.1rem;
-			}
-
-			.footer-sponsor-img {
-				margin-right: 2.4rem;
-				vertical-align: middle;
-
-				.sm {
-					height: 4.2rem;
-				}
-
-				.md {
-					height: 5.4rem;
-				}
-
-				.lg {
-					height: 8.4rem;
-				}
-			}
 		}
 	}
 </style>

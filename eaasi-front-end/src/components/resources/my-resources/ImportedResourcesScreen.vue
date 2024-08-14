@@ -8,7 +8,7 @@
 				</p>
 			</div>
 			<div class="btn-section" v-if="!hasResults">
-				<ui-button color-preset="light-blue" @click="navigateToImportResource">
+				<ui-button color-preset="white" @click="navigateToImportResource">
 					Import New Resource
 				</ui-button>
 			</div>
@@ -33,7 +33,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="resource-bento width-md">
+					<div class="resource-bento resources-group">
 						<div class="bento-row">
 							<div
 								v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
@@ -263,20 +263,20 @@ export default class ImportedResourcesScreen extends Vue {
 
 <style lang='scss'>
 	.bg-top-message {
-		background-color: lighten($light-neutral, 40%);
-		border-bottom: 2px solid darken($light-neutral, 10%);
+		background-color: lighten($medium-grey, 30%);
 		justify-content: space-between;
 		min-height: 5rem;
 		padding: 0 15px;
 
 		.btn-section {
-			border-left: 2px solid darken($light-neutral, 10%);
 			display: flex;
 			padding: 0.5rem 3rem;
 		}
 	}
 
 	.resource-results-wrapper {
+		width: -webkit-fill-available;
+
 		.resource-results {
 			display: flex;
 			min-height: 80vh;
@@ -297,11 +297,16 @@ export default class ImportedResourcesScreen extends Vue {
 
 			.bento-header {
 				width: 100%;
+				font-weight: 400;
 			}
 
 			.card-wrapper {
-				width: 53rem;
+				width: -webkit-fill-available;
 			}
 		}
+	}
+
+	.resources-group {
+		width: -webkit-fill-available;
 	}
 </style>

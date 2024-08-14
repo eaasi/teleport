@@ -156,26 +156,25 @@ export default class MyResourcesScreen extends Vue {
 #myResources {
 
 	.page-title {
-		background-color: lighten($light-neutral, 70%);
-		border-top: solid 1px darken($light-neutral, 10%);
+		background-color: $grey;
 		display: block;
 		font-weight: 300;
 		margin-bottom: 0;
-		padding: 3rem 3rem 1rem;
+		padding: 20px 15px
 	}
 
 	.deselect-all-wrapper {
-		background-color: lighten($light-blue, 90%);
+		background-color: $grey;
 		padding: 1.5rem;
 
 		.deselect-link {
-			color: $dark-blue;
+			color: $dark-light-grey;
 			cursor: pointer;
 			font-size: 1.4rem;
 			font-weight: bold;
 		}
 		.icon-deselect {
-			background-color: $dark-blue;
+			background-color: $dark-light-grey;
 			border-radius: 0.6rem;
 			display: inline-block;
 			height: 20px;
