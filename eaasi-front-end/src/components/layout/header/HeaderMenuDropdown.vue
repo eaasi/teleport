@@ -1,7 +1,7 @@
 <template>
 	<div class="header-menu-dropdown flex-row" @mouseleave="isDropDownVisible = false" v-bind="$attrs">
 		<div class="hmd-user" @click="isDropDownVisible = !isDropDownVisible">
-			<span>{{ label }}</span>
+			<div class="user-name">{{ label }}</div>
 			<span v-if="icon" :class="`icon fas fa-fw fa-${icon}`"></span>
 		</div>
 
@@ -102,9 +102,17 @@ export default class HeaderMenuDropdown extends Vue {
 	padding: 0 2rem;
 	position: relative;
 
+	.hmd-user {
+		display: flex;
+		align-items: center;
+		.user-name {
+			width: max-content;
+		}
+	}
+
 	.hmd-user .icon,
 	.hmd-list .icon {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		font-size: 2rem;
 		margin-left: 5px;
 	}

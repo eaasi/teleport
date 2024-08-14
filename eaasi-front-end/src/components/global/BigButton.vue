@@ -1,7 +1,7 @@
 <template>
 	<div :class="['eb-wrapper', 'size-' + size, { block }]">
 		<div
-			class="eaasi-big-button"
+			class="eaasi-big-button-with-subtext"
 			role="button"
 			@click="$emit('click')"
 		>
@@ -90,7 +90,7 @@ export default class BigButton extends Vue {
 
 	&.size-sm,
 	&.size-small {
-		max-width: 24rem;
+		max-width: 27rem;
 	}
 
 	&.size-lg,
@@ -104,14 +104,13 @@ export default class BigButton extends Vue {
 	}
 }
 
-.eaasi-big-button {
-	background-color: lighten($light-blue, 90%);
-	border: solid 2px $light-blue;
-	border-radius: 10px;
-	color: $dark-blue;
+.eaasi-big-button-with-subtext {
+	background-color: $grey;
+	border: solid 2px $black;
+	color: $black;
 	cursor: pointer;
 	padding: 2.5rem;
-	text-align: center;
+	text-align: left;
 	transition: background-color 0.3s;
 
 	&.size-sm,
@@ -125,22 +124,23 @@ export default class BigButton extends Vue {
 	}
 
 	&:hover {
-		background-color: lighten($light-blue, 70%);
+		background-color: $white;
+		border: solid 2px $green;
 	}
 
 	label {
-		color: $dark-blue;
+		color: $black;
 		font-size: 1.8rem;
 		font-weight: bold;
 	}
 
 	.eb-icon {
 		font-size: 2.5rem;
-		margin-bottom: 6px;
+		margin-bottom: 10px;
 	}
 
 	.eb-sublabel {
-		color: $dark-neutral;
+		color: $black;
 		line-height: 1.3em;
 		margin-top: 6px;
 	}

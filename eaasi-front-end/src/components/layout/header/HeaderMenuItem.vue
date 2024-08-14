@@ -41,8 +41,12 @@ export default class HeaderMenuItem extends Vue {
 	padding: 0 2rem;
 	position: relative;
 
+	.header-menu-item-text {
+		width: max-content;
+	}
+
 	.icon {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		font-size: 2rem;
 		margin-left: 5px;
 	}

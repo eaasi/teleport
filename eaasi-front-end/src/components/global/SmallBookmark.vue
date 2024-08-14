@@ -22,7 +22,7 @@
 						style="mix-blend-mode: normal;"
 					>
 						<g
-							fill="#000000"
+							fill="#00d33e"
 							stroke="#2479AA"
 							stroke-width="9"
 							stroke-linejoin="round"
@@ -101,7 +101,7 @@ export default class SmallBookmark extends Vue {
         ============================================*/
 		get fillColor() : String {
 			// $dark-blue
-			return this.isActive ? '#2479AA' : 'white';
+			return this.isActive ? '#00d33e' : 'white';
 		}
 
 		get dashSize() : Number {
@@ -128,7 +128,7 @@ export default class SmallBookmark extends Vue {
 	}
 
 	.add-remove-message {
-		color: $dark-blue;
+		color: $green;
 		font-size: 1.5rem;
 		line-height: 3rem;
 		padding-left: 4px;

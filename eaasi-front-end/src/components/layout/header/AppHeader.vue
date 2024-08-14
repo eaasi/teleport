@@ -1,6 +1,7 @@
 <template>
 	<header id="header" class="flex-row">
-		<div id="headerSearch" class="flex-grow">
+		<div class="header-h">Reviving histories, ensuring access</div>
+		<div id="headerSearch">
 			<form @submit.prevent="search">
 				<search-bar
 					placeholder="Search resources..."
@@ -88,17 +89,29 @@ export default class AppHeader extends Vue {
 <style lang="scss">
 #header {
 	background-color: #FFFFFF;
-	border-bottom: 1px solid darken($light-neutral, 10%);
+	border: 2px solid $green;
 	height: $headerHeight;
-	left: $leftSidebarWidth;
+	left: 156px;
 	position: fixed;
 	right: 0;
 	top: 0;
 	z-index: 10;
+
+	.header-h {
+		font-weight: 600;
+		font-size: large;
+		color: $black;
+		border-right: 2px solid $green;
+		height: 100%;
+		width: 100%;
+		padding: 0 20px;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
 }
 
 #headerRight {
-
 	a {
 		display: block;
 		padding: 1rem;
@@ -108,10 +121,11 @@ export default class AppHeader extends Vue {
 
 #headerSearch {
 	padding: 0 2rem;
+	width: fit-content;
 
 	.eaasi-search-bar {
 		margin-bottom: 0;
-		max-width: 70rem;
+		width: fit-content;
 	}
 }
 

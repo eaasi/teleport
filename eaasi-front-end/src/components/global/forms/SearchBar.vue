@@ -1,6 +1,6 @@
 <template>
 	<form-field-wrapper v-bind="wrapperProps" class="eaasi-search-bar">
-		<div class="eaasi-input-wrapper" :style="{'border': `solid 2px ${borderColor}`}">
+		<div class="eaasi-input-wrapper">
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<div classs="sb-content-left">
 					<slot name="left">
@@ -13,24 +13,6 @@
 					:value="value"
 					:id="id"
 				/>
-				<span
-					class="cursor-pointer"
-					v-show="!showSearchChevron"
-					@click="$emit('clear')"
-					style="margin-right: 0.5rem;"
-				>
-					<span class="fas fa-times"></span>
-				</span>
-				<span
-					class="eaasi-field-icon"
-					@click="$emit('search')"
-				>
-					<span
-						v-show="showSearchChevron"
-						class="fas fa-chevron-circle-right"
-					>
-					</span>
-				</span>
 			</div>
 		</div>
 	</form-field-wrapper>
@@ -95,10 +77,13 @@ export default class SearchBar extends BaseFormField {
 		border-radius: 6px;
 		overflow: hidden;
 		padding-bottom: 0;
+		width: fit-content;
 	}
 
 	.eaasi-input {
 		background-color: #FFFFFF;
+		max-width: 300px;
+		min-width: 230px;
 	}
 
 	.eaasi-field-icon {

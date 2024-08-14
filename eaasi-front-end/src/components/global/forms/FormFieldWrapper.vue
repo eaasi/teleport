@@ -56,7 +56,6 @@ export default class FormFieldWrapper extends Vue {
 .eaasi-form-control {
 
 	.eaasi-input-wrapper {
-		border-bottom: solid 3px $light-blue;
 		padding-bottom: 3px;
 	}
 
@@ -98,6 +97,10 @@ export default class FormFieldWrapper extends Vue {
 		&::placeholder {
 			color: #AAAAAA;
 		}
+	}
+
+	input {
+		border-bottom: 1px solid $green;
 	}
 
 	&.readonly {
