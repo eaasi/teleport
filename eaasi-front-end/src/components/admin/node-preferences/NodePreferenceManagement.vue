@@ -40,7 +40,7 @@
 					<ui-button style="margin-right: 1rem;" @click="saveKeyboardSettings" :disabled="disabled">
 						Save
 					</ui-button>
-					<ui-button color-preset="light-blue" @click="cancel">
+					<ui-button color-preset="white" @click="cancel">
 						Cancel
 					</ui-button>
 				</div>
@@ -123,8 +123,11 @@ export default class NodePreferenceManagement extends AdminScreen {
 
 <style lang='scss' scoped>
 .rtl-header {
-	background-color: lighten($light-neutral, 60%);
-	padding-bottom: 2.5rem;
+	background-color: #c0c2c3;
+	display: block;
+	font-weight: 300;
+	margin-bottom: 0;
+	padding: 3rem 3rem 1rem;
 
 	h1 {
 		font-size: 1.8rem;

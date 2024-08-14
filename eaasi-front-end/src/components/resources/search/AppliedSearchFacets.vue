@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="btn-section">
-			<ui-button id="clearAllBtn" color-preset="light-blue" @click="deselectAllFacetValues">
+			<ui-button id="clearAllBtn" color-preset="white" @click="deselectAllFacetValues">
 				Clear ALL Filters
 			</ui-button>
 		</div>
@@ -62,13 +62,11 @@ export default class AppliedSearchFacets extends Vue {
 <style lang='scss' scoped>
 .applied-facets-wrapper {
 	align-items: stretch;
-	background-color: lighten($light-neutral, 40%);
-	border-bottom: 2px solid darken($light-neutral, 10%);
+	background-color: $medium-grey;
 	justify-content: space-between;
 	padding: 1rem;
 	width: 100vw;
 	.btn-section {
-		border-left: 2px solid darken($light-neutral, 10%);
 		padding: 0.5rem 2rem;
 	}
 }

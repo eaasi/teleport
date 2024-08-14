@@ -14,7 +14,7 @@
 					]"
 					v-if="numPages > maxPages"
 				>
-					<a href="javascript:void(0);">&#10094;&#10094;</a>
+					<a href="javascript:void(0);">&#x3c;&#x3c;</a>
 				</li>
 				<li
 					@click="paginate(currentPage - 1)"
@@ -26,7 +26,7 @@
 						}
 					]"
 				>
-					<a href="javascript:void(0);">&#10094;</a>
+					<a href="javascript:void(0);">&#x3c;</a>
 				</li>
 				<li
 					v-for="p in pages"
@@ -46,7 +46,7 @@
 						}
 					]"
 				>
-					<a href="javascript:void(0);">&#10095;</a>
+					<a href="javascript:void(0);">&#x3e;</a>
 				</li>
 				<li
 					@click="paginate(numPages)"
@@ -59,7 +59,7 @@
 					]"
 					v-if="numPages > maxPages"
 				>
-					<a href="javascript:void(0);">&#10095;&#10095;</a>
+					<a href="javascript:void(0);">&#x3e;&#x3e;</a>
 				</li>
 			</ul>
 		</div>
@@ -220,6 +220,7 @@ export default class Pagination extends Vue {
 
 .pagination {
 	margin-bottom: 1rem;
+	margin-left: 10px;
 	padding: 0;
 
 	a {
@@ -235,48 +236,53 @@ export default class Pagination extends Vue {
 			border-bottom-right-radius: 0.8rem;
 			border-top-right-radius: 0.8rem;
 		}
-		background-color: lighten($light-blue, 90%);
+		background-color: $medium-grey;
 		cursor: pointer;
 		display: inline-block;
-		padding: 1rem 0.2rem;
+		padding: 10px;
 		transition: background-color 0.2s;
+		color: $light-green-background;
 
 		&.active {
-			border-bottom: solid 2px $dark-blue;
+			border-bottom: solid 2px $light-green-background;
 			cursor: default;
 		}
 
 		a {
 			border-radius: 0.6rem;
-			padding: 0.4rem 1.5rem;
+			padding: 5px 10px;
+			color: $light-green-background;
+
+			&:hover {
+				background-color: $light-green-background;
+				color: black;
+			}
 
 			&.active {
-				background-color: #FFFFFF;
+				background-color: $light-green-background;
 				cursor: default;
 				transition: background-color 0.2s;
+				color: black;
 
 				&:hover {
-					background-color: #FFFFFF;
+					background-color: $green;
 				}
 			}
 		}
 
-		&:hover {
-			background-color: lighten($light-blue, 50%);
-		}
 
 		&.disabled-arrow {
 			cursor: default;
 			transition: background-color 0.2s;
 
 			a {
-				color: lighten($light-blue, 70%);
-				cursor: default;
-			}
+				color: lighten($light-green-background, 50%);
+				cursor: not-allowed;
 
-			&:hover {
-				background-color: lighten($light-blue, 90%);
-				color: lighten($light-blue, 70%);
+				&:hover {
+					background-color: $light-green-background;
+					color: black;
+				}
 			}
 		}
 	}

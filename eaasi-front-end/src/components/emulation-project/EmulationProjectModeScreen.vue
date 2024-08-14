@@ -118,7 +118,7 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.drop-zone-container {
-		border: 2px dashed lighten($dark-neutral, 80%);
+		border: 2px dashed $light-green-background;
 		border-radius: 0.5rem;
 		height: max-content;
 		position: relative;
@@ -137,7 +137,7 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.drop-zone {
-		background-color: lighten($light-neutral, 50%);
+		background-color: $green-background;
 		min-height: 9rem;
 		position: relative;
 		width: 37rem;
@@ -148,6 +148,10 @@ export default class EmulationProjectModeScreen extends Vue {
 			.remove-resource-button {
 				display: none;
 			}
+		}
+
+		.resource-object-container {
+			border: none;
 		}
 	}
 
@@ -160,7 +164,7 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.environment-selection-zone {
-		border: solid 2px lighten($dark-neutral, 80%);
+		border: solid 2px $medium-grey;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;

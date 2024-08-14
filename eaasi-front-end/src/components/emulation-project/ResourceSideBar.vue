@@ -18,7 +18,7 @@
 				v-if="!resources && !resources.length"
 				block
 				class="mb"
-				color-preset="light-blue"
+				color-preset="white"
 			>
 				Find Resource(s)
 			</ui-button>

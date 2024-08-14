@@ -20,7 +20,7 @@ body {
 
 body {
 	background-color: #FFFFFF;
-	color: darken($dark-neutral, 20%);
+	color: $black;
 	font-family: $font-primary;
 	font-size: 1.6rem;
 	font-weight: 400;
@@ -103,7 +103,7 @@ ul {
 }
 
 a {
-	color: $dark-blue;
+	color: $green;
 
 	&:visited,
 	&:active,
@@ -120,10 +120,12 @@ strong {
 
 .txt-sm {
 	font-size: 1.2rem;
+	margin-bottom: 5px;
 }
 
 .txt-lg {
 	font-size: 1.8rem;
+	margin-bottom: 5px;
 }
 
 .txt-center {
@@ -209,12 +211,12 @@ strong {
 	}
 
 	tbody tr {
-		background-color: lighten($light-blue, 90%);
+		background-color: $green-background;
 	}
 
 	tbody td {
 		border-bottom: solid 8px #FFFFFF;
-		border-right: solid 1px lighten($light-blue, 60%);
+		border-right: solid 1px $light-green-background;
 		padding: 1.4rem 1rem;
 
 		&.nb {
@@ -228,7 +230,7 @@ strong {
 		& > span,
 		& > div {
 			border-radius: 6px;
-			color: $dark-blue;
+			color: $dark-light-grey;
 			cursor: pointer;
 			display: inline-block;
 			font-weight: bold;
@@ -237,7 +239,7 @@ strong {
 			transition: background-color 0.2s;
 
 			&:hover {
-				background-color: #FFFFFF;
+				color: black;
 			}
 		}
 	}
@@ -248,7 +250,7 @@ strong {
 			transition: background-color 0.2s;
 
 			&:hover {
-				background-color: lighten($light-blue, 80%);
+				background-color: $light-green-background;
 			}
 		}
 	}

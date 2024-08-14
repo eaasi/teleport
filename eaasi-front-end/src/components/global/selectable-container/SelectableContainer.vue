@@ -108,7 +108,7 @@ export default class SelectableContainer extends Vue {
 		width: 100%;
 
 		.header {
-			color: $dark-blue;
+			color: $dark-green;
 			font-size: 1.6rem;
 			line-height: 2rem;
 			padding-right: 4.5rem;

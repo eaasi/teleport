@@ -253,7 +253,7 @@
 
 <style lang="scss">
 	#accessInterface {
-		background-color: darken($teal, 72%);
+		background-color: $dark-light-grey;
 		min-height: 100vh;
 	}
 

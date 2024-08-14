@@ -109,7 +109,7 @@ export default class UserManagement extends AdminScreen {
 
 <style lang="scss">
 .user-search {
-	background-color: lighten($light-neutral, 60%);
+	background-color: $grey;
 	padding: 5rem 5rem 2.5rem;
 
 	h1 {

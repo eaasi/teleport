@@ -7,7 +7,7 @@
 		>
 			<ui-button
 				@click="$emit('open', tab)"
-				color-preset="blue-transparent"
+				color-preset="white"
 				size="sm"
 			>
 				{{ tab.label }}

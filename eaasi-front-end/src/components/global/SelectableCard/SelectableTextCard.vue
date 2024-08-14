@@ -68,15 +68,15 @@ hr {
 
 .resource-object-container {
 	background-color: #FFFFFF;
-	border: 2px solid lighten($light-blue, 70%);
+	border: 2px solid $black;
 	cursor: pointer;
 	margin-bottom: 1.5rem;
 	min-height: 7rem;
 	position: relative;
 
 	&.selected {
-		background-color: lighten($light-blue, 90%);
-		border: 2px solid $light-blue;
+		background-color: $light-grey;
+		border: 2px solid $green;
 	}
 
 	&.disabled {
@@ -93,12 +93,12 @@ hr {
 
 .panel-left {
 	align-items: center;
-	background-color: lighten($light-blue, 70%);
+	background-color: lighten($green, 90%);
 	display: flex;
 	padding: 0.5rem;
 
 	&.selected {
-		background-color: lighten($light-blue, 50%);
+		background-color: $green;
 	}
 }
 

@@ -156,7 +156,6 @@ export default class ImportSelect extends Vue {
 }
 
 .import-selected {
-	border-bottom: solid 2px darken($light-neutral, 10%);
 
 	.eaasi-select {
 		margin-left: 1rem;

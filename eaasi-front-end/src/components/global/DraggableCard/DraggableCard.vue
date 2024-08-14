@@ -114,20 +114,17 @@ hr {
 
 .resource-object-container {
 	background-color: #FFFFFF;
-	border: 1px solid lighten($light-blue, 70%);
-	border-radius: 0.5rem;
+	border: 2px solid black;
 	margin-bottom: 0.5rem;
 	min-height: 7rem;
 	position: relative;
 
 	&.selected {
-		border: 1px solid darken($light-blue, 20%);
+		border: 2px solid $green;
 	}
 }
 
 .panel-left {
-	border-bottom-left-radius: 0.5rem;
-	border-top-left-radius: 0.5rem;
 	padding: 0.5rem;
 
 	&.grip-lines {
@@ -136,20 +133,18 @@ hr {
 		display: flex;
 
 		span {
-			color: lighten($dark-blue, 20%);
+			color: $light-green;
 		}
 	}
 }
 
 .panel-right {
-	border-bottom-right-radius: 0.5rem;
 	border-left: none;
-	border-top-right-radius: 0.5rem;
 	padding: 10px;
 	width: 100%;
 
 	.header {
-		color: $dark-blue;
+		color: $dark-green;
 		font-size: 1.6rem;
 		line-height: 2rem;
 		padding-right: 4.5rem;

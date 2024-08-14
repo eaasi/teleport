@@ -191,7 +191,7 @@ export default class EnvironmentMenu extends Vue {
 
 <style lang="scss">
 .environment-menu {
-	background-color: lighten($light-neutral, 60%);
+	background-color: #e3e3e3;
 	height: calc(100vh - #{$accessHeaderHeight});
 	margin-top: $accessHeaderHeight;
 	overflow-y: scroll;
@@ -212,7 +212,6 @@ export default class EnvironmentMenu extends Vue {
 
 .em-header {
 	background-color: #FFFFFF;
-	border-bottom: solid 4px lighten($dark-neutral, 70%);
 	padding: 2rem;
 
 	p {

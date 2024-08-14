@@ -30,6 +30,6 @@ export default class AdminScreen extends Vue {
 
 <style lang="scss">
 .section-divider {
-	border-bottom: solid 2px darken($light-neutral, 10%);
+	border-bottom: solid 2px $dark-grey;
 }
 </style>

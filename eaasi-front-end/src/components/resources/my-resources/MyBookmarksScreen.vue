@@ -12,14 +12,14 @@
 
 			<div class="btn-section">
 				<ui-button
-					color-preset="light-blue"
+					color-preset="white"
 					@click="raiseClearBookmarksModal"
 					v-if="bookmarks && bookmarks.length"
 				>
 					Clear All Bookmarks
 				</ui-button>
 				<ui-button
-					color-preset="light-blue"
+					color-preset="white"
 					@click="$router.push(exploreResourcesPath)"
 					v-else
 				>
@@ -303,14 +303,12 @@ export default class MyBookmarksScreen extends Vue {
 
 <style lang='scss'>
 .bg-top-message {
-	background-color: lighten($light-neutral, 40%);
-	border-bottom: 2px solid darken($light-neutral, 10%);
+	background-color: $medium-grey;
 	justify-content: space-between;
 	min-height: 5rem;
 	padding: 2rem 8rem 2rem 2rem;
 
 	.btn-section {
-		border-left: 2px solid darken($light-neutral, 10%);
 		display: flex;
 		padding: 0.5rem 3rem;
 	}
@@ -320,9 +318,6 @@ export default class MyBookmarksScreen extends Vue {
 	display: flex;
 	flex-direction: column;
 	width: 100vw;
-	.resource-facets-wrapper {
-		background-color: lighten($light-neutral, 80%);
-	}
 
 	.resource-results {
 		min-height: 80vh;

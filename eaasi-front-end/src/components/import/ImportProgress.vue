@@ -17,7 +17,7 @@
 				>
 					{{ nextButtonLabel }}
 				</ui-button>
-				<ui-button color-preset="light-blue" @click="reset">Cancel</ui-button>
+				<ui-button color-preset="white" @click="reset">Cancel</ui-button>
 			</div>
 		</div>
 		<task-modal
@@ -250,15 +250,13 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 <style lang="scss">
 
 	.import-progress {
-		background-color: lighten($light-neutral, 60%);
-		border: solid 2px darken($light-neutral, 10%);
+		background-color: $medium-grey;
 		border-left: none;
 		border-right: none;
 		min-height: 10rem;
 	}
 
 	.ip-actions {
-		background-color: lighten($light-neutral, 90%);
 		flex: 0 0 $tipLaneWidth;
 		> div {
 			padding: $defaultScreenPadding;

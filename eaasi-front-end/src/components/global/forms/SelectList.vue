@@ -48,7 +48,7 @@ export default class SelectList extends BaseFormField { }
 
 	&.empty {
 		select {
-			color: $grey;
+			color: black;
 
 			option {
 				color: initial;

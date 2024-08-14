@@ -29,7 +29,7 @@
 					<div class="disk-label">{{ getDiskLabel(driveSetting.drive.type) }}</div>
 					<div class="selecting-action-button" v-if="!isResourceSelected(driveSetting)">
 						<ui-button @click="startSelectingResource(driveSetting)" :disabled="!isSelectionAvailable(driveSetting) || selectingResourceForDiskIndex === driveSetting.driveIndex">Select Resource</ui-button>
-						<ui-button color-preset="light-blue" @click="stopSelectingResource(driveSetting)" v-if="selectingResourceForDiskIndex === driveSetting.driveIndex">Cancel</ui-button>
+						<ui-button color-preset="white" @click="stopSelectingResource(driveSetting)" v-if="selectingResourceForDiskIndex === driveSetting.driveIndex">Cancel</ui-button>
 						<div class="disk-select-note" v-if="!isSelectionAvailable(driveSetting)">No matching resources for this drive.</div>
 					</div>
 					<div class="emu-project-content-drop-zone">

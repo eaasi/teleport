@@ -8,7 +8,7 @@
 				</p>
 			</div>
 			<div class="btn-section" v-if="!hasResults">
-				<ui-button color-preset="light-blue" @click="navigateToImportResource">
+				<ui-button color-preset="white" @click="navigateToImportResource">
 					Import New Resource
 				</ui-button>
 			</div>
@@ -264,12 +264,10 @@ export default class ImportedResourcesScreen extends Vue {
 
 <style lang='scss'>
 	.bg-top-message {
-		background-color: lighten($light-neutral, 40%);
-		border-bottom: 2px solid darken($light-neutral, 10%);
+		background-color: lighten($medium-grey, 30%);
 		justify-content: space-between;
 		min-height: 5rem;
 		.btn-section {
-			border-left: 2px solid darken($light-neutral, 10%);
 			display: flex;
 			padding: 0.5rem 3rem;
 		}

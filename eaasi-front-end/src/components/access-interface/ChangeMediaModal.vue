@@ -27,7 +27,10 @@
 		<template #footer>
 			<div class="footer-btn-wrapper">
 				<div class="flex-row pull-right">
-					<ui-button @click="$emit('close')" color-preset="light-blue">
+					<ui-button
+						@click="$emit('close')"
+						color-preset="white"
+					>
 						Cancel
 					</ui-button>
 					<ui-button

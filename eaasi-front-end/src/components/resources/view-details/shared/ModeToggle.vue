@@ -17,7 +17,7 @@
 					</span>
 					<div>
 						<ui-button
-							color-preset="light-blue"
+							color-preset="white"
 							size="md"
 							style="margin-right: 1rem;"
 							@click="$emit('refresh')"
