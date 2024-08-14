@@ -35,6 +35,8 @@ export default class HeaderMenuItem extends Vue {
 
 <style lang="scss">
 .header-menu-item {
+
+
 	color: darken($grey, 30%);
 	cursor: pointer;
 	height: $headerHeight;
@@ -42,7 +44,7 @@ export default class HeaderMenuItem extends Vue {
 	position: relative;
 
 	.icon {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		font-size: 2rem;
 		margin-left: 5px;
 	}

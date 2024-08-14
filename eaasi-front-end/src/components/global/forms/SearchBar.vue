@@ -1,6 +1,6 @@
 <template>
 	<form-field-wrapper v-bind="wrapperProps" class="eaasi-search-bar">
-		<div class="eaasi-input-wrapper" :style="{'border': `solid 2px ${borderColor}`}">
+		<div class="eaasi-input-wrapper">
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
 				<div classs="sb-content-left">
 					<slot name="left">

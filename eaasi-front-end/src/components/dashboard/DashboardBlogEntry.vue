@@ -1,17 +1,14 @@
 <template functional>
 	<div class="dbe-container">
-		<div class="entry-bg-trim">
-			<div class="entry-container">
-				<div class="entry-header">
-					<span id="categories">{{ props.entry.categories.join(', ') }}</span>
-					|
-					<span id="date">{{ props.entry.pubDate }}</span>
-				</div>
-				<div class="entry-title">
-					<a :href="props.entry.link" target="_blank">
-						{{ props.entry.title }}
-					</a>
-				</div>
+		<div class="entry-container">
+			<div class="entry-header">
+				<div id="categories">{{ props.entry.categories.join(', ') }}</div>
+				<div id="date">{{ props.entry.pubDate }}</div>
+			</div>
+			<div class="entry-title">
+				<a :href="props.entry.link" target="_blank">
+					{{ props.entry.title }}
+				</a>
 			</div>
 		</div>
 	</div>
@@ -34,29 +31,20 @@ export default class DashboardBlogEntry extends Vue {
 </script>
 
 <style lang="scss">
-
-	.entry-bg-trim {
-		background: #000000 url('~@/assets/login-bg.png') center;
-		height: 200px;
-		position: relative;
-	}
-
 	.entry-container {
-		background-color: #FFFFFF;
-		border-top-right-radius: 1.2rem;
+		background-color: $white;
+		border: 2px solid $grey;
 		line-height: 2.4rem;
 		position: relative;
-		top: 4.8rem;
 		width: 90%;
 
 		.entry-header {
-			background-color: lighten($light-neutral, 50%);
-			border-left: 0.4rem solid $teal;
-			border-top-right-radius: 4rem;
+			font-weight: 600;
 			font-size: 1.5rem;
 			padding: 1.1rem;
 
 			#date {
+				font-weight: 400;
 				font-size: 1.2rem;
 			}
 
@@ -66,14 +54,18 @@ export default class DashboardBlogEntry extends Vue {
 		}
 
 		.entry-title {
-			font-size: 1.9rem;
-			min-height: 6rem;
-			padding: 2.8rem 1.6rem 4rem 1.6rem;
+			font-size: 1.7rem;
+			padding: 0 1.1rem 1.1rem 1.1rem;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			height: 50px;
 
 			a {
-				color: $dark-blue;
+				color: $green;
 				line-height: 1.6em;
 				text-decoration: none;
+				white-space: normal;
 			}
 		}
 	}
