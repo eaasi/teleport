@@ -96,7 +96,6 @@ dist/
 coverage/
 built/
 
-cypress/screenshots/
 apidoc/
 
 # local certs
