@@ -33,7 +33,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary } from '@/types/Resource';
 import Tag from '../Tag.vue';
 import Bookmark from './Bookmark.vue';
 import SelectableCardContent from './SelectableCardContent.vue';

@@ -134,7 +134,7 @@ import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
