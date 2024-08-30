@@ -21,7 +21,7 @@
 import Vue from 'vue';
 import { Get, Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
-import { IResourceSearchFacet} from '@/types/Search.d.ts';
+import { IResourceSearchFacet} from '@/types/Search';
 import FacetChipGroup from './FacetChipGroup.vue';
 import UiButton from '@/components/global/UiButton.vue';
 

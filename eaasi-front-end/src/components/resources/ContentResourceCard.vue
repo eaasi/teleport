@@ -24,7 +24,7 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary, IEaasiResource } from '@/types/Resource';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
 import { resourceLabels, resourceTypes, translatedIcon } from '@/utils/constants';

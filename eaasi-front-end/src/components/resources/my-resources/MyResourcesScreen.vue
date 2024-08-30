@@ -41,7 +41,7 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import {Get, Sync} from 'vuex-pathify';
 import { IEaasiTab } from 'eaasi-nav';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import MyBookmarksScreen from '@/components/resources/my-resources/MyBookmarksScreen.vue';
 import ImportedResourcesScreen from '@/components/resources/my-resources/ImportedResourcesScreen.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';

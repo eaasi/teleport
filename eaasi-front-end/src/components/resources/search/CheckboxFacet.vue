@@ -33,7 +33,7 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import SearchFacetWrapper from './SearchFacetWrapper.vue';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { IResourceSearchFacet } from '@/types/Search';
 
 @Component({
 	name: 'CheckboxFacet',

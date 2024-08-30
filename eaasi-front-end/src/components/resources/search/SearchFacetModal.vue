@@ -50,7 +50,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IResourceSearchFacet, IResourceSearchFacetAttribute, IResourceSearchFacetValue } from '@/types/Search.d.ts';
+import { IResourceSearchFacet, IResourceSearchFacetAttribute, IResourceSearchFacetValue } from '@/types/Search';
 import Checkbox from '@/components/global/forms/Checkbox.vue';
 import Modal from '@/components/global/Modal/Modal.vue';
 import UiButton from '@/components/global/UiButton.vue';
