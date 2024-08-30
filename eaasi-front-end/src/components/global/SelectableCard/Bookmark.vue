@@ -58,7 +58,7 @@ import Vue from 'vue';
 	export default class Bookmark extends Vue {
 
 		@Prop({ type: Boolean, default: false })
-		readonly initState: boolean;
+		readonly initState: boolean = false;
 
 		/* Data
         ============================================*/

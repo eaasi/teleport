@@ -31,7 +31,7 @@
 		readonly collapsable: boolean;
 
 		@Prop({ type: Boolean, default: false })
-		readonly initState: boolean;
+		readonly initState: boolean = false;
 
 		/* Data
         ============================================*/
