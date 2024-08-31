@@ -11,11 +11,15 @@ import { IAction } from 'eaasi-nav';
 export default class SlideMenuActionResolver {
 	selectedResources: IEaasiResource[];
 	userRoleId: number;
-	action: IAction;
 
 	constructor(selectedResources: IEaasiResource[], roleId: number) {
 		this.selectedResources = selectedResources;
 		this.userRoleId = roleId;
+	}
+
+	get action(): IAction {
+		// Expected to be overridden by subclasses!
+		return undefined;
 	}
 
 	/**
