@@ -146,7 +146,7 @@ export default class EaasiAuthController extends BaseController {
      * @param res response
      */
 	logout(req: Request, res: Response) {
-		req.logout();
+		req.logout(() => {});
 		res.clearCookie(JWT_NAME, {
 			domain: DOMAIN,
 			path: '/'

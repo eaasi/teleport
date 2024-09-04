@@ -4,6 +4,7 @@ import fs from 'fs';
 import moment from 'moment';
 import winston from 'winston';
 import OrmTransport from './ormTransport';
+import {TransformableInfo} from 'logform';
 const colorizer = winston.format.colorize();
 
 winston.addColors({
@@ -47,10 +48,14 @@ function buildTransports() {
 	}
 };
 
+interface IInfo extends TransformableInfo {
+	timestamp: Date | string | number;
+}
+
 function buildFormatter(): any {
 	const { splat, combine, timestamp, printf, colorize } = winston.format;
 	if (process.env.NODE_ENV === 'development') {
-		const myFormat = printf(({ timestamp, level, message }) => {
+		const myFormat = printf(({ timestamp, level, message }: IInfo) => {
 			return colorizer.colorize(level, `${timestamp} | ${level.toUpperCase()} | ${message}`);
 		});
 		return combine(

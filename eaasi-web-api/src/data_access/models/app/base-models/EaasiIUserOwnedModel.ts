@@ -4,7 +4,7 @@ import { DataTypes } from 'sequelize';
 @Table({
 	tableName: 'emulation_project'
 })
-export class EaasiUserOwnedModel extends Model<EaasiUserOwnedModel> {
+export class EaasiUserOwnedModel extends Model {
 	@Column({
     	type: DataTypes.STRING(50),
     	allowNull: false,
