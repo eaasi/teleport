@@ -2,7 +2,6 @@ import config from '@/config';
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import User from '@/models/admin/User';
 import { IApplicationLog } from '@/types/ApplicationLog';
-import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
 import {IEaasiRole, IEmulator, IKeyboardSettings} from 'eaasi-admin';
@@ -96,43 +95,6 @@ class AdminService extends BaseHttpService {
 	async getRoles(): Promise<IEaasiSearchResponse<IEaasiRole>>  {
 		const url = this.createQueryUrl('/admin/users/roles');
 		const res = await this.get<IEaasiSearchResponse<IEaasiRole>>(url);
-		if (!res.ok) return null;
-		return res.result;
-	}
-
-	/* OAI-PMH Harvesters
-	============================================*/
-
-	async getHarvesters(): Promise<string[]> {
-		const res = await this.get<string[]>('/admin/get-harvesters');
-		if(!res.ok) return null;
-		return res.result;
-	}
-
-	async addHarvester(req: IAddHarvesterRequest): Promise<boolean> {
-		const res = await this.post<boolean>('/admin/add-harvester', req);
-		return res.ok;
-	}
-
-	async updateHarvester(name: string, req: IAddHarvesterRequest): Promise<boolean> {
-		const res = await this.put<boolean>(`/admin/update-harvester/?name=${name}`, req);
-		return res.ok;
-	}
-
-	async syncHarvester(name: string, full: boolean = false): Promise<IHarvesterSyncResult> {
-		let url = `/admin/sync-harvester/?name=${name}`;
-		if(full) url += '&full=true';
-		const res = await this.post<IHarvesterSyncResult>(url, null);
-		return res.result;
-	}
-
-	async deleteHarvester(name: string): Promise<boolean> {
-		const res = await this.post<boolean>(`/admin/delete-harvester/?name=${name}`, null);
-		return res.ok;
-	}
-
-	async getHarvester(name: string): Promise<IAddHarvesterRequest> {
-		const res = await this.get<IAddHarvesterRequest>(`/admin/get-harvester/?name=${name}`, null);
 		if (!res.ok) return null;
 		return res.result;
 	}
