@@ -67,7 +67,7 @@ export default class LeftMenu extends Vue {
 
 		if (this.userCanManageOrganization()) {
 			menu.push({
-				label: 'Manage Node',
+				label: 'Manage Organization',
 				route: ROUTES.MANAGE_NODE.ROOT,
 			});
 		}
