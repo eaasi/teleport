@@ -64,11 +64,6 @@ export default [
 		component: RunningTaskManagement
 	},
 	{
-		path: ROUTES.MANAGE_NODE.METADATA_SYNC,
-		name: 'Metadata Sync',
-		component: MetadataSyncAdmin
-	},
-	{
 		path: ROUTES.MANAGE_NODE.TROUBLESHOOTING,
 		name: 'Troubleshooting',
 		component: TroubleshootingSection

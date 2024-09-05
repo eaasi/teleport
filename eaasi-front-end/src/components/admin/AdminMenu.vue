@@ -85,11 +85,6 @@ export default class AdminMenu extends Vue {
 					icon: 'server',
 					label: 'Emulators',
 					route: ROUTES.MANAGE_NODE.EMULATORS
-				},
-				{
-					icon: 'sync-alt',
-					label: 'Endpoints / Metadata Sync',
-					route: ROUTES.MANAGE_NODE.METADATA_SYNC
 				}
 			);
 		}

@@ -5,7 +5,6 @@ import EaasiTask from '@/models/task/EaasiTask';
 import _svc from '@/services/AdminService';
 import _taskSvc from '@/services/TaskService';
 import { IApplicationLog } from '@/types/ApplicationLog';
-import { IAddHarvesterRequest, IHarvesterSyncResult } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { ITaskState } from '@/types/Task';
 import { IEaasiRole, IEmulator, IEmulatorEntry, IKeyboardSettings } from 'eaasi-admin';
@@ -29,7 +28,6 @@ export class AdminState {
 	activeEmulator: IEmulator = null;
 	activeUser: User = null;
 	emulators: IEmulator[] = null;
-	harvesters: string[] = [];
 	usersResult: IEaasiSearchResponse<User> = null;
 	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
@@ -112,44 +110,6 @@ const actions = {
 		commit('SET_ROLES', roles);
 	},
 
-	/* OAI-PMH Harvesters
-	============================================*/
-
-	async getHarvesters({ commit }: Store<AdminState>): Promise<string[]> {
-		const harvesters = await _svc.getHarvesters();
-		if (!harvesters) return null;
-		commit('SET_HARVESTERS', harvesters);
-		return harvesters;
-	},
-
-	async addHarvester({ dispatch }: Store<AdminState>, req: IAddHarvesterRequest): Promise<boolean> {
-		const success = await _svc.addHarvester(req);
-		if (!success) return false;
-		await dispatch('getHarvesters');
-		return true;
-	},
-
-	async updateHarvester({ dispatch }: Store<AdminState>, {name, req}: {name: string, req: IAddHarvesterRequest}): Promise<boolean> {
-		const success = await _svc.updateHarvester(name, req);
-		if (!success) return false;
-		await dispatch('getHarvesters');
-		return true;
-	},
-
-	async syncHarvester(_, { name, full }: { name: string, full: boolean}): Promise<IHarvesterSyncResult> {
-		return await _svc.syncHarvester(name, full);
-	},
-
-	async deleteHarvester({ dispatch }: Store<AdminState>, name: string): Promise<boolean> {
-		const success = await _svc.deleteHarvester(name);
-		if (!success) return false;
-		await dispatch('getHarvesters');
-		return true;
-	},
-
-	async getHarvester({ dispatch }: Store<AdminState>, name: string): Promise<IAddHarvesterRequest> {
-		return _svc.getHarvester(name);
-	},
 
 	async resetPassword({ rootState }, {id, email}: {id: string, email: string}): Promise<string> {
 		return await _svc.resetUserPassword(id, email, rootState.group.id);
