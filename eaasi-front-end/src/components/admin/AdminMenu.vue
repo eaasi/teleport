@@ -56,7 +56,7 @@ export default class AdminMenu extends Vue {
 
 	get isViewable(): boolean {
 		if (!this.user) return false;
-		return this.permit.allowsManageNodeUsers();
+		return this.permit.allowsManageOrganizationUsers();
 	};
 
 	get isUserMenuViewable(): boolean {

@@ -74,7 +74,7 @@ export default class UserList extends Vue {
 	============================================*/
 	get isViewable(): boolean {
 		if (!this.currentUser) return false;
-		return this.permit.allowsManageNodeUsers();
+		return this.permit.allowsManageOrganizationUsers();
 	};
 
 	@Get('loggedInUser')
