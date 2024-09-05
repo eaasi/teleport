@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<options-box title="Content Object" icon="file">
-						Files or objects from a digital collection to be added to an environment for access. Content objects <b>cannot</b> be published to the EaaSI network.
+						Files or objects from a digital collection to be added to an environment for access.
 						<template slot="footer">
 							<ui-button
 								block
@@ -39,7 +39,7 @@
 
 				<div class="col-md-4 option-box-container">
 					<options-box title="Software Object" icon="file">
-						Media or files required to install or operate software within an emulation environment. Software objects <b>can</b> be published to the EaaSI network.
+						Media or files required to install or operate software within an emulation environment.
 						<template slot="footer">
 							<ui-button
 								block
@@ -174,6 +174,12 @@ export default class ImportSelect extends Vue {
 	.eb-wrapper {
 		flex: 0 0 31%;
 		margin-bottom: 3rem;
+	}
+
+	.options-box {
+		.ob-desc {
+			height: 7rem;
+		}
 	}
 }
 
