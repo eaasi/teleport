@@ -49,26 +49,6 @@
 		</slide-menu>
 
 		<!-- Modals -->
-		<!-- Save To My Node Modal -->
-		<confirm-modal
-			title="Save To My Node"
-			confirm-label="Save Environment"
-			@click:cancel="confirmAction = null"
-			@click:confirm="replicateEnvironment"
-			@close="confirmAction = null"
-			v-if="confirmAction === 'save'"
-		>
-			<alert type="info">
-				<span class="ers-rep-msg">
-					Saving to your node will copy all environment data and files to local storage.
-					Environments copied from the EaaSI Network cannot be easily deleted once saved.
-				</span>
-				<span class="ers-rep-msg">
-					Do you want to save this environment to your node?
-				</span>
-			</alert>
-		</confirm-modal>
-
 		<!-- Delete Resource Modal -->
 		<confirm-modal
 			title="Delete Resources"
@@ -352,15 +332,6 @@ export default class ResourceSlideMenu extends Vue {
 
 	toggleSlide() {
 		this.$emit('toggle');
-	}
-
-	async replicateEnvironment() {
-		this.confirmAction = null;
-		const env: IEaasiResource = this.resources[0];
-		if (!env) return;
-		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateEnvironment', env);
-		let task = new EaasiTask(result.taskList[0], `Save To My Node: ${env.title}`);
-		await this.$store.dispatch('task/addTaskToQueue', task);
 	}
 
 	async deleteSelectedResource() {
