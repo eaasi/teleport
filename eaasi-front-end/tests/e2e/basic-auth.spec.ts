@@ -19,9 +19,15 @@ test('Basic auth', async ({ page, browser }) => {
 	await test.step('should logout', async () => {
 		await page.locator('.hmd-user').click();
 		await page.getByText('Log Out').click();
-		const orderSent = page.locator('#kc-form');
-		await orderSent.waitFor();
-		const locator = page.locator('h2');
-		await expect(locator).toHaveText('Emulation-as-a-Service-Infrastructure');
+		const logout = page.getByRole('button', { name: 'Logout' });
+		if (await logout.isVisible()) {
+			// New logout flow with an additional confirmation...
+			await logout.click();
+		}
+		else {
+			await page.locator('#kc-form').waitFor();
+		}
+
+		await expect(page.locator('#password')).toBeVisible();
 	});
 });
