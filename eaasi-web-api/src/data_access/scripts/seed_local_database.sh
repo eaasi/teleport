@@ -9,7 +9,7 @@ function run_all_seeders {
 }
 
 function ping_local_psql {
-  is_db_ready=pg_isready --dbname=eaasi_dev --username=eaasi_dev --host=localhost --port=5432
+  is_db_ready=pg_isready --dbname=eaasi --username=webapi --host=localhost --port=5432
   if [[ $is_db_ready == *"accepting"* ]];
   then
     printf "Local PostgreSQL Database eaasi_dev is accepting connections.\n"
