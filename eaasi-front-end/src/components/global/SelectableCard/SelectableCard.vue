@@ -39,7 +39,6 @@
 
 			<div v-if="footer && !isLoading" class="panel-footer">
 				<slot name="tagsLeft"></slot>
-				<slot name="tagsRight"></slot>
 			</div>
 		</div>
 	</div>
