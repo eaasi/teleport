@@ -12,7 +12,7 @@ export default class TaskManager extends Vue {
 
     /* Methods
 	============================================*/
-    timer: number = null;
+    timer: NodeJS.Timeout = null;
 
     /* Methods
 	============================================*/

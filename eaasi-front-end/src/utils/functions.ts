@@ -66,7 +66,7 @@ export function sortByQuery(val1: string, val2: string, query: string) {
 /============================================================*/
 
 export function debounce(func: Function, wait: number, immediate: boolean, ...args: any[]) {
-	let timeout: number | undefined;
+	let timeout: NodeJS.Timeout | undefined;
 	return function() {
 		const context = this;
 		const later = function() {
