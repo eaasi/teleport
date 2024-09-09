@@ -16,6 +16,7 @@
 		"noImplicitReturns": true,
 		"types": ["webpack-env", "jest"],
 		"lib": ["esnext", "scripthost"],
+		"useDefineForClassFields": false,
 		"paths": {
 			"@/*": [
 				"./src/*"
