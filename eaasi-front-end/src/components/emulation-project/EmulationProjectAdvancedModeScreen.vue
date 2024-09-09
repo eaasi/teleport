@@ -259,10 +259,12 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 
 .disk-select-card {
 	border: solid 2px lighten($dark-neutral, 80%);
-	padding: 2rem;
 	margin-bottom: 1rem;
+	padding: 2rem;
 
-	.disk-label, .selecting-action-button, .emu-project-content-drop-zone {
+	.disk-label,
+	.selecting-action-button,
+	.emu-project-content-drop-zone {
 		margin-bottom: 1rem;
 	}
 
@@ -272,9 +274,9 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 }
 
 .disk-select-note {
-	display: flex;
 	align-items: center;
 	border-left: solid 2px $dark-neutral;
+	display: flex;
 	padding-left: 1rem;
 }
 

@@ -279,8 +279,8 @@ export default class EmulationProjectScreen extends Vue {
 	.emu-project-actions {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
 		gap: 1.8rem;
+		justify-content: center;
 		margin-left: 3rem;
 	}
 

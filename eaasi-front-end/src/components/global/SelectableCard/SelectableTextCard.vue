@@ -69,10 +69,10 @@ hr {
 .resource-object-container {
 	background-color: #FFFFFF;
 	border: 2px solid lighten($light-blue, 70%);
+	cursor: pointer;
 	margin-bottom: 1.5rem;
 	min-height: 7rem;
 	position: relative;
-	cursor: pointer;
 
 	&.selected {
 		background-color: lighten($light-blue, 90%);
@@ -92,10 +92,10 @@ hr {
 }
 
 .panel-left {
-	background-color: lighten($light-blue, 70%);
-	padding: 0.5rem;
-	display: flex;
 	align-items: center;
+	background-color: lighten($light-blue, 70%);
+	display: flex;
+	padding: 0.5rem;
 
 	&.selected {
 		background-color: lighten($light-blue, 50%);

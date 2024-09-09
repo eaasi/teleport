@@ -27,8 +27,8 @@ export default class TipsForSuccess extends Vue {}
 <style lang="scss">
 
 .tips-container {
-	color: darken($dark-neutral, 20%);
 	border-left: 3px solid darken($dark-neutral, 20%);
+	color: darken($dark-neutral, 20%);
 	padding: 0.2rem 0 0.2rem 0.7rem;
 
 	.tips-header {
