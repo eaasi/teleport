@@ -66,7 +66,7 @@ export default class UserManagement extends AdminScreen {
 	permit: PermissionResolver;
 
 	get isViewable(): boolean {
-		return this.permit.allowsManageNodeUsers();
+		return this.permit.allowsManageOrganizationUsers();
 	};
 
 	/* Methods

@@ -37,9 +37,9 @@ export default class LeftMenu extends Vue {
 	@Get('permissions')
 	permit: PermissionResolver;
 
-	userCanManageNode() {
+	userCanManageOrganization() {
 		if (!this.user) return false;
-		return this.permit.allowsViewManageNodePage();
+		return this.permit.allowsViewManageOrganizationPage();
 	}
 
 	get menuItems() : IMenuItem[] {
@@ -70,10 +70,10 @@ export default class LeftMenu extends Vue {
 				route: ROUTES.IMPORT_RESOURCE,
 			}];
 
-		if (this.userCanManageNode()) {
+		if (this.userCanManageOrganization()) {
 			menu.push({
 				icon: 'manage',
-				label: 'Manage Node',
+				label: 'Manage Organization',
 				route: ROUTES.MANAGE_NODE.ROOT,
 			});
 		}
