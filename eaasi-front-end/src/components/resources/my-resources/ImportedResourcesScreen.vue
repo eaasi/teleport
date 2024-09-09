@@ -106,7 +106,7 @@ import ResourceList from '@/components/resources/ResourceList.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { ROUTES } from '@/router/routes.const';

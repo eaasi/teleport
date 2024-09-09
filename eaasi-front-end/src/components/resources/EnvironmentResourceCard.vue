@@ -37,7 +37,7 @@ import {
 	IEaasiResourceSummary,
 	IEnvironment,
 	ISavingEnvironmentState
-} from '@/types/Resource.d.ts';
+} from '@/types/Resource';
 import EaasiTask from '@/models/task/EaasiTask';
 import {ROUTES} from '@/router/routes.const';
 

@@ -104,7 +104,7 @@ import { Component, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import User from '@/models/admin/User';
 import ResourceList from '@/components/resources/ResourceList.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';

@@ -23,7 +23,7 @@
 import Vue from 'vue';
 import { Sync, Get } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { IResourceSearchFacet } from '@/types/Search';
 import { jsonCopy } from '@/utils/functions';
 
 @Component({

@@ -37,7 +37,7 @@ export default class HoverMenu extends Vue {
 	============================================*/
 
 	menuIsVisible: boolean = false;
-	menuTimer: number;
+	menuTimer: NodeJS.Timeout;
 
 	/* Methods
 	============================================*/

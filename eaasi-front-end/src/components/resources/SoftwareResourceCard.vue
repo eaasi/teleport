@@ -24,7 +24,7 @@
 import {ITag} from '@/types/Tag';
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary, ISoftwarePackage, IEaasiResource } from '@/types/Resource';
 import { IBookmark } from '@/types/Bookmark';
 import { Get } from 'vuex-pathify';
 import { ROUTES } from '@/router/routes.const';
