@@ -16,7 +16,6 @@ import { setUserToken } from '@/utils/auth';
 
 export class GlobalState {
 	appVersion: string = config.APP_VERSION;
-	buildVersion: string = config.BUILD_VERSION;
 	adminMenuOpen: boolean = false;
 	emulatorIsRunning: boolean = false;
 	hideAppHeader: boolean = false;
