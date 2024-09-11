@@ -6,6 +6,7 @@ export const ROUTES: IRoutes = {
         USERS: '/manage-node/users',
         EMULATORS: '/manage-node/emulators',
         RUNNING_TASKS: '/manage-node/running-tasks',
+		METADATA_SYNC: '/manage-node/metadata-sync',
         NODE_PREFERENCES: '/manage-node/node-preferences',
         TROUBLESHOOTING: '/manage-node/troubleshooting',
     },
@@ -45,6 +46,7 @@ interface IManageNodeRoutes {
     USERS: string;
     EMULATORS: string;
     RUNNING_TASKS: string;
+	METADATA_SYNC: string;
     NODE_PREFERENCES: string;
     TROUBLESHOOTING: string;
 }

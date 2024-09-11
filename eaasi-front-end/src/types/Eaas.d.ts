@@ -120,7 +120,6 @@ export interface IbwflaController {
  * Provided as a response from [POST] /emil/upload
  */
 export interface IEmilUploadResponse {
-	uploadedItemList: any[];
 	status: string;
 	uploads: string[];
 }
