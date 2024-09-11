@@ -1,8 +1,13 @@
-import { filterResourcesByType, getResourceId, getResourceArchiveId, removeResourcesByType } from '@/helpers/ResourceHelper';
+import {
+	filterResourcesByType,
+	getResourceArchiveId,
+	getResourceId,
+	removeResourcesByType
+} from '@/helpers/ResourceHelper';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import _projectService from '@/services/EmulationProjectService';
 import { IEmulationProject } from '@/types/Emulation';
-import {ICreateEnvironmentPayload, ICreateEnvironmentResponse} from '@/types/Import';
+import { ICreateEnvironmentPayload } from '@/types/Import';
 import { IEaasiResource, IEnvironment, ResourceType } from '@/types/Resource';
 import { IEaasiTaskSuccessor } from '@/types/Task';
 import { resourceTypes } from '@/utils/constants';
@@ -48,6 +53,7 @@ mutations.RESET = (state) => {
 	state.selectedResources = [];
 	state.selectedResourcesPerDrive = null;
 	state.projectResources = [];
+	state.selectedTemplateId = '';
 };
 
 mutations.REMOVE_RESOURCE_FROM_ENVIRONMENT = (state: EmulationProjectStore, resourceId: string) => {
@@ -102,7 +108,7 @@ const actions = {
 		const result = await _projectService.addResources(notInProject.map(r => ({
 			id: undefined,
 			emulationProjectId: state.project.id,
-			archiveId: getResourceArchiveId(r),
+			archiveId: getResourceArchiveId(r) || 'default',
 			resourceId: getResourceId(r),
 			resourceType: r.resourceType
 		})));
@@ -152,22 +158,56 @@ const actions = {
 		return await _projectService.addTaskSuccessor(payload);
 	},
 
-	async saveBaseEnvironment({ commit, state }): Promise<EmulationProjectEnvironment | null> {
+	async saveBaseEnvironmentFromEmulator({ commit, state }, payload): Promise<IEnvironment | null> {
+		if (!state.createEnvironmentPayload) {
+			return null;
+		}
+		const request = { ...state.createEnvironmentPayload, ...payload };
+		const response = await _importService.createEnvironment(request);
+		if (!response || !response.id) {
+			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${request.label} environment, please try again.`));
+			return null;
+		}
+		return await _resourceService.getEnvironment(response.id);
+	},
+
+	async saveBaseEnvironment({ commit, state }, payload): Promise<IEnvironment | null> {
 		if (!state.createEnvironmentPayload) {
 			return null;
 		}
 		if (state.environment) {
 			return state.environment;
 		}
-		const response = await _importService.createEnvironment(state.createEnvironmentPayload);
+		state.selectedResourcesPerDrive.forEach((resources, index) => {
+			if (!resources || resources.length === 0) {
+				return;
+			}
+			const resource = resources[0];
+			switch (resource.resourceType) {
+				case 'Software':
+				case 'Content':
+					state.createEnvironmentPayload.driveSettings[index].objectId = resource.id;
+					state.createEnvironmentPayload.driveSettings[index].objectArchive = resource.archiveId || 'default';
+					break;
+				case 'Image':
+					state.createEnvironmentPayload.driveSettings[index].imageId = resource.id;
+					state.createEnvironmentPayload.driveSettings[index].imageArchive = resource.archiveId || 'default';
+					break;
+				default:
+					break;
+			}
+		});
+		const request = { ...state.createEnvironmentPayload, ...payload };
+		const response = await _importService.createEnvironment(request);
 		if (!response || !response.id) {
-			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${state.createEnvironmentPayload.label} environment, please try again.`));
+			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${request.label} environment, please try again.`));
 			return null;
 		}
-		const baseEnv: IEnvironment = await _resourceService.getEnvironment(response.id);
-		const emulationProjectEnv = new EmulationProjectEnvironment(baseEnv);
-		commit('SET_ENVIRONMENT', emulationProjectEnv);
-		return emulationProjectEnv;
+		return await _resourceService.getEnvironment(response.id);
+		//const emulationProjectEnv = new EmulationProjectEnvironment(baseEnv);
+		//console.log(baseEnv, emulationProjectEnv);
+		//commit('SET_ENVIRONMENT', emulationProjectEnv);
+		//return emulationProjectEnv;
 	},
 
 };
@@ -187,8 +227,10 @@ const getters = {
 		return filterResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT) as IEnvironment[];
 	},
 	projectObjects(state) {
-		console.log('removeResourcesByType', resourceTypes);
-		//return removeResourcesByType(state.projectResources, resourceTypes.ENVIRONMENT);
+		return removeResourcesByType(state.projectResources, [resourceTypes.ENVIRONMENT, resourceTypes.IMAGE]);
+	},
+	projectImages(state) {
+		return filterResourcesByType(state.projectResources, resourceTypes.IMAGE);
 	},
 	selectedObjects(state: EmulationProjectStore): IEaasiResource[] {
 		return state.selectedResources.filter(r => r.resourceType !== resourceTypes.ENVIRONMENT);
@@ -196,6 +238,9 @@ const getters = {
 	isObjectEnvironment(state: EmulationProjectStore): boolean {
 		const selectedObjects = getters.selectedObjects(state);
 		return selectedObjects.length > 0 && selectedObjects.every(object => object.resourceType === resourceTypes.CONTENT);
+	},
+	canSaveProject(state: EmulationProjectStore): boolean {
+		return state.mode === EmulationProjectMode.Advanced && state.createEnvironmentPayload != null;
 	}
 };
 

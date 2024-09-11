@@ -58,6 +58,7 @@
 	import EnvironmentMenu from './EnvironmentMenu.vue';
 	import { IEaasiUser } from 'eaasi-admin';
 	import {ICreateEnvironmentPayload} from '@/types/Import';
+	import { EPHEMERAL_ENVIRONMENT_ID } from '@/helpers/AccessInterfaceHelper';
 
 	@Component({
 		name: 'AccessInterfaceScreen',
@@ -225,7 +226,7 @@
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
 			next(async vm => {
 				const { envId } = to.params;
-				if (envId !== 'undefined') {
+				if (envId !== 'undefined' && envId !== EPHEMERAL_ENVIRONMENT_ID) {
 					await vm.getEnvironment(envId);
 				}
 				vm.hideAppHeader = true;
@@ -244,6 +245,7 @@
 		async destroyed() {
 			// Clear constructed / imported environment state
 			await this.$store.dispatch('import/clearEnvironment');
+			this.$store.commit('resource/RESET_ACTIVE_ENVIRONMENT_CONFIG');
 		}
 	}
 
