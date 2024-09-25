@@ -13,6 +13,24 @@
 					:value="value"
 					:id="id"
 				/>
+				<span
+					class="cursor-pointer"
+					v-show="!showSearchChevron"
+					@click="$emit('clear')"
+					style="margin-right: 0.5rem;"
+				>
+					<span class="fas fa-times"></span>
+				</span>
+				<span
+					class="eaasi-field-icon"
+					@click="$emit('search')"
+				>
+					<span
+						v-show="showSearchChevron"
+						class="fas fa-chevron-circle-right"
+					>
+					</span>
+				</span>
 			</div>
 		</div>
 	</form-field-wrapper>
@@ -87,9 +105,9 @@ export default class SearchBar extends BaseFormField {
 	}
 
 	.eaasi-field-icon {
-		color: darken($dark-blue, 40%);
+		color: rgba(0, 0, 0, 0.6);
 		cursor: pointer;
-		font-size: 21px;
+		font-size: 20px;
 	}
 
 	.fa-search {
