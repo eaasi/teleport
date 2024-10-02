@@ -118,7 +118,7 @@ export default class HeaderMenuDropdown extends Vue {
 	}
 
 	.down-arrow {
-		color: darken($teal, 20%);
+		color: $dark-light-grey;
 		font-size: 1.2rem;
 		margin-left: 5px;
 	}
@@ -136,15 +136,14 @@ export default class HeaderMenuDropdown extends Vue {
 	top: 64px;
 
 	.hmd-list-item {
-		border: 1px solid $light-neutral;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+		border-bottom: 1px solid $dark-light-grey;
 		min-width: 15rem;
 		padding: 1.6rem;
 		z-index: 2;
 	}
 
 	.hmd-list-item:hover {
-		background-color: lighten($light-blue, 90%);
+		background-color: $medium-grey;
 	}
 }
 

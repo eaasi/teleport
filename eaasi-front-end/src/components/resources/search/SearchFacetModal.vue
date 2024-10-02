@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<div class="clear-btn-wrapper">
-			<ui-button @click="$emit('deselect', facet)" color-preset="light-blue">
+			<ui-button @click="$emit('deselect', facet)" color-preset="white">
 				Clear ALL Filters
 			</ui-button>
 		</div>
@@ -35,7 +35,7 @@
 		<template #footer>
 			<div class="footer-btns-wrapper">
 				<div class="footer-btns flex-row pull-right">
-					<ui-button @click="$emit('close')" color-preset="light-blue">
+					<ui-button @click="$emit('close')" color-preset="white">
 						Cancel
 					</ui-button>
 					<ui-button @click="$emit('apply')">
@@ -113,12 +113,12 @@ export default class SearchFacetModal extends Vue {
 
 <style lang='scss' scoped>
 .filter-wrapper {
-	background-color: lighten($light-neutral, 60%);
-	border-top: 4px solid darken($light-neutral, 10%);
+	background-color: lighten($light-green, 90%);
+	border-top: 4px solid $dark-green;
 	justify-content: space-evenly;
 	padding: 1rem 0;
 	.filter-item {
-		color: $dark-blue;
+		color: $green;
 		cursor: pointer;
 		font-size: 16px;
 		padding: 0.5rem;
@@ -143,8 +143,7 @@ export default class SearchFacetModal extends Vue {
 	}
 }
 .clear-btn-wrapper {
-	border-top: 1px solid darken($light-neutral, 10%);
-	padding: 1rem;
+	padding: 1rem 0;
 }
 .footer-btns-wrapper {
 	border-top: 2px solid darken($light-neutral, 10%);

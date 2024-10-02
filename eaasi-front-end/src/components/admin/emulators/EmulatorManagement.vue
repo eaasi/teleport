@@ -110,7 +110,7 @@
 
 <style lang="scss">
 	.emulator-search {
-		background-color: lighten($light-neutral, 60%);
+		background-color: $grey;
 		padding-bottom: 2.5rem;
 
 		h1 {

@@ -85,9 +85,10 @@ export default class FileDropzone extends Vue {
 
 <style lang="scss">
 .file-dropzone {
-	border: dashed 2px lighten($light-blue, 60%);
+	border: dashed 2px $green;
 	min-height: 16rem;
 	min-width: 20rem;
+	background-color: $light-grey;
 	transition: background-color 0.3s;
 
 	&.active {
@@ -106,7 +107,7 @@ export default class FileDropzone extends Vue {
 		font-size: 8rem;
 	}
 	div {
-		color: $dark-blue;
+		color:black;
 		font-weight: bold;
 		left: 0;
 		right: 0;

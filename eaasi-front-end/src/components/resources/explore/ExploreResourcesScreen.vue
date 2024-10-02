@@ -343,10 +343,6 @@ export default class ExploreResourcesScreen extends Vue {
 		max-width: 100vw;
 		min-width: 0;
 
-		.resource-facets-wrapper {
-			background-color: lighten($light-neutral, 80%);
-		}
-
 		.resource-results {
 			margin-right: 1.5rem;
 			min-height: 80vh;
@@ -366,7 +362,6 @@ export default class ExploreResourcesScreen extends Vue {
 			min-width: 850px;
 
 			.pagination-left {
-				background-color: lighten($light-neutral, 80%);
 				flex: 0 0 250px;
 				padding: 1.5rem;
 			}
@@ -379,17 +374,17 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.deselect-all-wrapper {
-		background-color: lighten($light-blue, 90%);
+		background-color: $medium-grey;
 		padding: 1.5rem;
 
 		.deselect-link {
-			color: $dark-blue;
+			color: $dark-light-grey;
 			cursor: pointer;
 			font-size: 1.4rem;
 			font-weight: bold;
 		}
 		.icon-deselect {
-			background-color: $dark-blue;
+			background-color: $dark-light-grey;
 			border-radius: 0.6rem;
 			display: inline-block;
 			height: 20px;

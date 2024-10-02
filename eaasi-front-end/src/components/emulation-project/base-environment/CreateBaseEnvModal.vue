@@ -60,7 +60,7 @@
 		</div>
 		<template #buttons>
 			<div class="justify-end buttons-right">
-				<ui-button @click="$emit('close')" color-preset="light-blue">Cancel</ui-button>
+				<ui-button @click="$emit('close')" color-preset="white">Cancel</ui-button>
 			</div>
 			<div class="justify-end buttons-right">
 				<ui-button :disabled="!canSave" @click="$emit('save')">Next</ui-button>

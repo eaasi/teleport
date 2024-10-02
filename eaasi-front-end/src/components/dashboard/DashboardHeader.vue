@@ -10,7 +10,7 @@
 				<div class="dh-welcome-container">
 					<p class="dh-welcome-subheading">
 						Emulation-as-a-Service Infrastructure = EaaSI
-						<br>
+						<br />
 						Led by the Digital Preservation Services team at Yale University Library,
 						and with support from OpenSLX, DataCurrent, PortalMedia, Educopia, and
 						the Software Preservation Network, the EaaSI program of work is focused on

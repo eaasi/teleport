@@ -28,7 +28,7 @@
 			<ui-button
 				v-if="!readonly"
 				size="sm"
-				color-preset="light-blue"
+				color-preset="white"
 				icon="plus"
 				@click="add"
 			>
@@ -40,7 +40,7 @@
 			<ui-button
 				v-if="!readonly"
 				size="sm"
-				color-preset="light-blue"
+				color-preset="white"
 				icon="plus"
 				@click="add"
 			>

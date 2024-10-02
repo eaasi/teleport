@@ -16,7 +16,7 @@
 					</ui-button>
 					<ui-button
 						size="sm"
-						color-preset="light-blue"
+						color-preset="white"
 						icon="times"
 						@click="remove(env)"
 					>
@@ -33,7 +33,7 @@
 		<div class="flex flex-row btns-horizontal" style="margin-top: 1rem;">
 			<ui-button
 				size="sm"
-				color-preset="light-blue"
+				color-preset="white"
 				icon="plus"
 				@click="showEnvPicker = true"
 			>
@@ -41,7 +41,7 @@
 			</ui-button>
 			<ui-button
 				size="sm"
-				color-preset="light-blue"
+				color-preset="white"
 				icon="cloud-download"
 				@click="confirmAction = 'detect'"
 			>

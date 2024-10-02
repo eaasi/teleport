@@ -8,7 +8,7 @@
 				v-model="title"
 			/>
 			<ui-button
-				color-preset="light-blue"
+				color-preset="white"
 				icon="chevron-left"
 				@click="step = 1"
 			>

@@ -37,19 +37,23 @@ export default class ResourceAction extends Vue {
 
 <style lang="scss">
 .resource-action {
-	background-color: lighten($light-neutral, 80%);
-	border-bottom: solid 2px darken($light-neutral, 10%);
-	color: darken($dark-neutral, 80%);
+	background-color: $medium-grey;
+	border-bottom: solid 2px $medium-grey;
+	color: $black;
 	cursor: pointer;
 	padding: 1rem 0.5rem;
 	transition: background-color 0.2s;
 
 	&:hover {
-		background-color: lighten($light-neutral, 20%);
+		background-color: $green;
+
+		.ra-icon {
+			color: $black;
+		}
 	}
 
 	p {
-		color: $grey;
+		color: $dark-grey;
 		font-size: 1.4rem;
 		margin-top: 0.3rem;
 	}
@@ -57,9 +61,10 @@ export default class ResourceAction extends Vue {
 
 .disabled {
 	cursor: not-allowed;
+	opacity: 0.5;
 
 	&:hover {
-		background-color: lighten($light-neutral, 80%);
+		background-color: $light-grey;
 	}
 
 	.ra-icon,

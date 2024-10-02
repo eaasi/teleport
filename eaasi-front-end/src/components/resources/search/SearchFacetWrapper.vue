@@ -48,7 +48,7 @@
 <style lang="scss">
 	.search-facet-wrapper {
 		background-color: #FFFFFF;
-		border: solid 1px lighten($light-neutral, 20%);
+		border: solid 2px black;
 		margin-bottom: 2rem;
 	}
 
@@ -75,15 +75,15 @@
 	}
 
 	.sfw-collapse {
-		background-color: lighten($light-blue, 80%);
-		border-radius: 50%;
-		color: $light-blue;
+		background-color: $medium-grey;
+		border-radius: 25%;
+		color: $dark-light-grey;
 		height: 30px;
 		width: 30px;
 	}
 
 	.sfw-header.collapsed {
-		background-color: lighten($light-blue, 80%);
+		background-color: $medium-grey;
 	}
 
 	.chevdark {

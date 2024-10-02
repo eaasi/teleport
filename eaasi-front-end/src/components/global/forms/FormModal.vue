@@ -14,11 +14,11 @@
 		<div class="eaasi-form-modal-buttons" slot="footer">
 			<div class="flex-row justify-between">
 				<slot name="buttonsLeft">
-					<ui-button v-if="hasRemoveButton" @click="$emit('remove')" color-preset="light-blue">{{ removeText }}</ui-button>
+					<ui-button v-if="hasRemoveButton" @click="$emit('remove')" color-preset="white">{{ removeText }}</ui-button>
 				</slot>
 				<slot name="buttonsRight">
 					<div class="justify-end buttons-right">
-						<ui-button @click="$emit('close')" color-preset="light-blue">{{ cancelText }}</ui-button>
+						<ui-button @click="$emit('close')" color-preset="white">{{ cancelText }}</ui-button>
 						<ui-button @click="$refs._form.submit()">{{ saveText }}</ui-button>
 					</div>
 				</slot>
@@ -110,8 +110,8 @@ export default class FormModal extends Vue {
 	}
 
 	.eaasi-form-modal-subtitle {
-		background-color: lighten($light-neutral, 60%);
-		border-top: solid 4px darken($light-neutral, 10%);
+		background-color: $light-grey;
+		border-top: solid 3px $dark-grey;
 
 		& > span {
 			display: block;
@@ -120,8 +120,7 @@ export default class FormModal extends Vue {
 	}
 
 	.eaasi-form-modal-buttons {
-		background-color: lighten($light-neutral, 80%);
-		border-top: solid 2px darken($light-neutral, 10%);
+		background-color: $grey;
 		padding: 3rem 4rem;
 
 		.buttons-right button {

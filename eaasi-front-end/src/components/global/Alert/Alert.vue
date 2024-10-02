@@ -71,16 +71,16 @@ export default class Alert extends Vue {
 	 */
 	get color() {
 		switch(this.type) {
-		case 'success':
+		/*case 'success':
 			return 'green';
 		case 'error':
 			return 'red';
 		case 'info':
 			return 'blue';
 		case 'warning':
-			return 'orange';
+			return 'orange';*/
 		default:
-			return 'neutral';
+			return '';
 		}
 	}
 

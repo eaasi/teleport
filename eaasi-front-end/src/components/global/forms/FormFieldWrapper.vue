@@ -63,7 +63,7 @@ export default class FormFieldWrapper extends Vue {
 		color: #A8A29E;
 		display: inline-block;
 		font-size: 1.2rem;
-		margin-bottom: 3px;
+		margin-bottom: 10px;
 		margin-right: 0.5rem;
 		text-transform: uppercase;
 	}
@@ -79,9 +79,11 @@ export default class FormFieldWrapper extends Vue {
 }
 
 .eaasi-input {
-	background-color: lighten($light-blue, 90%);
+	background-color: $light-green-background;
+	padding: 10px;
 	overflow: visible;
-	padding: 0.6rem 0.2rem;
+	border-radius: 15px;
+	color: black;
 
 	input,
 	select,
@@ -95,12 +97,13 @@ export default class FormFieldWrapper extends Vue {
 		width: 100%;
 
 		&::placeholder {
-			color: #AAAAAA;
+			color: $dark-light-grey;
 		}
 	}
 
 	input {
-		border-bottom: 1px solid $green;
+		padding-bottom: 5px;
+		border-bottom: 2px solid $green;
 	}
 
 	&.readonly {
@@ -109,7 +112,7 @@ export default class FormFieldWrapper extends Vue {
 		input,
 		select,
 		textarea {
-			color: $dark-blue;
+			color: black;
 		}
 	}
 

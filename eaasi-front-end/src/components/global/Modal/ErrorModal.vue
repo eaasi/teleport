@@ -47,7 +47,7 @@
 				</div>
 				<ui-button
 					@click="copyToClipboard"
-					color-preset="light-blue"
+					color-preset="white"
 					class="btn-info-modal-close"
 					stlye="float:left;"
 				>
@@ -68,7 +68,7 @@
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
 						<ui-button
-							color-preset="light-blue"
+							color-preset="white"
 							class="btn-error-modal"
 							@click="downloadFrontendLogs"
 						>
@@ -76,7 +76,7 @@
 						</ui-button>
 						<a :href="backendLogsUrl">
 							<ui-button
-								color-preset="light-blue"
+								color-preset="white"
 								class="btn-error-modal"
 							>
 								Download Back-End Logs
@@ -84,7 +84,7 @@
 						</a>
 						<ui-button
 							@click="closeModal"
-							color-preset="light-blue"
+							color-preset="white"
 							class="btn-error-modal"
 						>
 							Close

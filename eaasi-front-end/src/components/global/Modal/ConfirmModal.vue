@@ -10,7 +10,7 @@
 			<div class="flex-row justify-end">
 				<slot name="buttons">
 					<div class="justify-end buttons-right">
-						<ui-button @click="cancel" color-preset="light-blue" class="btn-modal-cancel">
+						<ui-button @click="cancel" color-preset="white" class="btn-modal-cancel">
 							{{ cancelLabel }}
 						</ui-button>
 						<ui-button @click="$emit('click:confirm')" class="btn-modal-confirm">
@@ -79,7 +79,7 @@ export default class ConfirmModal extends Vue {
 
 <style lang="scss">
 	.eaasi-confirm-modal-title {
-		border-bottom: solid 4px darken($light-neutral, 10%);
+		border-bottom: solid 4px grey;
 		padding: 2rem 0 1rem;
 
 		h2 {
@@ -93,8 +93,7 @@ export default class ConfirmModal extends Vue {
 	}
 
 	.eaasi-confirm-modal-buttons {
-		background-color: lighten($light-neutral, 80%);
-		border-top: solid 2px darken($light-neutral, 10%);
+		background-color: $grey;
 		padding: 3rem 4rem;
 
 		.buttons-right button {

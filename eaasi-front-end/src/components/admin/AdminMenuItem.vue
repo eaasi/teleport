@@ -48,20 +48,24 @@ a.admin-menu-item {
 	user-select: none;
 
 	p {
-		color: #FFFFFF;
+		color: $dark-light-grey;
 		font-size: 1.5rem;
 		padding: 1.2rem 0;
 		transition: color 0.1s;
 
 		&:hover {
-			color: lighten($teal, 70%);
+			color: black;
 		}
 	}
 
 	span.fas {
-		color: $teal;
+		color: $dark-light-grey;
 		font-size: 1.4rem;
 		margin-right: 8px;
+
+		&:hover {
+			color: black;
+		}
 	}
 }
 </style>

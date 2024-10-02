@@ -44,14 +44,14 @@
 			<div class="flex-row justify-start mb-lg if-file-buttons" v-if="files && files.length && !isImageImport">
 				<ui-button
 					icon="check"
-					color-preset="light-blue"
+					color-preset="white"
 					@click="selectAllFiles"
 				>
 					Select All
 				</ui-button>
 				<ui-button
 					icon="times"
-					color-preset="light-blue"
+					color-preset="white"
 					@click="selectNoFiles"
 					:disabled="!selectedFiles.length"
 				>
@@ -59,7 +59,7 @@
 				</ui-button>
 				<ui-button
 					icon="trash"
-					color-preset="light-blue"
+					color-preset="white"
 					@click="removeSelectedFiles"
 					class="if-trash-file"
 					:disabled="!selectedFiles.length"

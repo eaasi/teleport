@@ -55,7 +55,7 @@
 				<div class="btn-wrapper">
 					<ui-button
 						@click.prevent="showDeleteModal"
-						color-preset="light-blue"
+						color-preset="white"
 						:disabled="user.id === loggedInUser.id"
 					>
 						Delete User
@@ -63,7 +63,7 @@
 					<ui-button
 						v-if="showResetPassword"
 						@click.prevent="isResetPasswordModalVisible = true"
-						color-preset="light-blue"
+						color-preset="white"
 						style="margin-left: 2rem;"
 						:disabled="user.id === loggedInUser.id"
 					>

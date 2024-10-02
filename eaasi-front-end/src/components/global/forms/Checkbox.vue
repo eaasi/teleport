@@ -98,7 +98,7 @@ $checkboxSize: 18px;
 
 	.checkmark {
 		background-color: #ffffff;
-		border: 2px solid $light-blue;
+		border: 2px solid $medium-grey;
 		border-radius: 0.5em;
 		height: $checkboxSize;
 		left: 0;
@@ -106,10 +106,10 @@ $checkboxSize: 18px;
 		top: 0;
 		width: $checkboxSize;
 		&.checked {
-			border: 2px solid $dark-blue;
+			border: 2px solid transparent;
 		}
 		&.indeterminate::after {
-			background-color: $light-blue;
+			background-color: $dark-grey;
 			border-radius: 2px;
 			display: block;
 			height: 3px;
@@ -121,7 +121,7 @@ $checkboxSize: 18px;
 	}
 
 	label input:checked ~ .checkmark {
-		background-color: $dark-blue;
+		background-color: $dark-grey;
 		&.disabled {
 			opacity: 0.4;
 		}
