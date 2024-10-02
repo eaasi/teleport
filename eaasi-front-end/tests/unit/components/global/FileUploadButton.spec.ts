@@ -85,7 +85,7 @@ describe('FileUploadButton.vue', () => {
 				UiButton
 			}
 		});
-		expect(wrapper.find('button').classes()).toContain('light-blue');
+		expect(wrapper.find('button').classes()).toContain('default');
 	});
 
 	it('Sets class to white if secondary passed as prop is false', () => {

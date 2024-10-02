@@ -6,6 +6,6 @@ enableAutoDestroy(afterEach);
 describe('Loader.vue', () => {
 	it('It renders logo image as loader', () => {
 		const wrapper = shallowMount(Loader, { });
-		expect(wrapper.find('img').attributes().src).toContain('header-logo.png');
+		expect(wrapper.find('img').attributes().src).toContain('@/assets/eaasi_logos/eaasi-logo-transparent-background.png');
 	});
 });
