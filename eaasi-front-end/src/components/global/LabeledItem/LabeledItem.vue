@@ -30,7 +30,7 @@ export default class LabeledItem extends Vue {
 		color: $dark-neutral;
 
 		.li-label {
-			color: lighten($dark-neutral, 20%);
+			color: lighten($grey, 20%);
 			font-size: 1.2rem;
 			margin-bottom: 0.4rem;
 			margin-top: 0.5rem;
@@ -38,7 +38,7 @@ export default class LabeledItem extends Vue {
 		}
 
 		.li-value {
-			border-bottom: solid 1px lighten($dark-neutral, 60%);
+			border-bottom: solid 1px lighten($dark-light-grey, 60%);
 			font-size: 1.6rem;
 			margin: 0.4rem 0 1rem;
 			padding-bottom: 1rem;

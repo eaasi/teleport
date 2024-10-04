@@ -12,12 +12,12 @@
 						</span>
 						<span v-if="!readonly" class="icon-wrapper flex-row">
 							<span
-								class="fas fa-edit dark-blue"
+								class="fas fa-edit green"
 								style="margin-right: 0.5rem;"
 								@click="edit(drive)"
 							></span>
 							<span
-								class="fas fa-times red"
+								class="fas fa-times black"
 								@click="remove(drive)"
 							>
 							</span>
@@ -143,11 +143,12 @@ export default class ConfiguredDrives extends Vue {
 		display: block;
 		font-size: 2rem;
 	}
-	.dark-blue {
-		color: $dark-blue;
+	.green {
+		color: $dark-green;
 	}
-	.red {
-		color: $red;
+
+	.black {
+		color: black;
 	}
 
 	.icon-wrapper {

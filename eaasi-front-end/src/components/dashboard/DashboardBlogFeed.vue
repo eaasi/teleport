@@ -53,6 +53,7 @@ export default class DashboardBlogFeed extends Vue {
 			font-size: 2.2rem;
 			padding: 2.4rem 02.4rem;
 			width: 100%;
+			font-weight: 700;
 
 			.bf-description {
 				font-size: 1.8rem;

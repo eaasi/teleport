@@ -144,7 +144,7 @@ export default class ResourceDetailsRevisionList extends Vue {
 
 	.edrl-details-heading {
 		border-radius: 0.5rem;
-		color: $dark-blue;
+		color: $dark-green;
 		cursor: pointer;
 		font-weight: bold;
 		padding: 0.8rem 1.4rem;
@@ -156,7 +156,7 @@ export default class ResourceDetailsRevisionList extends Vue {
 		&.disabled {
 			background: transparent;
 			color: #808080;
-			cursor: default;
+			cursor: not-allowed;
 		}
 	}
 }

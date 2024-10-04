@@ -37,10 +37,6 @@ export default class RunningTaskManagement extends AdminScreen {}
 		font-weight: 300;
 		margin-bottom: 0;
 		padding: 3rem 3rem 1rem;
-
-		h1 {
-			font-size: 1.8rem;
-		}
 	}
 
 	.running-task-list {

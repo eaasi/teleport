@@ -98,7 +98,7 @@ export default class AppHeader extends Vue {
 	z-index: 10;
 
 	.header-h {
-		font-weight: 600;
+		font-weight: 700;
 		font-size: large;
 		color: $black;
 		border-right: 2px solid $green;

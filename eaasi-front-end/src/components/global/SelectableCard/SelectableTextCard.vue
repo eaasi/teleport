@@ -4,7 +4,7 @@
 			<checkbox :value="value" />
 		</div>
 		<div class="selectable-text-card-content">
-			<h1>{{ label }}</h1>
+			<h2>{{ label }}</h2>
 			<slot></slot>
 		</div>
 	</div>

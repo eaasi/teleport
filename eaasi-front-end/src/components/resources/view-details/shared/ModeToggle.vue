@@ -112,8 +112,7 @@ export default class ModeToggle extends Vue {
 <style lang='scss' scoped>
 .mtb-container {
 	align-items: center;
-	background-color: lighten($light-neutral, 40%);
-	border-bottom: 2px solid darken($light-neutral, 20%);
+	background-color: $medium-grey;
 	display: flex;
 	height: 64px;
 	padding-left: 2.4rem;
@@ -123,7 +122,7 @@ export default class ModeToggle extends Vue {
 		margin-left: 1.2rem;
 	}
 	.read-only-message {
-		border: 2px solid lighten($dark-neutral, 40%);
+		border: 2px solid $dark-light-grey;
 		border-radius: 2rem;
 		color: $dark-neutral;
 		padding: 1rem;

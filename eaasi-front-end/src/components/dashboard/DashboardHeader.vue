@@ -70,7 +70,9 @@ export default class DashboardHeader extends Vue { }
 
 	h1 {
 		color: #000000;
-		font-weight: 600;
+		font: $font-heading;
+		font-weight: 800;
+
 	}
 
 	#dh-eaasi-welcome {

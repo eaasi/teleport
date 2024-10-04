@@ -126,7 +126,7 @@ export default class EnvironmentCard extends Vue {
 	}
 
 	.footer {
-		border-top: 1px solid darken($light-neutral, 10%);
+		border-top: 1px solid $dark-light-grey;
 		color: $dark-neutral;
 		font-size: 1.2rem;
 		font-weight: 500;

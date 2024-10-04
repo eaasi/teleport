@@ -128,11 +128,8 @@ export default class NodePreferenceManagement extends AdminScreen {
 	font-weight: 300;
 	margin-bottom: 0;
 	padding: 3rem 3rem 1rem;
-
-	h1 {
-		font-size: 1.8rem;
-	}
 }
+
 .keyboard-settings-wrapper {
 	margin-top: 2rem;
 	max-width: 66.66666667%;
@@ -142,6 +139,7 @@ export default class NodePreferenceManagement extends AdminScreen {
 		margin-top: 2rem;
 	}
 }
+
 .section-divider {
 	margin-top: 6rem;
 }

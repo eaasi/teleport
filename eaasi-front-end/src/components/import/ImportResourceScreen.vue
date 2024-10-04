@@ -86,9 +86,9 @@ export default class ImportResourceScreen extends Vue {
 	.page-title {
 		background-color: #c0c2c3;
 		display: block;
-		font-weight: 300;
+		font-weight: 400;
 		margin-bottom: 0;
-		padding: 3rem 3rem 1rem;
+		padding: 3rem 3rem
 	}
 }
 
