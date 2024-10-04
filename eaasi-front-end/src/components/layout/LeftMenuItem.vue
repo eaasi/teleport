@@ -49,7 +49,7 @@
 
 		&.active {
 			border-right: none;
-			font-weight: 600;
+			font-weight: 700;
 
 			&::after {
 				border-left: none;

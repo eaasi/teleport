@@ -92,7 +92,7 @@ export default class EnvironmentConfigureHardware extends Vue {
 		font-weight: bold;
 	}
 	i {
-		color: $dark-blue;
+		color: $green;
 		font-size: 2rem;
 	}
 }

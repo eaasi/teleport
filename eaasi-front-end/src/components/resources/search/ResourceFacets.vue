@@ -91,7 +91,7 @@ export default class ResourceFacets extends Vue {
 	width: 25rem;
 
 	h2 {
-		font-weight: 300;
+		font-weight: 400;
 		margin-bottom: 2rem;
 	}
 }

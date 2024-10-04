@@ -1,5 +1,6 @@
 @import '_reset.scss';
 @import '_mixins.scss';
+@import 'fonts.scss';
 @import '_variables.scss';
 @import 'grid.scss';
 
@@ -23,7 +24,7 @@ body {
 	color: $black;
 	font-family: $font-primary;
 	font-size: 1.6rem;
-	font-weight: 400;
+	font-weight: 300;
 	-webkit-overflow-scrolling: touch;
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -41,8 +42,8 @@ h1,
 h2,
 h3,
 h4 {
-	font-family: $font-secondary;
-	font-weight: 300;
+	font-family: $font-primary;
+	font-weight: 400;
 	margin-bottom: 1rem;
 	margin-top: 0;
 
@@ -52,7 +53,7 @@ h4 {
 }
 
 h1 {
-	font-size: 2.4rem;
+	font-size: 2.8rem;
 
 	@include mobile() {
 		font-size: 2.2rem;
@@ -550,7 +551,7 @@ strong {
 /============================================================*/
 
 .back-to-results {
-	color: $dark-blue;
+	color: $dark-green;
 	font-weight: bold;
 	margin-bottom: 2.1rem;
 }

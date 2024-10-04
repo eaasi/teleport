@@ -68,6 +68,7 @@
 		cursor: pointer;
 		font-size: 1.4rem;
 		user-select: none;
+		font-weight: 400;
 
 		&:hover {
 			background-color: lighten($light-neutral, 90%);

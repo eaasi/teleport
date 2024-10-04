@@ -126,7 +126,7 @@ export default class ChangeMediaModal extends Vue {
 
 		&.active {
 			.lil-container {
-				border: 2px solid $teal;
+				border: 2px solid $dark-light-grey;
 				position: relative;
 				.selected-icon {
 					color: $green;
@@ -147,7 +147,7 @@ export default class ChangeMediaModal extends Vue {
 
 		.lil-container {
 			background-color: #ffffff;
-			border: 2px solid lighten($teal, 80%);
+			border: 2px solid $dark-light-grey;
 			border-radius: 6px;
 			min-height: 5rem;
 			padding: 2rem;

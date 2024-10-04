@@ -65,6 +65,9 @@ export default class OptionsBox extends Vue {
 	height: 100%;
 	overflow: hidden;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	.ob-name {
 		color: $dark-green;
@@ -81,7 +84,7 @@ export default class OptionsBox extends Vue {
 
 	.ob-desc {
 		font-size: 1.5rem;
-		height: 5rem;
+		height: fit-content;
 		line-height: 1.5em;
 		padding: 1rem;
 	}
@@ -103,8 +106,7 @@ export default class OptionsBox extends Vue {
 	}
 
 	.ob-footer-content {
-		padding: 2rem 2rem 3rem;
-		margin-top: 10px;
+		padding: 1rem;
 	}
 }
 

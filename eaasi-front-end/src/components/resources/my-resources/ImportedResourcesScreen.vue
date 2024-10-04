@@ -294,6 +294,7 @@ export default class ImportedResourcesScreen extends Vue {
 
 			.bento-header {
 				width: 100%;
+				font-weight: 400;
 			}
 
 			.card-wrapper {

@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="padded-xl container-xs">
-			<h4 class="uppercase medium">Download Server Logs</h4>
+			<h4 class="uppercase">Download Server Logs</h4>
 			<p>
 				Helpful for troubleshooting back-end services like emulator, resource replication, resource import, metadata synchronization, etc.
 			</p>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="section-divider"></div>
 		<div class="padded-xl container-xs">
-			<h4 class="uppercase medium">Download Web API Logs</h4>
+			<h4 class="uppercase">Download Web API Logs</h4>
 			<p>
 				Helpful for troubleshooting of Authentication/Authorization, User Credentials, Front-End facing features: bookmarks, resource-to-user relationship, search and discovery, etc.
 			</p>
@@ -42,7 +42,7 @@
 		</div>
 		<div class="section-divider"></div>
 		<div class="padded-xl container-xs">
-			<h4 class="uppercase medium">REFRESH STORAGE INDEX</h4>
+			<h4 class="uppercase">REFRESH STORAGE INDEX</h4>
 			<p>
 				Helpful for troubleshooting problems with importing resources.
 			</p>
@@ -196,6 +196,11 @@ export default class TroubleshootingSection extends AdminScreen {
 </script>
 
 <style lang='scss' scoped>
+#nodeTroubleshooting {
+	.uppercase {
+		font-weight: 400;
+	}
+}
 
 .select-archive-group {
 	margin: 10px 0;

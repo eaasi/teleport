@@ -100,6 +100,7 @@ export default class BentoHeader extends Vue {
 		color: black;
 		font-size: 1.8rem;
 		padding: 1rem 1rem 1.5rem;
+		font-weight: 400;
 
 		span {
 			margin-left: 0.5rem;
