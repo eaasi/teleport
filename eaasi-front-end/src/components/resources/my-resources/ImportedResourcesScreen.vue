@@ -258,7 +258,6 @@ export default class ImportedResourcesScreen extends Vue {
 			return;
 		}
 	}
-
 }
 </script>
 
@@ -267,6 +266,8 @@ export default class ImportedResourcesScreen extends Vue {
 		background-color: lighten($medium-grey, 30%);
 		justify-content: space-between;
 		min-height: 5rem;
+		padding: 0 15px;
+
 		.btn-section {
 			display: flex;
 			padding: 0.5rem 3rem;

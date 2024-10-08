@@ -25,7 +25,7 @@ export default class ResourceSlideMenuService {
 		return  [
 			new ViewDetailsActionResolver(selected, roleId).action,
 			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
-			new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
+			//new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
 			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
 		];
 	}
