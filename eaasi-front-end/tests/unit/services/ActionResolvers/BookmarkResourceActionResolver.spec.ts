@@ -1,7 +1,7 @@
-import BookmarkResourceActionResolver from '@/services/ActionResolvers/BookmarkResourceActionResolver';
+/*import BookmarkResourceActionResolver from '@/services/ActionResolvers/BookmarkResourceActionResolver';
 import { generateFakeEnvironments } from '../../generators';
 
-/*
+
 describe('BookmarkResourceActionResolver', () => {
 	it('should have action name Bookmark This Resource', () => {
 		const sut = new BookmarkResourceActionResolver([], 1);

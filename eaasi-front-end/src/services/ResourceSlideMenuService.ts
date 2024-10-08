@@ -1,7 +1,7 @@
 import AddToEmulationProjectActionResolver
 	from '@/services/ActionResolvers/AddToEmulationProjectActionResolver';
-import BookmarkResourceActionResolver
-	from '@/services/ActionResolvers/BookmarkResourceActionResolver';
+/*import BookmarkResourceActionResolver
+	from '@/services/ActionResolvers/BookmarkResourceActionResolver';*/
 import DeleteResourceActionResolver from '@/services/ActionResolvers/DeleteResourceActionResolver';
 import ShareResourceActionResolver
 	from '@/services/ActionResolvers/ShareResourceActionResolver';
