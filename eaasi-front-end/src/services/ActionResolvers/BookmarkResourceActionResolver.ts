@@ -1,3 +1,4 @@
+/*
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import {IEaasiResource} from '@/types/Resource';
 import {IAction} from 'eaasi-nav';
@@ -11,9 +12,9 @@ export default class BookmarkResourceActionResolver extends  SlideMenuActionReso
 		super(selectedResources, roleId);
 	}
 
-	/**
+	/!**
 	 * Resolves custom behavior of an action
-	 */
+	 *!/
 	get action() : IAction {
 		return {
 			shortName: 'bookmark',
@@ -24,3 +25,4 @@ export default class BookmarkResourceActionResolver extends  SlideMenuActionReso
 		};
 	}
 }
+*/
