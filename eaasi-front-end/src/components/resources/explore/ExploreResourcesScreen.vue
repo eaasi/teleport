@@ -154,8 +154,8 @@ export default class ExploreResourcesScreen extends Vue {
 	@Get('loggedInUser')
 	user: User;
 
-	@Get('bookmark/bookmarks')
-	bookmarks: IBookmark[];
+	/*@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];*/
 
 	@Get('resource/onlySelectedFacets')
 	onlySelectedFacets: IResourceSearchFacet[];
@@ -231,17 +231,17 @@ export default class ExploreResourcesScreen extends Vue {
 			this.query = {
 				...this.query,
 				userId: this.user.id,
-				onlyBookmarks: false,
+				//onlyBookmarks: false,
 				onlyImportedResources: false,
 				archives: []
 			};
 
 			await this.$store.dispatch('resource/searchResources');
 
-			const bookmarks = this.bentoResult?.bookmarks;
+			/*const bookmarks = this.bentoResult?.bookmarks;
 			if (!bookmarks || !bookmarks.length) {
 				this.bentoResult.bookmarks = this.bookmarks;
-			}
+			}*/
 		});
 	}
 
@@ -269,7 +269,7 @@ export default class ExploreResourcesScreen extends Vue {
 		}
 
 		// prefetch bookmarks once...
-		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
+		//await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
 
 		await this.search();
 	}

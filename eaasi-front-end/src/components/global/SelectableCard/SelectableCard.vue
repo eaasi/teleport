@@ -1,12 +1,12 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
-		<div v-if="bookmark && !isLoading">
+<!--		<div v-if="bookmark && !isLoading">
 			<bookmark
 				class="bookmark"
 				:init-state="isBookmarkSelected"
 				@bookmarked="isActive => $emit('bookmarked', isActive)"
 			/>
-		</div>
+		</div>-->
 
 		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
 			<checkbox :value="value" @input="toggleSelected" />

@@ -258,7 +258,6 @@ export default class ImportedResourcesScreen extends Vue {
 			return;
 		}
 	}
-
 }
 </script>
 
@@ -268,6 +267,8 @@ export default class ImportedResourcesScreen extends Vue {
 		border-bottom: 2px solid darken($light-neutral, 10%);
 		justify-content: space-between;
 		min-height: 5rem;
+		padding: 0 15px;
+
 		.btn-section {
 			border-left: 2px solid darken($light-neutral, 10%);
 			display: flex;

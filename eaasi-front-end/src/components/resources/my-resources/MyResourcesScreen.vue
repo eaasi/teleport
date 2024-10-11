@@ -9,11 +9,11 @@
 
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
-			<my-bookmarks-screen
+<!--			<my-bookmarks-screen
 				v-if="activeTab === 'My Bookmarks'"
 				:action-menu-tabs="actionMenuTabs"
 				@open-action-menu="openActionMenu"
-			/>
+			/>-->
 
 			<imported-resources-screen
 				v-if="activeTab === 'Imported Resources'"
@@ -50,7 +50,7 @@ import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButt
 @Component({
 	name: 'MyResourcesScreen',
 	components: {
-		MyBookmarksScreen,
+		/*MyBookmarksScreen,*/
 		ResourceSlideMenu,
 		ImportedResourcesScreen,
 		SlideMenuControlButtons
@@ -60,7 +60,7 @@ export default class MyResourcesScreen extends Vue {
 
 	/* Props
 	============================================*/
-	@Prop({ type: String, required: false, default: 'My Bookmarks' })
+	@Prop({ type: String, required: false, default: 'Imported Resources' })
 	defaultTab: string;
 
 	/* Computed
@@ -75,7 +75,6 @@ export default class MyResourcesScreen extends Vue {
 	get hasActiveResources() {
 		return this.selectedResources.length > 0;
 	}
-
 
 	get isActionMenuOpen(): boolean {
 		return this.actionMenuActiveTab != null && this.hasActiveResources;
@@ -99,12 +98,12 @@ export default class MyResourcesScreen extends Vue {
 
 	/* Data
 	============================================*/
-	activeTab: string = 'My Bookmarks';
+	activeTab: string = 'Imported Resources';
 	tabs: IEaasiTab[] = [
-		{
+		/*{
 			label: 'My Bookmarks',
 			disabled: false
-		},
+		},*/
 		{
 			label: 'Imported Resources',
 			disabled: false
@@ -116,7 +115,10 @@ export default class MyResourcesScreen extends Vue {
 		// }
 	];
 
-	actionMenuActiveTab: IEaasiTab = null;
+	actionMenuActiveTab: IEaasiTab = {
+		label: 'Imported Resources',
+		disabled: false
+	};
 
 	/* Methods
 	============================================*/
@@ -146,7 +148,6 @@ export default class MyResourcesScreen extends Vue {
 			this.openActionMenu();
 		}
 	}
-
 }
 
 </script>
