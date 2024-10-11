@@ -338,7 +338,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 				label: 'Emulator Configuration',
 				value: this.activeEnvironment.nativeConfig,
 				property: 'nativeConfig',
-				readonly: false,
+				readonly: true,
 				editType: 'text-input',
 				changed: false
 			},
