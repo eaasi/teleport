@@ -505,13 +505,13 @@ strong {
 }
 
 .divider-border {
-	border-bottom: solid 3px $light-neutral;
+	border-bottom: solid 2px $light-grey;
 	margin-bottom: 1.8rem;
 	padding: 0.5rem;
 }
 
 .divider-header {
-	border-bottom: solid 3px darken($light-neutral, 10%);
+	border-bottom: solid 2px darken($light-grey, 10%);
 	padding-bottom: 1.5rem;
 }
 

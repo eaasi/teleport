@@ -174,10 +174,10 @@ export default class Alert extends Vue {
 	}
 
 	&.neutral {
-		color: darken($light-neutral, 30%);
+		color: darken($light-grey, 30%);
 		&.card {
 			background: transparent;
-			border-color: darken($light-neutral, 30%);
+			border-color: darken($light-grey, 30%);
 		}
 	}
 

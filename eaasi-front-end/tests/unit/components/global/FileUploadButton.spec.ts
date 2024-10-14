@@ -76,7 +76,7 @@ describe('FileUploadButton.vue', () => {
 		expect(wrapper.find('input').attributes()['name']).toEqual('files');
 	});
 
-	it('Sets class to light-blue if secondary passed as prop is true', () => {
+	it('Sets class to default if secondary passed as prop is true', () => {
 		const wrapper = mount(FileUploadButton, {
 			propsData: {
 				secondary: true

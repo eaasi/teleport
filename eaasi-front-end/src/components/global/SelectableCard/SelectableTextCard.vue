@@ -121,7 +121,7 @@ hr {
 }
 
 .subcontent-divider {
-	border-color: lighten($dark-neutral, 90%);
+	border-color: $medium-grey;
 	margin-top: 1.4rem;
 }
 

@@ -159,12 +159,13 @@
 		.eaasi-input {
 			background: transparent;
 		}
+
 		.changed {
 			background: lighten($yellow, 60%);
 		}
 
 		.vds-description {
-			color: $dark-neutral;
+			color: $medium-grey;
 			font-size: 1.5rem;
 			font-weight: bold;
 			padding: 1.2rem 0;

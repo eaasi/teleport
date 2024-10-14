@@ -37,18 +37,18 @@ export default class TextItem extends Vue {
 
 .text-item-container {
 	.label {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		font-weight: bold;
 	}
 
 	&.readonly {
 		.eaasi-form-control {
 			.eaasi-input-wrapper {
-				border-bottom: 2px solid lighten($dark-neutral, 70%);
+				border-bottom: 2px solid $medium-grey;
 				margin-bottom: 1rem;
 				padding-bottom: 0;
 				input {
-					color: darken($dark-neutral, 60%);
+					color: $dark-light-grey;
 				}
 			}
 		}

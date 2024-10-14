@@ -111,7 +111,7 @@ export default class SearchBar extends BaseFormField {
 	}
 
 	.fa-search {
-		color: darken($light-neutral, 80%);
+		color: $dark-light-grey;
 		font-size: 1.4rem;
 		margin: 0 0.6rem;
 	}

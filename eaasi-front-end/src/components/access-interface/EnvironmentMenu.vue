@@ -61,7 +61,7 @@
 			<collapsable
 				title="Did you change OS settings?"
 				open-title="I made these changes to OS settings..."
-				color-preset="light-blue"
+				color-preset="white"
 				:collapsed="true"
 				class="white-bg"
 			>
@@ -74,7 +74,7 @@
 			<collapsable
 				title="Did you install new software?"
 				open-title="I installed the following software.."
-				color-preset="light-blue"
+				color-preset="white"
 				:collapsed="true"
 				class="white-bg"
 			>
@@ -88,7 +88,7 @@
 			<collapsable
 				title="Did you make software changes?"
 				open-title="I made these software changes.."
-				color-preset="light-blue"
+				color-preset="white"
 				:collapsed="true"
 				class="white-bg"
 			>
@@ -215,7 +215,7 @@ export default class EnvironmentMenu extends Vue {
 	padding: 2rem;
 
 	p {
-		color: $dark-neutral;
+		color: $medium-grey;
 		font-size: 1.4rem;
 	}
 

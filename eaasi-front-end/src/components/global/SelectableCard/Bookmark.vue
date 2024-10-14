@@ -67,7 +67,6 @@ import Vue from 'vue';
 		/* Computed
         ============================================*/
 		get fillColor() : String {
-			// $dark-blue
 			return this.isActive ? '#00d33e' : 'white';
 		}
 

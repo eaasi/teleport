@@ -83,7 +83,7 @@ export default class EditableSelectList extends Vue {
 	.eaasi-form-control {
 		.eaasi-input-wrapper {
 			input {
-				color: $dark-neutral;
+				color: $medium-grey;
 			}
 		}
 	}
@@ -91,7 +91,7 @@ export default class EditableSelectList extends Vue {
 	&.readonly {
 		.eaasi-form-control {
 			.eaasi-input-wrapper {
-				border-bottom: 1px solid darken($light-neutral, 10%);
+				border-bottom: 1px solid darken($medium-grey, 10%);
 			}
 		}
 	}

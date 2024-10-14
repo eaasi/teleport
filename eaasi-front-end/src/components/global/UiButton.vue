@@ -186,12 +186,5 @@ export default class UiButton extends Vue {
 			color: #000000;
 		}
 	}
-
-	&.blue-transparent {
-		background-color: transparent;
-		border: none;
-		color: $dark-blue;
-		font-weight: bold;
-	}
 }
 </style>

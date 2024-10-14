@@ -45,7 +45,7 @@ export default class SlideMenuControlButtons extends Vue {
 		position: relative;
 
 		&.border-left {
-			border-left: 1px solid darken($light-neutral, 10%);
+			border-left: 1px solid darken($light-grey, 10%);
 		}
 
 		button {

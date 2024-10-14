@@ -218,10 +218,10 @@ EaaSi Version: ${this.appVersion}
 	}
 
 	#debugErrorStack {
-		background: lighten($dark-neutral, 90%);
-		border: 1px solid lighten($dark-neutral, 80%);
-		border-left: 3px solid $red;
-		color: $dark-neutral;
+		background: $medium-grey;
+		border: 2px solid $medium-grey;
+		border-left: 2px solid $red;
+		color: $dark-light-grey;
 		display: block;
 		font-family: monospace;
 		font-size: 15px;

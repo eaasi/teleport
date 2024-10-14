@@ -85,7 +85,7 @@ export default class EnvironmentConfigureHardware extends Vue {
 
 <style lang="scss">
 .checkbox-lane {
-	background-color: lighten($light-blue, 90%);
+	background-color: $light-grey;
 	margin-bottom: 1.5rem;
 	padding: 0.5rem;
 	label {

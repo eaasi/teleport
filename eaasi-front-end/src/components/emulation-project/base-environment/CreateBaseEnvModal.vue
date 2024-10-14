@@ -192,7 +192,7 @@ export default class CreateBaseEnvModal extends Vue {
 		padding: 1.2rem 0;
 
 		.left {
-			border-right: 2px solid $light-neutral;
+			border-right: 2px solid $light-grey;
 		}
 	}
 
@@ -207,14 +207,14 @@ export default class CreateBaseEnvModal extends Vue {
 		padding: 2.4rem 0;
 
 		.hw-template-container {
-			border: 2px solid lighten($light-blue, 40%);
+			border: 2px solid $light-grey;
 			border-radius: 1rem;
 			flex-grow: 1;
 			margin: 0 1.1rem;
 			padding: 2.4rem;
 
 			.hw-template-title {
-				color: $dark-blue;
+				color: $dark-light-grey;
 				font-size: 1.5rem;
 				font-weight: bold;
 				text-align: center;
@@ -227,7 +227,7 @@ export default class CreateBaseEnvModal extends Vue {
 	}
 
 	.base-env-alert-text {
-		color: $light-neutral;
+		color: $light-grey;
 	}
 
 </style>

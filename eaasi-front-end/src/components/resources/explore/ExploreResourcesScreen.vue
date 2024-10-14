@@ -317,8 +317,8 @@ export default class ExploreResourcesScreen extends Vue {
 
 	#exploreResources {
 		h1 {
-			background-color: lighten($light-neutral, 70%);
-			border-top: solid 1px darken($light-neutral, 10%);
+			background-color: lighten($light-grey, 70%);
+			border-top: solid 1px darken($light-grey, 10%);
 			display: block;
 			font-weight: 300;
 			margin-bottom: 0;

@@ -124,7 +124,7 @@ export default class ModeToggle extends Vue {
 	.read-only-message {
 		border: 2px solid $dark-light-grey;
 		border-radius: 2rem;
-		color: $dark-neutral;
+		color: $medium-grey;
 		padding: 1rem;
 	}
 }

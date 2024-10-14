@@ -44,7 +44,7 @@ export default class ViewHeader extends Vue {
 	}
 
 	.vh-title {
-		background: lighten($light-neutral, 80%);
+		background: $light-grey;
 		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.1);
 		font-weight: 300;
 		padding-bottom: 1rem;
@@ -55,8 +55,8 @@ export default class ViewHeader extends Vue {
 	}
 
 	.vh-sub-section {
-		background-color: lighten($light-neutral, 80%);
-		border-bottom: 2px solid $light-neutral;
+		background-color: $light-grey;
+		border-bottom: 2px solid $light-grey;
 		display: flex;
 		flex-direction: row;
 		font-size: 1.4rem;
@@ -66,7 +66,7 @@ export default class ViewHeader extends Vue {
 	}
 
 	.vh-description {
-		background-color: lighten($light-neutral, 80%);
+		background-color: $light-grey;
 		line-height: 2.1rem;
 		width: 40vw;
 	}

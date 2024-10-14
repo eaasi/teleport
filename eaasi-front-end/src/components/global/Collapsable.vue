@@ -89,20 +89,19 @@ export default class Collapsable extends Vue {
 <style lang="scss">
 
 .collapsable {
-	background-color: lighten($light-neutral, 80%);
-	border: solid 1px $light-neutral;
+	background-color: $light-grey;
 	padding: 2rem;
 
 	.collapse-icon {
-		background-color: lighten($light-blue, 80%);
+		background-color: $light-grey;
 		border-radius: 50%;
-		color: $light-blue;
+		color: $dark-green;
 		height: 3rem;
 		width: 3rem;
 	}
 
 	.collapse-title {
-		color: $dark-blue;
+		color: $dark-green;
 		cursor: pointer;
 		font-weight: bold;
 		user-select: none;
@@ -118,8 +117,8 @@ export default class Collapsable extends Vue {
 	}
 
 	&.secondary {
-		background-color: lighten($light-blue, 90%);
-		border: solid 2px $light-blue;
+		background-color: $light-grey;
+		border: solid 2px $dark-green;
 		border-radius: 1rem;
 
 		.collapse-icon {
