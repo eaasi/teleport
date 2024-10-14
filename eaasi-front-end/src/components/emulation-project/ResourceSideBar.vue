@@ -390,7 +390,7 @@ export default class ResourceSideBar extends Vue {
 }
 
 .rsb-header {
-	border-bottom: solid 2px lighten($dark-neutral, 80%);
+	border-bottom: solid 2px $medium-grey;
 	margin-bottom: 1.5rem;
 	padding-bottom: 0.5rem;
 
@@ -415,7 +415,7 @@ export default class ResourceSideBar extends Vue {
 
 .rsb-environments,
 .rsb-objects {
-	border: 1px solid lighten($dark-neutral, 80%);
+	border: 1px solid $medium-grey;
 	border-radius: 1rem;
 	margin-bottom: 1rem;
 	padding: 1.5rem;

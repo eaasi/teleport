@@ -35,16 +35,16 @@ export default class ResourceDetail extends Vue {
 
 <style lang="scss">
 .resource-details-item {
-	color: $dark-neutral;
+	color: $medium-grey;
 
 	.rd-label {
-		color: lighten($dark-neutral, 20%);
+		color: lighten($medium-grey, 20%);
 		font-size: 1.2rem;
 		text-transform: uppercase;
 	}
 
 	.rd-description {
-		border-bottom: solid 1px lighten($dark-neutral, 60%);
+		border-bottom: solid 1px lighten($medium-grey, 60%);
 		font-size: 1.6rem;
 		margin: 0.4rem 0 1rem;
 		padding-bottom: 1rem;

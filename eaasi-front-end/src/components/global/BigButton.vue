@@ -147,10 +147,10 @@ export default class BigButton extends Vue {
 }
 
 .eb-info {
-	background-color: lighten($light-neutral, 60%);
-	border: solid 2px $light-neutral;
+	background-color: $light-grey;
+	border: solid 2px $light-grey;
 	border-radius: 0 0 10px 10px;
-	color: $dark-neutral;
+	color: $medium-grey;
 	font-size: 1.4rem;
 	line-height: 1.3em;
 	padding: 1.5rem;

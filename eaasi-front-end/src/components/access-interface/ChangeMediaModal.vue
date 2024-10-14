@@ -106,7 +106,7 @@ export default class ChangeMediaModal extends Vue {
 <style lang='scss'>
 
 .cm-modal-header {
-	border-bottom: 4px solid darken($light-neutral, 10%);
+	border-bottom: 4px solid darken($light-grey, 10%);
 	padding: 2rem 0 0.5rem 1rem;
 }
 .scrollable-wrapper {
@@ -155,8 +155,8 @@ export default class ChangeMediaModal extends Vue {
 	}
 }
 .footer-btn-wrapper {
-	background-color: lighten($light-neutral, 80%);
-	border-top: 2px solid darken($light-neutral, 10%);
+	background-color: lighten($light-grey, 80%);
+	border-top: 2px solid darken($light-grey, 10%);
 	min-height: 4rem;
 	padding: 2rem;
 }

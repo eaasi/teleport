@@ -73,7 +73,7 @@ export default class ResourceUrlItem extends Vue {
 }
 
 .sfl-name {
-	color: darken($dark-neutral, 40%);
+	color: $dark-light-grey;
 	margin-bottom: 1.2rem;
 }
 

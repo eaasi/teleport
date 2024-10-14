@@ -66,7 +66,7 @@ export default class UserRoleSelector extends Vue {
 	}
 
 	p {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 	}
 
 	.eur-info {

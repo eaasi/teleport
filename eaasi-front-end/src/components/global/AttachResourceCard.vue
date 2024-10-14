@@ -64,7 +64,7 @@ export default class AttachResourceCard extends Vue {
 
 <style lang="scss">
 	.arc-container {
-		background-color: lighten($light-neutral, 80%);
+		background-color: $light-grey;
 		border-radius: 1rem;
 		display: flex;
 		flex-direction: column;

@@ -71,7 +71,7 @@
 		font-weight: 400;
 
 		&:hover {
-			background-color: lighten($light-neutral, 90%);
+			background-color: lighten($light-grey, 90%);
 		}
 	}
 

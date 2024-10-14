@@ -146,7 +146,7 @@ export default class SearchFacetModal extends Vue {
 	padding: 1rem 0;
 }
 .footer-btns-wrapper {
-	border-top: 2px solid darken($light-neutral, 10%);
+	border-top: 2px solid darken($light-grey, 10%);
 }
 .footer-btns {
 	justify-content: space-between;

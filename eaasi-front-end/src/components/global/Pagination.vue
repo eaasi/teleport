@@ -211,7 +211,7 @@ export default class Pagination extends Vue {
 	padding: 0 1rem;
 
 	label {
-		color: lighten($dark-neutral, 30%);
+		color: $dark-light-grey;
 		display: block;
 		font-size: 1.6rem;
 		margin-bottom: 0.5rem;

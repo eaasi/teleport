@@ -295,7 +295,7 @@
 	.irf-option {
 		height: 9.5rem;
 		> span {
-			color: darken($dark-neutral, 40%);
+			color: $dark-light-grey;
 			display: block;
 			font-size: 1.6rem;
 			font-weight: bold;

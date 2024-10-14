@@ -53,7 +53,7 @@ export default class ResourceFileListItem extends Vue {
 }
 
 .sfl-name {
-	color: darken($dark-neutral, 40%);
+	color: $dark-light-grey;
 	margin-bottom: 1.2rem;
 }
 
@@ -79,7 +79,7 @@ export default class ResourceFileListItem extends Vue {
 
 .sfl-fields {
 	.sfl-index {
-		border-right: solid 2px lighten($light-neutral, 40%);
+		border-right: solid 2px lighten($light-grey, 40%);
 		flex: 0 0 5rem;
 		margin-right: 2rem;
 		padding-right: 2rem;

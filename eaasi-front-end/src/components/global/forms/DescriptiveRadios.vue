@@ -102,7 +102,7 @@ export default class DescriptiveRadios extends Vue {
 	}
 
 	p {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		user-select: none;
 	}
 

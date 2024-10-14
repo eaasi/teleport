@@ -80,7 +80,7 @@ export default class UiNotification extends Vue {
 		}
 	}
 	.close-icon {
-		color: $dark-neutral;
+		color: $medium-grey;
 		cursor: pointer;
 		padding: 1rem;
 		position: absolute;

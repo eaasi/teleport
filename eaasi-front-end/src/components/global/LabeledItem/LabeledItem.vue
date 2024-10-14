@@ -27,7 +27,7 @@ export default class LabeledItem extends Vue {
 
 <style lang="scss">
 	.li-container {
-		color: $dark-neutral;
+		color: $medium-grey;
 
 		.li-label {
 			color: lighten($grey, 20%);

@@ -192,7 +192,7 @@ export default class CreateBaseEnvModal extends Vue {
 		padding: 1.2rem 0;
 
 		.left {
-			border-right: 2px solid $light-neutral;
+			border-right: 2px solid $light-grey;
 		}
 	}
 
@@ -227,7 +227,7 @@ export default class CreateBaseEnvModal extends Vue {
 	}
 
 	.base-env-alert-text {
-		color: $light-neutral;
+		color: $light-grey;
 	}
 
 </style>

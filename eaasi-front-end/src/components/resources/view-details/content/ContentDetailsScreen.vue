@@ -301,7 +301,7 @@ export default class ContentDetailsScreen extends Vue {
 }
 
 #thisIncludedIn {
-	background-color: lighten($light-neutral, 75%);
+	background-color: lighten($light-grey, 75%);
 }
 
 .rdm-container {

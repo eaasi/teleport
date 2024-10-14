@@ -228,7 +228,7 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	p {
-		color: darken($dark-neutral, 80%);
+		color: $dark-light-grey;
 	}
 
 	.emu-option-item {
