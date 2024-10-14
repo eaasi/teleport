@@ -47,7 +47,7 @@ export default class ResourceFileListItem extends Vue {
 		}
 
 		.sfl-info {
-			background-color: lighten($light-blue, 80%);
+			background-color: $green-background;
 		}
 	}
 }

@@ -139,6 +139,7 @@ export default class EmulationProjectModeScreen extends Vue {
 	.drop-zone {
 		background-color: $green-background;
 		min-height: 9rem;
+		height: fit-content;
 		position: relative;
 		width: 37rem;
 

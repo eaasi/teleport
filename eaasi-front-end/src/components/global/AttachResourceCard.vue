@@ -74,7 +74,7 @@ export default class AttachResourceCard extends Vue {
 		text-align: center;
 
 		.arc-title {
-			color: $dark-blue;
+			color: $dark-green;
 			font-size: 1.8rem;
 			font-weight: bold;
 			padding: 1.2rem;

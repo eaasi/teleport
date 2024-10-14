@@ -92,7 +92,7 @@ export default class FileDropzone extends Vue {
 	transition: background-color 0.3s;
 
 	&.active {
-		background-color: lighten($light-blue, 90%);
+		background-color: $green-background;
 	}
 
 	.eaasi-upload-icon {
@@ -103,7 +103,7 @@ export default class FileDropzone extends Vue {
 .dfu-label {
 	min-width: 20rem;
 	.fas {
-		color: lighten($light-blue, 80%);
+		color: $dark-light-grey;
 		font-size: 8rem;
 	}
 	div {

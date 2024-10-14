@@ -96,46 +96,47 @@ export default class CircleButton extends Vue {
 	Color presets
 	 */
 	&.default {
-		background-color: $dark-blue;
-		// border: solid 2px darken($dark-blue, 20%);
+		background-color: $medium-grey;
 		color: #FFFFFF;
 
 		&:hover {
-			background-color: darken($dark-blue, 20%);
+			background-color: $dark-light-grey;
 		}
 	}
 
-	&.light-blue {
-		background-color: lighten($light-blue, 80%);
-		// border: solid 2px lighten($light-blue, 50%);
-		color: $dark-blue;
+	&.green {
+		background-color: $green;
+		color: black;
 
 		&:hover {
-			background-color: lighten($light-blue, 40%);
+			background-color: $medium-green;
 		}
 	}
 
 	&.white {
 		background-color: #FFFFFF;
-		// border: solid 2px lighten($light-blue, 30%);
-		color: lighten($dark-blue, 20%);
-		font-weight: normal;
+		border: solid 2px #000000;
+		color: #000000;
 
 		i {
-			color: $light-blue;
+			color: #000000;
 		}
 
 		&:hover {
-			background-color: $light-blue;
+			background-color: #000000;
 			color: #FFFFFF;
 		}
 	}
 
-	&.blue-transparent {
-		background-color: transparent;
-		border: none;
-		color: $dark-blue;
-		font-weight: bold;
+	&.black {
+		background-color: #000000;
+		border: solid 2px #000000;
+		color: #FFFFFF;
+
+		&:hover {
+			background-color: #FFFFFF;
+			color: #000000;
+		}
 	}
 }
 </style>

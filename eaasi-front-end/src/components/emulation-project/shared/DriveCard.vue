@@ -39,7 +39,7 @@ export default class DriveCard extends Vue {
 
 <style lang='scss'>
 .drive-card {
-	border: 2px solid $light-blue;
+	border: 2px solid $dark-green;
 	border-radius: 1rem;
 	margin-bottom: 1.5rem;
 	padding: 1.5rem;

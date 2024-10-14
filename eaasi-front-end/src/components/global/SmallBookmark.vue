@@ -100,7 +100,6 @@ export default class SmallBookmark extends Vue {
 		/* Computed
         ============================================*/
 		get fillColor() : String {
-			// $dark-blue
 			return this.isActive ? '#00d33e' : 'white';
 		}
 

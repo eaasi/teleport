@@ -47,7 +47,7 @@
 						</div>
 						<ui-button
 							block
-							color-preset="light-blue"
+							color-preset="white"
 							icon="plus"
 							@click="addSoftwareVersion"
 						>

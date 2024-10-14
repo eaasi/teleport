@@ -223,7 +223,7 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	h4 {
-		color: $dark-blue;
+		color: $dark-light-grey;
 		font-weight: 500;
 	}
 
@@ -232,7 +232,6 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	.emu-option-item {
-		border: 1px solid lighten($light-blue, 60%);
 		border-radius: 1rem;
 		margin-bottom: 1.5rem;
 		padding: 3rem;

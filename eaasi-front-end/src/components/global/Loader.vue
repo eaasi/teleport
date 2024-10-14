@@ -20,7 +20,7 @@ export default class Loader extends Vue {}
 </script>
 
 <style lang="scss">
-$baseColor: $dark-blue;
+$baseColor: $green;
 $speed: 0.9s;
 
 .eaasi-loader {
