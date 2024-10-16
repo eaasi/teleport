@@ -2,7 +2,7 @@
 	<footer id="footer" class="flex-row">
 		<div id="footerLogo">
 			<div class="footer-logo">
-				<img src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png" alt="Eaasi Logo" />
+				<img src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png" alt="Eaasi footer Logo" />
 			</div>
 			<div class="footer-logo-label">
 				{{ copyrightMessage }}
@@ -122,10 +122,18 @@ export default class AppFooter extends Vue {
 			color: $black;
 			display: inline-block;
 			padding-left: 1.4rem;
-			text-decoration: underline;
+			text-decoration: none;
 
 			> a {
 				color: $black;
+
+				&:hover {
+					color: $dark-light-grey;
+				}
+			}
+
+			&:hover {
+				color: $dark-light-grey;
 			}
 		}
 

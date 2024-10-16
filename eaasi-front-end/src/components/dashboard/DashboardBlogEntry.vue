@@ -62,7 +62,7 @@ export default class DashboardBlogEntry extends Vue {
 			height: 50px;
 
 			a {
-				color: $green;
+				color: $dark-green;
 				line-height: 1.6em;
 				text-decoration: none;
 				white-space: normal;

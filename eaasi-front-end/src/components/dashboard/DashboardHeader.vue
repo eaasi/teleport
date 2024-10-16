@@ -3,7 +3,7 @@
 		<div class="dh-welcome flex-row">
 			<div id="dh-eaasi-hexagon">
 				<!--suppress HtmlUnknownTarget -->
-				<img src="@/assets/eaasi_logos/EAASI-windows-4-green.png" alt="EaaSI Logo" />
+				<img src="@/assets/eaasi_logos/EAASI-windows-4-green.png" alt="EaaSI Dashboard Logo" />
 			</div>
 			<div id="dh-eaasi-welcome">
 				<h1>Welcome!</h1>

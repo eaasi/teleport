@@ -95,7 +95,7 @@ export default class HeaderMenuDropdown extends Vue {
 
 <style lang="scss">
 .header-menu-dropdown {
-	color: darken($grey, 30%);
+	color: $dark-light-grey;
 	cursor: pointer;
 	height: $headerHeight;
 	margin-right: 1.2rem;
