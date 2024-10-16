@@ -10,7 +10,7 @@ describe('BigButton.vue', () => {
 				label: 'foo',
 			},
 		});
-		expect(wrapper.find('label').text()).toBe('foo');
+		expect(wrapper.find('.label').text()).toBe('foo');
 	});
 
 	it('When passed block prop as true applies block class', () => {

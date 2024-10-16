@@ -8,7 +8,7 @@
 			<div class="eb-icon" v-if="icon">
 				<span :class="`fas fa-${icon}`"></span>
 			</div>
-			<label>{{ label }}</label>
+			<div class="label">{{ label }}</div>
 			<div v-if="subLabel" class="eb-sublabel">
 				{{ subLabel }}
 			</div>
@@ -128,7 +128,7 @@ export default class BigButton extends Vue {
 		border: solid 2px $green;
 	}
 
-	label {
+	.label {
 		color: $black;
 		font-size: 1.8rem;
 		font-weight: bold;
