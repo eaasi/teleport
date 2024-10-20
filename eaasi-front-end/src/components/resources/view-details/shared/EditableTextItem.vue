@@ -80,10 +80,6 @@ export default class EditableTextItem extends Vue {
 			color: darken($medium-grey, 30%);
 			font-size: 1.6rem;
 		}
-
-		&.changed {
-			background: lighten($yellow, 60%);
-		}
 	}
 }
 </style>

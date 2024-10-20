@@ -95,12 +95,5 @@ export default class EditableSelectList extends Vue {
 			}
 		}
 	}
-
-	.input-wrapper {
-
-		&.changed {
-			background: lighten($yellow, 60%);
-		}
-	}
 }
 </style>
