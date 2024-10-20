@@ -4,9 +4,6 @@
 			<div class="footer-logo">
 				<img src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png" alt="Eaasi footer Logo" />
 			</div>
-			<div class="footer-logo-label">
-				{{ copyrightMessage }}
-			</div>
 		</div>
 
 		<div id="footerLinks">
@@ -57,13 +54,8 @@ import Component from 'vue-class-component';
 @Component({
 	name: 'AppFooter',
 })
-export default class AppFooter extends Vue {
-	get copyrightMessage() {
-		let now = new Date();
-		const thisYear = now.getFullYear();
-		return `© EaaSI ${thisYear}`;
-	}
-};
+export default class AppFooter extends Vue {};
+
 </script>
 
 <style lang="scss">
@@ -87,16 +79,6 @@ export default class AppFooter extends Vue {
 
 		.footer-logo {
 			display: block;
-		}
-
-		.footer-logo-label {
-			color: $black;
-			display: block;
-			font-size: 1.2rem;
-			text-align: center;
-			position: absolute;
-			bottom: 25px;
-			left: 37px;
 		}
 	}
 
