@@ -7,10 +7,7 @@
 					:readonly="!isEditMode"
 				/>
 				<div class="owner-label" v-if="ownerLabel">Owner: {{ ownerLabel }}</div>
-				<section-legend
-					v-if="isEditMode"
-					:data="editLegend"
-				/>
+
 			</div>
 		</div>
 		<div class="row">

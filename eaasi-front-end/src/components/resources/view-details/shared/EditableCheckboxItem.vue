@@ -86,10 +86,6 @@ export default class EditableCheckboxItem extends Vue {
 		flex-grow: 1;
 		margin: 0.8rem 1rem 0.4rem 0;
 		padding: 0;
-
-		&.changed {
-			background: $grey;
-		}
 	}
 
 	.display-value {

@@ -134,9 +134,6 @@ export default class ConfiguredDrives extends Vue {
 <style lang='scss' scoped>
 .lil-container {
 	position: relative;
-	.changed {
-		background: lighten($yellow, 60%);
-	}
 
 	.fas {
 		cursor: pointer;
