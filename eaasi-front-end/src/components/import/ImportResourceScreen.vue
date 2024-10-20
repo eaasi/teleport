@@ -88,7 +88,7 @@ export default class ImportResourceScreen extends Vue {
 		display: block;
 		font-weight: 400;
 		margin-bottom: 0;
-		padding: 3rem 3rem
+		padding: 20px 15px;
 	}
 }
 

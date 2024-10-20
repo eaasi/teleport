@@ -27,13 +27,14 @@ export default class LabeledItem extends Vue {
 
 <style lang="scss">
 	.li-container {
-		color: $medium-grey;
+		color: $dark-light-grey;
 
 		.li-label {
-			color: lighten($grey, 20%);
+			color: black;
 			font-size: 1.2rem;
 			margin-bottom: 0.4rem;
 			margin-top: 0.5rem;
+			font-weight: 600;
 			text-transform: uppercase;
 		}
 
