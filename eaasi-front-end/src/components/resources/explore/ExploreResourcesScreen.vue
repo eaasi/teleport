@@ -1,5 +1,8 @@
 <template>
 	<div id="exploreResources" v-if="bentoResult" :style="actionMenuStyles">
+		<div class="page-title">
+			<h1>Explore resources</h1>
+		</div>
 		<div :style="innerStyles">
 			<no-search-result v-if="noResult" />
 			<div v-else class="resource-results-wrapper">
@@ -316,13 +319,12 @@ export default class ExploreResourcesScreen extends Vue {
 <style lang="scss">
 
 	#exploreResources {
-		h1 {
-			background-color: lighten($light-grey, 70%);
-			border-top: solid 1px darken($light-grey, 10%);
+		.page-title {
+			background-color: #c0c2c3;
 			display: block;
-			font-weight: 300;
+			font-weight: 400;
 			margin-bottom: 0;
-			padding: 3rem 3rem 1rem;
+			padding: 20px 15px;
 		}
 
 		.resource-list {

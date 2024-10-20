@@ -64,7 +64,7 @@ export default class CheckboxFacet extends Vue {
 	align-content: center;
 
 	.facet-total {
-		color: lighten($grey, 10%);
+		color: $dark-light-grey;
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
 		margin-left: 0.6rem;

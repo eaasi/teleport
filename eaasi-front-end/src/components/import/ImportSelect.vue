@@ -2,8 +2,8 @@
 	<div class="import-select">
 		<div v-if="importType" class="import-selected padded">
 			<div class="flex-row">
-				<p>I want to import a</p>
-				<select-list v-model="importType" class="no-mb flex-adapt">
+				<label for="importType">I want to import a</label>
+				<select-list v-model="importType" class="no-mb flex-adapt" idType="importType">
 					<option value="content">
 						Content File(s)
 					</option>
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<div class="import-types padded" v-else>
-			<h3>I want to import a...</h3>
+			<h2>I want to import a...</h2>
 			<div class="row">
 				<div class="col-md-4">
 					<options-box title="Content Object" icon="file">
@@ -162,7 +162,7 @@ export default class ImportSelect extends Vue {
 		max-width: 40rem;
 	}
 
-	p {
+	label {
 		font-size: 1.8rem;
 		margin-bottom: 0;
 	}
