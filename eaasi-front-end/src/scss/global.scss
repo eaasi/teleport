@@ -204,7 +204,7 @@ strong {
 	width: 100%;
 
 	thead th {
-		color: #A8A29E;
+		color: $dark-light-grey;
 		font-size: 13px;
 		padding: 2rem 1rem;
 		text-align: left;
@@ -251,7 +251,7 @@ strong {
 			transition: background-color 0.2s;
 
 			&:hover {
-				background-color: $light-green-background;
+				background-color: #3cdd66;
 			}
 		}
 	}

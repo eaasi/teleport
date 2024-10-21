@@ -200,6 +200,10 @@ export default class TaskList extends Vue {
 		border-bottom: 2px solid $medium-grey;
 		padding: 1.5rem;
 
+		.fa-check-circle {
+			color: $dark-green;
+		}
+
 		&:last-of-type {
 			border: none;
 		}
