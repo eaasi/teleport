@@ -41,30 +41,30 @@ export default class AdminMenuItem extends Vue {
 
 <style lang="scss">
 a.admin-menu-item {
-	color: $dark-light-grey;
+	color: black;
 	cursor: pointer;
 	position: relative;
 	text-decoration: none;
 	user-select: none;
 
 	p {
-		color: $dark-light-grey;
+		color: black;
 		font-size: 1.5rem;
 		padding: 1.2rem 0;
 		transition: color 0.1s;
 
 		&:hover {
-			color: black;
+			color: $dark-light-grey;
 		}
 	}
 
 	span.fas {
-		color: $dark-light-grey;
+		color: black;
 		font-size: 1.4rem;
 		margin-right: 8px;
 
 		&:hover {
-			color: black;
+			color: $dark-light-grey;
 		}
 	}
 }
