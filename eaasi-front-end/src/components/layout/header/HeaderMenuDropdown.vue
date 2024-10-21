@@ -136,10 +136,15 @@ export default class HeaderMenuDropdown extends Vue {
 	top: 64px;
 
 	.hmd-list-item {
-		border-bottom: 1px solid $dark-light-grey;
+		border: 2px solid #00d33e;
+		border-bottom: none;
 		min-width: 15rem;
 		padding: 1.6rem;
 		z-index: 2;
+
+		&:last-child {
+			border-bottom: 2px solid #00d33e;
+		}
 	}
 
 	.hmd-list-item:hover {
