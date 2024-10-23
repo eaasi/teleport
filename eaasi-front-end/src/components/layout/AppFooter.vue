@@ -9,35 +9,15 @@
 		<div id="footerLinks">
 			<div class="footer-social">
 				<div class="block">
-					<a href="mailto:eaasi@yale.edu" id="eaasiEmail">
-						<span class="fas fa-envelope-open eb-icon teal"></span>
-						<span class="footer-item">
-							eaasi@yale.edu
-						</span>
-					</a>
-				</div>
-				<div class="block">
-					<a
-						href="https://twitter.com/SoftPresNetwork"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<span class="fab fa-twitter eb-icon teal"></span>
-						<span class="footer-item">
-							#eaasi
-						</span>
-					</a>
-				</div>
-				<div class="block">
 					<span class="fas fa-globe eb-icon teal"></span>
 					<span class="footer-item">
 						<a
-							href="https://www.eaasi.cloud"
+							href="https://forum.eaasi.cloud"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="eaasi-website"
 						>
-							https://www.eaasi.cloud
+							https://forum.eaasi.cloud
 						</a>
 					</span>
 				</div>
@@ -69,7 +49,6 @@ export default class AppFooter extends Vue {};
 	}
 
 	#footerLogo {
-		margin-bottom: 0.5rem;
 		margin-left: 0.3rem;
 		margin-right: 1.8rem;
 
