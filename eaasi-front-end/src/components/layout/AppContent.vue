@@ -105,6 +105,7 @@ export default class AppContent extends Mixins(TaskManager) {
 	#appContent {
 		align-content: stretch;
 		flex-grow: 1;
+		height: inherit;
 	}
 
 	#contentWrapper {

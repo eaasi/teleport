@@ -7,6 +7,7 @@ import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskM
 import TroubleshootingSection from '@/components/admin/troubleshooting/TroubleshootingSection.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
+import LoginPage from '@/components/login/LoginPage.vue';
 import CreateBaseEnvironment from '@/components/emulation-project/base-environment/CreateBaseEnvironment.vue';
 import EmulationProjectDetails from '@/components/emulation-project/EmulationProjectDetails.vue';
 import EmulationProjectOptions from '@/components/emulation-project/EmulationProjectOptions.vue';
@@ -34,6 +35,12 @@ export default [
 			allowGuest: true
 		}
 	},*/
+
+	{
+		path: ROUTES.LOG_IN,
+		name: 'Login',
+		component: LoginPage,
+	},
 
 	{
 		path: ROUTES.DASHBOARD,
