@@ -215,7 +215,7 @@ export default class EnvironmentMenu extends Vue {
 	padding: 2rem;
 
 	p {
-		color: $medium-grey;
+		color: $dark-light-grey;
 		font-size: 1.4rem;
 	}
 

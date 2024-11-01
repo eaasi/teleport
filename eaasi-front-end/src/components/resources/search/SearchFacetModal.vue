@@ -113,18 +113,23 @@ export default class SearchFacetModal extends Vue {
 
 <style lang='scss' scoped>
 .filter-wrapper {
-	background-color: lighten($light-green, 90%);
+	background-color: $green-background;
 	border-top: 4px solid $dark-green;
 	justify-content: space-evenly;
 	padding: 1rem 0;
+	color: $medium-grey;
+
 	.filter-item {
-		color: $green;
+		color: $dark-green;
 		cursor: pointer;
 		font-size: 16px;
 		padding: 0.5rem;
+		font-weight: 600;
 		&.disabled {
 			cursor: not-allowed;
-			opacity: 0.4;
+			opacity: 0.7;
+			color: #232323;
+			font-weight: 300;
 		}
 	}
 }
@@ -137,7 +142,7 @@ export default class SearchFacetModal extends Vue {
 	margin-bottom: 1rem;
 
 	.facet-total {
-		color: lighten($grey, 10%);
+		color: lighten($dark-light-grey, 10%);
 		font-size: 1.2rem;
 		margin-left: 0.4rem;
 	}

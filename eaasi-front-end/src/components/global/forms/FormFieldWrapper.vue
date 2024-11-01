@@ -60,7 +60,7 @@ export default class FormFieldWrapper extends Vue {
 	}
 
 	.eaasi-label {
-		color: #A8A29E;
+		color: $dark-light-grey;
 		display: inline-block;
 		font-size: 1.2rem;
 		margin-bottom: 10px;
