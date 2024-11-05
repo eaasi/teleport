@@ -4,9 +4,11 @@
 		v-bind="wrapperPropsExtended"
 		:readonly="disabled"
 	>
-		<label :disabled="disabled">
+		<label :disabled="disabled" :for=this.UUID>
 			<span>{{ label }}</span>
+			<span class="hide-label">checkbox to select {{name}} with value {{value}}</span>
 			<input
+				:id=this.UUID
 				type="checkbox"
 				v-bind="$attrs"
 				:checked="value"
@@ -40,11 +42,18 @@ export default class Checkbox extends BaseFormField {
 	@Prop({type: Boolean, required: true})
 	readonly value: boolean;
 
+	@Prop({type: String})
+	readonly name: string;
+
 	@Prop({ type: Boolean })
 	readonly disabled: boolean;
 
 	@Prop({ type: Boolean, default: false })
 	readonly indeterminate: boolean;
+
+	/* Data
+    ============================================*/
+	UUID: string = self.crypto.randomUUID();
 
 	handleChange(event) {
 		if (this.disabled) return;
@@ -93,6 +102,10 @@ $checkboxSize: 18px;
 			height: $checkboxSize;
 			margin: auto;
 			text-transform: capitalize;
+		}
+
+		.hide-label {
+			display: none;
 		}
 	}
 

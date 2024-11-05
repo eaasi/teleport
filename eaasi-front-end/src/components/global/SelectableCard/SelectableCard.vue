@@ -9,7 +9,7 @@
 		</div>-->
 
 		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
-			<checkbox :value="value" @input="toggleSelected" />
+			<checkbox :name="data.title" :value="value" @input="toggleSelected" />
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
@@ -97,6 +97,7 @@ export default class SelectableCard extends Vue {
 	@Prop({ type: Boolean, default: false })
 	readonly disabled: boolean;
 
+
 	/* Computed
 	============================================*/
 	get selectStyle() : string {
@@ -147,6 +148,10 @@ export default class SelectableCard extends Vue {
 			position: absolute;
 			right: 0;
 			top: 2px;
+		}
+
+		.checkbox-label {
+			display: none;
 		}
 	}
 
