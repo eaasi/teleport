@@ -13,7 +13,7 @@
 						<th scope="col">Emulator Alias</th>
 						<th scope="col">Emulator Source</th>
 						<th scope="col" style="width: 95px;">Emulator Tag</th>
-						<th scope="col" style="width: 220px;"></th>
+						<th scope="col" style="width: 220px;" class="hide">Update button</th>
 						<th scope="col" style="width: 30px;" v-if="hasMultipleImages">Default</th>
 					</tr>
 				</thead>
@@ -176,6 +176,10 @@ export default class EmulatorModal extends Vue {
 	.e-latest {
 		color: $green;
 		margin-right: 4px;
+	}
+
+	.hide {
+		display: none;
 	}
 }
 </style>

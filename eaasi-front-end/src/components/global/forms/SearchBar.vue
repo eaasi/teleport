@@ -101,7 +101,6 @@ export default class SearchBar extends BaseFormField {
 	}
 
 	.eaasi-input {
-		background-color: #FFFFFF;
 		max-width: 300px;
 		min-width: 230px;
 	}

@@ -1,10 +1,8 @@
 <template>
 	<div :class="['text-item-container', { readonly }]">
-		<div class="label txt-sm">
-			{{ item.label }}
-		</div>
 		<text-input
 			class="input-wrapper"
+			:label="item.label"
 			v-model="item.value"
 			:readonly="readonly"
 		/>
@@ -29,17 +27,12 @@ export default class TextItem extends Vue {
 	@Prop({ type: Boolean })
 	readonly: boolean;
 
-
 }
 </script>
 
 <style lang="scss">
 
 .text-item-container {
-	.label {
-		color: $dark-light-grey;
-		font-weight: bold;
-	}
 
 	&.readonly {
 		.eaasi-form-control {

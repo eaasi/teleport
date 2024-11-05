@@ -1,9 +1,5 @@
 <template>
 	<div class="eaasi-form-control">
-		<label v-if="label && !hideLabel" class="eaasi-label">
-			{{ label }}
-			<span v-if="!required && !readonly" class="ef-optional"> &mdash; optional</span>
-		</label>
 		<span class="error" role="alert" v-if="error">
 			{{ error }}
 		</span>
@@ -29,14 +25,6 @@ export default class FormFieldWrapper extends Vue {
 	/* Props
 	============================================*/
 
-	// Hides the label when try
-	@Prop({type: Boolean, required: false})
-	readonly hideLabel: boolean;
-
-	// The label to display above the field
-	@Prop({type: String, required: false})
-	readonly label: string;
-
 	// An error message to display
 	@Prop({type: String, required: false})
 	readonly error: string;
@@ -59,19 +47,6 @@ export default class FormFieldWrapper extends Vue {
 		padding-bottom: 3px;
 	}
 
-	.eaasi-label {
-		color: $dark-light-grey;
-		display: inline-block;
-		font-size: 1.2rem;
-		margin-bottom: 10px;
-		margin-right: 0.5rem;
-		text-transform: uppercase;
-	}
-
-	.ef-optional {
-		text-transform: none;
-	}
-
 	.error {
 		color: $red;
 		font-size: 1.2rem;
@@ -79,22 +54,23 @@ export default class FormFieldWrapper extends Vue {
 }
 
 .eaasi-input {
-	background-color: $light-green-background;
-	padding: 10px;
 	overflow: visible;
-	border-radius: 15px;
 	color: black;
+	display: flex;
+	flex-direction: column;
 
 	input,
 	select,
 	textarea {
 		appearance: none;
-		background-color: transparent;
 		border: none;
 		display: block;
 		font-size: 1.6rem;
 		outline: none;
-		width: 100%;
+		width: -webkit-fill-available;
+		background-color: $light-green-background;
+		padding: 10px;
+		border-radius: 15px;
 
 		&::placeholder {
 			color: $dark-light-grey;
