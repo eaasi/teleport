@@ -54,15 +54,6 @@ export default class TextInput extends BaseFormField {
 
 	@Prop({type: String, required: false})
 	readonly label: string;
-
-	/*get wrapperProps() {
-		return {
-			hideLabel: this.hideLabel,
-			label: this.label,
-			error: this.error,
-			required: this.isRequired
-		};
-	}*/
 }
 
 </script>

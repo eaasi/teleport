@@ -4,11 +4,11 @@
 		v-bind="wrapperPropsExtended"
 		:readonly="disabled"
 	>
-		<label :disabled="disabled" :for=this.UUID>
+		<label :disabled="disabled" :for="UUID">
 			<span>{{ label }}</span>
 			<span class="hide-label">checkbox to select {{name}} with value {{value}}</span>
 			<input
-				:id=this.UUID
+				:id="UUID"
 				type="checkbox"
 				v-bind="$attrs"
 				:checked="value"
@@ -53,7 +53,7 @@ export default class Checkbox extends BaseFormField {
 
 	/* Data
     ============================================*/
-	UUID: string = self.crypto.randomUUID();
+	UUID: string = self.crypto === undefined ? '' : self.crypto?.randomUUID();
 
 	handleChange(event) {
 		if (this.disabled) return;
@@ -67,9 +67,7 @@ export default class Checkbox extends BaseFormField {
 			hideLabel: true
 		};
 	}
-
 }
-
 </script>
 
 <style lang="scss">

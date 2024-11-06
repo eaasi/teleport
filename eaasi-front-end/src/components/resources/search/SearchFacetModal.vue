@@ -20,6 +20,7 @@
 				class="flex-row checkbox-facet"
 			>
 				<checkbox
+					:name="facetValue.label"
 					:label="facetValue.label"
 					v-model="facetValue.isSelected"
 				/>
