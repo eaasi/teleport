@@ -20,7 +20,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="dh-quick-links flex-row">
+		<div class="dh-quick-links">
 			<a href="https://sandbox.eaasi.cloud" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Open source software sandbox with access to EaaSI service."
@@ -59,7 +59,7 @@ export default class DashboardHeader extends Vue { }
 
 <style lang="scss">
 .dh-welcome {
-	margin: 0 1.2rem;
+	margin: 10px 40px;
 	#dh-eaasi-hexagon {
 		margin: 0 1.2rem;
 		img {
@@ -76,7 +76,7 @@ export default class DashboardHeader extends Vue { }
 	}
 
 	#dh-eaasi-welcome {
-		max-width: 50rem;
+		width: -webkit-fill-available;
 		padding: 2.4rem;
 
 		h3 {
@@ -95,15 +95,40 @@ export default class DashboardHeader extends Vue { }
 }
 
 .dh-quick-links {
-	margin: 0 1.2rem;
+	margin: 10px 40px;
 	padding: 2rem 0 4rem 0;
+	display: flex;
+	flex-direction: row;
+	gap: 40px;
 
 	a {
 		text-decoration: none;
+		align-items: stretch;
+		height: auto;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.dh-welcome {
+		#dh-eaasi-hexagon {
+			img {
+				max-width: 150px;
+				margin: 0;
+			}
+		}
 	}
 
-	> * {
-		margin: 0 1.2rem;
+	.dh-quick-links {
+		flex-wrap: wrap;
+		gap: 20px;
+
+		a {
+			width: -webkit-fill-available;
+
+			.eaasi-big-button-with-subtext {
+				width: -webkit-fill-available;
+			}
+		}
 	}
 }
 </style>

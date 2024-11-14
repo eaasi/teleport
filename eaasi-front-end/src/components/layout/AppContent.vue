@@ -1,5 +1,5 @@
 <template>
-	<div id="contentWrapper" :class="{'no-header': hideAppHeader, 'no-menu': hideLeftMenu}">
+	<main id="contentWrapper" :class="{'no-header': hideAppHeader, 'no-menu': hideLeftMenu}">
 		<div id="mainContent" class="flex">
 			<admin-menu v-if="adminMenuOpen" />
 			<section id="appContent" class="flex-adapt">
@@ -11,7 +11,7 @@
 		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
 		</div>
-	</div>
+	</main>
 </template>
 
 <script lang="ts">
@@ -105,13 +105,14 @@ export default class AppContent extends Mixins(TaskManager) {
 	#appContent {
 		align-content: stretch;
 		flex-grow: 1;
-		height: inherit;
+		width: -webkit-fill-available;
 	}
 
 	#contentWrapper {
 		margin-left: 156px;
 		margin-top: $headerHeight;
 		min-height: 100%;
+		width: -webkit-fill-available;
 		position: relative;
 
 		&.no-header {
@@ -133,15 +134,21 @@ export default class AppContent extends Mixins(TaskManager) {
 	}
 
 	#mainContent {
-		min-height: calc(100vh - #{$headerHeight});
+		height: 100%;
 	}
 
 	#globalLoader {
 		bottom: 0;
-		left: $leftSidebarWidth;
+		left: 0;
 		position: fixed;
 		right: 0;
-		top: $headerHeight;
+		top: 0;
 		z-index: 99;
 	}
+
+@media screen and (max-width: 950px) {
+	#contentWrapper {
+		margin-left: 126px;
+	}
+}
 </style>

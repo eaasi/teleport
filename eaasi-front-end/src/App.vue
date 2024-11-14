@@ -1,12 +1,14 @@
 <template>
-	<div id="app">
+	<div id="app" class="app-wrapper">
 		<template v-if="!loggedIn">
 			<router-view />
 		</template>
 		<template v-else>
-			<left-menu v-show="!hideLeftMenu" />
 			<app-header v-show="!hideAppHeader" />
-			<app-content />
+			<div class="app-content-wrapper">
+				<left-menu v-show="!hideLeftMenu" />
+				<app-content />
+			</div>
 			<app-footer />
 			<!-- Error Modal visibility state managed in global store-->
 			<error-modal v-if="error" />
@@ -95,4 +97,14 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+.app-wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+.app-content-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+}
 </style>

@@ -263,7 +263,7 @@ export default class EmulationProjectScreen extends Vue {
 		display: block;
 		font-weight: 300;
 		margin-bottom: 0;
-		padding: 3rem 3rem 1rem;
+		padding: 34px 15px;
 		.emulation-project-page-title {
 			padding-bottom: 3px;
 		}
@@ -293,12 +293,34 @@ export default class EmulationProjectScreen extends Vue {
 
 		.emulation-content {
 			background-color: $light-grey;
-			min-height: 100vh;
+			min-height: 100%;
 			padding: 3rem;
 		}
 
 		.side-bar {
 			width: 39rem;
+		}
+	}
+}
+
+@media screen and (max-width: 1060px) {
+	.emulation-project-screen {
+		.emu-project-actions {
+			flex-direction: column;
+		}
+
+		.main-content {
+			.emulation-content {
+				padding: 1rem;
+
+				.emu-project-content{
+					padding: 0;
+				}
+			}
+
+			.environment-selection-controls {
+				width: -webkit-fill-available;
+			}
 		}
 	}
 }

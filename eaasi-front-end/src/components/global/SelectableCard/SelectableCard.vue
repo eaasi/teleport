@@ -173,7 +173,7 @@ export default class SelectableCard extends Vue {
 			color: $dark-green;
 			font-size: 1.6rem;
 			line-height: 2rem;
-			padding-right: 4.5rem;
+			padding-right: 10px;
 			font-weight: 400;
 
 			.loading-icon {

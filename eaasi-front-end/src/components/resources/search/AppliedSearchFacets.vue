@@ -65,9 +65,24 @@ export default class AppliedSearchFacets extends Vue {
 	background-color: $medium-grey;
 	justify-content: space-between;
 	padding: 1rem;
-	width: 100vw;
+	width: -webkit-fill-available;;
 	.btn-section {
 		padding: 0.5rem 2rem;
+	}
+
+}
+@media screen and (max-width: 850px) {
+	.applied-facets-wrapper {
+		flex-direction: column;
+
+		.btn-section {
+			padding: 10px;
+		}
+	}
+
+	.active-facet .flex-row{
+		flex-wrap: wrap;
+		gap: 10px;
 	}
 }
 </style>

@@ -15,11 +15,10 @@
 				Back To Metadata
 			</ui-button>
 		</div>
-		<div v-else class="padded white-bg">
-			<h3>About This Resource</h3>
+		<div v-else class="content-import">
 			<eaasi-form ref="_form" @submit="step++">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="content-form-input">
 						<text-input
 							label="Name"
 							v-model="content.title"
@@ -78,4 +77,15 @@ export default class ContentImportMetadata extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.content-import {
+	.row {
+		margin: 0;
+		width: -webkit-fill-available;
+
+		.content-form-input {
+			width: -webkit-fill-available;
+		}
+	}
+}
+</style>

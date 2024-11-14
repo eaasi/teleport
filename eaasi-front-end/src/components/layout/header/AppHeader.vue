@@ -1,18 +1,20 @@
 <template>
 	<header id="header" class="flex-row">
-		<div class="header-h">Reviving histories, ensuring access</div>
-		<div id="headerSearch">
-			<form @submit.prevent="search">
-				<search-bar
-					placeholder="Search resources..."
-					:border-color="searchBorderColor"
-					v-model="searchKeyword"
-					name="q"
-					role="search"
-					@search="search"
-					@clear="clearSearchQuery"
-				/>
-			</form>
+		<div class="tablet-header-wrapper">
+			<div class="header-h">Reviving histories, ensuring access</div>
+			<div id="headerSearch">
+				<form @submit.prevent="search">
+					<search-bar
+						placeholder="Search resources..."
+						:border-color="searchBorderColor"
+						v-model="searchKeyword"
+						name="q"
+						role="search"
+						@search="search"
+						@clear="clearSearchQuery"
+					/>
+				</form>
+			</div>
 		</div>
 		<div id="headerRight" class="flex flex-end">
 			<header-menu-item
@@ -97,6 +99,13 @@ export default class AppHeader extends Vue {
 	top: 0;
 	z-index: 10;
 
+	.tablet-header-wrapper {
+		display: flex;
+		align-items: center;
+		height: -webkit-fill-available;
+		width: -webkit-fill-available;
+	}
+
 	.header-h {
 		font-weight: 700;
 		font-size: large;
@@ -126,6 +135,23 @@ export default class AppHeader extends Vue {
 	.eaasi-search-bar {
 		margin-bottom: 0;
 		width: fit-content;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	#header {
+		display: flex;
+		flex-direction: column;
+		left: 126px;
+
+		.header-h {
+			font-size: medium;
+			border-right: none;
+		}
+
+		.tablet-header-wrapper {
+			border-bottom: 2px solid $green;
+		}
 	}
 }
 

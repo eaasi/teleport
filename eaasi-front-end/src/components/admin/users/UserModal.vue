@@ -281,5 +281,17 @@ export default class UserModal extends Vue {
 			margin: 3rem 0;
 		}
 	}
+
+	@media screen and (max-width: 800px) {
+		.user-roles {
+			.descriptive-radios.row {
+				gap: 20px;
+
+				.col-sm-6 {
+					width: -webkit-fill-available;
+				}
+			}
+		}
+	}
 }
 </style>

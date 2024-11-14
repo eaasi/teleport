@@ -195,10 +195,11 @@ export default class EnvironmentMenu extends Vue {
 	height: calc(100vh - #{$accessHeaderHeight});
 	margin-top: $accessHeaderHeight;
 	overflow-y: scroll;
-	width: $accessMenuWidth;
+	width: 25%;
 
 	@include tablet {
 		padding-top: $accessHeaderHeight;
+		width: $accessMenuWidth;
 	}
 
 	.fa-times {

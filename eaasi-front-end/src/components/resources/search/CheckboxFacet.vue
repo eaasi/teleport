@@ -13,7 +13,7 @@
 				:label="v.displayLabel ? v.displayLabel : v.label"
 				v-model="v.isSelected"
 				@change="$emit('change');"
-				style="margin-bottom: 1rem;"
+				style="margin-bottom: 1.5rem;"
 			/>
 			<span class="facet-total">({{ v.total }})</span>
 		</div>

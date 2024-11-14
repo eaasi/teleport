@@ -51,4 +51,10 @@ export default class HeaderMenuItem extends Vue {
 		margin-left: 5px;
 	}
 }
+@media screen and (max-width: 950px) {
+	.header-menu-item {
+		height: inherit;
+		margin: 8px;
+	}
+}
 </style>

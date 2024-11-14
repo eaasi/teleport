@@ -87,13 +87,13 @@ export default class Tooltip extends Vue {
 		margin: 2px 2px 2px 5px;
 
 		span {
-			color: $medium-grey;
+			color: $dark-light-grey;
 			font-size: 1.5rem;
 		}
 	}
 
 	.tooltip-content {
-		color: $medium-grey;
+		color: $dark-light-grey;
 		font-size: 1.6rem;
 		left: 0;
 		margin-top: 10px;
@@ -113,7 +113,7 @@ export default class Tooltip extends Vue {
 		}
 
 		div {
-			background-color: $light-grey;
+			background-color: rgb(220, 220, 220);
 			border: 2px solid $light-grey;
 			border-radius: 0.4rem;
 			padding: 5px;

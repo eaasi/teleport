@@ -317,7 +317,7 @@ export default class MyBookmarksScreen extends Vue {
 .resource-results-wrapper {
 	display: flex;
 	flex-direction: column;
-	width: 100vw;
+	width: -webkit-fill-available;
 
 	.resource-results {
 		min-height: 80vh;

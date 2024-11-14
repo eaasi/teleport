@@ -51,6 +51,11 @@
 		border: solid 2px black;
 		margin-bottom: 2rem;
 	}
+	.fa-chevron-up, .fa-chevron-down {
+		&:before {
+			padding: 10px;
+		}
+	}
 
 	.sfw-header,
 	.sfw-content {
@@ -58,6 +63,7 @@
 	}
 	.sfw-label {
 		text-transform: uppercase;
+		margin-right: 10px;
 	}
 
 	.sfw-content {

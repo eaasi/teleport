@@ -334,7 +334,7 @@ export default class ExploreResourcesScreen extends Vue {
 			justify-content: space-between;
 
 			.card-wrapper {
-				width: 420px;
+				width: -webkit-fill-available;
 			}
 		}
 	}
@@ -342,17 +342,15 @@ export default class ExploreResourcesScreen extends Vue {
 	.resource-results-wrapper {
 		display: flex;
 		flex-direction: column;
-		max-width: 100vw;
+		width: -webkit-fill-available;
 		min-width: 0;
 
 		.resource-results {
-			margin-right: 1.5rem;
 			min-height: 80vh;
 
 			.ers-main-content {
 				display: flex;
 				flex-direction: column;
-				margin-right: 6rem;
 				min-width: 0;
 			}
 		}
@@ -361,11 +359,11 @@ export default class ExploreResourcesScreen extends Vue {
 			display: flex;
 			justify-items: center;
 			margin-right: 8.5rem;
-			min-width: 850px;
+			width: -webkit-fill-available;
 
 			.pagination-left {
 				flex: 0 0 250px;
-				padding: 1.5rem;
+				padding: 1rem;
 			}
 
 			.pagination-right {
