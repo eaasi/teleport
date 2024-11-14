@@ -162,4 +162,14 @@ export default class HeaderMenuDropdown extends Vue {
 	opacity: 0;
 }
 
+@media screen and (max-width: 950px) {
+	.header-menu-dropdown {
+		height: inherit;
+	}
+	.hmd-list {
+		right: 0;
+		top: 36px;
+	}
+}
+
 </style>

@@ -36,7 +36,7 @@ export default class DashboardBlogEntry extends Vue {
 		border: 2px solid $grey;
 		line-height: 2.4rem;
 		position: relative;
-		width: 90%;
+		width: -webkit-fill-available;
 
 		.entry-header {
 			font-weight: 600;
@@ -55,11 +55,8 @@ export default class DashboardBlogEntry extends Vue {
 
 		.entry-title {
 			font-size: 1.7rem;
-			padding: 0 1.1rem 1.1rem 1.1rem;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
-			height: 50px;
+			padding: 1.1rem;
+			height: auto;
 
 			a {
 				color: $dark-green;

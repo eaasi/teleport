@@ -88,7 +88,7 @@ export default class LeftMenu extends Vue {
 	bottom: 0;
 	color: $black;
 	left: 0;
-	min-height: 100vh;
+	min-height: -webkit-fill-available;
 	position: fixed;
 	top: 0;
 	width: $leftSidebarWidth;
@@ -106,6 +106,12 @@ export default class LeftMenu extends Vue {
 
 	img {
 		width: 100%;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.left-menu {
+		width: $leftSmallSidebarWidth;
 	}
 }
 </style>

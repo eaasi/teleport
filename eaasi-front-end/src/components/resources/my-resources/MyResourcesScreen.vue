@@ -160,7 +160,7 @@ export default class MyResourcesScreen extends Vue {
 		display: block;
 		font-weight: 300;
 		margin-bottom: 0;
-		padding: 3rem 3rem 1rem;
+		padding: 20px 15px
 	}
 
 	.deselect-all-wrapper {

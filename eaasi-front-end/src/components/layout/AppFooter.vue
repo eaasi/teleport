@@ -46,6 +46,7 @@ export default class AppFooter extends Vue {};
 		position: relative;
 		z-index: 300;
 		color: $black;
+		flex: 0;
 	}
 
 	#footerLogo {

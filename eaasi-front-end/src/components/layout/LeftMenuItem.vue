@@ -36,7 +36,7 @@
 		border-bottom: 2px solid $green;
 		cursor: pointer;
 		display: block;
-		padding: 2.5rem 1rem 2.5rem 1rem;
+		padding: 25px 15px;
 		position: relative;
 		text-align: center;
 		text-decoration: none;
@@ -63,6 +63,11 @@
 				top: 0;
 				transition: background-color 0.3s, border-left 0.3s;
 			}
+		}
+	}
+	@media screen and (max-width: 950px) {
+		a.left-menu-item {
+			padding: 25px 10px;
 		}
 	}
 </style>
