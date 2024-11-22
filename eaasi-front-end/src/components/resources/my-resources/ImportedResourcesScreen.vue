@@ -33,7 +33,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="resource-bento width-md">
+					<div class="resource-bento resources-group">
 						<div class="bento-row">
 							<div
 								v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
@@ -275,6 +275,8 @@ export default class ImportedResourcesScreen extends Vue {
 	}
 
 	.resource-results-wrapper {
+		width: -webkit-fill-available;
+
 		.resource-results {
 			display: flex;
 			min-height: 80vh;
@@ -299,8 +301,12 @@ export default class ImportedResourcesScreen extends Vue {
 			}
 
 			.card-wrapper {
-				width: 53rem;
+				width: -webkit-fill-available;
 			}
 		}
+	}
+
+	.resources-group {
+		width: -webkit-fill-available;
 	}
 </style>

@@ -108,6 +108,7 @@ export default class BigButton extends Vue {
 			color: $black;
 			font-size: 1.8rem;
 			font-weight: bold;
+			margin-bottom: 10px;
 		}
 
 		.eb-icon {

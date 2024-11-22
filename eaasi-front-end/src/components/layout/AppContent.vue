@@ -105,6 +105,7 @@ export default class AppContent extends Mixins(TaskManager) {
 	#appContent {
 		align-content: stretch;
 		flex-grow: 1;
+		width: -webkit-fill-available;
 	}
 
 	#contentWrapper {
@@ -133,7 +134,7 @@ export default class AppContent extends Mixins(TaskManager) {
 	}
 
 	#mainContent {
-		height: -webkit-fill-available;
+		height: 100%;
 	}
 
 	#globalLoader {

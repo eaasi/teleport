@@ -1,5 +1,5 @@
 <template>
-	<div id="importResource" class="width-lg">
+	<div id="importResource">
 		<h1 class="padded no-mb page-title">Import Resource</h1>
 		<import-progress />
 		<section class="import-wrapper flex">
@@ -95,5 +95,4 @@ export default class ImportResourceScreen extends Vue {
 .import-content {
 	flex: 1 1 auto;
 }
-
 </style>

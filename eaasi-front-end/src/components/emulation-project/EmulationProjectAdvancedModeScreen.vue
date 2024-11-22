@@ -3,7 +3,7 @@
 		<div class="emu-project-content padded">
 			<h2 class="hardware-select-header">Hardware</h2>
 			<div class="hardware-select-container row">
-				<div class="col-sm-5">
+				<div class="hardware-select-item">
 					<div class="txt-sm">System Template</div>
 					<select-list :value="selectedTemplateId" @input="selectTemplate">
 						<option :value="null" selected disabled>
@@ -280,4 +280,26 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 	padding-left: 1rem;
 }
 
+.hardware-select-item {
+	margin-left: 15px;
+}
+
+@media screen and (max-width: 1050px) {
+	.emulation-project-screen {
+		.emulation-project-advanced-mode-screen {
+			h2 {
+				margin-left: 15px;
+				padding-top: 10px;
+			}
+
+			.emu-project-content {
+				padding: 10px;
+			}
+
+			.hardware-select-container.row {
+				margin: 10px 0;
+			}
+		}
+	}
+}
 </style>

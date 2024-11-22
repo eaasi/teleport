@@ -177,7 +177,7 @@ export default class AdminMenu extends Vue {
 
 .user-info {
 	div {
-		margin: 1rem 0;
+		gap: 10px 20px;
 	}
 }
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="environment-import-metadata-fast">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="computer-image-form-input">
 				<text-input
 					label="Name"
 					rules="required"
@@ -80,4 +80,15 @@ export default class EnvironmentImportMetadataFast extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.environment-import-metadata-fast {
+	.row {
+		margin: 0;
+		width: -webkit-fill-available;
+
+		.computer-image-form-input {
+			width: -webkit-fill-available;
+		}
+	}
+}
+</style>

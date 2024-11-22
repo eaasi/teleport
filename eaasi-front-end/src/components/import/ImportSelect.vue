@@ -22,8 +22,8 @@
 		</div>
 		<div class="import-types padded" v-else>
 			<h2>I want to import a...</h2>
-			<div class="row">
-				<div class="col-md-4">
+			<div class="row import-types-wrapper">
+				<div class="import-type">
 					<options-box title="Content Object" icon="file">
 						Files or objects from a digital collection to be added to an environment for access.
 						<template slot="footer">
@@ -37,7 +37,7 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4 option-box-container">
+				<div class="import-type option-box-container">
 					<options-box title="Software Object" icon="file">
 						Media or files required to install or operate software within an emulation environment.
 						<template slot="footer">
@@ -51,7 +51,7 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">
+				<div class="import-type option-box-container" v-if="userCanImportEnvironment">
 					<options-box
 						title="Computer Image"
 						icon="file"
@@ -176,4 +176,27 @@ export default class ImportSelect extends Vue {
 	}
 }
 
+.import-types-wrapper {
+	gap: 40px;
+	flex-wrap: nowrap;
+	margin: 0;
+	padding: 15px;
+
+	.import-type {
+		width: 30%;
+	}
+}
+
+@media screen and (max-width: 1050px) {
+	.import-types-wrapper {
+		gap: 20px;
+		margin: 0;
+		flex-wrap: wrap;
+
+		.import-type {
+			width: 100%;
+		}
+
+	}
+}
 </style>

@@ -88,7 +88,7 @@ export default class ResourceFacets extends Vue {
 .resource-facets {
 	background-color: $light-grey;
 	padding: 1.5rem;
-	width: 25rem;
+	width: -webkit-fill-available;
 
 	h2 {
 		font-weight: 400;

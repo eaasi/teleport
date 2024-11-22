@@ -77,6 +77,10 @@ export default class FormFieldWrapper extends Vue {
 		}
 	}
 
+	select {
+		padding-right: 25px;
+	}
+
 	input {
 		padding-bottom: 5px;
 		border-bottom: 2px solid $green;

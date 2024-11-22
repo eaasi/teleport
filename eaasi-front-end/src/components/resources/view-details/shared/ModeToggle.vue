@@ -15,7 +15,7 @@
 					<span>
 						Edit resource metadata and save changes.
 					</span>
-					<div>
+					<div class="metadata-group-btn">
 						<ui-button
 							color-preset="white"
 							size="md"
@@ -114,9 +114,8 @@ export default class ModeToggle extends Vue {
 	align-items: center;
 	background-color: $medium-grey;
 	display: flex;
-	height: 64px;
-	padding-left: 2.4rem;
-	padding-right: 2.4rem;
+	min-height: 64px;
+	padding: 1rem 2.4rem;
 
 	.mtb-mode {
 		margin-left: 1.2rem;
@@ -126,6 +125,20 @@ export default class ModeToggle extends Vue {
 		border-radius: 2rem;
 		color: $medium-grey;
 		padding: 1rem;
+	}
+}
+@media screen and (max-width: 1200px) {
+	.mtb-container {
+		flex-direction: column;
+		gap: 15px;
+
+		span:first-child {
+			margin-right: 15px;
+		}
+	}
+
+	.metadata-group-btn{
+		display: flex;
 	}
 }
 </style>

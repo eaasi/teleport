@@ -302,4 +302,26 @@ export default class EmulationProjectScreen extends Vue {
 		}
 	}
 }
+
+@media screen and (max-width: 1060px) {
+	.emulation-project-screen {
+		.emu-project-actions {
+			flex-direction: column;
+		}
+
+		.main-content {
+			.emulation-content {
+				padding: 1rem;
+
+				.emu-project-content{
+					padding: 0;
+				}
+			}
+
+			.environment-selection-controls {
+				width: -webkit-fill-available;
+			}
+		}
+	}
+}
 </style>

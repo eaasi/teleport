@@ -580,3 +580,9 @@ strong {
 .bento-header {
 	width: 100%;
 }
+
+@media screen and (max-width: 900px) {
+	.resource-bento {
+		padding: 1rem;
+	}
+}

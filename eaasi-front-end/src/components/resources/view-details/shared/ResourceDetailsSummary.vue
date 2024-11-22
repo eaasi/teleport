@@ -154,7 +154,7 @@
 
 	.vds-container {
 		margin-bottom: 1rem;
-		width: 33vw;
+		width: -webkit-fill-available;
 
 		.eaasi-input {
 			background: transparent;

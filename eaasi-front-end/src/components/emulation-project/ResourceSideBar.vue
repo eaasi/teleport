@@ -421,4 +421,10 @@ export default class ResourceSideBar extends Vue {
 	padding: 1.5rem;
 }
 
+@media screen and (max-width: 1050px) {
+	.resource-side-bar {
+		padding: 1rem;
+	}
+}
+
 </style>

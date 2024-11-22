@@ -266,4 +266,18 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 	.ip-content {
 		min-width: 0;
 	}
+
+	@media screen and (max-width: 1050px) {
+		.import-progress {
+			flex-direction: column;
+
+			.padded {
+				padding: 15px;
+			}
+			
+			.ip-actions {
+				flex:1;
+			}
+		}
+	}
 </style>

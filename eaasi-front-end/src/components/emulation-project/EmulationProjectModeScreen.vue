@@ -132,7 +132,8 @@ export default class EmulationProjectModeScreen extends Vue {
 			pointer-events: none;
 			position: absolute;
 			width: 100%;
-			z-index: 5;
+			z-index: 2;
+			padding: 0 5px;
 		}
 	}
 
@@ -175,6 +176,34 @@ export default class EmulationProjectModeScreen extends Vue {
 	.environment-selection-controls {
 		margin-bottom: 1rem;
 		width: 385px;
+	}
+}
+
+@media screen and (max-width: 1050px) {
+	.emulation-project-mode-screen {
+
+		.emu-project-content-drop-zone {
+			width: -webkit-fill-available;
+
+			.drop-zone-container {
+				width: -webkit-fill-available;
+
+				.drop-zone {
+					width: -webkit-fill-available;
+				}
+			}
+		}
+	}
+	.selecting-action-button {
+		flex-direction: column;
+
+		.ui-btn-container {
+			width: -webkit-fill-available;
+
+			.eaasi-button {
+				width: 100%;
+			}
+		}
 	}
 }
 
