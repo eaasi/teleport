@@ -9,7 +9,7 @@
 						:border-color="searchBorderColor"
 						v-model="searchKeyword"
 						name="q"
-						role="search"
+						role="searchbox"
 						@search="search"
 						@clear="clearSearchQuery"
 					/>
