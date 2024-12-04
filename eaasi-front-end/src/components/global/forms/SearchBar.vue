@@ -14,6 +14,7 @@
 					:value="value"
 					:id="id"
 					aria-label="search"
+					role="searchbox"
 				/>
 				<span
 					class="cursor-pointer"
