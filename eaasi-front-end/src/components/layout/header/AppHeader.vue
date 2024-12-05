@@ -10,6 +10,8 @@
 						v-model="searchKeyword"
 						name="q"
 						role="searchbox"
+						type="search"
+						aria-label="search"
 						@search="search"
 						@clear="clearSearchQuery"
 					/>

@@ -66,7 +66,7 @@ export default class Step extends Vue {
 	}
 
 	.step-number {
-		background: transparent;
+		background: $medium-grey;
 		border: 2px solid #000000;
 		border-radius: 50%;
 		color: #000000;
