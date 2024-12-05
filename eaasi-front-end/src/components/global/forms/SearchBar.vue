@@ -13,6 +13,8 @@
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
+					:aria-labelledby="id"
+					type="search"
 					aria-label="search"
 					role="searchbox"
 				/>
