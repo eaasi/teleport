@@ -140,8 +140,12 @@ export default class SelectableCard extends Vue {
 		}
 
 		&.disabled {
-			opacity: 0.4;
+			opacity: 0.7;
 			pointer-events: none;
+
+			.panel-right .header {
+				color: #004714B3;
+			}
 		}
 
 		.bookmark {
