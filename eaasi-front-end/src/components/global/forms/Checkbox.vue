@@ -4,12 +4,16 @@
 		v-bind="wrapperPropsExtended"
 		:readonly="disabled"
 	>
-		<label :disabled="disabled" :for="UUID">
+		<label :disabled="disabled" :for="UUID" :id="UUID_label">
 			<span>{{ label }}</span>
 			<span class="hide-label">checkbox to select {{name}} with value {{value}}</span>
 			<input
 				:id="UUID"
 				type="checkbox"
+				role="checkbox"
+				:aria-label="`checkbox to select ${label} with value ${value}`"
+				:aria-labelledby="UUID_label"
+				:aria-checked="value"
 				v-bind="$attrs"
 				:checked="value"
 				@change="handleChange"
@@ -54,6 +58,8 @@ export default class Checkbox extends BaseFormField {
 	/* Data
     ============================================*/
 	UUID: string = self.crypto === undefined ? '' : self.crypto?.randomUUID();
+	UUID_label: string = self.crypto === undefined ? '' : self.crypto?.randomUUID();
+
 
 	handleChange(event) {
 		if (this.disabled) return;
