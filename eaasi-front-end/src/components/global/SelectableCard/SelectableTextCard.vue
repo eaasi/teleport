@@ -84,7 +84,7 @@ hr {
 		pointer-events: none;
 
 		.panel-right .header {
-			color: #004714B3;
+			color: #004D16;
 		}
 	}
 
