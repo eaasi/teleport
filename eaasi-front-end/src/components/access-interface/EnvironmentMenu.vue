@@ -198,7 +198,7 @@ export default class EnvironmentMenu extends Vue {
 	width: 25%;
 
 	@include tablet {
-		padding-top: $accessHeaderHeight;
+		padding-top: 45px;
 		width: $accessMenuWidth;
 	}
 
