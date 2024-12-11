@@ -7,6 +7,7 @@
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
+					data-testid="test-select"
 				>
 					<slot></slot>
 				</select>
