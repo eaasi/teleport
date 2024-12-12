@@ -32,12 +32,11 @@ export default class RunningTaskManagement extends AdminScreen {}
 </script>
 <style lang="scss">
 	.rtl-header {
-		background-color: lighten($light-neutral, 60%);
-		padding-bottom: 2.5rem;
-
-		h1 {
-			font-size: 1.8rem;
-		}
+		background-color: #c0c2c3;
+		display: block;
+		font-weight: 300;
+		margin-bottom: 0;
+		padding: 3rem 3rem 1rem;
 	}
 
 	.running-task-list {

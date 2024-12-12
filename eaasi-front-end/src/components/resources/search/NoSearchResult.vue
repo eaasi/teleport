@@ -9,7 +9,7 @@
 			</p>
 			<p>Don’t give up! Try a new search or you can…</p>
 			<div class="flex flex-row">
-				<ui-button size="md" color-preset="light-blue" style="margin-left: 3rem;" @click="clearSearch">
+				<ui-button size="md" color-preset="white" style="margin-left: 3rem;" @click="clearSearch">
 					Browse All Resources
 				</ui-button>
 			</div>

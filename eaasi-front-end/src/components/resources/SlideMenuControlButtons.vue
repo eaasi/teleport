@@ -7,7 +7,7 @@
 		>
 			<ui-button
 				@click="$emit('open', tab)"
-				color-preset="blue-transparent"
+				color-preset="white"
 				size="sm"
 			>
 				{{ tab.label }}
@@ -45,23 +45,13 @@ export default class SlideMenuControlButtons extends Vue {
 		position: relative;
 
 		&.border-left {
-			border-left: 1px solid darken($light-neutral, 10%);
+			border-left: 1px solid darken($light-grey, 10%);
 		}
 
 		button {
 			font-size: 1.6rem;
 			font-weight: bold;
 		}
-	}
-
-	.btn-wrapper::after {
-		background: $dark-blue;
-		bottom: 0;
-		content: '';
-		height: 2px;
-		left: 12%;
-		position: absolute;
-		width: 76%;
 	}
 }
 </style>

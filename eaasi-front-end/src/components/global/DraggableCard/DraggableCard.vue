@@ -92,7 +92,7 @@ export default class SelectableRadioCard extends Vue {
 <style lang="scss">
 
 .ds-checkbox {
-	border: solid 1px $light-blue;
+	border: solid 2px $medium-grey;
 	border-radius: 50%;
 	display: inline-block;
 	height: 1rem;
@@ -101,9 +101,8 @@ export default class SelectableRadioCard extends Vue {
 	width: 1rem;
 
 	&.checked {
-		background-color: $dark-blue;
-		border: solid 1px $dark-blue;
-		box-shadow: inset 0px 0px 2px 2px #FFFFFF;
+		background-color: $dark-light-grey;
+		border: solid 1px $dark-light-grey;
 	}
 }
 
@@ -114,20 +113,17 @@ hr {
 
 .resource-object-container {
 	background-color: #FFFFFF;
-	border: 1px solid lighten($light-blue, 70%);
-	border-radius: 0.5rem;
+	border: 2px solid black;
 	margin-bottom: 0.5rem;
 	min-height: 7rem;
 	position: relative;
 
 	&.selected {
-		border: 1px solid darken($light-blue, 20%);
+		border: 2px solid $green;
 	}
 }
 
 .panel-left {
-	border-bottom-left-radius: 0.5rem;
-	border-top-left-radius: 0.5rem;
 	padding: 0.5rem;
 
 	&.grip-lines {
@@ -136,23 +132,21 @@ hr {
 		display: flex;
 
 		span {
-			color: lighten($dark-blue, 20%);
+			color: $light-green;
 		}
 	}
 }
 
 .panel-right {
-	border-bottom-right-radius: 0.5rem;
 	border-left: none;
-	border-top-right-radius: 0.5rem;
 	padding: 10px;
 	width: 100%;
 
 	.header {
-		color: $dark-blue;
+		color: $dark-green;
 		font-size: 1.6rem;
 		line-height: 2rem;
-		padding-right: 4.5rem;
+		padding-right: 10px;
 
 		.loading-icon {
 			margin-left: 1rem;
@@ -175,6 +169,4 @@ hr {
 .subcontent-divider {
 	margin-top: 1.4rem;
 }
-
-
 </style>

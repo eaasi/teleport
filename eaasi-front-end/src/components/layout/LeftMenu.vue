@@ -2,7 +2,7 @@
 	<nav class="left-menu" role="navigation" v-if="user">
 		<div id="headerLogo" class="flex flex-center" @click="navigateToDashboard">
 			<img
-				src="@/assets/eaasi_logos/logoEaaSI_160.png"
+				src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png"
 				alt="Eaasi Logo"
 				class="left-menu-logo"
 			/>
@@ -45,34 +45,28 @@ export default class LeftMenu extends Vue {
 	get menuItems() : IMenuItem[] {
 		let menu = [
 			{
-				icon: 'home',
-				label: 'My Dashboard',
+				label: 'Dashboard',
 				route: ROUTES.DASHBOARD,
 			},
 			{
-				icon: 'file-search',
-				label: 'Explore Resources',
+				label: 'Explore',
 				route: ROUTES.RESOURCES.EXPLORE,
 			},
 			{
-				icon: 'clipboard-list',
 				label: 'My Resources',
 				route: ROUTES.RESOURCES.MY_RESOURCES,
 			},
 			{
-				icon: 'atom',
-				label: 'Emulation Project',
+				label: 'Emulation',
 				route: ROUTES.EMULATION_PROJECT.ROOT,
 			},
 			{
-				icon: 'upload',
-				label: 'Import Resource',
+				label: 'Import',
 				route: ROUTES.IMPORT_RESOURCE,
 			}];
 
 		if (this.userCanManageOrganization()) {
 			menu.push({
-				icon: 'manage',
 				label: 'Manage Organization',
 				route: ROUTES.MANAGE_NODE.ROOT,
 			});
@@ -91,24 +85,34 @@ export default class LeftMenu extends Vue {
 
 <style lang="scss">
 .left-menu {
-	background-color: darken($teal, 60%);
 	bottom: 0;
-	color: #FFFFFF;
+	color: $black;
 	left: 0;
-	min-height: 100vh;
+	min-height: -webkit-fill-available;
 	position: fixed;
 	top: 0;
 	width: $leftSidebarWidth;
-	z-index: 2;
+	z-index: 3;
+	border: 2px solid $green;
+	background-color: white;
 }
 
 #headerLogo {
 	cursor: pointer;
 	height: $headerHeight;
-	width: $leftSidebarWidth;
+	width: 100%;
+	border-bottom: 2px solid $green;
+	border-right: 2px solid $green;
+	padding: 0;
 
 	img {
-		width: 6.8rem;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.left-menu {
+		width: $leftSmallSidebarWidth;
 	}
 }
 </style>

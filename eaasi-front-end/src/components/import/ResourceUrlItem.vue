@@ -51,34 +51,34 @@ export default class ResourceUrlItem extends Vue {
 <style lang="scss">
 
 .software-file-list-item {
-	border: solid 1px lighten($light-blue, 60%);
+	border: solid 2px black;
 	margin-bottom: 2rem;
 	width: 100%;
 
 	&.selected {
-		outline: solid 2px $light-blue;
+		outline: solid 1px black;
 
 		.sfl-check {
-			background-color: lighten($light-blue, 70%);
+			background-color: $green;
 		}
 
 		.sfl-info {
-			background-color: lighten($light-blue, 80%);
+			background-color: $green-background;
 		}
 
 		.sfl-handle {
-			border-left: solid 2px $light-blue;
+			background-color: $green;
 		}
 	}
 }
 
 .sfl-name {
-	color: darken($dark-neutral, 40%);
+	color: $dark-light-grey;
 	margin-bottom: 1.2rem;
 }
 
 .sfl-check {
-	background-color: lighten($light-blue, 80%);
+	background-color: $green-background;
 	flex: 0 0 2rem;
 	padding: 0.5rem;
 }
@@ -90,11 +90,11 @@ export default class ResourceUrlItem extends Vue {
 }
 
 .sfl-handle {
-	background-color: lighten($light-blue, 80%);
+	background-color: $green-background;
 	cursor: grab;
 	flex: 0 0 3rem;
 	i {
-		color: $light-blue;
+		color: $green;
 	}
 }
 

@@ -12,12 +12,12 @@
 						</span>
 						<span v-if="!readonly" class="icon-wrapper flex-row">
 							<span
-								class="fas fa-edit dark-blue"
+								class="fas fa-edit green"
 								style="margin-right: 0.5rem;"
 								@click="edit(drive)"
 							></span>
 							<span
-								class="fas fa-times red"
+								class="fas fa-times black"
 								@click="remove(drive)"
 							>
 							</span>
@@ -28,7 +28,7 @@
 			<ui-button
 				v-if="!readonly"
 				size="sm"
-				color-preset="light-blue"
+				color-preset="white"
 				icon="plus"
 				@click="add"
 			>
@@ -40,7 +40,7 @@
 			<ui-button
 				v-if="!readonly"
 				size="sm"
-				color-preset="light-blue"
+				color-preset="white"
 				icon="plus"
 				@click="add"
 			>
@@ -134,20 +134,18 @@ export default class ConfiguredDrives extends Vue {
 <style lang='scss' scoped>
 .lil-container {
 	position: relative;
-	.changed {
-		background: lighten($yellow, 60%);
-	}
 
 	.fas {
 		cursor: pointer;
 		display: block;
 		font-size: 2rem;
 	}
-	.dark-blue {
-		color: $dark-blue;
+	.green {
+		color: $dark-green;
 	}
-	.red {
-		color: $red;
+
+	.black {
+		color: black;
 	}
 
 	.icon-wrapper {

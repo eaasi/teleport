@@ -9,9 +9,6 @@
 			active-class="active"
 			data-test="left-menu-item"
 		>
-			<div class="left-menu-icon">
-				<eaasi-icon :icon="item.icon" class="icon-teal" />
-			</div>
 			<p class="txt-sm no-mb">
 				{{ item.label }}
 			</p>
@@ -35,54 +32,42 @@
 
 <style lang="scss">
 	a.left-menu-item {
-		color: #FFFFFF;
+		color: $black;
+		border-bottom: 2px solid $green;
 		cursor: pointer;
 		display: block;
-		padding: 1.2rem 1rem 1rem 1rem;
+		padding: 25px 15px;
 		position: relative;
 		text-align: center;
 		text-decoration: none;
 		user-select: none;
+		font-weight: 400;
 
 		p {
-			text-transform: uppercase;
-		}
-
-		.icon-teal {
-			color: $teal;
-			font-size: 4.3rem;
-			font-weight: 100;
-		}
-
-		&::before {
-			border-left: none;
-			bottom: 0;
-			content: '';
-			display: block;
-			left: 0;
-			position: absolute;
-			right: 0;
-			top: 0;
-			transition: background-color 0.3s, border-left 0.3s;
+			font-size: 1.6rem;
 		}
 
 		&.active {
-			background-color: #ffffff;
-			border-right: 2px solid lighten($teal, 80%);
-			color: darken($teal, 60%);
+			border-right: none;
+			font-weight: 700;
 
-			&::before {
-				border-left: 4px solid $teal;
+			&::after {
+				border-left: none;
+				bottom: 0;
+				background-color: white;
+				width: 2px;
+				content: '';
+				display: block;
+				position: absolute;
+				right: -2px;
+				top: 0;
+				transition: background-color 0.3s, border-left 0.3s;
 			}
 		}
 	}
-
-	.left-menu-icon {
-		height: 3.8rem;
-		padding-bottom: 0.6rem;
-	}
-
-	.lmi-divider {
-		border-bottom: 4px solid darken($teal, 73%);
+	@media screen and (max-width: 950px) {
+		a.left-menu-item {
+			padding: 25px 10px;
+		}
 	}
 </style>

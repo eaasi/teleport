@@ -5,7 +5,7 @@
 				<tr>
 					<th scope="col"> Name </th>
 					<th scope="col"> Number of Images </th>
-					<th scope="col" style="width: 100px;"></th>
+					<th scope="col" style="width: 100px;" class="hide"> Details button</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,3 +39,9 @@ export default class EmulatorList extends Vue {
 }
 
 </script>
+
+<style lang="scss">
+.hide {
+	display: none;
+}
+</style>

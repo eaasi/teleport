@@ -1,6 +1,6 @@
 <template>
-	<div id="importResource" class="width-lg">
-		<h1 class="padded no-mb">Import Resource</h1>
+	<div id="importResource">
+		<h1 class="padded no-mb page-title">Import Resource</h1>
 		<import-progress />
 		<section class="import-wrapper flex">
 			<div class="import-content">
@@ -82,8 +82,17 @@ export default class ImportResourceScreen extends Vue {
 
 <style lang="scss">
 
+#importResource {
+	.page-title {
+		background-color: #c0c2c3;
+		display: block;
+		font-weight: 400;
+		margin-bottom: 0;
+		padding: 20px 15px;
+	}
+}
+
 .import-content {
 	flex: 1 1 auto;
 }
-
 </style>

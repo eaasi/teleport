@@ -59,8 +59,8 @@ export default class BaseEnvironmentDetailsCard extends Vue {
 
 <style lang="scss">
 	.template-card-container {
-		background-color: lighten($light-neutral, 75%);
-		border: 2px solid lighten($light-neutral, 50%);
+		background-color: lighten($light-grey, 75%);
+		border: 2px solid lighten($light-grey, 50%);
 		border-bottom-left-radius: 1rem;
 		border-bottom-right-radius: 1rem;
 		box-sizing: border-box;
@@ -93,11 +93,11 @@ export default class BaseEnvironmentDetailsCard extends Vue {
 	}
 
 	.bedc-kv {
-		border-bottom: 2px solid lighten($dark-neutral, 80%);
+		border-bottom: 2px solid lighten($medium-grey, 80%);
 	}
 
 	.bedc-key {
-		color: lighten($dark-neutral, 50%);
+		color: lighten($medium-grey, 50%);
 		font-size: 1.2rem;
 		padding: 1.2rem 0 0.6rem 0;
 		text-transform: uppercase;

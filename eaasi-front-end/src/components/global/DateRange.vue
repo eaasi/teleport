@@ -74,17 +74,17 @@ export interface IDateRange {
 
 <style lang='scss'>
 .date-picker-wrapper {
-	border-bottom: 2px solid $light-blue;
+	border-bottom: 2px solid $green;
 	padding: 0.5rem;
 
 	.dp-inner {
-		background: lighten($light-blue, 90%);
-		border: 1px solid lighten($light-blue, 90%);
+		background: $light-grey;
+		border: 2px solid $light-grey;
 		border-radius: 6px;
 		padding: 5px;
 
 		input {
-			background: lighten($light-blue, 90%);
+			background: $light-grey;
 			border: none;
 			font-size: 14px;
 			margin: 0;
@@ -94,11 +94,11 @@ export interface IDateRange {
 	}
 
 	&.active {
-		border-bottom: 2px solid $dark-blue;
+		border-bottom: 2px solid $green;
 
 		.dp-inner {
 			background: #ffffff;
-			border: 1px solid $light-blue;
+			border: 2px solid $green;
 		}
 
 		input {

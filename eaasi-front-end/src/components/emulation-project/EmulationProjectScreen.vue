@@ -14,7 +14,7 @@
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
 						<ui-button
-							color-preset="light-blue"
+							color-preset="white"
 							@click="clearAllAlertModal=true"
 							:disabled="clearAllDisabled"
 						>
@@ -259,9 +259,11 @@ export default class EmulationProjectScreen extends Vue {
 	min-height: 100%;
 
 	.emulation-project-page-heading {
-		background: lighten($light-neutral, 80%);
-		border-bottom: solid 3px lighten($light-neutral, 10%);
-		padding: 3rem 1.8rem;
+		background-color: #c0c2c3;
+		display: block;
+		font-weight: 300;
+		margin-bottom: 0;
+		padding: 34px 15px;
 		.emulation-project-page-title {
 			padding-bottom: 3px;
 		}
@@ -290,13 +292,35 @@ export default class EmulationProjectScreen extends Vue {
 		margin-right: 0;
 
 		.emulation-content {
-			background-color: lighten($light-neutral, 60%);
-			min-height: 100vh;
+			background-color: $light-grey;
+			min-height: 100%;
 			padding: 3rem;
 		}
 
 		.side-bar {
 			width: 39rem;
+		}
+	}
+}
+
+@media screen and (max-width: 1060px) {
+	.emulation-project-screen {
+		.emu-project-actions {
+			flex-direction: column;
+		}
+
+		.main-content {
+			.emulation-content {
+				padding: 1rem;
+
+				.emu-project-content{
+					padding: 0;
+				}
+			}
+
+			.environment-selection-controls {
+				width: -webkit-fill-available;
+			}
 		}
 	}
 }

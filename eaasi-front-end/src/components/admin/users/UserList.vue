@@ -118,7 +118,7 @@ export default class UserList extends Vue {
 	}
 
 	.details-cell {
-		color: $dark-blue;
+		color: $dark-green;
 		text-align: center;
 		transition: background-color 0.2s, color 0.2s;
 
@@ -129,7 +129,7 @@ export default class UserList extends Vue {
 			transition: background-color 0.2s, color 0.2s;
 
 			&:hover {
-				background-color: #ffffff;
+				color: black;
 				transition: background-color 0.2s, color 0.2s;
 			}
 		}

@@ -481,7 +481,7 @@ export default class ResourceSlideMenu extends Vue {
 
 <style lang="scss">
 	.resource-slide-menu {
-		background-color: lighten($light-neutral, 80%);
+		background-color: #f0f0f0;
 		bottom: 0;
 		position: fixed;
 		right: 0;
@@ -494,7 +494,7 @@ export default class ResourceSlideMenu extends Vue {
 
 	.rsm-header {
 		background-color: #FFFFFF;
-		border-bottom: solid 4px lighten($dark-neutral, 70%);
+		border-bottom: solid 4px $medium-grey;
 	}
 
 	.rsm-details {
@@ -502,13 +502,13 @@ export default class ResourceSlideMenu extends Vue {
 	}
 
 	.rsm-resource-title {
-		border-top: solid 6px $dark-blue;
+		border-top: solid 6px $green;
 		font-size: 1.7rem;
 		padding: 2rem;
 	}
 
 	.rsm-local-actions {
-		border-bottom: solid 4px lighten($light-neutral, 10%);
+		border-bottom: solid 4px $medium-grey;
 	}
 
 	#publicWarning {

@@ -73,21 +73,20 @@ export default class DescriptiveRadios extends Vue {
 
 <style lang="scss">
 .descriptive-radio {
-	background-color: #FFFFFF;
-	border: solid 2px $light-blue;
-	border-radius: 10px;
+	background-color: $light-grey;
+	border: solid 2px black;
 	box-sizing: border-box;
-	color: $dark-blue;
+	color: black;
 	cursor: pointer;
 	overflow: hidden;
 	text-align: center;
 	transition: background-color 0.3s;
 
 	&.checked {
-		background-color: lighten($light-blue, 80%);
+		background-color: $medium-grey;
 
 		.ds-footer {
-			background-color: lighten($light-blue, 50%);
+			background-color: $dark-light-grey;
 		}
 	}
 
@@ -103,7 +102,7 @@ export default class DescriptiveRadios extends Vue {
 	}
 
 	p {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 		user-select: none;
 	}
 
@@ -117,14 +116,13 @@ export default class DescriptiveRadios extends Vue {
 	}
 
 	.ds-footer {
-		background-color: lighten($light-blue, 90%);
-		border-top: solid 2px $light-blue;
+		background-color: $medium-grey;
 		padding: 1rem;
 		transition: background-color 0.3s;
 	}
 
 	.ds-checkbox {
-		border: solid 2px $light-blue;
+		border: solid 2px $dark-grey;
 		border-radius: 50%;
 		display: inline-block;
 		height: 1.6rem;
@@ -132,8 +130,8 @@ export default class DescriptiveRadios extends Vue {
 		width: 1.6rem;
 
 		&.checked {
-			background-color: $dark-blue;
-			border: solid 2px $dark-blue;
+			background-color: black;
+			border: solid 2px black;
 			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
 		}
 	}

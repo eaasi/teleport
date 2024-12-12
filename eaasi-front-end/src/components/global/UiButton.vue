@@ -90,7 +90,6 @@ export default class UiButton extends Vue {
 
 .eaasi-button {
 	appearance: none;
-	border-radius: 0.4rem;
 	cursor: pointer;
 	font-size: 1.6rem;
 	font-weight: 600;
@@ -126,7 +125,7 @@ export default class UiButton extends Vue {
 
 	&:disabled {
 		cursor: not-allowed;
-		opacity: 0.5;
+		opacity: 0.6;
 	}
 
 	&.collapse {
@@ -145,46 +144,47 @@ export default class UiButton extends Vue {
 	Color presets
 	 */
 	&.default {
-		background-color: $dark-blue;
-		border: solid 2px darken($dark-blue, 20%);
-		color: #FFFFFF;
+		background-color: $green;
+		border: solid 2px transparent;
+		color: black;
 
 		&:hover {
-			background-color: darken($dark-blue, 20%);
+			background-color: $medium-green;
+			border: solid 2px black;
 		}
 	}
 
-	&.light-blue {
-		background-color: lighten($light-blue, 80%);
-		border: solid 2px lighten($light-blue, 50%);
-		color: $dark-blue;
+	&.green {
+		background-color: $green;
+		color: black;
+		border: solid 2px transparent;
 
 		&:hover {
-			background-color: lighten($light-blue, 40%);
+			background-color: $medium-green;
+			border: solid 2px black;
 		}
 	}
 
 	&.white {
 		background-color: #FFFFFF;
-		border: solid 2px lighten($light-blue, 30%);
-		color: lighten($dark-blue, 20%);
-		font-weight: normal;
-
-		i {
-			color: $light-blue;
-		}
+		border: solid 2px #000000;
+		color: #000000;
 
 		&:hover {
-			background-color: $light-blue;
+			background-color: #000000;
 			color: #FFFFFF;
 		}
 	}
 
-	&.blue-transparent {
-		background-color: transparent;
-		border: none;
-		color: $dark-blue;
-		font-weight: bold;
+	&.black {
+		background-color: #000000;
+		border: solid 2px #000000;
+		color: #FFFFFF;
+
+		&:hover {
+			background-color: #FFFFFF;
+			color: #000000;
+		}
 	}
 }
 </style>

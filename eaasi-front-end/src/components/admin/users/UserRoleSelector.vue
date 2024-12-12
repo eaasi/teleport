@@ -48,26 +48,25 @@ export default class UserRoleSelector extends Vue {
 
 <style lang="scss">
 .eaasi-user-role-selector {
-	background-color: #FFFFFF;
-	border: solid 2px $light-blue;
-	border-radius: 10px;
+	background-color: $light-grey;
+	border: solid 2px black;
 	box-sizing: border-box;
-	color: $dark-blue;
+	color: black;
 	cursor: pointer;
 	overflow: hidden;
 	text-align: center;
 	transition: background-color 0.3s;
 
 	&.checked {
-		background-color: lighten($light-blue, 80%);
+		background-color: $medium-grey;
 
 		.eur-footer {
-			background-color: lighten($light-blue, 50%);
+			background-color: $dark-light-grey;
 		}
 	}
 
 	p {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 	}
 
 	.eur-info {
@@ -80,14 +79,13 @@ export default class UserRoleSelector extends Vue {
 	}
 
 	.eur-footer {
-		background-color: lighten($light-blue, 90%);
-		border-top: solid 2px $light-blue;
+		background-color: $medium-grey;
 		padding: 1rem;
 		transition: background-color 0.3s;
 	}
 
 	.eur-checkbox {
-		border: solid 2px $light-blue;
+		border: solid 2px $black;
 		border-radius: 50%;
 		display: inline-block;
 		height: 1.6rem;
@@ -95,7 +93,7 @@ export default class UserRoleSelector extends Vue {
 		width: 1.6rem;
 
 		&.checked {
-			background-color: $light-blue;
+			background-color: $black;
 			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
 		}
 	}

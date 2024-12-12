@@ -20,6 +20,7 @@
 				class="flex-row checkbox-facet"
 			>
 				<checkbox
+					:name="facetValue.label"
 					:label="facetValue.label"
 					v-model="facetValue.isSelected"
 				/>
@@ -27,7 +28,7 @@
 			</div>
 		</div>
 		<div class="clear-btn-wrapper">
-			<ui-button @click="$emit('deselect', facet)" color-preset="light-blue">
+			<ui-button @click="$emit('deselect', facet)" color-preset="white">
 				Clear ALL Filters
 			</ui-button>
 		</div>
@@ -35,7 +36,7 @@
 		<template #footer>
 			<div class="footer-btns-wrapper">
 				<div class="footer-btns flex-row pull-right">
-					<ui-button @click="$emit('close')" color-preset="light-blue">
+					<ui-button @click="$emit('close')" color-preset="white">
 						Cancel
 					</ui-button>
 					<ui-button @click="$emit('apply')">
@@ -113,18 +114,23 @@ export default class SearchFacetModal extends Vue {
 
 <style lang='scss' scoped>
 .filter-wrapper {
-	background-color: lighten($light-neutral, 60%);
-	border-top: 4px solid darken($light-neutral, 10%);
+	background-color: $green-background;
+	border-top: 4px solid $dark-green;
 	justify-content: space-evenly;
 	padding: 1rem 0;
+	color: $medium-grey;
+
 	.filter-item {
-		color: $dark-blue;
+		color: $dark-green;
 		cursor: pointer;
 		font-size: 16px;
 		padding: 0.5rem;
+		font-weight: 600;
 		&.disabled {
 			cursor: not-allowed;
-			opacity: 0.4;
+			opacity: 0.7;
+			color: #232323;
+			font-weight: 300;
 		}
 	}
 }
@@ -137,17 +143,16 @@ export default class SearchFacetModal extends Vue {
 	margin-bottom: 1rem;
 
 	.facet-total {
-		color: lighten($grey, 10%);
+		color: lighten($dark-light-grey, 10%);
 		font-size: 1.2rem;
 		margin-left: 0.4rem;
 	}
 }
 .clear-btn-wrapper {
-	border-top: 1px solid darken($light-neutral, 10%);
-	padding: 1rem;
+	padding: 1rem 0;
 }
 .footer-btns-wrapper {
-	border-top: 2px solid darken($light-neutral, 10%);
+	border-top: 2px solid darken($light-grey, 10%);
 }
 .footer-btns {
 	justify-content: space-between;

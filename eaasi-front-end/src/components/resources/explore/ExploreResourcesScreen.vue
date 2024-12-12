@@ -1,5 +1,8 @@
 <template>
 	<div id="exploreResources" v-if="bentoResult" :style="actionMenuStyles">
+		<div class="page-title">
+			<h1>Explore resources</h1>
+		</div>
 		<div :style="innerStyles">
 			<no-search-result v-if="noResult" />
 			<div v-else class="resource-results-wrapper">
@@ -316,13 +319,12 @@ export default class ExploreResourcesScreen extends Vue {
 <style lang="scss">
 
 	#exploreResources {
-		h1 {
-			background-color: lighten($light-neutral, 70%);
-			border-top: solid 1px darken($light-neutral, 10%);
+		.page-title {
+			background-color: #c0c2c3;
 			display: block;
-			font-weight: 300;
+			font-weight: 400;
 			margin-bottom: 0;
-			padding: 3rem 3rem 1rem;
+			padding: 20px 15px;
 		}
 
 		.resource-list {
@@ -332,7 +334,7 @@ export default class ExploreResourcesScreen extends Vue {
 			justify-content: space-between;
 
 			.card-wrapper {
-				width: 420px;
+				width: -webkit-fill-available;
 			}
 		}
 	}
@@ -340,21 +342,15 @@ export default class ExploreResourcesScreen extends Vue {
 	.resource-results-wrapper {
 		display: flex;
 		flex-direction: column;
-		max-width: 100vw;
+		width: -webkit-fill-available;
 		min-width: 0;
 
-		.resource-facets-wrapper {
-			background-color: lighten($light-neutral, 80%);
-		}
-
 		.resource-results {
-			margin-right: 1.5rem;
 			min-height: 80vh;
 
 			.ers-main-content {
 				display: flex;
 				flex-direction: column;
-				margin-right: 6rem;
 				min-width: 0;
 			}
 		}
@@ -363,12 +359,11 @@ export default class ExploreResourcesScreen extends Vue {
 			display: flex;
 			justify-items: center;
 			margin-right: 8.5rem;
-			min-width: 850px;
+			width: -webkit-fill-available;
 
 			.pagination-left {
-				background-color: lighten($light-neutral, 80%);
 				flex: 0 0 250px;
-				padding: 1.5rem;
+				padding: 1rem;
 			}
 
 			.pagination-right {
@@ -379,17 +374,17 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.deselect-all-wrapper {
-		background-color: lighten($light-blue, 90%);
+		background-color: $medium-grey;
 		padding: 1.5rem;
 
 		.deselect-link {
-			color: $dark-blue;
+			color: $dark-light-grey;
 			cursor: pointer;
 			font-size: 1.4rem;
 			font-weight: bold;
 		}
 		.icon-deselect {
-			background-color: $dark-blue;
+			background-color: $dark-light-grey;
 			border-radius: 0.6rem;
 			display: inline-block;
 			height: 20px;

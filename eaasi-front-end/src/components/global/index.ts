@@ -5,6 +5,7 @@ import SearchFacetModal from '@/components/resources/search/SearchFacetModal.vue
 import { VueConstructor } from 'vue';
 import Alert from './Alert/Alert.vue';
 import BigButton from './BigButton.vue';
+import LargeButton from './LargeButton.vue';
 import BigSectionHeading from './BigSectionHeading.vue';
 import CircleButton from './CircleButton.vue';
 import Collapsable from './Collapsable.vue';
@@ -66,6 +67,7 @@ export default {
 		Vue.component('Autocomplete', Autocomplete);
 		Vue.component('BaseFormField', BaseFormField);
 		Vue.component('BigButton', BigButton);
+		Vue.component('LargeButton', LargeButton);
 		Vue.component('BigSectionHeading', BigSectionHeading);
 		Vue.component('Checkbox', Checkbox);
 		Vue.component('CircleButton', CircleButton);
@@ -117,5 +119,11 @@ export default {
  == Individual exports for testing purposes
 /============================================================*/
 
-export { Alert, CircleButton, DatePicker, DateRange, AttachResourceCard, Autocomplete, BaseFormField, BigButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal, DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal, Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons, Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList, SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton, UiChip, UiNotification, ViewHeader, SearchSelectList, DraggableCard };
+export { Alert, CircleButton, DatePicker, DateRange, AttachResourceCard, Autocomplete, BaseFormField,
+	BigButton, LargeButton, BigSectionHeading, Checkbox, Collapsable, Column, ConfirmModal,
+	DescriptiveRadios, EaasiForm, FileDropzone, FileUploadButton, FormModal, HoverMenu, InfoModal,
+	Loader, LoaderOverlay, Modal, NumberedSteps, OptionsBox, Pagination, TabbedNav, RadioButtons,
+	Row, SearchBar, SectionHeading, CheckboxFacet, SearchFacetModal, SelectableCard, SelectList,
+	SmallBookmark, SortHeader, DualToggle, Tag, TagGroup, TextAreaInput, TextInput, TipsCard, UiButton,
+	UiChip, UiNotification, ViewHeader, SearchSelectList, DraggableCard };
 

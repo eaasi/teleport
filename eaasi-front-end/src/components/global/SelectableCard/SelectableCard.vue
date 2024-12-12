@@ -9,7 +9,7 @@
 		</div>-->
 
 		<div v-if="!disableSelect" :class="['panel-left', selectStyle]">
-			<checkbox :value="value" @input="toggleSelected" />
+			<checkbox :name="data.title" :value="value" @input="toggleSelected" />
 		</div>
 
 		<div :class="['panel-right', selectStyle]">
@@ -97,6 +97,7 @@ export default class SelectableCard extends Vue {
 	@Prop({ type: Boolean, default: false })
 	readonly disabled: boolean;
 
+
 	/* Computed
 	============================================*/
 	get selectStyle() : string {
@@ -128,19 +129,23 @@ export default class SelectableCard extends Vue {
 
 	.resource-object-container {
 		background-color: #FFFFFF;
-		border: 2px solid lighten($light-blue, 70%);
+		border: 2px solid black;
 		margin-bottom: 1.5rem;
 		min-height: 7rem;
 		position: relative;
 
 		&.selected {
-			background-color: lighten($light-blue, 90%);
-			border: 2px solid $light-blue;
+			background-color: $medium-grey;
+			border: 2px solid $medium-grey;
 		}
 
 		&.disabled {
-			opacity: 0.4;
+			opacity: 0.7;
 			pointer-events: none;
+
+			.panel-right .header {
+				color: #004D16;
+			}
 		}
 
 		.bookmark {
@@ -148,14 +153,18 @@ export default class SelectableCard extends Vue {
 			right: 0;
 			top: 2px;
 		}
+
+		.checkbox-label {
+			display: none;
+		}
 	}
 
 	.panel-left {
-		background-color: lighten($light-blue, 70%);
+		background-color: $green;
 		padding: 0.5rem;
 
 		&.selected {
-			background-color: lighten($light-blue, 50%);
+			background-color: $medium-green;
 		}
 	}
 
@@ -165,10 +174,11 @@ export default class SelectableCard extends Vue {
 		width: 100%;
 
 		.header {
-			color: $dark-blue;
+			color: $dark-green;
 			font-size: 1.6rem;
 			line-height: 2rem;
-			padding-right: 4.5rem;
+			padding-right: 10px;
+			font-weight: 400;
 
 			.loading-icon {
 				margin-left: 1rem;
@@ -189,7 +199,7 @@ export default class SelectableCard extends Vue {
 	}
 
 	.subcontent-divider {
-		border-color: lighten($dark-neutral, 90%);
+		border-color: $medium-grey;
 		margin-top: 1.4rem;
 	}
 
