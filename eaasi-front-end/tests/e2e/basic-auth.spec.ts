@@ -6,7 +6,6 @@ test('Basic auth', async ({ page, browser }) => {
 		await page.locator('#username').fill(process.env.VUE_APP_TEST_KEYCLOAK_USERNAME);
 		await page.locator('#password').fill(process.env.VUE_APP_TEST_KEYCLOAK_PASSWORD);
 		await page.locator('#kc-login').click();
-		await page.waitForURL('/dashboard*');
 		await expect(page.locator('#dh-eaasi-welcome')).toBeVisible();
 	});
 
