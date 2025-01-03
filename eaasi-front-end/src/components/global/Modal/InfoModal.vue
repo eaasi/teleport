@@ -10,7 +10,7 @@
 					<div class="justify-end buttons-right">
 						<ui-button
 							@click="$emit('close')"
-							color-preset="light-blue"
+							color-preset="white"
 							class="btn-info-modal-close"
 						>
 							{{ buttonText }}
@@ -64,7 +64,7 @@ export default class InfoModal extends Vue {
 
 <style lang="scss">
 	.eaasi-info-modal-title {
-		border-bottom: solid 4px darken($light-neutral, 10%);
+		border-bottom: solid 3px $dark-grey;
 		padding: 2rem 0 1rem;
 
 		h2 {
@@ -73,8 +73,7 @@ export default class InfoModal extends Vue {
 	}
 
 	.eaasi-info-modal-buttons {
-		background-color: lighten($light-neutral, 80%);
-		border-top: solid 2px darken($light-neutral, 10%);
+		background-color: $medium-grey;
 		padding: 3rem 4rem;
 
 		.buttons-right button {

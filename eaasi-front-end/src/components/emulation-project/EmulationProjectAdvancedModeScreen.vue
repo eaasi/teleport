@@ -3,7 +3,7 @@
 		<div class="emu-project-content padded">
 			<h2 class="hardware-select-header">Hardware</h2>
 			<div class="hardware-select-container row">
-				<div class="col-sm-5">
+				<div class="hardware-select-item">
 					<div class="txt-sm">System Template</div>
 					<select-list :value="selectedTemplateId" @input="selectTemplate">
 						<option :value="null" selected disabled>
@@ -29,7 +29,7 @@
 					<div class="disk-label">{{ getDiskLabel(driveSetting.drive.type) }}</div>
 					<div class="selecting-action-button" v-if="!isResourceSelected(driveSetting)">
 						<ui-button @click="startSelectingResource(driveSetting)" :disabled="!isSelectionAvailable(driveSetting) || selectingResourceForDiskIndex === driveSetting.driveIndex">Select Resource</ui-button>
-						<ui-button color-preset="light-blue" @click="stopSelectingResource(driveSetting)" v-if="selectingResourceForDiskIndex === driveSetting.driveIndex">Cancel</ui-button>
+						<ui-button color-preset="white" @click="stopSelectingResource(driveSetting)" v-if="selectingResourceForDiskIndex === driveSetting.driveIndex">Cancel</ui-button>
 						<div class="disk-select-note" v-if="!isSelectionAvailable(driveSetting)">No matching resources for this drive.</div>
 					</div>
 					<div class="emu-project-content-drop-zone">
@@ -258,7 +258,7 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 }
 
 .disk-select-card {
-	border: solid 2px lighten($dark-neutral, 80%);
+	border: solid 2px $medium-grey;
 	margin-bottom: 1rem;
 	padding: 2rem;
 
@@ -275,9 +275,31 @@ export default class EmulationProjectAdvancedModeScreen extends Vue {
 
 .disk-select-note {
 	align-items: center;
-	border-left: solid 2px $dark-neutral;
+	border-left: solid 2px $medium-grey;
 	display: flex;
 	padding-left: 1rem;
 }
 
+.hardware-select-item {
+	margin-left: 15px;
+}
+
+@media screen and (max-width: 1050px) {
+	.emulation-project-screen {
+		.emulation-project-advanced-mode-screen {
+			h2 {
+				margin-left: 15px;
+				padding-top: 10px;
+			}
+
+			.emu-project-content {
+				padding: 10px;
+			}
+
+			.hardware-select-container.row {
+				margin: 10px 0;
+			}
+		}
+	}
+}
 </style>

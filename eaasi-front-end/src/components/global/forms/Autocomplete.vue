@@ -304,7 +304,7 @@ export default class Autocomplete extends BaseFormField {
 	}
 
 	&.highlighted {
-		background-color: lighten($light-blue, 90%);
+		background-color: $light-grey;
 	}
 }
 

@@ -4,10 +4,16 @@
 		v-bind="wrapperPropsExtended"
 		:readonly="disabled"
 	>
-		<label :disabled="disabled">
+		<label :disabled="disabled" :for="UUID" :id="UUID_label">
 			<span>{{ label }}</span>
+			<span class="hide-label">checkbox to select {{name}} with value {{value}}</span>
 			<input
+				:id="UUID"
 				type="checkbox"
+				role="checkbox"
+				:aria-label="`checkbox to select ${label} with value ${value}`"
+				:aria-labelledby="UUID_label"
+				:aria-checked="value"
 				v-bind="$attrs"
 				:checked="value"
 				@change="handleChange"
@@ -40,11 +46,20 @@ export default class Checkbox extends BaseFormField {
 	@Prop({type: Boolean, required: true})
 	readonly value: boolean;
 
+	@Prop({type: String})
+	readonly name: string;
+
 	@Prop({ type: Boolean })
 	readonly disabled: boolean;
 
 	@Prop({ type: Boolean, default: false })
 	readonly indeterminate: boolean;
+
+	/* Data
+    ============================================*/
+	UUID: string = self.crypto === undefined ? '' : self.crypto?.randomUUID();
+	UUID_label: string = self.crypto === undefined ? '' : self.crypto?.randomUUID();
+
 
 	handleChange(event) {
 		if (this.disabled) return;
@@ -58,9 +73,7 @@ export default class Checkbox extends BaseFormField {
 			hideLabel: true
 		};
 	}
-
 }
-
 </script>
 
 <style lang="scss">
@@ -94,11 +107,15 @@ $checkboxSize: 18px;
 			margin: auto;
 			text-transform: capitalize;
 		}
+
+		.hide-label {
+			display: none;
+		}
 	}
 
 	.checkmark {
 		background-color: #ffffff;
-		border: 2px solid $light-blue;
+		border: 2px solid $medium-grey;
 		border-radius: 0.5em;
 		height: $checkboxSize;
 		left: 0;
@@ -106,10 +123,10 @@ $checkboxSize: 18px;
 		top: 0;
 		width: $checkboxSize;
 		&.checked {
-			border: 2px solid $dark-blue;
+			border: 2px solid transparent;
 		}
 		&.indeterminate::after {
-			background-color: $light-blue;
+			background-color: $dark-grey;
 			border-radius: 2px;
 			display: block;
 			height: 3px;
@@ -121,7 +138,7 @@ $checkboxSize: 18px;
 	}
 
 	label input:checked ~ .checkmark {
-		background-color: $dark-blue;
+		background-color: $dark-grey;
 		&.disabled {
 			opacity: 0.4;
 		}

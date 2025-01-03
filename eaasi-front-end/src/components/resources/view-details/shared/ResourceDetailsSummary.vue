@@ -154,17 +154,14 @@
 
 	.vds-container {
 		margin-bottom: 1rem;
-		width: 33vw;
+		width: -webkit-fill-available;
 
 		.eaasi-input {
 			background: transparent;
 		}
-		.changed {
-			background: lighten($yellow, 60%);
-		}
 
 		.vds-description {
-			color: $dark-neutral;
+			color: $dark-light-grey;
 			font-size: 1.5rem;
 			font-weight: bold;
 			padding: 1.2rem 0;

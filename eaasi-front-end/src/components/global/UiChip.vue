@@ -35,16 +35,20 @@ export default class UiChip extends Vue {
 
 <style lang='scss'>
 .ui-chip {
-	background-color: lighten($light-blue, 90%);
-	border: 2px solid lighten($light-blue, 60%);
+	background-color: $light-green-background;
 	border-radius: 20px;
 	padding: 0.2rem 0.8rem;
+
+	&:hover {
+		background-color: $green;
+	}
+
 	.ui-chip-content {
 		padding: 0.7rem;
 		white-space: nowrap;
 	}
+
 	.close-icon-container {
-		border-left: 1px solid lighten($light-blue, 60%);
 		cursor: pointer;
 		font-size: 0.8em;
 		padding: 0.7rem 0 0.7rem 0.7rem;

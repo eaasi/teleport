@@ -1,14 +1,14 @@
 <template>
-	<div :class="['eb-wrapper', 'size-' + size, { block }]">
+	<div class="eaasi-big-button-with-subtext-wrapper">
 		<div
-			class="eaasi-big-button"
+			class="eaasi-big-button-with-subtext"
 			role="button"
 			@click="$emit('click')"
 		>
 			<div class="eb-icon" v-if="icon">
 				<span :class="`fas fa-${icon}`"></span>
 			</div>
-			<label>{{ label }}</label>
+			<div class="label">{{ label }}</div>
 			<div v-if="subLabel" class="eb-sublabel">
 				{{ subLabel }}
 			</div>
@@ -85,77 +85,66 @@ export default class BigButton extends Vue {
 </script>
 
 <style lang="scss">
-.eb-wrapper {
-	max-width: 32rem;
+.eaasi-big-button-with-subtext-wrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
 
-	&.size-sm,
-	&.size-small {
-		max-width: 24rem;
+	.eaasi-big-button-with-subtext {
+		background-color: $grey;
+		border: solid 2px $black;
+		color: $black;
+		cursor: pointer;
+		padding: 25px;
+		text-align: left;
+		transition: background-color 0.3s;
+
+		&:hover {
+			background-color: $white;
+			border: solid 2px $green;
+		}
+
+		.label {
+			color: $black;
+			font-size: 1.8rem;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+		.eb-icon {
+			font-size: 2.5rem;
+			margin-bottom: 15px;
+		}
+
+		.eb-sublabel {
+			color: $black;
+			line-height: 1.3em;
+			margin-top: 6px;
+		}
 	}
 
-	&.size-lg,
-	&.size-large {
-		max-width: 40rem;
-	}
-
-	&.block {
-		max-width: none;
-		width: 100%;
-	}
-}
-
-.eaasi-big-button {
-	background-color: lighten($light-blue, 90%);
-	border: solid 2px $light-blue;
-	border-radius: 10px;
-	color: $dark-blue;
-	cursor: pointer;
-	padding: 2.5rem;
-	text-align: center;
-	transition: background-color 0.3s;
-
-	&.size-sm,
-	&.size-small {
-		max-width: 24rem;
-	}
-
-	&.size-lg,
-	&.size-large {
-		max-width: 40rem;
-	}
-
-	&:hover {
-		background-color: lighten($light-blue, 70%);
-	}
-
-	label {
-		color: $dark-blue;
-		font-size: 1.8rem;
-		font-weight: bold;
-	}
-
-	.eb-icon {
-		font-size: 2.5rem;
-		margin-bottom: 6px;
-	}
-
-	.eb-sublabel {
-		color: $dark-neutral;
+	.eb-info {
+		background-color: $light-grey;
+		border: solid 2px $light-grey;
+		border-radius: 0 0 10px 10px;
+		color: $medium-grey;
+		font-size: 1.4rem;
 		line-height: 1.3em;
-		margin-top: 6px;
+		padding: 1.5rem;
+		position: relative;
+		text-align: center;
+		top: -1.5rem;
 	}
 }
+@media screen and (max-width: 950px) {
+	.eaasi-big-button-with-subtext-wrapper {
+		.eaasi-big-button-with-subtext {
+			padding: 15px;
 
-.eb-info {
-	background-color: lighten($light-neutral, 60%);
-	border: solid 2px $light-neutral;
-	border-radius: 0 0 10px 10px;
-	color: $dark-neutral;
-	font-size: 1.4rem;
-	line-height: 1.3em;
-	padding: 1.5rem;
-	position: relative;
-	text-align: center;
-	top: -1.5rem;
+			.eb-icon {
+				margin-bottom: 10px;
+			}
+		}
+	}
 }
 </style>

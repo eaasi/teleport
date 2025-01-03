@@ -27,7 +27,10 @@
 		<template #footer>
 			<div class="footer-btn-wrapper">
 				<div class="flex-row pull-right">
-					<ui-button @click="$emit('close')" color-preset="light-blue">
+					<ui-button
+						@click="$emit('close')"
+						color-preset="white"
+					>
 						Cancel
 					</ui-button>
 					<ui-button
@@ -103,7 +106,7 @@ export default class ChangeMediaModal extends Vue {
 <style lang='scss'>
 
 .cm-modal-header {
-	border-bottom: 4px solid darken($light-neutral, 10%);
+	border-bottom: 4px solid darken($light-grey, 10%);
 	padding: 2rem 0 0.5rem 1rem;
 }
 .scrollable-wrapper {
@@ -123,7 +126,7 @@ export default class ChangeMediaModal extends Vue {
 
 		&.active {
 			.lil-container {
-				border: 2px solid $teal;
+				border: 2px solid $dark-light-grey;
 				position: relative;
 				.selected-icon {
 					color: $green;
@@ -144,7 +147,7 @@ export default class ChangeMediaModal extends Vue {
 
 		.lil-container {
 			background-color: #ffffff;
-			border: 2px solid lighten($teal, 80%);
+			border: 2px solid $dark-light-grey;
 			border-radius: 6px;
 			min-height: 5rem;
 			padding: 2rem;
@@ -152,8 +155,8 @@ export default class ChangeMediaModal extends Vue {
 	}
 }
 .footer-btn-wrapper {
-	background-color: lighten($light-neutral, 80%);
-	border-top: 2px solid darken($light-neutral, 10%);
+	background-color: lighten($light-grey, 80%);
+	border-top: 2px solid darken($light-grey, 10%);
 	min-height: 4rem;
 	padding: 2rem;
 }

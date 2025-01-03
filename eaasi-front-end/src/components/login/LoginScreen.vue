@@ -3,14 +3,14 @@
 		<div id="loginContent" class="flex-row flex-grow justify-between">
 			<div id="loginTitle">
 				<img src="@/assets/eaasi_logos/eaasi_logo_dark_bg.png" id="logo" alt="EaaSI logo" />
-				<h2>Emulation-as-a-Service-Infrastructure</h2>
+				<h2>Test Emulation-as-a-Service-Infrastructure</h2>
 			</div>
 			<div id="loginBox">
 				<h3>{{ nodeName }}</h3>
 				<single-sign-on-login-box v-if="isSamlAuthEnabled" :login-url="loginUrl" />
 				<email-password-login-box v-else :login-url="loginUrl" />
 				<div>
-					<p v-if="!loginError" class="text-center">Using your approved access account.</p>
+					<p v-if="!loginError" class="text-center">Test Using your approved access account.</p>
 					<p class="error text-center" v-if="loginError">{{ loginError }}</p>
 				</div>
 			</div>
@@ -90,7 +90,7 @@ export default class LoginScreen extends Vue {
 	flex: 0 1 40rem;
 
 	h3 {
-		background-color: $teal;
+		background-color: $green;
 		color: #FFFFFF;
 		font-weight: 300;
 		padding: 3rem 1rem;

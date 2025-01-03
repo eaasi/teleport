@@ -27,18 +27,19 @@ export default class LabeledItem extends Vue {
 
 <style lang="scss">
 	.li-container {
-		color: $dark-neutral;
+		color: $dark-light-grey;
 
 		.li-label {
-			color: lighten($dark-neutral, 20%);
+			color: black;
 			font-size: 1.2rem;
 			margin-bottom: 0.4rem;
 			margin-top: 0.5rem;
+			font-weight: 600;
 			text-transform: uppercase;
 		}
 
 		.li-value {
-			border-bottom: solid 1px lighten($dark-neutral, 60%);
+			border-bottom: solid 1px lighten($dark-light-grey, 60%);
 			font-size: 1.6rem;
 			margin: 0.4rem 0 1rem;
 			padding-bottom: 1rem;

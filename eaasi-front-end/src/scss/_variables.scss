@@ -2,20 +2,32 @@
  == Fonts
 /============================================================*/
 
-$font-primary: 'Lato', sans-serif;
-$font-secondary: 'Lato', sans-serif;
-
+$font-heading: 'Sora', sans-serif;
+$font-primary: 'Sora', sans-serif;
+$font-secondary: 'Sora', sans-serif;
 /*============================================================
  == Colors
 /============================================================*/
+$black: #000000;
+$white: #ffffff;
+$green: #00d33e;
+$dark-green: #007020;
+$light-green-background: #67db85;
+$green-background: #e1ffea;
+$light-green: rgba(0, 211, 62, 0.7);
+$medium-green: rgba(0, 211, 62, 0.4);
+$grey: #c0c2c3;
+$light-grey: rgba(167, 169, 171, 0.1);
+$medium-grey: #dbdbdb;
+$dark-grey: rgba(0, 0, 0, 0.7);
+$dark-light-grey: rgba(0, 0, 0, 0.6);
+
 
 $dark-neutral: #6f6a67;
 $light-neutral: #f0e2d6;
 $dark-blue: #2479AA;
 $light-blue: #73BDE8;
 $teal: #2F9EB2;
-$green: #80C752;
-$grey: #989898;
 $light-green: #99D275;
 $yellow: #FFD742;
 $orange: #F5964B;
@@ -24,9 +36,20 @@ $red: #F26362;
 /* stylelint-disable property-case, property-no-unknown, selector-pseudo-class-no-unknown */
 
 :export {
+	black: $black;
+	white: $white;
+	green: $green;
+	dark-green: $dark-green;
+	light-green: $light-green;
+	medium-green: $medium-green;
+	grey: $grey;
+	light-grey: $light-grey;
+	medium-grey: $medium-grey;
+	dark-grey: $dark-grey;
+	dark-light-grey: $dark-light-grey;
+
 	darkblue: $dark-blue;
 	darkneutral: $dark-neutral;
-	green: $green;
 	lightblue: $light-blue;
 	lightgreen: $light-green;
 	lightneutral: $light-neutral;
@@ -34,7 +57,6 @@ $red: #F26362;
 	red: $red;
 	teal: $teal;
 	yellow: $yellow;
-	$grey: $grey;
 }
 
 /*============================================================
@@ -44,10 +66,11 @@ $red: #F26362;
 $defaultScreenPadding: 2rem;
 $headerHeight: 8rem;
 $accessHeaderHeight: 9rem;
-$accessMenuWidth: 43rem;
+$accessMenuWidth: 30%;
 $headerHeight: 80px;
 $footerHeight: 14rem;
-$leftSidebarWidth: 11rem;
+$leftSidebarWidth: 154px;
+$leftSmallSidebarWidth: 124px;
 $minAppWidth: 1024px;
 $remBase: 10px;
 $tipLaneWidth: 40rem;

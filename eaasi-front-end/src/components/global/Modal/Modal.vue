@@ -152,4 +152,11 @@ export default class Modal extends Vue {
 	.eaasi-modal .modal-header h4 {
 		margin-bottom: 0;
 	}
+
+	@media screen and (max-width: 850px) {
+		.eaasi-modal {
+			max-width: -webkit-fill-available;
+			width: -webkit-fill-available;;
+		}
+	}
 </style>

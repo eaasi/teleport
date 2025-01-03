@@ -78,9 +78,8 @@ export default class DualToggle extends Vue {
 }
 
 .dt-option {
-	color: darken($dark-blue, 40%);
+	color: $dark-light-grey;
 	font-size: 1.6rem;
-	//font-weight: bold;
 	opacity: 0.6;
 	&.active {
 		opacity: 1;
@@ -92,7 +91,7 @@ export default class DualToggle extends Vue {
 }
 
 .dt-label {
-	border: 2px solid $dark-blue;
+	border: 2px solid $green;
 	border-radius: 20px;
 	cursor: pointer;
 	display: block;
@@ -120,15 +119,15 @@ export default class DualToggle extends Vue {
 }
 
 .dt-inner::before {
-	background-color: $light-blue;
-	color: $dark-blue;
+	background-color: $green;
+	color: $green;
 	content: '';
 	padding-left: 10px;
 }
 
 .dt-inner::after {
-	background-color: lighten($light-blue, 80%);
-	color: $dark-blue;
+	background-color: lighten($green, 80%);
+	color: $green;
 	content: '';
 	padding-right: 10px;
 	text-align: right;
@@ -136,7 +135,7 @@ export default class DualToggle extends Vue {
 
 .dt-switch {
 	background: #FFFFFF;
-	border: 2px solid $dark-blue;
+	border: 2px solid $green;
 	border-radius: 20px;
 	bottom: 0;
 	display: block;

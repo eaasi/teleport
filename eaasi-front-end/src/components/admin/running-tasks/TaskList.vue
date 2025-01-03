@@ -171,7 +171,7 @@ export default class TaskList extends Vue {
 	.task-list {
 		background: #ffffff;
 		max-height: 26rem;
-		overflow-y: scroll;
+		overflow-y: auto;
 		padding: 0;
 	}
 }
@@ -179,26 +179,30 @@ export default class TaskList extends Vue {
 .task-list-container {
 
 	.task-header {
-		background-color: darken($teal, 60%);
-		color: #ffffff;
+		background-color: $medium-grey;
+		color: black;
 		padding: 1.8rem 2rem;
 
 		.icon {
-			color: lighten($teal, 20%);
+			color: black;
 			cursor: pointer;
 			font-size: 1.8rem;
 		}
 	}
 
 	.task-list-content {
-		border: 2px solid lighten($dark-neutral, 80%);
+		border: 2px solid $medium-grey;
 		border-top: none;
-		overflow-y: scroll;
+		height: fit-content;
 	}
 
 	.task-container {
-		border-bottom: 1px solid darken($light-neutral, 10%);
+		border-bottom: 2px solid $medium-grey;
 		padding: 1.5rem;
+
+		.fa-check-circle {
+			color: $dark-green;
+		}
 
 		&:last-of-type {
 			border: none;

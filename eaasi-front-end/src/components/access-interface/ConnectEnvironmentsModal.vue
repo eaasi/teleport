@@ -1,5 +1,5 @@
 <template>
-	<modal 
+	<modal
 		v-if="environments.length"
 		@close="$emit('close')"
 		@click:cancel="$emit('close')"
@@ -26,7 +26,7 @@
 		</div>
 		<template #footer>
 			<div class="flex-row pull-right" style="padding: 1rem;">
-				<ui-button @click="$emit('close')" color-preset="light-blue" style="margin-right: 1rem;">
+				<ui-button @click="$emit('close')" color-preset="white" style="margin-right: 1rem;">
 					Cancel
 				</ui-button>
 				<ui-button @click="$emit('include-envs', selectedEnvIds)">

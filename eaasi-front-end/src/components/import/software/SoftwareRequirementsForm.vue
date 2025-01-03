@@ -124,7 +124,7 @@ export default class SoftwareRequirementsForm extends Vue { }
 
 <style lang="scss">
 .srf-divider {
-	border-top: solid 3px $light-neutral;
+	border-top: solid px $light-grey;
 	margin: 3rem 0 2rem;
 	padding-top: 1.5rem;
 }

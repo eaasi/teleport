@@ -108,16 +108,39 @@ export default class UserManagement extends AdminScreen {
 </script>
 
 <style lang="scss">
-.user-search {
-	background-color: lighten($light-neutral, 60%);
-	padding: 5rem 5rem 2.5rem;
+#userManagement {
+	.user-search {
+		background-color: $grey;
+		padding: 5rem 5rem 2.5rem;
 
-	h1 {
-		font-size: 1.8rem;
+		h1 {
+			font-size: 1.8rem;
+		}
 	}
-}
 
-.user-pagination {
-	margin-bottom: 2rem;
+	.user-pagination {
+		margin-bottom: 2rem;
+	}
+
+	.user-list {
+		overflow: auto;
+		width: -webkit-fill-available;
+	}
+
+	@media screen and (max-width: 1050px) {
+		width: 600px;
+	}
+
+	@media screen and (max-width: 1000px) {
+		width: 500px;
+	}
+
+	@media screen and (max-width: 950px) {
+		width: 450px;
+	}
+
+	@media screen and (max-width: 900px) {
+		width: 400px;
+	}
 }
 </style>

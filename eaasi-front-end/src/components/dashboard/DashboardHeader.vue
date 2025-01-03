@@ -3,18 +3,14 @@
 		<div class="dh-welcome flex-row">
 			<div id="dh-eaasi-hexagon">
 				<!--suppress HtmlUnknownTarget -->
-				<img src="@/assets/eaasi_logos/EaaSI_hexGraphic_lg.png" alt="EaaSI Logo" />
+				<img src="@/assets/eaasi_logos/EAASI-windows-4-green.png" alt="EaaSI Dashboard Logo" />
 			</div>
 			<div id="dh-eaasi-welcome">
-				<h3>Welcome to EaaSI</h3>
+				<h1>Welcome!</h1>
 				<div class="dh-welcome-container">
-					<div class="dh-welcome-overview">
-						Overview
-					</div>
-					<div class="dh-welcome-subheading">
+					<p class="dh-welcome-subheading">
 						Emulation-as-a-Service Infrastructure = EaaSI
-					</div>
-					<p class="dh-welcome-blurb">
+						<br />
 						Led by the Digital Preservation Services team at Yale University Library,
 						and with support from OpenSLX, DataCurrent, PortalMedia, Educopia, and
 						the Software Preservation Network, the EaaSI program of work is focused on
@@ -24,7 +20,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="dh-quick-links flex-row">
+		<div class="dh-quick-links">
 			<a href="https://sandbox.eaasi.cloud" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Open source software sandbox with access to EaaSI service."
@@ -35,15 +31,15 @@
 
 			<a href="https://eaasi.gitlab.io/eaasi_user_handbook/" target="_blank" rel="noopener noreferrer">
 				<big-button
-					sub-label="User guides, training resources, and support for EaaSI users."
+					sub-label="Learning guides, training resources, and user support."
 					icon="graduation-cap"
-					label="Learn and Support"
+					label="Get Help"
 				/>
 			</a>
 
 			<a href="https://forum.eaasi.cloud" target="_blank" rel="noopener noreferrer">
 				<big-button
-					sub-label="Connect to other EaaSI users for support and collaboration."
+					sub-label="Connect to other users for community and collaboration."
 					icon="comments"
 					label="User Forum"
 				/>
@@ -63,13 +59,24 @@ export default class DashboardHeader extends Vue { }
 
 <style lang="scss">
 .dh-welcome {
-	margin: 0 1.2rem;
+	margin: 10px 40px;
 	#dh-eaasi-hexagon {
 		margin: 0 1.2rem;
+		img {
+			margin: 20px 10px 10px 0;
+			max-width: 250px;
+		}
+	}
+
+	h1 {
+		color: #000000;
+		font: $font-heading;
+		font-weight: 800;
+
 	}
 
 	#dh-eaasi-welcome {
-		max-width: 50rem;
+		width: -webkit-fill-available;
 		padding: 2.4rem;
 
 		h3 {
@@ -80,18 +87,6 @@ export default class DashboardHeader extends Vue { }
 	.dh-welcome-container {
 		padding: 1.2rem 0;
 
-		.dh-welcome-overview {
-			font-size: 2rem;
-			font-weight: bold;
-			margin-bottom: 1.2rem;
-		}
-
-		.dh-welcome-subheading {
-			font-size: 1.8rem;
-			font-weight: bold;
-			margin-bottom: 1.2rem;
-		}
-
 		.dh-welcome-blurb {
 			font-size: 1.6rem;
 			line-height: 2.3rem;
@@ -100,15 +95,40 @@ export default class DashboardHeader extends Vue { }
 }
 
 .dh-quick-links {
-	margin: 0 1.2rem;
+	margin: 10px 40px;
 	padding: 2rem 0 4rem 0;
+	display: flex;
+	flex-direction: row;
+	gap: 40px;
 
 	a {
 		text-decoration: none;
+		align-items: stretch;
+		height: auto;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.dh-welcome {
+		#dh-eaasi-hexagon {
+			img {
+				max-width: 150px;
+				margin: 0;
+			}
+		}
 	}
 
-	> * {
-		margin: 0 1.2rem;
+	.dh-quick-links {
+		flex-wrap: wrap;
+		gap: 20px;
+
+		a {
+			width: -webkit-fill-available;
+
+			.eaasi-big-button-with-subtext {
+				width: -webkit-fill-available;
+			}
+		}
 	}
 }
 </style>

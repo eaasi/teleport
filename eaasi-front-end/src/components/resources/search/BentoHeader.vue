@@ -16,7 +16,7 @@
 				@click="$emit('click:all')"
 				icon="chevron-right"
 				icon-right
-				color-preset="light-blue"
+				color-preset="green"
 				size="sm"
 				v-if="result.result.length < result.totalResults"
 			>
@@ -25,7 +25,7 @@
 			<ui-button
 				@click="$emit('clear-search')"
 				icon-right
-				color-preset="light-blue"
+				color-preset="green"
 				size="sm"
 				v-if="result.result.length === result.totalResults && result.result.length && result.totalResults > minSearchResultLimit"
 			>
@@ -96,10 +96,11 @@ export default class BentoHeader extends Vue {
 	margin-bottom: 2rem;
 
 	.bh-label {
-		border-bottom: solid 4px darken($light-neutral, 10%);
-		color: darken($dark-neutral, 40%);
+		border-bottom: solid 2px $green;
+		color: black;
 		font-size: 1.8rem;
 		padding: 1rem 1rem 1.5rem;
+		font-weight: 400;
 
 		span {
 			margin-left: 0.5rem;
@@ -107,14 +108,14 @@ export default class BentoHeader extends Vue {
 	}
 
 	.bh-description {
-		background-color: lighten($light-neutral, 60%);
-		color: darken($dark-neutral, 40%);
+		background-color: $medium-grey;
+		color: black;
 		padding: 1rem;
 	}
 
 	.bh-footer {
-		background-color: lighten($light-neutral, 60%);
-		color: darken($dark-neutral, 40%);
+		background-color: $medium-grey;
+		color: black;
 		margin-top: 0.8rem;
 		padding: 1rem;
 	}

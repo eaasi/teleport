@@ -1,7 +1,7 @@
 <template functional>
 	<div class="eaasi-loader">
 		<div class="eaasi-loader-rings"></div>
-		<img class="eaasi-logo" src="@/assets/header-logo.png" alt="eaasi loader" />
+		<img class="eaasi-logo" src="@/assets/eaasi_logos/eaasi-logo-transparent-background.png" alt="eaasi loader" />
 	</div>
 </template>
 
@@ -20,7 +20,7 @@ export default class Loader extends Vue {}
 </script>
 
 <style lang="scss">
-$baseColor: $dark-blue;
+$baseColor: $green;
 $speed: 0.9s;
 
 .eaasi-loader {
@@ -30,19 +30,18 @@ $speed: 0.9s;
 }
 
 .eaasi-logo {
-	height: 50px;
-	left: 28px;
+	left: 19px;
 	opacity: 1;
 	position: absolute;
-	top: 28px;
-	width: 50px;
+	top: 35px;
+	width: 70px;
 }
 
 .eaasi-loader-rings {
 	animation: spin ($speed * 1.2) linear infinite;
 	border: 3px solid transparent;
 	border-radius: 50%;
-	border-top-color: $baseColor;
+	border-top-color: $green;
 	display: block;
 	height: 100px;
 	position: relative;
@@ -52,7 +51,7 @@ $speed: 0.9s;
 		animation: spin ($speed * 2.5) linear infinite;
 		border: 3px solid transparent;
 		border-radius: 50%;
-		border-top-color: lighten($baseColor, 50%);
+		border-top-color: lighten($green, 50%);
 		bottom: 5px;
 		content: '';
 		left: 5px;
@@ -65,13 +64,14 @@ $speed: 0.9s;
 		animation: spin ($speed * 1.5) linear infinite;
 		border: 3px solid transparent;
 		border-radius: 50%;
-		border-top-color: darken($baseColor, 50%);
+		border-top-color: darken($green, 50%);
 		bottom: 15px;
 		content: '';
 		left: 15px;
 		position: absolute;
 		right: 15px;
 		top: 15px;
+		background-color: $green;
 	}
 }
 

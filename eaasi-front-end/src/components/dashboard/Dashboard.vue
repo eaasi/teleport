@@ -24,4 +24,7 @@ export default class Dashboard extends Vue {
 </script>
 
 <style lang="scss">
+.dashboard-container {
+	height: 100%;
+}
 </style>
