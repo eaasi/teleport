@@ -45,6 +45,7 @@
 		"zlib": "^1.0.5"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.10.1",
 		"@babel/core": "^7.24.4",
 		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
 		"@babel/plugin-proposal-optional-chaining": "^7.12.1",
