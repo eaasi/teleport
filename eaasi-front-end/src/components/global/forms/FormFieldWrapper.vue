@@ -35,7 +35,6 @@ export default class FormFieldWrapper extends Vue {
 
 	@Prop({ type: Boolean, default: false })
 	readonly readonly: boolean;
-
 }
 
 </script>

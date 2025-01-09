@@ -66,11 +66,6 @@ export default class ResourceAction extends Vue {
 	&:hover {
 		background-color: $light-grey;
 	}
-
-	.ra-icon,
-	.ra-info {
-		opacity: 0.45;
-	}
 }
 
 @font-face {

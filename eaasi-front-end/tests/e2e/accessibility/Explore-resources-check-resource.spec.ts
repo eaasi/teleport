@@ -19,12 +19,12 @@ test('Check accessibility issues into Explore resources page when resource was c
 		const resourceItem = page.locator('[class="card-wrapper"]:has(span.checkmark)').first().locator('.checkmark').first();
 		await resourceItem.click();
 		await expect(page.locator('.resource-slide-menu').first()).toBeVisible();
+	});
 
-		await test.step('Check accessibility issues', async () => {
-			const accessibilityScanResults = await new AxeBuilder({ page })
-				.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-				.analyze();
-			expect(accessibilityScanResults.violations).toEqual([]);
-		});
+	await test.step('Check accessibility issues', async () => {
+		const accessibilityScanResults = await new AxeBuilder({ page })
+			.withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+			.analyze();
+		expect(accessibilityScanResults.violations).toEqual([]);
 	});
 });
