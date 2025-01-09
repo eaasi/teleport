@@ -61,7 +61,7 @@ export default class ResourceAction extends Vue {
 
 .disabled {
 	cursor: not-allowed;
-	opacity: 0.5;
+	opacity: 0.6;
 
 	&:hover {
 		background-color: $light-grey;
