@@ -8,6 +8,7 @@
 					:value="value"
 					:id="id"
 					data-testid="test-select"
+					:aria-label="`import select with value ${value}`"
 				>
 					<slot></slot>
 				</select>
