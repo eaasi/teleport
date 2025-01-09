@@ -78,12 +78,8 @@ export default class DualToggle extends Vue {
 }
 
 .dt-option {
-	color: $dark-light-grey;
+	color: #03030399;
 	font-size: 1.6rem;
-	opacity: 0.6;
-	&.active {
-		opacity: 1;
-	}
 }
 
 .dt-checkbox {
