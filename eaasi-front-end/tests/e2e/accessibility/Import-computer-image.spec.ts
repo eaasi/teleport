@@ -29,7 +29,8 @@ test('Check accessibility issues into Import Computer Image resource page', asyn
 		await page.getByRole('button', { name: ' Continue ' }).click();
 
 		await expect(page.getByText('I will attach my disk image from...')).toBeVisible({ timeout: 50000 });
-		await page.getByLabel(' Name ').fill('https://cdn2.iconfinder.com/data/icons/web-interface-icons/66/Img-512.png');
+		await page.getByLabel(' File URL ').pressSequentially('https://cdn2.iconfinder.com/data/icons/web-interface-icons/66/Img-512.png');
+		await page.getByRole('button', { name: ' Continue ' }).click();
 		await expect(page.getByText('1 file attached to this resource.')).toBeVisible({ timeout: 50000 });
 
 		const accessibilityScanResults = await new AxeBuilder({ page })

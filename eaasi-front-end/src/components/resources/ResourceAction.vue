@@ -53,7 +53,7 @@ export default class ResourceAction extends Vue {
 	}
 
 	p {
-		color: $dark-grey;
+		color: rgba(0, 0, 0, 0.95);
 		font-size: 1.4rem;
 		margin-top: 0.3rem;
 	}
@@ -61,7 +61,7 @@ export default class ResourceAction extends Vue {
 
 .disabled {
 	cursor: not-allowed;
-	opacity: 0.6;
+	opacity: 0.65;
 
 	&:hover {
 		background-color: $light-grey;
