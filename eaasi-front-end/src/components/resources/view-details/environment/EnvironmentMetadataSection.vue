@@ -7,7 +7,6 @@
 					:readonly="!isEditMode"
 				/>
 				<div class="owner-label" v-if="ownerLabel">Owner: {{ ownerLabel }}</div>
-
 			</div>
 		</div>
 		<div class="row">

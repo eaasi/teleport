@@ -84,13 +84,13 @@ export default class AdminMenu extends Vue {
 				}
 			);
 		}
-		menuItems.push(
+		/*menuItems.push(
 			{
 				icon: 'tasks',
 				label: 'Running Tasks',
 				route: ROUTES.MANAGE_NODE.RUNNING_TASKS
 			}
-		);
+		);*/
 		menuItems.push(
 			{
 				label: 'Troubleshooting',

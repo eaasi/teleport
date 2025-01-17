@@ -6,7 +6,7 @@
 	>
 		<label :disabled="disabled" :for="UUID" :id="UUID_label">
 			<span>{{ label }}</span>
-			<span class="hide-label">checkbox to select {{name}} with value {{value}}</span>
+			<span class="hide-label">checkbox to select {{ name }} with value {{ value }}</span>
 			<input
 				:id="UUID"
 				type="checkbox"
