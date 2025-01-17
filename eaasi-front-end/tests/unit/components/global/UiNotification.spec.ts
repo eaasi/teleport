@@ -27,9 +27,9 @@ describe('UiNotification.vue', () => {
 			}
 		});
 		expect(wrapper.find('.danger').exists()).toBeTruthy();
-    });
+	});
 
-    it('Renders warning color preset if passed', () => {
+	it('Renders warning color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
 				label: 'Test',
@@ -40,9 +40,9 @@ describe('UiNotification.vue', () => {
 			}
 		});
 		expect(wrapper.find('.warning').exists()).toBeTruthy();
-    });
+	});
 
-    it('Renders info color preset if passed', () => {
+	it('Renders info color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
 				label: 'Test',
@@ -53,9 +53,9 @@ describe('UiNotification.vue', () => {
 			}
 		});
 		expect(wrapper.find('.info').exists()).toBeTruthy();
-    });
+	});
 
-    it('Renders success color preset if passed', () => {
+	it('Renders success color preset if passed', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
 				label: 'Test',
@@ -66,9 +66,9 @@ describe('UiNotification.vue', () => {
 			}
 		});
 		expect(wrapper.find('.success').exists()).toBeTruthy();
-    });
+	});
 
-    it('Renders success color preset by default', () => {
+	it('Renders success color preset by default', () => {
 		const wrapper = shallowMount(UiNotification, {
 			propsData: {
 				label: 'Test',

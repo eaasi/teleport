@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div
 		:class="[
@@ -60,4 +61,4 @@ export default class TaskCard extends Vue {
 		margin-left: 1rem;
 	}
 }
-</style>
+</style>-->

@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div id="runningTask">
 		<div class="rtl-header padded-xl">
@@ -45,3 +46,4 @@ export default class RunningTaskManagement extends AdminScreen {}
 		}
 	}
 </style>
+-->
