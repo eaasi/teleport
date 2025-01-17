@@ -9,7 +9,7 @@
 
 			<tabbed-nav :tabs="tabs" v-model="activeTab" />
 
-<!--			<my-bookmarks-screen
+			<!--<my-bookmarks-screen
 				v-if="activeTab === 'My Bookmarks'"
 				:action-menu-tabs="actionMenuTabs"
 				@open-action-menu="openActionMenu"

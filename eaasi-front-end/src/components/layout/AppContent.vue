@@ -6,8 +6,8 @@
 				<router-view />
 			</section>
 		</div>
-		<notifications />
-		<task-list v-if="hasTasks && isAllowed" collapsible closable fixed />
+		<!--<notifications />-->
+		<!--<task-list v-if="hasTasks && isAllowed" collapsible closable fixed />-->
 		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
 		</div>
@@ -23,7 +23,7 @@ import SlideMenu from '@/components/layout/SlideMenu.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { Get, Sync } from 'vuex-pathify';
 import AppFooter from '@/components/layout/AppFooter.vue';
-import Notifications from './Notifications.vue';
+/*import Notifications from './Notifications.vue';*/
 import TaskList from '@/components/admin/running-tasks/TaskList.vue';
 import TaskManager from '../../mixins/TaskManager';
 import { ROUTES } from '@/router/routes.const';
@@ -31,7 +31,7 @@ import { ROUTES } from '@/router/routes.const';
 @Component({
 	name: 'AppContent',
 	components: {
-		Notifications,
+		/*Notifications,*/
 		TaskList,
 		AdminMenu,
 		SlideMenu,
@@ -61,13 +61,13 @@ export default class AppContent extends Mixins(TaskManager) {
     @Get('task/incompletedTasks')
     readonly incompletedTasks: EaasiTask[];
 
-    get hasTasks(): boolean {
+    /*get hasTasks(): boolean {
         return this.tasks.length > 0;
 	}
 
 	get isAllowed(): boolean {
 		return this.$route.path !== ROUTES.MANAGE_NODE.RUNNING_TASKS;
-	}
+	}*/
 
 	/* Methods
 	============================================*/

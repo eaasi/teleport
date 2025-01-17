@@ -39,7 +39,7 @@ import { IChangePasswordRequest } from '@/types/Auth';
 import Alert from '@/components/global/Alert/Alert.vue';
 import { EaasiForm } from '@/components/global';
 import AuthService from '@/services/AuthService';
-import { generateNotificationSuccess } from '@/helpers/NotificationHelper';
+/*import { generateNotificationSuccess } from '@/helpers/NotificationHelper';*/
 import eventBus from '@/utils/event-bus';
 
 @Component({
@@ -87,7 +87,7 @@ export default class ChangePasswordModal extends Vue {
 			this.error = 'An error occurred. Please double-check your current password and try again.';
 			return;
 		}
-		eventBus.$emit('notification:show', generateNotificationSuccess('Password updated successfully.'));
+		/*eventBus.$emit('notification:show', generateNotificationSuccess('Password updated successfully.'));*/
 		this.$emit('close');
 	}
 

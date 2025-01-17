@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div class="emulation-project-screen width-lg">
 		<div class="emulation-project-page-heading">
@@ -73,7 +74,7 @@ import {buildAccessInterfaceQuery, EPHEMERAL_ENVIRONMENT_ID} from '@/helpers/Acc
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import eventBus from '@/utils/event-bus';
-import {generateNotificationError} from '@/helpers/NotificationHelper';
+/*import {generateNotificationError} from '@/helpers/NotificationHelper';*/
 import {EmulationProjectMode} from '@/types/EmulationProject';
 import SaveEnvironmentModal from '@/components/emulation-project/SaveEnvironmentModal.vue';
 
@@ -234,7 +235,7 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	handleError(err: string) {
-		eventBus.$emit('notification:show', generateNotificationError(err));
+		/*eventBus.$emit('notification:show', generateNotificationError(err));*/
 	}
 
 	beforeMount() {
@@ -245,7 +246,7 @@ export default class EmulationProjectScreen extends Vue {
 		this.clearAllAlertModal = false;
 		const result = await this.$store.dispatch('emulationProject/clearAll');
 		if (!result) {
-			eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));
+			/*eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));*/
 		}
 		await this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
@@ -324,4 +325,4 @@ export default class EmulationProjectScreen extends Vue {
 		}
 	}
 }
-</style>
+</style>-->

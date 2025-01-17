@@ -17,7 +17,7 @@ import { EmulationProjectMode } from '@/types/EmulationProject';
 import _importService from '@/services/ImportService';
 import _resourceService from '@/services/ResourceService';
 import eventBus from '@/utils/event-bus';
-import { generateNotificationError } from '@/helpers/NotificationHelper';
+/*import { generateNotificationError } from '@/helpers/NotificationHelper';*/
 
 /*============================================================
  == State
@@ -165,7 +165,7 @@ const actions = {
 		const request = { ...state.createEnvironmentPayload, ...payload };
 		const response = await _importService.createEnvironment(request);
 		if (!response || !response.id) {
-			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${request.label} environment, please try again.`));
+			/*eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${request.label} environment, please try again.`));*/
 			return null;
 		}
 		return await _resourceService.getEnvironment(response.id);
@@ -200,7 +200,7 @@ const actions = {
 		const request = { ...state.createEnvironmentPayload, ...payload };
 		const response = await _importService.createEnvironment(request);
 		if (!response || !response.id) {
-			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${request.label} environment, please try again.`));
+			/*eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${request.label} environment, please try again.`));*/
 			return null;
 		}
 		return await _resourceService.getEnvironment(response.id);

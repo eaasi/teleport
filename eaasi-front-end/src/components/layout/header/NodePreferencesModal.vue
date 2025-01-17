@@ -42,7 +42,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { EaasiForm } from '@/components/global';
-import { generateNotificationSuccess } from '@/helpers/NotificationHelper';
+/*import { generateNotificationSuccess } from '@/helpers/NotificationHelper';*/
 import eventBus from '@/utils/event-bus';
 import { IKeyboardLanguage, IKeyboardLayout, IKeyboardSettings } from 'eaasi-admin';
 
@@ -93,8 +93,8 @@ export default class NodePreferencesModal extends Vue {
 		const layout = this.keyboardLayouts.find(layout => layout.name === this.selectedKeyboardLayout);
 		const payload: IKeyboardSettings = {language, layout};
 		await this.$store.dispatch('admin/setKeyboardSettings', payload);
-		const notification = generateNotificationSuccess('Keyboard Settings saved successfully.');
-		eventBus.$emit('notification:show', notification);
+		/*const notification = generateNotificationSuccess('Keyboard Settings saved successfully.');
+		eventBus.$emit('notification:show', notification);*/
 	}
 
 	async init() {

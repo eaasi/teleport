@@ -55,7 +55,7 @@ import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import AdminScreen from '../AdminScreen.vue';
 import { IKeyboardLanguage, IKeyboardLayout, IKeyboardSettings } from 'eaasi-admin';
-import { generateNotificationSuccess } from '../../../helpers/NotificationHelper';
+/*import { generateNotificationSuccess } from '../../../helpers/NotificationHelper';*/
 import eventBus from '../../../utils/event-bus';
 const kbLayouts = require('../../../assets/json/kbLayouts.json');
 
@@ -99,8 +99,8 @@ export default class NodePreferenceManagement extends AdminScreen {
 		const layout = this.keyboardLayouts.find(layout => layout.name === this.selectedKeyboardLayout);
 		const payload: IKeyboardSettings = { language, layout };
 		await this.$store.dispatch('admin/setKeyboardSettings', payload);
-		const notification = generateNotificationSuccess('Keyboard Settings saved successfully.');
-		eventBus.$emit('notification:show', notification);
+		/*const notification = generateNotificationSuccess('Keyboard Settings saved successfully.');*/
+		/*eventBus.$emit('notification:show', notification);*/
 	}
 
 	async init() {

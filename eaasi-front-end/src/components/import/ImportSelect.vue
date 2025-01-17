@@ -3,7 +3,7 @@
 		<div v-if="importType" class="import-selected padded">
 			<div class="flex-row">
 				<label for="importType">I want to import a</label>
-				<select-list v-model="importType" class="no-mb flex-adapt" idType="importType">
+				<select-list v-model="importType" class="no-mb flex-adapt" id-type="importType">
 					<option value="content">
 						Content File(s)
 					</option>
