@@ -8,7 +8,7 @@ import {IEaasiRole, IEmulator, IKeyboardSettings} from 'eaasi-admin';
 import Cookies from 'js-cookie';
 import BaseHttpService from './BaseHttpService';
 import eventBus from '@/utils/event-bus';
-import { generateNotificationError } from '@/helpers/NotificationHelper';
+/*import { generateNotificationError } from '@/helpers/NotificationHelper';*/
 
 class AdminService extends BaseHttpService {
 
@@ -60,7 +60,7 @@ class AdminService extends BaseHttpService {
 		const res = await this.post<any>(`/admin/users/create?groupId=${groupId}`, user.toKeycloakUserInfo(), {suppressErrors: true});
 		if (!res.ok) {
 			const error = await res.json();
-			eventBus.$emit('notification:show', generateNotificationError(error.message));
+			/*eventBus.$emit('notification:show', generateNotificationError(error.message));*/
 		}
 		return res.result.password;
 	}

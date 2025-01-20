@@ -99,7 +99,7 @@ import {ROUTES} from '@/router/routes.const';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import {ICreateEnvironmentPayload, ICreateEnvironmentResponse} from '@/types/Import';
 import {Sync} from 'vuex-pathify';
-import {generateNotificationError} from '@/helpers/NotificationHelper';
+/*import {generateNotificationError} from '@/helpers/NotificationHelper';*/
 import eventBus from '@/utils/event-bus';
 import {IEnvironment} from '@/types/Resource';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
@@ -182,7 +182,7 @@ export default class EmulationProjectOptions extends Vue {
 	async saveBaseEnvironment() {
 		const response: ICreateEnvironmentResponse = await this.$store.dispatch('import/createEnvironment', this.createEnvironmentPayload);
 		if (!response || !response.id) {
-			eventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${this.createEnvironmentPayload.label} environment, please try again.`));
+			/*ventBus.$emit('notification:show', generateNotificationError(`Having troubles creating ${this.createEnvironmentPayload.label} environment, please try again.`));*/
 			return;
 		}
 		let userImportRelationRequest: IUserImportRelationRequest = {

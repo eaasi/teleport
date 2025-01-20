@@ -146,7 +146,7 @@ export default class TroubleshootingSection extends AdminScreen {
 							type: 'danger',
 							id: generateId()
 						};
-						eventBus.$emit('notification:show', notification);
+						/*eventBus.$emit('notification:show', notification);*/
 					}
 					continue;
 				case 'object_archive':
@@ -162,7 +162,7 @@ export default class TroubleshootingSection extends AdminScreen {
 							type: 'danger',
 							id: generateId()
 						};
-						eventBus.$emit('notification:show', notification);
+						/*eventBus.$emit('notification:show', notification);*/
 					}
 					continue;
 				case 'software_archive':
@@ -179,7 +179,7 @@ export default class TroubleshootingSection extends AdminScreen {
 							type: 'danger',
 							id: generateId()
 						};
-						eventBus.$emit('notification:show', notification);
+						/*eventBus.$emit('notification:show', notification);*/
 					}
 					continue;
 				default:

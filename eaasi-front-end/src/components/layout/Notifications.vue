@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div id="notifications">
 		<div v-if="notifications.length > 0">
@@ -70,4 +71,4 @@ export default class Notifications extends Vue {
 		}
 	}
 }
-</style>
+</style>-->

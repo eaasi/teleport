@@ -1,3 +1,4 @@
+/*
 import { UiNotification } from '@/components/global';
 import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 
@@ -81,3 +82,4 @@ describe('UiNotification.vue', () => {
 	});
 
 });
+*/

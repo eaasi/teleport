@@ -1,3 +1,4 @@
+/*
 import EaasiTask from '@/models/task/EaasiTask';
 import { INotification } from '@/types/Notification';
 import { generateId } from '@/utils/functions';
@@ -54,4 +55,4 @@ export function generateNotificationWarning(message: string): INotification {
         type: 'warning'
     };
     return notification;
-}
+}*/
