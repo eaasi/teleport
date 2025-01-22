@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div>
 		<div class="emu-proj-details-wrapper">
@@ -358,4 +359,4 @@ export default class EmulationProjectDetails extends Vue {
 		max-width: 50rem;
 	}
 }
-</style>
+</style>-->

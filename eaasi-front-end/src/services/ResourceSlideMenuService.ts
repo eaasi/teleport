@@ -1,11 +1,11 @@
-import AddToEmulationProjectActionResolver
-	from '@/services/ActionResolvers/AddToEmulationProjectActionResolver';
+/*import AddToEmulationProjectActionResolver
+	from '@/services/ActionResolvers/AddToEmulationProjectActionResolver';*/
 /*import BookmarkResourceActionResolver
 	from '@/services/ActionResolvers/BookmarkResourceActionResolver';*/
 import DeleteResourceActionResolver from '@/services/ActionResolvers/DeleteResourceActionResolver';
 import ShareResourceActionResolver
 	from '@/services/ActionResolvers/ShareResourceActionResolver';
-import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulatorActionResolver';
+/*import RunInEmulatorActionResolver from '@/services/ActionResolvers/RunInEmulatorActionResolver';*/
 import ViewDetailsActionResolver from '@/services/ActionResolvers/ViewDetailsActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { userRoles } from '@/utils/constants';
@@ -24,9 +24,9 @@ export default class ResourceSlideMenuService {
 	getLocalActions(selected: IEaasiResource[], roleId: number) {
 		return  [
 			new ViewDetailsActionResolver(selected, roleId).action,
-			new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
+			//new RunInEmulatorActionResolver(selected, roleId).resolveAction(),
 			//new BookmarkResourceActionResolver(selected, roleId).resolveAction(),
-			new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
+			//new AddToEmulationProjectActionResolver(selected, roleId).resolveAction(),
 		];
 	}
 

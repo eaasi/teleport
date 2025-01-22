@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div class="emulation-project-screen width-lg">
 		<div class="emulation-project-page-heading">
@@ -324,4 +325,4 @@ export default class EmulationProjectScreen extends Vue {
 		}
 	}
 }
-</style>
+</style>-->
