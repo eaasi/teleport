@@ -9,12 +9,12 @@ export const ROUTES: IRoutes = {
         NODE_PREFERENCES: '/manage-node/node-preferences',
         TROUBLESHOOTING: '/manage-node/troubleshooting',
     },
-    EMULATION_PROJECT: {
+    /*EMULATION_PROJECT: {
         ROOT: '/emulation-project',
         DETAILS: '/emulation-project/details',
         OPTIONS: '/emulation-project/options',
         CREATE_BASE_ENVIRONMENT: '/emulation-project/create-base-environment',
-    },
+    },*/
     IMPORT_RESOURCE: '/import-resource',
     RESOURCES: {
         MY_RESOURCES: '/resources/my-resources',
@@ -32,7 +32,7 @@ interface IRoutes {
     INDEX: string;
     DASHBOARD: string;
     MANAGE_NODE: IManageNodeRoutes;
-    EMULATION_PROJECT: IEmulationProjectRoutes;
+    /*EMULATION_PROJECT: IEmulationProjectRoutes;*/
     IMPORT_RESOURCE: string;
     RESOURCES: IResourcesRoutes;
     ACCESS_INTERFACE: string;
@@ -49,12 +49,12 @@ interface IManageNodeRoutes {
     TROUBLESHOOTING: string;
 }
 
-interface IEmulationProjectRoutes {
+/*interface IEmulationProjectRoutes {
     ROOT: string;
     DETAILS: string;
     OPTIONS: string;
     CREATE_BASE_ENVIRONMENT: string;
-}
+}*/
 
 interface IResourcesRoutes {
     MY_RESOURCES: string;

@@ -72,7 +72,7 @@ export default [
 	/* Emulation Project
 	============================================*/
 
-	{
+	/*{
 		path: ROUTES.EMULATION_PROJECT.ROOT,
 		name: 'Emulation Project',
 		component: EmulationProjectScreen,
@@ -96,7 +96,7 @@ export default [
 				component: CreateBaseEnvironment
 			},
 		]
-	},
+	},*/
 
 	/* Import Resource
 	============================================*/
