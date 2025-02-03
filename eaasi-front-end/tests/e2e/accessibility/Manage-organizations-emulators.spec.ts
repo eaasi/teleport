@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-
-test('Check accessibility issues into Manage organizations subpage emulators', async ({ page }) => {
+test('Check accessibility issues on Manage organizations subpage emulators', async ({ page }) => {
 	await test.step('Should login', async () => {
 		await page.goto('https://dev.eaasi.duallab.com:8543/');
 		await page.locator('#username').fill(process.env.VUE_APP_TEST_KEYCLOAK_USERNAME);

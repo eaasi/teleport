@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test('Check accessibility issues into Explore resources page when filtering modal was opened', async ({ page }) => {
+test('Check accessibility issues on Explore resources page when filtering modal was opened', async ({ page }) => {
 	await test.step('Should login', async () => {
 		await page.goto('/');
 		await page.locator('#username').fill(process.env.VUE_APP_TEST_KEYCLOAK_USERNAME);
