@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test('Check accessibility issues on Manage organizations subpage emulators', async ({ page }) => {
 	await test.step('Should login', async () => {
-		await page.goto('https://dev.eaasi.duallab.com:8543/');
+		await page.goto('/');
 		await page.locator('#username').fill(process.env.VUE_APP_TEST_KEYCLOAK_USERNAME);
 		await page.locator('#password').fill(process.env.VUE_APP_TEST_KEYCLOAK_PASSWORD);
 		await page.locator('#kc-login').click();
@@ -11,7 +11,7 @@ test('Check accessibility issues on Manage organizations subpage emulators', asy
 	});
 
 	await test.step('Go to Emulators', async () => {
-		await page.goto('https://dev.eaasi.duallab.com:8543/manage-node/emulators');
+		await page.goto('/manage-node/emulators');
 		await expect(page.getByRole('heading', { name: 'Emulators' })).toBeVisible();
 
 		const accessibilityScanResults = await new AxeBuilder({ page })
