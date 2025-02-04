@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test('Check accessibility issues into My resources page', async ({ page }) => {
+test('Check accessibility issues on My resources page', async ({ page }) => {
 	await page.goto('/');
 	await page.locator('#username').fill(process.env.VUE_APP_TEST_KEYCLOAK_USERNAME);
 	await page.locator('#password').fill(process.env.VUE_APP_TEST_KEYCLOAK_PASSWORD);

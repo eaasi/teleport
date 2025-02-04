@@ -106,7 +106,7 @@ export default class TabbedNav extends Vue {
 			background-color: $medium-grey;
 			border-radius: 10px;
 			box-sizing: border-box;
-			color:  lighten($dark-light-grey, 50%);
+			color: #03030399;
 			cursor: pointer;
 			display: block;
 			padding: 1rem 1.6rem;

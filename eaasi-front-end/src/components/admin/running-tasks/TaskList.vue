@@ -19,7 +19,7 @@
 					></span>
 				</div>
 			</div>
-			<ul class="task-list task-list-wrapper" v-show="!collapsed">
+			<ul class="task-list task-list-wrapper" v-show="!collapsed" tabindex="1">
 				<li
 					class="task-list-content"
 					v-for="task in tasks"

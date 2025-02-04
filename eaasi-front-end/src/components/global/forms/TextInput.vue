@@ -1,5 +1,11 @@
 <template>
-	<form-field-wrapper v-bind="wrapperProps" class="eaasi-text-input" :readonly="readonly" :required="required">
+	<form-field-wrapper
+		v-bind="wrapperProps"
+		class="eaasi-text-input"
+		:readonly="readonly"
+		:required="required"
+		:labelledby="labelledby"
+	>
 		<div class="eaasi-input-wrapper">
 			<div
 				:class="[
@@ -16,6 +22,7 @@
 					v-bind="$attrs"
 					v-on="inputListeners"
 					:value="value"
+					:aria-label="labelledby"
 					:id="id"
 				/>
 				<span class="eaasi-field-icon">

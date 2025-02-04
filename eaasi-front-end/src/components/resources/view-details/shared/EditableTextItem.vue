@@ -7,6 +7,7 @@
 			:class="['input-wrapper', { changed: item.value !== localItem.value }]"
 			style="margin-bottom: 1rem;"
 			v-model="item.value"
+			:labelledby="item.label"
 			:readonly="item.readonly || readonly"
 		/>
 	</div>
