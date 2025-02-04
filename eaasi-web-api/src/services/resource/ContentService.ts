@@ -52,11 +52,14 @@ export default class ContentService extends BaseService {
 		const userId = getUserIdFromToken(token);
 		const cacheKey = `${this.CACHE_KEYS.ARCHIVES}/${userId}`;
 		let result = this._cache.get<IObjectArchiveResonse>(cacheKey);
-		if(result) return result;
-		let res = await this._contentRepoService.get('archives', token);
-		let archives = await res.json();
-		if (archives.length) this._cache.add(cacheKey, archives);
-		return archives;
+		if (result)
+			return result;
+
+		result = await this.fetchObjectArchives(token);
+		if (result.archives?.length)
+			this._cache.add(cacheKey, result);
+
+		return result;
 	}
 
 	/**
