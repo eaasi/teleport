@@ -33,6 +33,9 @@ export default class BaseFormField extends Vue {
 	@Prop({type: String, required: false})
 	readonly label: string;
 
+	@Prop({type: String, required: false})
+	readonly labelledby: string;
+
 	/**
 	 * Pipe "|" delimited validation rules
 	 */
@@ -114,7 +117,8 @@ export default class BaseFormField extends Vue {
 			hideLabel: this.hideLabel,
 			label: this.label,
 			error: this.error,
-			required: this.isRequired
+			required: this.isRequired,
+			labelledby:this.labelledby,
 		};
 	}
 
