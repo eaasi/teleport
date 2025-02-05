@@ -43,7 +43,7 @@ import TaskModal from '@/components/admin/running-tasks/TaskModal.vue';
 import EaasiTask from '@/models/task/EaasiTask';
 import { ROUTES } from '@/router/routes.const';
 import { IUserImportRelationRequest } from '@/types/UserImportRelation';
-/*import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';*/
+import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';
 import eventBus from '@/utils/event-bus';
 import { ITaskState } from '@/types/Task';
 import ContentImportResource from '@/models/import/ContentImportResource';
@@ -161,7 +161,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 			const responseData = this.parseUserData(taskResult.userData);
 			const { imageId, objectId } = responseData;
 			if (!imageId && !objectId) {
-				/*this.scheduleNotificationFailure('Something went wrong during import, please try again.');*/
+				this.scheduleNotificationFailure('Something went wrong during import, please try again.');
 			}
 			switch(this.importType) {
 				case importTypes.IMAGE:
@@ -183,7 +183,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		}
 
 		async onImportImage(imageId: string) {
-			/*this.notifyUserOnImportedResource(imageId, resourceTypes.CONTENT);*/
+			this.notifyUserOnImportedResource(imageId, resourceTypes.CONTENT);
 			await this.$router.push({
 				name: 'My Resources',
 				params: { defaultTab: 'Imported Resources' }}
@@ -191,7 +191,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		}
 
 		async onImportContentTask(objectId: string) {
-			/*await this.notifyUserOnImportedResource(objectId, resourceTypes.CONTENT);*/
+			await this.notifyUserOnImportedResource(objectId, resourceTypes.CONTENT);
 			// This path occurs when a user uploads a Content Object
 			await this.$router.push({
 				name: 'My Resources',
@@ -212,7 +212,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 				objectId
 			});
 
-			/*await this.notifyUserOnImportedResource(objectId, resourceTypes.SOFTWARE);*/
+			await this.notifyUserOnImportedResource(objectId, resourceTypes.SOFTWARE);
 
 			await this.$router.push({
 				name: 'My Resources',
@@ -220,7 +220,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 			);
 		}
 
-		/*notifyUserOnImportedResource(resourceId: string, resourceType: ResourceType) {
+		notifyUserOnImportedResource(resourceId: string, resourceType: ResourceType) {
 			resourceId != null
 				? this.scheduleNotificationSuccess(`${resourceType} has been successfully imported to "My Resources"`)
 				: this.scheduleNotificationFailure(`Having troubles importing requested ${resourceType}.`);
@@ -234,7 +234,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 		scheduleNotificationSuccess(message: string) {
 			const notification = generateNotificationSuccess(message);
 			eventBus.$emit('notification:show', notification);
-		}*/
+		}
 
 		mounted() {
 			this.userImportRequest = {

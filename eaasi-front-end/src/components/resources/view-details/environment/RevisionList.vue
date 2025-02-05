@@ -105,7 +105,7 @@ export default class ResourceDetailsRevisionList extends Vue {
 				type: 'danger',
 				id: generateId()
 			};
-			/*eventBus.$emit('notification:show', notification);*/
+			eventBus.$emit('notification:show', notification);
 		}
 	}
 

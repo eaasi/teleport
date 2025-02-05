@@ -125,7 +125,7 @@ import TextInput from '@/components/global/forms/TextInput.vue';
 import Modal from '@/components/global/Modal/Modal.vue';
 import { userRoles } from '@/utils/constants';
 import config from '../../../config';
-/*import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';*/
+import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
 
 @Component({
@@ -201,8 +201,8 @@ export default class UserModal extends Vue {
 	async saveExistingUser() {
 		let result = await this.$store.dispatch('admin/saveExistingUser', {user: this.user, roleUpdated: this.oldRoleId !== this.user.roleId});
 		if (result.hasError) {
-			/*const notification = generateNotificationError(result.message);
-			eventBus.$emit('notification:show', notification);*/
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
 		} else {
 			await this.$store.dispatch('admin/getUsers');
 		}
@@ -212,12 +212,12 @@ export default class UserModal extends Vue {
 	async saveUser() {
 		let result = await this.$store.dispatch('admin/saveUser', this.user);
 		if (result.hasError) {
-			/*const notification = generateNotificationError(result.message);
-			eventBus.$emit('notification:show', notification);*/
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
 		} else {
-			/*const message = `Account for ${this.user.username} created. Provide this temporary password to the user: ${result}`;
+			const message = `Account for ${this.user.username} created. Provide this temporary password to the user: ${result}`;
 			const notification = generateNotificationSuccess(message, 20000);
-			eventBus.$emit('notification:show', notification);*/
+			eventBus.$emit('notification:show', notification);
 			await this.$store.dispatch('admin/getUsers');
 		}
 		this.$emit('close');
@@ -230,8 +230,8 @@ export default class UserModal extends Vue {
 	async confirmDeleteUser() {
 		let result = await this.$store.dispatch('admin/deleteUser', this.user.id);
 		if (result.hasError) {
-			/*const notification = generateNotificationError(result.message);
-			eventBus.$emit('notification:show', notification);*/
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
 		} else {
 			await this.$store.dispatch('admin/getUsers');
 		}
@@ -242,13 +242,13 @@ export default class UserModal extends Vue {
 	async resetPassword() {
 		const result = await this.$store.dispatch('admin/resetPassword', {id: this.user.id, email: this.user.email});
 		if (result.hasError) {
-			/*const notification = generateNotificationError(result.message);
-			eventBus.$emit('notification:show', notification);*/
+			const notification = generateNotificationError(result.message);
+			eventBus.$emit('notification:show', notification);
 		} else {
-			/*const message = `You have successfully reset ${this.user.username}'s password. Provide this temporary password to the user: ${result}`;
+			const message = `You have successfully reset ${this.user.username}'s password. Provide this temporary password to the user: ${result}`;
 			const notification = generateNotificationSuccess(message, 20000);
 
-			eventBus.$emit('notification:show', notification);*/
+			eventBus.$emit('notification:show', notification);
 		}
 		this.isResetPasswordModalVisible = false;
 		this.$emit('close');

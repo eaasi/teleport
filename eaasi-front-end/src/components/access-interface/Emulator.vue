@@ -432,7 +432,7 @@
 					notification.type = 'success';
 					eventBus.$emit('emulator:print:add-print-job', res.filename);
 				}
-				/*eventBus.$emit('notification:show', notification);*/
+				eventBus.$emit('notification:show', notification);
 			});
 		}
 

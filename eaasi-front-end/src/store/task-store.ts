@@ -1,4 +1,4 @@
-/*import { generateCompletedTaskNotification, generateNotificationError, generateTaskNotification } from '@/helpers/NotificationHelper';*/
+import { generateCompletedTaskNotification, generateNotificationError, generateTaskNotification } from '@/helpers/NotificationHelper';
 import EaasiTask from '@/models/task/EaasiTask';
 import TaskPreferenceService from '@/services/TaskPreferenceService';
 import _taskService from '@/services/TaskService';
@@ -47,8 +47,8 @@ const actions = {
 		if (existingTask && existingTask.isDone) return;
 		const task = await _taskService.getTaskState(taskId);
 		if (!task) {
-			/*const message = `Can't retrieve task with taskId ${taskId}`;
-			eventBus.$emit('notification:show', generateNotificationError(message));*/
+			const message = `Can't retrieve task with taskId ${taskId}`;
+			eventBus.$emit('notification:show', generateNotificationError(message));
 			return null;
 		} else if (task.isDone) {
 			if (task.userData) task.userData = JSON.parse(task.userData);
@@ -74,8 +74,8 @@ const actions = {
 			if (!eaasiTask) return null;
 		}
 		commit('ADD_OR_UPDATE_TASK', taskState);
-		/*eventBus.$emit('task-manager:show', true);
-		eventBus.$emit('notification:show', generateTaskNotification(task));*/
+		eventBus.$emit('task-manager:show', true);
+		eventBus.$emit('notification:show', generateTaskNotification(task));
         return taskState;
     },
 
@@ -95,7 +95,7 @@ const actions = {
 	},
 
 	onTaskComplete({ dispatch }, task: EaasiTask) {
-		/*eventBus.$emit('notification:show', generateCompletedTaskNotification(task));*/
+		eventBus.$emit('notification:show', generateCompletedTaskNotification(task));
 		if (task.type && task.type === taskTypes.IMPORT_EMULATOR) {
 			dispatch('admin/buildEmulator', task, { root: true });
 		}

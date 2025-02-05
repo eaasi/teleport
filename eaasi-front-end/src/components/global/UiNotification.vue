@@ -1,4 +1,3 @@
-<!--
 <template>
 	<span :class="`ui-notification-container ${colorPreset}`">
 		<slot>
@@ -92,4 +91,4 @@ export default class UiNotification extends Vue {
 		line-height: 2.3rem;
 	}
 }
-</style>-->
+</style>
