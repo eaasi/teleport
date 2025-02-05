@@ -27,7 +27,7 @@ import ErrorModal from '@/components/global/Modal/ErrorModal.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import eventBus from '@/utils/event-bus';
 import events from '@/config/events';
-/*import { generateNotificationWarning } from './helpers/NotificationHelper';*/
+import { generateNotificationWarning } from './helpers/NotificationHelper';
 
 @Component({
 	name: 'App',
@@ -72,12 +72,12 @@ export default class App extends Vue {
 			this.$store.commit('SET_APP_ERROR', err);
 		});
 
-		/*eventBus.$on(events.REQUEST_LIMIT_REACHED,
+		eventBus.$on(events.REQUEST_LIMIT_REACHED,
 			() => eventBus.$emit(
 				'notification:show',
 				generateNotificationWarning('You\'ve reached the request limit, please try again later.')
 			)
-		);*/
+		);
 
 		eventBus.$on(events.UNAUTHORIZED_ERROR, () => {
 			this.$store.dispatch('logout');
