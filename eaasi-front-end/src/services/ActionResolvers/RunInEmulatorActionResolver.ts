@@ -1,3 +1,4 @@
+/*
 import SlideMenuActionResolver from '@/services/ActionResolvers/SlideMenuActionResolver';
 import { IEaasiResource } from '@/types/Resource';
 import { IAction } from 'eaasi-nav';
@@ -11,9 +12,9 @@ export default class RunInEmulatorActionResolver extends SlideMenuActionResolver
 		super(selectedResources, roleId);
 	}
 
-	/**
+	/!**
 	 * Resolves custom behavior of an action
-	 */
+	 *!/
 	get action() : IAction {
 		// Disabled if resource is int a single public resource
 		return {
@@ -25,3 +26,4 @@ export default class RunInEmulatorActionResolver extends SlideMenuActionResolver
 		};
 	}
 }
+*/

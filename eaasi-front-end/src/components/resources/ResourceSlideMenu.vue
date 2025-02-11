@@ -236,7 +236,7 @@ export default class ResourceSlideMenu extends Vue {
 		}
 	};
 
-	async addToEmulationProject() {
+	/*async addToEmulationProject() {
 		const hasRemoteEnvironmentsSelected = this.resources.some(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
 		const allowedResources = this.resources.filter(resource => resource.archive !== archiveTypes.REMOTE);
 		if (hasRemoteEnvironmentsSelected) {
@@ -248,7 +248,7 @@ export default class ResourceSlideMenu extends Vue {
 		if (!hasRemoteEnvironmentsSelected) {
 			await this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
-	}
+	}*/
 
 	async replicateRemoteEnvironments() {
 		const remoteEnvironments = this.resources.filter(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
@@ -389,9 +389,9 @@ export default class ResourceSlideMenu extends Vue {
 		if (!action.isEnabled) return;
 
 		switch (action.shortName) {
-			case 'run':
+			/*case 'run':
 				this.runInEmulator();
-				break;
+				break;*/
 			case 'viewDetails':
 				this.viewDetails();
 				break;
@@ -401,9 +401,9 @@ export default class ResourceSlideMenu extends Vue {
 			case 'bookmark':
 				this.bookmark();
 				break;
-			case 'addToEmuProject':
+			/*case 'addToEmuProject':
 				this.addToEmulationProject();
-				break;
+				break;*/
 			case 'save':
 				this.confirmAction = 'save';
 				break;
@@ -435,7 +435,7 @@ export default class ResourceSlideMenu extends Vue {
 		});
 	}
 
-	runInEmulator(software = null) {
+	/*runInEmulator(software = null) {
 		let environment = this.onlySelectedResource as IEnvironment;
 		let route = `${ROUTES.ACCESS_INTERFACE}/${environment.envId}`;
 		if (software && software.id) {
@@ -445,7 +445,7 @@ export default class ResourceSlideMenu extends Vue {
 			}
 		}
 		this.$router.push(route);
-	}
+	}*/
 
 	viewDetails() {
 		// When View Details is clicked, we send to Resource Detail view

@@ -2,8 +2,8 @@
 import AccessDeniedScreen from '@/components/access-denied/AccessDeniedScreen.vue';
 import AccessInterfaceScreen from '@/components/access-interface/AccessInterfaceScreen.vue';
 import EmulatorManagement from '@/components/admin/emulators/EmulatorManagement.vue';
-import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';
-import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';
+/*import MetadataSyncAdmin from '@/components/admin/metadata-sync/MetadataSyncAdmin.vue';*/
+/*import RunningTaskManagement from '@/components/admin/running-tasks/RunningTaskManagement.vue';*/
 import TroubleshootingSection from '@/components/admin/troubleshooting/TroubleshootingSection.vue';
 import UserManagement from '@/components/admin/users/UserManagement.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
@@ -46,7 +46,7 @@ export default [
 	{
 		path: ROUTES.MANAGE_NODE.ROOT,
 		name: 'Admin',
-		component: RunningTaskManagement
+		component: EmulatorManagement
 	},
 	{
 		path: ROUTES.MANAGE_NODE.USERS,
@@ -58,11 +58,11 @@ export default [
 		name: 'Emulators',
 		component: EmulatorManagement
 	},
-	{
+	/*{
 		path: ROUTES.MANAGE_NODE.RUNNING_TASKS,
 		name: 'Running Tasks',
 		component: RunningTaskManagement
-	},
+	},*/
 	{
 		path: ROUTES.MANAGE_NODE.TROUBLESHOOTING,
 		name: 'Troubleshooting',
@@ -72,7 +72,7 @@ export default [
 	/* Emulation Project
 	============================================*/
 
-	{
+	/*{
 		path: ROUTES.EMULATION_PROJECT.ROOT,
 		name: 'Emulation Project',
 		component: EmulationProjectScreen,
@@ -96,7 +96,7 @@ export default [
 				component: CreateBaseEnvironment
 			},
 		]
-	},
+	},*/
 
 	/* Import Resource
 	============================================*/

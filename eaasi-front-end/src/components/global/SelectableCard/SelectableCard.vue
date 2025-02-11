@@ -1,6 +1,6 @@
 <template>
 	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
-<!--		<div v-if="bookmark && !isLoading">
+		<!--<div v-if="bookmark && !isLoading">
 			<bookmark
 				class="bookmark"
 				:init-state="isBookmarkSelected"

@@ -56,10 +56,10 @@ export default class LeftMenu extends Vue {
 				label: 'My Resources',
 				route: ROUTES.RESOURCES.MY_RESOURCES,
 			},
-			{
+			/*{
 				label: 'Emulation',
 				route: ROUTES.EMULATION_PROJECT.ROOT,
-			},
+			},*/
 			{
 				label: 'Import',
 				route: ROUTES.IMPORT_RESOURCE,

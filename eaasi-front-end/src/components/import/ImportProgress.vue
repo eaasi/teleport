@@ -274,7 +274,7 @@ import { IEnvironment, ResourceType } from '@/types/Resource';
 			.padded {
 				padding: 15px;
 			}
-			
+
 			.ip-actions {
 				flex:1;
 			}
