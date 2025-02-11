@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div v-if="!closed" :class="['task-list-wrapper', { fixed }]">
 		<div v-if="taskQueue && taskQueue.length" class="task-list-container">
@@ -212,4 +213,4 @@ export default class TaskList extends Vue {
 		}
 	}
 }
-</style>
+</style>-->

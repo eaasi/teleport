@@ -7,7 +7,7 @@
 			</section>
 		</div>
 		<notifications />
-		<task-list v-if="hasTasks && isAllowed" collapsible closable fixed />
+		<!--<task-list v-if="hasTasks && isAllowed" collapsible closable fixed />-->
 		<div id="globalLoader" v-show="showLoader">
 			<loader-overlay />
 		</div>
@@ -61,13 +61,13 @@ export default class AppContent extends Mixins(TaskManager) {
     @Get('task/incompletedTasks')
     readonly incompletedTasks: EaasiTask[];
 
-    get hasTasks(): boolean {
+    /*get hasTasks(): boolean {
         return this.tasks.length > 0;
 	}
 
 	get isAllowed(): boolean {
 		return this.$route.path !== ROUTES.MANAGE_NODE.RUNNING_TASKS;
-	}
+	}*/
 
 	/* Methods
 	============================================*/

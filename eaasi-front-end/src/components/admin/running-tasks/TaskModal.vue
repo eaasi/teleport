@@ -1,3 +1,4 @@
+<!--
 <template>
 	<modal @close="cancel" size="sm" v-if="task">
 		<div class="text-center tm-content">
@@ -99,4 +100,4 @@
 	.tm-message {
 		font-size: 2rem;
 	}
-</style>
+</style>-->

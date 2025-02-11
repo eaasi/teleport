@@ -360,7 +360,7 @@ export default class ResourceSideBar extends Vue {
 		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
 	}
 
-	setEnvironment(environment: IEnvironment, checked: boolean) {
+	/*setEnvironment(environment: IEnvironment, checked: boolean) {
 		if (checked) {
 			this.environment = new EmulationProjectEnvironment(environment);
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
@@ -368,7 +368,7 @@ export default class ResourceSideBar extends Vue {
 			this.environment = null;
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
-	}
+	}*/
 
 	isDisabled(resource: IEaasiResource): boolean {
 		return !this.isSelected(resource) && !this.hasObjectSlots && this.selected.length > 0;
