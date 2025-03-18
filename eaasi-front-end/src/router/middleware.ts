@@ -35,10 +35,10 @@ export function loggedInGuard(to: Route, _from: Route, next: any) {
  */
 export function updateMeta(to: Route) {
 	if(to.meta && to.meta.title) {
-		document.title = 'Eaasi | ' + to.meta.title;
+		document.title = 'EAASI | ' + to.meta.title;
 	} else if(to.name) {
-		document.title = 'Eaasi | ' + to.name;
+		document.title = 'EAASI | ' + to.name;
 	} else {
-		document.title = 'Eaasi | Emulation as a Service Infrastructure';
+		document.title = 'EAASI | Emulation as a Service Infrastructure';
 	}
 }
