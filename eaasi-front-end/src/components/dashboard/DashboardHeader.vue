@@ -6,16 +6,11 @@
 				<img src="@/assets/eaasi_logos/EAASI-windows-4-green.png" alt="EaaSI Dashboard Logo" />
 			</div>
 			<div id="dh-eaasi-welcome">
-				<h1>Welcome!</h1>
+				<h1>Welcome to EAASI,</h1>
 				<div class="dh-welcome-container">
 					<p class="dh-welcome-subheading">
-						Emulation-as-a-Service Infrastructure = EaaSI
-						<br />
-						Led by the Digital Preservation Services team at Yale University Library,
-						and with support from OpenSLX, DataCurrent, PortalMedia, Educopia, and
-						the Software Preservation Network, the EaaSI program of work is focused on
-						the development of technology and services to expand and scale the
-						capabilities of the Emulation-as-a-Service software.
+						an emulation platform that makes it easier to access digital
+						collections for research, teaching, and creativity.
 					</p>
 				</div>
 			</div>
