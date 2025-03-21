@@ -59,7 +59,6 @@ This will build four containers.
 The `docker-compose.yml` configuration specifies four services:
 
   - `eaasi-nginx`
-  - `eaasi-database`
   - `eaasi-front-end`
   - `eaasi-web-api`
 
@@ -76,11 +75,6 @@ This directory contains the Vue.js front end application.
 ### eaasi-web-api
 
 This directory contains the Express.js web API, which serves as a proxy to the OpenSLX `eaas-server` and provides a service layer for the front end.
-
-
-### eaasi-database
-
-This directory contains scripts related to the PostgreSQL database that provides client application state.
 
 
 ### eaasi-nginx

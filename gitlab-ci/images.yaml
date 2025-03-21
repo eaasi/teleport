@@ -33,12 +33,6 @@
         --cache-from "type=registry,ref=${image}:buildcache"
         --tag "${image}:${tag}" ${aliases} "${workdir}"
 
-database-image:
-  extends: ".imagejob"
-  variables:
-    service: "eaasi-database"
-    workdir: "./eaasi-database"
-
 front-end-image:
   extends: ".imagejob"
   variables:
@@ -90,7 +84,7 @@ cleanup:
       echo ""
     }
   - | # delete docker images for current branch
-    for service in eaasi-database eaasi-front-end eaasi-web-api; do
+    for service in eaasi-front-end eaasi-web-api; do
       tag="$(printf %s "${CI_COMMIT_REF_NAME}" | tr -c 'a-zA-Z0-9_.' -)"
       delete_docker_image "${service}" "${tag}" || true
     done
