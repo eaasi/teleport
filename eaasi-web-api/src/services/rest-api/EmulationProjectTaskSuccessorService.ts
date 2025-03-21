@@ -10,7 +10,7 @@ export default class EmulationProjectTaskSuccessorService extends CrudService<Em
 		super(EmulationProjectTaskSuccessor);
 	}
 
-	async getAllWithAssociations(type: SuccessorType): Promise<ICrudServiceResult<IEaasiTaskSuccessor[]>> {
+	/*async getAllWithAssociations(type: SuccessorType): Promise<ICrudServiceResult<IEaasiTaskSuccessor[]>> {
 		return await this.model
 			.findAll({
 				where: {
@@ -26,5 +26,5 @@ export default class EmulationProjectTaskSuccessorService extends CrudService<Em
 				this._logger.log.error(error);
 				return new CrudServiceResult<IEaasiTaskSuccessor>(error);
 			})
-	}
+	}*/
 }

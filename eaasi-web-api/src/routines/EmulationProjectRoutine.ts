@@ -40,7 +40,7 @@ export default class EmulationProjectRoutine {
 
 	private autoAddEnvironmentsOnReplicateCallback(): () => void {
 		return async () => {
-			try {
+			/*try {
 				const successors = await this._successorService.getAllWithAssociations('add-after-replication');
 				const successorsToExecute = successors.result.filter(s => s.task.isDone);
 				for (const successor of successorsToExecute) {
@@ -64,7 +64,7 @@ export default class EmulationProjectRoutine {
 				}
 			} catch(e) {
 				this.handleError(e);
-			}
+			}*/
 		}
 	}
 
