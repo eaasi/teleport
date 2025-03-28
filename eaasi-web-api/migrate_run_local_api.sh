@@ -5,22 +5,5 @@ cd ../
 # Remove database bind mount
 rm -rf eaasi_db
 
-# Start the database
-docker-compose down -v \
-       && docker-compose up -d --build eaasi-database
-
-cd ./eaasi-web-api
-
-sleep 20
-
-# Run database migrations
-npx sequelize-cli db:migrate --env=local
-
-# Undo any existing seeds in the database
-npx sequelize-cli db:seed:undo:all --env=local
-
-# Seed the database
-npx sequelize-cli db:seed:all --env=local
-
 # Build and run the Express API with nodemon
 npm run local:watch
