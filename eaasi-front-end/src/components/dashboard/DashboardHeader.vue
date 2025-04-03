@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="dh-quick-links">
-			<a href="https://eaasi.gitlab.io/eaasi_user_handbook/" target="_blank" rel="noopener noreferrer">
+			<a href="https://eaasi-user-handbook.readthedocs-hosted.com/_/sharing/EOs8D598cw5xmC213l7QJdAiZsyOejes?next=/en/latest/" target="_blank" rel="noopener noreferrer">
 				<big-button
 					sub-label="Learning guides, training resources, and user support."
 					icon="graduation-cap"
