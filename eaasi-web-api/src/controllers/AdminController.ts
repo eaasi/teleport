@@ -1,6 +1,4 @@
 import EmilAdminService from '@/services/admin/EmilAdminService';
-import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
-import UserAdminService from '@/services/admin/UserAdminService';
 import MailerService from '@/services/mailer/MailerService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
 import { Request as ExpressRequest, Response as ExpressResponse}  from 'express';
@@ -17,16 +15,12 @@ const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENAB
 
 export default class AdminController extends BaseController {
 
-	readonly _userSvc: UserAdminService;
-	readonly _emulatorAdminSvc: EmulatorAdminService;
 	readonly _mailerService: MailerService;
 	readonly _adminService: EmilAdminService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor() {
 		super();
-		this._userSvc = new UserAdminService();
-		this._emulatorAdminSvc = new EmulatorAdminService();
 		this._adminService = new EmilAdminService();
 		this._keycloakService = new KeycloakService();
 		if (!SAML_ENABLED) {
@@ -63,20 +57,6 @@ export default class AdminController extends BaseController {
 				result: users.slice(limits.first, limits.first + limits.max),
 				totalResults: users.length
 			});
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Gets all user roles
-	 * @param _req - Express request
-	 * @param res - Express response
-	 */
-	async getRoles(_req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let roles = await this._userSvc.getRoles();
-			res.send(roles);
 		} catch(e) {
 			return this.sendError(e, res);
 		}
@@ -230,54 +210,6 @@ export default class AdminController extends BaseController {
 	/*============================================================
 	 == Emulators
 	/============================================================*/
-
-	/**
-	 * Gets the list of emulators
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async getEmulators(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let token = req.headers.authorization;
-			let emulators = await this._emulatorAdminSvc.getEmulators(token);
-			res.send(emulators);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Gets the list of emulators
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async importEmulator(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let importRequest = req.body as IEmulatorImportRequest;
-			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
-			res.send(taskState);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Sets the default emulator image version
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async setDefaultEmulatorVersion(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let id = req.query.id as string;
-			let token = req.headers.authorization;
-			let response = await this._emulatorAdminSvc.setDefaultVersion(id, token);
-			res.send(response);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-
 
 	async getApiKey(req: ExpressRequest, res: ExpressResponse) {
 		try {
