@@ -11,7 +11,6 @@ RUN npm ci --only=production
 FROM base AS build
 RUN npm ci
 COPY --chown=node:node . ./
-RUN sed -i "s/src/dist/g" .sequelizerc
 ENV NODE_ENV production
 RUN npm run build
 
@@ -22,7 +21,6 @@ RUN chown node:node .
 USER node
 ENV NODE_ENV production
 COPY --from=base ${workdir}/ ./
-COPY --from=build ${workdir}/.sequelizerc ./
 COPY --from=build ${workdir}/scripts ./
 COPY --from=build ${workdir}/dist ./dist/
 CMD ["./start.sh", "./dist/app.js"]
