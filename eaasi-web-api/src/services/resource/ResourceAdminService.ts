@@ -9,7 +9,6 @@ import { archiveTypes, resourceTypes } from '@/utils/constants';
 import { filterResourcesByKeyword } from '@/utils/resource.util';
 import BaseService from '../base/BaseService';
 import EmilBaseService from '../base/EmilBaseService';
-import EaasiBookmarkService from '../rest-api/EaasiBookmarkService';
 import ContentService from './ContentService';
 import EnvironmentService from './EnvironmentService';
 import SoftwareService from './SoftwareService';
@@ -26,7 +25,6 @@ export default class ResourceAdminService extends BaseService {
 	private readonly _softwareService: SoftwareService;
 	private readonly _contentService: ContentService;
 	private readonly _emilClassificationService: EmilBaseService;
-	private readonly _bookmarkService: EaasiBookmarkService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor(
@@ -34,12 +32,10 @@ export default class ResourceAdminService extends BaseService {
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
 		emilClassificationService: EmilBaseService = new EmilBaseService('classification'),
-		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
 		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._emilClassificationService = emilClassificationService;
-		this._bookmarkService = bookmarkService;
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
@@ -86,12 +82,6 @@ export default class ResourceAdminService extends BaseService {
 		query = this.prepareSearchQuery(query);
 
 		let bookmarks: IBookmark[] = [];
-		if (query.onlyBookmarks) {
-			const response = await this._bookmarkService.getByUserID(userId);
-			if (response.result) {
-				bookmarks = response.result as IBookmark[];
-			}
-		}
 
 		const bookmarked = new Set<string>(bookmarks.map(bm => bm.resourceId));
 

@@ -1,4 +1,3 @@
-import UserAdminService from '@/services/admin/UserAdminService';
 import jwt, { Secret as JwtSecret } from 'jsonwebtoken';
 import passport from 'passport';
 import passportJWT from 'passport-jwt';

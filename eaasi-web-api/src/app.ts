@@ -1,4 +1,3 @@
-import { sequelize } from '@/data_access/models';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -52,17 +51,11 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-console.log('Preparing database...')
-sequelize.sync().then(() => {
-	/**
-	 * Create HTTP server.
-	 */
-	console.log('Starting HTTP server...')
-	const server = http.createServer(app);
-	server.on('error', (err) => onError(err, port));
-	server.on('listening', () => {
-		console.log('Server is listening on port ' + port);
-	});
-
-	server.listen(port);
+console.log('Starting HTTP server...')
+const server = http.createServer(app);
+server.on('error', (err) => onError(err, port));
+server.on('listening', () => {
+	console.log('Server is listening on port ' + port);
 });
+
+server.listen(port);

@@ -18,17 +18,6 @@ const controller = new AdminController();
 router.get('/users/list', (req, res) => controller.getUsers(req, res));
 
 /**
- * @api {get} admin/users/roles Get all EaaSI User Roles
- * @apiVersion 1.0.0
- * @apiGroup Users
- * @apiPermission System Administrator only
- * @apiDescription Gets a list of all EaaSI User Roles
- *
- * @apiSuccess {[]Object} result Array of EaasiRole objects.
- */
-router.get('/users/roles', (req, res) => controller.getRoles(req, res));
-
-/**
  * @api {post} admin/users/create Create an EaaSI User
  * @apiVersion 1.0.0
  * @apiGroup Users
@@ -66,34 +55,6 @@ router.post('/users/reset-password', resetPasswordRequestLimit, (req, res) => co
 
 /* Emulators
 ============================================*/
-/**
- * @api {post} admin/get-emulators  Get all Emulators
- * @apiVersion 1.0.0
- * @apiGroup Emulators
- * @apiPermission System Administrator only
- * @apiDescription Gets a list of all Emulators
- */
-router.get('/get-emulators', (req, res) => controller.getEmulators(req, res));
-
-/**
- * @api {post} admin/import-emulator Import an Emulator
- * @apiVersion 1.0.0
- * @apiGroup Emulators
- * @apiPermission System Administrator only
- * @apiDescription Imports a new Emulator
- */
-router.post('/import-emulator', (req, res) => controller.importEmulator(req, res));
-
-/**
- * @api {post} admin/set-default-emulator-version Set the Default Emulator Version
- * @apiVersion 1.0.0
- * @apiGroup Emulators
- * @apiPermission System Administrator only
- * @apiDescription Sets the Default Emulator Version
- *
- */
-router.post('/set-default-emulator-version', (req, res) => controller.setDefaultEmulatorVersion(req, res));
-
 /**
  * @api {get} admin/api-key Get provider Api Key
  * @apiVersion 1.0.0
