@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      matrix:
+        service: ["eaasi-front-end", "eaasi-web-api"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Registry
+        env:
+          DOCKER_USERNAME: ${{ secrets.CI_REGISTRY_USER }}
+          DOCKER_PASSWORD: ${{ secrets.CI_REGISTRY_PASSWORD }}
+        run: echo "${DOCKER_PASSWORD}" | docker login "${{ secrets.CI_REGISTRY }}" --username "${DOCKER_USERNAME}" --password-stdin
+
+      - name: Build and Push Docker Image
+        env:
+          IMAGE_NAME: "${{ secrets.CI_REGISTRY_IMAGE }}/${{ matrix.service }}"
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          docker buildx create --name eaasi --driver docker-container --use
+          docker buildx inspect --bootstrap eaasi
+          docker buildx build --progress plain \
+            --output 'type=registry' \
+            --cache-to "type=registry,mode=max,ref=${IMAGE_NAME}:buildcache" \
+            --cache-from "type=registry,ref=${IMAGE_NAME}:buildcache" \
+            --tag "${IMAGE_NAME}:${TAG_NAME}" \
+            "${{ matrix.service }}"

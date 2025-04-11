@@ -1,4 +1,5 @@
-name: Teleport
+name: Test
+
 on:
   push:
     branches:
