@@ -18,6 +18,7 @@ import {IEaasiTab} from 'eaasi-nav';
 class ResourceState {
 	activeEnvironment: IEnvironment = null;
 	activeEphemeralEnvironment: ICreateEnvironmentPayload = null;
+	activeDriveAssignments: IEaasiResource[][] = [];
 	selectedResources: IEaasiResource[] = [];
 	query: IResourceSearchQuery = new ResourceSearchQuery();
 	result: IResourceSearchResponse = null;
@@ -58,6 +59,7 @@ mutations['UNSELECT_ALL_FACETS'] = function(state: ResourceState) {
 mutations['RESET_ACTIVE_ENVIRONMENT_CONFIG'] = function(state: ResourceState) {
 	state.activeEnvironment = null;
 	state.activeEphemeralEnvironment = null;
+	state.activeDriveAssignments = [];
 };
 
 /*============================================================
@@ -187,7 +189,7 @@ const actions = {
 	},
 
 	async getImports({ commit, state, rootState }) {
-		const importQuery: IResourceSearchQuery = {
+		let importQuery: IResourceSearchQuery = {
 			keyword: null,
 			selectedFacets: state.query.selectedFacets,
 			limit: state.query.limit,
@@ -195,6 +197,8 @@ const actions = {
 			types: [],
 			archives: ['zero conf', 'default']  // TODO: What is zero conf?
 		};
+
+		importQuery = ResourceSearchQuery.prepare(importQuery);
 
 		const result = await _svc.searchResources(importQuery, rootState.loggedInUser.id);
 		if (!result) return;
@@ -235,6 +239,21 @@ const actions = {
 		return _svc.publishEnvironmentsToNetwork(envIds);
 	},
 
+	async syncImagesUrl() {
+		return await _svc.syncImagesUrl();
+	},
+
+	async syncObjectsUrl() {
+		return await _svc.syncObjectsUrl();
+	},
+
+	async syncSoftwareUrl() {
+		return await _svc.syncSoftwareUrl();
+	},
+
+	async getResourceOwner(_, ownerId: string) {
+		return await _svc.getResourceOwner(ownerId);
+	}
 };
 
 /*============================================================
@@ -281,10 +300,12 @@ const getters = {
 		if (!getters.onlySelectedFacets) {
 			return null;
 		}
-		const resourceTypes = getters.onlySelectedFacets.flatMap(
-			f => f.values.map(v => v.resourceType)
+
+		const resourceTypes = new Set<ResourceType>();
+		getters.onlySelectedFacets.forEach(f =>
+			f.values.forEach(v => resourceTypes.add(v.resourceType))
 		);
-		return removeDuplicatesFromFlatArray<ResourceType>(resourceTypes);
+		return Array.from<ResourceType>(resourceTypes);
 	},
 
 	facetsOfSingleTypeSelected(_, getters): boolean {
@@ -293,11 +314,12 @@ const getters = {
 
 	onlySelectedFacets(state: ResourceState): IResourceSearchFacet[] {
 		return state.query.selectedFacets
-			.flatMap(f => {
-				if(f.values.some(v => v.isSelected)) {
-					const values = f.values
+			.map(f => {
+				const values = f.values
 						.map(v => v.isSelected ? v : null)
 						.filter(i => i !== null);
+
+				if (values && values.length > 0) {
 					return {...f, values };
 				} else {
 					return null;

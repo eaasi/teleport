@@ -14,9 +14,6 @@
 		<template #tagsLeft>
 			<tag-group position="left" :tags="imageTypeTags" />
 		</template>
-		<template #tagsRight>
-			<tag-group v-if="summary" position="right" :tags="imageTagGroup" />
-		</template>
 	</selectable-card>
 </template>
 
@@ -24,7 +21,7 @@
 import Vue from 'vue';
 import { Get } from 'vuex-pathify';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary, IEaasiResource, IImageListItem } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary, IEaasiResource, IImageListItem } from '@/types/Resource';
 import { ITag } from '@/types/Tag';
 import { IBookmark } from '@/types/Bookmark';
 import { resourceLabels, resourceTypes, translatedIcon } from '@/utils/constants';
@@ -65,23 +62,6 @@ export default class ImageResourceCard extends Vue {
 
 	@Get('bookmark/bookmarks')
 	bookmarks: IBookmark[];
-
-	get imageTagGroup(): ITag[] {
-		// Currently, images are not public
-		if (this.image.isPublic) {
-            return [{
-                text: 'Public',
-				icon:  translatedIcon('public-network'),
-                color: 'green'
-            }];
-		} else {
-			return [{
-				text: 'Shared to Node',
-				icon:  translatedIcon('unlock'),
-				color: 'yellow'
-			}];
-        }
-	}
 
 	get summary(): IEaasiResourceSummary {
 		return {

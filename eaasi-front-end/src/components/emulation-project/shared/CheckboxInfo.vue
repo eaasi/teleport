@@ -51,11 +51,11 @@ export default class CheckboxInfo extends Vue {
 
 <style lang='scss' scoped>
 .checkbox-info {
-	background-color: lighten($light-blue, 90%);
+	background-color: $light-grey;
 	padding: 1rem;
 
 	.fas {
-		color: $dark-blue;
+		color: $dark-light-grey;
 		cursor: pointer;
 		font-size: 2rem;
 	}

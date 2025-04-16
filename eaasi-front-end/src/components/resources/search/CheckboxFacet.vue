@@ -13,14 +13,14 @@
 				:label="v.displayLabel ? v.displayLabel : v.label"
 				v-model="v.isSelected"
 				@change="$emit('change');"
-				style="margin-bottom: 1rem;"
+				style="margin-bottom: 1.5rem;"
 			/>
 			<span class="facet-total">({{ v.total }})</span>
 		</div>
 		<ui-button
 			v-if="facet.values.length > maxDisplayLimit"
 			size="sm"
-			color-preset="light-blue"
+			color-preset="white"
 			style="display: block; margin-top: 1rem;"
 			@click="$emit('expand', facet)"
 		>
@@ -33,7 +33,7 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import SearchFacetWrapper from './SearchFacetWrapper.vue';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { IResourceSearchFacet } from '@/types/Search';
 
 @Component({
 	name: 'CheckboxFacet',
@@ -64,7 +64,7 @@ export default class CheckboxFacet extends Vue {
 	align-content: center;
 
 	.facet-total {
-		color: lighten($grey, 10%);
+		color: $dark-light-grey;
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
 		margin-left: 0.6rem;

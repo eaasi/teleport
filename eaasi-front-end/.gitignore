@@ -20,3 +20,7 @@ yarn-error.log*
 *.sw?
 *.code-workspace
 coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

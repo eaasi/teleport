@@ -1,10 +1,10 @@
 <template>
-	<div :class="['resource-object-container flex', selectStyle, { disabled }]">
+	<div :class="['resource-object-container flex', selectStyle, { disabled }]" @click="toggleSelected">
 		<div v-if="!disabled" :class="['panel-left', selectStyle]">
-			<checkbox :value="value" @input="toggleSelected" />
+			<checkbox :value="value" />
 		</div>
 		<div class="selectable-text-card-content">
-			<h1>{{ label }}</h1>
+			<h2>{{ label }}</h2>
 			<slot></slot>
 		</div>
 	</div>
@@ -68,19 +68,24 @@ hr {
 
 .resource-object-container {
 	background-color: #FFFFFF;
-	border: 2px solid lighten($light-blue, 70%);
+	border: 2px solid $black;
+	cursor: pointer;
 	margin-bottom: 1.5rem;
 	min-height: 7rem;
 	position: relative;
 
 	&.selected {
-		background-color: lighten($light-blue, 90%);
-		border: 2px solid $light-blue;
+		background-color: $light-grey;
+		border: 2px solid $green;
 	}
 
 	&.disabled {
-		opacity: 0.4;
+		opacity: 0.7;
 		pointer-events: none;
+
+		.panel-right .header {
+			color: #004D16;
+		}
 	}
 
 	.bookmark {
@@ -91,13 +96,13 @@ hr {
 }
 
 .panel-left {
-	background-color: lighten($light-blue, 70%);
-	padding: 0.5rem;
-	display: flex;
 	align-items: center;
+	background-color: lighten($green, 90%);
+	display: flex;
+	padding: 0.5rem;
 
 	&.selected {
-		background-color: lighten($light-blue, 50%);
+		background-color: $green;
 	}
 }
 
@@ -120,7 +125,7 @@ hr {
 }
 
 .subcontent-divider {
-	border-color: lighten($dark-neutral, 90%);
+	border-color: $medium-grey;
 	margin-top: 1.4rem;
 }
 

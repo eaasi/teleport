@@ -66,8 +66,8 @@ export default class Step extends Vue {
 	}
 
 	.step-number {
-		background: transparent;
-		border: 3px solid #ffffff;
+		background: $medium-grey;
+		border: 2px solid #000000;
 		border-radius: 50%;
 		color: #000000;
 		display: flex;
@@ -80,10 +80,10 @@ export default class Step extends Vue {
 		width: $circleSize;
 
 		&.fill-bg {
-			background: lighten($light-blue, 80%);
-			border: 3px solid $light-blue;
+			background: $light-green-background;
+			border: 2px solid $green;
 			i {
-				color: $dark-blue;
+				color: $green;
 			}
 		}
 	}
@@ -98,7 +98,7 @@ export default class Step extends Vue {
 		vertical-align: middle;
 
 		&.active {
-			color: $dark-blue;
+			color: $dark-green;
 		}
 	}
 

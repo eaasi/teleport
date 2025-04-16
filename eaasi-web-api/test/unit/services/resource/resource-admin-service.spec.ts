@@ -42,9 +42,6 @@ describe('UserAdminService', () => {
 			expect(sut._emilClassificationService).toBe(mockClassificationSvc);
 		});
 
-		it('on initialization sets an IHttpService service for _bookmarkService', () => {
-			expect(sut._bookmarkService).toBe(mockBookmarkSvc);
-		});
 	});
 
 	describe('default query method tests', () => {

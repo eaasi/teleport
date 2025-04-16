@@ -22,6 +22,10 @@ export default class BaseHttpService {
 		return this._makeRequest(url, 'GET', null, options);
 	}
 
+	async getLocal<T>(url: string, options?: IEaasiApiRequestOptions): Promise<IEaasiApiResponse<T>> {
+		return this._makeRequestLocal(url, 'GET', null, options);
+	}
+
 	/**
 	 * Makes a POST request using Fetch
 	 *
@@ -38,6 +42,14 @@ export default class BaseHttpService {
 		return this._makeRequest(url, 'POST', data, options);
 	}
 
+	async postLocal<T>(
+		url: string,
+		data?: any,
+		options?: IEaasiApiRequestOptions
+	): Promise<IEaasiApiResponse<T>> {
+		return this._makeRequestLocal(url, 'POST', data, options);
+	}
+
 	/**
 	 * Makes a POST request for uploading files using Fetch
 	 *
@@ -51,6 +63,13 @@ export default class BaseHttpService {
 		data: FormData,
 	): Promise<IEaasiApiResponse<T>> {
 		return this._makeUploadRequest(url, 'POST', data);
+	}
+
+	async postUploadExtended<T>(
+		url: string,
+		file: any,
+	): Promise<IEaasiApiResponse<T>> {
+		return this._makeUploadRequestExtended(url, 'POST', file);
 	}
 
 	/**
@@ -157,6 +176,49 @@ export default class BaseHttpService {
 		}
 	}
 
+	private async _makeRequestLocal<T>(
+		url: string,
+		method: string,
+		data?: any,
+		options?: IEaasiApiRequestOptions
+	): Promise<IEaasiApiResponse<T>> {
+
+		const self = this;
+		const requestInit = new EaasiApiRequestInit(url, method, data, options);
+		const request = new Request(url, requestInit);
+
+		let response: IEaasiApiResponse<T>;
+		options = options || requestInit.options;
+
+		try {
+			// Let Vue know that an ajax request has been initiated
+			if (!options.suppressSpinner) eventBus.$emit('ajaxStart');
+
+			const res = await fetch(request);
+
+			response = res as IEaasiApiResponse<T>;
+
+			// If 200 response, parse the body as the generic type
+			if (res.ok) response.result = await res.json();
+
+			// Handle non-200 responses
+			else await self._handleBadResponse<T>(requestInit, res, options.suppressErrors);
+
+			// Let Vue know that an ajax request has been completed
+			if (!options.suppressSpinner) eventBus.$emit('ajaxEnd');
+
+			if (response.status === 429) eventBus.$emit(events.REQUEST_LIMIT_REACHED);
+
+			if (response.status === 401) eventBus.$emit(events.UNAUTHORIZED_ERROR);
+
+			return response;
+		} catch (e) {
+			eventBus.$emit('ajaxEnd');
+			e.request = options;
+			self._handleError(e, options.suppressErrors);
+		}
+	}
+
 	/**
 	 * Makes an AJAX request using the fetch API for an upload and handles the response
 	 *
@@ -195,6 +257,42 @@ export default class BaseHttpService {
 			}
 
 			// TODO: Handle non-200 responses
+
+			return response;
+
+		} catch (e) {
+			console.warn(e);
+			eventBus.$emit('ajaxEnd');
+		}
+	}
+
+	private async _makeUploadRequestExtended<T>(
+		url: string,
+		method: string,
+		file: any,
+	): Promise<IEaasiApiResponse<T>> {
+		let response: IEaasiApiResponse<T>;
+		try {
+			eventBus.$emit('ajaxStart', true);
+
+			const headers = {
+				'content-type': 'application/octet-stream',
+				'x-eaas-filename': file.name,
+			};
+
+			const res = await fetch(url, {
+				method: method,
+				headers: headers,
+				body: file.file
+			});
+
+			eventBus.$emit('ajaxEnd', true);
+			response = res as IEaasiApiResponse<T>;
+
+			// If 200 response, parse the body as the generic type
+			if (res.ok) {
+				response.result = await res.json();
+			}
 
 			return response;
 

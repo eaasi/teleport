@@ -15,7 +15,7 @@ export default class PermissionResolver {
 	/**
 	 * - Manage Node option appears in the side menu
 	 */
-	allowsViewManageNodePage() : boolean {
+	allowsViewManageOrganizationPage() : boolean {
 		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
 			.includes(this.userRoleId);
 	}
@@ -24,7 +24,7 @@ export default class PermissionResolver {
 	 * - create / delete accounts
 	 * - assign roles
 	 */
-	allowsManageNodeUsers() : boolean {
+	allowsManageOrganizationUsers() : boolean {
 		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
 			.includes(this.userRoleId);
 	}
@@ -43,7 +43,7 @@ export default class PermissionResolver {
 	 * - Can delete resources from node (local only)
 	 */
 	allowsDeleteLocalResourcesFromNode() {
-		return [userRoles.ADMIN, userRoles.MANAGER]
+		return [userRoles.ADMIN, userRoles.MANAGER, userRoles.CONTRIBUTOR]
 			.includes(this.userRoleId);
 	}
 

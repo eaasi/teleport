@@ -44,7 +44,7 @@ export default class SelectableCardContent extends Vue {
 			display: block;
 
 			.label {
-				color: #6F6A67;
+				color: $dark-grey;
 				line-height: $defaultLineHeight;
 				min-width: 25%;
 				padding: 3px;
@@ -52,7 +52,7 @@ export default class SelectableCardContent extends Vue {
 			}
 
 			.value {
-				color: #6F6A67;
+				color: $dark-light-grey;
 				line-height: $defaultLineHeight;
 				min-width: 25%;
 				padding-right: 24px;

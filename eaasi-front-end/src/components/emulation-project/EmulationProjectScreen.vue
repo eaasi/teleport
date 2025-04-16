@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div class="emulation-project-screen width-lg">
 		<div class="emulation-project-page-heading">
@@ -14,7 +15,7 @@
 				<div class="emu-project-actions">
 					<div class="emu-project-action">
 						<ui-button
-							color-preset="light-blue"
+							color-preset="white"
 							@click="clearAllAlertModal=true"
 							:disabled="clearAllDisabled"
 						>
@@ -69,7 +70,7 @@ import {IEaasiResource, IEnvironment} from '@/types/Resource';
 import {getResourceArchiveId, getResourceId} from '@/helpers/ResourceHelper';
 import ResourceSideBar from './ResourceSideBar.vue';
 import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
-import {buildAccessInterfaceQuery} from '@/helpers/AccessInterfaceHelper';
+import {buildAccessInterfaceQuery, EPHEMERAL_ENVIRONMENT_ID} from '@/helpers/AccessInterfaceHelper';
 import CreateBaseEnvModal from './base-environment/CreateBaseEnvModal.vue';
 import EmulationProjectEnvironment from '@/models/emulation-project/EmulationProjectEnvironment';
 import eventBus from '@/utils/event-bus';
@@ -97,6 +98,9 @@ export default class EmulationProjectScreen extends Vue {
 	============================================*/
 	@Sync('emulationProject/createEnvironmentPayload')
 	createEnvironmentPayload: ICreateEnvironmentPayload;
+
+	@Get('emulationProject/selectedResourcesPerDrive')
+	selectedResourcesPerDrive: IEaasiResource[][];
 
 	@Sync('showLoader')
 	showLoader: boolean;
@@ -150,6 +154,7 @@ export default class EmulationProjectScreen extends Vue {
 			// Set newly create emulation project environment to active
 			this.$store.commit('resource/SET_ACTIVE_ENVIRONMENT', emulationProjectEnv);
 			this.$store.commit('resource/SET_ACTIVE_EPHEMERAL_ENVIRONMENT', this.createEnvironmentPayload);
+			this.$store.commit('resource/SET_ACTIVE_DRIVE_ASSIGNMENTS', this.selectedResourcesPerDrive);
 
 			// Route to access interface screen
 			this.$router.push(this.buildQuery(emulationProjectEnv?.envId));
@@ -188,6 +193,9 @@ export default class EmulationProjectScreen extends Vue {
 	}
 
 	private buildQuery(envId: string) {
+		if (!envId && this.createEnvironmentPayload)
+			envId = EPHEMERAL_ENVIRONMENT_ID;
+
 		return this.selectedObjects.length && !this.constructedFromBaseEnvironment
 			? buildAccessInterfaceQuery({
 				envId,
@@ -240,7 +248,6 @@ export default class EmulationProjectScreen extends Vue {
 		if (!result) {
 			eventBus.$emit('notification:show', generateNotificationError(this.clearProjectErrorMessage));
 		}
-		this.createEnvironmentPayload = null;
 		await this.$router.push(ROUTES.EMULATION_PROJECT.ROOT);
 	}
 
@@ -253,9 +260,11 @@ export default class EmulationProjectScreen extends Vue {
 	min-height: 100%;
 
 	.emulation-project-page-heading {
-		background: lighten($light-neutral, 80%);
-		border-bottom: solid 3px lighten($light-neutral, 10%);
-		padding: 3rem 1.8rem;
+		background-color: #c0c2c3;
+		display: block;
+		font-weight: 300;
+		margin-bottom: 0;
+		padding: 34px 15px;
 		.emulation-project-page-title {
 			padding-bottom: 3px;
 		}
@@ -273,8 +282,8 @@ export default class EmulationProjectScreen extends Vue {
 	.emu-project-actions {
 		display: flex;
 		flex-direction: row;
-		justify-content: center;
 		gap: 1.8rem;
+		justify-content: center;
 		margin-left: 3rem;
 	}
 
@@ -284,8 +293,8 @@ export default class EmulationProjectScreen extends Vue {
 		margin-right: 0;
 
 		.emulation-content {
-			background-color: lighten($light-neutral, 60%);
-			min-height: 100vh;
+			background-color: $light-grey;
+			min-height: 100%;
 			padding: 3rem;
 		}
 
@@ -294,4 +303,26 @@ export default class EmulationProjectScreen extends Vue {
 		}
 	}
 }
-</style>
+
+@media screen and (max-width: 1060px) {
+	.emulation-project-screen {
+		.emu-project-actions {
+			flex-direction: column;
+		}
+
+		.main-content {
+			.emulation-content {
+				padding: 1rem;
+
+				.emu-project-content{
+					padding: 0;
+				}
+			}
+
+			.environment-selection-controls {
+				width: -webkit-fill-available;
+			}
+		}
+	}
+}
+</style>-->

@@ -79,52 +79,52 @@ export default class Tooltip extends Vue {
 
 <style lang='scss'>
 .tooltip {
-	overflow: visible;
 	display: contents;
+	overflow: visible;
 
 	.tooltip-icon {
 		cursor: pointer;
 		margin: 2px 2px 2px 5px;
 
 		span {
-			color: darken($dark-neutral, 20%);
+			color: $dark-light-grey;
 			font-size: 1.5rem;
 		}
 	}
 
 	.tooltip-content {
-		position: absolute;
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.2s;
-		z-index: 100;
-		margin-top: 10px;
-		top: 0;
-		left: 0;
-		transform: translateX(calc(-50%));
-		width: fit-content;
-		max-width: 300px;
-		color: darken($dark-neutral, 20%);
+		color: $dark-light-grey;
 		font-size: 1.6rem;
+		left: 0;
+		margin-top: 10px;
+		max-width: 300px;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		top: 0;
+		transform: translateX(calc(-50%));
+		transition: opacity 0.2s;
+		width: fit-content;
+		z-index: 100;
 
 		&.opened {
-			pointer-events: auto;
 			opacity: 1;
+			pointer-events: auto;
 		}
 
 		div {
+			background-color: rgb(220, 220, 220);
+			border: 2px solid $light-grey;
 			border-radius: 0.4rem;
-			border: 2px solid $light-neutral;
 			padding: 5px;
-			background-color: lighten($light-neutral, 30%);
 		}
 
 		code {
+			background-color: $light-grey;
+			border-radius: 0.3rem;
+			color: $dark-light-grey;
 			font-family: monospace;
 			font-size: 1.2rem;
-			color: darken($dark-neutral, 35%);
-			background-color: lighten($dark-neutral, 70%);
-			border-radius: 0.3rem;
 			padding: 0 2px;
 		}
 	}

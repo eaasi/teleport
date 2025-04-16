@@ -8,7 +8,7 @@
 				</p>
 			</div>
 			<div class="btn-section" v-if="!hasResults">
-				<ui-button color-preset="light-blue" @click="navigateToImportResource">
+				<ui-button color-preset="white" @click="navigateToImportResource">
 					Import New Resource
 				</ui-button>
 			</div>
@@ -33,7 +33,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="resource-bento width-md">
+					<div class="resource-bento resources-group">
 						<div class="bento-row">
 							<div
 								v-if="bentoResult.environments.result.length || bentoResult.images.result.length"
@@ -53,7 +53,7 @@
 									:query="query"
 									:result="bentoResult.images"
 									type="Image"
-									@click:all="getAll(['Images'])"
+									@click:all="getAll(['Image'])"
 								/>
 							</div>
 
@@ -106,12 +106,13 @@ import ResourceList from '@/components/resources/ResourceList.vue';
 import AppliedSearchFacets from '@/components/resources/search/AppliedSearchFacets.vue';
 import ResourceFacets from '@/components/resources/search/ResourceFacets.vue';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import SlideMenuControlButtons from '@/components/resources/SlideMenuControlButtons.vue';
 import ResourceSortSection from '../search/ResourceSortSection.vue';
 import { ROUTES } from '@/router/routes.const';
 import { IEaasiTab } from 'eaasi-nav';
 import SearchQueryService, { QuerySource } from '@/services/SearchQueryService';
+import { IBookmark } from '@/types/Bookmark';
 
 
 @Component({
@@ -156,6 +157,9 @@ export default class ImportedResourcesScreen extends Vue {
 	@Get('resource/onlySelectedFacets')
 	onlySelectedFacets: IResourceSearchFacet[];
 
+	@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];
+
 	get hasSelectedFacets() {
 		return this.onlySelectedFacets.length > 0;
 	}
@@ -184,14 +188,13 @@ export default class ImportedResourcesScreen extends Vue {
 	============================================*/
 
     async getAll(types) {
-		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
 		await this.search();
 	}
 
 	async paginate(page) {
 		this.query.page = page;
-		await this.$store.dispatch('resource/searchResources');
+		await this.search();
 	}
 
     async search() {
@@ -202,10 +205,15 @@ export default class ImportedResourcesScreen extends Vue {
 				userId: this.user.id,
 				onlyImportedResources: true,
 				onlyBookmarks: false,
-				archives: ['zero conf', 'default']
+				archives: ['default']
 			};
+
 			await this.$store.dispatch('resource/searchResources');
-			this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
+
+			const bookmarks = this.bentoResult?.bookmarks;
+			if (!bookmarks || !bookmarks.length) {
+				this.bentoResult.bookmarks = this.bookmarks;
+			}
 		});
 	}
 
@@ -217,7 +225,7 @@ export default class ImportedResourcesScreen extends Vue {
 		this.$emit('open-action-menu', tab);
 	}
 
-	init() {
+	async init() {
 		const { retrieveQuery } = this.$route.query;
 		if (retrieveQuery) {
 			const query: IResourceSearchQuery = this.queryService.retrieveQuery();
@@ -225,6 +233,9 @@ export default class ImportedResourcesScreen extends Vue {
 				this.query = query;
 			}
 		}
+
+		// prefetch bookmarks once...
+		await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
 	}
 
 	/* Lifecycle Hooks
@@ -246,34 +257,26 @@ export default class ImportedResourcesScreen extends Vue {
 		if (!curVal && prevVal === undefined) {
 			return;
 		}
-		// if we're unselecting the last facet, do a clear search
-		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			await this.search();
-			// per https://gitlab.com/eaasi/program_docs/eaasi/-/issues/948
-			// if we clear the search here, we effectively get back all resources.
-			// since this component deals specifically with Bookmarks,
-			// we should simply re-run search when last facet is cleared.
-			// await this.$store.dispatch('resource/clearSearch');
-		}
 	}
-
 }
 </script>
 
 <style lang='scss'>
 	.bg-top-message {
-		background-color: lighten($light-neutral, 40%);
-		border-bottom: 2px solid darken($light-neutral, 10%);
+		background-color: lighten($medium-grey, 30%);
 		justify-content: space-between;
 		min-height: 5rem;
+		padding: 0 15px;
+
 		.btn-section {
-			border-left: 2px solid darken($light-neutral, 10%);
 			display: flex;
 			padding: 0.5rem 3rem;
 		}
 	}
 
 	.resource-results-wrapper {
+		width: -webkit-fill-available;
+
 		.resource-results {
 			display: flex;
 			min-height: 80vh;
@@ -294,11 +297,16 @@ export default class ImportedResourcesScreen extends Vue {
 
 			.bento-header {
 				width: 100%;
+				font-weight: 400;
 			}
 
 			.card-wrapper {
-				width: 53rem;
+				width: -webkit-fill-available;
 			}
 		}
+	}
+
+	.resources-group {
+		width: -webkit-fill-available;
 	}
 </style>

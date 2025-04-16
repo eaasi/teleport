@@ -34,6 +34,7 @@
 					:network-labeled-items="networkLabeledItems"
 					:installed-software="installedSoftware"
 					:config-machine-labeled-items="configMachineLabeledItems"
+					:owner-label="ownerLabel"
 				/>
 				<revision-list
 					v-show="activeTab === 'History'"
@@ -133,6 +134,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 	]
 	actionMenuActiveTab: IEaasiTab = null;
 	kvmFlag: string = '-enable-kvm';
+	ownerLabel: string = null;
 
     /* Computed
 	============================================*/
@@ -189,6 +191,14 @@ export default class EnvironmentDetailsScreen extends Vue {
 			.forEach(el => this.activeEnvironment[el.property] = el.value);
 		this.networkLabeledItems
 			.forEach(el => this.activeEnvironment.networking[el.property] = el.value);
+
+		// HACK: special-case "enableInternet" for now, see <https://gitlab.com/eaasi/eaasi-client-dev/-/issues/857#note_1915159583>
+		if (this.activeEnvironment.enableInternet) {
+			this.activeEnvironment.networking.connectEnvs = true;
+			this.activeEnvironment.networking.enableInternet = true;
+		} else {
+			this.activeEnvironment.networking = undefined;
+		}
 
 		this.activeEnvironment.time =
 			new Date(this.activeEnvironment.time)
@@ -250,6 +260,8 @@ export default class EnvironmentDetailsScreen extends Vue {
 		}
 		this.resources = [{...this.activeEnvironment, resourceType: resourceTypes.ENVIRONMENT}];
 		await this.populateMetadata();
+		let owner = await this.$store.dispatch('resource/getResourceOwner', this.activeEnvironment.owner);
+		this.ownerLabel = owner.label;
 	}
 
 	async populateMetadata() {
@@ -326,7 +338,7 @@ export default class EnvironmentDetailsScreen extends Vue {
 				label: 'Emulator Configuration',
 				value: this.activeEnvironment.nativeConfig,
 				property: 'nativeConfig',
-				readonly: false,
+				readonly: true,
 				editType: 'text-input',
 				changed: false
 			},
@@ -609,6 +621,6 @@ export default class EnvironmentDetailsScreen extends Vue {
 	}
 
 	#thisIncludedIn {
-		background-color: lighten($light-neutral, 75%);
+		background-color: lighten($light-grey, 75%);
 	}
 </style>

@@ -13,6 +13,7 @@
 					v-if="environment || createEnvironmentPayload"
 					:environment="environment"
 					:create-environment-payload="createEnvironmentPayload"
+					:drive-assignments="driveAssignments"
 					ref="_emulator"
 				/>
 			</div>
@@ -51,12 +52,13 @@
 	import { Component } from 'vue-property-decorator';
 	import { Route } from 'vue-router';
 	import { Get, Sync } from 'vuex-pathify';
-	import { IEnvironment } from '@/types/Resource';
+	import { IEnvironment, IEaasiResource } from '@/types/Resource';
 	import AccessInterfaceHeader from './AccessInterfaceHeader.vue';
 	import Emulator from './Emulator.vue';
 	import EnvironmentMenu from './EnvironmentMenu.vue';
 	import { IEaasiUser } from 'eaasi-admin';
 	import {ICreateEnvironmentPayload} from '@/types/Import';
+	import { EPHEMERAL_ENVIRONMENT_ID } from '@/helpers/AccessInterfaceHelper';
 
 	@Component({
 		name: 'AccessInterfaceScreen',
@@ -80,6 +82,9 @@
 
 		@Sync('resource/activeEphemeralEnvironment')
 		createEnvironmentPayload: ICreateEnvironmentPayload;
+
+		@Sync('resource/activeDriveAssignments')
+		driveAssignments: IEaasiResource[][];
 
 		@Get('emulatorIsRunning')
 		readonly emulatorIsRunning: boolean;
@@ -197,12 +202,15 @@
 			if (!vm.$refs._emulator) return;
 			let environment = jsonCopy(vm.environment) as IEnvironment;
 			let createEnvironmentPayload = jsonCopy(vm.createEnvironmentPayload) as ICreateEnvironmentPayload;
+			let driveAssignments = jsonCopy(vm.driveAssignments) as IEaasiResource[][];
 			await vm.$refs._emulator.stopEnvironment();
 			vm.environment = null;
 			vm.createEnvironmentPayload = null;
+			vm.driveAssignments = null;
 			vm.$nextTick(() => {
 				vm.environment = environment;
 				vm.createEnvironmentPayload = createEnvironmentPayload;
+				vm.driveAssignments = driveAssignments;
 			});
 		}
 
@@ -218,7 +226,7 @@
 		beforeRouteEnter(to: Route, from: Route, next: Function) {
 			next(async vm => {
 				const { envId } = to.params;
-				if (envId !== 'undefined') {
+				if (envId !== 'undefined' && envId !== EPHEMERAL_ENVIRONMENT_ID) {
 					await vm.getEnvironment(envId);
 				}
 				vm.hideAppHeader = true;
@@ -245,14 +253,14 @@
 
 <style lang="scss">
 	#accessInterface {
-		background-color: darken($teal, 72%);
+		background-color: $dark-light-grey;
 		min-height: 100vh;
-	}
-
-	.ai-content {
-		margin-top: $accessHeaderHeight;
-		overflow-x: scroll;
-		text-align: center;
+		.ai-content {
+			margin-top: $accessHeaderHeight;
+			overflow-x: scroll;
+			text-align: center;
+			padding-top: 50px;
+		}
 	}
 
 	.ai-emulator {

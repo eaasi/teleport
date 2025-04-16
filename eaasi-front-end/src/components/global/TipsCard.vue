@@ -29,8 +29,8 @@ export default class TipsCard extends Vue {
 
 <style lang="scss">
 	.tips-card-container {
-		background-color: lighten($light-neutral, 30%);
-		border: 2px dashed darken($light-neutral, 10%);
+		background-color: $light-grey;
+		border: 2px dashed $medium-grey;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
@@ -46,7 +46,7 @@ export default class TipsCard extends Vue {
 	}
 
 	.tips-content {
-		color: lighten($dark-neutral, 10%);
+		color: $medium-grey;
 		margin: 1.2rem 0;
 	}
 

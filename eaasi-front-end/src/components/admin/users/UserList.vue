@@ -74,7 +74,7 @@ export default class UserList extends Vue {
 	============================================*/
 	get isViewable(): boolean {
 		if (!this.currentUser) return false;
-		return this.permit.allowsManageNodeUsers();
+		return this.permit.allowsManageOrganizationUsers();
 	};
 
 	@Get('loggedInUser')
@@ -118,7 +118,7 @@ export default class UserList extends Vue {
 	}
 
 	.details-cell {
-		color: $dark-blue;
+		color: $dark-green;
 		text-align: center;
 		transition: background-color 0.2s, color 0.2s;
 
@@ -129,7 +129,7 @@ export default class UserList extends Vue {
 			transition: background-color 0.2s, color 0.2s;
 
 			&:hover {
-				background-color: #ffffff;
+				color: black;
 				transition: background-color 0.2s, color 0.2s;
 			}
 		}

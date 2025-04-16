@@ -43,8 +43,6 @@ services:
     init: true
     build:
       context: ./eaasi-web-api
-    depends_on:
-     - eaasi-database
     env_file:
     - ./eaasi-web-api/.env
     volumes:
@@ -55,21 +53,4 @@ services:
     - eaasi-nginx:eaasi.portalmedia.com
     ports:
     - 8081:8081
-    restart: on-failure
-
-  # PostgreSQL Database
-  eaasi-database:
-    image: eaasi-database
-    container_name: eaasi-database
-    init: true
-    build:
-      context: ./eaasi-database
-    env_file:
-    - ./eaasi-database/vars.env
-    networks:
-    - eaasi
-    ports:
-    - 5432:5432
-    volumes:
-    - ./eaasi-database/data:/var/lib/postgresql/data
     restart: on-failure

@@ -1,7 +1,6 @@
 <template>
 	<div class="dashboard-container">
 		<dashboard-header />
-		<dashboard-links />
 		<dashboard-blog-feed />
 	</div>
 </template>
@@ -9,7 +8,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import DashboardHeader from '@/components/dashboard/DashboardHeader.vue';
-import DashboardLinks from '@/components/dashboard/DashboardLinks.vue';
 import DashboardBlogFeed from '@/components/dashboard/DashboardBlogFeed.vue';
 import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
 
@@ -17,7 +15,6 @@ import EaasiIcon from '@/components/global/icons/EaasiIcon.vue';
 	name: 'Dashboard',
 	components: {
 		DashboardHeader,
-		DashboardLinks,
 		DashboardBlogFeed,
 		EaasiIcon,
 	}
@@ -27,4 +24,7 @@ export default class Dashboard extends Vue {
 </script>
 
 <style lang="scss">
+.dashboard-container {
+	height: 100%;
+}
 </style>

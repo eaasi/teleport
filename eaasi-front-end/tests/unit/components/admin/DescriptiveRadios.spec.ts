@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import DescriptiveRadios from '@/components/global/forms/DescriptiveRadios.vue';
 import { IRadioOption } from '@/types/Forms';
@@ -11,6 +11,8 @@ const options: IRadioOption[] = [
 ];
 
 localVue.use(Vuex);
+
+enableAutoDestroy(afterEach);
 
 describe('DescriptiveRadios.vue', () => {
 

@@ -49,7 +49,9 @@ mutations.RESET = (state) => {
 	state.chosenTemplateId = '';
 	state.selectedSoftwareId = '';
 	state.environment = null;
+	state.createEnvironmentPayload = null;
 	state.selectedResources = [];
+	state.selectedResourcesPerDrive = null;
 	state.projectResources = [];
 	state.selectedTemplateId = '';
 };

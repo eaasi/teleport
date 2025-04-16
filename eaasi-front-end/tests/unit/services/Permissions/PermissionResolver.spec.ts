@@ -7,34 +7,34 @@ describe('PermissionResolver', () => {
 
 	it('returns true when allowsViewManageNodeUsers called and provided user role is Admin', () => {
 		const sut = new PermissionResolver(userRoles.ADMIN);
-		expect(sut.allowsManageNodeUsers()).toBe(true);
+		expect(sut.allowsManageOrganizationUsers()).toBe(true);
 	});
 
 	it('returns true when allowsViewManageNodeUsers called and provided user role is Manager', () => {
 		const sut = new PermissionResolver(userRoles.MANAGER);
-		expect(sut.allowsManageNodeUsers()).toBe(true);
+		expect(sut.allowsManageOrganizationUsers()).toBe(true);
 	});
 
 	it('returns true when allowsViewManageNodeUsers called and provided user role is Config User', () => {
 		const sut = new PermissionResolver(userRoles.CONTRIBUTOR);
-		expect(sut.allowsManageNodeUsers()).toBe(true);
+		expect(sut.allowsManageOrganizationUsers()).toBe(true);
 	});
 
 	// Test Manage Node Page permission resolution
 
-	it('returns true when allowsManageNodePage called and provided user role is Admin', () => {
+	it('returns true when allowsViewManageOrganizationPage called and provided user role is Admin', () => {
 		const sut = new PermissionResolver(userRoles.ADMIN);
-		expect(sut.allowsViewManageNodePage()).toBe(true);
+		expect(sut.allowsViewManageOrganizationPage()).toBe(true);
 	});
 
-	it('returns true when allowsViewManageNodePage called and provided user role is Manager', () => {
+	it('returns true when allowsViewManageOrganizationPage called and provided user role is Manager', () => {
 		const sut = new PermissionResolver(userRoles.MANAGER);
-		expect(sut.allowsViewManageNodePage()).toBe(true);
+		expect(sut.allowsViewManageOrganizationPage()).toBe(true);
 	});
 
-	it('returns true when allowsViewManageNodePage called and provided user role is Config User', () => {
+	it('returns true when allowsViewManageOrganizationPage called and provided user role is Config User', () => {
 		const sut = new PermissionResolver(userRoles.CONTRIBUTOR);
-		expect(sut.allowsViewManageNodePage()).toBe(true);
+		expect(sut.allowsViewManageOrganizationPage()).toBe(true);
 	});
 
 	// Test Import Environment Resources permission resolution

@@ -49,26 +49,6 @@
 		</slide-menu>
 
 		<!-- Modals -->
-		<!-- Save To My Node Modal -->
-		<confirm-modal
-			title="Save To My Node"
-			confirm-label="Save Environment"
-			@click:cancel="confirmAction = null"
-			@click:confirm="replicateEnvironment"
-			@close="confirmAction = null"
-			v-if="confirmAction === 'save'"
-		>
-			<alert type="info">
-				<span class="ers-rep-msg">
-					Saving to your node will copy all environment data and files to local storage.
-					Environments copied from the EaaSI Network cannot be easily deleted once saved.
-				</span>
-				<span class="ers-rep-msg">
-					Do you want to save this environment to your node?
-				</span>
-			</alert>
-		</confirm-modal>
-
 		<!-- Delete Resource Modal -->
 		<confirm-modal
 			title="Delete Resources"
@@ -256,7 +236,7 @@ export default class ResourceSlideMenu extends Vue {
 		}
 	};
 
-	async addToEmulationProject() {
+	/*async addToEmulationProject() {
 		const hasRemoteEnvironmentsSelected = this.resources.some(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
 		const allowedResources = this.resources.filter(resource => resource.archive !== archiveTypes.REMOTE);
 		if (hasRemoteEnvironmentsSelected) {
@@ -268,7 +248,7 @@ export default class ResourceSlideMenu extends Vue {
 		if (!hasRemoteEnvironmentsSelected) {
 			await this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
-	}
+	}*/
 
 	async replicateRemoteEnvironments() {
 		const remoteEnvironments = this.resources.filter(resource => resource.resourceType === resourceTypes.ENVIRONMENT && resource.archive === archiveTypes.REMOTE);
@@ -354,15 +334,6 @@ export default class ResourceSlideMenu extends Vue {
 		this.$emit('toggle');
 	}
 
-	async replicateEnvironment() {
-		this.confirmAction = null;
-		const env: IEaasiResource = this.resources[0];
-		if (!env) return;
-		const result: IEaasiTaskListStatus = await this.$store.dispatch('resource/replicateEnvironment', env);
-		let task = new EaasiTask(result.taskList[0], `Save To My Node: ${env.title}`);
-		await this.$store.dispatch('task/addTaskToQueue', task);
-	}
-
 	async deleteSelectedResource() {
 		this.confirmAction = null;
 		if (this.environmentIsSelected) {
@@ -418,9 +389,9 @@ export default class ResourceSlideMenu extends Vue {
 		if (!action.isEnabled) return;
 
 		switch (action.shortName) {
-			case 'run':
+			/*case 'run':
 				this.runInEmulator();
-				break;
+				break;*/
 			case 'viewDetails':
 				this.viewDetails();
 				break;
@@ -430,9 +401,9 @@ export default class ResourceSlideMenu extends Vue {
 			case 'bookmark':
 				this.bookmark();
 				break;
-			case 'addToEmuProject':
+			/*case 'addToEmuProject':
 				this.addToEmulationProject();
-				break;
+				break;*/
 			case 'save':
 				this.confirmAction = 'save';
 				break;
@@ -464,7 +435,7 @@ export default class ResourceSlideMenu extends Vue {
 		});
 	}
 
-	runInEmulator(software = null) {
+	/*runInEmulator(software = null) {
 		let environment = this.onlySelectedResource as IEnvironment;
 		let route = `${ROUTES.ACCESS_INTERFACE}/${environment.envId}`;
 		if (software && software.id) {
@@ -474,7 +445,7 @@ export default class ResourceSlideMenu extends Vue {
 			}
 		}
 		this.$router.push(route);
-	}
+	}*/
 
 	viewDetails() {
 		// When View Details is clicked, we send to Resource Detail view
@@ -510,7 +481,7 @@ export default class ResourceSlideMenu extends Vue {
 
 <style lang="scss">
 	.resource-slide-menu {
-		background-color: lighten($light-neutral, 80%);
+		background-color: #f0f0f0;
 		bottom: 0;
 		position: fixed;
 		right: 0;
@@ -523,7 +494,7 @@ export default class ResourceSlideMenu extends Vue {
 
 	.rsm-header {
 		background-color: #FFFFFF;
-		border-bottom: solid 4px lighten($dark-neutral, 70%);
+		border-bottom: solid 4px $medium-grey;
 	}
 
 	.rsm-details {
@@ -531,13 +502,13 @@ export default class ResourceSlideMenu extends Vue {
 	}
 
 	.rsm-resource-title {
-		border-top: solid 6px $dark-blue;
+		border-top: solid 6px $green;
 		font-size: 1.7rem;
 		padding: 2rem;
 	}
 
 	.rsm-local-actions {
-		border-bottom: solid 4px lighten($light-neutral, 10%);
+		border-bottom: solid 4px $medium-grey;
 	}
 
 	#publicWarning {

@@ -6,7 +6,7 @@
 					<h2>Environment resource</h2>
 					<div class="selecting-action-button" v-if="!environment">
 						<ui-button @click="startSelectingEnvironment" :disabled="isSelectingEnvironment">Select Environment</ui-button>
-						<ui-button color-preset="light-blue" @click="resetSelectingEnvironmentType" v-if="isSelectingEnvironment">Cancel</ui-button>
+						<ui-button color-preset="white" @click="resetSelectingEnvironmentType" v-if="isSelectingEnvironment">Cancel</ui-button>
 					</div>
 				</div>
 				<div class="emu-project-content-drop-zone">
@@ -58,7 +58,7 @@
 					<h2>Object resource</h2>
 					<div class="selecting-action-button" v-if="selected.length === 0">
 						<ui-button @click="startSelectingObject" :disabled="isSelectingObject">Select Resource</ui-button>
-						<ui-button color-preset="light-blue" @click="resetSelectingObjectType" v-if="isSelectingObject">Cancel</ui-button>
+						<ui-button color-preset="white" @click="resetSelectingObjectType" v-if="isSelectingObject">Cancel</ui-button>
 					</div>
 				</div>
 				<div class="emu-project-content-drop-zone">

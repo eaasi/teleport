@@ -55,12 +55,10 @@ export default class TabbedNav extends Vue {
 <style lang="scss">
 .eaasi-tabs {
 	$animation-time: 0.3s;
-	// border-bottom: solid 4px lighten($dark-neutral, 70%);
-	border-top: solid 4px lighten($light-neutral, 10%);
-	padding-bottom: 6px;
+	padding: 10px;
 
 	&.clear-white {
-		border-bottom: solid 2px lighten($light-neutral, 10%);
+		border-bottom: solid 2px $light-grey;
 		border-top: none;
 		padding-bottom: 3px;
 
@@ -73,7 +71,6 @@ export default class TabbedNav extends Vue {
 			padding: 0;
 
 			span {
-				background-color: #ffffff;
 				padding: 1rem;
 			}
 
@@ -98,7 +95,6 @@ export default class TabbedNav extends Vue {
 	}
 
 	li {
-		background-color: #FFFFFF;
 		box-sizing: border-box;
 		flex: 1 1 auto;
 		max-width: 24rem;
@@ -107,21 +103,25 @@ export default class TabbedNav extends Vue {
 		transition: background-color $animation-time, color $animation-time;
 
 		span {
-			background-color: lighten($light-neutral, 50%);
-			border-radius: 6px;
+			background-color: $medium-grey;
+			border-radius: 10px;
 			box-sizing: border-box;
-			color: $dark-blue;
+			color: #03030399;
 			cursor: pointer;
 			display: block;
 			padding: 1rem 1.6rem;
 			position: relative;
 			text-align: center;
 			transition: background-color $animation-time, color $animation-time;
+
+			&:hover {
+				background-color: $green;
+				color: black;
+			}
 		}
 
 		&::before {
-			background-color: $dark-blue;
-			// top: -4px;
+			background-color: $light-green-background;
 			bottom: -4px;
 			content: '';
 			display: block;
@@ -133,14 +133,21 @@ export default class TabbedNav extends Vue {
 		}
 
 		&.active {
-
 			span {
-				background-color: lighten($light-blue, 80%);
-				color: $dark-neutral;
+				background-color: $light-green-background;
+				color: black;
+
+				&:hover {
+					background-color: $green;
+				}
 			}
 
 			&::before {
 				width: 100%;
+
+				&:hover {
+					background-color: $green;
+				}
 			}
 		}
 

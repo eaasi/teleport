@@ -1,14 +1,15 @@
+<!--
 <template>
 	<div>
-		<!-- Error message -->
-		<!--		<alert
+		&lt;!&ndash; Error message &ndash;&gt;
+		&lt;!&ndash;		<alert
 					card
 					no-icon
 					type="warning"
 					class="mb"
 				>
 					Add a base environment to continue
-				</alert>-->
+				</alert>&ndash;&gt;
 
 		<div class="emu-project-content padded" v-if="!emulationProjectMode">
 			<selectable-text-card label="Basic" :value="isBasicSelected" @change="selectBasicMode">
@@ -22,8 +23,8 @@
 			<emulation-project-mode-screen :mode="emulationProjectMode" @reset="resetMode" />
 		</div>
 
-		<!-- Find a Base -->
-		<!--<div class="emu-option-item flex-row justify-between">
+		&lt;!&ndash; Find a Base &ndash;&gt;
+		&lt;!&ndash;<div class="emu-option-item flex-row justify-between">
 					<div class="content-wrapper">
 						<h4>Find a Base</h4>
 						<p>Find an existing base environment.</p>
@@ -43,9 +44,9 @@
 							My Resources
 						</ui-button>
 					</div>
-				</div>-->
-		<!-- Start from Scratch -->
-		<!-- Not active
+				</div>&ndash;&gt;
+		&lt;!&ndash; Start from Scratch &ndash;&gt;
+		&lt;!&ndash; Not active
 
 		// See: https://gitlab.com/eaasi/program_docs/eaasi/-/issues/1018
 
@@ -63,10 +64,10 @@
 				</ui-button>
 			</div>
 		</div>
-		-->
-		<!-- Auto Match -->
-		<!-- Not in next release -->
-		<!-- <div class="emu-option-item flex flex-row justify-between">
+		&ndash;&gt;
+		&lt;!&ndash; Auto Match &ndash;&gt;
+		&lt;!&ndash; Not in next release &ndash;&gt;
+		&lt;!&ndash; <div class="emu-option-item flex flex-row justify-between">
 			<div class="content-wrapper">
 				<h4>Auto Match <span class="bg-red">BETA</span></h4>
 				<p>Try to find a base environment match for your objects automatically.</p>
@@ -79,7 +80,7 @@
 					Try Auto Match
 				</ui-button>
 			</div>
-		</div> -->
+		</div> &ndash;&gt;
 		<create-base-env-modal
 			v-if="createBaseEnvModal"
 			@close="createBaseEnvModal = false"
@@ -189,12 +190,6 @@ export default class EmulationProjectOptions extends Vue {
 			resourceType: resourceTypes.ENVIRONMENT,
 			resourceId: response.id,
 		};
-		let importResponse: IUserImportedResource = await this.$store.dispatch('import/createUserImportRelation', userImportRelationRequest);
-		if (!importResponse || !importResponse.id) {
-			await this.$store.dispatch('resource/deleteEnvironment', response.id);
-			eventBus.$emit('notification:show', generateNotificationError(`Having troubles saving ${this.createEnvironmentPayload.label} environment to My Resources, please try again.`));
-			return;
-		}
 		const baseEnv: IEnvironment = await this.$store.dispatch('resource/getEnvironment', response.id);
 		await this.$store.dispatch('emulationProject/addResources', [baseEnv]);
 		this.environment = new EmulationProjectEnvironment(baseEnv);
@@ -229,16 +224,15 @@ export default class EmulationProjectOptions extends Vue {
 	}
 
 	h4 {
-		color: $dark-blue;
+		color: $dark-light-grey;
 		font-weight: 500;
 	}
 
 	p {
-		color: darken($dark-neutral, 80%);
+		color: $dark-light-grey;
 	}
 
 	.emu-option-item {
-		border: 1px solid lighten($light-blue, 60%);
 		border-radius: 1rem;
 		margin-bottom: 1.5rem;
 		padding: 3rem;
@@ -254,3 +248,4 @@ export default class EmulationProjectOptions extends Vue {
 }
 
 </style>
+-->

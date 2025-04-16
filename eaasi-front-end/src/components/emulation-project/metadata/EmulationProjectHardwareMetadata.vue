@@ -63,7 +63,7 @@ export default class EmulationProjectHardwareMetadata extends Vue {
 <style lang="scss">
 
 .template-metadata-table {
-	background: lighten($light-neutral, 80%);
+	background: $medium-grey;
 	padding: 2rem;
 }
 

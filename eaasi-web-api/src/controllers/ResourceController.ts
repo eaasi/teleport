@@ -3,14 +3,13 @@ import ContentService from '@/services/resource/ContentService';
 import EnvironmentService from '@/services/resource/EnvironmentService';
 import ResourceAdminService from '@/services/resource/ResourceAdminService';
 import SoftwareService from '@/services/resource/SoftwareService';
-import EaasiBookmarkService from '@/services/rest-api/EaasiBookmarkService';
-import ImportedContentService from '@/services/rest-api/ImportedContentService';
 import { IAuthorizedGetRequest, IAuthorizedRequest } from '@/types/auth/Auth';
 import { IImageDeletePayload, IObjectClassificationRequest } from '@/types/emil/Emil';
 import { ISoftwareObject } from '@/types/emil/EmilSoftwareData';
 import { IClientEnvironmentRequest, IContentRequest, IOverrideContentRequest, IReplicateEnvironmentRequest, IResourceSearchQuery } from '@/types/resource/Resource';
 import { Request, Response } from 'express';
 import BaseController from './base/BaseController';
+import KeycloakService from '@/services/keycloak/KeycloakService';
 
 /**
  * Handles requests related to Resource entities
@@ -21,24 +20,21 @@ export default class ResourceController extends BaseController {
 	private readonly _environmentService: EnvironmentService;
 	private readonly _softwareService: SoftwareService;
 	private readonly _contentService: ContentService;
-	private readonly _bookmarkService: EaasiBookmarkService;
-	private readonly _userImportedContent: ImportedContentService;
+	private readonly _keycloakService: KeycloakService;
 
 	constructor(
 		resourceService: ResourceAdminService = new ResourceAdminService(),
 		environmentService: EnvironmentService = new EnvironmentService(),
 		softwareService: SoftwareService = new SoftwareService(),
 		contentService: ContentService = new ContentService(),
-		bookmarkService: EaasiBookmarkService = new EaasiBookmarkService(),
-		userImportedContent: ImportedContentService = new ImportedContentService()
+		keycloakService: KeycloakService = new KeycloakService()
 	) {
 		super();
 		this._svc = resourceService;
 		this._environmentService = environmentService;
 		this._softwareService = softwareService;
 		this._contentService = contentService;
-		this._bookmarkService = bookmarkService;
-		this._userImportedContent = userImportedContent;
+		this._keycloakService = keycloakService;
 	}
 
 	/**
@@ -146,10 +142,7 @@ export default class ResourceController extends BaseController {
 			const { archiveName, contentId} = req.query;
 			const contentRequest: IContentRequest = { archiveName, contentId };
 			let result = await this._contentService.getObjectMetadata(contentRequest, token);
-			// check if user has permissions to access requested resource
-			const userImportedRef = await this._userImportedContent.getByUserID(req.user.id);
-			const userHasAccessPermissions = userImportedRef.result.some(res => res.eaasiId === contentId);
-			userHasAccessPermissions ? res.send(result) : res.status(401).send(null);
+			res.send(result);
 		} catch(e) {
 			this.sendError(e, res);
 		}
@@ -219,7 +212,6 @@ export default class ResourceController extends BaseController {
 			const token = req.headers.authorization;
 			const payload = req.body as IImageDeletePayload;
 			await this._environmentService.deleteImage(payload, token);
-			await this._bookmarkService.destroyAllByResource(payload.imageId);
 			res.send(true);
 		} catch(e) {
 			this.sendError(e, res);
@@ -364,6 +356,12 @@ export default class ResourceController extends BaseController {
 		} catch(e) {
 			this.sendError(e, res);
 		}
+	}
+
+	async getResourceOwner(req: Request, res: Response) {
+		const ownerId = req.query.ownerId as string;
+		let ownerLabel = await this._keycloakService.getOwnerLabel(ownerId, req.headers.authorization);
+		return res.send({ label: ownerLabel });
 	}
 }
 

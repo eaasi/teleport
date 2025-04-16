@@ -11,7 +11,7 @@ export default class ContentService extends BaseService {
 
 	private readonly _contentRepoService: EmilBaseService;
 	private readonly CACHE_KEYS = {
-		ALL_CONTENT: 'all-content-items',
+		ITEMS: 'content-items',
 		ARCHIVES: 'content-archives'
 	};
 
@@ -23,8 +23,8 @@ export default class ContentService extends BaseService {
 	}
 
 	async getAll(archiveId: ArchiveType, token?: string): Promise<IContentItem[]> {
-		let userId = getUserIdFromToken(token);
-		let results = this._cache.get<IContentItem[]>(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`)
+		const cacheKey = `${this.CACHE_KEYS.ITEMS}/${archiveId}`;
+		let results = this._cache.get<IContentItem[]>(cacheKey);
 		if(results) return results;
 		let res = await this._contentRepoService.get(`archives/${archiveId}/objects`, token);
 		let content = await res.json() as IContentItem[];
@@ -32,7 +32,7 @@ export default class ContentService extends BaseService {
 			x.resourceType = resourceTypes.CONTENT
 			if (x.hasOwnProperty('title') && !x.hasOwnProperty('label')) x.label = x.title;
 		});
-		if (content.length) this._cache.add(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`, content);
+		if (content.length) this._cache.add(cacheKey, content);
 		return content;
 	}
 
@@ -43,13 +43,23 @@ export default class ContentService extends BaseService {
 		return content;
 	}
 
+	private async fetchObjectArchives(token?: string): Promise<IObjectArchiveResonse> {
+		const res = await this._contentRepoService.get('archives', token);
+		return await res.json();
+	}
+
 	async getObjectArchives(token?: string): Promise<IObjectArchiveResonse> {
-		let result = this._cache.get<IObjectArchiveResonse>(this.CACHE_KEYS.ARCHIVES)
-		if(result) return result;
-		let res = await this._contentRepoService.get('archives', token);
-		let archives = await res.json();
-		if (archives.length) this._cache.add(this.CACHE_KEYS.ARCHIVES, archives);
-		return archives;
+		const userId = getUserIdFromToken(token);
+		const cacheKey = `${this.CACHE_KEYS.ARCHIVES}/${userId}`;
+		let result = this._cache.get<IObjectArchiveResonse>(cacheKey);
+		if (result)
+			return result;
+
+		result = await this.fetchObjectArchives(token);
+		if (result.archives?.length)
+			this._cache.add(cacheKey, result);
+
+		return result;
 	}
 
 	/**
@@ -62,7 +72,7 @@ export default class ContentService extends BaseService {
 	async deleteContent(contentRequest: IContentRequest, token?: string) {
 		let res = await this._contentRepoService.delete(`archives/${contentRequest.archiveName}/objects/${contentRequest.contentId}`, null, token);
 		if (!res) return null;
-		if (res.ok) this.clearCache(getUserIdFromToken(token));
+		if (res.ok) this.clearCache(token);
 		let reusableResponse = res.clone();
 		try {
 			return await res.json();
@@ -77,7 +87,7 @@ export default class ContentService extends BaseService {
 
 	async importObject(importPayload: IImportObjectRequest, archiveId = objectArchiveTypes.LOCAL, token?: string): Promise<IEmilTask> {
 		const res = await this._contentRepoService.post(`archives/${archiveId}/objects`, importPayload, token);
-		if (res.ok) this.clearCache(getUserIdFromToken(token));
+		if (res.ok) this.clearCache(token);
 		return await res.json() as IEmilTask;
 	}
 
@@ -85,9 +95,17 @@ export default class ContentService extends BaseService {
 	 == Cache
 	/============================================================*/
 
-	private clearCache(userId: string) {
-		this._cache.delete(this.CACHE_KEYS.ARCHIVES);
-		this._cache.delete(`${this.CACHE_KEYS.ALL_CONTENT}/${userId}`)
+	private async clearCache(token: string) {
+		const userId = getUserIdFromToken(token);
+		const cacheKeyForArchives = `${this.CACHE_KEYS.ARCHIVES}/${userId}`;
+		let cachedArchiveResponse = this._cache.get<IObjectArchiveResonse>(cacheKeyForArchives);
+		if (!cachedArchiveResponse)
+			cachedArchiveResponse = await this.fetchObjectArchives(token);
+
+		this._cache.delete(cacheKeyForArchives);
+		cachedArchiveResponse.archives.forEach(archiveId => {
+			this._cache.delete(`${this.CACHE_KEYS.ITEMS}/${archiveId}`)
+		});
 	}
 
 

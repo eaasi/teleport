@@ -1,6 +1,8 @@
-import { mount } from '@vue/test-utils';
+import { enableAutoDestroy, mount } from '@vue/test-utils';
 import fecha from 'fecha';
 import DatePicker from '../../../../src/components/global/DatePicker.vue';
+
+enableAutoDestroy(afterEach);
 
 describe('Vue date pick', () => {
 
@@ -14,7 +16,7 @@ describe('Vue date pick', () => {
         wrapper.find('td[data-id="2017-12-30"]').trigger('click');
         wrapper.find('input').setValue('31.12.2017');
 
-        wrapper.vm.close();
+        await wrapper.vm.close();
 
         expect(wrapper.emitted().input).toEqual([
             ['2017-12-30'],
@@ -89,9 +91,9 @@ describe('Vue date pick', () => {
 
         await wrapper.vm.open();
 
-        expect(wrapper.find('td[data-id="2017-12-30"]').is('.disabled'));
+        expect(wrapper.find('td[data-id="2017-12-30"]').classes()).toContain('disabled');
 
-        wrapper.find('td[data-id="2017-12-30"]').trigger('click');
+        await wrapper.find('td[data-id="2017-12-30"]').trigger('click');
 
         expect(wrapper.emitted().input);
 
@@ -135,7 +137,7 @@ describe('Vue date pick', () => {
     it('sets selected cells', async () => {
 
         const wrapper = mount(DatePicker) as any;
-        wrapper.vm.open();
+        await wrapper.vm.open();
 
         expect(wrapper.find('td.selected').exists());
 
@@ -143,7 +145,7 @@ describe('Vue date pick', () => {
 
         await wrapper.setProps({value: '2017-12-29'});
 
-        expect(wrapper.find('td[data-id="2017-12-29"]').is('.selected'));
+        expect(wrapper.find('td[data-id="2017-12-29"]').classes()).toContain('selected');
 
         wrapper.destroy();
 
@@ -164,25 +166,25 @@ describe('Vue date pick', () => {
 
     });
 
-    it('closes floater on outside click', () => {
+    it('closes floater on outside click', async () => {
 
         const wrapper = mount(DatePicker) as any;
 
-        wrapper.vm.open();
+        await wrapper.vm.open();
 
         expect(wrapper.vm.opened).toEqual(true);
 
-        document.querySelector('body').click();
+        await document.querySelector('body').click();
 
         expect(wrapper.vm.opened).toEqual(false);
 
     });
 
-    it('closes floater on escape press', () => {
+    it('closes floater on escape press', async () => {
 
         const wrapper = mount(DatePicker) as any;
 
-        wrapper.vm.open();
+        await wrapper.vm.open();
 
         const event = new Event('keyup');
         document.dispatchEvent(event);

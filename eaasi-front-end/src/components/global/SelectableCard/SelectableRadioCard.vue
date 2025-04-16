@@ -33,7 +33,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IEaasiResourceSummary } from '@/types/Resource.d.ts';
+import { IEaasiResourceSummary } from '@/types/Resource';
 import Tag from '../Tag.vue';
 import Bookmark from './Bookmark.vue';
 import SelectableCardContent from './SelectableCardContent.vue';
@@ -93,7 +93,7 @@ export default class SelectableRadioCard extends Vue {
 <style lang="scss">
 
 	.ds-checkbox {
-		border: solid 1px $light-blue;
+		border: solid 1px $medium-grey;
 		border-radius: 50%;
 		display: inline-block;
 		height: 1rem;
@@ -102,8 +102,8 @@ export default class SelectableRadioCard extends Vue {
 		width: 1rem;
 
 		&.checked {
-			background-color: $dark-blue;
-			border: solid 1px $dark-blue;
+			background-color: $dark-light-grey;
+			border: solid 1px $dark-light-grey;
 			box-shadow: inset 0px 0px 2px 2px #FFFFFF;
 		}
 	}
@@ -115,35 +115,30 @@ export default class SelectableRadioCard extends Vue {
 
 	.resource-object-container {
 		background-color: #FFFFFF;
-		border: 1px solid lighten($light-blue, 70%);
-		border-radius: 0.5rem;
+		border: 2px solid black;
 		margin-bottom: 1.5rem;
 		min-height: 7rem;
 		position: relative;
 
 		&.selected {
-			border: 1px solid darken($light-blue, 20%);
+			border: 2px solid $green;
 		}
 	}
 
 	.panel-left {
-		border-bottom-left-radius: 0.5rem;
-		border-top-left-radius: 0.5rem;
 		padding: 0.5rem;
 	}
 
 	.panel-right {
-		border-bottom-right-radius: 0.5rem;
 		border-left: none;
-		border-top-right-radius: 0.5rem;
 		padding: 10px;
 		width: 100%;
 
 		.header {
-			color: $dark-blue;
+			color: $dark-green;
 			font-size: 1.6rem;
 			line-height: 2rem;
-			padding-right: 4.5rem;
+			padding-right: 10px;
 
 			.loading-icon {
 				margin-left: 1rem;

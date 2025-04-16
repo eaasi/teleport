@@ -71,16 +71,16 @@ export default class Alert extends Vue {
 	 */
 	get color() {
 		switch(this.type) {
-		case 'success':
+		/*case 'success':
 			return 'green';
 		case 'error':
 			return 'red';
 		case 'info':
 			return 'blue';
 		case 'warning':
-			return 'orange';
+			return 'orange';*/
 		default:
-			return 'neutral';
+			return '';
 		}
 	}
 
@@ -174,10 +174,10 @@ export default class Alert extends Vue {
 	}
 
 	&.neutral {
-		color: darken($light-neutral, 30%);
+		color: darken($light-grey, 30%);
 		&.card {
 			background: transparent;
-			border-color: darken($light-neutral, 30%);
+			border-color: darken($light-grey, 30%);
 		}
 	}
 

@@ -6,6 +6,8 @@ import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes } from '@/utils/constants';
+import config from '@/config';
+import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 
 class ResourceService extends BaseHttpService {
@@ -21,6 +23,10 @@ class ResourceService extends BaseHttpService {
 	 * @param { IResourceSearchQuery } query
 	 */
 	async searchResources(query: IResourceSearchQuery, userId: string): Promise<IResourceSearchResponse> {
+		if (query) {
+			query = ResourceSearchQuery.prepare(query);
+		}
+
 		const res = await this.post<IResourceSearchResponse>('/resource/search?userId=' + userId, query);
 		if (!res.ok) return null;
 		return res.result;
@@ -168,10 +174,39 @@ class ResourceService extends BaseHttpService {
 		return res.result;
 	}
 
+	async getResourceOwner(ownerId: string) {
+		const res = await this.get('/resource/owner?ownerId=' + ownerId);
+		return res.result;
+	}
+
 	async deleteSoftware(id: string) {
 		await this.delete(`/resource/delete-software-object?id=${id}`);
 	}
 
+
+	/**
+	 * Makes a POST request to synchronizate image archives
+	 */
+	async syncImagesUrl() {
+		const res = await this.postLocal('/emil/environment-repository/actions/sync');
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to synchronizate object archives
+	 */
+	async syncObjectsUrl() {
+		const res = await this.postLocal('/emil/object-repository/actions/sync');
+		return res.result;
+	}
+
+	/**
+	 * Makes a POST request to synchronizate software archives
+	 */
+	async syncSoftwareUrl() {
+		const res = await this.postLocal('/emil/software-repository/actions/sync');
+		return res.result;
+	}
 }
 
 export default new ResourceService();

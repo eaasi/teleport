@@ -12,14 +12,14 @@
 
 			<div class="btn-section">
 				<ui-button
-					color-preset="light-blue"
+					color-preset="white"
 					@click="raiseClearBookmarksModal"
 					v-if="bookmarks && bookmarks.length"
 				>
 					Clear All Bookmarks
 				</ui-button>
 				<ui-button
-					color-preset="light-blue"
+					color-preset="white"
 					@click="$router.push(exploreResourcesPath)"
 					v-else
 				>
@@ -73,7 +73,7 @@
 									:query="query"
 									:result="bentoResult.images"
 									type="Image"
-									@click:all="getAll(['Images'])"
+									@click:all="getAll(['Image'])"
 									@bookmarked="search"
 								/>
 							</div>
@@ -134,7 +134,7 @@ import ConfirmModal from '@/components/global/Modal/ConfirmModal.vue';
 import ResourceFacets from '../search/ResourceFacets.vue';
 import AppliedSearchFacets from '../search/AppliedSearchFacets.vue';
 import ResourceList from '../ResourceList.vue';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import { Get, Sync } from 'vuex-pathify';
 import { IEaasiUser } from 'eaasi-admin';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
@@ -241,11 +241,10 @@ export default class MyBookmarksScreen extends Vue {
 
 	async paginate(page) {
 		this.query.page = page;
-		await this.$store.dispatch('resource/searchResources');
+		await this.search();
 	}
 
     async getAll(types) {
-		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
 		await this.search();
 	}
@@ -297,15 +296,6 @@ export default class MyBookmarksScreen extends Vue {
 		if (!curVal && prevVal === undefined) {
 			return;
 		}
-		// if we're unselecting the last facet, do a clear search
-		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			await this.search();
-			// per https://gitlab.com/eaasi/program_docs/eaasi/-/issues/948
-			// if we clear the search here, we effectively get back all resources.
-			// since this component deals specifically with Bookmarks,
-			// we should simply re-run search when last facet is cleared.
-			// await this.$store.dispatch('resource/clearSearch');
-		}
 	}
 
 }
@@ -313,14 +303,12 @@ export default class MyBookmarksScreen extends Vue {
 
 <style lang='scss'>
 .bg-top-message {
-	background-color: lighten($light-neutral, 40%);
-	border-bottom: 2px solid darken($light-neutral, 10%);
+	background-color: $medium-grey;
 	justify-content: space-between;
 	min-height: 5rem;
 	padding: 2rem 8rem 2rem 2rem;
 
 	.btn-section {
-		border-left: 2px solid darken($light-neutral, 10%);
 		display: flex;
 		padding: 0.5rem 3rem;
 	}
@@ -329,10 +317,7 @@ export default class MyBookmarksScreen extends Vue {
 .resource-results-wrapper {
 	display: flex;
 	flex-direction: column;
-	width: 100vw;
-	.resource-facets-wrapper {
-		background-color: lighten($light-neutral, 80%);
-	}
+	width: -webkit-fill-available;
 
 	.resource-results {
 		min-height: 80vh;

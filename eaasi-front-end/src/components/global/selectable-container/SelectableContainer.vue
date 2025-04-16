@@ -71,15 +71,15 @@ export default class SelectableContainer extends Vue {
 
 	.selectable-icon-container {
 		background-color: #FFFFFF;
-		border: 2px solid lighten($light-blue, 70%);
+		border: 2px solid black;
 		cursor: pointer;
 		margin-bottom: 1.5rem;
 		min-height: 8rem;
 		position: relative;
 
 		&.selected {
-			background-color: lighten($light-blue, 90%);
-			border: 2px solid $light-blue;
+			background-color: $light-grey;
+			border: 2px solid $green;
 		}
 
 		.content {
@@ -94,11 +94,12 @@ export default class SelectableContainer extends Vue {
 	}
 
 	.panel-top {
-		background-color: lighten($light-blue, 70%);
+		background-color: $green-background;
 		padding: 0.2rem 0.5rem 0.5rem 0.5rem;
 
 		&.selected {
-			background-color: lighten($light-blue, 50%);
+			background-color: $green;
+			color: black;
 		}
 	}
 
@@ -108,10 +109,10 @@ export default class SelectableContainer extends Vue {
 		width: 100%;
 
 		.header {
-			color: $dark-blue;
+			color: $dark-green;
 			font-size: 1.6rem;
 			line-height: 2rem;
-			padding-right: 4.5rem;
+			padding-right: 10px;
 
 			.loading-icon {
 				margin-left: 1rem;

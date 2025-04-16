@@ -5,7 +5,6 @@
 import EmulatorImportRequest from '@/models/admin/EmulatorImportRequest';
 import User from '@/models/admin/User';
 import EaasiSearchQuery from '@/models/http/EaasiSearchQuery';
-import { IAddHarvesterRequest } from '@/types/Harvesters';
 import { IEaasiSearchQuery, IEaasiSearchResponse } from '@/types/Search';
 import { IEaasiRole, IEmulator, IEmulatorEntry, IKeyboardSettings } from 'eaasi-admin';
 import { Store } from 'vuex';
@@ -15,7 +14,6 @@ export class AdminState {
 	activeEmulator: IEmulator = null;
 	activeUser: User = null;
 	emulators: IEmulator[] = null;
-	harvesters: string[] = [];
 	usersResult: IEaasiSearchResponse<User> = null;
 	usersQuery: IEaasiSearchQuery = new EaasiSearchQuery();
 	roles: IEaasiRole[] = [];
@@ -69,25 +67,6 @@ const actions = {
 		console.log('getRoles');
 	},
 
-	/* OAI-PMH Harvesters
-	============================================*/
-
-	getHarvesters({ commit }: Store<AdminState>) {
-		console.log('getHarvesters');
-	},
-
-	addHarvester({ dispatch }: Store<AdminState>, req: IAddHarvesterRequest) {
-		console.log('addHarvester');
-	},
-
-	syncHarvester(_, { name, full }: { name: string, full: boolean}) {
-		console.log('syncHarvester');
-	},
-
-	deleteHarvester({ dispatch }: Store<AdminState>, name: string) {
-		console.log('deleteHarvester');
-	},
-
 	resetPassword(_, email: string) {
 		console.log('resetPassword');
 	},
@@ -121,7 +100,11 @@ const actions = {
 
 	getApiKey({ commit }: Store<AdminState>) {
 		console.log('getApiKey');
-	}
+	},
+
+	getBEBuildVersion(){
+		return '';
+	},
 
 };
 

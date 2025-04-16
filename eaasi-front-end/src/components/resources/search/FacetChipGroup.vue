@@ -17,7 +17,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
-import { IResourceSearchFacet } from '@/types/Search.d.ts';
+import { IResourceSearchFacet } from '@/types/Search';
 
 @Component({
 	name: 'FacetChipGroup'

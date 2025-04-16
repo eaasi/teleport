@@ -1,9 +1,5 @@
 <template>
 	<div class="eaasi-form-control">
-		<label v-if="label && !hideLabel" class="eaasi-label">
-			{{ label }}
-			<span v-if="!required && !readonly" class="ef-optional"> &mdash; optional</span>
-		</label>
 		<span class="error" role="alert" v-if="error">
 			{{ error }}
 		</span>
@@ -29,14 +25,6 @@ export default class FormFieldWrapper extends Vue {
 	/* Props
 	============================================*/
 
-	// Hides the label when try
-	@Prop({type: Boolean, required: false})
-	readonly hideLabel: boolean;
-
-	// The label to display above the field
-	@Prop({type: String, required: false})
-	readonly label: string;
-
 	// An error message to display
 	@Prop({type: String, required: false})
 	readonly error: string;
@@ -47,7 +35,6 @@ export default class FormFieldWrapper extends Vue {
 
 	@Prop({ type: Boolean, default: false })
 	readonly readonly: boolean;
-
 }
 
 </script>
@@ -56,21 +43,7 @@ export default class FormFieldWrapper extends Vue {
 .eaasi-form-control {
 
 	.eaasi-input-wrapper {
-		border-bottom: solid 3px $light-blue;
 		padding-bottom: 3px;
-	}
-
-	.eaasi-label {
-		color: #A8A29E;
-		display: inline-block;
-		font-size: 1.2rem;
-		margin-bottom: 3px;
-		margin-right: 0.5rem;
-		text-transform: uppercase;
-	}
-
-	.ef-optional {
-		text-transform: none;
 	}
 
 	.error {
@@ -80,24 +53,36 @@ export default class FormFieldWrapper extends Vue {
 }
 
 .eaasi-input {
-	background-color: lighten($light-blue, 90%);
 	overflow: visible;
-	padding: 0.6rem 0.2rem;
+	color: black;
+	display: flex;
+	flex-direction: column;
 
 	input,
 	select,
 	textarea {
 		appearance: none;
-		background-color: transparent;
 		border: none;
 		display: block;
 		font-size: 1.6rem;
 		outline: none;
-		width: 100%;
+		width: -webkit-fill-available;
+		background-color: $light-green-background;
+		padding: 10px;
+		border-radius: 15px;
 
 		&::placeholder {
-			color: #AAAAAA;
+			color: $dark-light-grey;
 		}
+	}
+
+	select {
+		padding-right: 25px;
+	}
+
+	input {
+		padding-bottom: 5px;
+		border-bottom: 2px solid $green;
 	}
 
 	&.readonly {
@@ -106,7 +91,7 @@ export default class FormFieldWrapper extends Vue {
 		input,
 		select,
 		textarea {
-			color: $dark-blue;
+			color: black;
 		}
 	}
 

@@ -2,8 +2,8 @@
 	<div class="import-select">
 		<div v-if="importType" class="import-selected padded">
 			<div class="flex-row">
-				<p>I want to import a</p>
-				<select-list v-model="importType" class="no-mb flex-adapt">
+				<label for="importType">I want to import a</label>
+				<select-list v-model="importType" class="no-mb flex-adapt" id-type="importType">
 					<option value="content">
 						Content File(s)
 					</option>
@@ -21,11 +21,11 @@
 			</div>
 		</div>
 		<div class="import-types padded" v-else>
-			<h3>I want to import a...</h3>
-			<div class="row">
-				<div class="col-md-4">
+			<h2>I want to import a...</h2>
+			<div class="row import-types-wrapper">
+				<div class="import-type">
 					<options-box title="Content Object" icon="file">
-						Files or objects from a digital collection to be added to an environment for access. Content objects <b>cannot</b> be published to the EaaSI network.
+						Files or objects from a digital collection to be added to an environment for access.
 						<template slot="footer">
 							<ui-button
 								block
@@ -37,9 +37,9 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4 option-box-container">
+				<div class="import-type option-box-container">
 					<options-box title="Software Object" icon="file">
-						Media or files required to install or operate software within an emulation environment. Software objects <b>can</b> be published to the EaaSI network.
+						Media or files required to install or operate software within an emulation environment.
 						<template slot="footer">
 							<ui-button
 								block
@@ -51,7 +51,7 @@
 					</options-box>
 				</div>
 
-				<div class="col-md-4 option-box-container" v-if="userCanImportEnvironment">
+				<div class="import-type option-box-container" v-if="userCanImportEnvironment">
 					<options-box
 						title="Computer Image"
 						icon="file"
@@ -156,14 +156,13 @@ export default class ImportSelect extends Vue {
 }
 
 .import-selected {
-	border-bottom: solid 2px darken($light-neutral, 10%);
 
 	.eaasi-select {
 		margin-left: 1rem;
 		max-width: 40rem;
 	}
 
-	p {
+	label {
 		font-size: 1.8rem;
 		margin-bottom: 0;
 	}
@@ -177,4 +176,27 @@ export default class ImportSelect extends Vue {
 	}
 }
 
+.import-types-wrapper {
+	gap: 40px;
+	flex-wrap: nowrap;
+	margin: 0;
+	padding: 15px;
+
+	.import-type {
+		width: 30%;
+	}
+}
+
+@media screen and (max-width: 1050px) {
+	.import-types-wrapper {
+		gap: 20px;
+		margin: 0;
+		flex-wrap: wrap;
+
+		.import-type {
+			width: 100%;
+		}
+
+	}
+}
 </style>

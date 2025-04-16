@@ -1,0 +1,34 @@
+name: Cleanup
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Cleanup Docker Images
+        env:
+          CI_API_V4_URL: ${{ secrets.CI_API_V4_URL }}
+          CONTAINER_REGISTRY_CLEANUP_TOKEN: ${{ secrets.CONTAINER_REGISTRY_CLEANUP_TOKEN }}
+          IMAGE_NAME_PREFIX: "${{ secrets.CI_REGISTRY_IMAGE }}"
+        run: |
+          delete_docker_image() {
+            local service="$1"
+            local tag="$2"
+            echo "Deleting docker-image '${IMAGE_NAME_PREFIX}/${service}:${tag}'..."
+            local apiurl="${CI_API_V4_URL}/projects/${{ github.event.repository.id }}/registry/repositories"
+            local repoid=$(curl -s -H "PRIVATE-TOKEN: ${CONTAINER_REGISTRY_CLEANUP_TOKEN}" "$apiurl" | jq ".[] | select(.name == \"${service}\") | .id")
+            curl -s -X DELETE "${apiurl}/${repoid}/tags/${tag}"
+            echo ""
+          }
+
+          for service in eaasi-front-end eaasi-web-api; do
+            tag="$(printf %s "${{ github.ref_name }}" | tr -c 'a-zA-Z0-9_.' -)"
+            delete_docker_image "${service}" "${tag}" || true
+          done

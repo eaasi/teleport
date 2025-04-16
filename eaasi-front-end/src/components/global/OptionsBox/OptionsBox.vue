@@ -16,7 +16,6 @@
 		</div>
 
 		<div class="ob-footer" v-if="hasFooter()">
-			<div class="ob-footer-break"></div>
 			<div class="ob-footer-content">
 				<slot name="footer"></slot>
 			</div>
@@ -61,14 +60,17 @@ export default class OptionsBox extends Vue {
 
 <style lang="scss">
 .options-box {
-	background-color: lighten($light-neutral, 80%);
-	border-radius: 1rem;
+	background-color: $medium-grey;
+	border: 2px solid black;
 	height: 100%;
 	overflow: hidden;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	.ob-name {
-		color: $dark-blue;
+		color: $dark-green;
 		font-size: 1.6rem;
 		font-weight: bold;
 		margin-bottom: 1rem;
@@ -82,13 +84,13 @@ export default class OptionsBox extends Vue {
 
 	.ob-desc {
 		font-size: 1.5rem;
-		height: 5rem;
+		height: fit-content;
 		line-height: 1.5em;
 		padding: 1rem;
 	}
 
 	.ob-header {
-		background-color: $light-blue;
+		background-color: $medium-grey;
 		color: #FFFFFF;
 		font-size: 1.1rem;
 		padding: 0.4rem 1rem;
@@ -104,13 +106,7 @@ export default class OptionsBox extends Vue {
 	}
 
 	.ob-footer-content {
-		padding: 2rem 2rem 3rem;
-	}
-
-	.ob-footer-break {
-		background-color: #E2EBF0;
-		height: 2px;
-		margin: 0 1rem;
+		padding: 1rem;
 	}
 }
 

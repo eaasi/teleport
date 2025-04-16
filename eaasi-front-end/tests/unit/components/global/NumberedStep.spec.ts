@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import NumberedStep from '@/components/global/NumberedSteps/NumberedStep.vue';
 
 const incompleteStep =  {
@@ -10,6 +10,8 @@ const completeStep = {
 	stepNumber: 99,
 	description: 'Baz Quux'
 };
+
+enableAutoDestroy(afterEach);
 
 describe('NumberedStep.vue', () => {
 	it('When not complete => renders step number that is passed as props', () => {
@@ -43,7 +45,7 @@ describe('NumberedStep.vue', () => {
 				}
 			}
 		});
-		expect(wrapper.contains('span.fa-check')).toBe(true);
+		expect(wrapper.find('span.fa-check').exists()).toBe(true);
 	});
 
 	it('When complete => renders step description', () => {

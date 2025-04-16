@@ -1,5 +1,7 @@
 import {InfoModal, Modal, UiButton} from '@/components/global';
-import {mount} from '@vue/test-utils';
+import {enableAutoDestroy, mount} from '@vue/test-utils';
+
+enableAutoDestroy(afterEach);
 
 describe('InfoModal.vue', () => {
 	it('It wraps Modal component', () => {
@@ -16,7 +18,7 @@ describe('InfoModal.vue', () => {
 				buttonText: 'cat',
 			}
 		});
-		expect(wrapper.contains(Modal));
+		expect(wrapper.findComponent(Modal).exists()).toBe(true);
 	});
 
 	it('It renders title passed as prop', () => {

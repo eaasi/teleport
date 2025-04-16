@@ -99,8 +99,8 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.back-link {
-		display: block;
 		cursor: pointer;
+		display: block;
 		margin: 1rem 0.5rem;
 
 		span {
@@ -118,29 +118,31 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.drop-zone-container {
-		width: max-content;
-		height: max-content;
-		border: 2px dashed lighten($dark-neutral, 80%);
+		border: 2px dashed $light-green-background;
 		border-radius: 0.5rem;
+		height: max-content;
 		position: relative;
+		width: max-content;
 
 		.placeholder {
-			position: absolute;
-			z-index: 5;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			justify-content: center;
 			align-items: center;
+			display: flex;
+			height: 100%;
+			justify-content: center;
 			pointer-events: none;
+			position: absolute;
+			width: 100%;
+			z-index: 2;
+			padding: 0 5px;
 		}
 	}
 
 	.drop-zone {
-		background-color: lighten($light-neutral, 50%);
-		width: 37rem;
+		background-color: $green-background;
 		min-height: 9rem;
+		height: fit-content;
 		position: relative;
+		width: 37rem;
 
 		.ghost {
 			margin-bottom: 0;
@@ -148,6 +150,10 @@ export default class EmulationProjectModeScreen extends Vue {
 			.remove-resource-button {
 				display: none;
 			}
+		}
+
+		.resource-object-container {
+			border: none;
 		}
 	}
 
@@ -160,16 +166,44 @@ export default class EmulationProjectModeScreen extends Vue {
 	}
 
 	.environment-selection-zone {
+		border: solid 2px $medium-grey;
 		display: flex;
-		justify-content: space-between;
 		flex-wrap: wrap;
-		border: solid 2px lighten($dark-neutral, 80%);
+		justify-content: space-between;
 		padding: 1.5rem 1rem;
 	}
 
 	.environment-selection-controls {
-		width: 385px;
 		margin-bottom: 1rem;
+		width: 385px;
+	}
+}
+
+@media screen and (max-width: 1050px) {
+	.emulation-project-mode-screen {
+
+		.emu-project-content-drop-zone {
+			width: -webkit-fill-available;
+
+			.drop-zone-container {
+				width: -webkit-fill-available;
+
+				.drop-zone {
+					width: -webkit-fill-available;
+				}
+			}
+		}
+	}
+	.selecting-action-button {
+		flex-direction: column;
+
+		.ui-btn-container {
+			width: -webkit-fill-available;
+
+			.eaasi-button {
+				width: 100%;
+			}
+		}
 	}
 }
 

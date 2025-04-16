@@ -1,5 +1,8 @@
 <template>
 	<div id="exploreResources" v-if="bentoResult" :style="actionMenuStyles">
+		<div class="page-title">
+			<h1>Explore resources</h1>
+		</div>
 		<div :style="innerStyles">
 			<no-search-result v-if="noResult" />
 			<div v-else class="resource-results-wrapper">
@@ -39,7 +42,7 @@
 										:query="query"
 										:result="bentoResult.images"
 										type="Image"
-										@click:all="getAll(['Images'])"
+										@click:all="getAll(['Image'])"
 									/>
 								</div>
 								<div
@@ -104,7 +107,7 @@ import { Component, Watch } from 'vue-property-decorator';
 import { Get, Sync } from 'vuex-pathify';
 import { IResourceSearchResponse, IResourceSearchFacet, IResourceSearchQuery } from '@/types/Search';
 import { IBookmark } from '@/types/Bookmark';
-import { IEaasiResource } from '@/types/Resource.d.ts';
+import { IEaasiResource } from '@/types/Resource';
 import User from '@/models/admin/User';
 import ResourceList from '@/components/resources/ResourceList.vue';
 import ResourceSlideMenu from '@/components/resources/ResourceSlideMenu.vue';
@@ -154,8 +157,8 @@ export default class ExploreResourcesScreen extends Vue {
 	@Get('loggedInUser')
 	user: User;
 
-	@Get('bookmark/bookmarks')
-	bookmarks: IBookmark[];
+	/*@Get('bookmark/bookmarks')
+	bookmarks: IBookmark[];*/
 
 	@Get('resource/onlySelectedFacets')
 	onlySelectedFacets: IResourceSearchFacet[];
@@ -216,9 +219,9 @@ export default class ExploreResourcesScreen extends Vue {
     /* Methods
 	============================================*/
 
-	paginate(page) {
+	async paginate(page) {
 		this.query.page = page;
-		this.$store.dispatch('resource/searchResources');
+		await this.search();
 	}
 
 	update() {
@@ -231,24 +234,24 @@ export default class ExploreResourcesScreen extends Vue {
 			this.query = {
 				...this.query,
 				userId: this.user.id,
-				onlyBookmarks: false,
+				//onlyBookmarks: false,
 				onlyImportedResources: false,
 				archives: []
 			};
 
 			await this.$store.dispatch('resource/searchResources');
 
-			if (this.bentoResult?.bookmarks) {
-				this.$store.commit('bookmark/SET_BOOKMARKS', this.bentoResult.bookmarks);
-			}
+			/*const bookmarks = this.bentoResult?.bookmarks;
+			if (!bookmarks || !bookmarks.length) {
+				this.bentoResult.bookmarks = this.bookmarks;
+			}*/
 		});
 	}
 
-    getAll(types) {
+    async getAll(types) {
 		this.query.keyword = null;
-		this.$store.commit('resource/UNSELECT_ALL_FACETS');
 		this.$store.commit('resource/SET_SELECTED_FACET_RESOURCE_TYPE', types);
-		this.search();
+		await this.search();
 	}
 
 	onResourcePublished() {
@@ -267,6 +270,10 @@ export default class ExploreResourcesScreen extends Vue {
 		if (keyword) {
 			this.query.keyword = keyword;
 		}
+
+		// prefetch bookmarks once...
+		//await this.$store.dispatch('bookmark/getBookmarks', this.user.id);
+
 		await this.search();
 	}
 
@@ -292,17 +299,6 @@ export default class ExploreResourcesScreen extends Vue {
 		this.$store.commit('resource/SET_RESULT', null);
 	}
 
-	@Watch('hasSelectedFacets')
-	onSelectedFacets(curVal, prevVal) {
-		if (!curVal && prevVal === undefined) {
-			return;
-		}
-		// if we're un-selecting the last facet, do a clear search
-		if (prevVal && !curVal && this.query.selectedFacets.length > 0) {
-			this.$store.dispatch('resource/clearSearch');
-		}
-	}
-
 	@Watch('hasActiveResources')
 	onSelectResources(curVal, prevVal) {
 		if (curVal && !prevVal) {
@@ -323,13 +319,12 @@ export default class ExploreResourcesScreen extends Vue {
 <style lang="scss">
 
 	#exploreResources {
-		h1 {
-			background-color: lighten($light-neutral, 70%);
-			border-top: solid 1px darken($light-neutral, 10%);
+		.page-title {
+			background-color: #c0c2c3;
 			display: block;
-			font-weight: 300;
+			font-weight: 400;
 			margin-bottom: 0;
-			padding: 3rem 3rem 1rem;
+			padding: 20px 15px;
 		}
 
 		.resource-list {
@@ -339,7 +334,7 @@ export default class ExploreResourcesScreen extends Vue {
 			justify-content: space-between;
 
 			.card-wrapper {
-				width: 420px;
+				width: -webkit-fill-available;
 			}
 		}
 	}
@@ -347,21 +342,15 @@ export default class ExploreResourcesScreen extends Vue {
 	.resource-results-wrapper {
 		display: flex;
 		flex-direction: column;
-		max-width: 100vw;
+		width: -webkit-fill-available;
 		min-width: 0;
 
-		.resource-facets-wrapper {
-			background-color: lighten($light-neutral, 80%);
-		}
-
 		.resource-results {
-			margin-right: 1.5rem;
 			min-height: 80vh;
 
 			.ers-main-content {
 				display: flex;
 				flex-direction: column;
-				margin-right: 6rem;
 				min-width: 0;
 			}
 		}
@@ -370,12 +359,11 @@ export default class ExploreResourcesScreen extends Vue {
 			display: flex;
 			justify-items: center;
 			margin-right: 8.5rem;
-			min-width: 850px;
+			width: -webkit-fill-available;
 
 			.pagination-left {
-				background-color: lighten($light-neutral, 80%);
 				flex: 0 0 250px;
-				padding: 1.5rem;
+				padding: 1rem;
 			}
 
 			.pagination-right {
@@ -386,17 +374,17 @@ export default class ExploreResourcesScreen extends Vue {
 	}
 
 	.deselect-all-wrapper {
-		background-color: lighten($light-blue, 90%);
+		background-color: $medium-grey;
 		padding: 1.5rem;
 
 		.deselect-link {
-			color: $dark-blue;
+			color: $dark-light-grey;
 			cursor: pointer;
 			font-size: 1.4rem;
 			font-weight: bold;
 		}
 		.icon-deselect {
-			background-color: $dark-blue;
+			background-color: $dark-light-grey;
 			border-radius: 0.6rem;
 			display: inline-block;
 			height: 20px;

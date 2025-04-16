@@ -1,18 +1,17 @@
 <template>
 	<form-field-wrapper class="eaasi-select eaasi-search-select" v-bind="wrapperProps">
 		<div class="eaasi-input-wrapper">
-			<div 
-				:class="['eaasi-input flex-row relative', fieldStatus, { readonly }]" 
-				v-click-outside="closeList"
+			<div
+				:class="['eaasi-input flex-row relative', fieldStatus, { readonly }]"
 			>
-				<input 
+				<input
 					:value="query"
 					@input="onQueryChange"
 					@focus="openList"
 					type="text"
 					ref="search_input"
-					class="search-select-list eaasi-input" 
-					:placeholder="placeholder" 
+					class="search-select-list eaasi-input"
+					:placeholder="placeholder"
 					:disabled="readonly"
 				/>
 				<span class="clear" v-show="query != null && query != ''">
@@ -23,10 +22,10 @@
 					No Result
 				</div>
 				<ul v-else class="select-list" v-show="showList">
-					<li 
-						v-for="item in filteredData" 
-						:key="generateKey(item[anchor])" 
-						class="select-item clickable" 
+					<li
+						v-for="item in filteredData"
+						:key="generateKey(item[anchor])"
+						class="select-item clickable"
 						@click="selectItem(item)"
 					>
 						<button class="tr-btn">
@@ -129,7 +128,7 @@ export default class SearchSelectList extends BaseFormField {
 			this.selectItem(newItem);
 		}
 	}
-	
+
 }
 
 </script>
@@ -138,7 +137,7 @@ export default class SearchSelectList extends BaseFormField {
 .eaasi-search-select {
 
 	.select-list {
-		background: lighten($light-blue, 90%);
+		background: $light-grey;
 		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
 		left: 0;
 		max-height: 20rem;

@@ -27,26 +27,27 @@ class ImportService extends BaseHttpService {
 	}
 
 	/**
-	 * Makes a POST request with FormData for Content or Software Resource files
+	 * Makes a POST request for Content or Software Resource files
 	 * @param {IResourceImportFile[]} filesToUpload
 	 */
 	async uploadContentResourceFiles(filesToUpload: IResourceImportFile[]) : Promise<IEmilUploadResponse> {
-		const formData = new FormData();
+		const result: IEmilUploadResponse = {
+			status: '0',
+			uploads: [],
+		};
 
-		filesToUpload.forEach(file => {
-			formData.append('file', file.file, file.name);
-			formData.set('uploadId', (file.sortIndex - 1).toString());
-		});
+		const uploadUrl = '/emil/upload';
+		for (const file of filesToUpload) {
+			const res = await this.postUploadExtended<IEmilUploadResponse>(uploadUrl, file);
+			if (!res.result.status) {
+				console.error('Response returned error: ', res);
+				return null;
+			}
 
-		const uploadUrl = `${config.EMIL_SERVICE_ENDPOINT}/upload`;
-		const res = await this.postUpload<IEmilUploadResponse>(uploadUrl, formData);
-
-		if (!res.ok) {
-			console.error('Response returned error: ', res);
-			return null;
+			result.uploads.push(...res.result.uploads);
 		}
 
-		return res.result;
+		return result;
 	}
 
 	/**
@@ -109,15 +110,6 @@ class ImportService extends BaseHttpService {
 	 */
 	async postComponents(payload) {
 		const res = await this.post<any>('/import/postComponents', payload);
-		if (!res.ok) {
-			console.warn('Response returned error: ', res);
-			return null;
-		}
-		return res.result;
-	}
-
-	async createUserImportRelation(userImportRelationRequest: IUserImportRelationRequest, userId: string): Promise<IUserImportedResource> {
-		const res = await this.post<IUserImportedResource>('/import/user-import-relation?userId=' + userId, userImportRelationRequest);
 		if (!res.ok) {
 			console.warn('Response returned error: ', res);
 			return null;

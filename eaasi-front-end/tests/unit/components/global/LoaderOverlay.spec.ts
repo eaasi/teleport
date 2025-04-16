@@ -1,5 +1,7 @@
-import { mount, shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, mount, shallowMount } from '@vue/test-utils';
 import { Loader, LoaderOverlay } from '@/components/global';
+
+enableAutoDestroy(afterEach);
 
 describe('LoaderOverlay.vue', () => {
 	it('It wraps loader', () => {
@@ -8,6 +10,6 @@ describe('LoaderOverlay.vue', () => {
 				Loader
 			}
 		});
-		expect(wrapper.contains(Loader));
+		expect(wrapper.findComponent(Loader).exists()).toBe(true);
 	});
 });

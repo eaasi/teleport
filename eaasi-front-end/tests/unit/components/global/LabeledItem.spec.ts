@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import LabeledItem from '@/components/global/LabeledItem/LabeledItem.vue';
+
+enableAutoDestroy(afterEach);
 
 describe('LabeledItem', () => {
 	it('Displays label passed as prop', () => {

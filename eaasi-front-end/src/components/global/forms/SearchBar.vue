@@ -1,17 +1,22 @@
 <template>
 	<form-field-wrapper v-bind="wrapperProps" class="eaasi-search-bar">
-		<div class="eaasi-input-wrapper" :style="{'border': `solid 2px ${borderColor}`}">
+		<div class="eaasi-input-wrapper">
 			<div :class="['eaasi-input flex-row', fieldStatus, {readonly}]">
-				<div classs="sb-content-left">
+				<label :for="id" classs="sb-content-left">
 					<slot name="left">
 						<span class="fas fa-search"></span>
+						<span class="hide">Search</span>
 					</slot>
-				</div>
+				</label>
 				<input
 					v-bind="$attrs"
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
+					:aria-labelledby="id"
+					type="search"
+					aria-label="search"
+					role="searchbox"
 				/>
 				<span
 					class="cursor-pointer"
@@ -95,22 +100,28 @@ export default class SearchBar extends BaseFormField {
 		border-radius: 6px;
 		overflow: hidden;
 		padding-bottom: 0;
+		width: fit-content;
 	}
 
 	.eaasi-input {
-		background-color: #FFFFFF;
+		max-width: 300px;
+		min-width: 230px;
 	}
 
 	.eaasi-field-icon {
-		color: darken($dark-blue, 40%);
+		color: rgba(0, 0, 0, 0.6);
 		cursor: pointer;
-		font-size: 21px;
+		font-size: 20px;
 	}
 
 	.fa-search {
-		color: darken($light-neutral, 80%);
+		color: $dark-light-grey;
 		font-size: 1.4rem;
 		margin: 0 0.6rem;
+	}
+
+	.hide {
+		display: none;
 	}
 }
 </style>

@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div>
 		<div class="emu-proj-details-wrapper">
@@ -330,7 +331,7 @@ export default class EmulationProjectDetails extends Vue {
 		margin: 2rem 0;
 
 		&.border-after {
-			border-bottom: 1px solid darken($light-neutral, 10%);
+			border-bottom: 1px solid $medium-grey;
 		}
 	}
 
@@ -350,7 +351,7 @@ export default class EmulationProjectDetails extends Vue {
 	}
 
 	.remove-resource {
-		color: darken($light-blue, 30%);
+		color: $dark-green;
 		padding: 1.1rem 0 1.1rem;
 	}
 
@@ -358,4 +359,4 @@ export default class EmulationProjectDetails extends Vue {
 		max-width: 50rem;
 	}
 }
-</style>
+</style>-->

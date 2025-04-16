@@ -18,7 +18,7 @@
 				v-if="!resources && !resources.length"
 				block
 				class="mb"
-				color-preset="light-blue"
+				color-preset="white"
 			>
 				Find Resource(s)
 			</ui-button>
@@ -360,7 +360,7 @@ export default class ResourceSideBar extends Vue {
 		this.selected = resourcesToSelect.slice(0, this.resourceLimit);
 	}
 
-	setEnvironment(environment: IEnvironment, checked: boolean) {
+	/*setEnvironment(environment: IEnvironment, checked: boolean) {
 		if (checked) {
 			this.environment = new EmulationProjectEnvironment(environment);
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
@@ -368,7 +368,7 @@ export default class ResourceSideBar extends Vue {
 			this.environment = null;
 			this.$router.push(ROUTES.EMULATION_PROJECT.OPTIONS);
 		}
-	}
+	}*/
 
 	isDisabled(resource: IEaasiResource): boolean {
 		return !this.isSelected(resource) && !this.hasObjectSlots && this.selected.length > 0;
@@ -390,7 +390,7 @@ export default class ResourceSideBar extends Vue {
 }
 
 .rsb-header {
-	border-bottom: solid 2px lighten($dark-neutral, 80%);
+	border-bottom: solid 2px $medium-grey;
 	margin-bottom: 1.5rem;
 	padding-bottom: 0.5rem;
 
@@ -413,11 +413,18 @@ export default class ResourceSideBar extends Vue {
 	}
 }
 
-.rsb-environments, .rsb-objects {
-	padding: 1.5rem;
-	margin-bottom: 1rem;
-	border: 1px solid lighten($dark-neutral, 80%);
+.rsb-environments,
+.rsb-objects {
+	border: 1px solid $medium-grey;
 	border-radius: 1rem;
+	margin-bottom: 1rem;
+	padding: 1.5rem;
+}
+
+@media screen and (max-width: 1050px) {
+	.resource-side-bar {
+		padding: 1rem;
+	}
 }
 
 </style>

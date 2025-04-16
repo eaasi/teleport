@@ -104,7 +104,7 @@ export default class Autocomplete extends BaseFormField {
 	loading: boolean = false;
 	listVisible: boolean = true;
 	results: any[] = [];
-	timeout?: number = null;
+	timeout?: NodeJS.Timeout = null;
 
 	/* Computed
 	============================================*/
@@ -304,7 +304,7 @@ export default class Autocomplete extends BaseFormField {
 	}
 
 	&.highlighted {
-		background-color: lighten($light-blue, 90%);
+		background-color: $light-grey;
 	}
 }
 

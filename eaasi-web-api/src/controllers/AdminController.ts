@@ -1,10 +1,6 @@
 import EmilAdminService from '@/services/admin/EmilAdminService';
-import EmulatorAdminService from '@/services/admin/EmulatorAdminService';
-import UserAdminService from '@/services/admin/UserAdminService';
 import MailerService from '@/services/mailer/MailerService';
-import HarvesterService from '@/services/oaipmh/HarvesterService';
 import { IEmulatorImportRequest } from '@/types/emil/EmilContainerData';
-import { HarvesterReq } from '@/types/oaipmh/Harvester';
 import { Request as ExpressRequest, Response as ExpressResponse}  from 'express';
 import BaseController from './base/BaseController';
 import KeycloakService from '@/services/keycloak/KeycloakService';
@@ -19,19 +15,13 @@ const SAML_ENABLED = process.env.SAML_ENABLED == 'True' || process.env.SAML_ENAB
 
 export default class AdminController extends BaseController {
 
-	readonly _userSvc: UserAdminService;
-	readonly _emulatorAdminSvc: EmulatorAdminService;
-	readonly _harvesterSvc: HarvesterService;
 	readonly _mailerService: MailerService;
 	readonly _adminService: EmilAdminService;
 	private readonly _keycloakService: KeycloakService;
 
 	constructor() {
 		super();
-		this._userSvc = new UserAdminService();
-		this._emulatorAdminSvc = new EmulatorAdminService();
 		this._adminService = new EmilAdminService();
-		this._harvesterSvc = new HarvesterService();
 		this._keycloakService = new KeycloakService();
 		if (!SAML_ENABLED) {
 			this._mailerService = new MailerService();
@@ -67,20 +57,6 @@ export default class AdminController extends BaseController {
 				result: users.slice(limits.first, limits.first + limits.max),
 				totalResults: users.length
 			});
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Gets all user roles
-	 * @param _req - Express request
-	 * @param res - Express response
-	 */
-	async getRoles(_req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let roles = await this._userSvc.getRoles();
-			res.send(roles);
 		} catch(e) {
 			return this.sendError(e, res);
 		}
@@ -234,160 +210,6 @@ export default class AdminController extends BaseController {
 	/*============================================================
 	 == Emulators
 	/============================================================*/
-
-	/**
-	 * Gets the list of emulators
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async getEmulators(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let token = req.headers.authorization;
-			let emulators = await this._emulatorAdminSvc.getEmulators(token);
-			res.send(emulators);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Gets the list of emulators
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async importEmulator(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let importRequest = req.body as IEmulatorImportRequest;
-			let taskState = await this._emulatorAdminSvc.importEmulator(importRequest);
-			res.send(taskState);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Sets the default emulator image version
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async setDefaultEmulatorVersion(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let id = req.query.id as string;
-			let token = req.headers.authorization;
-			let response = await this._emulatorAdminSvc.setDefaultVersion(id, token);
-			res.send(response);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/*============================================================
-	 == OAI-PMH Harvesters
-	/============================================================*/
-
-	/**
-	 * Get list of all known oai-pmh harvesters
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async getHarvesters(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let token = req.headers.authorization;
-			let list = await this._harvesterSvc.getHarvesters(token);
-			res.send(list);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Adds aq new oai-pmh harvester
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async addHarvester(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let data = req.body as HarvesterReq;
-			let token = req.headers.authorization;
-			let success = await this._harvesterSvc.addHarvester(data, token);
-			if(success) return res.send(true);
-			return this.sendError(new Error('Could not add new oai-pmh harvester'), res);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Updates exiting oai-pmh harvester
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async updateHarvester(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			let name = req.query.name as string;
-			let data = req.body as HarvesterReq;
-			let token = req.headers.authorization;
-			let success = await this._harvesterSvc.deleteHarvester(name, token);
-			if (success) {
-				success = await this._harvesterSvc.addHarvester(data, token);
-			}
-			if(success) return res.send(true);
-			return this.sendError(new Error('Could not update oai-pmh harvester'), res);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Syncs an existing oai-pmh harvester
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async syncHarvester(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			const name = req.query.name as string;
-			const full = req.query.full;
-			const token = req.headers.authorization;
-			let result = await this._harvesterSvc.syncHarvester(name, !!full, token);
-			res.send(result);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Deletes an existing oai-pmh harvester
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async deleteHarvester(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			const name = req.query.name as string;
-			const token = req.headers.authorization;
-			let success = await this._harvesterSvc.deleteHarvester(name, token);
-			if(success) return res.send(true);
-			return this.sendError(new Error(`Could not delete oai-pmh harvester: ${name}`), res);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
-
-	/**
-	 * Gets an existing oai-pmh harvester
-	 * @param req - Express request
-	 * @param res - Express response
-	 */
-	async getHarvester(req: ExpressRequest, res: ExpressResponse) {
-		try {
-			const name = req.query.name as string;
-			const token = req.headers.authorization;
-			let result = await this._harvesterSvc.getHarvester(name, token);
-			if (result) return res.send(result);
-			return this.sendError(new Error(`Could not find oai-pmh harvester: ${name}`), res);
-		} catch(e) {
-			return this.sendError(e, res);
-		}
-	}
 
 	async getApiKey(req: ExpressRequest, res: ExpressResponse) {
 		try {

@@ -68,13 +68,18 @@ export default class EaasiTaskController extends BaseController {
 			const serviceResult = await this.taskService.getByTaskId(taskId);
 			const eaasiTask: IEaasiTask = serviceResult && serviceResult.result ? serviceResult.result.dataValues : null;
 
-			if (!emilTask || !eaasiTask) return this.sendError(new Error('Task not found'), res);
+			if (!emilTask) return this.sendError(new Error('Task not found'), res);
 
 			let taskToSave = {
 				...eaasiTask,
 				...emilTask,
 				userData: emilTask.userData ? JSON.stringify(emilTask.userData) : null,
 			};
+			if (!eaasiTask) {
+				taskToSave.tenantId = getTenantIdFromToken(req.headers.authorization);
+				const response = await this.taskService.create(taskToSave);
+				return res.send(response.result);
+			}
 			if (taskToSave.tenantId !== getTenantIdFromToken(req.headers.authorization)) {
 				return res.status(HttpResponseCode.FORBIDDEN)
 					.send(new ErrorResponse(HttpResponseCode.FORBIDDEN, 'Can\'t access task from other organization'));

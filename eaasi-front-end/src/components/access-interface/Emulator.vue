@@ -60,11 +60,14 @@
 		/* Props
         ============================================*/
 
-		@Prop({type: Object as () => IEnvironment, required: true})
+		@Prop({type: Object as () => IEnvironment, required: false})
 		readonly environment: IEnvironment;
 
-		@Prop({type: Object as () => ICreateEnvironmentPayload, required: true})
+		@Prop({type: Object as () => ICreateEnvironmentPayload, required: false})
 		readonly createEnvironmentPayload: ICreateEnvironmentPayload;
+
+		@Prop({type: Object as () => IEaasiResource[][], required: false})
+		readonly driveAssignments: IEaasiResource[][];
 
 		@Prop({type: String, required: false})
 		readonly driveId: string;
@@ -83,9 +86,6 @@
 
 		@Sync('resource/clientComponentId')
 		clientComponentId: string;
-
-		@Sync('emulationProject/selectedResourcesPerDrive')
-		selectedResourcesPerDrive: IEaasiResource[][];
 
 		/* Data
         ============================================*/
@@ -157,7 +157,6 @@
 				let EaasClient = (window as any).EaasClient || null;
 				if (!EaasClient) return;
 				if (!vm.client) {
-					await fetch(config.EMIL_SERVICE_ENDPOINT + '/EmilEnvironmentData/init');
 					vm.client = new EaasClient.Client(config.EMIL_SERVICE_ENDPOINT, getUserToken);
 				}
 				//TODO: commented until BWFLA is imported
@@ -183,7 +182,6 @@
 						vm.environment.archive
 					);
 				} else if (vm.createEnvironmentPayload) {
-					this.setResourcesToEnvironmentConfigDrives(vm.createEnvironmentPayload);
 					machine = new EphemeralMachineComponentBuilder(
 						vm.createEnvironmentPayload
 					);
@@ -203,7 +201,7 @@
 				this.setResourcesToDrives(machine);
 
 				let components, clientOptions;
-				if (vm.environment && vm.environment.enableInternet) {
+				if (vm.environment && vm.environment.networking?.enableInternet) {
 					let networkBuilder = new NetworkBuilder(config.EMIL_SERVICE_ENDPOINT, getUserToken);
 					networkBuilder.addComponent(machine);
 					components =  await networkBuilder.getComponents();
@@ -238,33 +236,11 @@
 			vm.showLoader = false;
 		}
 
-		private setResourcesToEnvironmentConfigDrives(createEnvironmentPayload: ICreateEnvironmentPayload) {
-			this.selectedResourcesPerDrive.forEach((resources, index) => {
-				if (!resources || resources.length === 0) {
-					return;
-				}
-				const resource = resources[0];
-				switch (resource.resourceType) {
-					case 'Software':
-					case 'Content':
-						createEnvironmentPayload.driveSettings[index].objectId = resource.id;
-						createEnvironmentPayload.driveSettings[index].objectArchive = resource.archiveId || 'default';
-						break;
-					case 'Image':
-						createEnvironmentPayload.driveSettings[index].imageId = resource.id;
-						createEnvironmentPayload.driveSettings[index].imageArchive = resource.archiveId || 'default';
-						break;
-					default:
-						break;
-				}
-			});
-		}
-
 		private setResourcesToDrives(machine: MachineComponentBuilder) {
-			if (this.selectedResourcesPerDrive.length === 0) {
+			if (this.driveAssignments.length === 0) {
 				return;
 			}
-			this.selectedResourcesPerDrive.forEach((resources, index) => {
+			this.driveAssignments.forEach((resources, index) => {
 				if (!resources || resources.length === 0) {
 					return;
 				}
@@ -482,7 +458,6 @@
 			await this.stopEnvironment();
 			this.removeBusListeners();
 			this.isStarted = false;
-			this.selectedResourcesPerDrive = [];
 		}
 
 	}

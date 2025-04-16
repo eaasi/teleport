@@ -1,3 +1,4 @@
+<!--
 <template>
 	<div
 		:class="[
@@ -55,9 +56,9 @@ export default class TaskCard extends Vue {
 		font-size: 1.2rem;
 	}
 	.close-icon {
-		color: $red;
+		color: black;
 		cursor: pointer;
 		margin-left: 1rem;
 	}
 }
-</style>
+</style>-->

@@ -36,34 +36,6 @@
 					color="red"
 				/>
 			</span>
-			<span v-if="isPublicArchive">
-				<tag
-					text="Public"
-					:icon="publicNetworkIcon"
-					color="green"
-				/>
-			</span>
-			<span v-if="isPublicArchive">
-				<tag
-					text="Saved Locally"
-					:icon="savedLocallyIcon"
-					color="green"
-				/>
-			</span>
-			<span v-if="isPrivateArchive">
-				<tag
-					text="Private"
-					:icon="privateIcon"
-					color="red"
-				/>
-			</span>
-			<span v-if="isRemoteArchive">
-				<tag
-					text="Remote"
-					:icon="publicNetworkIcon"
-					color="green"
-				/>
-			</span>
 		</div>
 		<div v-if="readonly" :class="{ changed: localTitle !== summaryData.title }">
 			<section-heading
@@ -122,14 +94,6 @@
 			return this.summaryData.archive === archiveTypes.PUBLIC;
 		}
 
-		get isPrivateArchive() {
-			return this.summaryData.archive === archiveTypes.DEFAULT;
-		}
-
-		get isRemoteArchive() {
-			return this.summaryData.archive === archiveTypes.REMOTE;
-		}
-
 		get isSoftware() {
 			return this.summaryData.resourceType === resourceTypes.SOFTWARE;
 		}
@@ -153,14 +117,6 @@
 
 		get environmentIcon() {
 			return translatedIcon('config-environment');
-		}
-
-		get publicNetworkIcon() {
-			return translatedIcon('public-network');
-		}
-
-		get savedLocallyIcon() {
-			return translatedIcon('map-marker');
 		}
 
 		get privateIcon() {
@@ -198,17 +154,14 @@
 
 	.vds-container {
 		margin-bottom: 1rem;
-		width: 33vw;
+		width: -webkit-fill-available;
 
 		.eaasi-input {
 			background: transparent;
 		}
-		.changed {
-			background: lighten($yellow, 60%);
-		}
 
 		.vds-description {
-			color: $dark-neutral;
+			color: $dark-light-grey;
 			font-size: 1.5rem;
 			font-weight: bold;
 			padding: 1.2rem 0;

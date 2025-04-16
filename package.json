@@ -19,11 +19,15 @@
 	"homepage": "https://gitlab.com/eaasi/eaasi-client-dev#readme",
 	"devDependencies": {
 		"husky": "^3.0.4",
-		"raw-loader": "^3.1.0"
+		"raw-loader": "^4.0.2"
 	},
 	"husky": {
 		"hooks": {
 			"pre-push": "npm run lint"
 		}
+	},
+	"dependencies": {
+		"@axe-core/playwright": "^4.9.1",
+		"@playwright/test": "^1.44.1"
 	}
 }

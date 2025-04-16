@@ -97,7 +97,7 @@ export default class EmulationProjectEnvironmentMetadata extends Vue {
 <style lang="scss">
 
 .environment-metadata-table {
-	background: lighten($light-neutral, 80%);
+	background: $medium-grey;
 	padding: 2rem;
 }
 

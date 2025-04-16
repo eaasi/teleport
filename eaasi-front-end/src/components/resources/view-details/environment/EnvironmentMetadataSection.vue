@@ -1,19 +1,16 @@
 <template>
 	<div class="rdm-container">
 		<div class="row" style="margin-bottom: 1rem;">
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<resource-details-summary
 					:summary-data="resource"
 					:readonly="!isEditMode"
 				/>
-				<section-legend
-					v-if="isEditMode"
-					:data="editLegend"
-				/>
+				<div class="owner-label" v-if="ownerLabel">Owner: {{ ownerLabel }}</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-3">
+			<div class="rdm-section-item">
 				<section-heading title="Configured Drives" size="large" />
 				<configured-drives
 					:readonly="!isEditMode"
@@ -21,14 +18,14 @@
 					@update-drives="updateDrives"
 				/>
 			</div>
-			<div class="col-md-3">
+			<div class="rdm-section-item">
 				<section-heading title="Environment Options" size="large" />
 				<editable-labeled-item-list
 					:readonly="!isEditMode"
 					:labeled-items="uiOptionLabeledItems"
 				/>
 			</div>
-			<div class="col-md-3">
+			<div class="rdm-section-item">
 				<section-heading title="Emulator" size="large" />
 				<configure-emulator
 					:readonly="!isEditMode"
@@ -39,7 +36,7 @@
 		<div class="row">
 		</div>
 		<div class="row">
-			<div v-if="installedSoftware.length" class="col-md-3">
+			<div v-if="installedSoftware.length" class="rdm-section-item">
 				<section-heading title="Configured software" size="large" />
 				<labeled-item-list :labeled-items="installedSoftware" />
 			</div>
@@ -107,6 +104,9 @@ export default class EnvironmentMetadataSection extends Vue {
 	@Prop({ type: Array as () => ILabeledEditableItem[] })
 	configMachineLabeledItems: ILabeledEditableItem[];
 
+	@Prop({ type: String })
+	ownerLabel: string;
+
     /* Computed
     ============================================*/
 	get drives(): IDrive[] {
@@ -136,6 +136,16 @@ export default class EnvironmentMetadataSection extends Vue {
 <style lang='scss' scoped>
 	.rdm-container {
 		padding: 24px;
+
+		.row {
+			margin: 0;
+			justify-content: left;
+			gap: 40px;
+
+			.rdm-section-item {
+
+			}
+		}
 	}
 	.vds-container {
 
@@ -146,5 +156,8 @@ export default class EnvironmentMetadataSection extends Vue {
 				text-transform: uppercase;
 			}
 		}
+	}
+	.owner-label {
+		margin-bottom: 10px;
 	}
 </style>

@@ -1,5 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import { BaseFormField } from '@/components/global/forms';
+
+enableAutoDestroy(afterEach);
 
 describe('BaseFormField.vue', () => {
 	it('Has canValidate data with false by default', () => {

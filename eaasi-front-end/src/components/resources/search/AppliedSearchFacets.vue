@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="btn-section">
-			<ui-button id="clearAllBtn" color-preset="light-blue" @click="deselectAllFacetValues">
+			<ui-button id="clearAllBtn" color-preset="white" @click="deselectAllFacetValues">
 				Clear ALL Filters
 			</ui-button>
 		</div>
@@ -21,7 +21,7 @@
 import Vue from 'vue';
 import { Get, Sync } from 'vuex-pathify';
 import { Component } from 'vue-property-decorator';
-import { IResourceSearchFacet} from '@/types/Search.d.ts';
+import { IResourceSearchFacet} from '@/types/Search';
 import FacetChipGroup from './FacetChipGroup.vue';
 import UiButton from '@/components/global/UiButton.vue';
 
@@ -62,14 +62,27 @@ export default class AppliedSearchFacets extends Vue {
 <style lang='scss' scoped>
 .applied-facets-wrapper {
 	align-items: stretch;
-	background-color: lighten($light-neutral, 40%);
-	border-bottom: 2px solid darken($light-neutral, 10%);
+	background-color: $medium-grey;
 	justify-content: space-between;
 	padding: 1rem;
-	width: 100vw;
+	width: -webkit-fill-available;;
 	.btn-section {
-		border-left: 2px solid darken($light-neutral, 10%);
 		padding: 0.5rem 2rem;
+	}
+
+}
+@media screen and (max-width: 850px) {
+	.applied-facets-wrapper {
+		flex-direction: column;
+
+		.btn-section {
+			padding: 10px;
+		}
+	}
+
+	.active-facet .flex-row{
+		flex-wrap: wrap;
+		gap: 10px;
 	}
 }
 </style>

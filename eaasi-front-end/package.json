@@ -9,7 +9,9 @@
 		"lint": "vue-cli-service lint --fix && stylelint src/components src/scss --fix",
 		"styleguide": "vue-cli-service styleguidist",
 		"styleguide:build": "vue-cli-service styleguidist:build",
-		"test:unit": "vue-cli-service test:unit --coverage --verbose --logHeapUsage",
+		"test:e2e": "playwright test",
+		"test:unit": "vue-cli-service test:unit --verbose --silent --clear-mocks --log-heap-usage",
+		"test:unit:coverage": "vue-cli-service test:unit --verbose --silent --clear-mocks --log-heap-usage --coverage --coverage-provider v8",
 		"watch-test:unit": "vue-cli-service test:unit --watch --verbose"
 	},
 	"dependencies": {
@@ -19,12 +21,15 @@
 		"console-browserify": "^1.2.0",
 		"core-js": "^3.19.0",
 		"crypto-browserify": "^3.12.0",
+		"dotenv": "^16.4.5",
 		"file-saver": "^2.0.5",
+		"git-describe": "^4.1.1",
 		"js-cookie": "^2.2.1",
 		"jsonwebtoken": "^8.5.1",
 		"keycloak-js": "^12.0.4",
 		"lodash": "^4.17.20",
 		"npm-run-all": "^4.1.5",
+		"playwright": "^1.44.1",
 		"process": "^0.11.10",
 		"stream-browserify": "^3.0.0",
 		"util": "^0.12.4",
@@ -40,14 +45,17 @@
 		"zlib": "^1.0.5"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.15.8",
+		"@axe-core/playwright": "^4.10.1",
+		"@babel/core": "^7.24.4",
 		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
 		"@babel/plugin-proposal-optional-chaining": "^7.12.1",
 		"@babel/plugin-syntax-top-level-await": "^7.14.5",
+		"@playwright/test": "^1.46.1",
 		"@types/dom-inputevent": "^1.0.6",
 		"@types/jest": "^27.0.2",
 		"@types/js-cookie": "^2.2.6",
 		"@types/lodash": "^4.14.165",
+		"@types/node": "^22.4.1",
 		"@typescript-eslint/eslint-plugin": "^4.15.1",
 		"@typescript-eslint/parser": "^4.15.1",
 		"@vue/cli-plugin-babel": "^5.0.0-beta.7",
@@ -79,9 +87,14 @@
 		"stylelint-processor-html": "^1.0.0",
 		"stylelint-scss": "^3.18.0",
 		"ts-jest": "^27.0.7",
-		"typescript": "^3.9.7",
+		"typescript": "^4.9.5",
 		"vue-cli-plugin-styleguidist": "^4.41.2",
 		"vue-template-compiler": "^2.6.12",
 		"webpack": "^5.61.0"
+	},
+	"overrides": {
+		"v8-to-istanbul": {
+			"source-map": "0.7.4"
+		}
 	}
 }

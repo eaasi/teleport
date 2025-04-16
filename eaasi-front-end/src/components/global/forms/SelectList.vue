@@ -7,6 +7,8 @@
 					v-on="inputListeners"
 					:value="value"
 					:id="id"
+					data-testid="test-select"
+					:aria-label="`import select with value ${value}`"
 				>
 					<slot></slot>
 				</select>
@@ -48,7 +50,7 @@ export default class SelectList extends BaseFormField { }
 
 	&.empty {
 		select {
-			color: $grey;
+			color: black;
 
 			option {
 				color: initial;

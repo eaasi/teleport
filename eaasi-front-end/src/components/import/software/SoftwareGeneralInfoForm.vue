@@ -1,7 +1,7 @@
 <template>
 	<div class="software-form">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="software-form-input">
 				<text-input
 					label="Software Name"
 					placeholder="Enter a name or title for this resource..."
@@ -66,4 +66,15 @@ export default class SoftwareGeneralInfoForm extends Vue {
 
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.software-form {
+	.row {
+		margin: 0;
+		width: -webkit-fill-available;
+
+		.software-form-input {
+			width: -webkit-fill-available;
+		}
+	}
+}
+</style>

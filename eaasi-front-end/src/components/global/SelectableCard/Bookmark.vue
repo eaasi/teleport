@@ -21,7 +21,7 @@
 					style="mix-blend-mode: normal;"
 				>
 					<g
-						stroke="#43ADD8"
+						stroke="#00d33e"
 						stroke-width="6"
 						stroke-linejoin="round"
 					>
@@ -58,7 +58,7 @@ import Vue from 'vue';
 	export default class Bookmark extends Vue {
 
 		@Prop({ type: Boolean, default: false })
-		readonly initState: boolean;
+		readonly initState: boolean = false;
 
 		/* Data
         ============================================*/
@@ -67,8 +67,7 @@ import Vue from 'vue';
 		/* Computed
         ============================================*/
 		get fillColor() : String {
-			// $dark-blue
-			return this.isActive ? '#2479AA' : 'white';
+			return this.isActive ? '#00d33e' : 'white';
 		}
 
 		get dashSize() : Number {
