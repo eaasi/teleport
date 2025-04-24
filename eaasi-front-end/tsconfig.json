@@ -11,6 +11,7 @@
 		"esModuleInterop": true,
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
+		"noUncheckedIndexedAccess": true,
 		"sourceMap": true,
 		"baseUrl": ".",
 		"types": [
@@ -19,7 +20,8 @@
 		],
 		"typeRoots": [
 			"node_modules/@types",
-			"src/types"
+			"src/types",
+			"./src/types"
         ],
 		"paths": {
 			"@/*": [

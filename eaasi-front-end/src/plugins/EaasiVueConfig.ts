@@ -1,12 +1,12 @@
 import config from '@/config';
 import store from '@/store';
-const colorVariables = require('@/scss/_variables.scss');
+//const colorVariables = require('@/scss/_variables.scss');
 
 export default {
 	install: function(Vue: Vue.VueConstructor, options: any) {
 
 		// Add global SCSS colors
-		Vue.prototype.$colors = colorVariables;
+		//Vue.prototype.$colors = colorVariables;
 
 		// Add global constants
 		Vue.prototype.$constants = config;
