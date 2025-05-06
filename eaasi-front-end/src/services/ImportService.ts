@@ -1,4 +1,3 @@
-import config from '@/config';
 import EaasiTask from '@/models/task/EaasiTask';
 import { IEmilUploadResponse } from '@/types/Eaas';
 import { ICreateEnvironmentPayload, IEnvironmentImportSnapshot, IImageImportPayload, IImportObjectRequest, IResourceImport, IResourceImportFile } from '@/types/Import';

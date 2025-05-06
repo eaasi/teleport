@@ -1,4 +1,4 @@
-import config from '@/config';
+import config from '@/config/index';
 import events from '@/config/events';
 import EaasiApiRequestInit from '@/models/http/EaasiApiRequestInit';
 import { IEaasiApiRequestOptions, IEaasiApiResponse } from '@/types/Http';

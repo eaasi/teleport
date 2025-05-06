@@ -29,7 +29,7 @@ export default class SectionHeading extends Vue {
     readonly title: string
 
 	// Size Modifier
-	@Prop({type: String, required: false, validator: (val) => ['small', 'medium', 'large'].indexOf(val) != -1})
+	@Prop({type: String, required: false, validator: (val: string) => ['small', 'medium', 'large'].indexOf(val) != -1})
 	readonly size: string = 'medium'
 
     // Font icon name (optional)

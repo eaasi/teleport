@@ -102,7 +102,7 @@ import InfoModal from '@/components/global/Modal/InfoModal.vue';
 import { Component } from 'vue-property-decorator';
 import { IApplicationLog } from '@/types/ApplicationLog';
 import { Get, Sync } from 'vuex-pathify';
-import config from '../../../config';
+import config from '@/config';
 import zlib from 'zlib';
 
 /**
