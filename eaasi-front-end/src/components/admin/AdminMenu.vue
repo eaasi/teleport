@@ -11,7 +11,7 @@
 		<h2 class="admin-menu-heading">Front-End Build</h2>
 		<div class="app-version">{{ frontEndBuild }}</div>
 		<h2 class="admin-menu-heading">Back-End Build</h2>
-		<div class="app-version">{{ backEndBuild }}</div>
+		<div class="app-version">{{ buildVersion }}</div>
 		<h2 class="admin-menu-heading">User Info</h2>
 		<div class="user-info">
 			<div>User: {{ user.username }}</div>
@@ -32,6 +32,11 @@ import User from '@/models/admin/User';
 import { ROUTES } from '@/router/routes.const';
 import config from '@/config';
 import { EDITION_TYPES, userRoles } from '@/utils/constants';
+import EaasiClient from '../../services/EaasiClient';
+
+interface BuildInfoResponse {
+	version: string;
+}
 
 @Component({
 	name: 'AdminMenu',
@@ -40,6 +45,9 @@ import { EDITION_TYPES, userRoles } from '@/utils/constants';
 	}
 })
 export default class AdminMenu extends Vue {
+
+	private buildVersion: string | '' = '';
+	private buildVersionError: string | null = null;
 
 	@Get('loggedInUser')
 	user: IEaasiUser;
@@ -131,10 +139,13 @@ export default class AdminMenu extends Vue {
 	@Get('buildVersion')
 	readonly frontEndBuild: string;
 
-	backEndBuild: string = '';
-
-	async getBEBuildVersion() {
-		this.backEndBuild = await this.$store.dispatch('admin/getBEBuildVersion');
+	async created() {
+		try {
+			const data = await EaasiClient.get<BuildInfoResponse>('/admin/build-info');
+			this.buildVersion = data?.version;
+		} catch (err) {
+			this.buildVersionError = err.message || 'Failed to fetch build info';
+		}
 	}
 
 	/* Methods
@@ -143,10 +154,6 @@ export default class AdminMenu extends Vue {
 	addUser() {
 		this.$router.push(ROUTES.MANAGE_NODE.USERS);
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
-	}
-
-	mounted() {
-		this.getBEBuildVersion();
 	}
 }
 

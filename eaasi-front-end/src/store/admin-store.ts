@@ -150,11 +150,6 @@ const actions = {
 		const res = await _svc.getApiKey();
 		commit('SET_API_KEY', res.apikey);
 	},
-
-	async getBEBuildVersion(){
-		return await _svc.getBEBuildVersion();
-	},
-
 };
 
 /*============================================================

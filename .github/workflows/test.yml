@@ -24,6 +24,7 @@ jobs:
         env:
           GIT_SUBMODULE_STRATEGY: 'recursive'
           npm_cache_dir: '.npm'
+          jest_cache_dir: '.jest'
           SERVICE: ${{ matrix.service }}
         run: |
           apk add git || true
