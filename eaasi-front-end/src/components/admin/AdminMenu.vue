@@ -32,6 +32,7 @@ import User from '@/models/admin/User';
 import { ROUTES } from '@/router/routes.const';
 import config from '@/config';
 import { EDITION_TYPES, userRoles } from '@/utils/constants';
+import EaasiClient from '../../services/EaasiClient';
 
 @Component({
 	name: 'AdminMenu',
@@ -131,10 +132,14 @@ export default class AdminMenu extends Vue {
 	@Get('buildVersion')
 	readonly frontEndBuild: string;
 
-	backEndBuild: string = '';
+	private backEndBuild: string = '';
 
-	async getBEBuildVersion() {
-		this.backEndBuild = await this.$store.dispatch('admin/getBEBuildVersion');
+	async created() {
+		const { data, error } = await EaasiClient.GET('/admin/build-info', {});
+		this.backEndBuild = data?.version || 'unknown';
+		if (error) {
+			console.warn(error.message || 'Failed to fetch build info');
+		}
 	}
 
 	/* Methods
@@ -143,10 +148,6 @@ export default class AdminMenu extends Vue {
 	addUser() {
 		this.$router.push(ROUTES.MANAGE_NODE.USERS);
 		this.$store.commit('admin/SET_ACTIVE_USER', new User());
-	}
-
-	mounted() {
-		this.getBEBuildVersion();
 	}
 }
 

@@ -23,19 +23,15 @@
 				</div>
 			</div>
 		</div>
-		<ClientBuildInfo />
 	</footer>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import ClientBuildInfo from './Client.vue';
-
 
 @Component({
 	name: 'AppFooter',
-	components: {ClientBuildInfo},
 })
 export default class AppFooter extends Vue {};
 

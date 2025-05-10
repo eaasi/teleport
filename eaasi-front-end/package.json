@@ -15,6 +15,7 @@
 		"watch-test:unit": "vue-cli-service test:unit --watch --verbose"
 	},
 	"dependencies": {
+		"@eaasi/sdk-ts": "github:eaasi/sdk-ts#v0.6.2",
 		"browserify-zlib": "^0.2.0",
 		"buffer": "^6.0.3",
 		"console-browserify": "^1.2.0",

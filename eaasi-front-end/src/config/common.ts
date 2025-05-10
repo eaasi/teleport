@@ -21,6 +21,7 @@ export interface AppConfig {
 	KEYCLOAK_FLOW: string;
 	TIME_OUT_DURATION: number;
 	SHOW_DEBUG_ERRORS: string;
+	API_URL: string;
 }
 
 export const APP_CONFIG_DEFAULTS: any = {

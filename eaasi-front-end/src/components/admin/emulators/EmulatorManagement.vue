@@ -9,7 +9,6 @@
 					</ui-button>
 				</div>
 				<search-bar
-					:border-color="$colors.lightNeutral"
 					placeholder="Enter an emulator name..."
 					:value="keyword"
 					@input="search"
