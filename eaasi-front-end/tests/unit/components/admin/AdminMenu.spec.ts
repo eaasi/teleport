@@ -11,6 +11,15 @@ import pathify from 'vuex-pathify';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
+jest.mock('openapi-fetch', () => ({
+	createClientV1alpha: jest.fn(() => ({
+		GET: jest.fn(async () => ({ data: 'mocked data' })),
+	})),
+	default: jest.fn(() => ({
+		GET: jest.fn(async () => ({ data: 'mocked data' })),
+	})),
+}));
+
 enableAutoDestroy(afterEach);
 
 describe('AdminMenu.vue', () => {

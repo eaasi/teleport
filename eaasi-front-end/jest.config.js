@@ -4,8 +4,4 @@ module.exports = {
 	transformIgnorePatterns: [
 		'/node_modules/(?!openapi-fetch)',
 	],
-	moduleDirectories: ['node_modules', '<rootDir>'],
-	moduleNameMapper: {
-		'^@/(.*)$': '<rootDir>/src/$1'
-	}
 };
