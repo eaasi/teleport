@@ -22,7 +22,6 @@
 		"core-js": "^3.19.0",
 		"crypto-browserify": "^3.12.0",
 		"dotenv": "^16.4.5",
-		"eaasi-sdk-ts": "github:eaasi/sdk-ts#wip",
 		"file-saver": "^2.0.5",
 		"git-describe": "^4.1.1",
 		"js-cookie": "^2.2.1",
