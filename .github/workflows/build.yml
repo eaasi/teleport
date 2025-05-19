@@ -10,6 +10,12 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,27 +26,37 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Login to Docker Registry
-        env:
-          DOCKER_USERNAME: ${{ secrets.CI_REGISTRY_USER }}
-          DOCKER_PASSWORD: ${{ secrets.CI_REGISTRY_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login "${{ secrets.CI_REGISTRY }}" --username "${DOCKER_USERNAME}" --password-stdin
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            latest
+            type=raw,value=${{ github.run_number }}
 
-      - name: Build and Push Docker Image
-        env:
-          IMAGE_NAME: "${{ secrets.CI_REGISTRY_IMAGE }}/${{ matrix.service }}"
-          TAG_NAME: ${{ github.ref_name }}
-        run: |
-          docker buildx create --name eaasi --driver docker-container --use
-          docker buildx inspect --bootstrap eaasi
-          docker buildx build --progress plain \
-            --output 'type=registry' \
-            --cache-to "type=registry,mode=max,ref=${IMAGE_NAME}:buildcache" \
-            --cache-from "type=registry,ref=${IMAGE_NAME}:buildcache" \
-            --tag "${IMAGE_NAME}:${TAG_NAME}" \
-            "${{ matrix.service }}"
+      - name: Build Docker images for front-end and web-api
+        id: build-push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+
+      - name: Generate artifact attestation (optional)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          subject-digest: ${{ steps.build-push.outputs.digest }}
+          push-to-registry: true
