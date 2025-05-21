@@ -124,7 +124,7 @@ import DescriptiveRadios from '@/components/global/forms/DescriptiveRadios.vue';
 import TextInput from '@/components/global/forms/TextInput.vue';
 import Modal from '@/components/global/Modal/Modal.vue';
 import { userRoles } from '@/utils/constants';
-import config from '../../../config';
+import config from '@/config';
 import { generateNotificationError, generateNotificationSuccess } from '@/helpers/NotificationHelper';
 import eventBus from '../../../utils/event-bus';
 

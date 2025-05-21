@@ -6,7 +6,6 @@ import { ISaveEnvironmentResponse } from '@/types/ISaveImageResponse';
 import { IEnvironment } from '@/types/Resource';
 import { IResourceSearchQuery, IResourceSearchResponse } from '@/types/Search';
 import { archiveTypes } from '@/utils/constants';
-import config from '@/config';
 import ResourceSearchQuery from '@/models/search/ResourceSearchQuery';
 
 

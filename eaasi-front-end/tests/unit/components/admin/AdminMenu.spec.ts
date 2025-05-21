@@ -7,9 +7,23 @@ import { userRoles } from '@/utils/constants';
 import { createLocalVue, enableAutoDestroy, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import pathify from 'vuex-pathify';
+import { v1alpha } from '@eaasi/sdk-ts'
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+
+jest.mock('@/services/EaasiClient', () => {
+	const build: v1alpha.BuildInfo = {
+		commit: '46d16d0a27bb3b6054e76409f67fea583bb8fde7',
+		branch: 'main',
+		version: 'v1.0',
+	};
+
+	// Mocked client instance
+	return {
+		GET: jest.fn(async () => ({ data: build })),
+	};
+});
 
 enableAutoDestroy(afterEach);
 

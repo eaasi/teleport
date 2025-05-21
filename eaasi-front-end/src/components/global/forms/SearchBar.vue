@@ -67,7 +67,7 @@ export default class SearchBar extends BaseFormField {
 	/**
 	 * The color of the input border
 	 */
-	@Prop({type: String, required: false, default: '#1C5F6B'})
+	@Prop({type: String, required: false, default: '#bbb'})
 	readonly borderColor: string
 
 	/* Computed
